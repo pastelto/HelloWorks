@@ -1,6 +1,6 @@
 package com.helloworks.spring.approval.model.vo;
 
-public class ApprovalDiploma extends Approval {
+public class ApprovalDiploma extends Approval{
 	
 	private String email;
 	private String phone;
