@@ -75,17 +75,21 @@
       
       <!-- 주소록 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="officeAddressBook.or" role="button">
+          <i class="fas fa-address-book"></i>
         </a>
       </li>
       
     <!-- 직원검색 / 사원검색 -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button" style="margin: 0px;">
-        <i class="fas fa-search"></i>
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        </a>
+      <li>
+	      <div class="input-group">
+	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+	        <div class="input-group-append">
+	          <button class="btn btn-navbar" type="submit">
+	            <i class="fas fa-search"></i>
+	          </button>
+	        </div>
+	      </div>
       </li>
       
       <!-- 로그아웃 -->
@@ -214,23 +218,23 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <p>General Elements</p>
+                <a href="enrollReportForm.dr" class="nav-link">
+              	  <p>일일보고 작성</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                  <p>Advanced Elements</p>
+                <a href="recvReport.dr" class="nav-link">
+                  <p>수신함</p><p>(카운트)</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <p>Editors</p>
+                <a href="sendReport.dr" class="nav-link">
+                  <p>발신함</p><p>(카운트)</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <p>Validation</p>
+                <a href="tempReport.dr" class="nav-link">
+                  <p>임시저장</p>
                 </a>
               </li>
             </ul>
@@ -247,18 +251,23 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <p>Simple Tables</p>
+                <a href="commResourcesList.or" class="nav-link">
+                  <p>공통 자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                  <p>DataTables</p>
+                <a href="deptResourcesList.or" class="nav-link">
+                  <p>부서별 자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <p>jsGrid</p>
+                <a href="searchEmpMain.or" class="nav-link">
+                  <p>직원검색</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="officeAddressBook.or" class="nav-link">
+                  <p>주소록</p>
                 </a>
               </li>
             </ul>
@@ -277,22 +286,17 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <p>Inbox</p>
+                  <p>사원 등록</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                  <p>Read</p>
+                <a href="empManageMain.hr" class="nav-link">
+                  <p>사원 관리</p>
                 </a>
               </li>
             </ul>
           </li>
-
+		</ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -301,11 +305,11 @@
   </aside>
 
 <!-- Content Wrapper. Contains page content -->
- <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
+<!--  <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
    
-  </div>
+  </div> -->
   
-	<jsp:include page="footer.jsp"/>
+	
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -315,7 +319,7 @@
   
 </div>
 <!-- ./wrapper -->
-
+<jsp:include page="footer.jsp"/>
 <!-- jQuery -->
 <script src="resources/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
