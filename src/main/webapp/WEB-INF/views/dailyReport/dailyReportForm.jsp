@@ -8,7 +8,17 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
-	<div class="content-wrapper">일일보고</div>
+	
+	<div class="content-wrapper">일일보고
+	
+	
+	
+	
+	
+	</div>
+	
+	
+	
 	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
