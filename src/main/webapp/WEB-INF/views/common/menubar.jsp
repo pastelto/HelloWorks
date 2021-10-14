@@ -69,7 +69,7 @@
       <!-- 일정관리 -->
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+          <i class="far fa-calendar-check"></i>
         </a>
       </li>
       
@@ -90,6 +90,13 @@
 	          </button>
 	        </div>
 	      </div>
+      </li>
+      
+      <!-- 화면 확장   -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
       </li>
       
       <!-- 로그아웃 -->
