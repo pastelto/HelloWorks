@@ -68,8 +68,8 @@
       
       <!-- 일정관리 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+        <a class="nav-link" href="schMain.sc" role="button">
+          <i class="far fa-calendar-check"></i>
         </a>
       </li>
       
@@ -90,6 +90,13 @@
 	          </button>
 	        </div>
 	      </div>
+      </li>
+      
+      <!-- 화면 확장   -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
       </li>
       
       <!-- 로그아웃 -->
@@ -162,8 +169,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <p>ChartJS</p>
+                <a href="normalApprovalForm.ea" class="nav-link">
+              	  <p>일반결재</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -190,18 +197,18 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
-                  <p>General</p>
+                <a href="nCheckedWS.ws" class="nav-link">
+                  <p>미확인 업무</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
-                  <p>Icons</p>
+                <a href="recvListWS.ws" class="nav-link">
+                  <p>수신내역</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/buttons.html" class="nav-link">
-                  <p>Buttons</p>
+                <a href="sendListWS.ws" class="nav-link">
+                  <p>발신내역</p>
                 </a>
               </li>
             </ul>
@@ -319,6 +326,8 @@
   
 </div>
 <!-- ./wrapper -->
+
+<!-- 스크립트 모음 -->
 <!-- jQuery -->
 <script src="./resources/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
