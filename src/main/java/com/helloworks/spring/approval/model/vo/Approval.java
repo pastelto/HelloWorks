@@ -1,6 +1,6 @@
 package com.helloworks.spring.approval.model.vo;
 
-public class Approval {
+public class Approval  {
 	
 	private int apNo; 			// 문서번호
 	private String apClass;		// 결재분류
