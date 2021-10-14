@@ -19,6 +19,7 @@ local.properties
 # ignore properties file
 config.properties
 pom.properties
+.MF
 
 # External tool builders
 .externalToolBuilders/
@@ -145,6 +146,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 MANIFEST.MF
 target/*
+target/*/*/*/*/MANIFEST.MF
 
 ### Windows ###
 # Windows thumbnail cache files
