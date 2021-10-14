@@ -16,7 +16,7 @@
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed" data-panel-auto-height-mode="height">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" data-panel-auto-height-mode="height">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -319,7 +319,6 @@
   
 </div>
 <!-- ./wrapper -->
-<jsp:include page="footer.jsp"/>
 <!-- jQuery -->
 <script src="resources/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
