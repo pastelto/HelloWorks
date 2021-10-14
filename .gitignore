@@ -143,6 +143,8 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+MANIFEST.MF
+target/*
 
 ### Windows ###
 # Windows thumbnail cache files
