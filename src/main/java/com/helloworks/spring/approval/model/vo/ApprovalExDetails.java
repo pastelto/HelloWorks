@@ -1,0 +1,155 @@
+package com.helloworks.spring.approval.model.vo;
+
+public class ApprovalExDetails extends ApprovalExpenditure{
+
+	private int exNo; 			// 해당 지출결의서 내 지출번호
+	private String exDate;		// 지출 날짜
+	private String exContent;	// 지출 내용
+	private int price;			// 지출금액
+	private String accName;		// 업체명
+	private String bankName;	// 은행명
+	private String	accNum;		// 계좌번호
+	private String accHolder;	// 예금주
+	private String exDept;		// 지출부서
+	private String note; 		// 비고
+	
+	
+	public ApprovalExDetails() {
+		// TODO Auto-generated constructor stub
+	}
+
+	
+
+	public ApprovalExDetails(int apNo, int exNo, String exDate, String exContent, int price, String accName, String bankName,
+			String accNum, String accHolder, String exDept, String note) {
+		super(apNo);
+		this.exNo = exNo;
+		this.exDate = exDate;
+		this.exContent = exContent;
+		this.price = price;
+		this.accName = accName;
+		this.bankName = bankName;
+		this.accNum = accNum;
+		this.accHolder = accHolder;
+		this.exDept = exDept;
+		this.note = note;
+	}
+
+	public ApprovalExDetails(int apNo,String exForm, String exMethod, char exCommon, int exNo, String exDate, String exContent, int price, String accName, String bankName,
+			String accNum, String accHolder, String exDept, String note) {
+		super(apNo, exForm, exMethod, exCommon);
+		this.exNo = exNo;
+		this.exDate = exDate;
+		this.exContent = exContent;
+		this.price = price;
+		this.accName = accName;
+		this.bankName = bankName;
+		this.accNum = accNum;
+		this.accHolder = accHolder;
+		this.exDept = exDept;
+		this.note = note;
+	}
+
+
+	public int getExNo() {
+		return exNo;
+	}
+
+
+	public void setExNo(int exNo) {
+		this.exNo = exNo;
+	}
+
+
+	public String getExDate() {
+		return exDate;
+	}
+
+
+	public void setExDate(String exDate) {
+		this.exDate = exDate;
+	}
+
+
+	public String getExContent() {
+		return exContent;
+	}
+
+
+	public void setExContent(String exContent) {
+		this.exContent = exContent;
+	}
+
+
+	public int getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	public String getAccName() {
+		return accName;
+	}
+
+
+	public void setAccName(String accName) {
+		this.accName = accName;
+	}
+
+
+	public String getBankName() {
+		return bankName;
+	}
+
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+
+	public String getAccNum() {
+		return accNum;
+	}
+
+
+	public void setAccNum(String accNum) {
+		this.accNum = accNum;
+	}
+
+
+	public String getAccHolder() {
+		return accHolder;
+	}
+
+
+	public void setAccHolder(String accHolder) {
+		this.accHolder = accHolder;
+	}
+
+
+	public String getExDept() {
+		return exDept;
+	}
+
+
+	public void setExDept(String exDept) {
+		this.exDept = exDept;
+	}
+
+
+	public String getNote() {
+		return note;
+	}
+
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+	
+	
+	
+}
