@@ -162,8 +162,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <p>ChartJS</p>
+                <a href="normalApprovalForm.ea" class="nav-link">
+              	  <p>일반결재</p>
                 </a>
               </li>
               <li class="nav-item">

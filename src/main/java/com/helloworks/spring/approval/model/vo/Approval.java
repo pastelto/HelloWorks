@@ -1,5 +1,16 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Approval  {
 	
 	private int apNo; 			// 문서번호
@@ -13,9 +24,10 @@ public class Approval  {
 	private char deptShare;		// 부서공유 Y,N
 	private String progress;	// 진행상태 (진행중, 임시저장, 반려, 전결, 결재완료)
 	
-	public Approval() {
-		// TODO Auto-generated constructor stub
-	}
+	private int atNo;
+	private String newName;
+	private String originName;
+	
 	
 	//문서번호	
 	public Approval(int apNo) {
@@ -24,7 +36,7 @@ public class Approval  {
 	}
 
 	//Approval 테이블 전체 
-	public Approval(int apNo, String apClass, String title, int writer, String createDate, String deptCode,
+	/*public Approval(int apNo, String apClass, String title, int writer, String createDate, String deptCode,
 			String content, String cooper, char deptShare, String progress) {
 		super();
 		this.apNo = apNo;
@@ -117,7 +129,7 @@ public class Approval  {
 
 	public void setProgress(String progress) {
 		this.progress = progress;
-	}
+	}*/
 	
 	
 
