@@ -1,5 +1,16 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalLine extends Approval{
 	
 	private int line1; 
@@ -8,10 +19,10 @@ public class ApprovalLine extends Approval{
 	private int line4;
 	private int confirmStatus; 
 	
-	public ApprovalLine() {
+	/*public ApprovalLine() {
 		// TODO Auto-generated constructor stub
 	}
-
+*/
 	public ApprovalLine(int apNo, int line1, int line2, int line3, int line4, int confirmStatus) {
 		super(apNo);
 		this.line1 = line1;
@@ -20,7 +31,7 @@ public class ApprovalLine extends Approval{
 		this.line4 = line4;
 		this.confirmStatus = confirmStatus;
 	}
-
+	/*
 	public int getLine1() {
 		return line1;
 	}
@@ -60,7 +71,7 @@ public class ApprovalLine extends Approval{
 	public void setConfirmStatus(int confirmStatus) {
 		this.confirmStatus = confirmStatus;
 	}
-	
+	*/
 	
 	
 	

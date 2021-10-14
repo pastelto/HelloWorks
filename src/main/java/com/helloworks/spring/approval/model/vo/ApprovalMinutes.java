@@ -1,13 +1,24 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalMinutes extends Approval{
 
 	private String title; 		// 회의 이름
 	private String Attendees;	// 회의 참석자 
 	
-	public ApprovalMinutes() {
+	/*public ApprovalMinutes() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	public ApprovalMinutes(int apNo, String title, String attendees) {
 		super(apNo);
@@ -15,7 +26,7 @@ public class ApprovalMinutes extends Approval{
 		Attendees = attendees;
 	}
 
-	public String getTitle() {
+	/*public String getTitle() {
 		return title;
 	}
 
@@ -29,7 +40,7 @@ public class ApprovalMinutes extends Approval{
 
 	public void setAttendees(String attendees) {
 		Attendees = attendees;
-	}
+	}*/
 	
 	
 }

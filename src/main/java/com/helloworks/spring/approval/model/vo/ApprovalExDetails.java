@@ -1,5 +1,16 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalExDetails extends ApprovalExpenditure{
 
 	private int exNo; 			// 해당 지출결의서 내 지출번호
@@ -14,9 +25,9 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 	private String note; 		// 비고
 	
 	
-	public ApprovalExDetails() {
+	/*public ApprovalExDetails() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	
 
@@ -34,23 +45,7 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 		this.exDept = exDept;
 		this.note = note;
 	}
-
-	public ApprovalExDetails(int apNo,String exForm, String exMethod, char exCommon, int exNo, String exDate, String exContent, int price, String accName, String bankName,
-			String accNum, String accHolder, String exDept, String note) {
-		super(apNo, exForm, exMethod, exCommon);
-		this.exNo = exNo;
-		this.exDate = exDate;
-		this.exContent = exContent;
-		this.price = price;
-		this.accName = accName;
-		this.bankName = bankName;
-		this.accNum = accNum;
-		this.accHolder = accHolder;
-		this.exDept = exDept;
-		this.note = note;
-	}
-
-
+/*
 	public int getExNo() {
 		return exNo;
 	}
@@ -149,7 +144,7 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+	*/
 	
 	
 }

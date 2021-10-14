@@ -1,14 +1,25 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalExpenditure extends Approval{
 
 	private String exForm; 		// 지급형식
 	private String exMethod; 	// 지급방법
 	private char exCommon; 		// 공통경비 여부 
 	
-	public ApprovalExpenditure() {
+	/*public ApprovalExpenditure() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 	
 	public ApprovalExpenditure(int apNo) {
 		super(apNo);
@@ -22,7 +33,7 @@ public class ApprovalExpenditure extends Approval{
 		this.exCommon = exCommon;
 	}
 
-	public String getExForm() {
+	/*public String getExForm() {
 		return exForm;
 	}
 
@@ -44,7 +55,7 @@ public class ApprovalExpenditure extends Approval{
 
 	public void setExCommon(char exCommon) {
 		this.exCommon = exCommon;
-	}
+	}*/
 	
 	
 	

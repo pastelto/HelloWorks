@@ -1,5 +1,16 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalCC extends Approval{
 
 	private String ccDept; 	// 수신부서
@@ -7,9 +18,9 @@ public class ApprovalCC extends Approval{
 	private int ckCount;	// 확인인원
 	private int ccCount;	// 수신인원 
 	
-	public ApprovalCC() {
+	/*public ApprovalCC() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	public ApprovalCC(int apNo, String ccDept, int ccMember, int ckCount, int ccCount) {
 		super(apNo);
@@ -19,7 +30,7 @@ public class ApprovalCC extends Approval{
 		this.ccCount = ccCount;
 	}
 
-	public String getCcDept() {
+	/*public String getCcDept() {
 		return ccDept;
 	}
 
@@ -49,7 +60,7 @@ public class ApprovalCC extends Approval{
 
 	public void setCcCount(int ccCount) {
 		this.ccCount = ccCount;
-	}
+	}*/
 	
 	
 	
