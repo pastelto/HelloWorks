@@ -4,18 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>HelloWorks - 수신 업무</title>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	
 	<div class="content-wrapper">
 	
-	일정관리 화면입니다!
-	
-	
-	
-	
+	수신 업무 공유 내역 페이지 입니다!
 	
 	</div>
 	
