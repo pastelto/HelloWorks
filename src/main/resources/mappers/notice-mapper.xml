@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeMapper">
+
+	<resultMap id="noticeResultSet" type="Notice">
+		<id property="userId" column="NT_NO"/>
+		<result property="userPwd" column="NT_TITLE"/>
+		<result property="userName" column="NT_CONTENT"/>
+		<result property="userName" column="NT_COUNT"/>
+		<result property="email" column="NT_CREATEDATE"/>
+		<result property="gender" column="NT_AT"/>
+		<result property="age" column="NT_CHANGE_AT"/>
+		<result property="phone" column="NT_STATUS"/>
+		<result property="address" column="NT_EMP_NO"/>
+	</resultMap>
+
+
+</mapper>
