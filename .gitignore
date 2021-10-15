@@ -1,3 +1,8 @@
+$ git rm -r --cached .
+$ git add .
+$ git commit -m "Apply .gitignore"
+$ git push
+
 
 # Created by https://www.gitignore.io/api/git,java,maven,windows,eclipse
 # Edit at https://www.gitignore.io/?templates=git,java,maven,windows,eclipse
@@ -145,8 +150,41 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 MANIFEST.MF
+target/
 target/*
 target/*/*/*/MANIFEST.MF
+target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/*.*
+target/m2e-wtp/web-resources/META-INF/maven/MANIFEST.MF
+/target/
+/target/*
+/target/*/*/*/MANIFEST.MF
+/target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
+/target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.xml
+# Created by https://www.toptal.com/developers/gitignore/api/maven
+# Edit at https://www.toptal.com/developers/gitignore?templates=maven
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+### Maven Patch ###
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# End of https://www.toptal.com/developers/gitignore/api/maven
 
 ### Windows ###
 # Windows thumbnail cache files
