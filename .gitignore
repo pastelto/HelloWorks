@@ -145,10 +145,10 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 MANIFEST.MF
-target/
-target/*
-target/*/*/*/MANIFEST.MF
-target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
+/target/
+/target/*
+/target/*/*/*/MANIFEST.MF
+/target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/maven
