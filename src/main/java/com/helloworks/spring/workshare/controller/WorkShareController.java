@@ -28,9 +28,16 @@ public class WorkShareController {
 	
 	// 메뉴바 -> 발신 업무 내역
 	@RequestMapping("sendListWS.ws")
-	public String workShareMain() {
+	public String sendWorkShare() {
 		System.out.println("발신 업무 메인화면으로 이동");
 		return "workShare/sendWorkShareList";
+	}
+	
+	// 메뉴바 -> 임시저장 업무 내역
+	@RequestMapping("savedListWS.ws")
+	public String savedWorkShare() {
+		System.out.println("임시저장 업무 메인화면으로 이동");
+		return "workShare/savedWorkShareList";
 	}
 	
 }

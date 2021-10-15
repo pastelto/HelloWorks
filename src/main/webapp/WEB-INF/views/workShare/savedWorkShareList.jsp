@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 발신 업무</title>
+<title>HelloWorks - 임시저장함</title>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4><i class="fas fa-link"></i> <b>발신 업무</b></h4>
+            <h4><i class="fas fa-link"></i> <b>미확인 업무</b></h4>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -36,11 +36,10 @@
 					    <a class="nav-link" id="send_tab" href="javascript:goPage(1);">수신내역</a>
 					  </li>
 					  <li class="nav-item">
-					    <a class="nav-link active" id="receive_tab" href="javascript:goPage(2);">발신내역</a>
+					    <a class="nav-link" id="receive_tab" href="javascript:goPage(2);">발신내역</a>
 					  </li>
 					  <li class="nav-item">
-				   <!-- <a class="nav-link" id="temp_tab" href="javascript:goPage(3);">임시저장</a> -->
-					    <a class="nav-link" id="temp_tab" href="savedListWS.ws">임시저장</a>
+					    <a class="nav-link active" id="temp_tab" href="javascript:goPage(3);">임시저장</a>
 					  </li>
 				</ul>
 
@@ -150,7 +149,13 @@
         </div>
 	  </div>
     </section>
-   </div>
+	</div>
+
 	<jsp:include page="../common/footer.jsp"/>
+	
+<!-- 스크립트  -->
+<script>
+
+</script>
 </body>
 </html>
