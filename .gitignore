@@ -1,3 +1,7 @@
+$ git rm -r --cached .
+$ git add .
+$ git commit -m "Apply .gitignore"
+$ git push
 
 # Created by https://www.gitignore.io/api/git,java,maven,windows,eclipse
 # Edit at https://www.gitignore.io/?templates=git,java,maven,windows,eclipse
@@ -145,12 +149,20 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 MANIFEST.MF
+<<<<<<< HEAD
 target/
 target/*
 target/*/*/*/MANIFEST.MF
 target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
 target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/*.*
 target/m2e-wtp/web-resources/META-INF/*
+=======
+/target/
+/target/*
+/target/*/*/*/MANIFEST.MF
+/target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.properties
+
+>>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
 
 # Created by https://www.toptal.com/developers/gitignore/api/maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=maven
