@@ -1,14 +1,25 @@
 package com.helloworks.spring.approval.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ApprovalDiploma extends Approval{
 	
 	private String email;
 	private String phone;
 	private String officeAddress;
 	
-	public ApprovalDiploma() {
+	/*public ApprovalDiploma() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	public ApprovalDiploma(int apNo, String email, String phone, String officeAddress) {
 		super(apNo);
@@ -18,7 +29,7 @@ public class ApprovalDiploma extends Approval{
 		 
 	}
 
-	public String getEmail() {
+	/*public String getEmail() {
 		return email;
 	}
 
@@ -40,7 +51,7 @@ public class ApprovalDiploma extends Approval{
 
 	public void setOfficeAddress(String officeAddress) {
 		this.officeAddress = officeAddress;
-	}
+	}*/
 	
 	
 	
