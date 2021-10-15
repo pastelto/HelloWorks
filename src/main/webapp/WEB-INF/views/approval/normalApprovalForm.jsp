@@ -51,7 +51,7 @@
 											</td>
 											<td style="font-size:0.8em;">
 												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="doc_type"  value = "기안" id="normal_radio">
+													<input type="radio" name="doc_type"  value = "기안" id="normal_radio" >
 													<span class="co_docu_cd_old" docu_cd="기안" style="cursor: pointer;">기안서</span>											
 												</label>
 												&nbsp;
@@ -87,44 +87,44 @@
 													<table class="table table-bordered" id="process_table" width="30%">
 														<tbody>
 															<tr>
-																<td rowspan="2">결재</th>
-																<td class="table emp_level" height="30%">
+																<th rowspan="2" width="15%">결재</th>
+																<th class="table emp_level" width="17%">
 																	<span id="emp_level0"></span>
-																</td>
-																<td class="table emp_level">
+																</th>
+																<th class="table emp_level" width="17%">
 																	<span id="emp_level1"></span>
-																</td>
-																<td class="table emp_level" >
+																</th>
+																<th class="table emp_level" width="17%">
 																	<span id="emp_level2"></span>
-																</td>
-																<td class="table emp_level" >
+																</th>
+																<th class="table emp_level" width="17%">
 																	<span id="emp_level3"></span>
-																</td>
-																<td class="table emp_level" >
+																</th>
+																<th class="table emp_level" width="17%">
 																	<span id="emp_level4"></span>
-																</td>															
+																</th>															
 															</tr>
 															<tr>
-																<th class="table emp_name" height="50%">
+																<td class="table emp_name" height="50%">
 																	<span id="emp_name0"></span>
 																	<input type="hidden" id="writer" name="writer" value="직원이름">
-																</th>
-																<th class="table emp_name" height="50%">
+																</td>
+																<td class="table emp_name" height="50%">
 																	<span id="emp_name1"></span>
 																	<input type="hidden" id="line1" name="line1" value="직원이름">
-																</th>
-																<th class="table emp_name" height="50%">
+																</td>
+																<td class="table emp_name" height="50%">
 																	<span id="emp_name2"></span>
 																	<input type="hidden" id="line2" name="line2" value="직원이름">
-																</th>
-																<th class="table emp_name" height="50%">
+																</td>
+																<td class="table emp_name" height="50%">
 																	<span id="emp_name3"></span>
 																	<input type="hidden" id="line3" name="line3" value="직원이름">
-																</th>
-																<th class="table emp_name" height="50%">
+																</td>
+																<td class="table emp_name" height="50%">
 																	<span id="emp_name4"></span>
 																	<input type="hidden" id="line4" name="line4" value="직원이름">
-																</th>											
+																</td>											
 															</tr>
 														</tbody>
 													</table>
@@ -281,12 +281,28 @@
 
 <script>
 	/*$(function(){
+		/*$("#normal_div").attr("style", "display:none")
+		if($("#normal_radio").prop("checked", true)){
+			$("#normal_div").removeAttr("style", "display:none")
+		}
+				
+		
+		//('input:radio[#normal_radio]').is(':checked')
+		
 		if($('input:radio[id=normal_radio]').is(':checked')==false){
 			$('#normal_div').hide();
 		}else {
 			$('#normal_div').show();
 		}
+	
 	});*/
+	
+	$(function(){
+		$("#normal_div").attr("style", "display:none")		
+		$('#normal_radio').click(function(){
+			$("#normal_div").attr("style", "display:block")
+		});
+	});
 </script>
 
 </body>
