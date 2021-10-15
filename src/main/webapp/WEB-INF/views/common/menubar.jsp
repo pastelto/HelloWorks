@@ -15,12 +15,13 @@
   <link rel="stylesheet" href="./resources/dist/css/adminlte.min.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" data-panel-auto-height-mode="height">
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+	<nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -46,16 +47,20 @@
       
       <!-- 근태관리 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
+         <a class="nav-link" href="attendanceApiView.ps">
+         <!--  전체화면 기능아이콘 <i class="fas fa-expand-arrows-alt"></i>-->
+    		<i class="fas fa-briefcase"></i>
         </a>
       </li>
       
       <!-- 전사공지 아이콘 -->
       <li class="nav-item">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+        <a class="nav-link" href="noticeListView.nt">
+	        	<!-- 알림 
+	          <i class="far fa-bell"></i>
+	          <span class="badge badge-warning navbar-badge">15</span>
+	          -->
+	         <i class="fas fa-bullhorn"></i>
         </a>
       </li>
       
