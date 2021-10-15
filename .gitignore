@@ -147,6 +147,7 @@ buildNumber.properties
 MANIFEST.MF
 target/*
 target/*/*/*/MANIFEST.MF
+target/*/*/*/*/*/*/pom.properties
 
 ### Windows ###
 # Windows thumbnail cache files
