@@ -147,17 +147,36 @@
 		  <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
-              <p>
-                	메일
-                <i class="fas fa-angle-left right"></i>
+              <p>메일
+              	<i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
-                  <p>Top Navigation</p>
+                <a href="compose.ml" class="nav-link">
+                  <p>메일쓰기</p>
                 </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>받은 메일함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>보낸 메일함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>임시 보관함</p>
+                </a>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>휴지통</p>
+                </a>
+              </li>
               </li>
             </ul>
           </li>
