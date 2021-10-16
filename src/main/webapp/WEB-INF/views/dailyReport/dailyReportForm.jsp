@@ -9,14 +9,17 @@
 <meta charset="UTF-8">
 <title>일일보고</title>
 
-<!-- naver Editor -->
-<script type="text/javascript" src="./resources/plugins/smarteditor/js/service/HuskyEZCreator.js"></script>
+<!-- summernote -->
+ <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 
 <style>
 	th{
 		background-color: #DAE1E7;
 		width: 15%;
 		text-align: center !important;
+	}
+	.content-wrapper{
+		overflow:auto;
 	}
 </style>
 </head>
@@ -123,8 +126,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea name="editor" id="editor" style="width: 100%; height: 400px;"></textarea>
-
+										<textarea id="summernote"></textarea>
 									</div>
 								</div>
 
@@ -150,35 +152,15 @@
 
 
 
-	<!-- naver editor -->
+	<!-- Summernote -->
+	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
 	<script>
-	$(function(){
-	    //전역변수
-	    var obj = [];              
-	    //스마트에디터 프레임생성
-	    nhn.husky.EZCreator.createInIFrame({
-	        oAppRef: obj,
-	        elPlaceHolder: "editor",
-	        sSkinURI: "./resources/plugins/smarteditor/SmartEditor2Skin.html",
-	        htParams : {
-	            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-	            bUseToolbar : true,            
-	            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-	            bUseVerticalResizer : true,    
-	            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-	            bUseModeChanger : true,
-	        }
-	    });
-	    //전송버튼
-	    $("#submitBtn").click(function(){
-	        //id가 smarteditor인 textarea에 에디터에서 대입
-	        obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-	        //폼 submit
-	        $("#enrollForm").submit();
-	    })
-	})
-
-	</script>
+    $(document).ready(function() {
+    	  $('#summernote').summernote({
+    	    height : 400
+    	  });
+    	});
+    </script>
 	
 	<!-- 첨부파일 라벨 이름 추가 -->
 	<script>
