@@ -4,51 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 미확인 업무</title>
-<style>
-
-#WorkShareTable {
-	margin-left : 10%;
-	margin-right : 10%;
-}
-
-</style>
+<title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
-	
-	<div class="content-wrapper">
-	
-<!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>업무 공유</h1>
-          </div>
 
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-	<div class="section">
-				
-		<!-- 업무공유 상단 탭메뉴 -->
-		<ul class="nav nav-tabs">
-			  <li class="nav-item">
-			    <a class="nav-link active" id="unread_tab" aria-current="page" href="javascript:goPage(0);">미확인내역</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" id="send_tab" href="javascript:goPage(1);">수신내역</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" id="receive_tab" href="javascript:goPage(2);">발신내역</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" id="temp_tab" href="javascript:goPage(3);">임시저장</a>
-			  </li>
-		</ul>
 
-		    	<ul class="box1 b1">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+			    <!-- 업무 목록 검색 -->			
+			   	<ul class="box1 b1">
 					<li>
 					<strong class="label1">검색조건</strong>
 					<span class="sel1">
@@ -66,10 +33,15 @@
 					</span>
 					</li>
 				</ul>
-			</div>
+            </div>
+            <!-- /.card-header -->
+            
+    	<div class="card-body">
+
+    	
 	<!-- 업무 목록 리스트 테이블 -->
 	<div class="row">
-          <div class="col-10" id="WorkShareTable">
+          <div class="col-12" id="WorkShareTable">
             <div class="card">
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
@@ -86,7 +58,7 @@
                     <tr>
                       <td>183</td>
                       <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
+                      <td>업무 공유 발신 제목 부분입니다.</td>
                       <td>김헬로 사원</td>
                       <td>21-10-15</td>
                     </tr>
@@ -111,23 +83,44 @@
                       <td>김헬로 사원</td>
                       <td>21-10-15</td>
                     </tr>
+                    <tr>
+                      <td>175</td>
+                      <td>☆</td>
+                      <td>업무 공유 제목 부분입니다.</td>
+                      <td>김헬로 사원</td>
+                      <td>21-10-15</td>
+                    </tr>
+                    <tr>
+                      <td>175</td>
+                      <td>☆</td>
+                      <td>업무 공유 제목 부분입니다.</td>
+                      <td>김헬로 사원</td>
+                      <td>21-10-15</td>
+                    </tr>
+                    <tr>
+                      <td>175</td>
+                      <td>☆</td>
+                      <td>업무 공유 제목 부분입니다.</td>
+                      <td>김헬로 사원</td>
+                      <td>21-10-15</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
+             
             </div>
             <!-- /.card -->
           </div>
         </div>
-	
-	
-	</div>
+            </div>
+             <!-- /.card-body -->
+            <div class="card-footer">
+             	<button id="sendBtn" type="button" class="btn btn-primary btn-sm" onClick="location.href='sendFormView.ws'">보내기</button>
+            </div>
+          </div>
+        </div>
+	  </div>
+    </section>
 
-	<jsp:include page="../common/footer.jsp"/>
-	
-<!-- 스크립트  -->
-<script>
-
-</script>
 </body>
 </html>

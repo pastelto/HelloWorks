@@ -12,100 +12,9 @@
 	href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+<!-- css NoticeListView -->
+<link href="resources/css/notice/Notice.css" rel="stylesheet" type="text/css">  
 </head>
-<style>
-
-/*공지사항타이틀*/
-.nTitle {
-	display: inline-block;
-	margin-left: 3px;
-	margin-top: 30px;
-}
-/*공지사항div*/
-.dnTitle {
-	width : 200px;
-	margin-left: 10%;
-}
-
-.form-group {
-	display: inline-block;
-}
-
-/*돋보기아이콘*/
-#nsearchicon {
-	margin-top: -20px;
-}
-
-/*찐 검색영역*/
-#detailsearch {
-	width: 10%;
-	height: 40px;
-	margin-top: -20px;
-	margin-left: -103px;
-	background-color: rgb(218, 225, 231);
-}
-
-.card {
-	margin-left: 10%;
-}
-
-
-#nsearchdiv {
-	margin-left: 50px;
-	margin-top: -16px;
-}
-
-#searchbtn {
-	height: 30px;
-}
-
-#searchinput {
-	height: 30px;
-	font-size: small;
-	margin-left: -30px;
-}
-
-#detail {
-	text-align: center;
-	margin-top: 8px;
-}
-
-#nsearchi {
-	margin-top: -10px;
-	margin-left: -6px;
-}
-
-.nticedrop {
-	width: 100px;
-	font-size: small;
-	height: 30px;
-}
-
-#nticedropdiv {
-	margin-top: -15px;
-	margin-left: 10px;
-}
-
-#scdivdiv{
-	margin-left : 10.5%;
-	margin-top:10px;
-}
-
-
-/*공지사항리스트*/
-#noticeListcard{
-  width: 1100px;
-  margin-top : 10px;
-
-}
-
-#writenotice{
- 
-
-
-}
-
-</style>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 	
@@ -249,7 +158,7 @@
 
 
 
-
+	<jsp:include page="../common/footer.jsp"/>
 
 
 	<!-- Select2 -->

@@ -74,7 +74,7 @@
       <!-- 일정관리 -->
       <li class="nav-item">
         <a class="nav-link" href="schMain.sc" role="button">
-          <i class="far fa-calendar-check"></i>
+			<i class="far fa-calendar-check"></i>
         </a>
       </li>
       
@@ -107,7 +107,7 @@
       <!-- 로그아웃 -->
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+          <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>
     </ul>
@@ -213,7 +213,7 @@
           <!-- 업무공유 -->
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
+            <i class="nav-icon fas fa-link"></i>
               <p>
               	 업무공유
                 <i class="fas fa-angle-left right"></i>
@@ -221,7 +221,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="nCheckedWS.ws" class="nav-link">
+                <a href="unCheckedListWS.ws" class="nav-link">
                   <p>미확인 업무</p>
                 </a>
               </li>
