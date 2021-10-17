@@ -18,4 +18,16 @@ public class ApprovalController {
 		
 		return "approval/normalApprovalForm";
 	}
+	
+	@RequestMapping("expenditureApprovalForm.ea")
+	public String expenditureApprovalForm() {
+		
+		return "approval/expenditureApprovalForm";
+	}
+	
+	@RequestMapping("searchDeptForm.ea")
+	public String searchDeptForm() {
+		
+		return "approval/searchDeptForm";
+	}
 }
