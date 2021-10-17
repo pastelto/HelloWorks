@@ -3,18 +3,100 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noticeMapper">
-
+	
+	<!-- Notice -->
 	<resultMap id="noticeResultSet" type="Notice">
-		<id property="userId" column="NT_NO"/>
-		<result property="userPwd" column="NT_TITLE"/>
-		<result property="userName" column="NT_CONTENT"/>
-		<result property="userName" column="NT_COUNT"/>
-		<result property="email" column="NT_CREATEDATE"/>
-		<result property="gender" column="NT_AT"/>
-		<result property="age" column="NT_CHANGE_AT"/>
-		<result property="phone" column="NT_STATUS"/>
-		<result property="address" column="NT_EMP_NO"/>
+		<id property="noticeNo" column="NT_NO"/>
+		<result property="noticeTitle" column="NT_TITLE"/>
+		<result property="noticeContent" column="NT_CONTENT"/>
+		<result property="nt_count" column="NT_COUNT"/>
+		<result property="createDate" column="NT_CREATEDATE"/>
+		<result property="originName" column="NT_AT"/>
+		<result property="changeName" column="NT_CHANGE_AT"/>
+		<result property="nStatus" column="NT_STATUS"/>
+		<result property="empNo" column="NT_EMP_NO"/>
+		<result property="noticeWriter" column="EMP_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPT_DNAME"/>		
 	</resultMap>
-
-
+	
+	
+	<!--~~~~~~~~~~~~~~~~~공지사항~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- 총 게시글 갯수 -->
+	<select id="selectListCount" resultType="_int">
+        SELECT COUNT(*)
+		FROM NOTICE
+		WHERE NT_STATUS = 'Y'
+   </select>
+   
+   <!-- 보드 리스트 -->
+   <select id="selectList" resultMap="noticeResultSet">
+        SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		FROM NOTICE A 
+		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		WHERE NT_STATUS = 'Y'
+		ORDER BY NT_NO DESC
+   </select>
+   
+    <!-- 등록 -->
+    <insert id="insertNotice" parameterType="Notice">
+	    INSERT INTO NOTICE
+		VALUES
+		(SEQ_NT.NEXTVAL, #{noticeTitle}, #{noticeContent}, 0, SYSDATE, #{originName}, #{changeName}, #{nStatus}, #{empNo})
+   </insert>
+   
+  	<!-- 조회수 증가-->
+	<update id="increaseCount" parameterType="_int">
+      UPDATE NOTICE
+      SET NT_COUNT = NT_COUNT+1
+      WHERE NT_NO = #{bno} 
+   </update>
+   
+   <!-- 상세보기 -->
+   <select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+      	SELECT A.*,  B.EMP_NAME, C.JOB_NAME
+		FROM NOTICE A
+		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		WHERE NT_NO =#{bno} 
+   </select>
+   
+   <!-- 수정 -->
+   <update id="updateNotice" parameterType="Notice">
+      UPDATE NOTICE
+      SET NT_TITLE=#{noticeTitle}, NT_CONTENT=#{noticeContent},
+          NT_AT=#{originName}, NT_CHANGE_AT=#{changeName}, NT_STATUS=#{nStatus}
+      WHERE NT_NO=#{noticeNo}
+   </update>
+   
+   <!-- 삭제 -->
+    <update id="deleteNotice" parameterType="_int">
+      UPDATE NOTICE
+      SET NT_STATUS = 'N'
+      WHERE NT_NO = #{noticeNo}
+   </update>
+   
+   
+   <!--~~~~~~~~~~~~~~~~~임시저장~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- 총 임시저장 게시글 갯수 -->
+	<select id="selectTListCount" resultType="_int">
+        SELECT COUNT(*)
+		FROM NOTICE
+		WHERE NT_STATUS = 'T'
+   </select>
+   
+   <!-- 임시저장 리스트 -->
+   <select id="selectTList" resultMap="noticeResultSet">
+        SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		FROM NOTICE A 
+		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		WHERE NT_STATUS = 'T'
+		ORDER BY NT_NO DESC
+   </select>
+   
+   
+   
+   
 </mapper>
