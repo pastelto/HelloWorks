@@ -9,6 +9,11 @@
 <script src="../plugins/jquery/jquery.min.js"></script>
  <!-- fullCalendar -->
  <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
+<style>
+	.content-wrapper{
+		overflow:auto;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
