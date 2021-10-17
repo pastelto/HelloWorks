@@ -47,18 +47,19 @@
            <div class="tab-content" id="custom-tabs-four-tabContent">
              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 					<!-- 미확인 업무 -->
-					<jsp:include page="./unCheckedList.jsp" />
+					<jsp:include page="./unCheckedWSList.jsp" />
  			 </div>
              <div class="tab-pane fade" id="custom-tabs-four-recv" role="tabpanel" aria-labelledby="custom-tabs-four-recv-tab">
 					<!-- 수신 업무 -->
-					<jsp:include page="./unCheckedList.jsp" />
+					<jsp:include page="./recvWSList.jsp" />
              </div>
              <div class="tab-pane fade" id="custom-tabs-four-send" role="tabpanel" aria-labelledby="custom-tabs-four-send-tab">
 					<!-- 발신 업무 -->
-					<jsp:include page="./sendWorkList.jsp" />
+					<jsp:include page="./sendWSList.jsp" />
              </div>
              <div class="tab-pane fade" id="custom-tabs-four-saved" role="tabpanel" aria-labelledby="custom-tabs-four-saved-tab">
 					<!-- 임시저장 업무 -->
+					<jsp:include page="./savedWSList.jsp" />
              </div>
            </div>
          </div>

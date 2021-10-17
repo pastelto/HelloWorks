@@ -58,7 +58,7 @@
                     <tr>
                       <td>183</td>
                       <td>☆</td>
-                      <td>업무 공유 발신 제목 부분입니다.</td>
+                      <td>업무 공유 수신 제목 부분입니다.</td>
                       <td>김헬로 사원</td>
                       <td>21-10-15</td>
                     </tr>
@@ -115,7 +115,7 @@
             </div>
              <!-- /.card-body -->
             <div class="card-footer">
-             	버튼 자리
+             	<button id="sendBtn" type="button" class="btn btn-primary btn-sm" onClick="location.href='sendFormView.ws'">보내기</button>
             </div>
           </div>
         </div>
