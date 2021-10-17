@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -262,7 +263,9 @@
 															<span>기안일자</span>
 														</td>
 														<td colspan="6">
-															<!-- 오늘날짜  -->
+															<c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+															<c:out value="${sysdate}" />
 														</td>
 													</tr>
 													<tr>
@@ -476,7 +479,9 @@
 															<span>일자</span>
 														</td>
 														<td colspan="8">
-															<!-- 오늘날짜  -->
+															<c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+															<c:out value="${sysdate}" />
 														</td>
 													</tr>
 													<tr>
@@ -710,7 +715,9 @@
 															<span>기안일자</span>
 														</td>
 														<td colspan="6">
-															<!-- 오늘날짜  -->
+															<c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+															<c:out value="${sysdate}" />
 														</td>
 													</tr>
 													<tr>
@@ -932,7 +939,9 @@
 															<span>기안일자</span>
 														</td>
 														<td colspan="4">
-															<!-- 오늘날짜  -->
+															<c:set var="now" value="<%=new java.util.Date()%>" />
+															<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+															<c:out value="${sysdate}" />
 														</td>
 														<td colspan="2">
 															<span>처리시한</span>
@@ -1013,6 +1022,17 @@
 						</div>
 					</div>
 				</div>
+							<div class="card-footer">
+								<div class="float-right">
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									&nbsp;
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									&nbsp;
+									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									&nbsp;
+								</div>
+							</div>
+				
 				</form>
 			</section>
 		</div>	
@@ -1067,7 +1087,7 @@
 			$("#hr_detail").attr("style", "display:none")
 						
 			$('#normal_radio').click(function(){
-				$("#normal_div").attr("style", "display:block")
+				$("#normal_div").css("display",'')
 				$("#dipl_div").attr("style", "display:none")
 				$("#minut_div").attr("style", "display:none")
 				$("#humanr_div").attr("style", "display:none")
@@ -1075,7 +1095,7 @@
 			});
 			
 			$('#dipl_radio').click(function(){
-				$("#dipl_div").attr("style", "display:block")
+				$("#dipl_div").css("display",'')
 				$("#normal_div").attr("style", "display:none")
 				$("#minut_div").attr("style", "display:none")	
 				$("#humanr_div").attr("style", "display:none")
@@ -1083,7 +1103,7 @@
 			});		
 			
 			$('#minut_radio').click(function(){
-				$("#minut_div").attr("style", "display:block")
+				$("#minut_div").css("display",'')
 				$("#normal_div").attr("style", "display:none")
 				$("#dipl_div").attr("style", "display:none")	
 				$("#humanr_div").attr("style", "display:none")
@@ -1091,8 +1111,8 @@
 			});		
 			
 			$('#humanr_radio').click(function(){
-				$("#hr_detail").attr("style", "display:block")
-				$("#humanr_div").attr("style", "display:block")
+				$("#hr_detail").css("display",'')
+				$("#humanr_div").css("display",'')
 				$("#normal_div").attr("style", "display:none")
 				$("#dipl_div").attr("style", "display:none")	
 				$("#minut_div").attr("style", "display:none")

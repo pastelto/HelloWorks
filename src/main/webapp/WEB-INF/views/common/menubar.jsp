@@ -198,8 +198,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <p>Flot</p>
+                <a href="expenditureApprovalForm.ea" class="nav-link">
+                  <p>지출결재</p>
                 </a>
               </li>
               <li class="nav-item">
