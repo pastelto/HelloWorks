@@ -32,7 +32,7 @@
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 
-		<!-- 타이틀 -->
+	<!-- 타이틀 -->
 		<div class="content-wrapper">
 			<section class="content-header">
 				<div class="container-fluid">
