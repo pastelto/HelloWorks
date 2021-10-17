@@ -16,7 +16,7 @@
             <div class="card-header">
 			    <!-- 업무 목록 검색 -->			
 			   	<ul class="box1 b1">
-					<li>
+					<li> 
 					<strong class="label1">검색조건</strong>
 					<span class="sel1">
 						<a href="javascript:void(0);" class="btn1" id="btn_all">전체보기</a>
