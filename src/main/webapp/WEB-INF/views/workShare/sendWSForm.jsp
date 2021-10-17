@@ -17,7 +17,7 @@
 		background-color: #DAE1E7;
 		width: 15%;
 		text-align: center !important;
-	}
+	} 
 	.content-wrapper{
 		overflow:auto;
 	}

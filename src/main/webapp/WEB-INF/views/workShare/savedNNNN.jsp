@@ -17,7 +17,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h4><i class="fas fa-link"></i> <b>미확인 업무</b></h4>
-          </div>
+          </div> 
         </div>
       </div><!-- /.container-fluid -->
     </section>

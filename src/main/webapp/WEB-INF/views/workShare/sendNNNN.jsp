@@ -18,7 +18,7 @@
           <div class="col-sm-6">
             <h4><i class="fas fa-link"></i> <b>발신 업무</b></h4>
           </div>
-        </div>
+        </div> 
       </div><!-- /.container-fluid -->
     </section>
 	
