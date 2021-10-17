@@ -55,7 +55,7 @@
       
       <!-- 전사공지 아이콘 -->
       <li class="nav-item">
-        <a class="nav-link" href="list.nt">
+        <a class="nav-link" href="noticeListView.nt">
 	        	<!-- 알림 
 	          <i class="far fa-bell"></i>
 	          <span class="badge badge-warning navbar-badge">15</span>

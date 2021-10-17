@@ -26,6 +26,6 @@ public class Notice {
 	   private String changeName;
 	   private int nt_count;
 	   private Date createDate;
-	   private String nStatus;//상태
+	   private String status;
 	
 }
