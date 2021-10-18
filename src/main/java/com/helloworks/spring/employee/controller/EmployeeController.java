@@ -22,11 +22,11 @@ public class EmployeeController {
 	
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(@ModelAttribute Employee m , HttpSession session) {
-
+				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
-			System.out.println(loginUser);
+			System.out.println("loginUser :  " + loginUser);
 			session.setAttribute("loginUser", loginUser);
 			return  "main/main"; 
 		} catch (Exception e) {
