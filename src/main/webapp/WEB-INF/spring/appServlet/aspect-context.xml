@@ -8,10 +8,11 @@
 		<bean id = "loggerAspect1" class="com.helloworks.spring.common.aop.LoggerAspect" />
 		<aop:config>
 			<aop:aspect id="loggerAspect" ref="loggerAspect1">
-				<aop:pointcut expression="execution(* com.helloworks.spring.member..*(..))" id="pcForAll"/>
+				<aop:pointcut expression="execution(* com.helloworks.spring.employee..*(..))" id="pcForAll"/>
 				<aop:around method="loggerAdvice" pointcut-ref="pcForAll" />
 			</aop:aspect>
 		</aop:config>
 		
 		<aop:aspectj-autoproxy/>
+		
 </beans>
