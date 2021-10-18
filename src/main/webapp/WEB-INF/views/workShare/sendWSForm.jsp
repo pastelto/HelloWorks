@@ -54,7 +54,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWorkShare" method="post" action="insertSendWS.ws" enctype="multipart/form-data">
+						<form id="insertWorkShare" method="post" action="insert.ws" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
