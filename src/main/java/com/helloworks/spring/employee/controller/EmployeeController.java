@@ -35,6 +35,12 @@ public class EmployeeController {
 			return  "common/errorPage";
 		}
 	}
+	
+	@RequestMapping("main.mi")
+	public String main() {
+		System.out.println("@@@@@@@홈 화면으로 이동");
+		return "main/main";
+	}
 
 
 }
