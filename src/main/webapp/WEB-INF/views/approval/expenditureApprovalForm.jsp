@@ -10,8 +10,7 @@
 
 <!-- summernote -->
 <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
-<!-- datepicker -->
-<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+
 <style>	
 	 td, span, input{
 		font-weight:normal;!important;
@@ -184,7 +183,7 @@
 											</tr>										
 										</tbody>
 									</table>							
-									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >
+									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >									
 										<tr>
 											<td>
 												<table class="table table-bordered" id="detail_table">
@@ -278,6 +277,7 @@
 															</select>
 														</td>
 													</tr>
+													
 													<tr>
 														<th colspan="1">
 															<span>선택</span>
@@ -311,9 +311,9 @@
 															<span>비고</span>
 														</th>														
 													</tr>
-													<tr>
+													<tr name="exRow">
 														<td colspan='1'>
-															<input type="checkbox"  id="exCheck">
+															<input type="checkbox"  id="exCheck1">
 														</td>
 														<td colspan="1">															
 															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate" style="font-size:0.8rem">
@@ -330,7 +330,7 @@
 															</select>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="price" name="price" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="price1" name="price" style="font-size:0.8rem">
 														</td>
 														<th colspan="2">
 															<input type="text" class="form-control" id="accountName" name="accountName" class="form-control" style="font-size:0.8rem">											
@@ -388,8 +388,8 @@
 															<!-- 금액합계 -->
 														</td>
 														<td colspan="6" align="right">
-															<button type="button" class="btn btn-default" id="plusEx" style="font-size:0.8rem">지출항목 추가 </button>&nbsp;
-															<button type="button" class="btn btn-default" id="minusEx" style="font-size:0.8rem">지출항목 삭제</button>
+															<button type="button" class="btn btn-default" id="plusEx" style="font-size:0.8rem" onclick="plusEx();">지출항목 추가 </button>&nbsp;
+															<button type="button" class="btn btn-default" id="minusEx" style="font-size:0.8rem" onclick="minusEx();">지출항목 삭제</button>
 														</td>
 													</tr>													
 													<tr>
@@ -523,8 +523,105 @@
 	
 	<!-- 부서검색 팝업창 -->		
 	<script language="javascript">
-		function searchDept(){window.open("searchDeptForm.ea", "부서 검색", "width=450, height=600, left=100, top=50");}
+		function searchDept(){window.open("searchDeptForm.ea", "부서 검색", "width=450, height=600, left=100, top=50");}	
+	</script>	
+	
+	
+	<!-- 지출항목 추가  -->
+	<script>
+		var n = 1;
 		
-	</script>		
+		function plusEx(){
+				n+=1			
+				var addRow = '<tr' + 'id=exRow>'+
+						"<td colspan='1'>" +
+							'<input type="checkbox"  id="exCheck'+n+'">'+
+						"</td>"+
+						'<td colspan="1">'+													
+							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate'+n+'"'+ 'style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<select name="exContent'+n+'"'+ 'class="form-control" id="exContent_select" style="font-size:0.8rem">'+
+								'<option value="none"> 선택  </option>'+
+								'<option value="교통비"> 교통비 </option>'+
+								'<option value="복리후생"> 복리후생 </option>'+
+								'<option value="사무비품"> 사무비품 </option>'+
+								'<option value="소모품비"> 소모품비 </option>'+															
+								'<option value="지급수수료"> 지급수수료 </option>'+
+								'<option value="출장비"> 출장비 </option>'+
+							'</select>'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="price1" name="price'+n+'" style="font-size:0.8rem">'+
+						'</td>'+
+						'<th colspan="2">'+
+							'<input type="text" class="form-control" id="accountName" name="accountName'+n+' "class="form-control" style="font-size:0.8rem">'+									
+						'</th>'+
+						'<td colspan="1">'+
+							'<select name="exBank'+n+'" class="form-control" id="exBank" style="font-size:0.8rem">'+
+								'<option value="none"> 은행선택  </option>'+
+								'<option value="경남"> 경남 </option>'+
+								'<option value="광주"> 광주 </option>'+
+								'<option value="국민"> 국민 </option>'+
+								'<option value="기업은행"> 기업은행 </option>'+																
+								'<option value="농협중앙"> 농협중앙 </option>'+
+								'<option value="대구"> 대구 </option>'+
+								'<option value="부산"> 부산 </option>'+
+								'<option value="산업"> 산업 </option>'+
+								'<option value="상호저축"> 상호저축 </option>'+
+								'<option value="새마을금고"> 새마을금고 </option>'+
+								'<option value="수출입"> 수출입 </option>'+
+								'<option value="수협"> 수협 </option>'+
+								'<option value="신한"> 신한 </option>'+
+								'<option value="신협"> 신협 </option>'+
+								'<option value="외환"> 외환 </option>'+
+								'<option value="우리"> 우리 </option>'+
+								'<option value="우체국"> 우체국 </option>'+
+								'<option value="전북"> 전북 </option>'+
+								'<option value="제주"> 제주 </option>'+
+								'<option value="지역농협"> 지역농협 </option>'+
+								'<option value="축협"> 축협 </option>'+
+								'<option value="카카오뱅크"> 카카오뱅크 </option>'+
+								'<option value="케이뱅크"> 케이뱅크 </option>'+
+								'<option value="하나"> 하나 </option>'+
+								'<option value="한국"> 한국 </option>'+
+								'<option value="한국씨티"> 한국씨티 </option>'+
+								'<option value="SC제일"> SC제일 </option>'+
+							'</select>'+
+						'</td>'+
+						'<td colspan="2">'+
+							'<input type="text" class="form-control" id="accountNum" name="accountNum'+n+'" style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="accHolder" name="accHolder'+n+'" style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="exDept" name="exDept'+n+'" style="font-size:0.8rem" onclick="searchDept();"/>'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="exNote" name="exNote'+n+'" style="font-size:0.8rem">'+
+						'</td>'+			
+					'</tr>'	;	
+					
+				var trHtml = $("tr[name='exRow']:last");
+				trHtml.after(addRow);
+				
+		};
+	</script>
+	
+	<!-- 금액 합계 -->	
+	<!-- <script type="text/javascript">
+	
+		var price = $('#price').val();
+		console.log(price);
+		
+		if(price != null){
+			
+		}
+			
+		$(function(){
+			$('')		
+		});
+	</script> -->
 </body>
 </html>
