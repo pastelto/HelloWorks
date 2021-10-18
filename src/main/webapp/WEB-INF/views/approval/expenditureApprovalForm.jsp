@@ -637,7 +637,7 @@
 		};	
 	</script>
 	
-	<!-- 금액 합계 -->	
+	<!-- 금액 합계  -->	
 	<script type="text/javascript">
 	$(function(){			
 		var sum = 0;		
