@@ -112,7 +112,7 @@
 												<td>
 												<div class="row" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="searchAllEmployee();">전체검색</button>
+														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
 														<select name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
 															<option value="deptType">부서</option>
@@ -152,41 +152,41 @@
 											<div id="accordion">
 												<div class="card">
 													<div class="card-header">
-														<a class="card-link" data-toggle="collapse" href="#collapseOne" onclick="selectDept('경영지원본부')">경영지원본부 </a>
+														<a class="card-link" data-toggle="collapse" href="#collapseOne" onclick="selectDept('A')">경영지원본부 </a>
 													</div>
 													<div id="collapseOne" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li><a href="#" onclick="selectDept('인사팀')">인사팀</a></li>
-																<li><a href="#" onclick="selectDept('재무회계팀')">재무회계팀</a></li>
-																<li><a href="#" onclick="selectDept('총무팀')">총무팀</a></li>
+																<li><a href="#" onclick="selectDept('A1')">인사팀</a></li>
+																<li><a href="#" onclick="selectDept('A2')">재무회계팀</a></li>
+																<li><a href="#" onclick="selectDept('A3')">총무팀</a></li>
 															</ul>
 														</div>
 													</div>
 												</div>
 												<div class="card">
 													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" onclick="selectDept('영업지원본부')">영업지원본부 </a>
+														<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" onclick="selectDept('B')">영업지원본부 </a>
 													</div>
 													<div id="collapseTwo" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li><a href="#" onclick="selectDept('영업팀')">영업팀</a></li>
-																<li><a href="#" onclick="selectDept('운영지원팀')">운영지원팀</a></li>
+																<li><a href="#" onclick="selectDept('B1')">영업팀</a></li>
+																<li><a href="#" onclick="selectDept('B2')">운영지원팀</a></li>
 															</ul>
 														</div>
 													</div>
 												</div>
 												<div class="card">
 													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" onclick="selectDept('사업본부')">사업본부 </a>
+														<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" onclick="selectDept('C')">사업본부 </a>
 													</div>
 													<div id="collapseThree" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li><a href="#" onclick="selectDept('디자인팀')">디자인팀</a></li>
-																<li><a href="#" onclick="selectDept('마케팅킴')">마케팅킴</a></li>
-																<li><a href="#" onclick="selectDept('IT개발팀')">IT개발팀</a></li>
+																<li><a href="#" onclick="selectDept('C1')">디자인팀</a></li>
+																<li><a href="#" onclick="selectDept('C2')">마케팅팀</a></li>
+																<li><a href="#" onclick="selectDept('C3')">IT개발팀</a></li>
 															</ul>
 														</div>
 													</div>
@@ -202,51 +202,18 @@
 									<table id="employeeTable" class="table table-sm">
 										<thead>
 											<tr>
-												<th></th>
-												<th>사번</th>
-												<th>이름</th>
-												<th>직급</th>
-												<th>부서</th>
-												<th>내선번호</th>
-												<th>이메일</th>
-												<th></th>
+												<th style="width: 5%"></th>
+												<th style="width: 10%">사번</th>
+												<th style="width: 10%">이름</th>
+												<th style="width: 10%">직급</th>
+												<th style="width: 10%">부서</th>
+												<th style="width: 15%">내선번호</th>
+												<th style="width: 25%">이메일</th>
+												<th style="width: 15%"></th>
 											</tr>
 										</thead>
 										<tbody>
-										<!-- for문 돌리기 -->
-										<%--  
-										<% for(int i=0;i<10;i++){ %>
-											<tr>
-												<td style="width: 5%"><input type="checkbox"></td>
-												<td style="width: 10%">0001</td>
-												<td style="width: 10%">사원이름</td>
-												<td style="width: 10%">직급</td>
-												<td style="width: 10%">부서</td>
-												<td style="width: 15%">내선번호</td>
-												<td style="width: 25%">이메일</td>
-												<td style="width: 15%">
-													<button id="sendMail" type="button" class="btn btn-default btn-xs">메일발송</button>
-													<button id="workShare" type="button" class="btn btn-default btn-xs">업무공유</button>
-												</td>
-											</tr>
-										<%} %>
-										 --%>
-										 <c:forEach items="${ list }" var="list">
-										 	<tr>
-										 		<td style="width: 5%"><input type="checkbox"></td>
-										 		<td style="width: 10%">${ list.empNo }</td>
-										 		<td style="width: 10%">${ list.empName }</td>
-												<td style="width: 10%">${ list.empJob }</td>
-												<td style="width: 10%">${ list.empDept }</td>
-												<td style="width: 15%">${ list.empPhone }</td>
-												<td style="width: 25%">${ list.empEmail }</td>
-												<td style="width: 15%">
-												<td style="width: 15%">
-													<button id="sendMail" type="button" class="btn btn-default btn-xs">메일발송</button>
-													<button id="workShare" type="button" class="btn btn-default btn-xs">업무공유</button>
-												</td>
-										 	</tr>
-										 </c:forEach>
+										
 										</tbody>
 									</table>
 								</div>
@@ -283,26 +250,68 @@
 	
 	<!-- 전체 검색 버튼 -->
 	<script>
-		function searchAllEmployee(){
+		function selectAllEmployee(){
 			$.ajax({
-				url: "searchAllEmployee.or",
+				url: "selectAllEmployee.or",
 				type: "post",
-				success:function(result){
-					$.each(result, function(i, list){
-						console.log(list[i].empNo);
-					})
-				}
+				success:function(list){
 					
+					var value="";
+					
+					$.each(list, function(i, obj){
+						
+						value +="<tr>"+
+								"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
+								"<td>" + obj.empNo + "</td>" + 
+								"<td>" + obj.empName + "</td>" + 
+								"<td>" + obj.jobCode + "</td>" +
+								"<td>" + obj.deptCode + "</td>" +
+								"<td>" + obj.empEphone + "</td>" +
+								"<td>" + obj.empEmail + "</td>" +
+								"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
+								"</tr>";
+					});
+					
+					$("#employeeTable>tbody").html(value);
+				},
+				error:function(){
+					console.log("직원 전체 검색 ajax 통신 실패")
 				}
 			})
-		}
+		} 
 	</script>
-	
 	
 	<!-- 부서검색 연결 -->
 	<script>
 		function selectDept(dept){
-			alert(dept);
+			/* alert(dept); */
+			$.ajax({
+				url: "selectDeptEmployee.or",
+				type: "post",
+				data: {
+					dept:dept
+				},
+				success:function(list){
+					var value="";
+					$.each(list, function(i, obj){
+						value +="<tr>"+
+						"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
+						"<td>" + obj.empNo + "</td>" + 
+						"<td>" + obj.empName + "</td>" + 
+						"<td>" + obj.jobCode + "</td>" +
+						"<td>" + obj.deptCode + "</td>" +
+						"<td>" + obj.empEphone + "</td>" +
+						"<td>" + obj.empEmail + "</td>" +
+						"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
+						"</tr>";
+					});
+					$("#employeeTable>tbody").html(value);
+				},
+				error:function(){
+					console.log("직원 부서별 검색 ajax 통신 실패")
+				}
+			})
+			
 		}
 		
 	</script>
