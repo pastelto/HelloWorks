@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mail-compose</title>
+<title>메일 쓰기</title>
 <!-- summernote -->
 <link rel="stylesheet"
 	href="./resources/plugins/summernote/summernote-bs4.min.css">
@@ -81,7 +81,8 @@
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
-
+								<form method="post" id="insertForm" enctype="multipart/form-data">
+								<input type="hidden" id="empNo" name="empNo" value=${ loginUser.empNo }><!-- value="${ loginUser.empNo }"  -->
 								<div class="row">
 									<div class="col-2">발신자</div>
 									<div class="col-10">
@@ -135,6 +136,7 @@
 									</div>
 									<p class="help-block">Max. 32MB</p>
 								</div>
+								</form>>
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">

@@ -38,17 +38,18 @@
           
             <!-- 검색영역 -->
 				<div class="callout callout-info" style="height: 50px;">
-					<div class="card-header">
-						<form action="#">
+					<div id="searchNoticeArea" class="card-header">
+						<form action="searchNotice.nt">
 							<div class="row">
 								<ul class="searchUl">
 									<li class="searchUl">
 										<div class="form-group " id="detailSearch1">
 											<select class="form-control" name="searchSelect" id="searchSelect">
 												<option selected>전체보기</option>
-												<option>작성자</option>
-												<option>제목</option>
-												<option>내용</option>
+												<option selected>전체보기</option>
+												<option value="writer">작성자</option>
+												<option value="writer">제목</option>
+												<option value="writer">내용</option>
 											</select>
 										</div>
 
@@ -121,20 +122,52 @@
 							<!--페이징 -->
 							<div class="card-footer clearfix">
 								<%-- 인사팀만 버튼이 보게  
-                                  <%if(loginUser.getDeptCode.equals("A1")) %>{ --%>
+						                                  <%if(loginUser.getDeptCode.equals("A1")) %>{ --%>
 								<div class="col-md-1 float-right">
-									<button class="btn btn-block btn-outline-info m-0 "
-										id="writenotice" onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
+									<button class="btn btn-block btn-outline-info m-0 " id="writenotice"
+										onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
 								</div>
-								<%-- <% }%> --%>
-								<ul class="pagination pagination-sm m-0 justify-content-center">
-									<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-								</ul>
+								<%-- 페이징--%>
+								<div id="pagingArea">
+									<ul class="pagination pagination-sm m-0 justify-content-center">
+										<c:choose>
+											<c:when test="${ pi.currentPage ne 1 }">
+												<li class="page-item"><a class="page-link"
+													href="list.nt?currentPage=${ pi.currentPage-1 }">&laquo;</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item disabled"><a class="page-link" href="">&laquo;</a></li>
+											</c:otherwise>
+										</c:choose>
+						
+										<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+											<c:choose>
+												<c:when test="${ pi.currentPage ne p }">
+													<li class="page-item"><a class="page-link"
+														href="list.nt?currentPage=${ p }">${ p }</a></li>
+												</c:when>
+												<c:otherwise>
+													<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+						
+						
+										<c:choose>
+											<c:when test="${ pi.currentPage ne pi.maxPage }">
+												<li class="page-item"><a class="page-link"
+													href="list.nt?currentPage=${ pi.currentPage+1 }">&raquo;</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item disabled"><a class="page-link"
+													href="list.nt?currentPage=${ pi.currentPage+1 }">&raquo;</a></li>
+											</c:otherwise>
+										</c:choose>
+									</ul>
+								</div>
 							</div>
+							
+							
 						</div>
 
                   </div>
@@ -165,25 +198,54 @@
 								</tbody>
 							
 							</table>
-							<!--페이징 -->
 							<div class="card-footer clearfix">
 								<%-- 인사팀만 버튼이 보게  
-                                  <%if(loginUser.getDeptCode.equals("A1")) %>{ --%>
+						                                  <%if(loginUser.getDeptCode.equals("A1")) %>{ --%>
 								<div class="col-md-1 float-right">
-									<button class="btn btn-block btn-outline-info m-0 "
-										id="writenotice" onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
+									<button class="btn btn-block btn-outline-info m-0 " id="writenotice"
+										onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
 								</div>
-								<%-- <% }%> --%>
-								<ul class="pagination pagination-sm m-0 justify-content-center">
-									<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-								</ul>
+								<%--페이징--%>
+								<div id="pagingArea">
+									<ul class="pagination pagination-sm m-0 justify-content-center">
+										<c:choose>
+											<c:when test="${ piT.currentPage ne 1 }">
+												<li class="page-item"><a class="page-link"
+													href="list.nt?currentPage=${ piT.currentPage-1 }">&laquo;</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item disabled"><a class="page-link" href="">&laquo;</a></li>
+											</c:otherwise>
+										</c:choose>
+						
+										<c:forEach begin="${ piT.startPage }" end="${ piT.endPage }" var="p">
+											<c:choose>
+												<c:when test="${ piT.currentPage ne p }">
+													<li class="page-item"><a class="page-link"
+														href="list.nt?currentPage=${ p }">${ p }</a></li>
+												</c:when>
+												<c:otherwise>
+													<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+						
+						
+										<c:choose>
+											<c:when test="${ piT.currentPage ne piT.maxPage }">
+												<li class="page-item"><a class="page-link"
+													href="list.nt?currentPage=${ piT.currentPage+1 }">&raquo;</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item disabled"><a class="page-link"
+													href="list.nt?currentPage=${ piT.currentPage+1 }">&raquo;</a></li>
+											</c:otherwise>
+										</c:choose>
+									</ul>
+								</div>
 							</div>
 
-							</div>             			 
+						</div>             			 
                   </div>           
                 </div>
               </div>

@@ -11,13 +11,20 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 
-	// 메일 쓰기
+	// 메일 작성페이지로 
 	@RequestMapping("compose.ml")
 	public String composeMail() {
 		System.out.println("메일 작성 페이지");
 		return "mail/compose";
 	}
 
+	// 메일 보내기
+	public String sendMail() {
+		
+		
+	}
+	
+	
 	// 메일 읽기
 	@RequestMapping("read.ml")
 	public String readMail() {
