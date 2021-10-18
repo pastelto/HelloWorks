@@ -28,7 +28,7 @@ public class EmployeeController {
 			Employee loginUser = employeeService.loginMember(m);
 			System.out.println(loginUser);
 			session.setAttribute("loginUser", loginUser);
-			return  "common/menubar"; 
+			return  "main/main"; 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
