@@ -1,17 +1,23 @@
 package com.helloworks.spring.mail.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.helloworks.spring.mail.model.service.MailService;
+import com.helloworks.spring.mail.model.vo.Mail;
 
 @Controller
 public class MailController {
 	@Autowired
 	private MailService mailService;
 
-	// 메일 작성페이지로 
+	// 메일 작성페이지로
 	@RequestMapping("compose.ml")
 	public String composeMail() {
 		System.out.println("메일 작성 페이지");
@@ -19,12 +25,31 @@ public class MailController {
 	}
 
 	// 메일 보내기
-	public String sendMail() {
-		
-		
+	@RequestMapping("send.ml")
+	public String sendMail(Mail m, HttpServletRequest request, Model model,
+			@RequestParam(name = "uploadFile", required = false) MultipartFile file) {
+
+		System.out.println(m);
+		//System.out.println(file.getOriginalFilename());
+
+//		// 전달될 파일이 없으면 빈 문자열로 넘어올 거고 아니면 파일이 있는것
+//		if (!file.getOriginalFilename().equals("")) {
+//			// 아래서 리턴해준 changeName 변수로 담음
+//			String changeName = saveFile(file, request);
+//
+//			if (changeName != null) { // null이아닐떄 -> 에러없이 잘 업로드 되었을떄
+//				// 잘 넣어주자
+//				b.setOriginName(file.getOriginalFilename());
+//				b.setChangeName(changeName);
+//			}
+//		}
+
+//		mailService.sendMail(m); // 메일 vo넘기기
+		return "redirect:mailbox.ml";// 등록하면 리스트 화면으로 다시보이게
+
 	}
-	
-	
+
+
 	// 메일 읽기
 	@RequestMapping("read.ml")
 	public String readMail() {
