@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="workShareMapper">
+
+	<!-- WorkShare -->
+    <resultMap id="workShareResultSet" type="WorkShare">
+       <id property="ws_no" column="WS_NO"/>
+       <result property="ws_empno" column="WS_EMP_NO"/>
+       <result property="ws_recv" column="WS_RECV"/>
+       <result property="ws_ref" column="WS_REF"/>
+       <result property="ws_sref" column="WS_SREF"/>
+       <result property="ws_title" column="WS_TITLE"/>
+       <result property="ws_content" column="WS_CONTENT"/>
+       <result property="createDate" column="WS_CREATEDATE"/>
+       <result property="editDate" column="WS_EDITDATE"/>
+       <result property="ws_status" column="WS_STATUS"/>
+       <result property="ws_recv_status" column="WS_RECV_STATUS"/>
+       <result property="ws_reply" column="WS_REPLY"/>
+       <result property="ws_favb" column="WS_FAVB"/>
+    </resultMap>
+	
+	<!-- WSAttachment -->
+	<resultMap id="wsAttachmentResultSet" type="WSAttachment">
+		<id column="wsa_no" property="WSA_NO"/>
+		<result column="wsa_empNo" property="WSA_EMP_NO"/>
+		<result column="wsa_wsNo" property="WSA_WS_NO"/>
+		<result column="wsa_origin" property="WSA_ORIGIN"/>
+		<result column="wsa_change" property="WSA_CHANGE"/>
+		<result column="wsa_size" property="WSA_FILE_SIZE"/>
+		<result column="wsa_status" property="WSA_STATUS"/>
+	</resultMap>
+	
+	<!-- 업무공유 생성 -->
+	<insert id="insertWorkShare" parameterType="WorkShare">
+		INSERT INTO WORKSHARE
+		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, SYSDATE, '', 'Y', 'N', #{ws_recv}, #{ws_recv}, 'N')
+	</insert>
+
+	<!-- 업무공유 첨부파일 생성 -->
+	<insert id="insertWSAttach" parameterType="WSAttachment">
+		INSERT INTO WORKSHARE_ATTACHMENT
+		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, SEQ_WS.CURRVAL, #{wsa_origin}, #{wsa_change}, #{wsa_size}, 'Y')
+	</insert>
+
+</mapper>

@@ -65,8 +65,8 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="로그인 유저 이름  + 직급" style="border: none;" readonly>
-												<input type="hidden" name="loginEmpId" value="2021000001">
+												<input type="text" name="loginEmpId" value="김다혜 팀장님" style="border: none;" readonly>
+												<input type="hidden" name="ws_empno" value="202100003">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">
@@ -74,12 +74,13 @@
 													<c:set var="now" value="<%=new java.util.Date()%>" />
 													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
 													<c:out value="${sysdate}" />
+													<input type="hidden" name="createDate" value="${sysdate}" />
 												 </td>
 											</tr>
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
-												<input type="text" class="form-control form-control-sm">
+												<input type="text" name="ws_content" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
@@ -87,6 +88,7 @@
 												<td colspan="3">
 												&nbsp;&nbsp;
 												<div class="float-right">
+													<input type="text" name="ws_recv">
 													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
 													&nbsp;&nbsp;
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
@@ -97,9 +99,10 @@
 												<th>참조</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
+												<input type="text" name="ws_ref">
 												</td>
 											</tr>
-											<tr>
+<!-- 											<tr>
 												<th>수정권한</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
@@ -109,14 +112,14 @@
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
 												</div>
 												</td>
-											</tr>
+											</tr> -->
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
 													<span class="badge badge-info" id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="workShareAttach" id="workShareAttach">
+									                    <input multiple="multiple" type="file" name="workShareAttach" id="workShareAttach">
 									                  </div> 
 												</td>
 											</tr>

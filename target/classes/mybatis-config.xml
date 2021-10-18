@@ -9,12 +9,15 @@
 	<typeAliases>
 		<typeAlias type="com.helloworks.spring.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.helloworks.spring.workshare.model.vo.WorkShare" alias="WorkShare"/>
+		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSAttachment" alias="WSAttachment"/>
 	</typeAliases>
 
 
 	<mappers>
 		<mapper resource="/mappers/notice-mapper.xml"/>
 		<mapper resource="/mappers/employee-mapper.xml"/>
+		<mapper resource="/mappers/workShare-mapper.xml"/>
 	</mappers>
 
 
