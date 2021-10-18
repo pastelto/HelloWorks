@@ -10,8 +10,7 @@
 
 <!-- summernote -->
 <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
-<!-- datepicker -->
-<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+
 <style>	
 	 td, span, input{
 		font-weight:normal;!important;
@@ -44,7 +43,7 @@
 				</div>
 			</section>
 			<section class="content">
-			<form id="normalApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
+			<form id="expenditureApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -184,7 +183,7 @@
 											</tr>										
 										</tbody>
 									</table>							
-									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >
+									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >									
 										<tr>
 											<td>
 												<table class="table table-bordered" id="detail_table">
@@ -278,6 +277,7 @@
 															</select>
 														</td>
 													</tr>
+													
 													<tr>
 														<th colspan="1">
 															<span>선택</span>
@@ -310,16 +310,16 @@
 														<th colspan="1">
 															<span>비고</span>
 														</th>														
-													</tr>
-													<tr>
+													</tr>										
+													<tr name="exRow">
 														<td colspan='1'>
-															<input type="checkbox"  id="exCheck">
+															<!--  <input type="checkbox"  id="exCheck1">-->
 														</td>
 														<td colspan="1">															
-															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate" style="font-size:0.8rem">
+															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDetailList[0].exDate" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<select name="exContent" class="form-control" id='exContent_select'style="font-size:0.8rem">
+															<select name="exDetailList[0].exContent" class="form-control" id='exContent_select1'style="font-size:0.8rem">
 																<option value="none"> 선택  </option>
 																<option value="교통비"> 교통비 </option>
 																<option value="복리후생"> 복리후생 </option>
@@ -330,13 +330,13 @@
 															</select>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="price" name="price" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem"/>
 														</td>
 														<th colspan="2">
-															<input type="text" class="form-control" id="accountName" name="accountName" class="form-control" style="font-size:0.8rem">											
+															<input type="text" class="form-control" id="accountName1" name="exDetailList[0].accName" class="form-control" style="font-size:0.8rem">											
 														</th>
 														<td colspan="1">
-															<select name="exBank" class="form-control" id='exBank' style="font-size:0.8rem">
+															<select name="exDetailList[0].bankName" class="form-control" id='exBank1' style="font-size:0.8rem">
 																<option value="none"> 은행선택  </option>
 																<option value="경남"> 경남 </option>
 																<option value="광주"> 광주 </option>
@@ -368,28 +368,28 @@
 															</select>
 														</td>
 														<td colspan="2">
-															<input type="text" class="form-control" id="accountNum" name="accountNum" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="accountNum1" name="exDetailList[0].accNum" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="accHolder" name="accHolder" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="accHolder1" name="exDetailList[0].accHolder" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="exDept" name="exDept" style="font-size:0.8rem" onclick="searchDept();"/>
+															<input type="text" class="form-control" id="exDept1" name="exDetailList[0].exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="exNote" name="exNote" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="exNote1" name="exDetailList[0].note" style="font-size:0.8rem">
 														</td>					
 													</tr>
 													<tr>
 														<th colspann="1">
 															<span>합계</span>
 														</th>
-														<td colspan="5">
-															<!-- 금액합계 -->
+														<td colspan="5" id="sumTd">
+															<input type="text" id="sumTd" class="form-control"/>
 														</td>
 														<td colspan="6" align="right">
-															<button type="button" class="btn btn-default" id="plusEx" style="font-size:0.8rem">지출항목 추가 </button>&nbsp;
-															<button type="button" class="btn btn-default" id="minusEx" style="font-size:0.8rem">지출항목 삭제</button>
+															<button type="button" class="btn btn-default" id="plusEx1" style="font-size:0.8rem" onclick="plusExrow();">지출항목 추가 </button>&nbsp;
+															<button type="button" class="btn btn-default" id="minusEx1" style="font-size:0.8rem" onclick="minusExrow();">지출항목 삭제</button>
 														</td>
 													</tr>													
 													<tr>
@@ -401,8 +401,8 @@
 															</select>
 														</td>
 														<td colspan="1" >
-															<button type="button" class="btn btn-default" id="plusFile" style="font-size:0.8rem">문서 추가 </button> <!-- 문서검색 연결 -->
-															<button type="button" class="btn btn-default" id="minusFiLE" style="font-size:0.8rem">문서 삭제</button>
+															<button type="button" class="btn btn-default" id="plusFile1" style="font-size:0.8rem">문서 추가 </button> <!-- 문서검색 연결 -->
+															<button type="button" class="btn btn-default" id="minusFiLE1" style="font-size:0.8rem">문서 삭제</button>
 														</td>
 													</tr>								
 													<tr>
@@ -421,7 +421,7 @@
 													<tr>
 														<td colspan="12">
 															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<input type="file" id="file_up" style="display:none" multiple="multiple">
 														</td>
 													</tr>
 													<tr>
@@ -489,13 +489,14 @@
 		$(function(){
 			
 			$("#remitt_select").attr("style", "display:none")
-			$("#accountNum").attr("disabled",true);
+			$('input[name$="accNum"]').attr("disabled",true);
+			
 			
 			$('#corpor_radio').click(function(){				
 				$("#corpor_select").css("display",'')
 				$("#temp_hidden").attr("display",'')
 				$("#remitt_select").attr("style", "display:none")
-				$("#accountNum").attr("disabled",true);
+				$('input[name$="accNum"]').attr("disabled",true);
 				
 			});
 			
@@ -503,7 +504,7 @@
 				$("#remitt_select").css("display",'')
 				$("#temp_hidden").css("display",'')
 				$("#corpor_select").attr("style", "display:none")
-				$("#accountNum").attr("disabled",false);
+				$('input[name$="accNum"]').attr("disabled",false);
 							
 			});
 						
@@ -513,18 +514,142 @@
 			
 			$('#commonEx_check').click(function(){
 					if(this.checked){
-						$("#accHolder").attr('disabled',true);
+						$("input[id^='exDept']").attr('disabled',true);
 					}else {
-						$("#accHolder").attr('disabled', false);
+						$("input[id^='exDept']").attr('disabled', false);
 					}
 			});
 		});
 	</script>
 	
 	<!-- 부서검색 팝업창 -->		
-	<script language="javascript">
-		function searchDept(){window.open("searchDeptForm.ea", "부서 검색", "width=450, height=600, left=100, top=50");}
+	<script language="javascript">		
+		function searchDept(click_id){	
+			console.log(click_id);	
+			var windowObj = window.open("searchDeptForm.ea?val="+click_id, "부서 검색", "width=450, height=600, left=100, top=50");			
+		}
+	</script>	
+	
+	
+	<!-- 지출항목 추가  -->
+	<script>
+		var n = 1;
 		
-	</script>		
+		function plusExrow(){
+				n+=1			
+				var addRow = 
+					'<tr ' + 'name=exRow>'+
+						"<td colspan='1'>" +
+							'<input type="checkbox"  id="exCheck'+n+'">'+
+						"</td>"+
+						'<td colspan="1">'+													
+							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDetailList['+n+'].exDate" style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<select name="exDetailList['+n+'].exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
+								'<option value="none"> 선택  </option>'+
+								'<option value="교통비"> 교통비 </option>'+
+								'<option value="복리후생"> 복리후생 </option>'+
+								'<option value="사무비품"> 사무비품 </option>'+
+								'<option value="소모품비"> 소모품비 </option>'+															
+								'<option value="지급수수료"> 지급수수료 </option>'+
+								'<option value="출장비"> 출장비 </option>'+
+							'</select>'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="price'+n+'" name="exDetailList['+n+'].price" style="font-size:0.8rem">'+
+						'</td>'+
+						'<th colspan="2">'+
+							'<input type="text" class="form-control" id="accountName'+n+'" name="exDetailList['+n+'].accName"class="form-control" style="font-size:0.8rem">'+									
+						'</th>'+
+						'<td colspan="1">'+
+							'<select name="exDetailList['+n+'].bankName" class="form-control" id="exBank'+n+'" style="font-size:0.8rem">'+
+								'<option value="none"> 은행선택  </option>'+
+								'<option value="경남"> 경남 </option>'+
+								'<option value="광주"> 광주 </option>'+
+								'<option value="국민"> 국민 </option>'+
+								'<option value="기업은행"> 기업은행 </option>'+																
+								'<option value="농협중앙"> 농협중앙 </option>'+
+								'<option value="대구"> 대구 </option>'+
+								'<option value="부산"> 부산 </option>'+
+								'<option value="산업"> 산업 </option>'+
+								'<option value="상호저축"> 상호저축 </option>'+
+								'<option value="새마을금고"> 새마을금고 </option>'+
+								'<option value="수출입"> 수출입 </option>'+
+								'<option value="수협"> 수협 </option>'+
+								'<option value="신한"> 신한 </option>'+
+								'<option value="신협"> 신협 </option>'+
+								'<option value="외환"> 외환 </option>'+
+								'<option value="우리"> 우리 </option>'+
+								'<option value="우체국"> 우체국 </option>'+
+								'<option value="전북"> 전북 </option>'+
+								'<option value="제주"> 제주 </option>'+
+								'<option value="지역농협"> 지역농협 </option>'+
+								'<option value="축협"> 축협 </option>'+
+								'<option value="카카오뱅크"> 카카오뱅크 </option>'+
+								'<option value="케이뱅크"> 케이뱅크 </option>'+
+								'<option value="하나"> 하나 </option>'+
+								'<option value="한국"> 한국 </option>'+
+								'<option value="한국씨티"> 한국씨티 </option>'+
+								'<option value="SC제일"> SC제일 </option>'+
+							'</select>'+
+						'</td>'+
+						'<td colspan="2">'+
+							'<input type="text" class="form-control" id="accountNum'+n+'" name="exDetailList['+n+'].accNum" style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="accHolder'+n+'" name="exDetailList['+n+'].accHolder" style="font-size:0.8rem">'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="exDept'+n+'" name="exDetailList['+n+'].exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>'+
+						'</td>'+
+						'<td colspan="1">'+
+							'<input type="text" class="form-control" id="exNote'+n+'" name="exDetailList['+n+'].note" style="font-size:0.8rem">'+
+						'</td>'+			
+					'</tr>'	;	
+					
+				var trHtml = $("tr[name='exRow']:last");
+				trHtml.after(addRow);
+				
+				if($("input[id='corpor_radio']:checked").length > 0) {
+					$('input[name$="accNum"]').attr("disabled",true);
+				}
+				
+				if($("input[id='commonEx_check']:checked").length > 0) {
+					$("input[name$='exDept']").attr('disabled',true);
+				}				
+		};
+	</script>
+	
+	<!-- 지출항목 삭제 -->
+	<script>
+		function minusExrow(){
+			
+			//var tableRow = $('#detail_table').length;
+			
+			/* for(var row=1; row <tableRow; row++){	
+				if($("input[id^='exCheck']:checked").length > 0){
+					$(this).parent().remove();
+				}
+			} */
+			
+			$("input[id^='exCheck']:checked").parent().parent().remove();
+		};	
+	</script>
+	
+	<!-- 금액 합계  -->	
+	<script type="text/javascript">
+	$(function(){			
+		var sum = 0;		
+		$("input[id^='price']").each(function(){
+			if(!isNaN(this.value)&&this.value.length!=0){
+				console.log($(this).val())
+				sum += parseInt($(this).val());
+				$("#sumTd").val(sum);
+			}
+		});				
+		
+	});
+	</script>
 </body>
 </html>
