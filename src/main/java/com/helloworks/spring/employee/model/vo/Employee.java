@@ -30,5 +30,5 @@ public class Employee {
 	private Date empFire;			//퇴사일
 	private String empNote;		//비고
 	private String empStatus;		//재직여부
-	
+
 }

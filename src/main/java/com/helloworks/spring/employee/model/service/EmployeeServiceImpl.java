@@ -26,5 +26,4 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return loginUser;
 	}
-	
 }

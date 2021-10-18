@@ -14,4 +14,5 @@
 		</aop:config>
 		
 		<aop:aspectj-autoproxy/>
+		
 </beans>

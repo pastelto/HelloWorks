@@ -6,5 +6,4 @@ public interface EmployeeService {
 
 	Employee loginMember(Employee m) throws Exception;
 
-	
 }

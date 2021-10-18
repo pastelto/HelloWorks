@@ -10,6 +10,5 @@ public class EmployeeDao {
 	
 	public Employee loginMember(SqlSessionTemplate sqlSession, Employee m) {
 		return sqlSession.selectOne("employeeMapper.loginEmployee", m);
-}
-	
+	}
 }
