@@ -55,7 +55,7 @@
       
       <!-- 전사공지 아이콘 -->
       <li class="nav-item">
-        <a class="nav-link" href="noticeListView.nt">
+        <a class="nav-link" href="list.nt">
 	        	<!-- 알림 
 	          <i class="far fa-bell"></i>
 	          <span class="badge badge-warning navbar-badge">15</span>
@@ -67,14 +67,14 @@
       <!-- 예약현황 -->
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+          <i class="fas fa-clipboard-list"></i>
         </a>
       </li>
       
       <!-- 일정관리 -->
       <li class="nav-item">
         <a class="nav-link" href="schMain.sc" role="button">
-          <i class="far fa-calendar-check"></i>
+			<i class="far fa-calendar-check"></i>
         </a>
       </li>
       
@@ -107,7 +107,7 @@
       <!-- 로그아웃 -->
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+          <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>
     </ul>
@@ -147,17 +147,36 @@
 		  <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
-              <p>
-                	메일
-                <i class="fas fa-angle-left right"></i>
+              <p>메일
+              	<i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
-                  <p>Top Navigation</p>
+                <a href="compose.ml" class="nav-link">
+                  <p>메일쓰기</p>
                 </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>받은 메일함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>보낸 메일함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>임시 보관함</p>
+                </a>
+              <li class="nav-item">
+                <a href="mailbox.ml" class="nav-link">
+                  <p>휴지통</p>
+                </a>
+              </li>
               </li>
             </ul>
           </li>
@@ -179,8 +198,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <p>Flot</p>
+                <a href="expenditureApprovalForm.ea" class="nav-link">
+                  <p>지출결재</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -194,7 +213,7 @@
           <!-- 업무공유 -->
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
+            <i class="nav-icon fas fa-link"></i>
               <p>
               	 업무공유
                 <i class="fas fa-angle-left right"></i>
@@ -202,7 +221,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="nCheckedWS.ws" class="nav-link">
+                <a href="unCheckedListWS.ws" class="nav-link">
                   <p>미확인 업무</p>
                 </a>
               </li>

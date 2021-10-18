@@ -17,7 +17,7 @@
 		background-color: #DAE1E7;
 		width: 15%;
 		text-align: center !important;
-	}
+	} 
 	.content-wrapper{
 		overflow:auto;
 	}
@@ -35,7 +35,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 일일보고 작성</b>
+							<i class="nav-icon fas fa-link"></i><b> 업무공유 작성</b>
 						</h4>
 					</div>
 				</div>
@@ -50,11 +50,11 @@
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>일일보고</b>
+								<b>업무공유</b>
 							</h6>
 						</div>
 
-						<form id="enrollForm" method="post" action="insertDailyReport.dr" enctype="multipart/form-data">
+						<form id="insertWorkShare" method="post" action="inserWorkShare.ws" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -65,7 +65,7 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												로그인 유저 이름 들어갈 예정
+												<input type="text" name="loginEmpId" value="로그인 유저 이름  + 직급" style="border: none;" readonly>
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">
@@ -76,14 +76,9 @@
 												 </td>
 											</tr>
 											<tr>
-												<th>보고유형</th>
+												<th>업무요약</th>
 												<td colspan="3">
-													&nbsp;
-													<input type="radio" value="daily" name="reportType" checked> 일일보고
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="weekly" name="reportType"> 주간보고
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="monthly" name="reportType"> 월간보고
+												<input type="text" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
@@ -104,18 +99,23 @@
 												</td>
 											</tr>
 											<tr>
-												<th>제목</th>
+												<th>수정권한</th>
 												<td colspan="3">
-												<input type="text" class="form-control form-control-sm">
+												&nbsp;&nbsp;
+												<div class="float-right">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+													&nbsp;&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
-													<span class="badge badge-info" id="reportAttachName"></span>
+													<span class="badge badge-info" id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="reportAttach" id="reportAttach">
+									                    <input type="file" name="workShareAttach" id="workShareAttach">
 									                  </div> 
 												</td>
 											</tr>
@@ -138,7 +138,7 @@
 									&nbsp;
 									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
 									&nbsp;
-									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -164,10 +164,22 @@
 	
 	<!-- 첨부파일 라벨 이름 추가 -->
 	<script>
-		$("#reportAttach").on("change", function() {
-			var filename = $(this)[0].files[0].name;
-			$('#reportAttachName').text(filename);
+		$("#workShareAttach").on("change", function() {
+			var filename = $(this)[0].files[0].name + " ";
+			// 어떻게 하나씩 분리??
+			$('#workShareAttachName').append(filename);
 		});
+	</script>
+	
+	<!-- 버튼 이동 -->
+	<script>
+	// 임시저장 버튼 클릭시 저장
+	$(function(){
+		$("#tempSaveBtn").onClick(){
+			
+		}
+	});
+		
 	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
