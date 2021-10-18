@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,9 +40,11 @@
 						<h3 class="card-title">부서 선택</h3>
 					</div>
 					<div class="card-body">
+					<form>
 						<ul id="deptMenu">
 							<li>
 								<a href="#submenu" class="open">HelloWorks</a>
+								<!--  <input type="text" id="hidden_parent" name="hidden_parent" class="hidden" />-->
 								<ul id="submenu">
 									<li>
 										<a href="manage" class="open" onclick="selectDept('경영지원본부')">경영지원본부</a>
@@ -69,6 +72,7 @@
 								</ul>
 							</li>
 						</ul>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -79,9 +83,14 @@
 
 <!-- 부서검색 연결 -->
 <script>
+
 	function selectDept(dept){
-		$(opener.document).find("#exDept").val(dept);
-		window.close();
+		
+		var val = $("hidden_parent").val();
+		console.log(val); 
+		
+		$(opener.document).find(val).val(dept);
+		//window.close();
 	}
 	
 </script>
