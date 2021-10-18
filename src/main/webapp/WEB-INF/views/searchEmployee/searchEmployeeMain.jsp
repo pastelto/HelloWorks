@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +112,7 @@
 												<td>
 												<div class="row" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm">전체검색</button>
+														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="searchAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
 														<select name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
 															<option value="deptType">부서</option>
@@ -123,9 +124,7 @@
 														<div class="col-4">
 															<form action="#">
 																<div class="input-group">
-																	<input type="search"
-																		class="form-control form-control-sm"
-																		placeholder="검색어를 입력하세요.">
+																	<input type="search" class="form-control form-control-sm" placeholder="검색어를 입력하세요.">
 																	<div class="input-group-append">
 																		<button type="submit" class="btn btn-sm btn-default">
 																			<i class="fa fa-search"></i>
@@ -153,41 +152,41 @@
 											<div id="accordion">
 												<div class="card">
 													<div class="card-header">
-														<a class="card-link" data-toggle="collapse" href="#collapseOne">경영지원본부 </a>
+														<a class="card-link" data-toggle="collapse" href="#collapseOne" onclick="selectDept('경영지원본부')">경영지원본부 </a>
 													</div>
 													<div id="collapseOne" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li>인사팀</li>
-																<li>총무팀</li>
-																<li>재무회계팀</li>
+																<li><a href="#" onclick="selectDept('인사팀')">인사팀</a></li>
+																<li><a href="#" onclick="selectDept('재무회계팀')">재무회계팀</a></li>
+																<li><a href="#" onclick="selectDept('총무팀')">총무팀</a></li>
 															</ul>
 														</div>
 													</div>
 												</div>
 												<div class="card">
 													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">영업지원본부 </a>
+														<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" onclick="selectDept('영업지원본부')">영업지원본부 </a>
 													</div>
 													<div id="collapseTwo" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li>영업팀</li>
-																<li>운영지원팀</li>
+																<li><a href="#" onclick="selectDept('영업팀')">영업팀</a></li>
+																<li><a href="#" onclick="selectDept('운영지원팀')">운영지원팀</a></li>
 															</ul>
 														</div>
 													</div>
 												</div>
 												<div class="card">
 													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">사업본부 </a>
+														<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" onclick="selectDept('사업본부')">사업본부 </a>
 													</div>
 													<div id="collapseThree" class="collapse" data-parent="#accordion">
 														<div class="card-body">
 															<ul>
-																<li>마케팅팀</li>
-																<li>디자인팀</li>
-																<li>IT개발팀</li>
+																<li><a href="#" onclick="selectDept('디자인팀')">디자인팀</a></li>
+																<li><a href="#" onclick="selectDept('마케팅킴')">마케팅킴</a></li>
+																<li><a href="#" onclick="selectDept('IT개발팀')">IT개발팀</a></li>
 															</ul>
 														</div>
 													</div>
@@ -215,6 +214,7 @@
 										</thead>
 										<tbody>
 										<!-- for문 돌리기 -->
+										<%--  
 										<% for(int i=0;i<10;i++){ %>
 											<tr>
 												<td style="width: 5%"><input type="checkbox"></td>
@@ -230,6 +230,23 @@
 												</td>
 											</tr>
 										<%} %>
+										 --%>
+										 <c:forEach items="${ list }" var="list">
+										 	<tr>
+										 		<td style="width: 5%"><input type="checkbox"></td>
+										 		<td style="width: 10%">${ list.empNo }</td>
+										 		<td style="width: 10%">${ list.empName }</td>
+												<td style="width: 10%">${ list.empJob }</td>
+												<td style="width: 10%">${ list.empDept }</td>
+												<td style="width: 15%">${ list.empPhone }</td>
+												<td style="width: 25%">${ list.empEmail }</td>
+												<td style="width: 15%">
+												<td style="width: 15%">
+													<button id="sendMail" type="button" class="btn btn-default btn-xs">메일발송</button>
+													<button id="workShare" type="button" class="btn btn-default btn-xs">업무공유</button>
+												</td>
+										 	</tr>
+										 </c:forEach>
 										</tbody>
 									</table>
 								</div>
@@ -252,8 +269,8 @@
 		</section>
 	</div>
 
+	<!-- 직원 이름 키워드 검색 -->
 	<script>
-	
 	$(function(){
 		$("#searchCategory>tbody>tr>th").click(function(){
 			var catTitle = $(this).text();
@@ -262,8 +279,31 @@
 			
 		})
 	}) 
+	</script>
+	
+	<!-- 전체 검색 버튼 -->
+	<script>
+		function searchAllEmployee(){
+			$.ajax({
+				url: "searchAllEmployee.or",
+				type: "post",
+				success:function(result){
+					$.each(result, function(i, list){
+						console.log(list[i].empNo);
+					})
+				}
+					
+				}
+			})
+		}
+	</script>
 	
 	
+	<!-- 부서검색 연결 -->
+	<script>
+		function selectDept(dept){
+			alert(dept);
+		}
 		
 	</script>
 </body>
