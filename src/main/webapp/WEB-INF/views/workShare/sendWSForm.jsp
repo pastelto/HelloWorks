@@ -54,7 +54,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWorkShare" method="post" action="inserWorkShare.ws" enctype="multipart/form-data">
+						<form id="insertWorkShare" method="post" action="insertSendWS.ws" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -66,6 +66,7 @@
 												<td style="width: 35%;">
 												&nbsp;
 												<input type="text" name="loginEmpId" value="로그인 유저 이름  + 직급" style="border: none;" readonly>
+												<input type="hidden" name="loginEmpId" value="2021000001">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">

@@ -48,9 +48,10 @@ public class WorkShareController {
 	}
 	
 	// 업무공유 작성 저장
-	@RequestMapping("sendWS.ws")
+	@RequestMapping("insertSendWS.ws")
 	public String sendWorkShare() {
 		System.out.println("업무공유 작성 저장중");
+		
 		
 
 		
