@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.kh.spring.member.model.vo.Member;
+import com.helloworks.spring.employee.model.vo.Employee;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	
@@ -23,11 +23,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 		HttpSession session = request.getSession();
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		Employee loginUser = (Employee)session.getAttribute("loginUser");
 		
 		if(loginUser != null) {
 			InetAddress local = InetAddress.getLocalHost();
-			logger.info(loginUser.getUserId() + "  " + local.getHostAddress());
+			logger.info(loginUser.getEmpNo() + "  " + local.getHostAddress());
 		}
 		
 		super.postHandle(request, response, handler, modelAndView);

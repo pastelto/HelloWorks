@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,16 +19,17 @@
             margin-top: 15px;
         }
         #userId{
-            width: 15%;
+            
         }
         #userPwd{
-            width: 15%;
+           
         }
     </style>
 </head>
 <body>
     <div class="center">
-        <img src="" alt="login logo"  style="width: 25%; height: 25%;">
+    	<!-- logoImage -->
+        <img src="resources/common/loginLogo.png" alt="login logo"  style="width: 22%; height: 22%;">
       	
         <form action="login.me" method="post">
 	        <div class="login">
@@ -44,6 +46,5 @@
 	        </div>
         </form>
     </div>
-	
 </body>
 </html>

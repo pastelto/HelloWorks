@@ -2,23 +2,28 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="memberMapper">
+<mapper namespace="employeeMapper">
 
-	<resultMap id="memberResultSet" type="Member">
-		<id property="userId" column="user_ID"/>
-		<result property="userPwd" column="user_PWD"/>
-		<result property="userName" column="user_NAME"/>
-		<result property="email" column="EMAIL"/>
-		<result property="gender" column="GENDER"/>
-		<result property="age" column="AGE"/>
-		<result property="phone" column="PHONE"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="enrollDate" column="ENROLL_DATE"/>
-		<result property="modifyDate" column="modify_DATE"/>
-		<result property="status" column="STATUS"/>
+	<resultMap id="employeeResultSet" type="Employee">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="empPwd" column="EMP_PWD"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empEn" column="EMP_EN"/>
+		<result property="empPid" column="EMP_PID"/>
+		<result property="empEmail" column="EMP_EMAIL"/>
+		<result property="empPhone" column="EMP_PHONE"/>
+		<result property="empEphone" column="EMP_EPHONE"/>
+		<result property="empAddress" column="EMP_ADDRESS"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="empSalary" column="EMP_SALARY"/>
+		<result property="empHire" column="EMP_HIRE"/>
+		<result property="empFire" column="EMP_FIRE"/>
+		<result property="empNote" column="EMP_NOTE"/>
+		<result property="empStatus" column="EMP_STATUS"/>
 	</resultMap>
 
-	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
+	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
 		<!-- 암호화 전 
 		select * from member
 		where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'

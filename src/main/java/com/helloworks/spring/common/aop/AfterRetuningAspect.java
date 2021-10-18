@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.helloworks.spring.member.model.vo.Member;
+import com.helloworks.spring.employee.model.vo.Employee;
 
 @Aspect
 @Component
@@ -18,12 +18,12 @@ public class AfterRetuningAspect {
 	@AfterReturning(pointcut="execution(* com.helloworks.spring..*ServiceImpl.login*(..))", returning = "returnObj") // ~.login*(..) : pointcut을 로그인으로 시작하는 모든 메소드에 걸어줌
 	public void loggerAdvice(JoinPoint joinpoint, Object returnObj) {
 		
-		if(returnObj instanceof Member) {
-			Member m = (Member)returnObj;
-				if(m.getUserId().equals("admin")) {
+		if(returnObj instanceof Employee) {
+			Employee m = (Employee)returnObj;
+				if(m.getEmpNo()== 202100001) {
 					logger.info("[log] : CEO님 환영합니다.");
 				} else {
-					logger.info("[log] : " + m.getUserId() + "로그인 성공 ~!!");
+					logger.info("[log] : " + m.getEmpNo() + "로그인 성공 ~!!");
 				}
 		}
 	}
