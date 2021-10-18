@@ -22,18 +22,24 @@ public class EmployeeController {
 	
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(@ModelAttribute Employee m , HttpSession session) {
-
+				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
-			System.out.println(loginUser);
+			System.out.println("loginUser :  " + loginUser);
 			session.setAttribute("loginUser", loginUser);
-			return  "common/menubar"; 
+			return  "main/main"; 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return  "common/errorPage";
 		}
+	}
+	
+	@RequestMapping("main.mi")
+	public String main() {
+		System.out.println("@@@@@@@홈 화면으로 이동");
+		return "main/main";
 	}
 
 
