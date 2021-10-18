@@ -44,10 +44,9 @@
 						<ul id="deptMenu">
 							<li>
 								<a href="#submenu" class="open">HelloWorks</a>
-								<!--  <input type="text" id="hidden_parent" name="hidden_parent" class="hidden" />-->
 								<ul id="submenu">
 									<li>
-										<a href="manage" class="open" onclick="selectDept('경영지원본부')">경영지원본부</a>
+										<a href="#manage" class="open" onclick="selectDept('경영지원본부')">경영지원본부</a>
 										<ul id="manage">
 											<li><a href="#" onclick="selectDept('인사팀')">인사팀</a></li>
 											<li><a href="#" onclick="selectDept('재무회계팀')">재무회계팀</a></li>
@@ -55,14 +54,14 @@
 										</ul>
 									</li>
 									<li>
-										<a href="sales" class="open" onclick="selectDept('영업지원본부')">영업지원본부</a>
+										<a href="#sales" class="open" onclick="selectDept('영업지원본부')">영업지원본부</a>
 										<ul id="sales">
 											<li><a href="#" onclick="selectDept('영업팀')">영업팀</a></li>
 											<li><a href="#" onclick="selectDept('운영지원팀')">운영지원팀</a></li>
 										</ul>
 									</li>
 									<li>
-										<a href="business" class="open" onclick="selectDept('사업본부')">사업본부</a>
+										<a href="#business" class="open" onclick="selectDept('사업본부')">사업본부</a>
 										<ul id="business">
 											<li><a href="#" onclick="selectDept('디자인팀')">디자인팀</a></li>
 											<li><a href="#" onclick="selectDept('마케팅킴')">마케팅킴</a></li>
@@ -83,14 +82,44 @@
 
 <!-- 부서검색 연결 -->
 <script>
+	var paId;
+	
+	function _GET(search) {
+		var obj = {};
+		var uri = decodeURI(search);
+			uri = uri.slice(1,uri.length);
+			
+		var param = uri.split('&');
+		
+		for(var i=0; i<param.length; i++){		
+			var devide = param[i].split('=');
+			obj[devide[0]] = devide[1];
+		}
+		
+		return obj;
+	}
+	
+	window.onload = function(){
+		
+		var search = window.location.search;
+		var getData = _GET(search);
+		paId = getData.val;
+		
+		console.log(paId)
+	}
+
 
 	function selectDept(dept){
 		
-		var val = $("hidden_parent").val();
-		console.log(val); 
+		/* var val = $("hidden_parent").val();
+		console.log(val);  */
 		
-		$(opener.document).find(val).val(dept);
-		//window.close();
+		console.log(dept)
+		console.log(paId)
+		
+		window.opener.document.getElementById(paId).value = dept;
+		//$(opener.document).find('"' + paId + '"').val(dept);
+		window.close();
 	}
 	
 </script>

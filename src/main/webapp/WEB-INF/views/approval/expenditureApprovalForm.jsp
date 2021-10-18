@@ -43,7 +43,7 @@
 				</div>
 			</section>
 			<section class="content">
-			<form id="normalApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
+			<form id="expenditureApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -330,7 +330,7 @@
 															</select>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem"/>
 														</td>
 														<th colspan="2">
 															<input type="text" class="form-control" id="accountName1" name="exDetailList[0].accName" class="form-control" style="font-size:0.8rem">											
@@ -384,8 +384,8 @@
 														<th colspann="1">
 															<span>합계</span>
 														</th>
-														<td colspan="5">
-															<!-- 금액합계 -->
+														<td colspan="5" id="sumTd">
+															<input type="text" id="sumTd" class="form-control"/>
 														</td>
 														<td colspan="6" align="right">
 															<button type="button" class="btn btn-default" id="plusEx1" style="font-size:0.8rem" onclick="plusExrow();">지출항목 추가 </button>&nbsp;
@@ -421,7 +421,7 @@
 													<tr>
 														<td colspan="12">
 															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<input type="file" id="file_up" style="display:none" multiple="multiple">
 														</td>
 													</tr>
 													<tr>
@@ -523,17 +523,10 @@
 	</script>
 	
 	<!-- 부서검색 팝업창 -->		
-	<script language="javascript">
-		
+	<script language="javascript">		
 		function searchDept(click_id){	
 			console.log(click_id);	
-			var	windowObj;
-			var windowObj = window.open("searchDeptForm.ea", "부서 검색", "width=450, height=600, left=100, top=50");
-			$(windowObj.document).find('hidden_parent').val(click_id);
-			//windowObj.document.getElementById("hidden_parent").value = click_id;		
-			
-			
-			
+			var windowObj = window.open("searchDeptForm.ea?val="+click_id, "부서 검색", "width=450, height=600, left=100, top=50");			
 		}
 	</script>	
 	
@@ -645,18 +638,18 @@
 	</script>
 	
 	<!-- 금액 합계 -->	
-	<!-- <script type="text/javascript">
-	
-		var price = $('#price').val();
-		console.log(price);
+	<script type="text/javascript">
+	$(function(){			
+		var sum = 0;		
+		$("input[id^='price']").each(function(){
+			if(!isNaN(this.value)&&this.value.length!=0){
+				console.log($(this).val())
+				sum += parseInt($(this).val());
+				$("#sumTd").val(sum);
+			}
+		});				
 		
-		if(price != null){
-			
-		}
-			
-		$(function(){
-			$('')		
-		});
-	</script> -->
+	});
+	</script>
 </body>
 </html>
