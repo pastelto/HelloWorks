@@ -106,14 +106,18 @@
 				$('#updateForm').each(function(){
 					
 				    $("#updateForm").attr("action", "<%=request.getContextPath()%>/updateNotice.nt");
-					$("#updateForm").submit();    
+					$("#updateForm").submit();  
+					
+					alert("임시저장 게시글이 수정되었습니다")
 				});								
 			}
 			function updateStatus(){
 				$('#updateForm').each(function(){
 					
 				    $("#updateForm").attr("action", "<%=request.getContextPath()%>/updateStatus.nt");
-					$("#updateForm").submit();    
+					$("#updateForm").submit();  
+					
+					alert("공지사항으로 등록되었습니다")
 				});								
 			}
 			

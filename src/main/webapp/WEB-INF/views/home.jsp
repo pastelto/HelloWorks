@@ -33,11 +33,11 @@
       	
         <form action="login.me" method="post">
 	        <div class="login">
-	        	<label for="userId"></label>
-	            <input type="text" id="userId" placeholder="사번" >
+	        	<label for="empNo"></label>
+	            <input type="text" id="empNo" name="empNo" placeholder="사번" >
 	            <br>
-	            <label for="userPwd"></label>
-	            <input type="password" id="userPwd" placeholder="비번">
+	            <label for="empPwd"></label>
+	            <input type="password" id="empPwd" name="empPwd" placeholder="비번">
 	            <br>	       
 	        </div>
 	        <div>
