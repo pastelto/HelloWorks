@@ -42,21 +42,19 @@ public class NoticeController {
 		   System.out.println("noticelist : " + list);
 		   
 		   model.addAttribute("list",list);
-		   model.addAttribute("pi",pi);
-
+		   model.addAttribute("pi",pi);		   
 		   
 		   //임시저장 
 		   int tlistCount = noticeService.selectTListCount();//총 게시글 갯수
 		   System.out.println("tlistCount : " + tlistCount);
 		   
-		   PageInfo piT = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		   PageInfo piT = Pagination.getPageInfo(tlistCount, currentPage, 10, 5);
 		   
 		   ArrayList<Notice> tlist =noticeService.selectTList(piT);//임시저장 리스트
 		   System.out.println("noticeTlist : " + tlist);
 		   
 		   model.addAttribute("tlist",tlist);
 		   model.addAttribute("piT",piT);
-		   
 		   
 	      return "notice/NoticeListView";
 	   }
