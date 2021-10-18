@@ -24,16 +24,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
-		<!-- 암호화 전 
-		select * from member
-		where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'
-		-->
-		<!-- 암호화 후 -->
-		select * from member
-		where user_id=#{userId} and status='Y'
+		<!-- 암호화 전 -->
+		SELECT * FROM EMPLOYEE
+		WHERE EMP_NO=#{empNo} AND EMP_PWD=#{empPwd} AND EMP_STATUS='Y'
+		
+		<!-- 암호화 후
+		select * from EMPLOYEE
+		where EMP_NO=#{empNo} and EMP_STATUS='Y'
+		 -->
 	</select>
 	
-	<!-- 회원가입 -->
+	<!-- 회원가입 
 	<insert id="insertMember" parameterType="Member">
 		insert into member
 		values(#{userId}, #{userPwd}, #{userName}, #{email}, #{gender}, #{age}, #{phone}, #{address}, sysdate, sysdate, default)
@@ -56,6 +57,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set user_pwd = #{userPwd}
 		where user_id = #{userId}
 	</update>
-
+-->
 
 </mapper>
