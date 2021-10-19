@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 업무공유 생성 -->
 	<insert id="insertWorkShare" parameterType="WorkShare">
 		INSERT INTO WORKSHARE
-		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, SYSDATE, '', 'Y', 'N', #{ws_recv}, #{ws_recv}, 'N')
+		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, SYSDATE, '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
 	</insert>
 
 	<!-- 업무공유 첨부파일 생성 -->

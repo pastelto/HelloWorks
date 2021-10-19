@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일일보고</title>
+<title>HelloWorks - 업무공유</title>
 
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
@@ -54,7 +54,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWorkShare" method="post" action="insert.ws" enctype="multipart/form-data">
+						<form id="insertWSForm" action="insert.ws" method="post" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -74,21 +74,20 @@
 													<c:set var="now" value="<%=new java.util.Date()%>" />
 													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
 													<c:out value="${sysdate}" />
-													<input type="hidden" name="createDate" value="${sysdate}" />
 												 </td>
 											</tr>
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
-												<input type="text" name="ws_content" class="form-control form-control-sm">
+												<input type="text" name="ws_title" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
+												<input type="text" name="ws_recv">
 												<div class="float-right">
-													<input type="text" name="ws_recv">
 													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
 													&nbsp;&nbsp;
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
@@ -130,7 +129,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote"></textarea>
+										<textarea id="summernote" name="ws_content"></textarea>
 									</div>
 								</div>
 
@@ -140,7 +139,7 @@
 								<div class="float-right">
 									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="submit" name="ws_status" value="Y" class="btn btn-primary btn-sm">등록</button>
 									&nbsp;
 									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
@@ -183,7 +182,26 @@
 			
 		}
 	});
-		
+	
+	// 업무공유 생성 보내기 버튼 
+<%-- 	$(function(){
+		$("#submitBtn").onClick(){
+			alert("게시글이 등록되었습니다");
+			
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
+			$("#insertWSForm").submit();
+		}
+	}); --%>
+	
+	
+<%-- 	function insertWorkShare(){
+		$('#insertWSForm').each(function(){	
+			alert("게시글이 등록되었습니다");
+			
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
+			$("#insertWSForm").submit();
+		});
+	} --%>
 	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
