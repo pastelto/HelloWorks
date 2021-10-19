@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="approvalMapper">
+
+	<!-- Approval -->
+	<resultMap id="approvalResultSet" type="Approval">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="apClass" column="APPROVAL_CLASS"/>
+		<result property="detailClass" column="DETAIL_CLASS"/>
+		<result property="title" column="TITLE"/>
+		<result property="writer" column="WRITER"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="content" column="AP_CONTENT"/>
+		<result property="cooper" column="COOPERATION"/>
+		<result property="deptShare" column="DEPT_SHARE"/>
+		<result property="progress" column="PROGRESS"/>		
+	</resultMap>
+	
+	<!-- Approval Attachment-->
+	<resultMap id="approvalAtResultSet" type="Approval">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="atNo" column="AT_NO"/>
+		<result property="newName" column="NEW__NAME"/>
+		<result property="originName" column="ORIGIN_NAME"/>	
+	</resultMap>
+	
+	<!-- Approval Line -->
+	<resultMap id="approvalLineResultSet" type="ApprovalLine">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="line1" column="LINE1"/>
+		<result property="line2" column="LINE2"/>
+		<result property="line3" column="LINE3"/>
+		<result property="line4" column="LINE4"/>
+		<result property="confirmStatus" column="CONFIRM_STATUS"/>
+	</resultMap>
+	
+	<!-- Approval CC -->
+	<resultMap id="approvalCCResultSet" type="ApprovalCC">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="ccDept" column="CC_DEPT"/>
+		<result property="ccMember" column="CC_MEMBER"/>
+		<result property="ckCount" column="CHECK_COUNT"/>
+		<result property="ccCount" column="CC_COUNT"/>
+	</resultMap>
+	
+	<!-- Approval Diploma -->
+	<resultMap id="approvalDiplomaResultSet" type="ApprovalDiploma">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="officeAddress" column="ADDRESS"/>
+	</resultMap>
+
+	<!-- Approval Minutes -->
+	<resultMap id="approvalMinutesResultSet" type="ApprovalMinutes">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="title" column="MEETING_TITLE"/>
+		<result property="attendees" column="ATTENDEES"/>
+	</resultMap>
+
+	<!-- Approval Hr -->
+	<resultMap id="approvalHrResultSet" type="ApprovalHr">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="hrClass" column="HR_CLASS"/>
+		<result property="dueDate" column="DUE_DATE"/>
+	</resultMap>
+
+
+	<!-- 기안 insert -->
+	<insert id="insertApproval" parameterType="Approval">
+		INSERT INTO APPROVAL
+		VALUES
+		(SEQ_EA_AP_NO.NEXTVAL, "일반", #{detailClass}, #{title}, writer, SYSDATE, #{deptCode}, #{content}, #{cooper}, #{deptShare}, DEFAULT)
+	</insert>
+	<!-- 공문서 insert -->
+	<insert id="insertDiploma" parameterType="ApprovalDiploma">
+		INSERT INTO APPROVAL_DIPLOMA
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{email}, #{phone}, #{address})
+	</insert>
+	<!-- 회의록 insert -->
+	<insert id="insertMinutes" parameterType="ApprovalMinutes">
+		INSERT INTO APPROVAL_M_MINUTES
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{title}, #{attendees})
+	</insert>
+	<!-- 인사문서 insert -->
+	<insert id="insertHr" parameterType="ApprovalHr">
+		INSERT INTO APPROVAL_HR
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{hrClass}, #{dueDate})
+	</insert>
+	<!-- 결재라인 insert -->
+	<insert id="insertLine" parameterType="ApprovalLine">
+		INSERT INTO APPROVAL_LINE
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{line1}, #{line2}, #{line3}, #{line4}, DEFAULT)
+	</insert>
+	<!-- 첨부파일 insert -->
+	<insert id="insertAttachment" parameterType="Approval">
+		INSERT INTO APPROVAL_ATTACHMENTS
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, SEQ_EA_AT_NO.NEXTVAL, #{newName}, #{originName})
+	</insert>
+	<!-- CC insert -->
+	<insert id="insertCC" parameterType="ApprovalCC">
+	<![CDATA[
+		INSERT INTO APPROVAL_CC
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{ccDept}, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept} OR EMP_NO = #{ccMember}))
+	]]>
+	</insert>
+</mapper>

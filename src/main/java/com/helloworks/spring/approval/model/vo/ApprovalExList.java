@@ -9,6 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class ApprovalExDetailsList {
+public class ApprovalExList {
 	private ArrayList<ApprovalExDetails> exDetailList;
+	
 }
