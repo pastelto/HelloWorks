@@ -108,10 +108,8 @@
 						<div class="tab-pane fade" id="custom-tabs-five-idCard"
 							role="tabpanel" aria-labelledby="custom-tabs-five-idCard-tab">
 							<!-- 사원증신청 -->
-							<div class="card">
 								<!-- 사원증 신청폼 페이지 인클루드-->
 								<jsp:include page="./idCardRequestForm.jsp" />						
-							</div>
 						</div>
 						<div class="tab-pane fade" id="custom-tabs-five-requestList"
 							role="tabpanel"
