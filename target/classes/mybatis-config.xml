@@ -15,6 +15,8 @@
 	<mappers>
 		<mapper resource="/mappers/notice-mapper.xml"/>
 		<mapper resource="/mappers/employee-mapper.xml"/>
+		<!-- <mapper resource="/mappers/officeroom-mapper.xml"/> -->
+		<mapper resource="/mappers/officeroom-mapper.xml"/>
 	</mappers>
 
 
