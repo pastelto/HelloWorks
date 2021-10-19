@@ -44,7 +44,7 @@
 				</div>
 			</section>
 			<section class="content">
-			<form id="normalApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
+			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -141,10 +141,10 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<span id="emp_level0">팀원</span>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<span id="emp_level1">팀장</span>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<span id="emp_level2"></span>
@@ -158,12 +158,12 @@
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<span id="emp_name0">최승철</span>
+																	<input type="hidden" id="writer" name="writer" value="202100011">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<span id="emp_name1">김소원</span>
+																	<input type="hidden" id="line1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name2"></span>
@@ -196,7 +196,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																	<span id="emp_level0">팀장</span>
 																</th>
 																<th class="table emp_level" scop="col">
 																	<span id="emp_level1"></span>
@@ -210,8 +210,8 @@
 															</tr>
 															<tr>
 																<td class="table emp_name"  scop="col">
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																	<span id="emp_name0">김다혜</span>
+																	<input type="hidden" id="cooperator0" name="cooperator0" value="202100003">
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
@@ -247,7 +247,8 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
+															<input type="text" id="ccName" name="ccName" value="경영지원본부"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -273,7 +274,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
+															<input type="text" name="writer" id="writer" class="form-control" value="${loginUser.empName}" readonly/>
 														</td>
 													</tr>
 													<tr>
@@ -281,7 +282,7 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="writer" class="forn-control"> 
+															<input type="text" name="userDept" id="userDept" class="form-control" value="C1" readonly/> 
 														</td>
 													</tr>
 													<tr>
@@ -294,7 +295,8 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" name="deptShare"> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value="'Y'"/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value="'N'"/> 														
 														</td>
 													</tr>
 													<tr>
@@ -473,7 +475,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="8">
-															<input type=text class="form-control" id="ap_title" name="ap_title">
+															<input type=text class="form-control" id="ap_title" name="ap_title"/>
 														</td>
 													</tr>
 													<tr>
@@ -497,7 +499,7 @@
 															<span>e-mail</span>
 														</td>
 														<td colspan="4">
-															<!-- 이메일주소  -->
+															<input type=text class="form-control" id="email" name="email"/>
 														</td>
 													</tr>
 													<tr>
@@ -511,7 +513,7 @@
 															<span>TEL.</span>
 														</td>
 														<td colspan="4">
-															<!-- 전화번호 -->
+															<input type=text class="form-control" id="phone" name="phone"/>
 														</td>														
 													</tr>
 													<tr>
@@ -519,7 +521,7 @@
 															<span>주소</span>
 														</td>
 														<td colspan="8">
-															<!-- 회사주소 -->
+															<input type=text class="form-control" id="officeAddress" name="officeAddress"/>
 														</td>
 													</tr>
 													<tr>
@@ -745,7 +747,8 @@
 															<span>참석자 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>	
+															<input type="text" id="attendees" name="attendees"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -1032,11 +1035,11 @@
 				</div>
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
 									&nbsp;
-									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button type="reset" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -1083,8 +1086,8 @@
     	  });
     	});
     </script>
-
-	
+    
+<!-- div 전환 , disabled 주기-->	
 	<script>
 		$(function(){
 			$("#normal_div").attr("style", "display:none")		
@@ -1128,7 +1131,7 @@
 		});
 	</script>
 	
-	<!-- 첨부파일 라벨 추가 -->
+<!-- 첨부파일 라벨 추가 -->
 	<script>
 		
 		$("#normalAttach").on("change", function(e) {	
@@ -1186,7 +1189,7 @@
 			}		 */	
 		});
 	</script>
-	<!-- 첨부파일 삭제 
+<!-- 첨부파일 삭제 
 	<script>
 		if(confirm("파일을 삭제하시겠습니까?")){
 			
@@ -1194,6 +1197,36 @@
 			
 		}
 	</script>-->
+	
+<!-- 부서공유 check -->
+	<script>
+		$(function(){
+			
+			$("#deptShare").checked{
+				$("#deptShare_hidden").disabled = true;
+			}
+		});
+	</script>
+	
+	<script>
+		function insertApp(){
+			$("#normalApprovalForm").each(function(){
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+				$("#normalApprovalForm").submit();
+				
+				alert("결재 작성이 완료되었습니다.");
+			});		
+		}
+		
+		function insertTemp(){
+			$("#normalApprovalForm").each(function(){
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
+				$("#normalApprovalForm").submit();
+				
+				alert("임시저장되었습니다..");
+			});		
+		}
+	</script>
 
 </body>
 </html>

@@ -10,6 +10,11 @@
 		<typeAlias type="com.helloworks.spring.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.Approval" alias="Approval"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalCC" alias="ApprovalCC"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalDiploma" alias="ApprovalDiploma"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalHr" alias="ApprovalHr"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalLine" alias="ApprovalLine"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalMinutes" alias="ApprovalMinutes"/>
 	</typeAliases>
 
 
