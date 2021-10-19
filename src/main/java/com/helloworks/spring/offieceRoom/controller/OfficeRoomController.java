@@ -35,9 +35,37 @@ public class OfficeRoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="selectDeptEmployee.or", produces = "application/json; charset=utf-8")
-	public String selectDeptEmployee(String dept) {
-		ArrayList<Employee> list = officeRoomService.selectDeptEmployee(dept);
+	public String selectDeptEmployee(String deptCode) {
+		System.out.println("부서코드: "+deptCode);
+		ArrayList<Employee> list = officeRoomService.selectDeptEmployee(deptCode);
 		
 		return new GsonBuilder().create().toJson(list); 
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectKorSortEmployee.or", produces = "application/json; charset=utf-8")
+	public String selectKorSortEmployee(String catTitle) {
+		System.out.println("한글 코드: "+catTitle);
+		ArrayList<Employee> list = officeRoomService.selectKorSortEmployee(catTitle);
+		
+		return new GsonBuilder().create().toJson(list); 
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectEngSortEmployee.or", produces = "application/json; charset=utf-8")
+	public String selectEngSortEmployee(String catTitle) {
+		System.out.println("영어 코드: "+catTitle);
+		ArrayList<Employee> list = officeRoomService.selectEngSortEmployee(catTitle);
+		
+		return new GsonBuilder().create().toJson(list); 
+	}
+	/*
+	@RequestMapping("searchEmployeeDetail.or")
+	public String searchEmployeeDetail() {
+		
+		ArrayList<Employee> list = officeRoomService.searchEmployeeDetail();
+		
+		return new GsonBuilder().create().toJson(list); 
+	}
+	*/
 }

@@ -8,6 +8,10 @@ public interface OfficeRoomService {
 
 	ArrayList<Employee> selectAllEmployee();
 
-	ArrayList<Employee> selectDeptEmployee(String dept);
+	ArrayList<Employee> selectDeptEmployee(String deptCode);
+
+	ArrayList<Employee> selectKorSortEmployee(String catTitle);
+
+	ArrayList<Employee> selectEngSortEmployee(String catTitle);
 
 }
