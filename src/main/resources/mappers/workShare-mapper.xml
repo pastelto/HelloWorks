@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="workShareMapper">
-
+	
 	<!-- WorkShare -->
     <resultMap id="workShareResultSet" type="WorkShare">
        <id property="ws_no" column="WS_NO"/>
@@ -19,6 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result property="ws_recv_status" column="WS_RECV_STATUS"/>
        <result property="ws_reply" column="WS_REPLY"/>
        <result property="ws_favb" column="WS_FAVB"/>
+       <result property="ws_senderName" column="EMP_NAME"/>
+       <result property="ws_senderJobName" column="JOB_NAME"/>
     </resultMap>
 	
 	<!-- WSAttachment -->
@@ -41,7 +43,96 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 업무공유 첨부파일 생성 -->
 	<insert id="insertWSAttach" parameterType="WSAttachment">
 		INSERT INTO WORKSHARE_ATTACHMENT
-		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, SEQ_WS.CURRVAL, #{wsa_origin}, #{wsa_change}, #{wsa_size}, 'Y')
+		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, SEQ_WS.CURRVAL, #{wsa_origin}, #{wsa_change}, #{wsa_size}, #{wsa_status})
 	</insert>
+	
+	<!-- 미확인 업무공유 개수 -->
+	<select id="selectUncheckedWSListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
+		AND WS_STATUS = 'Y'
+		AND WS_RECV_STATUS LIKE '%'||#{empNo}||'%'
+	</select>
+	
+	<!-- 미확인 업무공유 목록 -->
+	<select id="selectUnCheckedList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, A.WS_FAVB, B.EMP_NAME, A.WS_EMP_NO, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
+		AND WS_STATUS = 'Y'
+		AND WS_RECV_STATUS LIKE '%'||#{empNo}||'%'
+	</select>
 
+	<!-- 수신 업무공유 개수 -->
+	<select id="selectRecvWSListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
+		AND WS_STATUS = 'Y'
+	</select>
+	
+	<!-- 수신 업무공유 목록 -->
+	<select id="selectRecvList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, A.WS_FAVB, B.EMP_NAME, A.WS_EMP_NO, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
+		AND WS_STATUS = 'Y'
+	</select>
+	
+	<!-- 발신 업무공유 개수 -->
+	<select id="selectSendWSListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'Y'
+	</select>
+
+	<!-- 발신 업무공유 목록 -->
+	<select id="selectSendList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, A.WS_FAVB, A.WS_RECV, A.WS_RECV_STATUS, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'Y'
+	</select>
+	
+	<!-- 임시저장 업무공유 개수 -->
+	<select id="selectSavedWSListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'S'
+	</select>
+	
+	<!-- 임시저장 업무공유 목록 -->
+	<select id="selectSavedList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, A.WS_FAVB, A.WS_RECV, A.WS_RECV_STATUS, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'S'
+	</select>
 </mapper>

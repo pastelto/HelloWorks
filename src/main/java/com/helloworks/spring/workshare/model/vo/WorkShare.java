@@ -29,6 +29,8 @@ public class WorkShare {
 	private String ws_recv_status; // 수신여부
 	private String ws_reply; // 회신여부
 	private String ws_favb; // 즐겨찾기
+	private String ws_senderName; // 발신인 이름
+	private String ws_senderJobName; // 발신인 직급명 
 
 	// 업무공유 첨부파일
 	// private int wsa_no; // 첨부파일 번호
