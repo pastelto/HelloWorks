@@ -66,7 +66,7 @@
       
       <!-- 예약현황 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+        <a class="nav-link" href="request.menu" role="button">
           <i class="fas fa-clipboard-list"></i>
         </a>
       </li>

@@ -11,6 +11,12 @@
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.helloworks.spring.workshare.model.vo.WorkShare" alias="WorkShare"/>
 		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSAttachment" alias="WSAttachment"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.Approval" alias="Approval"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalCC" alias="ApprovalCC"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalDiploma" alias="ApprovalDiploma"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalHr" alias="ApprovalHr"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalLine" alias="ApprovalLine"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalMinutes" alias="ApprovalMinutes"/>
 	</typeAliases>
 
 
@@ -19,6 +25,7 @@
 		<mapper resource="/mappers/employee-mapper.xml"/>
 		<mapper resource="/mappers/workShare-mapper.xml"/>
 		<mapper resource="/mappers/officeroom-mapper.xml"/>
+		<mapper resource="/mappers/approval-mapper.xml"/>
 	</mappers>
 
 

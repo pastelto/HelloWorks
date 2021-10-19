@@ -14,7 +14,7 @@ import lombok.ToString;
 public class ApprovalMinutes extends Approval{
 
 	private String title; 		// 회의 이름
-	private String Attendees;	// 회의 참석자 
+	private String attendees;	// 회의 참석자 
 	
 	/*public ApprovalMinutes() {
 		// TODO Auto-generated constructor stub
@@ -23,7 +23,7 @@ public class ApprovalMinutes extends Approval{
 	public ApprovalMinutes(int apNo, String title, String attendees) {
 		super(apNo);
 		this.title = title;
-		Attendees = attendees;
+		attendees = attendees;
 	}
 
 	/*public String getTitle() {
