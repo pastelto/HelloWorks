@@ -6,28 +6,27 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.activation.CommandMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.helloworks.spring.workshare.model.service.WorkShareService;
+import com.helloworks.spring.workshare.model.vo.WSAttachment;
 import com.helloworks.spring.workshare.model.vo.WorkShare;
 
 @Controller
 public class WorkShareController {
 
 	private static final Logger logger = LoggerFactory.getLogger(WorkShareController.class);
-	
+
 	@Autowired
 	private WorkShareService workShareService;
 
@@ -92,13 +91,18 @@ public class WorkShareController {
 	 * 
 	 * if(changeName != null) {
 	 * 
-	 * listMap = new HashMap<String, Object>(); listMap.put("wsa_empNo",
-	 * ws.getWs_empno()); listMap.put("wsa_wsNo", ws.getWs_empno());
+	 * listMap = new HashMap<String, Object>(); 
+	 * listMap.put("wsa_empNo", ws.getWs_empno()); 
+	 * listMap.put("wsa_wsNo", ws.getWs_empno());
 	 * listMap.put("wsa_origin", multipartFile.getOriginalFilename());
 	 * listMap.put("wsa_change", changeName); listMap.put("wsa_size",
+	 * 
 	 * multipartFile.getSize());
 	 * 
-	 * list.add(listMap); } } }
+	 * list.add(listMap); 
+	 * } 
+	 * } 
+	 * }
 	 * 
 	 * if(ws_status.equals("Y")) { //등록 ws.setWs_status(ws_status); }else
 	 * if(ws_status.equals("S")) {//임시저장 ws.setWs_status(ws_status); }
@@ -127,8 +131,10 @@ public class WorkShareController {
 	 * 
 	 * if(changeName != null) {
 	 * 
-	 * wsa.setWsa_empNo(ws.getWs_empno()); wsa.setWsa_wsNo(ws.getWs_no());
-	 * wsa.setWsa_origin(mpf.getOriginalFilename()); wsa.setWsa_change(changeName);
+	 * wsa.setWsa_empNo(ws.getWs_empno()); 
+	 * wsa.setWsa_wsNo(ws.getWs_no());
+	 * wsa.setWsa_origin(mpf.getOriginalFilename()); 
+	 * wsa.setWsa_change(changeName);
 	 * wsa.setWsa_size(mpf.getSize());
 	 * 
 	 * 
@@ -163,8 +169,10 @@ public class WorkShareController {
 	 * if(!file.getOriginalFilename().equals("")) { String changeName =
 	 * saveFile(file, request);
 	 * 
-	 * if(changeName != null) { ws.setWsa_origin(file.getOriginalFilename());
-	 * ws.setWsa_change(changeName); } } }
+	 * if(changeName != null) { 
+	 * ws.setWsa_origin(file.getOriginalFilename());
+	 * ws.setWsa_change(changeName); 
+	 * } } }
 	 * 
 	 * 
 	 * workShareService.insertWorkShare(ws); }
@@ -175,76 +183,89 @@ public class WorkShareController {
 	 */
 
 	// 업무공유 작성 저장 (1)
-	@RequestMapping("insert.ws")
-	private ModelAndView sendWorkShare(CommandMap commandMap, HttpServletRequest request, MultipartFile[] file) throws Exception {
-		
-		ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
-		
-		for(int i = 0; i < file.length; i++) {
-			logger.debug("==================== file start ====================");
-			logger.debug("파일 이름 : " + file[i].getName());
-			logger.debug("파일 실제 이름 : " + file[i].getOriginalFilename());
-			logger.debug("파일 크기 : " + file[i].getSize());
-			logger.debug("content type : " + file[i].getContentType());
-			logger.debug("==================== file end ====================");
-		}
-		
-		workShareService.insertWorkShare(commandMap, file);
-		
-		return mav;
-	}
-	
-	// 첨부파일 저장
-	// 하나의 메소드를 두군데 이상 활용하기 - 재사용성
-	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		@RequestMapping("insert.ws")
+		private ModelAndView sendWorkShare(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) throws Exception {
 
-		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources + "\\workshare_files\\";
-
-		System.out.println("savePath : " + savePath);
-
-		String originName = file.getOriginalFilename();
-
-		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
-		String ext = originName.substring(originName.lastIndexOf("."));
-
-		String changeName = currentTime + ext;
-
-		try {
-			file.transferTo(new File(savePath + changeName));
-		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return changeName;
-	}
-	
-	public List<Map<String, Object>> parseFileInfo(Map<String, Object> map, MultipartFile[] file) throws Exception {
+			ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
 			
-			List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
+			// multiRequest에서 name이 uploadFile인 태그에 담긴 값 가져오기 = 첨부파일들
+			List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+			System.out.println("fileList ? " + fileList.size());
+
+			System.out.println("ws_status ? " + ws_status);
 			
-			for(int i = 0; i < file.length; i++) {
+			WorkShare ws = new WorkShare();
+			WSAttachment wsa = new WSAttachment();
+			ArrayList<WSAttachment> wsaList = new ArrayList<WSAttachment>();
+			
+			ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
+			ws.setWs_title((String) multiRequest.getParameter("ws_title"));
+			ws.setWs_recv((String) multiRequest.getParameter("ws_recv"));
+			ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
+			ws.setWs_content((String) multiRequest.getParameter("ws_content"));
+			ws.setWs_status(ws_status);
+			
+			// 업무공유 먼저 추가하기
+			workShareService.insertWorkShare(ws);
+			System.out.println("ws ? " + ws);
+			
+			// 첨부파일이 있으면 리스트로 값 추가하기
+			 if(!fileList.isEmpty()) {
+			  
+				 for(int i = 0; i < fileList.size(); i++) {
+				  
+				 String changeName = saveFile(fileList.get(i), request, i);
+				  
+				 System.out.println("==================== file start ====================");
+				 System.out.println("파일 이름 : " + changeName); 
+				 System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+				 System.out.println("파일 크기 : " + fileList.get(i).getSize()); 
+				 System.out.println("content type : " + fileList.get(i).getContentType());
+				 System.out.println("==================== file end ====================="); 
+				 						 
+				 wsa.setWsa_empNo(ws.getWs_empno()); 
+				 wsa.setWsa_wsNo(ws.getWs_no());
+				 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
+				 wsa.setWsa_change(changeName);
+				 wsa.setWsa_size(fileList.get(i).getSize());
 				
-				String resources = request.getSession().getServletContext().getRealPath("resources");
-				String savePath = resources + "\\workshare_files\\";
+				 wsaList.add(wsa);
+				 
+				 }
+				 
+				System.out.println("wsaList ? " + wsaList);
+				workShareService.insertWSAttach(wsaList);
+			 }
 
-				System.out.println("savePath : " + savePath);
+			return mav;
+		}
 
-				String originName = file.getOriginalFilename();
+		// 첨부파일 저장
+		// 하나의 메소드를 두군데 이상 활용하기 - 재사용성
+		private String saveFile(MultipartFile file, HttpServletRequest request, int num) {
 
-				String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+			String resources = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = resources + "\\workshare_files\\";
 
-				String ext = originName.substring(originName.lastIndexOf("."));
+			System.out.println("savePath : " + savePath);
 
-				String changeName = currentTime + ext;
-				
+			String originName = file.getOriginalFilename();
+
+			String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+			String ext = originName.substring(originName.lastIndexOf("."));
+
+			String changeName = currentTime + num + ext;
+
+			try {
+				file.transferTo(new File(savePath + changeName));
+			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			
-			
-		
-		
-	}
+
+			return changeName;
+		}
+
+
 }

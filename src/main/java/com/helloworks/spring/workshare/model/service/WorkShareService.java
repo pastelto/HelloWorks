@@ -1,11 +1,14 @@
 package com.helloworks.spring.workshare.model.service;
 
-import javax.activation.CommandMap;
+import java.util.ArrayList;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.helloworks.spring.workshare.model.vo.WSAttachment;
+import com.helloworks.spring.workshare.model.vo.WorkShare;
 
 public interface WorkShareService {
 
-	void insertWorkShare(CommandMap commandMap, MultipartFile[] file) throws Exception;
+	void insertWorkShare(WorkShare ws) throws Exception;
+
+	void insertWSAttach(ArrayList<WSAttachment> wsaList) throws Exception;
 
 }

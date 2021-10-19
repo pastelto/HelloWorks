@@ -54,7 +54,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWSForm" action="insert.ws" method="post" enctype="multipart/form-data">
+						<form id="insertWSForm" method="post" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -118,7 +118,7 @@
 													<span class="badge badge-info" id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input multiple="multiple" type="file" name="workShareAttach" id="workShareAttach">
+									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
 									                  </div> 
 												</td>
 											</tr>
@@ -137,11 +137,11 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="saveWorkShare();">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="submit" name="ws_status" value="Y" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertWorkShare();">등록</button>
 									&nbsp;
-									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button id="resetBtn" type="reset" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -167,21 +167,38 @@
 	
 	<!-- 첨부파일 라벨 이름 추가 -->
 	<script>
-		$("#workShareAttach").on("change", function() {
+	/*$("#workShareAttach").on("change", function() {
+			var fileName = $(this)[0];
+			
+			alert(fileName);
+			
+ 			for(var i = 0; i < fileName.)
 			var filename = $(this)[0].files[0].name + " ";
 			// 어떻게 하나씩 분리??
-			$('#workShareAttachName').append(filename);
+			$('#workShareAttachName').append(filename); 
+		});*/
+		
+		$("#workShareAttach").on("change", function() {
+			var filename = "";
+			
+			for(var i = 0; i < $(this)[0].files.length; i++){
+				filename += $(this)[0].files[i].name;
+					filename += " ";
+			}
+			console.log("filename : " + filename)
+			$('#workShareAttachName').append(filename); 
 		});
+
 	</script>
 	
 	<!-- 버튼 이동 -->
 	<script>
 	// 임시저장 버튼 클릭시 저장
-	$(function(){
+/* 	$(function(){
 		$("#tempSaveBtn").onClick(){
 			
 		}
-	});
+	}); */
 	
 	// 업무공유 생성 보내기 버튼 
 <%-- 	$(function(){
@@ -193,15 +210,24 @@
 		}
 	}); --%>
 	
-	
-<%-- 	function insertWorkShare(){
+	// 업무공유 보내기
+ 	function insertWorkShare(){
 		$('#insertWSForm').each(function(){	
-			alert("게시글이 등록되었습니다");
 			
 		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
 			$("#insertWSForm").submit();
+			alert("게시글이 등록되었습니다");
 		});
-	} --%>
+	}
+	// 업무공유 임시저장하기
+ 	function saveWorkShare(){
+		$('#insertWSForm').each(function(){	
+
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
+			$("#insertWSForm").submit();
+			alert("게시글이 등록되었습니다");
+		});
+	} 
 	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
