@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias type="com.helloworks.spring.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.Approval" alias="Approval"/>
 	</typeAliases>
 
 
@@ -17,6 +18,7 @@
 		<mapper resource="/mappers/employee-mapper.xml"/>
 		<!-- <mapper resource="/mappers/officeroom-mapper.xml"/> -->
 		<mapper resource="/mappers/officeroom-mapper.xml"/>
+		<mapper resource="/mappers/approval-mapper.xml"/>
 	</mappers>
 
 

@@ -84,32 +84,32 @@
 											</td>
 											<td style="font-size:0.8em;"colspan="5">
 												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="doc_type"  value = "승진" id="prom_radio" >
+													<input type="radio" name="hr_type"  value = "승진" id="prom_radio" >
 													<span class="co_docu_cd_old" docu_cd="승진" style="cursor: pointer;">승진</span>											
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "복직" id="come_radio">
+													<input type="radio" name="hr_type" value = "복직" id="come_radio">
 													<span class="co_docu_cd_old" docu_cd="복작" style="cursor: pointer;">복직</span>										
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "이동" id="move_radio">
+													<input type="radio" name="hr_type" value = "이동" id="move_radio">
 													<span class="co_docu_cd_old" docu_cd="이동" style="cursor: pointer;">이동</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "입사" id="hire_radio">
+													<input type="radio" name="hr_type" value = "입사" id="hire_radio">
 													<span class="co_docu_cd_old" docu_cd="입사" style="cursor: pointer;">입사</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "퇴사" id="fire_radio">
+													<input type="radio" name="hr_type" value = "퇴사" id="fire_radio">
 													<span class="co_docu_cd_old" docu_cd="퇴사" style="cursor: pointer;">퇴사</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "휴직" id="vaca_radio">
+													<input type="radio" name="hr_type" value = "휴직" id="vaca_radio">
 													<span class="co_docu_cd_old" docu_cd="휴직" style="cursor: pointer;">휴직</span>
 												</label>
 												&nbsp;
@@ -273,7 +273,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
 														</td>
 													</tr>
 													<tr>
@@ -281,12 +281,12 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 소속 부서 -->
+															<input type="text" name="userDept" id="writer" class="forn-control"> 
 														</td>
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote"></textarea>
+															<textarea id="summernote" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -294,13 +294,15 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+															<input type="checkbox" name="deptShare"> 														
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+														<td colspan="9">															
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
@@ -314,12 +316,12 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
@@ -535,8 +537,10 @@
 													</tr>
 													<tr>
 														<td colspan="12">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -550,14 +554,14 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
-														<td colspan="6">
-															<!-- 파일명 -->
+													<tr id="fileRow">
+														<td colspan="5">
+															 <span class="normalAttachName"></span>
 														</td >
-														<td colspan="3">
-															<!-- 파일크기-->
+														<td colspan="2">
+															<span class="normalAttachSize"></span>
 														</td>
-														<td colspan="3">
+														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
 														</td>
 													</tr>
@@ -725,7 +729,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
 														</td>
 													</tr>
 													<tr>
@@ -759,8 +763,10 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -774,12 +780,12 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow1">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
@@ -960,7 +966,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
 														</td>
 													</tr>
 													<tr>
@@ -986,8 +992,10 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -1001,15 +1009,15 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
-															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
+															<button type="button" class="btn btn-danger" style="font-size:1em" onclick='deletefile();'>삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -1119,6 +1127,73 @@
 			});	
 		});
 	</script>
+	
+	<!-- 첨부파일 라벨 추가 -->
+	<script>
+		
+		$("#normalAttach").on("change", function(e) {	
+			
+			var filename = $(this)[0].files[0].name;
+			var filesize = $(this)[0].files[0].size;
+			console.log("name : "+ filename);
+			console.log("size : "+ filesize); 	
+			
+			$(".normalAttachName").text(filename);
+			$(".normalAttachSize").text(filesize);
+			
+			
+			/****** multi
+			console.log("n=" + n);
+					
+			if(n > 1){
+				var addRow = 
+					'<tr id=' + '"fileRow'+n+'">'+
+						'<td colspan="5">'+
+							'<span name="normalAttachName'+n+'"></span>'+
+						'</td >'+
+						'<td colspan="2">' +
+							'<span name="normalAttachSize'+n+'"></span>'+
+						'</td>'+
+						'<td colspan="2">'+
+							'<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>'+
+						'</td>'+
+					'</tr>';
+					
+				var trHtml = $("tr[id^='fileRow']:last");
+				trHtml.after(addRow);
+				
+				var index = n-1;
+	
+				var filename = $(this)[0].files[0].name;
+				var filesize = $(this)[0].files[0].size;
+				console.log("name : "+ filename);
+				console.log("size : "+ filesize); 	
+				$(".normalAttachName:last").text(filename);
+				$(".normalAttachSize:last").text(filesize);
+				
+				n+=1
+			
+			}else {
+				
+				var filename = $(this)[0].files[0].name;
+				var filesize = $(this)[0].files[0].size;
+				console.log("name : "+ filename);
+				console.log("size : "+ filesize);		
+				$(".normalAttachName:last").text(filename);
+				$(".normalAttachSize:last").text(filesize);
+				
+				n+=1;			
+			}		 */	
+		});
+	</script>
+	<!-- 첨부파일 삭제 
+	<script>
+		if(confirm("파일을 삭제하시겠습니까?")){
+			
+			var file = 
+			
+		}
+	</script>-->
 
 </body>
 </html>

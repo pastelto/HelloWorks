@@ -15,6 +15,7 @@ public class Approval  {
 	
 	private int apNo; 			// 문서번호
 	private String apClass;		// 결재분류
+	private String detailClass; // 세부분류
 	private String title;		// 제목
 	private int writer;			// 작성자
 	private String createDate;	// 작성일자
