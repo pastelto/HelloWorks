@@ -28,6 +28,14 @@
 			</div>
 		</section>
 		<!-- Main content -->
+		<div class="col-12">
+			<div class="card card-outline card-info card-outline-tabs">
+				<div class="card-header p-0 border-bottom-0"></div>
+				<div class="card-body">
+					<!-- 관리차량 리스트 -->
+				</div>
+			</div>
+		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 </body>

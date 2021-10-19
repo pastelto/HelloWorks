@@ -81,6 +81,7 @@
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body">
+=
 									<div class="row">
 										<div class="col-2">발신자</div>
 										<div class="col-10">

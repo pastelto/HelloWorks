@@ -1,6 +1,6 @@
 package com.helloworks.spring.mail.model.vo;
 
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;

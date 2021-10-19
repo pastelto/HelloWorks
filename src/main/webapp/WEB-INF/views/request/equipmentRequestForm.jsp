@@ -35,96 +35,103 @@
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
-								<div class="row">
-									<div class="col-2">신청자</div>
-									<div class="col-10">
-										<div class="form-group">
-											<input id="" name="" value="${loginUser.empName}"
-												class="form-control" readonly>
+								<div class="container">
+									<div class="row">
+										<div class="col-2"><label>신청자</label></div>
+										<div class="col-10">
+											<div class="form-group">
+												<input id="" name="" value="${loginUser.empName}"
+													class="form-control" readonly>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-2">부서</div>
-									<div class="col-10">
-										<div class="form-group">
-											<input id="" name="" value="${loginUser.deptCode}"
-												class="form-control" readonly>
+									<div class="row">
+										<div class="col-2"><label>부서명</label></div>
+										<div class="col-10">
+											<div class="form-group">
+												<input id="" name="" value="${loginUser.deptCode}"
+													class="form-control" readonly>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-2">직급</div>
-									<div class="col-10">
-										<div class="form-group">
-											<input id="" name="" value="${loginUser.jobCode}"
-												class="form-control" readonly>
+									<div class="row">
+										<div class="col-2"><label>직급명</label></div>
+										<div class="col-10">
+											<div class="form-group">
+												<input id="" name="" value="${loginUser.jobCode}"
+													class="form-control" readonly>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-2">사용장소</div>
-									<div class="col-10">
-										<div class="form-group">
-											<input id="" name="" value="" class="form-control">
+									<div class="row">
+										<div class="col-2"><label>사용장소</label></div>
+										<div class="col-10">
+											<div class="form-group">
+												<input id="" name="" value="" class="form-control">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-2">사용목적</div>
-									<div class="col-10">
-										<div class="form-group">
-											<input id="" name="" value="" class="form-control">
+									<div class="row">
+										<div class="col-2"><label>사용목적</label></div>
+										<div class="col-10">
+											<div class="form-group">
+												<input id="" name="" value="" class="form-control">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-2">사용기간</div>
-									<div class="col-3">
-										<div class="form-group">
-											<div class="input-group date" id="datetimepicker1"
-												data-target-input="nearest">
-												<input type="text" class="form-control datetimepicker-input"
-													data-target="#datetimepicker1" value="">
-												<!-- 오늘날짜 넣기 -->
-												<div class="input-group-append"
-													data-target="#datetimepicker1" data-toggle="datetimepicker">
-													<div class="input-group-text">
-														<i class="fa fa-calendar"></i>
+									<div class="row">
+										<div class="col-2"><label>사용기간</label></div>
+										<div class="col-3">
+											<div class="form-group">
+												<div class="input-group date" id="datetimepicker1"
+													data-target-input="nearest">
+													<input type="text"
+														class="form-control datetimepicker-input"
+														data-target="#datetimepicker1" value="">
+													<!-- 오늘날짜 넣기 -->
+													<div class="input-group-append"
+														data-target="#datetimepicker1"
+														data-toggle="datetimepicker">
+														<div class="input-group-text">
+															<i class="fa fa-calendar"></i>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									부터
-									<div class='col-md-3 col-xs-4'>
-										<div class="form-group">
-											<div class="input-group date" id="datetimepicker2"
-												data-target-input="nearest">
-												<input type="text" class="form-control datetimepicker-input"
-													data-target="#datetimepicker2" value="">
-												<div class="input-group-append"
-													data-target="#datetimepicker2" data-toggle="datetimepicker">
-													<div class="input-group-text">
-														<i class="fa fa-calendar"></i>
+										<label> 부터</label>
+										<div class='col-md-3 col-xs-4'>
+											<div class="form-group">
+												<div class="input-group date" id="datetimepicker2"
+													data-target-input="nearest">
+													<input type="text"
+														class="form-control datetimepicker-input"
+														data-target="#datetimepicker2" value="">
+													<div class="input-group-append"
+														data-target="#datetimepicker2"
+														data-toggle="datetimepicker">
+														<div class="input-group-text">
+															<i class="fa fa-calendar"></i>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									까지
-									<!-- 기타 -->
-									<!--<div class="row">
+										<label> 까지</label>
+										<!-- 기타 -->
+										<!--<div class="row">
 										<div class="col-12">
 											<textarea id="" name=""></textarea>
 										</div>
 									</div>  -->
+									</div>
+									<!-- /.container -->
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
 										<button type="submit" class="btn btn-primary">
-											<i class="far fa-envelope"></i> 신청하기
+											<i class="fas fa-clipboard-check"></i> 신청하기
 										</button>
 									</div>
 									<button type="reset" class="btn btn-default">
@@ -144,7 +151,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('#datetimepicker1').datetimepicker({
-			format : 'L'
+			format : 'L' //L : 시간까지 표시(근데 왜안됨?)
 		});
 		$('#datetimepicker2').datetimepicker({
 			format : 'L',
