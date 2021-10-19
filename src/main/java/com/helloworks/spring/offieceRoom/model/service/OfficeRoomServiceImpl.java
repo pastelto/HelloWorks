@@ -27,9 +27,23 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 
 
 	@Override
-	public ArrayList<Employee> selectDeptEmployee(String dept) {
+	public ArrayList<Employee> selectDeptEmployee(String deptCode) {
 		// TODO Auto-generated method stub
-		return officeRoomDao.selectDeptEmployee(sqlSession, dept);
+		return officeRoomDao.selectDeptEmployee(sqlSession, deptCode);
+	}
+
+
+	@Override
+	public ArrayList<Employee> selectKorSortEmployee(String catTitle) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectKorSortEmployee(sqlSession, catTitle);
+	}
+
+
+	@Override
+	public ArrayList<Employee> selectEngSortEmployee(String catTitle) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectEngSortEmployee(sqlSession, catTitle);
 	}
 
 }

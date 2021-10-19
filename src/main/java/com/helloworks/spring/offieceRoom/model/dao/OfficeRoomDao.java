@@ -15,9 +15,19 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectAllEmployee");
 	}
 
-	public ArrayList<Employee> selectDeptEmployee(SqlSessionTemplate sqlSession, String dept) {
+	public ArrayList<Employee> selectDeptEmployee(SqlSessionTemplate sqlSession, String deptCode) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptEmployee", dept);
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptEmployee", deptCode);
+	}
+
+	public ArrayList<Employee> selectKorSortEmployee(SqlSessionTemplate sqlSession, String catTitle) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectKorSortEmployee", catTitle);
+	}
+
+	public ArrayList<Employee> selectEngSortEmployee(SqlSessionTemplate sqlSession, String catTitle) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectEngSortEmployee", catTitle);
 	}
 
 }
