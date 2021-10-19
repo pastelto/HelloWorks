@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias type="com.helloworks.spring.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.helloworks.spring.attendance.model.vo.Attendance" alias="Attendance"/>
 		<typeAlias type="com.helloworks.spring.common.model.vo.SearchCondition" alias="SearchCondition"/>
 	</typeAliases>
 
@@ -18,6 +19,7 @@
 		<mapper resource="/mappers/employee-mapper.xml"/>
 		<!-- <mapper resource="/mappers/officeroom-mapper.xml"/> -->
 		<mapper resource="/mappers/officeroom-mapper.xml"/>
+		<mapper resource="/mappers/attendance-mapper.xml"/>
 	</mappers>
 
 

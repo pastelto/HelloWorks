@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="attendanceMapper">
+
+	<resultMap id="attendanceResultSet" type="Attendance">
+		<id property="psaNo" column="PSA_NO"/>
+		<result property="psCreateDate" column="PSA_CREATEDATE"/>
+		<result property="inTime" column="PSA_IN"/>
+		<result property="outTime" column="PSA_OUT"/>
+		<result property="psStatus" column="PSA_STATUS"/>
+		<result property="empNo" column="PSA_EMP_NO"/>
+		<result property="workingTime" column="PSA_WORKINGTIME"/>
+		<result property="overTime" column="PSA_OVERTIME"/>
+		<result property="total" column="PSA_TOTAL"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPT_DNAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>		
+	</resultMap>
+	
+	<!-- 출근등록 -->
+    <insert id="insertInTime" parameterType="Attendance">
+	    INSERT INTO PS_ATTENDANCE
+		VALUES
+		(SEQ_PS_ATDN.NEXTVAL, SYSDATE, #{inTime}, DEFAULT, #{psStatus}, #{empNo}, DEFAULT, DEFAULT, DEFAULT)
+   </insert>
+   
+   <!-- 메인조회 -->
+   <select id="selectAttendance" parameterType="_int" resultMap="attendanceResultSet">
+      	SELECT *
+		FROM PS_ATTENDANCE
+		WHERE PSA_EMP_NO = #{empNo}
+		AND PSA_CREATEDATE LIKE SYSDATE
+   </select>
+   
+</mapper>

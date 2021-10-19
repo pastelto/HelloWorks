@@ -90,33 +90,33 @@
 								<input type="hidden" name="bno" value="${ n.noticeNo }">
 								<input type="hidden" name="fileName" value="${ n.changeName }"> 
 							</form>
-							<script>
-								function postFormSubmit(num){
-									var postForm = $("#postForm");
-									
-									if(num == 1){
-										postForm.attr("action", "updateForm.nt");
-										postForm.submit();
-									}else{
-										 var answer;
-								   		 answer = confirm("정말로 삭제하시겠습니까?");
-										
-										 if(answer == true){
-								   			 
-											 postForm.attr("action", "delete.nt");
-											 postForm.submit();
-											 
-								   			 alert("공지사항이 삭제되었습니다.");
-								   		 }
-									}
-								}
-							</script>
+							
 					
 					
 			</div>
 		</section>
 		
-		
+	<script>
+		function postFormSubmit(num){
+			var postForm = $("#postForm");
+			
+			if(num == 1){
+				postForm.attr("action", "updateForm.nt");
+				postForm.submit();
+			}else{
+				 var answer;
+		   		 answer = confirm("정말로 삭제하시겠습니까?");
+				
+				 if(answer == true){
+		   			 
+					 postForm.attr("action", "delete.nt");
+					 postForm.submit();
+					 
+		   			 alert("공지사항이 삭제되었습니다.");
+		   		 }
+			}
+		}
+	</script>	
 		
 	</div>
 	<jsp:include page="../common/footer.jsp" />
