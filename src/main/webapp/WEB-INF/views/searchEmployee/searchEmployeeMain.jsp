@@ -231,7 +231,16 @@
 											</tr>
 										</thead>
 										<tbody>
-										
+											<tr>
+												<th style="width: 5%"></th>
+												<th style="width: 10%"></th>
+												<th style="width: 20%"></th>
+												<th style="width: 10%"></th>
+												<th style="width: 10%"></th>
+												<th style="width: 10%"></th>
+												<th style="width: 20%"></th>
+												<th style="width: 15%"></th>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -253,6 +262,36 @@
 			</div>
 		</section>
 	</div>
+	
+	
+	<!-- 직원 선택 시 뜨는 모달  -->
+    <div class="modal fade" id="detailEmployeeModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">직원 상세보기</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+
+            <form action="searchEmployeeDetail.or" method="post">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                	여기에 직원 상세 정보 넣기!
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">주소록 등록하기</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+	
+	
+	
 
 	<!-- 검색 -->
 	<script>
@@ -298,7 +337,7 @@
 						
 						$.each(list, function(i, obj){
 							
-							value +="<tr>"+
+							value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
 									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
@@ -330,7 +369,7 @@
 						
 						$.each(list, function(i, obj){
 							
-							value +="<tr>"+
+							value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
 									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
@@ -367,7 +406,7 @@
 					
 					$.each(list, function(i, obj){
 						
-						value +="<tr>"+
+						value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
 								"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
@@ -402,7 +441,7 @@
 				success:function(list){
 					var value="";
 					$.each(list, function(i, obj){
-						value +="<tr>"+
+						value +="<data-toggle='modal' data-target='#detailEmployeeModal'>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 

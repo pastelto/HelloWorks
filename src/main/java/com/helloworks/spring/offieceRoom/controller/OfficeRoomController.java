@@ -59,4 +59,13 @@ public class OfficeRoomController {
 		
 		return new GsonBuilder().create().toJson(list); 
 	}
+	/*
+	@RequestMapping("searchEmployeeDetail.or")
+	public String searchEmployeeDetail() {
+		
+		ArrayList<Employee> list = officeRoomService.searchEmployeeDetail();
+		
+		return new GsonBuilder().create().toJson(list); 
+	}
+	*/
 }
