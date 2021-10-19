@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +7,11 @@
 <title>HelloWorks - 업무공유</title>
 </head>
 <body>
+
 	<jsp:include page="../common/menubar.jsp" />
 	
 	<div class="content-wrapper">
-	
+
 	<!-- 페이지 헤더 -->
 	<section class="content-header">
       <div class="container-fluid">
@@ -28,21 +29,48 @@
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true">미확인 업무</a>
+                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" href="unCheckedListWS.ws" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true">미확인 업무</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false">수신 업무</a>
+                    <a class="nav-link" id="custom-tabs-four-recv-tab" href="recvListWS.ws" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false">수신 업무</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-four-send-tab" data-toggle="pill" href="#custom-tabs-four-send" role="tab" aria-controls="custom-tabs-four-send" aria-selected="false">발신 업무</a>
+                    <a class="nav-link" id="custom-tabs-four-send-tab" href="sendListWS.ws" role="tab" aria-controls="custom-tabs-four-send" aria-selected="false">발신 업무</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-four-saved-tab" data-toggle="pill" href="#custom-tabs-four-saved" role="tab" aria-controls="custom-tabs-four-saved" aria-selected="false">임시 저장</a>
+                    <a class="nav-link" id="custom-tabs-four-saved-tab" href="savedListWS.ws" role="tab" aria-controls="custom-tabs-four-saved" aria-selected="false">임시 저장</a>
                   </li>
                 </ul>
               </div>
               
-              <!-- card body -->
+     <!-- 메뉴바 -> 특정 탭 연결 -->     
+     <c:choose>
+ 		<c:when test="${ page == 1 }">
+			<script>
+			$('#custom-tabs-four-unchecked-tab').addClass('active');
+			</script>
+		</c:when> 
+		<c:when test="${ page == 2 }">
+			<script>
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-recv-tab').addClass('active');
+			</script>
+		</c:when>
+		<c:when test="${ page == 3 }">
+			<script>
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-send-tab').addClass('active');
+			</script>
+		</c:when>
+		<c:when test="${ page == 4 }">
+			<script>
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-saved-tab').addClass('active');
+			</script>
+		</c:when>
+	</c:choose>
+              
+         <!-- card body -->
          <div class="card-body">
            <div class="tab-content" id="custom-tabs-four-tabContent">
              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
@@ -63,17 +91,10 @@
              </div>
            </div>
          </div>
-	
-	<!-- content가 원래 있던 자리 -->
-
 	</div>
 </div>
 </div>
 	<jsp:include page="../common/footer.jsp"/>
-	
-<!-- 스크립트  -->
-<script>
 
-</script>
 </body>
 </html>
