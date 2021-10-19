@@ -44,7 +44,7 @@
 				</div>
 			</section>
 			<section class="content">
-			<form id="normalApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
+			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -84,32 +84,32 @@
 											</td>
 											<td style="font-size:0.8em;"colspan="5">
 												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="doc_type"  value = "승진" id="prom_radio" >
+													<input type="radio" name="hr_type"  value = "승진" id="prom_radio" >
 													<span class="co_docu_cd_old" docu_cd="승진" style="cursor: pointer;">승진</span>											
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "복직" id="come_radio">
+													<input type="radio" name="hr_type" value = "복직" id="come_radio">
 													<span class="co_docu_cd_old" docu_cd="복작" style="cursor: pointer;">복직</span>										
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "이동" id="move_radio">
+													<input type="radio" name="hr_type" value = "이동" id="move_radio">
 													<span class="co_docu_cd_old" docu_cd="이동" style="cursor: pointer;">이동</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "입사" id="hire_radio">
+													<input type="radio" name="hr_type" value = "입사" id="hire_radio">
 													<span class="co_docu_cd_old" docu_cd="입사" style="cursor: pointer;">입사</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "퇴사" id="fire_radio">
+													<input type="radio" name="hr_type" value = "퇴사" id="fire_radio">
 													<span class="co_docu_cd_old" docu_cd="퇴사" style="cursor: pointer;">퇴사</span>
 												</label>
 												&nbsp;
 												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "휴직" id="vaca_radio">
+													<input type="radio" name="hr_type" value = "휴직" id="vaca_radio">
 													<span class="co_docu_cd_old" docu_cd="휴직" style="cursor: pointer;">휴직</span>
 												</label>
 												&nbsp;
@@ -141,10 +141,10 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<span id="emp_level0">팀원</span>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<span id="emp_level1">팀장</span>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<span id="emp_level2"></span>
@@ -158,12 +158,12 @@
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<span id="emp_name0">최승철</span>
+																	<input type="hidden" id="writer" name="writer" value="202100011">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<span id="emp_name1">김소원</span>
+																	<input type="hidden" id="line1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name2"></span>
@@ -196,7 +196,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																	<span id="emp_level0">팀장</span>
 																</th>
 																<th class="table emp_level" scop="col">
 																	<span id="emp_level1"></span>
@@ -210,8 +210,8 @@
 															</tr>
 															<tr>
 																<td class="table emp_name"  scop="col">
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																	<span id="emp_name0">김다혜</span>
+																	<input type="hidden" id="cooperator0" name="cooperator0" value="202100003">
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
@@ -247,7 +247,8 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
+															<input type="text" id="ccName" name="ccName" value="경영지원본부"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -273,7 +274,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="form-control" value="${loginUser.empName}" readonly/>
 														</td>
 													</tr>
 													<tr>
@@ -281,12 +282,12 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 소속 부서 -->
+															<input type="text" name="userDept" id="userDept" class="form-control" value="C1" readonly/> 
 														</td>
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote"></textarea>
+															<textarea id="summernote" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -294,13 +295,16 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value="'Y'"/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value="'N'"/> 														
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+														<td colspan="9">															
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
@@ -314,12 +318,12 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
@@ -471,7 +475,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="8">
-															<input type=text class="form-control" id="ap_title" name="ap_title">
+															<input type=text class="form-control" id="ap_title" name="ap_title"/>
 														</td>
 													</tr>
 													<tr>
@@ -495,7 +499,7 @@
 															<span>e-mail</span>
 														</td>
 														<td colspan="4">
-															<!-- 이메일주소  -->
+															<input type=text class="form-control" id="email" name="email"/>
 														</td>
 													</tr>
 													<tr>
@@ -509,7 +513,7 @@
 															<span>TEL.</span>
 														</td>
 														<td colspan="4">
-															<!-- 전화번호 -->
+															<input type=text class="form-control" id="phone" name="phone"/>
 														</td>														
 													</tr>
 													<tr>
@@ -517,7 +521,7 @@
 															<span>주소</span>
 														</td>
 														<td colspan="8">
-															<!-- 회사주소 -->
+															<input type=text class="form-control" id="officeAddress" name="officeAddress"/>
 														</td>
 													</tr>
 													<tr>
@@ -535,8 +539,10 @@
 													</tr>
 													<tr>
 														<td colspan="12">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -550,14 +556,14 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
-														<td colspan="6">
-															<!-- 파일명 -->
+													<tr id="fileRow">
+														<td colspan="5">
+															 <span class="normalAttachName"></span>
 														</td >
-														<td colspan="3">
-															<!-- 파일크기-->
+														<td colspan="2">
+															<span class="normalAttachSize"></span>
 														</td>
-														<td colspan="3">
+														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
 														</td>
 													</tr>
@@ -725,7 +731,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
 														</td>
 													</tr>
 													<tr>
@@ -741,7 +747,8 @@
 															<span>참석자 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>	
+															<input type="text" id="attendees" name="attendees"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -759,8 +766,10 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -774,12 +783,12 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow1">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
@@ -960,7 +969,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
 														</td>
 													</tr>
 													<tr>
@@ -986,8 +995,10 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div>
 														</td>
 													</tr>
 													<tr>
@@ -1001,15 +1012,15 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow">
 														<td colspan="5">
-															<!-- 파일명 -->
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
-															<!-- 파일크기-->
+															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
-															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
+															<button type="button" class="btn btn-danger" style="font-size:1em" onclick='deletefile();'>삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -1024,11 +1035,11 @@
 				</div>
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
 									&nbsp;
-									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button type="reset" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -1075,8 +1086,8 @@
     	  });
     	});
     </script>
-
-	
+    
+<!-- div 전환 , disabled 주기-->	
 	<script>
 		$(function(){
 			$("#normal_div").attr("style", "display:none")		
@@ -1118,6 +1129,103 @@
 				$("#minut_div").attr("style", "display:none")
 			});	
 		});
+	</script>
+	
+<!-- 첨부파일 라벨 추가 -->
+	<script>
+		
+		$("#normalAttach").on("change", function(e) {	
+			
+			var filename = $(this)[0].files[0].name;
+			var filesize = $(this)[0].files[0].size;
+			console.log("name : "+ filename);
+			console.log("size : "+ filesize); 	
+			
+			$(".normalAttachName").text(filename);
+			$(".normalAttachSize").text(filesize);
+			
+			
+			/****** multi
+			console.log("n=" + n);
+					
+			if(n > 1){
+				var addRow = 
+					'<tr id=' + '"fileRow'+n+'">'+
+						'<td colspan="5">'+
+							'<span name="normalAttachName'+n+'"></span>'+
+						'</td >'+
+						'<td colspan="2">' +
+							'<span name="normalAttachSize'+n+'"></span>'+
+						'</td>'+
+						'<td colspan="2">'+
+							'<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>'+
+						'</td>'+
+					'</tr>';
+					
+				var trHtml = $("tr[id^='fileRow']:last");
+				trHtml.after(addRow);
+				
+				var index = n-1;
+	
+				var filename = $(this)[0].files[0].name;
+				var filesize = $(this)[0].files[0].size;
+				console.log("name : "+ filename);
+				console.log("size : "+ filesize); 	
+				$(".normalAttachName:last").text(filename);
+				$(".normalAttachSize:last").text(filesize);
+				
+				n+=1
+			
+			}else {
+				
+				var filename = $(this)[0].files[0].name;
+				var filesize = $(this)[0].files[0].size;
+				console.log("name : "+ filename);
+				console.log("size : "+ filesize);		
+				$(".normalAttachName:last").text(filename);
+				$(".normalAttachSize:last").text(filesize);
+				
+				n+=1;			
+			}		 */	
+		});
+	</script>
+<!-- 첨부파일 삭제 
+	<script>
+		if(confirm("파일을 삭제하시겠습니까?")){
+			
+			var file = 
+			
+		}
+	</script>-->
+	
+<!-- 부서공유 check -->
+	<script>
+		$(function(){
+			
+			$("#deptShare").checked{
+				$("#deptShare_hidden").disabled = true;
+			}
+		});
+	</script>
+	
+	<script>
+		function insertApp(){
+			$("#normalApprovalForm").each(function(){
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+				$("#normalApprovalForm").submit();
+				
+				alert("결재 작성이 완료되었습니다.");
+			});		
+		}
+		
+		function insertTemp(){
+			$("#normalApprovalForm").each(function(){
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
+				$("#normalApprovalForm").submit();
+				
+				alert("임시저장되었습니다..");
+			});		
+		}
 	</script>
 
 </body>
