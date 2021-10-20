@@ -74,7 +74,7 @@
 								<!-- 총무팀만 보이게 -->
 								<c:if test="${ loginUser.deptCode eq 'A2'}">
 									<div class="card-footer clearfix">
-										<div class="col-md-1 float-right">
+										<div class="float-right">
 											<!-- 회의실관리 페이지로 -->
 											<button class="btn btn-primary"
 												id="manageMeetingRoom"
@@ -94,7 +94,7 @@
 								<!-- 총무팀만 보이게 -->
 								<c:if test="${ loginUser.deptCode eq 'A2'}">
 									<div class="card-footer clearfix">
-										<div class="col-md-1 float-right">
+										<div class="float-right">
 											<!-- 차량관리 페이지로 -->
 											<button class="btn btn-primary"
 												id="manageCar" onclick="location.href = 'manage.car' ">차량관리</button>

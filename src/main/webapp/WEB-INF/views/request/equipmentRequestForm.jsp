@@ -49,7 +49,7 @@
 										<div class="col-2"><label>부서명</label></div>
 										<div class="col-10">
 											<div class="form-group">
-												<input id="" name="" value="${loginUser.deptCode}"
+												<input id="" name="" value="${loginUser.deptDname}"
 													class="form-control" readonly>
 											</div>
 										</div>
@@ -58,7 +58,7 @@
 										<div class="col-2"><label>직급명</label></div>
 										<div class="col-10">
 											<div class="form-group">
-												<input id="" name="" value="${loginUser.jobCode}"
+												<input id="" name="" value="${loginUser.jobName}"
 													class="form-control" readonly>
 											</div>
 										</div>
