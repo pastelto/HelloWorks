@@ -167,15 +167,15 @@
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="hidden" id="line2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="hidden" id="line3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
 																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="hidden" id="line4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -215,15 +215,15 @@
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																	<input type="hidden" id="cooperator1" name="cooperator1" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																	<input type="hidden" id="cooperator2" name="cooperator2" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																	<input type="hidden" id="cooperator3" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -1099,35 +1099,56 @@
 						
 			$('#normal_radio').click(function(){
 				$("#normal_div").css("display",'')
+				$("#normal_div *").attr("disabled", false)
 				$("#dipl_div").attr("style", "display:none")
+				$("#dipl_div *").attr("disabled", true)
 				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div *").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail *").attr("disabled", true)
 			});
 			
 			$('#dipl_radio').click(function(){
 				$("#dipl_div").css("display",'')
+				$("#dipl_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#minut_div").attr("style", "display:none")	
+				$("#normal_div *").attr("disabled", true)
+				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail").attr("disabled", true)
 			});		
 			
 			$('#minut_radio').click(function(){
 				$("#minut_div").css("display",'')
+				$("#minut_div").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
+				$("#normal_div").attr("disabled", true)
 				$("#dipl_div").attr("style", "display:none")	
+				$("#dipl_div").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div *").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail *").attr("disabled", true)
 			});		
 			
 			$('#humanr_radio').click(function(){
 				$("#hr_detail").css("display",'')
+				$("#hr_detail *").attr("disabled", false)
 				$("#humanr_div").css("display",'')
+				$("#humanr_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#dipl_div").attr("style", "display:none")	
+				$("#normal_div *").attr("disabled", true)
+				$("#dipl_div").attr("style", "display:none")
+				$("#dipl_div *").attr("disabled", true)
 				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 			});	
+
 		});
 	</script>
 	
@@ -1202,7 +1223,7 @@
 	<script>
 		$(function(){
 			
-			$("#deptShare").checked{
+			if($("#deptShare").checked){
 				$("#deptShare_hidden").disabled = true;
 			}
 		});

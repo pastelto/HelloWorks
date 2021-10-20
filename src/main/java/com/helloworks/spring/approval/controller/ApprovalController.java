@@ -88,36 +88,7 @@ public class ApprovalController {
 		ap.setDeptCode(deptCode);
 		ap.setContent(content);
 		ap.setCooper(cooper);
-		ap.setDeptShare(deptShare);
-		
-		// 첨부파일 등록 
-		if(!file.getOriginalFilename().equals("")) {
-			String newName = saveFile(file,request);
-			
-			if(newName!=null) {
-				ap.setOriginName(file.getOriginalFilename());
-				ap.setNewName(newName);
-				approvalService.insertAttachment(ap);
-			}
-		}
-		
-		// 수신참조 등록 
-				
-		Object ccName = request.getParameter("ccName");
-		
-		if(ccName instanceof Integer) {
-			int ccMember  = (int) ccName;
-			ac.setCcMember(ccMember);
-		} else {
-			String ccMember = (String) ccName;
-			ac.setCcDept(ccMember);
-		}		
-		
-			approvalService.insertCoopertation(ac);
-	
-		
-		// 결재라인 등록 
-		insertLine(line, request);
+		ap.setDeptShare(deptShare);			
 						
 		// 문서분류에 따른 등록 
 		String dtype = request.getParameter("doc_type");
@@ -136,6 +107,35 @@ public class ApprovalController {
 					break;
 		default : model.addAttribute("msg", "등록되지 않았습니다.");
 		}
+		
+		// 첨부파일 등록 
+		if(!file.getOriginalFilename().equals("")) {
+			String newName = saveFile(file,request);
+					
+			if(newName!=null) {
+				ap.setOriginName(file.getOriginalFilename());
+				ap.setNewName(newName);
+				approvalService.insertAttachment(ap);
+			}
+		}
+				
+		// 수신참조 등록 
+						
+		Object ccName = request.getParameter("ccName");
+				
+		if(ccName instanceof Integer) {
+			int ccMember  = (int) ccName;
+			ac.setCcMember(ccMember);
+		} else {
+				String ccMember = (String) ccName;
+				ac.setCcDept(ccMember);
+		}		
+				
+		approvalService.insertCoopertation(ac);
+			
+				
+		// 결재라인 등록 
+		insertLine(line, request);		
 				
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
@@ -148,10 +148,31 @@ public class ApprovalController {
 	
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {
 		
-		int line1 = Integer.parseInt(request.getParameter("line1"));
-		int line2 = Integer.parseInt(request.getParameter("line2"));
-		int line3 = Integer.parseInt(request.getParameter("line3"));
-		int line4 = Integer.parseInt(request.getParameter("line4"));
+		int line1 = 0;
+		int line2 = 0;
+		int line3 = 0;
+		int line4 = 0;
+		
+		if(request.getParameter("line1") != null) {			
+			line1 = Integer.parseInt(request.getParameter("line1"));
+		} else {
+			line1 = 0;
+		}
+		if(request.getParameter("line2") != null) {			
+			line2 = Integer.parseInt(request.getParameter("line2"));
+		} else {
+			line2 = 0;
+		}
+		if(request.getParameter("line3") != null) {			
+			line3 = Integer.parseInt(request.getParameter("line3"));
+		} else {
+			line3 = 0;
+		}
+		if(request.getParameter("line4") != null) {			
+			line4 = Integer.parseInt(request.getParameter("line4"));
+		} else {
+			line4 = 0;
+		}
 		
 		line.setLine1(line1);
 		line.setLine2(line2);
