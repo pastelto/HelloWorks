@@ -21,12 +21,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empFire" column="EMP_FIRE"/>
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>
+		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
 		<!-- 암호화 전 -->
-		SELECT * FROM EMPLOYEE
+		SELECT A.*, B.JOB_NAME, C.DEPT_DNAME, C.DEPT_UNAME
+		FROM EMPLOYEE A
+		JOIN JOB_LEVEL B ON A.JOB_CODE = B.JOB_CODE
+		JOIN DEPT C ON A.DEPT_CODE = C.DEPT_CODE
 		WHERE EMP_NO=#{empNo} AND EMP_PWD=#{empPwd} AND EMP_STATUS='Y'
+		
+
+
 		
 		<!-- 암호화 후
 		select * from EMPLOYEE
