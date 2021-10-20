@@ -100,7 +100,7 @@
 								<thead align="center">
 									<tr>
 										<th width="50px;">No.</th>
-										<th width="350px;">제목</th>
+										<th width="350px;">${ loginUser.empNo }</th>
 										<th width="100px;">작성자</th>
 										<th width="100px;">직급</th>
 										<th width="120px;">작성일</th>
