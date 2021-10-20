@@ -231,16 +231,6 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<th style="width: 5%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 20%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 20%"></th>
-												<th style="width: 15%"></th>
-											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -282,8 +272,8 @@
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">주소록 등록하기</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary btn-sm">주소록 등록하기</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">취소</button>
                 </div>
             </form>
             </div>
@@ -341,8 +331,8 @@
 									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-									"<td>" + obj.jobCode + "</td>" +
-									"<td>" + obj.deptCode + "</td>" +
+									"<td>" + obj.jobName + "</td>" +
+									"<td>" + obj.deptDname + "</td>" +
 									"<td>" + obj.empEphone + "</td>" +
 									"<td>" + obj.empEmail + "</td>" +
 									"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
@@ -373,8 +363,8 @@
 									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-									"<td>" + obj.jobCode + "</td>" +
-									"<td>" + obj.deptCode + "</td>" +
+									"<td>" + obj.jobName + "</td>" +
+									"<td>" + obj.deptDname + "</td>" +
 									"<td>" + obj.empEphone + "</td>" +
 									"<td>" + obj.empEmail + "</td>" +
 									"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
@@ -410,8 +400,8 @@
 								"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td>" + obj.jobCode + "</td>" +
-								"<td>" + obj.deptCode + "</td>" +
+								"<td>" + obj.jobName + "</td>" +
+								"<td>" + obj.deptDname + "</td>" +
 								"<td>" + obj.empEphone + "</td>" +
 								"<td>" + obj.empEmail + "</td>" +
 								"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
@@ -441,12 +431,12 @@
 				success:function(list){
 					var value="";
 					$.each(list, function(i, obj){
-						value +="<data-toggle='modal' data-target='#detailEmployeeModal'>"+
+						value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td>" + obj.jobCode + "</td>" +
-						"<td>" + obj.deptCode + "</td>" +
+						"<td>" + obj.jobName + "</td>" +
+						"<td>" + obj.deptDname + "</td>" +
 						"<td>" + obj.empEphone + "</td>" +
 						"<td>" + obj.empEmail + "</td>" +
 						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
