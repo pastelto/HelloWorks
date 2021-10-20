@@ -90,7 +90,7 @@ public class OfficeRoomController {
 	@RequestMapping("searchEmployee.or")
 	public String searchEmployee(HttpServletRequest request) {
 		String optionType = request.getParameter("optionType");
-		String search = request.getParameter("search");
+		String search = request.getParameter("searchEmployee");
 		
 		System.out.println("optionType: "+optionType);
 		System.out.println("search: "+search);

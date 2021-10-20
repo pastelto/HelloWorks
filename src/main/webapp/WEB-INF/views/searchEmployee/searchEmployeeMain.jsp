@@ -130,11 +130,12 @@
 											<tr>
 												<th>검색 조건</th>
 												<td>
+												<form action="searchEmployee.or">
 												<div class="row" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
-														<!-- <form action="searchEmployee.or"> -->
+														
 															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
 																<option value="allType">전체</option>
 																<option value="deptType" onclick="deptSelect();">부서</option>
@@ -156,22 +157,19 @@
 																<option value="C2">마케팅팀</option>
 																<option value="C3">IT개발팀</option>
 															</select>
-															
-															<div class="col-4">
-																<form action="#">
-																<div class="input-group">
-																	<input type="search"
-																		class="form-control form-control-sm"
-																		placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
-																	<div class="input-group-append">
-																		<button type="submit" class="btn btn-sm btn-default">
-																			<i class="fa fa-search"></i>
-																		</button>
-																	</div>
+															&nbsp;&nbsp;
+															<div class="input-group" style="width: 30%;">
+																<input type="search"
+																	class="form-control form-control-sm"
+																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
+																<div class="input-group-append">
+																	<button type="submit" class="btn btn-sm btn-default">
+																		<i class="fa fa-search"></i>
+																	</button>
 																</div>
-															</form>
+															</div>
 														</div>
-													</div>
+													</form>
 												</td>
 											</tr>
 										</table>
@@ -385,7 +383,6 @@
 				$("#optionType>option").eq(5).attr("selected", true);
 				break;
 			}
-			console.log("선택이 된건가")
 		})
 	</script>
 
