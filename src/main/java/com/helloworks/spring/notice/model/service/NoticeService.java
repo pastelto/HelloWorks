@@ -3,6 +3,7 @@ package com.helloworks.spring.notice.model.service;
 import java.util.ArrayList;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.vo.Notice;
 
 public interface NoticeService {
@@ -33,5 +34,21 @@ public interface NoticeService {
 	
 	//임시저장 상세조회
 	Notice selectTNotice(int bno);
+
+	
+	
+	//공지사항 검색 총 게시글수
+	int getSearchListCount(SearchCondition sc);
+
+	
+	
+	//공지사항검색리스트
+	ArrayList<Notice> getSearchList(SearchCondition sc, PageInfo pi);
+	
+	//임시저장 검색  총 게시글수
+	int getSearchlistTCount(SearchCondition sc);
+	
+	//임시저장 검색리스트
+	ArrayList<Notice> searchNoticeTlist(SearchCondition sc, PageInfo piT);
 
 }

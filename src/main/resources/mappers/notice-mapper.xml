@@ -96,7 +96,114 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY NT_NO DESC
    </select>
    
+    <!--~~~~~~~~~~~~~~~~검색 ~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- 총 검색 게시글 갯수 -->
+  	<select id="getSearchListCount" parameterType="SearchCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM NOTICE A
+		JOIN EMPLOYEE B ON (A.NT_EMP_NO=B.EMP_NO)
+			<if test="all != null">
+	    		WHERE A.NT_STATUS ='Y'
+	    	</if>
+		
+	    	<if test="writer != null">
+	    		WHERE A.NT_STATUS ='Y'
+	    		AND B.EMP_NAME LIKE '%'||#{writer}||'%'
+	    	</if>
+	    	<if test="title != null">
+	    		WHERE A.NT_STATUS ='Y'
+	    		AND A.NT_TITLE LIKE '%'||#{title}||'%'
+	    	</if>
+	    	<if test="content != null">
+	    		WHERE A.NT_STATUS ='Y'
+	    		AND A.NT_CONTENT LIKE '%'||#{content}||'%'
+	    	</if>
+	</select>
    
+   <!-- 검색 리스트 -->
+	<select id ="getSearchList" parameterType= "SearchCondition" resultMap="noticeResultSet">
+        SELECT A.NT_NO, A.NT_TITLE, A.NT_COUNT, A.NT_CREATEDATE, A.NT_STATUS, A.NT_EMP_NO,
+        B.EMP_NAME, C.JOB_NAME
+		FROM NOTICE A 
+		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+           <trim prefix="WHERE" prefixOverrides="AND|OR">
+              <choose>
+               	<when test="all !=null">
+                      AND A.NT_STATUS = 'Y'
+                 </when>
+                 <when test="writer !=null">
+                     AND B.EMP_NAME LIKE '%'||#{writer}||'%'
+                     AND A.NT_STATUS = 'Y'
+                 </when>
+                 <when test="title !=null">
+                     AND A.NT_TITLE LIKE '%'||#{title}||'%'
+                     AND A.NT_STATUS = 'Y'
+                 </when>
+                 <otherwise>
+                    AND A.NT_CONTENT LIKE '%'||#{content}||'%'
+                    AND A.NT_STATUS = 'Y'
+                 </otherwise>
+              </choose>
+           
+           </trim>    
+		  ORDER BY A.NT_NO DESC
+                           
+     </select>
+     
+     <!-- 검색 총 임시저장 게시글 갯수 -->
+  	<select id="getSearchlistTCount" parameterType="SearchCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM NOTICE A
+		JOIN EMPLOYEE B ON (A.NT_EMP_NO=B.EMP_NO)
+			<if test="all != null">
+	    		WHERE A.NT_STATUS ='T'
+	    	</if>
+		
+	    	<if test="writer != null">
+	    		WHERE A.NT_STATUS ='T'
+	    		AND B.EMP_NAME LIKE '%'||#{writer}||'%'
+	    	</if>
+	    	<if test="title != null">
+	    		WHERE A.NT_STATUS ='T'
+	    		AND A.NT_TITLE LIKE '%'||#{title}||'%'
+	    	</if>
+	    	<if test="content != null">
+	    		WHERE A.NT_STATUS ='T'
+	    		AND A.NT_CONTENT LIKE '%'||#{content}||'%'
+	    	</if>
+	</select>
+   
+   <!-- 검색 임시저장 리스트 -->
+	<select id ="searchNoticeTlist" parameterType= "SearchCondition" resultMap="noticeResultSet">
+        SELECT A.NT_NO, A.NT_TITLE, A.NT_COUNT, A.NT_CREATEDATE, A.NT_STATUS, A.NT_EMP_NO,
+        B.EMP_NAME, C.JOB_NAME
+		FROM NOTICE A 
+		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+           <trim prefix="WHERE" prefixOverrides="AND|OR">
+              <choose>
+               	<when test="all !=null">
+                      AND A.NT_STATUS = 'T'
+                 </when>
+                 <when test="writer !=null">
+                     AND B.EMP_NAME LIKE '%'||#{writer}||'%'
+                     AND A.NT_STATUS = 'T'
+                 </when>
+                 <when test="title !=null">
+                     AND A.NT_TITLE LIKE '%'||#{title}||'%'
+                     AND A.NT_STATUS = 'T'
+                 </when>
+                 <otherwise>
+                    AND A.NT_CONTENT LIKE '%'||#{content}||'%'
+                    AND A.NT_STATUS = 'T'
+                 </otherwise>
+              </choose>
+           
+           </trim>    
+		  ORDER BY A.NT_NO DESC
+                           
+     </select>
    
    
 </mapper>

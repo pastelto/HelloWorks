@@ -75,47 +75,48 @@
 							<div class="writeBtn">
 								<button class="btn btn-block btn-outline-primary" onclick = "location.href='list.nt'">목록으로</button>
 							</div>
-						
-							<div class="writeBtn">
-								<button class="btn btn-block btn-outline-danger" onclick = "postFormSubmit(2);">삭제</button>
-							</div>
-							<div class="writeBtn">
-								<button class="btn btn-block btn-outline-warning" onclick = "postFormSubmit(1)">수정</button>
-							</div>
+							<!-- 본인만 수정삭제 가능하게  -->
+							<c:if test="${ loginUser.empNo eq n.empNo  }">
+								<div class="writeBtn">
+									<button class="btn btn-block btn-outline-danger" onclick = "postFormSubmit(2);">삭제</button>
+								</div>
+								<div class="writeBtn">
+									<button class="btn btn-block btn-outline-warning" onclick = "postFormSubmit(1)">수정</button>
+								</div>
+							</c:if>
 						</div>
 					
 				            <form id="postForm" action="" method="post">
 								<input type="hidden" name="bno" value="${ n.noticeNo }">
 								<input type="hidden" name="fileName" value="${ n.changeName }"> 
 							</form>
-							<script>
-								function postFormSubmit(num){
-									var postForm = $("#postForm");
-									
-									if(num == 1){
-										postForm.attr("action", "updateForm.nt");
-										postForm.submit();
-									}else{
-										 var answer;
-								   		 answer = confirm("정말로 삭제하시겠습니까?");
-										
-										 if(answer == true){
-								   			 
-											 postForm.attr("action", "delete.nt");
-											 postForm.submit();
-											 
-								   			 alert("공지사항이 삭제되었습니다.");
-								   		 }
-									}
-								}
-							</script>
-							<%--<c:if test="${ loginUser.empName eq n.noticeWriter }">
-			          </c:if>--%>
+							
+					
 					
 			</div>
 		</section>
 		
-		
+	<script>
+		function postFormSubmit(num){
+			var postForm = $("#postForm");
+			
+			if(num == 1){
+				postForm.attr("action", "updateForm.nt");
+				postForm.submit();
+			}else{
+				 var answer;
+		   		 answer = confirm("정말로 삭제하시겠습니까?");
+				
+				 if(answer == true){
+		   			 
+					 postForm.attr("action", "delete.nt");
+					 postForm.submit();
+					 
+		   			 alert("공지사항이 삭제되었습니다.");
+		   		 }
+			}
+		}
+	</script>	
 		
 	</div>
 	<jsp:include page="../common/footer.jsp" />

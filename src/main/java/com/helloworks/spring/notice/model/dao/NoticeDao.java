@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.vo.Notice;
 
 @Repository
@@ -72,6 +73,37 @@ public class NoticeDao {
 	      RowBounds rowBounds = new RowBounds(offset, piT.getBoardLimit());
 	      
 	      return (ArrayList)sqlSession.selectList("noticeMapper.selectTList", null, rowBounds);
+	}
+
+	/*~~~~~~~~~~~~~~~~검색~~~~~~~~~~~~~~~~*/
+	//검색 게시글 갯수
+	public int getSearchListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("noticeMapper.getSearchListCount" , sc);
+	}
+	
+	//검색 리스트
+	public ArrayList<Notice> getSearchList(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
+		 int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	      
+	      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+	      
+	      return (ArrayList)sqlSession.selectList("noticeMapper.getSearchList", sc, rowBounds);
+	}
+	
+	//임시저장 게시글 갯수
+	public int getSearchlistTCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("noticeMapper.getSearchlistTCount" , sc);
+	}
+	
+	//임시저장 리스트
+	public ArrayList<Notice> searchNoticeTlist(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo piT) {
+		int offset = (piT.getCurrentPage() - 1) * piT.getBoardLimit();
+	      
+	      RowBounds rowBounds = new RowBounds(offset, piT.getBoardLimit());
+	      
+	      return (ArrayList)sqlSession.selectList("noticeMapper.searchNoticeTlist", sc, rowBounds);
 	}
 
 }
