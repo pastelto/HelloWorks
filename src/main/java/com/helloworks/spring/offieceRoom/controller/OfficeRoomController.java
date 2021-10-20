@@ -2,6 +2,8 @@ package com.helloworks.spring.offieceRoom.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,5 +85,27 @@ public class OfficeRoomController {
 	public String addOfficeAddressBook() {
 		System.out.println("주소록 추가");
 		return "redirect:searchEmpMain.or";
+	}
+	
+	@RequestMapping("searchEmployee.or")
+	public String searchEmployee(HttpServletRequest request) {
+		String optionType = request.getParameter("optionType");
+		String search = request.getParameter("search");
+		
+		System.out.println("optionType: "+optionType);
+		System.out.println("search: "+search);
+		
+		switch(optionType) {
+		case "allType":
+			break;
+		case "deptType":
+			break;
+		case "empNameType":
+			break;
+		}
+			request.setAttribute("optionType", optionType);
+			request.setAttribute("search", search);
+			return "searchEmployee/searchEmployeeMain";
+		
 	}
 }

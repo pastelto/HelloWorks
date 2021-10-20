@@ -135,20 +135,34 @@
 														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
 														<!-- <form action="searchEmployee.or"> -->
-															<select name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
+															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
 																<option value="allType">전체</option>
-																<option value="deptType">부서</option>
+																<option value="deptType" onclick="deptSelect();">부서</option>
 																<option value="empNoType">사번</option>
 																<option value="empNameType">이름</option>
 																<option value="ePhoneType">내선번호</option>
 																<option value="emailType">이메일</option>
 															</select>
+															<select id="deptType" name="deptType" class="custom-select custom-select-sm" style="width: 15%; display:none">
+																<option value="A">경영지원본부</option>
+																<option value="A1">인사팀</option>
+																<option value="A2">총무팀</option>
+																<option value="A3">재무회계팀</option>
+																<option value="B">영업지원본부</option>
+																<option value="B1">영업팀</option>
+																<option value="B2">운영지원팀</option>
+																<option value="C">사업본부</option>
+																<option value="C1">디자인팀</option>
+																<option value="C2">마케팅팀</option>
+																<option value="C3">IT개발팀</option>
+															</select>
+															
 															<div class="col-4">
 																<form action="#">
 																<div class="input-group">
 																	<input type="search"
 																		class="form-control form-control-sm"
-																		placeholder="검색어를 입력하세요." name="searchEmployee" value="${ searchEmployee }">
+																		placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
 																	<div class="input-group-append">
 																		<button type="submit" class="btn btn-sm btn-default">
 																			<i class="fa fa-search"></i>
@@ -353,29 +367,27 @@
 		$(function() {
 			switch ('${ optionType }') {
 			case "allType":
-				$("#searchEmpTable option").eq(0).attr("selected", true);
+				$("#optionType>option").eq(0).attr("selected", true);
 				break;
 			case "deptType":
-				$("#searchEmpTable option").eq(1).attr("selected", true);
+				$("#optionType>option").eq(1).attr("selected", true);
 				break;
 			case "empNoType":
-				$("#searchEmpTable option").eq(2).attr("selected", true);
+				$("#optionType>option").eq(2).attr("selected", true);
 				break;
 			case "empNameType":
-				$("#searchEmpTable option").eq(2).attr("selected", true);
+				$("#optionType>option").eq(3).attr("selected", true);
 				break;
 			case "ePhoneType":
-				$("#searchEmpTable option").eq(2).attr("selected", true);
+				$("#optionType>option").eq(4).attr("selected", true);
 				break;
 			case "emailType":
-				$("#searchEmpTable option").eq(2).attr("selected", true);
+				$("#optionType>option").eq(5).attr("selected", true);
 				break;
 			}
+			console.log("선택이 된건가")
 		})
 	</script>
-
-
-
 
 	<!-- 직원 이름 키워드 검색 -->
 	<script>
