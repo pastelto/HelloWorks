@@ -1,5 +1,7 @@
 package com.helloworks.spring.attendance.model.service;
 
+import java.util.ArrayList;
+
 import com.helloworks.spring.attendance.model.vo.Attendance;
 
 public interface AttendanceService {
@@ -8,6 +10,6 @@ public interface AttendanceService {
 	void insertInTime(Attendance a);
 
 	//메인조회
-	Attendance selectAttendance(int empNo);
+	ArrayList<Attendance> selectAttendance(int empNo);
 
 }

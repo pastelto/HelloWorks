@@ -84,9 +84,9 @@ input:focus {outline:none;}
 		                  </div>
 		                  <div class="container-fluid text-center">
 			                  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>
-			                  <input type=text class="workingtime" value="${a.inTime}" readonly>
+			                  <input type=text class="workingtime" id="inTime" value="${a.inTime}" readonly>
 			                  <button  class="btn btn-outline-secondary  btn-sm "onclick="insertTime(2);" >퇴근</button>
-			                  <input type=text class="workingtime" value="${a.outTime}" readonly>
+			                  <input type=text class="workingtime" id="outTime" value="${a.outTime}" readonly>
 		                  </div>
 		                  <br>
 		                  <div class="irs-wrapper complete">
@@ -132,7 +132,47 @@ input:focus {outline:none;}
 <script src="./resources/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
    
-   
+ <script>
+ 
+ var empNo = ${loginUser.empNo};
+
+ window.onload = function(){
+ 
+	 console.log(1)
+		$.ajax({
+			
+			//url : 데이터를 전송할 url(필수)
+			url:"attendance.ps",
+			//data : 요청시 전달할 파라미터 설정
+			data:{empNo:empNo},//key:value
+			
+			//type : 전송방식(get/post)
+			type :"get",
+			
+			success: function(result){
+				$('#inTime').value(result);
+				$('#outTime').value(result);
+			},
+			
+			error: function(){
+				console.log("Ajax 통신 실패")								
+			},
+			
+			complete:function(){//통신이 실패하던 성공하던 무조건 실행
+				console.log("무조건 호출")
+			}
+			
+			
+			
+		})	
+		
+		console.log(2)
+ 
+ 
+ }
+
+ 
+ </script>  
    
    
    

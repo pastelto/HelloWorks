@@ -25,46 +25,7 @@
    
 <script>
 
-var empNo = ${loginUser.empNo};
 
-$(function(){
-	$("#attendance").ready(function(){
-		console.log(1)
-		$.ajax({
-			
-			//url : 데이터를 전송할 url(필수)
-			url:"attendance.ps",
-			//data : 요청시 전달할 파라미터 설정
-			data:{empNo:empNo},//key:value
-			datatype:"json",
-			
-			//type : 전송방식(get/post)
-			type :"post",
-			
-			success: function(result){
-				alert(result);
-				location.href="attendance.ps?a=" + result;  
-
-			},
-			
-			error: function(){
-				console.log("Ajax 통신 실패")
-				
-				
-			},
-			
-			complete:function(){//통신이 실패하던 성공하던 무조건 실행
-				console.log("무조건 호출")
-			}
-			
-			
-			
-		})	
-		
-		console.log(2)
-	})
-	
-})
 
 
 

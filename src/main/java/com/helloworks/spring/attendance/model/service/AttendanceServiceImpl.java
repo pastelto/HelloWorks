@@ -1,5 +1,7 @@
 package com.helloworks.spring.attendance.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//메인조회
 	@Override
-	public Attendance selectAttendance(int empNo) {
+	public ArrayList<Attendance> selectAttendance(int empNo) {
 		
 		return attendanceDao.selectAttendance(sqlSession, empNo);
 	}

@@ -1,5 +1,7 @@
 package com.helloworks.spring.attendance.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +17,9 @@ public class AttendanceDao {
 	}
 	
 	//메인조회
-	public Attendance selectAttendance(SqlSessionTemplate sqlSession, int empNo) {
+	public ArrayList<Attendance> selectAttendance(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("attendanceMapper.selectAttendance", empNo);
+		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAttendance", empNo);
 	}
 
 }

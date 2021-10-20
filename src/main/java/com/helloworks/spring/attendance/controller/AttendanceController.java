@@ -1,15 +1,15 @@
 package com.helloworks.spring.attendance.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
@@ -63,7 +63,7 @@ public class AttendanceController {
 		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$컨트롤러 탄다~~~~~~~~");
 		
 		
-		 Attendance a = attendanceService.selectAttendance(empNo);			 
+		 ArrayList<Attendance> a = attendanceService.selectAttendance(empNo);			 
 		 System.out.println("a######################## +" + a);
 		 System.out.println("empNo +" + empNo);
 		 
