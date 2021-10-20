@@ -25,7 +25,9 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h4><i class="nav-icon fas fa-envelope"><b> 메일 쓰기</b></i></h4>
+						<h4>
+							<i class="nav-icon fas fa-envelope"><b> 메일 쓰기</b></i>
+						</h4>
 					</div>
 				</div>
 			</div>
@@ -36,7 +38,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-3">
-						<a href="mailbox.ml" class="btn btn-primary btn-block mb-3">받은 메일함</a>
+						<a href="mailbox.ml" class="btn btn-primary btn-block mb-3">받은
+							메일함</a>
 						<div class="card card-outline card-info">
 							<div class="card-header">
 								<h3 class="card-title">Folders</h3>
@@ -49,22 +52,22 @@
 							</div>
 							<div class="card-body p-0">
 								<ul class="nav nav-pills flex-column">
-									<li class="nav-item active"><a href="#" class="nav-link">
-											<i class="fas fa-inbox"></i> Inbox <span
+									<li class="nav-item active"><a href="inbox.ml"
+										class="nav-link"> <i class="fas fa-inbox"></i> 받은 메일함 <span
 											class="badge bg-primary float-right">12</span>
 									</a></li>
-									<li class="nav-item"><a href="#" class="nav-link"> <i
-											class="far fa-envelope"></i> Sent
+									<li class="nav-item"><a href="sent.ml" class="nav-link">
+											<i class="far fa-envelope"></i> 보낸 메일함
 									</a></li>
-									<li class="nav-item"><a href="#" class="nav-link"> <i
-											class="far fa-file-alt"></i> Drafts
+									<li class="nav-item"><a href="draft.ml" class="nav-link">
+											<i class="far fa-file-alt"></i> 임시 보관함
 									</a></li>
-									<li class="nav-item"><a href="#" class="nav-link"> <i
-											class="fas fa-filter"></i> Junk <span
+									<li class="nav-item"><a href="important.ml"
+										class="nav-link"> <i class="fas fa-filter"></i> 중요 메일함 <span
 											class="badge bg-warning float-right">65</span>
 									</a></li>
-									<li class="nav-item"><a href="#" class="nav-link"> <i
-											class="far fa-trash-alt"></i> Trash
+									<li class="nav-item"><a href="trash.ml" class="nav-link">
+											<i class="far fa-trash-alt"></i> 휴지통
 									</a></li>
 								</ul>
 							</div>
@@ -81,12 +84,12 @@
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body">
-=
 									<div class="row">
 										<div class="col-2">발신자</div>
 										<div class="col-10">
 											<div class="form-group">
-												<input id="mailSndr" name="mailSndr" value="${loginUser.empName}" class="form-control" readonly>
+												<input id="mailSndr" name="mailSndr"
+													value="${loginUser.empName}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -94,7 +97,8 @@
 										<div class="col-2">수신자</div>
 										<div class="col-8">
 											<div class="form-group">
-												<input id="mailRcvr" name="mailRcvr" value="" class="form-control" placeholder="수신자 사번조회 -> 이메일">
+												<input id="mailRcvr" name="mailRcvr" value=""
+													class="form-control" placeholder="수신자 사번조회 -> 이메일">
 											</div>
 										</div>
 										<div class="col-2">
@@ -109,7 +113,8 @@
 										<div class="col-2">참조자</div>
 										<div class="col-8">
 											<div class="form-group">
-												<input id="mailRef" name="mailRef" value=""class="form-control" placeholder="참조자 사번조회 -> 이메일">
+												<input id="mailRef" name="mailRef" value=""
+													class="form-control" placeholder="참조자 사번조회 -> 이메일">
 											</div>
 										</div>
 										<div class="col-2">
@@ -131,8 +136,8 @@
 									</div>
 									<div class="form-group">
 										<div class="btn btn-default btn-file">
-											<i class="fas fa-paperclip"></i> 첨부파일 
-											<input type="file" name="attachment">
+											<i class="fas fa-paperclip"></i> 첨부파일 <input type="file"
+												name="attachment">
 										</div>
 										<p class="help-block">Max. 32MB</p>
 									</div>

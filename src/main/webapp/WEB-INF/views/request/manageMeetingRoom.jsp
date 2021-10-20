@@ -43,37 +43,42 @@
 			<div class="card card-outline card-info">
 				<div class="card-header">
 					<h3 class="card-title">회의실 목록</h3>
+					<div class="float-right">
+						<button class="btn btn-primary" onclick="window.open('openAdd.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
+							<i class="fas fa-clipboard-check"></i> 회의실 등록
+						</button>
+					</div>
 				</div>
 				<!-- /.card-header -->
 				<div class="card-body">
 					<!-- 회의실 목록 -->
 					<!-- 가운데 <div class="container"> -->
-						<table id="meetingRoomList"
-							class="table table-bordered table-striped">
-							<thead>
+					<table id="meetingRoomList"
+						class="table table-bordered table-striped">
+						<thead>
+							<tr align="center">
+								<th>회의실 번호</th>
+								<th>회의실 명</th>
+								<th>회의실 수용인원</th>
+								<th>회의실 사용여부</th>
+								<th>관리자</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- 회의실 목록 띄우기 -->
+							<c:forEach items="${ list }" var="m">
 								<tr align="center">
-									<th>회의실 번호</th>
-									<th>회의실 명</th>
-									<th>회의실 수용인원</th>
-									<th>회의실 사용여부</th>
-									<th>관리자</th>
-									<th>삭제</th>
+									<td>${ m.no }</td>
+									<td>${ m.name }</td>
+									<td>${ m.capacity }</td>
+									<td>${ m.status }</td>
+									<td>${ m.empNo }</td>
+									<td>체크박스</td>
 								</tr>
-							</thead>
-							<tbody>
-								<!-- 회의실 목록 띄우기 -->
-								<c:forEach items="${ list }" var="m">
-									<tr align="center">
-										<td>${ m.no }</td>
-										<td>${ m.name }</td>
-										<td>${ m.capacity }</td>
-										<td>${ m.status }</td>
-										<td>${ m.empNo }</td>
-										<td>체크박스</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+							</c:forEach>
+						</tbody>
+					</table>
 					<!-- </div> -->
 				</div>
 				<!-- /.card-body -->
