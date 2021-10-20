@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일일보고</title>
+<title>HelloWorks - 업무공유</title>
 
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
@@ -54,7 +54,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWorkShare" method="post" action="insert.ws" enctype="multipart/form-data">
+						<form id="insertWSForm" method="post" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -65,8 +65,8 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="로그인 유저 이름  + 직급" style="border: none;" readonly>
-												<input type="hidden" name="loginEmpId" value="2021000001">
+												<input type="text" name="loginEmpId" value="김다혜 팀장님" style="border: none;" readonly>
+												<input type="hidden" name="ws_empno" value="202100003">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">
@@ -79,13 +79,14 @@
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
-												<input type="text" class="form-control form-control-sm">
+												<input type="text" name="ws_title" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
+												<input type="text" name="ws_recv">
 												<div class="float-right">
 													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
 													&nbsp;&nbsp;
@@ -97,9 +98,15 @@
 												<th>참조</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
+												<input type="text" name="ws_ref">
+												<div class="float-right">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+													&nbsp;&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+												</div>
 												</td>
 											</tr>
-											<tr>
+<!-- 											<tr>
 												<th>수정권한</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
@@ -109,14 +116,14 @@
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
 												</div>
 												</td>
-											</tr>
+											</tr> -->
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
 													<span class="badge badge-info" id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="workShareAttach" id="workShareAttach">
+									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
 									                  </div> 
 												</td>
 											</tr>
@@ -127,7 +134,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote"></textarea>
+										<textarea id="summernote" name="ws_content"></textarea>
 									</div>
 								</div>
 
@@ -135,11 +142,11 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="saveWorkShare();">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertWorkShare();">등록</button>
 									&nbsp;
-									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList();">취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -165,22 +172,52 @@
 	
 	<!-- 첨부파일 라벨 이름 추가 -->
 	<script>
+		
 		$("#workShareAttach").on("change", function() {
-			var filename = $(this)[0].files[0].name + " ";
-			// 어떻게 하나씩 분리??
-			$('#workShareAttachName').append(filename);
+			var filename = "";
+			
+			for(var i = 0; i < $(this)[0].files.length; i++){
+				filename += $(this)[0].files[i].name;
+					filename += " ";
+			}
+			console.log("filename : " + filename)
+			$('#workShareAttachName').append(filename); 
 		});
+
 	</script>
 	
 	<!-- 버튼 이동 -->
 	<script>
-	// 임시저장 버튼 클릭시 저장
-	$(function(){
-		$("#tempSaveBtn").onClick(){
+	// 업무공유 보내기
+ 	function insertWorkShare(){
+		$('#insertWSForm').each(function(){	
 			
-		}
-	});
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
+			$("#insertWSForm").submit();
+			alert("업무공유가 발송되었습니다.");
+		});
+	}
+	// 업무공유 임시저장하기
+ 	function saveWorkShare(){
+		$('#insertWSForm').each(function(){	
+
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
+			$("#insertWSForm").submit();
+			alert("업무공유가 임시저장 되었습니다.");
+		});
+	} 
+	
+	// 취소버튼 - 뒤로가기
+ 	function backToList(){
 		
+		var result = confirm("정말 취소하시겠습니까? (작성 중인 업무공유가 초기화됩니다.)");
+		
+		if(result){
+			// 뒤로 가기
+			history.back();
+		} 
+		
+	} 
 	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>

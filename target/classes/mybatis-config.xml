@@ -11,6 +11,8 @@
 		<typeAlias type="com.helloworks.spring.notice.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.helloworks.spring.attendance.model.vo.Attendance" alias="Attendance"/>
 		<typeAlias type="com.helloworks.spring.common.model.vo.SearchCondition" alias="SearchCondition"/>
+		<typeAlias type="com.helloworks.spring.workshare.model.vo.WorkShare" alias="WorkShare"/>
+		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSAttachment" alias="WSAttachment"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.Approval" alias="Approval"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalCC" alias="ApprovalCC"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalDiploma" alias="ApprovalDiploma"/>
@@ -23,7 +25,7 @@
 	<mappers>
 		<mapper resource="/mappers/notice-mapper.xml"/>
 		<mapper resource="/mappers/employee-mapper.xml"/>
-		<!-- <mapper resource="/mappers/officeroom-mapper.xml"/> -->
+		<mapper resource="/mappers/workShare-mapper.xml"/>
 		<mapper resource="/mappers/officeroom-mapper.xml"/>
 		<mapper resource="/mappers/attendance-mapper.xml"/>
 		<mapper resource="/mappers/approval-mapper.xml"/>
