@@ -78,15 +78,14 @@ input:focus {outline:none;}
 	              <div class="tab-content" id="custom-tabs-four-tabContent">
 		              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 		                  <!-- 근태정보 -->
-	                      <div class="container-fluid text-center" style="margin-top:-7px;">               
-		                     <h5>
-		                        <span id="nowTimes"></span>
-		                     </h5>                     
+	                      <div class="container-fluid text-center" style="margin-top:-7px;"> 
+	                      	          
+		                     <h5><span id="nowTimes"></span></h5>                     
 		                  </div>
 		                  <div class="container-fluid text-center">
-			                  <button  class="btn btn-outline-secondary  btn-sm" onclick="intime();" >출근</button>
+			                  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>
 			                  <input type=text class="workingtime" value="${a.inTime}" readonly>
-			                  <button  class="btn btn-outline-secondary  btn-sm " >퇴근</button>
+			                  <button  class="btn btn-outline-secondary  btn-sm "onclick="insertTime(2);" >퇴근</button>
 			                  <input type=text class="workingtime" value="${a.outTime}" readonly>
 		                  </div>
 		                  <br>
@@ -139,9 +138,7 @@ input:focus {outline:none;}
    
 
 <script>
-function intime(){	
-	alert("출근시간이 등록되었습니다")
-	
+function insertTime(num){	
 	var nowDate = new Date();
 	var hour = nowDate.getHours();
 	var min = nowDate.getMinutes();
@@ -149,11 +146,17 @@ function intime(){
     
     if(min < 10) { min = "0" + min; }
     if(sec < 10) { sec = "0" + sec; }
-    var inTime= hour + ":" + min + ":" + sec ;
-
-	location.href="intime.ps?inTime=" + inTime;
+    var inOutTime= hour + ":" + min + ":" + sec ;
+	
+	if(num == 1){
+		alert("출근시간이 등록되었습니다")
+		location.href="intime.ps?inOutTime=" + inOutTime;		
+	}else{
+		alert("퇴근시간이 등록되었습니다")
+		location.href="outTime.ps?inOutTime=" + inOutTime;	
+	}
+	
 }
-
 </script>
 
 <script>

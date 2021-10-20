@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,16 +29,16 @@ public class AttendanceController {
 	
 	//출근시간 등록
 	@RequestMapping("intime.ps")
-	public String insertInTime(String inTime, HttpServletRequest request) {
-		 System.out.println("출근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inTime);
+	public String insertInTime(String inOutTime, HttpServletRequest request) {
+		 System.out.println("출근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inOutTime);
 		 
 		 Attendance a = new Attendance();
 		 
 		 //출근시간set
-		 a.setInTime(inTime);
+		 a.setInTime(inOutTime);
 		 
 		 //상태set
-		 int status = Integer.parseInt(inTime.substring(0, 2));
+		 int status = Integer.parseInt(inOutTime.substring(0, 2));
 		 if(status > 9) {
 			 a.setPsStatus("지각");
 		 }else {
@@ -68,6 +69,50 @@ public class AttendanceController {
 		 
 		 
 		 return new GsonBuilder().create().toJson(a);
+	}
+	
+	//퇴근시간 등록
+	@RequestMapping("outTime.ps")
+	public ModelAndView updateOutTime(Attendance a, String inOutTime, ModelAndView mv, HttpServletRequest request) {
+		 System.out.println("퇴근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inOutTime);
+
+		 //퇴근시간set
+		 a.setOutTime(inOutTime);
+		 
+		//출근시간 초로바꾸기
+		 int hour1 = (Integer.parseInt(a.getInTime().substring(0, 2)))*60*60;
+		 int min1 = (Integer.parseInt(a.getInTime().substring(3, 2)))*60;
+		 int sec1 = hour1+min1+(Integer.parseInt(a.getInTime().substring(6, 2)));
+		 
+		 //퇴근시간 초로바꾸기
+		 int hour2 = (Integer.parseInt(inOutTime.substring(0, 2)))*60*60;
+		 int min2 = (Integer.parseInt(inOutTime.substring(3, 2)))*60;
+		 int sec2 = hour2+min2+(Integer.parseInt(inOutTime.substring(6, 2)));
+		 
+		 int working = sec2-sec1;
+		 int over = 0;
+		 
+		 //총근로시간
+		 a.setTotal(working);
+		 
+		 //다시~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 //야근시간 + 일한시간
+		 if(working > 28800) { //야근했을때
+			 over = working-28800;
+			 a.setOverTime(over);
+			 a.setWorkingTime(28800);
+		 }else {
+			 a.setOverTime(0); //야근하지않았을때
+			 a.setWorkingTime(working);
+			 a.setPsStatus("조퇴");
+		 }
+	
+		//테스트 어떻게 찍힐까
+		 System.out.println(a);
+		
+		 //attendanceService.updateOutTime(a);			 
+		 
+		 return mv;
 	}
 	
 	
