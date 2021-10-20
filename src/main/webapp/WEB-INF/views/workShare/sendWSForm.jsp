@@ -65,8 +65,8 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="김다혜 팀장님" style="border: none;" readonly>
-												<input type="hidden" name="ws_empno" value="202100003">
+												<input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly>
+												<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">

@@ -78,12 +78,12 @@
                       <th width="50px;">등록일</th>
                     </tr>
                   </thead>
-                  <tbody align="center">
+                <tbody align="center">
                 	<c:forEach items="${ list }" var="ws">
 	                    <tr>
 	                        <td width="10px;">${ ws.ws_no }</td>
 	                        <c:if test="${ ws_favb eq Y }">
-	                        	<td id="${ ws_no }" class="btn-like" width="10px;" onclick="clickFavb("${ ws_no }");">⭐</td>
+	                        	<td id="${ ws_no }" class="btn-like" width="10px;" onclick="clickFavb('${ ws_no }');">⭐</td>
 	                        </c:if>
 	                        <c:if test="${ ws_favb ne Y }">
 	                        	<td width="10px;">&nbsp;</td>
