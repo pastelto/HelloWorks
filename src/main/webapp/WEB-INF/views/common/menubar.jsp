@@ -31,7 +31,7 @@
         <a href="index3.html" class="nav-link">사람 아이콘</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">사람이름</a>
+        <a class="nav-link">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
       </li>
     </ul>
 

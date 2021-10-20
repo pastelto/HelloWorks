@@ -53,23 +53,37 @@ public class AttendanceController {
 		 attendanceService.insertInTime(a);			 
 		 //"redirect:list.nt"; -조회되면 이걸로 바꾸기?
 		 
-		 return "main/main";
+		 return "redirect:main.mi";
 	}
 	
+//	   //조회
+//	   @RequestMapping("attendance.ps")
+//	   public ModelAndView selectAttendance( ModelAndView mv, HttpServletRequest request) {
+//		   int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
+//	      Attendance a = attendanceService.selectAttendance(empNo);
+//	      System.out.println("a######################## +" + a);
+//	      System.out.println("empNo +" + empNo);
+//	      
+//	      mv.addObject("a", a).setViewName("main/main");
+//	      
+//	      return mv;
+//	   }
+
+	
 	//조회
-	@ResponseBody
-	@RequestMapping(value="attendance.ps", produces="application/json; charset=UTF-8") 
-	public String selectAttendance(int empNo) {
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$컨트롤러 탄다~~~~~~~~");
-		
-		
-		 ArrayList<Attendance> a = attendanceService.selectAttendance(empNo);			 
-		 System.out.println("a######################## +" + a);
-		 System.out.println("empNo +" + empNo);
-		 
-		 
-		 return new GsonBuilder().create().toJson(a);
-	}
+//	@ResponseBody
+//	@RequestMapping(value="attendance.ps", produces="application/json; charset=UTF-8") 
+//	public String selectAttendance(int empNo) {
+//		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$컨트롤러 탄다~~~~~~~~");
+//		
+//		
+//		 ArrayList<Attendance> a = attendanceService.selectAttendance(empNo);			 
+//		 System.out.println("a######################## +" + a);
+//		 System.out.println("empNo +" + empNo);
+//		 
+//		 
+//		 return new GsonBuilder().create().toJson(a);
+//	}
 	
 	//퇴근시간 등록
 	@RequestMapping("outTime.ps")

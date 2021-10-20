@@ -31,7 +31,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//메인조회
 	@Override
-	public ArrayList<Attendance> selectAttendance(int empNo) {
+	public Attendance selectAttendance(int empNo) {
 		
 		return attendanceDao.selectAttendance(sqlSession, empNo);
 	}

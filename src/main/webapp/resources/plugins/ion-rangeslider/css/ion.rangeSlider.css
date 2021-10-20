@@ -43,13 +43,13 @@ Build date: 2019-12-19 16:51:02
 .irs-handle.type_last {
   z-index: 2;
 }
-.irs-min,
+,
 .irs-max {
   position: absolute;
   display: block;
   cursor: default;
 }
-.irs-min {
+ {
   left: 0;
 }
 .irs-max {
@@ -180,7 +180,7 @@ Build date: 2019-12-19 16:51:02
 .irs--flat .irs-handle:hover > i:first-child {
   background-color: #a43540;
 }
-.irs--flat .irs-min,
+.irs--flat ,
 .irs--flat .irs-max {
   top: 0;
   padding: 1px 3px;
@@ -269,7 +269,7 @@ Build date: 2019-12-19 16:51:02
   background-color: #939ba7;
   background: linear-gradient(to bottom, white 0%, #919BA5 30%, white 100%);
 }
-.irs--big .irs-min,
+.irs--big ,
 .irs--big .irs-max {
   top: 0;
   padding: 1px 5px;
@@ -380,7 +380,7 @@ Build date: 2019-12-19 16:51:02
 .irs--modern .irs-handle:hover > i:nth-child(3) {
   border-color: #48536a;
 }
-.irs--modern .irs-min,
+.irs--modern ,
 .irs--modern .irs-max {
   top: 0;
   font-size: 10px;
@@ -478,7 +478,7 @@ Build date: 2019-12-19 16:51:02
 .irs--sharp .irs-handle:hover > i:first-child {
   border-top-color: black;
 }
-.irs--sharp .irs-min,
+.irs--sharp ,
 .irs--sharp .irs-max {
   color: white;
   font-size: 14px;
@@ -563,7 +563,7 @@ Build date: 2019-12-19 16:51:02
 .irs--round .irs-handle:hover {
   background-color: #f0f6ff;
 }
-.irs--round .irs-min,
+.irs--round ,
 .irs--round .irs-max {
   color: #333;
   font-size: 14px;
@@ -644,7 +644,7 @@ Build date: 2019-12-19 16:51:02
 .irs--square .irs-handle:hover {
   background-color: #f0f6ff;
 }
-.irs--square .irs-min,
+.irs--square ,
 .irs--square .irs-max {
   color: #333;
   font-size: 14px;
