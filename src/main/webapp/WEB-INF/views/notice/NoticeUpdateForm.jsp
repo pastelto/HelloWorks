@@ -41,7 +41,7 @@
 						<div class="card-body">							
 							<input type="hidden" id="noticeNo" name="noticeNo"value="${ n.noticeNo }"/>
 							<input type="hidden" id="nStatus" name="nStatus" value="${ n.NStatus }"/>
-							<input type="hidden" id="empNo" name="empNo" value="202100005"/><!-- value="${ loginUser.empNo }"  -->
+							<input type="hidden" id="empNo" name="empNo" value="${ loginUser.empNo }"/>
 							<table class="table table-bordered">
 						        <tr>
 						            <td id="formWriteTilte">제목</td>
@@ -49,9 +49,25 @@
 						        </tr>
 						        <tr >
 						            <td width="10%;" >작성자</td>
-						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="김하연" readonly/></td><!-- value="${ loginUser.empName }"  -->
+						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="${ loginUser.empName }" readonly/></td>
 						            <td width="12%;">직급</td>
-						            <td width="30%;"><input id="jobName" name="jobName" value="팀장" readonly/></td><!-- value="${ loginUser.jobName }"  -->
+						            <td width="30%;">
+						            	<c:choose>
+											<c:when test="${loginUser.jobCode eq 'J1'}"> 
+													<c:set var="empJobCode" value="대표이사"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J2'}"> 
+													<c:set var="empJobCode" value="본부장"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J3'}"> 
+													<c:set var="empJobCode" value="팀장"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J4'}"> 
+													<c:set var="empJobCode" value="팀원"/>
+											</c:when>
+										</c:choose>
+						            	<input id="jobName" name="jobName" value="${ empJobCode }" readonly/>
+						            </td>
 						        </tr>
 						    </table>
 							<br>
@@ -108,7 +124,7 @@
 				    $("#updateForm").attr("action", "<%=request.getContextPath()%>/updateNotice.nt");
 					$("#updateForm").submit();  
 					
-					alert("임시저장 게시글이 수정되었습니다")
+					alert("게시글이 수정되었습니다")
 				});								
 			}
 			function updateStatus(){
