@@ -10,6 +10,6 @@ public interface AttendanceService {
 	void insertInTime(Attendance a);
 
 	//메인조회
-	ArrayList<Attendance> selectAttendance(int empNo);
+	Attendance selectAttendance(int empNo);
 
 }

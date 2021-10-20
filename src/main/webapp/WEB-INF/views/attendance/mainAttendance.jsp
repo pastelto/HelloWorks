@@ -37,6 +37,14 @@ input:focus {outline:none;}
 	height : 15px;
 }
 
+.irs--flat .irs-bar	{
+	background-color : lightpink !important;
+}
+.irs-min , .irs-max{
+	visibility: hidden !important;
+}
+
+
 </style>
   
 </head>
@@ -54,8 +62,8 @@ input:focus {outline:none;}
                  <div class="text-center" style="margin-top:-5px; padding-bottom:15px;">
                     <i class="far fa-user-circle fa-2x"></i>
                  </div>
-                 <h6  class="text-center">${loginUser.empName} 님 환영합니다</h6>
-                 <p class="text-muted text-center">IT개발팀</p>
+                 <h6  class="text-center">${loginUser.empName} ${loginUser.jobName}님 환영합니다</h6>
+                 <p class="text-muted text-center">${loginUser.deptDname}</p>
               </div>    
         	
         	  <!-- 탭 -->	
@@ -84,9 +92,9 @@ input:focus {outline:none;}
 		                  </div>
 		                  <div class="container-fluid text-center">
 			                  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>
-			                  <input type=text class="workingtime" id="inTime" value="${a.inTime}" readonly>
+			                  <input type=text class="workingtime" id="inTime" value="${attendance.inTime}" readonly>
 			                  <button  class="btn btn-outline-secondary  btn-sm "onclick="insertTime(2);" >퇴근</button>
-			                  <input type=text class="workingtime" id="outTime" value="${a.outTime}" readonly>
+			                  <input type=text class="workingtime" id="outTime" value="${attendance.outTime}" readonly>
 		                  </div>
 		                  <br>
 		                  <div class="irs-wrapper complete">
@@ -102,11 +110,10 @@ input:focus {outline:none;}
 	                      <div class="profress border">
 	                      		<div id="progressbar"class="progress-bar bg-info" style="width:60%">6시간</div>
 	                      </div>
-		                    -->
-		                
-                    </div>
+		                    -->		                
+                     </div>
 		                  
-		              </div>
+		              
 		              <div class="tab-pane fade" id="custom-tabs-four-recv" role="tabpanel" aria-labelledby="custom-tabs-four-recv-tab">
 		                  <!-- 휴가정보 -->
 		                  	휴가정보 나와라 얍
@@ -133,7 +140,7 @@ input:focus {outline:none;}
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
   
  <script>
- 
+ <%--
  var empNo = ${loginUser.empNo};
 
  window.onload = function(){
@@ -170,7 +177,7 @@ input:focus {outline:none;}
  
  }
 
- 
+ --%>
  </script>  
     
 <script>
