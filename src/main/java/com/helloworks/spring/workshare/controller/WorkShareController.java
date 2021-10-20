@@ -204,13 +204,8 @@ public class WorkShareController {
 		
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
 		
-		System.out.println("multiRequest.getFiles(\"uploadFile\").get(0).getSize() ? " + multiRequest.getFiles("uploadFile").get(0).getSize());
-
-		if(multiRequest.getFiles("uploadFile").get(0).getSize() != 0){
-			fileList = multiRequest.getFiles("uploadFile"); 
-		}
+		// System.out.println("multiRequest 파일 사이즈가 0이면, 파일이 없음! : " + multiRequest.getFiles("uploadFile").get(0).getSize());
 		System.out.println("fileList ? " + fileList.size());
-		
 		System.out.println("ws_status ? " + ws_status);
 		
 		WorkShare ws = new WorkShare();
@@ -219,7 +214,7 @@ public class WorkShareController {
 		
 		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
 		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
-		ws.setWs_recv((String) multiRequest.getParameter("ws_recv"));
+		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
 		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
 		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
 		ws.setWs_status(ws_status);
@@ -228,8 +223,8 @@ public class WorkShareController {
 		workShareService.insertWorkShare(ws);
 		System.out.println("ws ? " + ws);
 		
-		// 첨부파일이 있으면 리스트로 값 추가하기
-		 if(!fileList.isEmpty()) {
+		// 첨부파일이 있으면 리스트로 값 추가하기 
+		 if(fileList.get(0).getSize() != 0) {
 		  
 			 for(int i = 0; i < fileList.size(); i++) {
 			 WSAttachment wsa = new WSAttachment();
@@ -270,7 +265,8 @@ public class WorkShareController {
 		
 		// multiRequest에서 name이 uploadFile인 태그에 담긴 값 가져오기 = 첨부파일들
 		
-		System.out.println("files ? " + files);
+		System.out.println("files.length ? " + files.length);
+		System.out.println("files ? " + files[0]);
 		System.out.println("ws_status ? " + ws_status);
 		
 		// WorkShare ws = new WorkShare();
