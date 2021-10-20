@@ -159,7 +159,7 @@
 															<tr>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name0">최승철</span>
-																	<input type="hidden" id="writer" name="writer" value="202100011">
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<span id="emp_name1">김소원</span>
@@ -232,7 +232,7 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine();">+ 결재라인 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -248,7 +248,7 @@
 														</td>
 														<td colspan="6">											
 															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="경영지원본부"/>																				
+															<input type="text" id="ccName" name="ccName" value="C1"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -295,8 +295,8 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" id="deptShare" name="deptShare" value="'Y'"/> 
-															<input type="hidden" id="deptShare_hidden" name="deptShare" value="'N'"/> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
@@ -1248,6 +1248,22 @@
 			});		
 		}
 	</script>
+	
+	<script>
+	function plusLine(){
+		
+		var _width = '900';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		window.open("plusAppLineForm.ea", "결재라인 추가 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+	}
+	
+	</script>
+
 
 </body>
 </html>

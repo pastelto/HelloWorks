@@ -14,7 +14,7 @@ import lombok.ToString;
 public class ApprovalCC extends Approval{
 
 	private String ccDept; 	// 수신부서
-	private int ccMember;	// 수신자
+	private Integer ccMember;	// 수신자
 	private int ckCount;	// 확인인원
 	private int ccCount;	// 수신인원 
 	

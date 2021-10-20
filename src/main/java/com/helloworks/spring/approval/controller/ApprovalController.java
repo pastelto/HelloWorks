@@ -59,6 +59,12 @@ public class ApprovalController {
 		return "approval/searchDeptForm";
 	}
 	
+	@RequestMapping("plusAppLineForm.ea")
+	public String plusAppLineForm() {
+		
+		return "approval/plusAppLineForm";
+	}
+	
 	
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
@@ -72,6 +78,8 @@ public class ApprovalController {
 		}else if(status.equals("N")) {
 			ap.setStatus(status);
 		}
+		
+		System.out.println("status : " + status);
 		
 		
 		String detailClass = request.getParameter("doc_type");
@@ -126,14 +134,13 @@ public class ApprovalController {
 		if(ccName instanceof Integer) {
 			int ccMember  = (int) ccName;
 			ac.setCcMember(ccMember);
+			approvalService.insertCcEmpl(ac);
 		} else {
 				String ccMember = (String) ccName;
 				ac.setCcDept(ccMember);
+				approvalService.insertCcDept(ac);
 		}		
-				
-		approvalService.insertCoopertation(ac);
-			
-				
+								
 		// 결재라인 등록 
 		insertLine(line, request);		
 				
@@ -149,30 +156,36 @@ public class ApprovalController {
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {
 		
 		int line1 = 0;
-		int line2 = 0;
+		int line2 = 0; 
 		int line3 = 0;
 		int line4 = 0;
 		
-		if(request.getParameter("line1") != null) {			
+		String l2 = request.getParameter("line2");
+		String l3 = request.getParameter("line3");
+		String l4 = request.getParameter("line4");
+		
+		try {		
+			
 			line1 = Integer.parseInt(request.getParameter("line1"));
-		} else {
-			line1 = 0;
-		}
-		if(request.getParameter("line2") != null) {			
 			line2 = Integer.parseInt(request.getParameter("line2"));
-		} else {
-			line2 = 0;
-		}
-		if(request.getParameter("line3") != null) {			
 			line3 = Integer.parseInt(request.getParameter("line3"));
-		} else {
-			line3 = 0;
-		}
-		if(request.getParameter("line4") != null) {			
 			line4 = Integer.parseInt(request.getParameter("line4"));
-		} else {
-			line4 = 0;
+		
+		} catch(NumberFormatException e){
+
+			if(l2.equals(null)) {			
+				line2 = 202100000;
+			}
+			if(l3.equals(null)) {			
+				line3 = 202100000;
+			}
+			if(l4.equals(null)) {			
+				line4 = 202100000;
+			}
+						
 		}
+		
+		System.out.println("LINE : " + line1 + line2 + +line3 + line4);
 		
 		line.setLine1(line1);
 		line.setLine2(line2);

@@ -11,8 +11,6 @@ public interface ApprovalService {
 
 	void insertApproval(Approval ap);
 
-	void insertCoopertation(ApprovalCC ac);
-
 	void insertLine(ApprovalLine line);
 
 	void insertDiploma(ApprovalDiploma ad);
@@ -22,6 +20,10 @@ public interface ApprovalService {
 	void insertHr(ApprovalHr ah);
 
 	void insertAttachment(Approval ap);
+
+	void insertCcEmpl(ApprovalCC ac);
+
+	void insertCcDept(ApprovalCC ac);
 
 	
 
