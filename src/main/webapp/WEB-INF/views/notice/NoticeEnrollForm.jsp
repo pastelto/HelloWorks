@@ -39,7 +39,7 @@
 					<form method="post" id="insertForm" enctype="multipart/form-data">
 						<div class="card-body">
 
-							<input type="hidden" id="empNo" name="empNo" value="202100005"><!-- value="${ loginUser.empNo }"  -->
+							<input type="hidden" id="empNo" name="empNo" value="${ loginUser.empNo}"/>
 							<table class="table table-bordered">
 						        <tr>
 						            <td id="formWriteTilte">제목</td>
@@ -47,9 +47,25 @@
 						        </tr>
 						        <tr >
 						            <td width="10%;" >작성자</td>
-						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="김하연"/></td><!-- value="${ loginUser.empName }"  -->
+						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="${ loginUser.empName }"/></td>
 						            <td width="12%;">직급</td>
-						            <td width="30%;"><input id="jobName" name="jobName" value="팀장"/></td><!-- value="${ loginUser.jobName }"  -->
+						            <td width="30%;">
+						            	<c:choose>
+											<c:when test="${loginUser.jobCode eq 'J1'}"> 
+													<c:set var="empJobCode" value="대표이사"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J2'}"> 
+													<c:set var="empJobCode" value="본부장"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J3'}"> 
+													<c:set var="empJobCode" value="팀장"/>
+											</c:when>
+											<c:when test="${loginUser.jobCode eq 'J4'}"> 
+													<c:set var="empJobCode" value="팀원"/>
+											</c:when>
+										</c:choose>
+						            	<input id="jobName" name="jobName" value="${ empJobCode }"/>
+						            </td>
 						        </tr>
 						    </table>
 							<br>
@@ -80,7 +96,7 @@
     <script>
 					$(document).ready(function() {
 						$('#summernote').summernote({
-							height : 200,
+							height : 280,
 							maxHeight : null,
 							focus : true,
 							lang : 'ko-KR',

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
 
@@ -138,6 +139,8 @@ public class NoticeController {
 			 System.out.println(n.getNStatus());
 			 mv.addObject("n", n).setViewName("notice/NoticeDetail");
 			 
+			 System.out.println("$$$$$$$$$$$$$$$$$$$ + n " + n);
+			 
 			 return mv;
 		}
 		
@@ -235,6 +238,61 @@ public class NoticeController {
 		      
 		      return mv;
 	    }
-
+		
+		
+	/*~~~~~~~~~~~~~~~~~~~~~~검색~~~~~~~~~~~~~~~~~~~~~~~*/
+		@RequestMapping("searchNotice.nt")
+		public String selectSearchNotice(String condition, String search, 
+				@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage, Model model) {
+	  	   
+			   System.out.println("condition" + condition); //select
+			   System.out.println("search" + search); //검색 내용
+			   
+			   SearchCondition sc = new SearchCondition();
+				
+				switch(condition) {
+				case "all":
+					sc.setWriter(search);
+					break;
+				case "writer":
+					sc.setWriter(search);
+					break;
+				case "title":
+					sc.setTitle(search);
+					break;
+				case "content":
+					sc.setContent(search);
+					break;	
+				}
+			   
+			   //공지사항 리스트 
+			   int getSearchlistCount = noticeService.getSearchListCount(sc);
+			   System.out.println("getSearchlistCount : " + getSearchlistCount); 
+			   
+			   PageInfo pi = Pagination.getPageInfo(getSearchlistCount, currentPage, 10, 5);
+			   
+			   ArrayList<Notice> list = noticeService. getSearchList(sc,pi);
+			   System.out.println("searchNoticelist : " + list);
+			   
+			   model.addAttribute("list",list);
+			   model.addAttribute("pi",pi);		
+			   
+			   
+			   //임시저장 리스트
+			   int getSearchlistTCount = noticeService.getSearchlistTCount(sc);
+			   System.out.println("getSearchlistTCount : " + getSearchlistCount); 
+			   
+			   PageInfo piT = Pagination.getPageInfo(getSearchlistTCount, currentPage, 10, 5);
+			   
+			   ArrayList<Notice> tlist = noticeService. searchNoticeTlist(sc,piT);
+			   System.out.println("searchNoticeTlist : " + tlist);
+			   
+			   model.addAttribute("tlist",tlist);
+			   model.addAttribute("piT",piT);		
+			   
+		
+		   
+	      return "notice/NoticeListView";
+	   }
 		 
 }
