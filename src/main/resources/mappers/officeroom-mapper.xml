@@ -121,4 +121,13 @@
 		AND A.EMP_STATUS = 'Y'
 		ORDER BY A.EMP_NO
 	</select>
+	
+	<select id="searchEmployeeDetail" parameterType="_int" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		AND A.EMP_NO = #{empNo}
+	</select>
 </mapper>

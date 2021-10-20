@@ -131,7 +131,7 @@ input:focus {outline:none;}
 <!-- Bootstrap slider -->
 <script src="./resources/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
-   
+  
  <script>
  
  var empNo = ${loginUser.empNo};
@@ -145,7 +145,6 @@ input:focus {outline:none;}
 			url:"attendance.ps",
 			//data : 요청시 전달할 파라미터 설정
 			data:{empNo:empNo},//key:value
-			
 			//type : 전송방식(get/post)
 			type :"get",
 			
@@ -173,10 +172,7 @@ input:focus {outline:none;}
 
  
  </script>  
-   
-   
-   
-
+    
 <script>
 function insertTime(num){	
 	var nowDate = new Date();

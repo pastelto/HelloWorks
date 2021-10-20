@@ -30,4 +30,9 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectEngSortEmployee", catTitle);
 	}
 
+	public Employee searchEmployeeDetail(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.searchEmployeeDetail",empNo);
+	}
+
 }

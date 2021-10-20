@@ -14,4 +14,6 @@ public interface OfficeRoomService {
 
 	ArrayList<Employee> selectEngSortEmployee(String catTitle);
 
+	Employee searchEmployeeDetail(int empNo);
+
 }
