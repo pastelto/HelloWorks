@@ -44,7 +44,7 @@
 				<div class="card-header">
 					<h3 class="card-title">회의실 목록</h3>
 					<div class="float-right">
-						<button class="btn btn-primary" onclick="window.open('add.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
+						<button class="btn btn-primary" onclick="window.open('openAdd.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
 							<i class="fas fa-clipboard-check"></i> 회의실 등록
 						</button>
 					</div>
@@ -69,11 +69,11 @@
 							<!-- 회의실 목록 띄우기 -->
 							<c:forEach items="${ list }" var="m">
 								<tr align="center">
-									<td>${ m.no }</td>
-									<td>${ m.name }</td>
-									<td>${ m.capacity }</td>
-									<td>${ m.status }</td>
-									<td>${ m.empNo }</td>
+									<td>${ m.MMNo }</td>
+									<td>${ m.MMName }</td>
+									<td>${ m.MMCapacity }</td>
+									<td>${ m.MMStatus }</td>
+									<td>${ m.empName }</td>
 									<td>체크박스</td>
 								</tr>
 							</c:forEach>
