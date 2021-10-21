@@ -4,15 +4,20 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.helloworks.spring.request.model.service.RequestService;
 import com.helloworks.spring.request.model.vo.Mtr;
 
 
 @Controller
 public class managementController {
+	
+	@Autowired
+	private RequestService requestService;
 	
 	//회의실 관리 페이지로 전환
 	@RequestMapping("manage.mtr")
