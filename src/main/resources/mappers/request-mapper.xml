@@ -16,8 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
-		INSERT INTO
-		RS_MEETINGROOM_MANAGEMENT
+		INSERT INTO RS_MEETINGROOM_MANAGEMENT
 		VALUES
 		(SEQ_RS_MM_NO.NEXTVAL, #{empNo}, #{mMName}, #{mMCapacity}, DEFAULT)
 	</insert>
