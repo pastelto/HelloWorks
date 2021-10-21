@@ -1,11 +1,13 @@
 package com.helloworks.spring.offieceRoom.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Repository
 public class OfficeRoomDao {
@@ -33,6 +35,11 @@ public class OfficeRoomDao {
 	public Employee searchEmployeeDetail(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("officeroomMapper.searchEmployeeDetail",empNo);
+	}
+
+	public ArrayList<Employee> searchEmployee(SqlSessionTemplate sqlSession, SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.searchEmployee", se);
 	}
 
 }
