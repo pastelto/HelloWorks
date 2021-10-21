@@ -1,6 +1,7 @@
 package com.helloworks.spring.offieceRoom.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.dao.OfficeRoomDao;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Service
 public class OfficeRoomServiceImpl implements OfficeRoomService {
@@ -52,5 +54,14 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		// TODO Auto-generated method stub
 		return officeRoomDao.searchEmployeeDetail(sqlSession, empNo);
 	}
+
+
+	@Override
+	public ArrayList<Employee> searchEmployee(SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.searchEmployee(sqlSession, se);
+	}
+
+
 
 }

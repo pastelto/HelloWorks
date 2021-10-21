@@ -2,8 +2,6 @@ package com.helloworks.spring.offieceRoom.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.service.OfficeRoomService;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Controller
 public class OfficeRoomController {
@@ -88,24 +87,54 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("searchEmployee.or")
-	public String searchEmployee(HttpServletRequest request) {
+	public String searchEmployee(String optionType, String deptTypeOption, String searchEmployee, Model model) {
+		/*
 		String optionType = request.getParameter("optionType");
-		String search = request.getParameter("searchEmployee");
-		
+		String deptTypeOption = request.getParameter("deptTypeOption");
+		String searchEmployee = request.getParameter("searchEmployee");
+		*/
 		System.out.println("optionType: "+optionType);
-		System.out.println("search: "+search);
+		System.out.println("deptTypeOption: "+deptTypeOption);
+		System.out.println("searchEmployee: "+searchEmployee);
+		
+		
+		
+		//mapper에서 파라미터 여러개 사용해야 함 -> HasMap 사용
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("optionType", optionType);
+//		map.put("deptTypeOption", deptTypeOption);
+//		map.put("searchEmployee", searchEmployee);
+		
+		SearchEmployee se = new SearchEmployee();
 		
 		switch(optionType) {
 		case "allType":
+			se.setAllType(searchEmployee);
 			break;
 		case "deptType":
+			se.setDeptType(searchEmployee);
+			se.setDeptTypeOption(deptTypeOption);
+			break;
+		case "empNoType":
+			se.setEmpNoType(searchEmployee);
 			break;
 		case "empNameType":
+			se.setEmpNameType(searchEmployee);
+			break;
+		case "ePhoneType":
+			se.setePhoneType(searchEmployee);
+			break;
+		case "emailType":
+			se.setEmailType(searchEmployee);
 			break;
 		}
-			request.setAttribute("optionType", optionType);
-			request.setAttribute("search", search);
-			return "searchEmployee/searchEmployeeMain";
+		
+		ArrayList<Employee> list = officeRoomService.searchEmployee(se);
+		
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("searchEmployee", searchEmployee);
+		model.addAttribute("list", list);
+		return "searchEmployee/searchEmployeeMain";
 		
 	}
 }
