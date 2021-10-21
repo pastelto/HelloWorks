@@ -32,16 +32,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 	}
 
-	//수신참조 insert
-	@Override
-	public void insertCoopertation(ApprovalCC ac) {		
-		int result = approvalDao.insertCoopertation(sqlSession, ac);
-		
-		if(result < 0) {
-			throw new CommException("결재 등록 실패");
-		}
-		
-	}
 
 	@Override
 	public void insertLine(ApprovalLine line) {
@@ -86,6 +76,27 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public void insertAttachment(Approval ap) {
 		int result = approvalDao.insertAttachment(sqlSession, ap);
+		
+		if(result < 0) {
+			throw new CommException("결재 등록 실패");
+		}
+		
+	}
+
+	@Override
+	public void insertCcEmpl(ApprovalCC ac) {
+		int result = approvalDao.insertCcEmpl(sqlSession, ac);
+		
+		if(result < 0) {
+			throw new CommException("결재 등록 실패");
+		}
+		
+	}
+
+	@Override
+	public void insertCcDept(ApprovalCC ac) {
+		
+		int result = approvalDao.insertCcDept(sqlSession, ac);
 		
 		if(result < 0) {
 			throw new CommException("결재 등록 실패");

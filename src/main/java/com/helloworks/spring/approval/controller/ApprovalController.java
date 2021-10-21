@@ -59,6 +59,12 @@ public class ApprovalController {
 		return "approval/searchDeptForm";
 	}
 	
+	@RequestMapping("plusAppLineForm.ea")
+	public String plusAppLineForm() {
+		
+		return "approval/plusAppLineForm";
+	}
+	
 	
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
@@ -73,11 +79,13 @@ public class ApprovalController {
 			ap.setStatus(status);
 		}
 		
+		System.out.println("status : " + status);
+		
 		
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
-		String deptCode = request.getParameter("userDept");
+		String deptName = request.getParameter("userDept");
 		String content = request.getParameter("apContent");
 		String  cooper= request.getParameter("cooperator0");
 		String deptShare = request.getParameter("deptShare");
@@ -85,39 +93,10 @@ public class ApprovalController {
 		ap.setDetailClass(detailClass);
 		ap.setTitle(title);
 		ap.setWriter(writer);
-		ap.setDeptCode(deptCode);
+		ap.setDeptName(deptName);
 		ap.setContent(content);
 		ap.setCooper(cooper);
-		ap.setDeptShare(deptShare);
-		
-		// 첨부파일 등록 
-		if(!file.getOriginalFilename().equals("")) {
-			String newName = saveFile(file,request);
-			
-			if(newName!=null) {
-				ap.setOriginName(file.getOriginalFilename());
-				ap.setNewName(newName);
-				approvalService.insertAttachment(ap);
-			}
-		}
-		
-		// 수신참조 등록 
-				
-		Object ccName = request.getParameter("ccName");
-		
-		if(ccName instanceof Integer) {
-			int ccMember  = (int) ccName;
-			ac.setCcMember(ccMember);
-		} else {
-			String ccMember = (String) ccName;
-			ac.setCcDept(ccMember);
-		}		
-		
-			approvalService.insertCoopertation(ac);
-	
-		
-		// 결재라인 등록 
-		insertLine(line, request);
+		ap.setDeptShare(deptShare);			
 						
 		// 문서분류에 따른 등록 
 		String dtype = request.getParameter("doc_type");
@@ -136,6 +115,34 @@ public class ApprovalController {
 					break;
 		default : model.addAttribute("msg", "등록되지 않았습니다.");
 		}
+		
+		// 첨부파일 등록 
+		if(!file.getOriginalFilename().equals("")) {
+			String newName = saveFile(file,request);
+					
+			if(newName!=null) {
+				ap.setOriginName(file.getOriginalFilename());
+				ap.setNewName(newName);
+				approvalService.insertAttachment(ap);
+			}
+		}
+				
+		// 수신참조 등록 
+						
+		Object ccName = request.getParameter("ccName");
+				
+		if(ccName instanceof Integer) {
+			int ccMember  = (int) ccName;
+			ac.setCcMember(ccMember);
+			approvalService.insertCcEmpl(ac);
+		} else {
+				String ccMember = (String) ccName;
+				ac.setCcDept(ccMember);
+				approvalService.insertCcDept(ac);
+		}		
+								
+		// 결재라인 등록 
+		insertLine(line, request);		
 				
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
@@ -143,15 +150,42 @@ public class ApprovalController {
 			model.addAttribute("msg", "결재가 임시저장되었습니다.");
 		}
 		
-		return "main/main";
+		return "main";
 	}
 	
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {
 		
-		int line1 = Integer.parseInt(request.getParameter("line1"));
-		int line2 = Integer.parseInt(request.getParameter("line2"));
-		int line3 = Integer.parseInt(request.getParameter("line3"));
-		int line4 = Integer.parseInt(request.getParameter("line4"));
+		int line1 = 0;
+		int line2 = 0; 
+		int line3 = 0;
+		int line4 = 0;
+		
+		String l2 = request.getParameter("line2");
+		String l3 = request.getParameter("line3");
+		String l4 = request.getParameter("line4");
+		
+		try {		
+			
+			line1 = Integer.parseInt(request.getParameter("line1"));
+			line2 = Integer.parseInt(request.getParameter("line2"));
+			line3 = Integer.parseInt(request.getParameter("line3"));
+			line4 = Integer.parseInt(request.getParameter("line4"));
+		
+		} catch(NumberFormatException e){
+
+			if(l2.equals(null)) {			
+				line2 = 202100000;
+			}
+			if(l3.equals(null)) {			
+				line3 = 202100000;
+			}
+			if(l4.equals(null)) {			
+				line4 = 202100000;
+			}
+						
+		}
+		
+		System.out.println("LINE : " + line1 + line2 + +line3 + line4);
 		
 		line.setLine1(line1);
 		line.setLine2(line2);
@@ -177,7 +211,9 @@ public class ApprovalController {
 
 	public void insertMinutes(Approval ap, ApprovalMinutes am, HttpServletRequest request) {
 		String attendees = request.getParameter("attendees");
+		String title = request.getParameter("mm_title");
 		am.setAttendees(attendees);
+		am.setTitle(title);
 		approvalService.insertApproval(ap); 
 		approvalService.insertMinutes(am);
 		
