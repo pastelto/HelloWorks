@@ -18,7 +18,6 @@ public class managementController {
 	@RequestMapping("manage.mtr")
 	public String manageMtr(Model m) {
 		System.out.println("회의실 관리페이지");
-<<<<<<< HEAD
 		
 		ArrayList<Mtr> list = requestService.manageMtr();
 		
@@ -26,12 +25,9 @@ public class managementController {
 		
 		m.addAttribute("list", list);
 		
-=======
->>>>>>> refs/heads/Master
 		return "request/manageMeetingRoom";
 	}
-	
-<<<<<<< HEAD
+
 	// 회의실 등록 팝업 페이지로 
 	@RequestMapping("openAdd.mtr")
 	public String openAddMtr() {
@@ -39,8 +35,6 @@ public class managementController {
 		return "request/addMeetingRoom";
 	}
 	
-=======
->>>>>>> refs/heads/Master
 	//회의실 등록 페이지
 		@RequestMapping("add.mtr")
 		public String addMtr(Mtr mtr, HttpServletRequest request, Model model) {
