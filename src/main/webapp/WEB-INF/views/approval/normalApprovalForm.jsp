@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>전자결재</title>
 
 <!-- summernote -->
  <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
@@ -26,6 +26,11 @@
 	}
 	.content-wrapper{
 		overflow:auto;
+	}
+	input[id^="emp_level"], input[id^="emp_name"], input[id^="line"] {
+		border : none;
+		background-color: white;
+		pointer-events: none;
 	}
 </style>
 </head>
@@ -141,41 +146,41 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0">팀원</span>
+																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1">팀장</span>
+																	<input type="text" class="emp_level1" id="emp_level1_1" value="팀장" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level2"></span>
+																	<input type="text" class="emp_level2" id="emp_level1_2" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level3"></span>
+																	<input type="text" class="emp_level3" id="emp_level1_3" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level4"></span>
+																	<input type="text" class="emp_level4" id="emp_level1_4" disabled/>
 																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0">최승철</span>
-																	<input type="hidden" id="writer" name="writer" value="202100011">
+																	<input type="text" class="emp_name0" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1">김소원</span>
-																	<input type="hidden" id="line1" name="line1" value="202100004">
+																	<input type="text" class="emp_name1" id="emp_name1_1" value="김소원" disabled/>
+																	<input type="hidden" class="line1" id="line1_1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="text" class="emp_name2" id="emp_name1_2" disabled/>
+																	<input type="hidden" class="line2" id="line1_2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="text" class="emp_name3" id="emp_name1_3" disabled/>
+																	<input type="hidden" class="line3" id="line1_3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="text" class="emp_name4" id="emp_name1_4" disabled/>
+																	<input type="hidden" class="line4" id="line1_4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -215,15 +220,15 @@
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																	<input type="hidden" id="cooperator1" name="cooperator1" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																	<input type="hidden" id="cooperator2" name="cooperator2" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																	<input type="hidden" id="cooperator3" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -232,7 +237,7 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -248,7 +253,7 @@
 														</td>
 														<td colspan="6">											
 															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="경영지원본부"/>																				
+															<input type="text" id="ccName" name="ccName" value="C1"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -282,7 +287,7 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept" class="form-control" value="C1" readonly/> 
+															<input type="text" name="userDept" id="userDept" class="form-control" value="${loginUser.deptDname}" readonly/> 
 														</td>
 													</tr>
 													<tr>
@@ -295,15 +300,15 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" id="deptShare" name="deptShare" value="'Y'"/> 
-															<input type="hidden" id="deptShare_hidden" name="deptShare" value="'N'"/> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
 														<td colspan="9">															
 															<div class="btn btn-default btn-file btn-xs">
 											                    <i class="fas fa-paperclip"></i> 첨부파일
-											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
+											                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
 									                  		</div> 
 														</td>
 													</tr>
@@ -361,41 +366,41 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<input type="text" class="border_none" id="emp_level2_1" value="팀장" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level2"></span>
+																	<input type="text" class="border_none" id="emp_level2_2" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level3"></span>
+																	<input type="text" class="border_none" id="emp_level2_3" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level4"></span>
+																	<input type="text" class="border_none" id="emp_level2_4" disabled/>
 																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name2_1" value="김소원" disabled/>
+																	<input type="hidden" id="line2_1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name2_2" disabled/>
+																	<input type="hidden" id="line2_2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name2_3" disabled/>
+																	<input type="hidden" id="line2_3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name2_4" disabled/>
+																	<input type="hidden" id="line2_4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -431,19 +436,19 @@
 															<tr>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																	<input type="hidden" id="cooperator0" name="cooperator0" >
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																	<input type="hidden" id="cooperator1" name="cooperator1">
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																	<input type="hidden" id="cooperator2" name="cooperator2">
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																	<input type="hidden" id="cooperator3" name="cooperator3">
 																</td>										
 															</tr>
 														</tbody>
@@ -452,7 +457,7 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(2);">+ 결재라인 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -467,7 +472,8 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="8">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
+															<input type="text" id="ccName" name="ccName" value="C1"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -493,7 +499,7 @@
 															<span>작성자</span>
 														</td>
 														<td colspan="4">
-															<!-- 로그인 유저 이름  -->
+															<input type="text" name="writer" id="writer" class="form-control" value="${loginUser.empName}" readonly/>
 														</td>
 														<td colspan="2">
 															<span>e-mail</span>
@@ -507,7 +513,7 @@
 															<span>소속</span>
 														</td>
 														<td colspan="4">
-															<!-- 로그인 유저 소속 부서 -->
+															<input type="text" name="userDept" id="userDept" class="form-control" value="${loginUser.deptDname}" readonly/>
 														</td>
 														<td colspan="2">
 															<span>TEL.</span>
@@ -526,7 +532,7 @@
 													</tr>
 													<tr>
 														<td colspan="12">
-															<textarea id="summernote2"></textarea>
+															<textarea id="summernote2" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -534,15 +540,16 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="8">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
-														<td colspan="12">
+														<td colspan="12">															
 															<div class="btn btn-default btn-file btn-xs">
 											                    <i class="fas fa-paperclip"></i> 첨부파일
-											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
-									                  		</div>
+											                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
@@ -557,13 +564,13 @@
 														</td>
 													<tr>
 													<tr id="fileRow">
-														<td colspan="5">
+														<td colspan="6">
 															 <span class="normalAttachName"></span>
 														</td >
-														<td colspan="2">
+														<td colspan="3">
 															<span class="normalAttachSize"></span>
 														</td>
-														<td colspan="2">
+														<td colspan="3">
 															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
 														</td>
 													</tr>
@@ -599,41 +606,41 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<input type="text" class="border_none" id="emp_level3_1" value="팀장" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level2"></span>
+																	<input type="text" class="border_none" id="emp_level3_2" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level3"></span>
+																	<input type="text" class="border_none" id="emp_level3_3" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level4"></span>
+																	<input type="text" class="border_none" id="emp_level3_4" disabled/>
 																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name3_1" value="김소원" disabled/>
+																	<input type="hidden" id="line3_1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name3_2" disabled/>
+																	<input type="hidden" id="line3_2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name3_3" disabled/>
+																	<input type="hidden" id="line3_3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name3_4" disabled/>
+																	<input type="hidden" id="line3_4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -669,19 +676,19 @@
 															<tr>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																	<input type="hidden" id="cooperator0" name="cooperator0">
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																	<input type="hidden" id="cooperator1" name="cooperator1" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																	<input type="hidden" id="cooperator2" name="cooperator2">
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																	<input type="hidden" id="cooperator3" name="cooperator3">
 																</td>										
 															</tr>
 														</tbody>
@@ -690,7 +697,7 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(3);">+ 결재라인 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -705,7 +712,8 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
+															<input type="text" id="ccName" name="ccName" value="C1"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -731,7 +739,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
+															<input type="text" name="writer" id="writer" class="form-control" value="${loginUser.empName}" readonly/>
 														</td>
 													</tr>
 													<tr>
@@ -739,7 +747,15 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<!-- 로그인 유저 소속 부서 -->
+															<input type="text" name="userDept" id="userDept" class="form-control" value="${loginUser.deptDname}" readonly/>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<span>회의 이름</span>
+														</td>
+														<td colspan="6">
+															<input type=text class="form-control" id="mm_title" name="mm_title">
 														</td>
 													</tr>
 													<tr>
@@ -753,7 +769,7 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote3"></textarea>
+															<textarea id="summernote3" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -761,15 +777,16 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="6">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
+														<td colspan="9">															
 															<div class="btn btn-default btn-file btn-xs">
 											                    <i class="fas fa-paperclip"></i> 첨부파일
-											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
-									                  		</div>
+											                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
@@ -783,7 +800,7 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr id="fileRow1">
+													<tr id="fileRow">
 														<td colspan="5">
 															 <span class="normalAttachName"></span>
 														</td >
@@ -826,41 +843,41 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<input type="text" class="border_none" id="emp_level4_1" value="팀장" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level2"></span>
+																	<input type="text" class="border_none" id="emp_level4_2" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level3"></span>
+																	<input type="text" class="border_none" id="emp_level4_3" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level4"></span>
+																	<input type="text" class="border_none" id="emp_level4_4" disabled/>
 																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name4_1" value="김소원" disabled/>
+																	<input type="hidden" id="line4_1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name4_2" disabled/>
+																	<input type="hidden" id="line4_2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name4_3" disabled/>
+																	<input type="hidden" id="line4_3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="text" class="border_none" id="emp_name4_4" disabled/>
+																	<input type="hidden" id="line4_4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -896,19 +913,19 @@
 															<tr>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																	<input type="hidden" id="cooperator0" name="cooperator0" >
 																</td>
 																<td class="table emp_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																	<input type="hidden" id="cooperator1" name="cooperator1" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																	<input type="hidden" id="cooperator2" name="cooperator2" >
 																</td>
 																<td class="table emp_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																	<input type="hidden" id="cooperator3" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -917,7 +934,7 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(4);">+ 결재라인 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -932,7 +949,8 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="8">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
+															<input type="text" id="ccName" name="ccName" value="C1"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -965,62 +983,63 @@
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="4">
 															<span>기안자</span>
 														</td>
-														<td colspan="6">
-															<input type="text" name="writer" id="writer" class="forn-control" value= "${loginUser.empName}" readonly>
+														<td colspan="8">
+															<input type="text" name="writer" id="writer" class="form-control" value="${loginUser.empName}" readonly/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="4">
 															<span>소속</span>
 														</td>
-														<td colspan="6">
-															<!-- 로그인 유저 소속 부서 -->
+														<td colspan="8">
+															<input type="text" name="userDept" id="userDept" class="form-control" value="${loginUser.deptDname}" readonly/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
-															<textarea id="summernote4"></textarea>
+														<td colspan="12">
+															<textarea id="summernote4" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="4">
 															<span>부서공유</span>
 														</td>
-														<td colspan="6">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+														<td colspan="8">													
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
+														<td colspan="12">															
 															<div class="btn btn-default btn-file btn-xs">
 											                    <i class="fas fa-paperclip"></i> 첨부파일
-											                    <input type="file" name="normalAttach" id="normalAttach" multiple="true">
-									                  		</div>
+											                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
-														<td width="60%" colspan="5">
+														<td width="60%" colspan="6">
 															<span>파일명</span>
 														</td>
-														<td colspan="2">
+														<td colspan="3">
 															<span>크기</span>
 														</td>
-														<td colspan="2">
+														<td colspan="3">
 															<span>삭제</span>
 														</td>
 													<tr>
 													<tr id="fileRow">
-														<td colspan="5">
+														<td colspan="6">
 															 <span class="normalAttachName"></span>
 														</td >
-														<td colspan="2">
+														<td colspan="3">
 															<span class="normalAttachSize"></span>
 														</td>
-														<td colspan="2">
-															<button type="button" class="btn btn-danger" style="font-size:1em" onclick='deletefile();'>삭제</button>
+														<td colspan="3">
+															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -1099,42 +1118,63 @@
 						
 			$('#normal_radio').click(function(){
 				$("#normal_div").css("display",'')
+				$("#normal_div *").attr("disabled", false)
 				$("#dipl_div").attr("style", "display:none")
+				$("#dipl_div *").attr("disabled", true)
 				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div *").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail *").attr("disabled", true)
 			});
 			
 			$('#dipl_radio').click(function(){
 				$("#dipl_div").css("display",'')
+				$("#dipl_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#minut_div").attr("style", "display:none")	
+				$("#normal_div *").attr("disabled", true)
+				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div *").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail *").attr("disabled", true)
 			});		
 			
 			$('#minut_radio').click(function(){
 				$("#minut_div").css("display",'')
+				$("#minut_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
+				$("#normal_div *").attr("disabled", true)
 				$("#dipl_div").attr("style", "display:none")	
+				$("#dipl_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
+				$("#humanr_div *").attr("disabled", true)
 				$("#hr_detail").attr("style", "display:none")
+				$("#hr_detail *").attr("disabled", true)
 			});		
 			
 			$('#humanr_radio').click(function(){
 				$("#hr_detail").css("display",'')
+				$("#hr_detail *").attr("disabled", false)
 				$("#humanr_div").css("display",'')
+				$("#humanr_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#dipl_div").attr("style", "display:none")	
+				$("#normal_div *").attr("disabled", true)
+				$("#dipl_div").attr("style", "display:none")
+				$("#dipl_div *").attr("disabled", true)
 				$("#minut_div").attr("style", "display:none")
+				$("#minut_div *").attr("disabled", true)
 			});	
+
 		});
 	</script>
 	
 <!-- 첨부파일 라벨 추가 -->
 	<script>
 		
-		$("#normalAttach").on("change", function(e) {	
+		$(".normalAttach").on("change", function(e) {	
 			
 			var filename = $(this)[0].files[0].name;
 			var filesize = $(this)[0].files[0].size;
@@ -1143,66 +1183,14 @@
 			
 			$(".normalAttachName").text(filename);
 			$(".normalAttachSize").text(filesize);
-			
-			
-			/****** multi
-			console.log("n=" + n);
-					
-			if(n > 1){
-				var addRow = 
-					'<tr id=' + '"fileRow'+n+'">'+
-						'<td colspan="5">'+
-							'<span name="normalAttachName'+n+'"></span>'+
-						'</td >'+
-						'<td colspan="2">' +
-							'<span name="normalAttachSize'+n+'"></span>'+
-						'</td>'+
-						'<td colspan="2">'+
-							'<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>'+
-						'</td>'+
-					'</tr>';
-					
-				var trHtml = $("tr[id^='fileRow']:last");
-				trHtml.after(addRow);
-				
-				var index = n-1;
-	
-				var filename = $(this)[0].files[0].name;
-				var filesize = $(this)[0].files[0].size;
-				console.log("name : "+ filename);
-				console.log("size : "+ filesize); 	
-				$(".normalAttachName:last").text(filename);
-				$(".normalAttachSize:last").text(filesize);
-				
-				n+=1
-			
-			}else {
-				
-				var filename = $(this)[0].files[0].name;
-				var filesize = $(this)[0].files[0].size;
-				console.log("name : "+ filename);
-				console.log("size : "+ filesize);		
-				$(".normalAttachName:last").text(filename);
-				$(".normalAttachSize:last").text(filesize);
-				
-				n+=1;			
-			}		 */	
+		
 		});
 	</script>
-<!-- 첨부파일 삭제 
-	<script>
-		if(confirm("파일을 삭제하시겠습니까?")){
-			
-			var file = 
-			
-		}
-	</script>-->
-	
 <!-- 부서공유 check -->
 	<script>
 		$(function(){
 			
-			$("#deptShare").checked{
+			if($("#deptShare").checked){
 				$("#deptShare_hidden").disabled = true;
 			}
 		});
@@ -1227,6 +1215,22 @@
 			});		
 		}
 	</script>
+	
+	<script>
+	function plusLine(divNo){
+		
+		var _width = '700';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		var windowObj = window.open("plusAppLineForm.ea?val="+divNo, "결재라인 추가 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+	}
+	
+	</script>
+
 
 </body>
 </html>
