@@ -57,16 +57,19 @@
 	<script>
    	function addMtr()
 	{
-   		
 		var params = $("#addMtr").serialize();
 		$.ajax(
 		{
 			url : 'add.mtr?mMStatus=Y',
 			data : params,
-			success : function(result)
+			success : function(xh)
 					{			
+<<<<<<< HEAD
 						alert("회의실 등록성공! ");
 						opener.parent.location='manage.mtr'; //페이지 새로고침
+=======
+						alert("성공적으로 회의실을 등록하였습니다.");
+>>>>>>> refs/heads/Master
 						window.close();
 					}
 		});

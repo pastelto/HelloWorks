@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,64 +48,33 @@
                 <table class="table table-hover text-nowrap">
                   <thead align="center">
                     <tr>
-                      <th width="10px;">No.</th>
-                      <th width="10px;">⭐</th>
-                      <th width="500px;">제목</th>
-                      <th width="50px;">발신인</th>
-                      <th width="50px;">등록일</th>
+                      <th>No.</th>
+                      <th>⭐</th>
+                      <th>제목</th>
+                      <th>발신인</th>
+                      <th>수신인원</th>
+                      <th>회신인원</th>
+                      <th>등록일</th>
                     </tr>
                   </thead>
-                  <tbody align="center">
-                    <tr>
-                      <td>183</td>
-                      <td>☆</td>
-                      <td>업무 공유 발신 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>219</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>657</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                    <tr>
-                      <td>175</td>
-                      <td>☆</td>
-                      <td>업무 공유 제목 부분입니다.</td>
-                      <td>김헬로 사원</td>
-                      <td>21-10-15</td>
-                    </tr>
-                  </tbody>
+                <tbody align="center">
+                	<c:forEach items="${ list }" var="ws">
+	                    <tr>
+	                        <td>${ ws.ws_no }</td>
+	                        <c:if test="${ ws_favb eq Y }">
+	                        	<td id="${ ws_no }" class="btn-like" onclick="clickFavb('${ ws_no }');">⭐</td>
+	                        </c:if>
+	                        <c:if test="${ ws_favb ne Y }">
+	                        	<td width="10px;">&nbsp;</td>
+	                        </c:if>
+	                        <td>${ ws.ws_title }</td>
+	                        <td>${ ws.ws_senderName } ${ ws.ws_senderJobName }</td>
+	                        <td> 수신인원 </td>
+		                    <td> 발신인원 </td>
+	                        <td>${ ws.createDate }</td>
+	                    </tr>
+                    </c:forEach>	
+                </tbody>
                 </table>
               </div>
              

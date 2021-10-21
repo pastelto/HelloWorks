@@ -1,5 +1,6 @@
 package com.helloworks.spring.request.model.service;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,8 +12,11 @@ import com.helloworks.spring.request.model.dao.RequestDao;
 import com.helloworks.spring.request.model.vo.Mtr;
 
 @Service
+=======
+>>>>>>> refs/heads/Master
 public class RequestServiceImpl implements RequestService {
 
+<<<<<<< HEAD
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
@@ -39,4 +43,6 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.manageMtr(sqlSession);
 	}
 
+=======
+>>>>>>> refs/heads/Master
 }

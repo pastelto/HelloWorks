@@ -17,9 +17,9 @@ public class AttendanceDao {
 	}
 	
 	//메인조회
-	public ArrayList<Attendance> selectAttendance(SqlSessionTemplate sqlSession, int empNo) {
+	public Attendance selectAttendance(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAttendance", empNo);
+		return sqlSession.selectOne("attendanceMapper.selectAttendance", empNo);
 	}
 
 }

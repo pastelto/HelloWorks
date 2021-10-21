@@ -4,29 +4,21 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.helloworks.spring.request.model.service.RequestService;
 import com.helloworks.spring.request.model.vo.Mtr;
 
 
 @Controller
 public class managementController {
 	
-	@Autowired
-	private RequestService requestService;
-	
-	//---------------------------- 관리 ---------------------------
-	
-	//회의실 관리 페이지
-	//회의실 리스트조회
+	//회의실 관리 페이지로 전환
 	@RequestMapping("manage.mtr")
 	public String manageMtr(Model m) {
 		System.out.println("회의실 관리페이지");
+<<<<<<< HEAD
 		
 		ArrayList<Mtr> list = requestService.manageMtr();
 		
@@ -34,9 +26,12 @@ public class managementController {
 		
 		m.addAttribute("list", list);
 		
+=======
+>>>>>>> refs/heads/Master
 		return "request/manageMeetingRoom";
 	}
 	
+<<<<<<< HEAD
 	// 회의실 등록 팝업 페이지로 
 	@RequestMapping("openAdd.mtr")
 	public String openAddMtr() {
@@ -44,21 +39,18 @@ public class managementController {
 		return "request/addMeetingRoom";
 	}
 	
+=======
+>>>>>>> refs/heads/Master
 	//회의실 등록 페이지
-	@ResponseBody
-	@RequestMapping("add.mtr")
+		@RequestMapping("add.mtr")
 		public String addMtr(Mtr mtr, HttpServletRequest request, Model model) {
 			System.out.println("회의실 등록페이지");
 			System.out.println(mtr);
 			
-			requestService.addMtr(mtr);
-			System.out.println("mtr 성공!");
 			
-			String result = "성공!";
-			return String.valueOf(result);
+			
+			return "request/addMeetingRoom";
 		}
-	
-	
 	
 	
 	//차량 관리 페이지로 전환
@@ -67,7 +59,4 @@ public class managementController {
 		System.out.println("차량 관리페이지");
 		return "request/manageCar";
 	}
-	
-	
-	//-----------------------------신청--------------------------------
 }

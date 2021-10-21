@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
   <mapper namespace="officeroomMapper">
   
-  <resultMap id="employeeResultSet" type="Employee">
+	<resultMap id="employeeResultSet" type="Employee">
 		<id property="empNo" column="EMP_NO"/>
 		<result property="empPwd" column="EMP_PWD"/>
 		<result property="empName" column="EMP_NAME"/>
@@ -19,95 +19,115 @@
 		<result property="empFire" column="EMP_FIRE"/>
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>
+		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
   
   	<select id="selectAllEmployee" resultMap="employeeResultSet">
-		SELECT *
-		FROM EMPLOYEE
-		WHERE EMP_STATUS = 'Y'
-		ORDER BY EMP_NO
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
 	</select>
 	
   	<select id="selectDeptEmployee" parameterType="String" resultMap="employeeResultSet">
-		SELECT *
-		FROM EMPLOYEE
-		WHERE EMP_STATUS = 'Y'
-		AND DEPT_CODE LIKE '%'||#{deptCode}||'%'
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		AND A.DEPT_CODE LIKE '%'||#{deptCode}||'%'
 	</select>
 	
 	<select id="selectKorSortEmployee" parameterType="String" resultMap="employeeResultSet">
-		SELECT *
-		FROM EMPLOYEE
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
 		<choose>
 			<when test='_parameter eq "ㄱ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[가-깋]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[가-깋]') = 1
 			</when>
 			<when test='_parameter eq "ㄴ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[나-닣]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[나-닣]') = 1
 			</when>
 			<when test='_parameter eq "ㄷ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[다-딯]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[다-딯]') = 1
 			</when>
 			<when test='_parameter eq "ㄹ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[라-맇]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[라-맇]') = 1
 			</when>
 			<when test='_parameter eq "ㅁ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[마-밓]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[마-밓]') = 1
 			</when>
 			<when test='_parameter eq "ㅂ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[바-빟]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[바-빟]') = 1
 			</when>
 			<when test='_parameter eq "ㅅ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[사-싷]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[사-싷]') = 1
 			</when>
 			<when test='_parameter eq "ㅇ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[아-잏]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[아-잏]') = 1
 			</when>
 			<when test='_parameter eq "ㅈ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[자-짛]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[자-짛]') = 1
 			</when>
 			<when test='_parameter eq "ㅊ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[차-칳]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[차-칳]') = 1
 			</when>
 			<when test='_parameter eq "ㅋ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[카-킿]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[카-킿]') = 1
 			</when>
 			<when test='_parameter eq "ㅌ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[타-팋]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[타-팋]') = 1
 			</when>
 			<when test='_parameter eq "ㅍ"'>
-				WHERE REGEXP_INSTR(EMP_NAME, '[파-핗]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[파-핗]') = 1
 			</when>
 			<otherwise>
-				WHERE REGEXP_INSTR(EMP_NAME, '[하-힣]') = 1
+				WHERE REGEXP_INSTR(A.EMP_NAME, '[하-힣]') = 1
 			</otherwise>
 		</choose>
-		AND EMP_STATUS = 'Y'
-		ORDER BY EMP_NO
+		AND A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
 	</select>
 	
 	
 	<select id="selectEngSortEmployee" parameterType="String" resultMap="employeeResultSet">
-		SELECT *
-		FROM EMPLOYEE
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
 		<choose>
 			<when test='_parameter eq "A ~ E"'>
-				WHERE REGEXP_INSTR(EMP_EN, '[A-E]') = 1
+				WHERE REGEXP_INSTR(A.EMP_EN, '[A-E]') = 1
 			</when>
 			<when test='_parameter eq "F ~ J"'>
-				WHERE REGEXP_INSTR(EMP_EN, '[F-J]') = 1
+				WHERE REGEXP_INSTR(A.EMP_EN, '[F-J]') = 1
 			</when>
 			<when test='_parameter eq "K ~ O"'>
-				WHERE REGEXP_INSTR(EMP_EN, '[K-O]') = 1
+				WHERE REGEXP_INSTR(A.EMP_EN, '[K-O]') = 1
 			</when>
 			<when test='_parameter eq "P ~ T"'>
-				WHERE REGEXP_INSTR(EMP_EN, '[P-T]') = 1
+				WHERE REGEXP_INSTR(A.EMP_EN, '[P-T]') = 1
 			</when>
 			<otherwise>
-				WHERE REGEXP_INSTR(EMP_EN, '[U-Z]') = 1
+				WHERE REGEXP_INSTR(A.EMP_EN, '[U-Z]') = 1
 			</otherwise>
 		</choose>
-		AND EMP_STATUS = 'Y'
-		ORDER BY EMP_NO
+		AND A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<select id="searchEmployeeDetail" parameterType="_int" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		AND A.EMP_NO = #{empNo}
 	</select>
 </mapper>

@@ -46,4 +46,11 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		return officeRoomDao.selectEngSortEmployee(sqlSession, catTitle);
 	}
 
+
+	@Override
+	public Employee searchEmployeeDetail(int empNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.searchEmployeeDetail(sqlSession, empNo);
+	}
+
 }

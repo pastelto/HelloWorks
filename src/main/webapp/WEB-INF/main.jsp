@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +13,11 @@
 </style>
 </head>
 <body>
-  <jsp:include page="../common/menubar.jsp" />
+  <jsp:include page="./views/common/menubar.jsp" />
    <div class="content-wrapper">
    		
    		<div class="attendance" id="attendance">
-   	 		<jsp:include page="../attendance/mainAttendance.jsp" />
+   	 		<jsp:include page="./views/attendance/mainAttendance.jsp" />
    		</div>
   
    </div>
@@ -56,6 +55,6 @@ $(document).ready(function(){
 	
 </script>
 
-   <jsp:include page="../common/footer.jsp" />
+   <jsp:include page="./views/common/footer.jsp" />
 </body>
 </html>

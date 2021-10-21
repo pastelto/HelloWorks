@@ -38,6 +38,13 @@
 	#employeeTable {
 		text-align: center;
 	}
+	#detailEmployeeTable>tbody>tr>th {
+		width: 15%;
+	}
+	#modalTitleDiv {
+		background: #00909E;
+		padding: 5px;
+	}
 </style>
 </head>
 <body>
@@ -123,34 +130,46 @@
 											<tr>
 												<th>검색 조건</th>
 												<td>
+												<form action="searchEmployee.or">
 												<div class="row" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
-														<!-- <form action="searchEmployee.or"> -->
-															<select name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
+														
+															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
 																<option value="allType">전체</option>
-																<option value="deptType">부서</option>
+																<option value="deptType" onclick="deptSelect();">부서</option>
 																<option value="empNoType">사번</option>
 																<option value="empNameType">이름</option>
 																<option value="ePhoneType">내선번호</option>
 																<option value="emailType">이메일</option>
 															</select>
-															<div class="col-4">
-																<form action="#">
-																<div class="input-group">
-																	<input type="search"
-																		class="form-control form-control-sm"
-																		placeholder="검색어를 입력하세요." name="searchEmployee" value="${ searchEmployee }">
-																	<div class="input-group-append">
-																		<button type="submit" class="btn btn-sm btn-default">
-																			<i class="fa fa-search"></i>
-																		</button>
-																	</div>
+															<select id="deptType" name="deptType" class="custom-select custom-select-sm" style="width: 15%; display:none">
+																<option value="A">경영지원본부</option>
+																<option value="A1">인사팀</option>
+																<option value="A2">총무팀</option>
+																<option value="A3">재무회계팀</option>
+																<option value="B">영업지원본부</option>
+																<option value="B1">영업팀</option>
+																<option value="B2">운영지원팀</option>
+																<option value="C">사업본부</option>
+																<option value="C1">디자인팀</option>
+																<option value="C2">마케팅팀</option>
+																<option value="C3">IT개발팀</option>
+															</select>
+															&nbsp;&nbsp;
+															<div class="input-group" style="width: 30%;">
+																<input type="search"
+																	class="form-control form-control-sm"
+																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
+																<div class="input-group-append">
+																	<button type="submit" class="btn btn-sm btn-default">
+																		<i class="fa fa-search"></i>
+																	</button>
 																</div>
-															</form>
+															</div>
 														</div>
-													</div>
+													</form>
 												</td>
 											</tr>
 										</table>
@@ -217,7 +236,7 @@
 								<!-- /.col -->
 								<div class="col-md-10" style="overflow:auto; height: 450px">
 									<table id="employeeTable" class="table table-sm">
-									<caption style="caption-side:top">정렬 기준 : <span id="sortOption"></span></caption>
+									<caption style="caption-side:top">정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
 												<th style="width: 5%"></th>
@@ -231,16 +250,23 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<th style="width: 5%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 20%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 10%"></th>
-												<th style="width: 20%"></th>
-												<th style="width: 15%"></th>
-											</tr>
+										
+											<c:forEach items="${ list }" var="employee">
+							                    <tr>
+							                    	<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empNo }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empName} ( ${employee.empEn} )</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.jobName }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.deptDname }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empEphone }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empEmail }</td>
+							                        <th>
+							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
+							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
+							                        </th>
+							                    </tr>
+						                    </c:forEach>
+										
 										</tbody>
 									</table>
 								</div>
@@ -266,132 +292,174 @@
 	
 	<!-- 직원 선택 시 뜨는 모달  -->
     <div class="modal fade" id="detailEmployeeModal">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">직원 상세보기</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button> 
-            </div>
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header" id="modalTitleDiv">
+					<img src="./resources/common/icon_gray.png">
+					<img src="./resources/common/logoLetter_gray.png" style="margin: 2px; margin-left: 10px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
 
-            <form action="searchEmployeeDetail.or" method="post">
-                <!-- Modal Body -->
-                <div class="modal-body">
-                	여기에 직원 상세 정보 넣기!
-                </div>
-                
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">주소록 등록하기</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-	
-	
-	
+				<form action="addOfficeAddressBook.or" method="post">
+					<!-- Modal Body -->
+					<div class="modal-body">
+						<div class="card bg-light d-flex flex-fill mb-0">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-2 text-center">
+										<div>
+											<img src="./resources/img/defaultImg.jpg" alt="user-avatar"
+												class="img-fluid" style="width: 90px; height: 120px;">
+										</div>
+										<div class="mt-3">
+											<button type="submit" class="btn btn-primary btn-sm">주소록
+												추가</button>
+										</div>
+									</div>
+									<div class="col-10">
+										<table id="detailEmployeeTable" class="table table-sm"
+											style="margin: 0px">
+											<tr>
+												<th>사번</th>
+												<td id="empNoCol" style="width: 35%"></td>
+												<th>이름</th>
+												<td id="empNameCol" style="width: 35%"></td>
+											</tr>
+											<tr>
+												<th>직급</th>
+												<td id="empJobCol" style="width: 35%"></td>
+												<th>영문이름</th>
+												<td id="empEngNameCol" style="width: 35%"></td>
+											</tr>
+											<tr>
+												<th>소속</th>
+												<td id="empUDeptCol" style="width: 35%"></td>
+												<th>부서</th>
+												<td id="empDDeptCol" style="width: 35%"></td>
+											</tr>
+											<tr>
+												<th>내선번호</th>
+												<td id="empEphoneCol" style="width: 35%"></td>
+												<th>상태</th>
+												<td id="empStatusCol" style="width: 35%"></td>
+											</tr>
+											<tr>
+												<th>이메일</th>
+												<td colspan="3" id="empEmailCol" style="width: 70%"></td>
+											</tr>
+										</table>
+									</div>
 
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 	<!-- 검색 -->
 	<script>
 		$(function() {
 			switch ('${ optionType }') {
 			case "allType":
-				$("#searchEmpTable option").eq(0).attr("selected", true);
+				$("#optionType>option").eq(0).attr("selected", true);
+				break;
+			case "deptType":
+				$("#optionType>option").eq(1).attr("selected", true);
 				break;
 			case "empNoType":
-				$("#searchEmpTable option").eq(1).attr("selected", true);
+				$("#optionType>option").eq(2).attr("selected", true);
 				break;
-			case "content":
-				$("#searchEmpTable option").eq(2).attr("selected", true);
+			case "empNameType":
+				$("#optionType>option").eq(3).attr("selected", true);
+				break;
+			case "ePhoneType":
+				$("#optionType>option").eq(4).attr("selected", true);
+				break;
+			case "emailType":
+				$("#optionType>option").eq(5).attr("selected", true);
 				break;
 			}
 		})
 	</script>
 
-
-
-
 	<!-- 직원 이름 키워드 검색 -->
 	<script>
-	$(function(){
-		$("#searchCategory>tbody>tr>th>h4>span").click(function(){
-			var catTitle = $(this).text();
-			
-			//console.log(catTitle);
-			
-			if(catTitle == "ALL"){
-				selectAllEmployee();
-			}else if(catTitle >= 'ㄱ' && catTitle <='ㅎ'){
-				//console.log(catTitle);
-				$.ajax({
-					url: "selectKorSortEmployee.or",
-					type: "post",
-					data: {
-						catTitle:catTitle
-					},
-					success:function(list){
-						
-						var value="";
-						
-						$.each(list, function(i, obj){
-							
-							value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
-									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
-									"<td>" + obj.empNo + "</td>" + 
-									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-									"<td>" + obj.jobCode + "</td>" +
-									"<td>" + obj.deptCode + "</td>" +
-									"<td>" + obj.empEphone + "</td>" +
-									"<td>" + obj.empEmail + "</td>" +
-									"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
-									"</tr>";
-						});
-						
-						$("#employeeTable>tbody").html(value);
-						$("#sortOption").text(catTitle);
-					},
-					error:function(){
-						console.log("직원 전체 검색 ajax 통신 실패")
-					}
-				})
-			}else{
-				$.ajax({
-					url: "selectEngSortEmployee.or",
-					type: "post",
-					data: {
-						catTitle:catTitle
-					},
-					success:function(list){
-						
-						var value="";
-						
-						$.each(list, function(i, obj){
-							
-							value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
-									"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
-									"<td>" + obj.empNo + "</td>" + 
-									"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-									"<td>" + obj.jobCode + "</td>" +
-									"<td>" + obj.deptCode + "</td>" +
-									"<td>" + obj.empEphone + "</td>" +
-									"<td>" + obj.empEmail + "</td>" +
-									"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
-									"</tr>";
-						});
-						
-						$("#employeeTable>tbody").html(value);
-						$("#sortOption").text(catTitle);
-					},
-					error:function(){
-						console.log("직원 전체 검색 ajax 통신 실패")
-					}
-				})
-			}
-			
+		
+		$(function() {
+			$("#searchCategory>tbody>tr>th>h4>span").click(
+			function() {
+				var catTitle = $(this).text();
+	
+				if (catTitle == "ALL") {
+					selectAllEmployee();
+				} else if (catTitle >= 'ㄱ' && catTitle <= 'ㅎ') {
+					$.ajax({
+						url : "selectKorSortEmployee.or",
+						type : "post",
+						data : {
+							catTitle : catTitle
+						},
+						success:function(list){
+							var value="";
+							$.each(list, function(i, obj){
+								value +="<tr>"+
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"</tr>";
+							});
+	
+							$("#employeeTable>tbody").html(value);
+							$("#sortOption").text(catTitle);
+						},
+						error:function(){
+							console.log("직원 전체 검색 ajax 통신 실패")
+						}
+					})
+				} else {
+					$.ajax({
+						url : "selectEngSortEmployee.or",
+						type : "post",
+						data : {
+							catTitle : catTitle
+						},
+						success : function(list) {
+
+							var value = "";
+
+							$.each(list, function(i, obj) {
+								value +="<tr>"+
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"</tr>";
+							});
+
+							$("#employeeTable>tbody").html(value);
+							$("#sortOption").text(catTitle);
+						},
+						error:function(){
+							console.log("직원 전체 검색 ajax 통신 실패")
+						}
+					})
+				}
+
+			})
 		})
-	}) 
 	</script>
 	
 	<!-- 전체 검색 버튼 -->
@@ -406,16 +474,16 @@
 					
 					$.each(list, function(i, obj){
 						
-						value +="<tr data-toggle='modal' data-target='#detailEmployeeModal'>"+
-								"<td><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></td>" +
-								"<td>" + obj.empNo + "</td>" + 
-								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td>" + obj.jobCode + "</td>" +
-								"<td>" + obj.deptCode + "</td>" +
-								"<td>" + obj.empEphone + "</td>" +
-								"<td>" + obj.empEmail + "</td>" +
-								"<td><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></td>"+
-								"</tr>";
+						value +="<tr>"+
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"</tr>";
 					});
 					
 					$("#employeeTable>tbody").html(value);
@@ -441,15 +509,15 @@
 				success:function(list){
 					var value="";
 					$.each(list, function(i, obj){
-						value +="<data-toggle='modal' data-target='#detailEmployeeModal'>"+
+						value +="<tr>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
-						"<td>" + obj.empNo + "</td>" + 
-						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td>" + obj.jobCode + "</td>" +
-						"<td>" + obj.deptCode + "</td>" +
-						"<td>" + obj.empEphone + "</td>" +
-						"<td>" + obj.empEmail + "</td>" +
-						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button><button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
 						"</tr>";
 					});
 					$("#employeeTable>tbody").html(value);
@@ -463,5 +531,33 @@
 		}
 	</script>
 	
+	<script>
+		function detailEmpLoiyee(empNo){
+			console.log(empNo+" 사원 직원정보")
+			
+			$.ajax({
+				url:"searchEmployeeDetail.or",
+				data:{empNo:empNo},
+				type:"post",
+				dataType:"json",
+				success:function(emp){
+					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
+					
+					$("#empNoCol").text(emp.empNo)
+					$("#empNameCol").text(emp.empName)
+					$("#empEngNameCol").text(emp.empEn)
+					$("#empUDeptCol").text(emp.deptUname)
+					$("#empDDeptCol").text(emp.deptDname)
+					$("#empJobCol").text(emp.jobName)
+					$("#empStatusCol").text("출퇴근상태값")
+					$("#empEphoneCol").text(emp.empEphone)
+					$("#empEmailCol").text(emp.empEmail)
+				},
+				error:function(){
+					console.log("직원 부서별 검색 ajax 통신 실패")
+				}
+			})
+		}
+	</script>
 </body>
 </html>
