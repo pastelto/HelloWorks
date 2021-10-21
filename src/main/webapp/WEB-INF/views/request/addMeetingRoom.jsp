@@ -66,7 +66,7 @@
 			success : function(result)
 					{			
 						alert("회의실 등록성공! ");
-						//opener.parent.location='manage.mtr'; //페이지 새로고침
+						opener.parent.location='manage.mtr'; //페이지 새로고침
 						window.close();
 					}
 		});

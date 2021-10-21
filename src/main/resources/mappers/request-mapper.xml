@@ -3,11 +3,12 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="requestMapper">
-	
-	<!-- 회의실관리-->
+
+	<!-- 회의실관리 -->
 	<resultMap id="mtrResultSet" type="Mtr">
 		<id property="mMNo" column="RS_MM_NO" />
 		<result property="empNo" column="RS_MM_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
 		<result property="mMName" column="RS_MM_NAME" />
 		<result property="mMCapacity" column="RS_MM_CAPACITY" />
 		<result property="mMStatus" column="RS_MM_STATUS" />
@@ -15,10 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
-		INSERT INTO RS_MEETINGROOM_MANAGEMENT
-		VALUES 
+		INSERT INTO
+		RS_MEETINGROOM_MANAGEMENT
+		VALUES
 		(SEQ_RS_MM_NO.NEXTVAL, #{empNo}, #{mMName}, #{mMCapacity}, DEFAULT)
 	</insert>
 
+	<select id="manageMtr" resultMap="mtrResultSet">
+		SELECT A.*, B.EMP_NAME
+		FROM RS_MEETINGROOM_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO = B.EMP_NO
+		ORDER BY RS_MM_NO DESC
+	</select>
 
 </mapper>

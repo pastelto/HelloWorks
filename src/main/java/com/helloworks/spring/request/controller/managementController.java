@@ -1,5 +1,7 @@
 package com.helloworks.spring.request.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,14 @@ public class managementController {
 	//회의실 관리 페이지
 	//회의실 리스트조회
 	@RequestMapping("manage.mtr")
-	public String manageMtr() {
+	public String manageMtr(Model m) {
 		System.out.println("회의실 관리페이지");
 		
+		ArrayList<Mtr> list = requestService.manageMtr();
+		
+		System.out.println("list "+ list);
+		
+		m.addAttribute("list", list);
 		
 		return "request/manageMeetingRoom";
 	}
@@ -34,7 +41,6 @@ public class managementController {
 	@RequestMapping("openAdd.mtr")
 	public String openAddMtr() {
 		System.out.println("회의실 등록페이지 팝업");
-
 		return "request/addMeetingRoom";
 	}
 	

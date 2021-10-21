@@ -15,6 +15,7 @@ public class Mtr {
 
 	private int mMNo; //회의실 관리 번호
 	private int empNo; //회의실 담당자 사번
+	private String empName; //회의실 담당자 이름
 	private String mMName; //회의실 명
 	private int mMCapacity; //회의실 수용인원
 	private String mMStatus; //회의실 상태값

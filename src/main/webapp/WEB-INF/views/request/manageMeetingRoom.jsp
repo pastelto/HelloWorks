@@ -69,11 +69,11 @@
 							<!-- 회의실 목록 띄우기 -->
 							<c:forEach items="${ list }" var="m">
 								<tr align="center">
-									<td>${ m.no }</td>
-									<td>${ m.name }</td>
-									<td>${ m.capacity }</td>
-									<td>${ m.status }</td>
-									<td>${ m.empNo }</td>
+									<td>${ m.MMNo }</td>
+									<td>${ m.MMName }</td>
+									<td>${ m.MMCapacity }</td>
+									<td>${ m.MMStatus }</td>
+									<td>${ m.empName }</td>
 									<td>체크박스</td>
 								</tr>
 							</c:forEach>
