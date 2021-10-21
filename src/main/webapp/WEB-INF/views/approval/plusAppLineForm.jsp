@@ -41,7 +41,7 @@
 	#applineTable {
 		text-align: center;
 	}
-	#addLine {
+	#addLine, .btn* {
 		font-size : 0.6em;
 		
 	}
@@ -211,6 +211,9 @@
 									</table>
 								</div>
 								<div  class="col-md-10"> 
+									<div class="btn_line" align="right">
+										<button type="button" class="btn btn-danger btn-sm" id="deleteLineBtn"onclick="deleteLine();">취소</button>
+									</div>
 									<table id="applineTable" class="table table-sm" ">
 										<thead>
 											<tr >
@@ -223,13 +226,22 @@
 										</thead>
 										<tbody>
 											<tr >
+												<td style="width:20%">${loginUser.empNo}</td>
+												<td style="width:20%"></td>
+												<td style="width:20%"></td>
+												<td style="width:20%"></td>
+												<td style="width:20%"></td>
+											</tr>										
+										</tbody>
+										<tfoot>
+											<tr >
 												<td style="width:20%">${loginUser.empName}</td>
 												<td style="width:20%"></td>
 												<td style="width:20%"></td>
 												<td style="width:20%"></td>
 												<td style="width:20%"></td>
-											</tr>
-										</tbody>
+											</tr>	
+										</tfoot>
 									</table>
 								</div>
 								<!-- /.col -->
@@ -253,38 +265,192 @@
 	
 	
 	<!-- 결재라인 테이블에 붙이기 -->	
-<script>
-	
-	var n=1;
-		
-	$(function(){
-		$(".plusBtn").click(function(){
-			
-			var plusBtn = $(this);
-			
-			var tr = plusBtn.parent().parent();
-			var td = tr.children();
-			
-			var name = td.eq(2).text();
-			var job = td.eq(3).text();
-			
-			console.log("name : " + name);
-			console.log("job : " + job);
-			
-			$("#applineTable>thead>tr>td.eq(" + n +")").text(job);
-			$("#applineTable>tbody>tr>td.eq(" + n +")").text(name);	
-			
-			n+=1;
-		});
-	});
-</script>
-
-<!-- 	<!-- 결재페이지 연결 
 	<script>
-		function backApp(){
-			window.opener.document.getElementById().value=;
+		
+		var n=1;
+		
+		$("#deleteLineBtn").css("display","none");
+		
+		function plus(empName, jobName, empNo){
+			
+			console.log(empName, jobName, empNo);
+			
+			$("#deleteLineBtn").css("display","");
+			
+			if(n < 5){
+			
+				$("#applineTable>thead>tr>td:eq("+n+")").text(jobName);
+				$("#applineTable>tbody>tr>td:eq("+n+")").text(empNo);
+				$("#applineTable>tfoot>tr>td:eq("+n+")").text(empName);
+				
+				n+=1
+				
+				
+			} else {			
+				alert("등록 가능한 결재라인 수를 초과하셨습니다.");
+			}		
+		};
+	<!--라인삭제-->
+		$(function(){					
+			if($("#applineTable>thead>tr>td:eq(1)").text().length < 0){
+				$("#deleteLineBtn").css("display","none");
+			}
+			
+		});
+	
+	
+	
+		function deleteLine(){
+			
+			if(confirm("다시 등록하시겠습니까?")==true){			
+				for(var i=1; i <= 4; i++){													
+					$("#applineTable>thead>tr>td:eq("+i+")").text('');
+					$("#applineTable>tbody>tr>td:eq("+i+")").text('');
+					$("#applineTable>tfoot>tr>td:eq("+i+")").text('');	
+					
+				};		
+				n=1;
+				$("#deleteLineBtn").css("display","none");
+			};
+			
 		}
-	</script> -->
+		
+	</script>
+
+	<!-- 결재페이지 연결 --> 
+	<script>
+	
+		var divNo;
+	
+		function _GET(search) {
+			var obj = {};
+			var uri = decodeURI(search);
+				uri = uri.slice(1,uri.length);
+				
+			var param = uri.split('&');
+			
+			for(var i=0; i<param.length; i++){		
+				var devide = param[i].split('=');
+				obj[devide[0]] = devide[1];
+			}
+			
+			return obj;
+		}
+		
+		window.onload = function(){
+			
+			var search = window.location.search;
+			var getData = _GET(search);
+			divNo = getData.val;
+			
+			console.log(divNo)
+		}
+	
+	
+		function backApp(){
+			
+			var level1 = $("#applineTable>thead>tr>td:eq(1)").text();
+			var level2 = $("#applineTable>thead>tr>td:eq(2)").text();
+			var level3 = $("#applineTable>thead>tr>td:eq(3)").text();
+			var level4 = $("#applineTable>thead>tr>td:eq(4)").text();
+			
+			console.log(level1);
+			console.log(level2);
+			console.log(level3);
+			console.log(level4);			
+			
+			var num1 = $("#applineTable>tbody>tr>td:eq(1)").text();
+			var num2 = $("#applineTable>tbody>tr>td:eq(2)").text();
+			var num3 = $("#applineTable>tbody>tr>td:eq(3)").text();
+			var num4 = $("#applineTable>tbody>tr>td:eq(4)").text();
+			
+			console.log(num1);
+			console.log(num2);
+			console.log(num3);
+			console.log(num4);
+			
+			var name1 = $("#applineTable>tfoot>tr>td:eq(1)").text();
+			var name2 = $("#applineTable>tfoot>tr>td:eq(2)").text();
+			var name3 = $("#applineTable>tfoot>tr>td:eq(3)").text();
+			var name4 = $("#applineTable>tfoot>tr>td:eq(4)").text();
+
+			console.log(name1);
+			console.log(name2);
+			console.log(name3);
+			console.log(name4);
+					
+			if(divNo == 1){
+				window.opener.document.getElementById("emp_level1_1").value = level1;
+				window.opener.document.getElementById("emp_level1_2").value = level2;
+				window.opener.document.getElementById("emp_level1_3").value = level3;
+				window.opener.document.getElementById("emp_level1_4").value = level4;
+				
+				window.opener.document.getElementById("emp_name1_1").value = name1;
+				window.opener.document.getElementById("emp_name1_2").value = name2;
+				window.opener.document.getElementById("emp_name1_3").value = name3;
+				window.opener.document.getElementById("emp_name1_4").value = name4;
+				
+				window.opener.document.getElementById("line1_1").value = num1;
+				window.opener.document.getElementById("line1_2").value = num2;
+				window.opener.document.getElementById("line1_3").value = num3;
+				window.opener.document.getElementById("line1_4").value = num4;
+				
+				window.close();
+			} else if (divNo == 2){
+				window.opener.document.getElementById("emp_level2_1").value = level1;
+				window.opener.document.getElementById("emp_level2_2").value = level2;
+				window.opener.document.getElementById("emp_level2_3").value = level3;
+				window.opener.document.getElementById("emp_level2_4").value = level4;
+				
+				window.opener.document.getElementById("emp_name2_1").value = name1;
+				window.opener.document.getElementById("emp_name2_2").value = name2;
+				window.opener.document.getElementById("emp_name2_3").value = name3;
+				window.opener.document.getElementById("emp_name2_4").value = name4;
+				
+				window.opener.document.getElementById("line2_1").value = num1;
+				window.opener.document.getElementById("line2_2").value = num2;
+				window.opener.document.getElementById("line2_3").value = num3;
+				window.opener.document.getElementById("line2_4").value = num4;
+				
+				window.close();
+			} else if (divNo == 3){
+				window.opener.document.getElementById("emp_level3_1").value = level1;
+				window.opener.document.getElementById("emp_level3_2").value = level2;
+				window.opener.document.getElementById("emp_level3_3").value = level3;
+				window.opener.document.getElementById("emp_level3_4").value = level4;
+				
+				window.opener.document.getElementById("emp_name3_1").value = name1;
+				window.opener.document.getElementById("emp_name3_2").value = name2;
+				window.opener.document.getElementById("emp_name3_3").value = name3;
+				window.opener.document.getElementById("emp_name3_4").value = name4;
+				
+				window.opener.document.getElementById("line3_1").value = num1;
+				window.opener.document.getElementById("line3_2").value = num2;
+				window.opener.document.getElementById("line3_3").value = num3;
+				window.opener.document.getElementById("line3_4").value = num4;
+				
+				window.close();
+			} else if (divNo == 4){
+				window.opener.document.getElementById("emp_level4_1").value = level1;
+				window.opener.document.getElementById("emp_level4_2").value = level2;
+				window.opener.document.getElementById("emp_level4_3").value = level3;
+				window.opener.document.getElementById("emp_level4_4").value = level4;
+				
+				window.opener.document.getElementById("emp_name4_1").value = name1;
+				window.opener.document.getElementById("emp_name4_2").value = name2;
+				window.opener.document.getElementById("emp_name4_3").value = name3;
+				window.opener.document.getElementById("emp_name4_4").value = name4;
+				
+				window.opener.document.getElementById("line4_1").value = num1;
+				window.opener.document.getElementById("line4_2").value = num2;
+				window.opener.document.getElementById("line4_3").value = num3;
+				window.opener.document.getElementById("line4_4").value = num4;
+				
+				window.close();
+			}
+			
+		}
+	</script> 
 	
 
 	<!-- 직원 이름 키워드 검색 -->
@@ -312,11 +478,11 @@
 						$.each(list, function(i, obj){
 							
 							value +="<tr>"+
-									"<td><button type='button' class='plusBtn'>+</button></td>" +
+							"<td>"+"<button type='button'"+"class='btn btn-primary btn-sm'"+" onclick='plus("+'"'+obj.empName+'","'+ obj.jobName+'",'+ obj.empNo+');'+"'"+">+</button>"+"</td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName + "</td>" + 
-									"<td>" + obj.jobCode + "</td>" +
-									"<td>" + obj.deptCode + "</td>" +								
+									"<td>" + obj.jobName + "</td>" +
+									"<td>" + obj.deptDname + "</td>" +								
 									"</tr>";
 						});
 						
@@ -341,7 +507,7 @@
 						$.each(list, function(i, obj){
 							
 							value +="<tr>"+
-									"<td><button type='button' class='plusBtn'>+</button></td>" +
+							"<td>"+"<button type='button'"+"class='btn btn-primary btn-sm'"+" onclick='plus("+'"'+obj.empName+'","'+ obj.jobName+'","'+obj.empNo+'");'+"'"+">+</button>"+"</td>" +
 									"<td>" + obj.empNo + "</td>" + 
 									"<td>" + obj.empName + "</td>" + 
 									"<td>" + obj.jobCode + "</td>" +
@@ -375,7 +541,7 @@
 					$.each(list, function(i, obj){
 						
 						value +="<tr>"+
-								"<td><button type='button' class='plusBtn'>+</button></td>" +
+						"<td>"+"<button type='button'"+"class='btn btn-primary btn-sm'"+" onclick='plus("+'"'+obj.empName+'","'+ obj.jobName+'","'+obj.empNo+'");'+"'"+">+</button>"+"</td>"  +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName + "</td>" + 
 								"<td>" + obj.jobCode + "</td>" +
@@ -407,7 +573,7 @@
 					var value="";
 					$.each(list, function(i, obj){
 						value +="<tr>"+
-						"<td><button type='button' class='plusBtn'>+</button></td>" +
+						"<td>"+"<button type='button'"+"class='btn btn-primary btn-sm'"+" onclick='plus("+'"'+obj.empName+'","'+ obj.jobName +'","'+obj.empNo+'");'+"'"+">+</button>"+"</td>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName + "</td>" + 
 						"<td>" + obj.jobCode + "</td>" +

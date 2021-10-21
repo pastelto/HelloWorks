@@ -10,7 +10,7 @@
 		<result property="title" column="TITLE"/>
 		<result property="writer" column="WRITER"/>
 		<result property="createDate" column="CREATE_DATE"/>
-		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_CODE"/>
 		<result property="content" column="AP_CONTENT"/>
 		<result property="cooper" column="COOPERATION"/>
 		<result property="deptShare" column="DEPT_SHARE"/>
@@ -71,13 +71,13 @@
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL
 		VALUES
-		(SEQ_EA_AP_NO.NEXTVAL, '일반', #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptCode}, #{content}, #{cooper}, #{deptShare}, DEFAULT, #{status})
+		(SEQ_EA_AP_NO.NEXTVAL, '일반', #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, DEFAULT, #{status})
 	</insert>
 	<!-- 공문서 insert -->
 	<insert id="insertDiploma" parameterType="ApprovalDiploma">
 		INSERT INTO APPROVAL_DIPLOMA
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{email}, #{phone}, #{address})
+		(SEQ_EA_AP_NO.CURRVAL, #{email}, #{phone}, #{officeAddress})
 	</insert>
 	<!-- 회의록 insert -->
 	<insert id="insertMinutes" parameterType="ApprovalMinutes">

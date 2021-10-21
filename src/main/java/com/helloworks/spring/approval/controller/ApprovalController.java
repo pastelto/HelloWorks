@@ -85,7 +85,7 @@ public class ApprovalController {
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
-		String deptCode = request.getParameter("userDept");
+		String deptName = request.getParameter("userDept");
 		String content = request.getParameter("apContent");
 		String  cooper= request.getParameter("cooperator0");
 		String deptShare = request.getParameter("deptShare");
@@ -93,7 +93,7 @@ public class ApprovalController {
 		ap.setDetailClass(detailClass);
 		ap.setTitle(title);
 		ap.setWriter(writer);
-		ap.setDeptCode(deptCode);
+		ap.setDeptName(deptName);
 		ap.setContent(content);
 		ap.setCooper(cooper);
 		ap.setDeptShare(deptShare);			
@@ -150,7 +150,7 @@ public class ApprovalController {
 			model.addAttribute("msg", "결재가 임시저장되었습니다.");
 		}
 		
-		return "main/main";
+		return "main";
 	}
 	
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {
@@ -211,7 +211,9 @@ public class ApprovalController {
 
 	public void insertMinutes(Approval ap, ApprovalMinutes am, HttpServletRequest request) {
 		String attendees = request.getParameter("attendees");
+		String title = request.getParameter("mm_title");
 		am.setAttendees(attendees);
+		am.setTitle(title);
 		approvalService.insertApproval(ap); 
 		approvalService.insertMinutes(am);
 		
