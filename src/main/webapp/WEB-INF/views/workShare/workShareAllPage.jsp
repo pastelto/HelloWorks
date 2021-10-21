@@ -84,6 +84,7 @@
              <div class="tab-pane fade" id="custom-tabs-four-send" role="tabpanel" aria-labelledby="custom-tabs-four-send-tab">
 					<!-- 발신 업무 -->
 					<jsp:include page="./sendWSList.jsp" />
+					<%-- <jsp:include page="./sendWSNEWLIST.jsp" /> --%>
              </div>
              <div class="tab-pane fade" id="custom-tabs-four-saved" role="tabpanel" aria-labelledby="custom-tabs-four-saved-tab">
 					<!-- 임시저장 업무 -->

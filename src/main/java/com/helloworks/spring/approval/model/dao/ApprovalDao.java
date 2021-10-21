@@ -18,11 +18,6 @@ public class ApprovalDao {
 		return sqlSession.insert("approvalMapper.insertApproval", ap);
 	}
 
-	public int insertCoopertation(SqlSessionTemplate sqlSession, ApprovalCC ac) {
-		// TODO Auto-generated method stub
-		return sqlSession.insert("approvalMapper.insertCC", ac);
-	}
-
 	public int insertLine(SqlSessionTemplate sqlSession, ApprovalLine line) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("approvalMapper.insertLine", line);
@@ -46,6 +41,16 @@ public class ApprovalDao {
 	public int insertAttachment(SqlSessionTemplate sqlSession, Approval ap) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("approvalMapper.insertAttachment", ap);
+	}
+
+	public int insertCcDept(SqlSessionTemplate sqlSession, ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("approvalMapper.insertCcDept", ac);
+	}
+
+	public int insertCcEmpl(SqlSessionTemplate sqlSession, ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("approvalMapper.insertCcEmpl", ac);
 	}
 
 
