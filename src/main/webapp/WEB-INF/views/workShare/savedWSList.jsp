@@ -69,8 +69,6 @@
 	                        <td width="500px;">${ ws.ws_title }</td>
 	                        <td width="50px;">${ ws.ws_senderName } ${ ws.ws_senderJobName }</td>
 	                        <td width="50px;">${ ws.createDate }</td>
-	                        <td width="50px;">${ ws.createDate }</td>
-	                        <td width="50px;">${ ws.createDate }</td>
 	                    </tr>
                     </c:forEach>	
                 </tbody>

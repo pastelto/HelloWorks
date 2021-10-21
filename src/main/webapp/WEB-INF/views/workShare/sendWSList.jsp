@@ -48,30 +48,30 @@
                 <table class="table table-hover text-nowrap">
                   <thead align="center">
                     <tr>
-                      <th width="10px;">No.</th>
-                      <th width="10px;">⭐</th>
-                      <th width="500px;">제목</th>
-                      <th width="50px;">발신인</th>
-                      <th width="50px;">수신인원</th>
-                      <th width="50px;">회신인원</th>
-                      <th width="50px;">등록일</th>
+                      <th>No.</th>
+                      <th>⭐</th>
+                      <th>제목</th>
+                      <th>발신인</th>
+                      <th>수신인원</th>
+                      <th>회신인원</th>
+                      <th>등록일</th>
                     </tr>
                   </thead>
                 <tbody align="center">
                 	<c:forEach items="${ list }" var="ws">
 	                    <tr>
-	                        <td width="10px;">${ ws.ws_no }</td>
+	                        <td>${ ws.ws_no }</td>
 	                        <c:if test="${ ws_favb eq Y }">
-	                        	<td id="${ ws_no }" class="btn-like" width="10px;" onclick="clickFavb('${ ws_no }');">⭐</td>
+	                        	<td id="${ ws_no }" class="btn-like" onclick="clickFavb('${ ws_no }');">⭐</td>
 	                        </c:if>
 	                        <c:if test="${ ws_favb ne Y }">
 	                        	<td width="10px;">&nbsp;</td>
 	                        </c:if>
-	                        <td width="500px;">${ ws.ws_title }</td>
-	                        <td width="50px;">${ ws.ws_senderName } ${ ws.ws_senderJobName }</td>
-	                        <td width="50px;">${ ws.createDate }</td>
-	                        <td width="50px;">${ ws.createDate }</td>
-	                        <td width="50px;">${ ws.createDate }</td>
+	                        <td>${ ws.ws_title }</td>
+	                        <td>${ ws.ws_senderName } ${ ws.ws_senderJobName }</td>
+	                        <td> 수신인원 </td>
+		                    <td> 발신인원 </td>
+	                        <td>${ ws.createDate }</td>
 	                    </tr>
                     </c:forEach>	
                 </tbody>
