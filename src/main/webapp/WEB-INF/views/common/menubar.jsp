@@ -31,7 +31,7 @@
         <a href="index3.html" class="nav-link">사람 아이콘</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">사람이름</a>
+        <a class="nav-link">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
       </li>
     </ul>
 
@@ -159,21 +159,26 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="mailbox.ml" class="nav-link">
+                <a href="inbox.ml" class="nav-link">
                   <p>받은 메일함</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="mailbox.ml" class="nav-link">
+                <a href="sent.ml" class="nav-link">
                   <p>보낸 메일함</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="mailbox.ml" class="nav-link">
+                <a href="draft.ml" class="nav-link">
                   <p>임시 보관함</p>
                 </a>
               <li class="nav-item">
-                <a href="mailbox.ml" class="nav-link">
+                <a href="important.ml" class="nav-link">
+                  <p>중요 메일함</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="trash.ml" class="nav-link">
                   <p>휴지통</p>
                 </a>
               </li>

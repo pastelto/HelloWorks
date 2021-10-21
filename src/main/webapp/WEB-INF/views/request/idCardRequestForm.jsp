@@ -65,7 +65,7 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.deptCode}"
+														<input id="" name="" value="${loginUser.deptDname}"
 															class="form-control" readonly>
 													</div>
 												</div>
@@ -74,7 +74,7 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.jobCode}"
+														<input id="" name="" value="${loginUser.jobName}"
 															class="form-control" readonly>
 													</div>
 												</div>
@@ -106,7 +106,7 @@
 											<div class="col-3">
 												<!-- 이미지 들어오는 부분 -->
 												<div class="selectCover">
-													<img id="cover" src="resources/img/defaultImg.jpg"
+													<img id="cover" src="resources/empImg/defaultImg.jpg"
 														style="width: 160px; height: 200px;" />
 												</div>
 											</div>
