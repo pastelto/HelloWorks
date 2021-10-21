@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.dao.NoticeDao;
 import com.helloworks.spring.notice.model.vo.Notice;
 
@@ -21,7 +22,7 @@ public class NoticeServiceImpl implements NoticeService {
 	private NoticeDao noticeDao;
 	
 	/*~~~~~~~~~~~~~~~~공지사항~~~~~~~~~~~~~~~~*/
-	//조회수
+	//총 게시글 갯수
 	@Override
 	public int selectListCount() {
 		// TODO Auto-generated method stub
@@ -108,9 +109,33 @@ public class NoticeServiceImpl implements NoticeService {
 		return null;
 	}
 
+	/*~~~~~~~~~~~~~~~~검색~~~~~~~~~~~~~~~~*/
+	//검색 리스트 갯수
+	@Override
+	public int getSearchListCount(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return noticeDao.getSearchListCount(sqlSession, sc);
+	}
 	
-
-
+	//검색 리스트 
+	@Override
+	public ArrayList<Notice> getSearchList(SearchCondition sc, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return noticeDao.getSearchList(sqlSession, sc, pi);
+	}
 	
+	//임시저장 리스트 갯수
+	@Override
+	public int getSearchlistTCount(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return noticeDao.getSearchlistTCount(sqlSession, sc);
+	}
+	
+	//임시저장 리스트
+	@Override
+	public ArrayList<Notice> searchNoticeTlist(SearchCondition sc, PageInfo piT) {
+		// TODO Auto-generated method stub
+		return noticeDao.searchNoticeTlist(sqlSession, sc, piT);
+	}
 
 }

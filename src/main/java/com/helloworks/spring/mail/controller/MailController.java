@@ -45,7 +45,7 @@ public class MailController {
 //		}
 
 //		mailService.sendMail(m); // 메일 vo넘기기
-		return "redirect:mailbox.ml";// 등록하면 리스트 화면으로 다시보이게
+		return "redirect:inbox.ml";// 등록하면 리스트 화면으로 다시보이게
 
 	}
 
@@ -58,31 +58,38 @@ public class MailController {
 	}
 
 	// 받은 메일함
-	@RequestMapping("mailbox.ml")
+	@RequestMapping("inbox.ml")
 	public String inboxMail() {
 		System.out.println("받은 메일함 페이지");
-		return "mail/mailbox";
+		return "mail/inbox";
 	}
 
-//	// 보낸 메일함
-//	@RequestMapping("mailbox.ml")
-//	public String outboxMail() {
-//		System.out.println("보낸 메일함 페이지");
-//		return "mail/mailbox";
-//	}
-//
-//	// 임시 메일함
-//	@RequestMapping("mailbox.ml")
-//	public String tempboxMail() {
-//		System.out.println("임시 메일함 페이지");
-//		return "mail/mailbox";
-//	}
-//
-//	// 휴지통
-//	@RequestMapping("mailbox.ml")
-//	public String trashMail() {
-//		System.out.println("메일 휴지통 페이지");
-//		return "mail/mailbox";
-//	}
+	// 보낸 메일함
+	@RequestMapping("sent.ml")
+	public String sentMail() {
+		System.out.println("보낸 메일함 페이지");
+		return "mail/sent";
+	}
+
+	// 임시 메일함
+	@RequestMapping("draft.ml")
+	public String draftMail() {
+		System.out.println("임시 메일함 페이지");
+		return "mail/draft";
+	}
+
+	// 휴지통
+	@RequestMapping("trash.ml")
+	public String trashMail() {
+		System.out.println("메일 휴지통 페이지");
+		return "mail/trash";
+	}
+	
+	// 즐겨찾기
+	@RequestMapping("important.ml")
+	public String favorite() {
+		System.out.println("중요 메일함 페이지");
+		return "mail/important";
+	}
 
 }

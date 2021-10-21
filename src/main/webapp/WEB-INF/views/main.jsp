@@ -5,15 +5,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>HOME</title>
-<!-- css NoticeListView  -->
-<link href="resources/css/notice/Notice.css" rel="stylesheet" type="text/css"> 
+<style>
+.attendance{
+	padding-top:20px;
+	margin-left:10px;
+}
+</style>
 </head>
 <body>
-  <jsp:include page="../common/menubar.jsp" />
+
+
+  <jsp:include page="./common/menubar.jsp" />
    <div class="content-wrapper">
-   
+
+   		<div class="attendance" id="attendance">
+   	 		<jsp:include page="./attendance/mainAttendance.jsp" />
+   		</div>
+  
    </div>
-   <jsp:include page="../common/footer.jsp" />
+   
+
+   <jsp:include page="./common/footer.jsp" />
+  
+
 </body>
 </html>

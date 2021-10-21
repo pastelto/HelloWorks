@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mail-box</title>
+<title>받은 메일함</title>
 </head>
 <style>
 .content-wrapper {
@@ -20,7 +20,9 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h4><i class="nav-icon fas fa-envelope"><b> 받은 메일함</b></i></h4>
+						<h4>
+							<i class="nav-icon fas fa-envelope"><b> 받은 메일함</b></i>
+						</h4>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -52,22 +54,22 @@
 						</div>
 						<div class="card-body p-0">
 							<ul class="nav nav-pills flex-column">
-								<li class="nav-item active"><a href="#" class="nav-link">
-										<i class="fas fa-inbox"></i> Inbox <span
+								<li class="nav-item active"><a href="inbox.ml"
+									class="nav-link"> <i class="fas fa-inbox"></i> 받은 메일함 <span
 										class="badge bg-primary float-right">12</span>
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-envelope"></i> Sent
+								<li class="nav-item"><a href="sent.ml" class="nav-link">
+										<i class="far fa-envelope"></i> 보낸 메일함
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-file-alt"></i> Drafts
+								<li class="nav-item"><a href="draft.ml" class="nav-link">
+										<i class="far fa-file-alt"></i> 임시 보관함
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="fas fa-filter"></i> Junk <span
+								<li class="nav-item"><a href="important.ml"
+									class="nav-link"> <i class="fas fa-filter"></i> 중요 메일함 <span
 										class="badge bg-warning float-right">65</span>
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
-										class="far fa-trash-alt"></i> Trash
+								<li class="nav-item"><a href="trash.ml" class="nav-link">
+										<i class="far fa-trash-alt"></i> 휴지통
 								</a></li>
 							</ul>
 						</div>
