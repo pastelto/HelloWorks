@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="wsAttachmentResultSet" type="WSAttachment">
 		<id column="wsa_no" property="WSA_NO"/>
 		<result column="wsa_empNo" property="WSA_EMP_NO"/>
-		<result column="wsa_wsNo" property="WSA_WS_NO"/>
+		<result column="wsa_wsNo" property="WSA_WSNO"/>
 		<result column="wsa_origin" property="WSA_ORIGIN"/>
 		<result column="wsa_change" property="WSA_CHANGE"/>
 		<result column="wsa_size" property="WSA_FILE_SIZE"/>
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 업무공유 생성 -->
 	<insert id="insertWorkShare" parameterType="WorkShare">
 		INSERT INTO WORKSHARE
-		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, SYSDATE, '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
+		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
 	</insert>
 
 	<!-- 업무공유 첨부파일 생성 -->
@@ -68,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
 		AND WS_STATUS = 'Y'
 		AND WS_RECV_STATUS LIKE '%'||#{empNo}||'%'
+		ORDER BY A.WS_NO DESC
 	</select>
 
 	<!-- 수신 업무공유 개수 -->
@@ -90,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
 		AND WS_STATUS = 'Y'
+		ORDER BY A.WS_NO DESC
 	</select>
 	
 	<!-- 발신 업무공유 개수 -->
@@ -112,6 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE A.WS_EMP_NO = #{empNo}
 		AND WS_STATUS = 'Y'
+		ORDER BY A.WS_NO DESC
 	</select>
 	
 	<!-- 임시저장 업무공유 개수 -->
@@ -134,5 +137,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE A.WS_EMP_NO = #{empNo}
 		AND WS_STATUS = 'S'
+		ORDER BY A.WS_NO DESC
+	</select>
+	
+	<!-- 업무공유 상세 조회 -->
+	<select id="detailWS" parameterType="_int" resultMap="workShareResultSet">
+		SELECT *
+		FROM WORKSHARE
+		WHERE WS_NO = #{wno}
+		AND WS_STATUS = 'Y'
+	</select>
+	
+	<!-- 업무공유 상세 조회 - 첨부파일 -->
+	<select id="detailWSAttachment" parameterType="_int" resultMap="wsAttachmentResultSet">
+		SELECT *
+		FROM WORKSHARE_ATTACHMENT
+		WHERE WSA_STATUS = 'Y'
+		AND WSA_WSNO = #{wsno}
 	</select>
 </mapper>
