@@ -38,7 +38,6 @@
 				</div>
 				<!-- /.container-fluid -->
 			</section>
-
 			<!-- Main content -->
 			<div class="card card-outline card-info">
 				<div class="card-header">
@@ -53,11 +52,10 @@
 				<div class="card-body">
 					<!-- 회의실 목록 -->
 					<!-- 가운데 <div class="container"> -->
-					<table id="meetingRoomList"
-						class="table table-bordered table-striped">
+					<table id="meetingRoomList" class="table table-bordered table-striped">
 						<thead>
 							<tr align="center">
-								<th>회의실 번호</th>
+								<th>회의실 관리 번호</th>
 								<th>회의실 명</th>
 								<th>회의실 수용인원</th>
 								<th>회의실 사용여부</th>
@@ -90,8 +88,6 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		//등록
-
 		//리스트 클릭시 수정할 수 있게
 		$(function() {
 			$("#meetingRoomList tbody tr").click(function() {
