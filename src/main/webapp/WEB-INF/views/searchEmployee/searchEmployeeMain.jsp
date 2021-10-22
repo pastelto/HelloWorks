@@ -296,7 +296,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 
-				<form action="addOfficeAddressBook.or" method="post">
+				<form action="addOfficeAddressBook.adb" method="post">
 					<!-- Modal Body -->
 					<div class="modal-body">
 						<div class="card bg-light d-flex flex-fill mb-0">

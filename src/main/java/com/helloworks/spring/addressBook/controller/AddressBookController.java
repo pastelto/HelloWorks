@@ -21,7 +21,7 @@ public class AddressBookController {
 	
 	/* 주소록 */
 	
-	@RequestMapping("officeAddressBook.or")
+	@RequestMapping("officeAddressBook.adb")
 	public String officeAddressBook(HttpServletRequest request, Model model) {
 		System.out.println("공유 주소록 전환");
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
@@ -32,7 +32,7 @@ public class AddressBookController {
 	}
 	
 	
-	@RequestMapping("addOfficeAddressBook.or")
+	@RequestMapping("addOfficeAddressBook.adb")
 	public String addOfficeAddressBook(int addEmpNo, HttpServletRequest request, Model model) {
 		
 				
@@ -53,6 +53,6 @@ public class AddressBookController {
 		
 		
 		model.addAttribute("addEmpNo", addEmpNo);
-		return "addressBook/officeAddressBookMain";
+		return "redirect:officeAddressBook.adb";
 	}
 }

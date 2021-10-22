@@ -80,7 +80,7 @@
       
       <!-- 주소록 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="officeAddressBook.or" role="button">
+        <a class="nav-link" href="officeAddressBook.adb" role="button">
           <i class="fas fa-address-book"></i>
         </a>
       </li>
@@ -306,7 +306,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="officeAddressBook.or" class="nav-link">
+                <a href="officeAddressBook.adb" class="nav-link">
                   <p>주소록</p>
                 </a>
               </li>
