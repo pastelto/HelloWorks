@@ -20,6 +20,9 @@
 	#plus_line_btn{
 		margin-bottom:15px;
 	}
+	#ccName{
+		width: 300px; !important;
+	}
 	.bottom-margin0{
 		margin-right:8px;
 		margin-botton:0px;
@@ -27,11 +30,16 @@
 	.content-wrapper{
 		overflow:auto;
 	}
-	input[id^="emp_level"], input[id^="emp_name"], input[id^="line"] {
+	input[id^="emp_level"], input[id^="emp_name"], input[id^="line"], input[id^="coo_level"], input[id^="coo_name"]{
 		border : none;
 		background-color: white;
 		pointer-events: none;
 	}
+	input[id^="ccName"]{
+		background-color: white;
+		pointer-events: none;
+	}
+	
 </style>
 </head>
 <body>
@@ -149,7 +157,7 @@
 																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level1" id="emp_level1_1" value="팀장" disabled/>
+																	<input type="text" class="emp_level1" id="emp_level1_1" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<input type="text" class="emp_level2" id="emp_level1_2" disabled/>
@@ -167,8 +175,8 @@
 																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name1" id="emp_name1_1" value="김소원" disabled/>
-																	<input type="hidden" class="line1" id="line1_1" name="line1" value="202100004">
+																	<input type="text" class="emp_name1" id="emp_name1_1" disabled/>
+																	<input type="hidden" class="line1" id="line1_1" name="line1" >
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<input type="text" class="emp_name2" id="emp_name1_2" disabled/>
@@ -200,35 +208,35 @@
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level0">팀장</span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level1"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
 																</th>
-																<th class="table emp_level"  scop="col">
-																	<span id="emp_level2"></span>
+																<th class="table coo_level"  scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level3"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name0">김다혜</span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="202100003">
+																<td class="table coo_name"  scop="col">
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
+																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" >
+																<td class="table coo_name"  scop="col">
+																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
+																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
 																</td>
-																<td class="table emp_name" scop="col">
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" >
+																<td class="table coo_name" scop="col">
+																	<input type="text" class="coo_name1_3" id="coo_name1_3" disabled/>
+																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
-																<td class="table emp_name" scop="col">
+																<td class="table coo_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" >
+																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -238,6 +246,7 @@
 											<tr>
 												<td colspan="2" align="right">
 													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 협조 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -251,9 +260,14 @@
 														<td width="10%" colspan="3">
 															<span>수신참조 </span>												
 														</td>
-														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="C1"/>																				
+														<td colspan="6" style="text-align:left !important;">
+														<div class="input-group" style="width:30% !important;">														
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" />	
+															<input type="hidden" id="ccCode1" name="ccCode"/>
+															<div class="input-group-append">															
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
+															</div>
+														</div>
 														</td>
 													</tr>
 													<tr>
@@ -331,7 +345,7 @@
 															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
-															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
+															<button type="button" class="btn btn-danger" style="font-size:1em" onclick="deletefile();">삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -369,7 +383,7 @@
 																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level2_1" value="팀장" disabled/>
+																	<input type="text" class="border_none" id="emp_level2_1" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<input type="text" class="border_none" id="emp_level2_2" disabled/>
@@ -387,8 +401,8 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name2_1" value="김소원" disabled/>
-																	<input type="hidden" id="line2_1" name="line1" value="202100004">
+																	<input type="text" class="border_none" id="emp_name2_1" disabled/>
+																	<input type="hidden" id="line2_1" name="line1" >
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<input type="text" class="border_none" id="emp_name2_2" disabled/>
@@ -420,35 +434,35 @@
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level1"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
 																</th>
-																<th class="table emp_level"  scop="col">
-																	<span id="emp_level2"></span>
+																<th class="table coo_level"  scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level3"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table emp_name"  scop="col">
+																<td class="table coo_name"  scop="col">
 																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" >
+																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
-																<td class="table emp_name"  scop="col">
+																<td class="table coo_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1">
+																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
 																</td>
-																<td class="table emp_name" scop="col">
+																<td class="table coo_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2">
+																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
-																<td class="table emp_name" scop="col">
+																<td class="table coo_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3">
+																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -472,8 +486,13 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="8">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="C1"/>																				
+														<div class="input-group" style="width:30% !important;">														
+															<input type="text" id="ccName2" class="form-control" name="ccName" width="30%"/>	
+															<input type="hidden" id="ccCode2" name="ccCode"/>	
+															<div class="input-group-append">															
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(2);">수신자등록</button>																				
+															</div>
+														</div>																		
 														</td>
 													</tr>
 													<tr>
@@ -609,7 +628,7 @@
 																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level3_1" value="팀장" disabled/>
+																	<input type="text" class="border_none" id="emp_level3_1" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<input type="text" class="border_none" id="emp_level3_2" disabled/>
@@ -627,7 +646,7 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name3_1" value="김소원" disabled/>
+																	<input type="text" class="border_none" id="emp_name3_1" disabled/>
 																	<input type="hidden" id="line3_1" name="line1" value="202100004">
 																</td>
 																<td class="table emp_name" scope="col" >
@@ -660,35 +679,35 @@
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level1"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
 																</th>
-																<th class="table emp_level"  scop="col">
-																	<span id="emp_level2"></span>
+																<th class="table coo_level"  scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level3"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table emp_name"  scop="col">
+																<td class="table coo_name"  scop="col">
 																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0">
+																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
-																<td class="table emp_name"  scop="col">
+																<td class="table coo_name"  scop="col">
 																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" >
+																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
 																</td>
-																<td class="table emp_name" scop="col">
+																<td class="table coo_name" scop="col">
 																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2">
+																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
-																<td class="table emp_name" scop="col">
+																<td class="table coo_name" scop="col">
 																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3">
+																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -712,8 +731,13 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="C1"/>																				
+														<div class="input-group" style="width:30% !important;">														
+															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%"/>	
+															<input type="hidden" id="ccCode3" name="ccCode"/>
+															<div class="input-group-append">															
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(3);">수신자등록</button>																				
+															</div>
+														</div>	
 														</td>
 													</tr>
 													<tr>
@@ -846,7 +870,7 @@
 																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level4_1" value="팀장" disabled/>
+																	<input type="text" class="border_none" id="emp_level4_1" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
 																	<input type="text" class="border_none" id="emp_level4_2" disabled/>
@@ -864,8 +888,8 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name4_1" value="김소원" disabled/>
-																	<input type="hidden" id="line4_1" name="line1" value="202100004">
+																	<input type="text" class="border_none" id="emp_name4_1" disabled/>
+																	<input type="hidden" id="line4_1" name="line1" >
 																</td>
 																<td class="table emp_name" scope="col" >
 																	<input type="text" class="border_none" id="emp_name4_2" disabled/>
@@ -897,35 +921,35 @@
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level4_1" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level1"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level4_2" disabled/>
 																</th>
-																<th class="table emp_level"  scop="col">
-																	<span id="emp_level2"></span>
+																<th class="table coo_level"  scop="col">
+																	<input type="text" class="coo_level1" id="coo_level4_3" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level3"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level4_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" >
+																<td class="table coo_name"  scop="col">
+																	<span id="coo_name4_1"></span>
+																	<input type="hidden" id="cooperator4_1" name="cooperator0">
 																</td>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" >
+																<td class="table coo_name"  scop="col">
+																	<span id="coo_name4_2"></span>
+																	<input type="hidden" id="cooperator4_2" name="cooperator1" >
 																</td>
-																<td class="table emp_name" scop="col">
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" >
+																<td class="table coo_name" scop="col">
+																	<span id="coo_name4_3"></span>
+																	<input type="hidden" id="cooperator4_3" name="cooperator2" >
 																</td>
-																<td class="table emp_name" scop="col">
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" >
+																<td class="table coo_name" scop="col">
+																	<span id="coo_name4_4"></span>
+																	<input type="hidden" id="cooperator4_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -949,8 +973,13 @@
 															<span>수신참조 </span>												
 														</td>
 														<td colspan="8">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>	
-															<input type="text" id="ccName" name="ccName" value="C1"/>																				
+															<div class="input-group" style="width:30% !important;">														
+															<input type="text" id="ccName4" class="form-control" name="ccName" width="30%"/>	
+															<input type="hidden" id="ccCode4" name="ccCode"/>
+															<div class="input-group-append">															
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(4)">수신자등록</button>																				
+															</div>
+														</div>	
 														</td>
 													</tr>
 													<tr>
@@ -1171,8 +1200,10 @@
 		});
 	</script>
 	
-<!-- 첨부파일 라벨 추가 -->
+<!-- 첨부파일 추가 / 삭제 -->
 	<script>
+		
+		var cnt = 0;
 		
 		$(".normalAttach").on("change", function(e) {	
 			
@@ -1184,7 +1215,26 @@
 			$(".normalAttachName").text(filename);
 			$(".normalAttachSize").text(filesize);
 		
+			cnt++
 		});
+
+		function deletefile(){
+		
+			if(cnt < 1){
+				alert("삭제할 파일이 없습니다.");
+			} else {
+				
+				if(confirm("삭제하시겠습니까?")){
+					
+					$(".normalAttach").val('');
+					$(".normalAttachName").text('');
+					$(".normalAttachSize").text('');
+				}
+				
+				
+			}
+			
+		}
 	</script>
 <!-- 부서공유 check -->
 	<script>
@@ -1198,6 +1248,10 @@
 	
 	<script>
 		function insertApp(){
+			
+			
+			
+			
 			$("#normalApprovalForm").each(function(){
 				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
 				$("#normalApprovalForm").submit();
@@ -1219,7 +1273,7 @@
 	<script>
 	function plusLine(divNo){
 		
-		var _width = '700';
+		var _width = '900';
 		var _height = '1500';
 		
 		var _left = Math.ceil((window.screen.width - _width)/2);
@@ -1228,7 +1282,21 @@
 		var windowObj = window.open("plusAppLineForm.ea?val="+divNo, "결재라인 추가 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
 		
 	}
+	</script>
 	
+	<script>
+	function plusCC(num){
+		
+		var _width = '900';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		var windowObj = window.open("plusccForm.ea?val="+num, "수신자 등록 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+		
+	}
 	</script>
 
 
