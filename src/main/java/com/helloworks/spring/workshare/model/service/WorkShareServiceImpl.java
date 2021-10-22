@@ -105,6 +105,21 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		return workShareDao.selectSavedList(sqlSession, myEmp, pi);
 	}
+	
+	// 업무공유 상세조회
+	@Override
+	public WorkShare detailWS(int wno) throws Exception {
+		
+		return workShareDao.detailWS(sqlSession, wno);
+	}
+	
+	// 업무공유 상세조회 - 첨부파일
+	@Override
+	public ArrayList<WSAttachment> detailWSAttachment(int wsno) {
+		
+		System.out.println("Impl wsno ? " + wsno);
+		return workShareDao.detailWSAttachment(sqlSession, wsno);
+	}
 
 	
 }
