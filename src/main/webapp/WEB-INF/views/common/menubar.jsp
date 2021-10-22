@@ -106,7 +106,7 @@
       
       <!-- 로그아웃 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+        <a class="nav-link" data-slide="true" href="logout.me" role="button">
           <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>
