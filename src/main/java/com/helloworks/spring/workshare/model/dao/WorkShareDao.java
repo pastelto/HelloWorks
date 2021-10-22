@@ -75,6 +75,17 @@ public class WorkShareDao {
 		
 		return (ArrayList)sqlSession.selectList("workShareMapper.selectSavedList", myEmp, rowBounds); 
 	}
+
+	public WorkShare detailWS(SqlSessionTemplate sqlSession, int wno) {
+		
+		return sqlSession.selectOne("workShareMapper.detailWS", wno);
+	}
+
+	public ArrayList<WSAttachment> detailWSAttachment(SqlSessionTemplate sqlSession, int wsno) {
+		
+		System.out.println("dao wsno ? " + wsno);
+		return (ArrayList)sqlSession.selectList("workShareMapper.detailWSAttachment", wsno);
+	}
 	
 	
 }

@@ -35,7 +35,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-link"></i><b> 업무공유 작성</b>
+							<i class="nav-icon fas fa-link"></i><b> 업무공유 </b>
 						</h4>
 					</div>
 				</div>
@@ -61,70 +61,59 @@
 									<div class="col-12">
 
 										<table class="table table-bordered table-sm">
+											
 											<tr>
-												<th>작성자</th>
+												<th>업무요약</th>
+												<td colspan="3">
+													&nbsp;&nbsp;
+													${ ws.ws_title }
+												</td>
+											</tr>
+											<tr>
+												<th>발송인</th>
 												<td style="width: 35%;">
 												&nbsp;
 												<input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly>
 												<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
-												</td>
-												<th>작성일</th>
-												<td style="width: 35%;">
-													&nbsp;
-													<c:set var="now" value="<%=new java.util.Date()%>" />
-													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
-													<c:out value="${sysdate}" />
-												 </td>
-											</tr>
-											<tr>
-												<th>업무요약</th>
-												<td colspan="3">
-												<input type="text" name="ws_title" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-												<input type="text" name="ws_recv">
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
-												</div>
+													수신직원 목록 -> 컴마로 구분해서 입력
 												</td>
 											</tr>
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-												<input type="text" name="ws_ref">
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
-												</div>
+													참조직원 목록 -> 컴마로 구분해서 입력
 												</td>
 											</tr>
-<!-- 											<tr>
-												<th>수정권한</th>
-												<td colspan="3">
-												&nbsp;&nbsp;
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
-												</div>
+											<tr>
+												<th>작성일</th>
+												<td style="width: 35%;">
+													&nbsp;
+													${ ws.createDate }
 												</td>
-											</tr> -->
+												<th>수정일</th>
+												<td style="width: 35%;">
+													&nbsp;
+													DB에서 수정일이 있으면 가져오기 
+												</td>
+											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
-													<span class="badge badge-info" id="workShareAttachName"></span>
-									                  <div class="btn btn-default btn-file btn-xs">
-									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
-									                  </div> 
+												<%-- <c:forEach items="${ wsa }" var="wsa">
+													<c:if test="${ !empty wsa.wsa_origin }">
+							                        	<a href="${ pageContext.servletContext.contextPath }/resources/workshare_files/${wsa.wsa_change}" download="${wsa.wsa_origin}">${ wsa.wsa_origin }</a>
+							                        </c:if>
+							                        <c:if test="${ empty wsa.wsa_origin }">
+							                        	첨부파일이 없습니다.
+							                        </c:if>
+							                     </c:forEach> --%>
 												</td>
 											</tr>
 										</table>
@@ -219,7 +208,6 @@
 		
 	} 
 	</script>
-	
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

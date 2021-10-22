@@ -165,7 +165,7 @@ target/m2e-wtp/web-resources/META-INF/maven/MANIFEST.MF
 # Edit at https://www.toptal.com/developers/gitignore?templates=maven
 .project
 .classpath
-.settings
+
 
 
 ### Maven ###
