@@ -27,4 +27,8 @@ public class Attendance {
 	private String jobName;	//직급	
 	private String deptName; //부서
 	private String deptUname; //상위부서
+	private int appliedIN; //적용 출근시간
+	private int appliedOut; //적용 퇴근시간
+	
+	
 }

@@ -14,17 +14,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="workingTime" column="PSA_WORKINGTIME"/>
 		<result property="overTime" column="PSA_OVERTIME"/>
 		<result property="total" column="PSA_TOTAL"/>
+		<result property="appliedIN" column="PSA_APPLIED_IN"/>
+		<result property="appliedOut" column="PSA_APPLIED_OUT"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptName" column="DEPT_DNAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>		
 	</resultMap>
 	
 	<!-- 출근등록 -->
-    <insert id="insertInTime" parameterType="Attendance">
-	    INSERT INTO PS_ATTENDANCE
-		VALUES
-		(SEQ_PS_ATDN.NEXTVAL, SYSDATE, #{inTime}, DEFAULT, #{psStatus}, #{empNo}, DEFAULT, DEFAULT, DEFAULT)
-   </insert>
+    <update id="updateInTime" parameterType="Attendance">
+	    UPDATE PS_ATTENDANCE
+		SET PSA_IN =#{inTime},
+		PSA_APPLIED_IN = #{appliedIN},
+		PSA_STATUS=#{psStatus}
+		WHERE PSA_EMP_NO = #{empNo}
+   </update>
    
    <!-- 메인조회 -->
    <select id="selectAttendance" parameterType="_int" resultMap="attendanceResultSet">
@@ -32,6 +36,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PS_ATTENDANCE
 		WHERE PSA_EMP_NO = #{empNo}
 		AND PSA_CREATEDATE LIKE SYSDATE
-   </select>
-   
+   </select>  
 </mapper>

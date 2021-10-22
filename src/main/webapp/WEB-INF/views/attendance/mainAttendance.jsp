@@ -44,6 +44,20 @@ input:focus {outline:none;}
 	visibility: hidden !important;
 }
 
+.workintTitile{
+	font-size : 12px;
+	margin-bottom : -20px !important;
+}
+
+.progress-bar{
+	height : 15px;
+	background-color : lightpink !important;
+	border-radius: 5px;
+}
+
+.progress{
+border-radius: 5px;
+}
 
 </style>
   
@@ -88,29 +102,24 @@ input:focus {outline:none;}
 		                  <!-- 근태정보 -->
 	                      <div class="container-fluid text-center" style="margin-top:-7px;"> 
 	                      	          
-		                     <h5><span id="nowTimes"></span></h5>                     
+		                     <h5><span id="now"></span></h5>                     
 		                  </div>
 		                  <div class="container-fluid text-center">
-			                  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>
+							  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>						                  
 			                  <input type=text class="workingtime" id="inTime" value="${attendance.inTime}" readonly>
 			                  <button  class="btn btn-outline-secondary  btn-sm "onclick="insertTime(2);" >퇴근</button>
 			                  <input type=text class="workingtime" id="outTime" value="${attendance.outTime}" readonly>
 		                  </div>
 		                  <br>
-		                  <div class="irs-wrapper complete">
-	                        <input id="range_1" type="text" name="range_1" value="1" disabled>
+		                 <div class="irs-wrapper complete">
+		                  	<div class="workintTitile">소정근로시간</div>
+	                        <input id="range_1" type="text" name="range_1" value="9" disabled>
 	                      </div>
-	                      <br>
-	                      <!--
-	                      <div class="col-sm-12">
-	                        <input id="range_2" type="text" name="range_2" value="10000;100000">
-	                      </div>
-	                      
-	                      
-	                      <div class="profress border">
-	                      		<div id="progressbar"class="progress-bar bg-info" style="width:60%">6시간</div>
-	                      </div>
-		                    -->		                
+	                      <div class="progress">
+							  <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+							  70%</div>
+							</div>
+	                      <br>	                
                      </div>
 		                  
 		              
@@ -138,48 +147,6 @@ input:focus {outline:none;}
 <!-- Bootstrap slider -->
 <script src="./resources/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
-  
- <script>
- <%--
- var empNo = ${loginUser.empNo};
-
- window.onload = function(){
- 
-	 console.log(1)
-		$.ajax({
-			
-			//url : 데이터를 전송할 url(필수)
-			url:"attendance.ps",
-			//data : 요청시 전달할 파라미터 설정
-			data:{empNo:empNo},//key:value
-			//type : 전송방식(get/post)
-			type :"get",
-			
-			success: function(result){
-				$('#inTime').value(result);
-				$('#outTime').value(result);
-			},
-			
-			error: function(){
-				console.log("Ajax 통신 실패")								
-			},
-			
-			complete:function(){//통신이 실패하던 성공하던 무조건 실행
-				console.log("무조건 호출")
-			}
-			
-			
-			
-		})	
-		
-		console.log(2)
- 
- 
- }
-
- --%>
- </script>  
-    
 <script>
 function insertTime(num){	
 	var nowDate = new Date();
@@ -187,16 +154,28 @@ function insertTime(num){
 	var min = nowDate.getMinutes();
     var sec = nowDate.getSeconds();
     
+    if(hour < 10) { hour = "0" + hour; }
     if(min < 10) { min = "0" + min; }
     if(sec < 10) { sec = "0" + sec; }
     var inOutTime= hour + ":" + min + ":" + sec ;
-	
-	if(num == 1){
-		alert("출근시간이 등록되었습니다")
-		location.href="intime.ps?inOutTime=" + inOutTime;		
+
+    var inTime = document.getElementById('inTime').value;
+    var outTime = document.getElementById('outTime').value;
+    
+	if(num == 1){		
+		if(inTime == "00:00:00"){
+			alert("출근시간이 등록되었습니다")
+			location.href="intime.ps?inOutTime=" + inOutTime;		
+		}else{
+			alert("출근시간이 등록되어있습니다")
+		}	
 	}else{
-		alert("퇴근시간이 등록되었습니다")
-		location.href="outTime.ps?inOutTime=" + inOutTime;	
+		if(outTime == "00:00:00"){
+			alert("퇴근시간이 등록되었습니다")
+			location.href="outTime.ps?inOutTime=" + inOutTime;		
+		}else{
+			alert("퇴근시간이 등록되어있습니다")
+		}			
 	}
 	
 }
@@ -225,13 +204,6 @@ function insertTime(num){
   })
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 시간을 딜레이 없이 나타내기위한 선 실행
-    realTimer();
-    // 이후 0.5초에 한번씩 시간을 갱신한다.
-    setInterval(realTimer, 100);
-});
-
 // 시간을 출력
 function realTimer() {
 
@@ -242,7 +214,7 @@ function realTimer() {
    const hour = nowDate.getHours();
    const min = nowDate.getMinutes();
    const sec = nowDate.getSeconds();
-   document.getElementById("nowTimes").innerHTML = 
+   document.getElementById("now").innerHTML = 
               hour + "시 " + addzero(min) + "분 " + addzero(sec) + "초";
 }
 

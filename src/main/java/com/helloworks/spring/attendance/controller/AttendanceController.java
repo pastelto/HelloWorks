@@ -29,61 +29,52 @@ public class AttendanceController {
 	
 	//출근시간 등록
 	@RequestMapping("intime.ps")
-	public String insertInTime(String inOutTime, HttpServletRequest request) {
+	public String updateInTime(String inOutTime, HttpServletRequest request) {
 		 System.out.println("출근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inOutTime);
 		 
-		 Attendance a = new Attendance();
+		 Attendance attendance = new Attendance();
 		 
-		 //출근시간set
-		 a.setInTime(inOutTime);
+		 try {
+			 //출근시간 초로 바꾸기
+			 int hour = (Integer.parseInt(inOutTime.substring(0, 2)))*60*60;
+			 int min = (Integer.parseInt(inOutTime.substring(3, 5)))*60;
+			 int sec = hour+min+(Integer.parseInt(inOutTime.substring(6, 8)));
+			 
+			 //사번 set
+			 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		 
+			 attendance.setEmpNo(empNo);					 
+			 
+			 //출근시간set
+			 attendance.setInTime(inOutTime);
+			 
+			 //상태set
+			 int status = Integer.parseInt(inOutTime.substring(0, 2));
+			 if(status > 9) {
+				 attendance.setAppliedIN(sec);
+				 attendance.setPsStatus("지각");
+
+				 
+//			 	//반차결재서류 있다면 
+//			    if(반차서류가 있다면) {				    	
+//			    	attendance.setPsStatus("반차");	
+//				    attendance.setAppliedIN(50400); //2시출근
+//			    }
+				   	 
+			 }else {
+				 attendance.setAppliedIN(32400);//9시
+				 attendance.setPsStatus("정상출근");
+			 }
+			 
+			
+			
+			 attendanceService.updateInTime(attendance);	
 		 
-		 //상태set
-		 int status = Integer.parseInt(inOutTime.substring(0, 2));
-		 if(status > 9) {
-			 a.setPsStatus("지각");
-		 }else {
-			 a.setPsStatus("정상근무");
+		 } catch(NumberFormatException e) {			 
+			 e.printStackTrace();
 		 }
-		 
-		 //사번 set
-		 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		 
-		 a.setEmpNo(empNo);		
-		 
-		
-		 attendanceService.insertInTime(a);			 
-		 //"redirect:list.nt"; -조회되면 이걸로 바꾸기?
 		 
 		 return "redirect:main.mi";
 	}
-	
-//	   //조회
-//	   @RequestMapping("attendance.ps")
-//	   public ModelAndView selectAttendance( ModelAndView mv, HttpServletRequest request) {
-//		   int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
-//	      Attendance a = attendanceService.selectAttendance(empNo);
-//	      System.out.println("a######################## +" + a);
-//	      System.out.println("empNo +" + empNo);
-//	      
-//	      mv.addObject("a", a).setViewName("main/main");
-//	      
-//	      return mv;
-//	   }
-
-	
-	//조회
-//	@ResponseBody
-//	@RequestMapping(value="attendance.ps", produces="application/json; charset=UTF-8") 
-//	public String selectAttendance(int empNo) {
-//		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$컨트롤러 탄다~~~~~~~~");
-//		
-//		
-//		 ArrayList<Attendance> a = attendanceService.selectAttendance(empNo);			 
-//		 System.out.println("a######################## +" + a);
-//		 System.out.println("empNo +" + empNo);
-//		 
-//		 
-//		 return new GsonBuilder().create().toJson(a);
-//	}
 	
 	//퇴근시간 등록
 	@RequestMapping("outTime.ps")
@@ -93,7 +84,7 @@ public class AttendanceController {
 		 //퇴근시간set
 		 a.setOutTime(inOutTime);
 		 
-		//출근시간 초로바꾸기
+		 //출근시간 초로바꾸기
 		 int hour1 = (Integer.parseInt(a.getInTime().substring(0, 2)))*60*60;
 		 int min1 = (Integer.parseInt(a.getInTime().substring(3, 2)))*60;
 		 int sec1 = hour1+min1+(Integer.parseInt(a.getInTime().substring(6, 2)));
