@@ -19,7 +19,7 @@ public class Approval  {
 	private String title;		// 제목
 	private int writer;			// 작성자
 	private String createDate;	// 작성일자
-	private String deptCode;	// 부서코드
+	private String deptName;	// 하위부서이름
 	private String content;		// 결재내용
 	private String cooper;		// 협조
 	private String deptShare;		// 부서공유 Y,N

@@ -38,13 +38,12 @@
 				</div>
 				<!-- /.container-fluid -->
 			</section>
-
 			<!-- Main content -->
 			<div class="card card-outline card-info">
 				<div class="card-header">
 					<h3 class="card-title">회의실 목록</h3>
 					<div class="float-right">
-						<button class="btn btn-primary" onclick="window.open('add.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
+						<button class="btn btn-primary" onclick="window.open('openAdd.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
 							<i class="fas fa-clipboard-check"></i> 회의실 등록
 						</button>
 					</div>
@@ -53,11 +52,10 @@
 				<div class="card-body">
 					<!-- 회의실 목록 -->
 					<!-- 가운데 <div class="container"> -->
-					<table id="meetingRoomList"
-						class="table table-bordered table-striped">
+					<table id="meetingRoomList" class="table table-bordered table-striped">
 						<thead>
 							<tr align="center">
-								<th>회의실 번호</th>
+								<th>회의실 관리 번호</th>
 								<th>회의실 명</th>
 								<th>회의실 수용인원</th>
 								<th>회의실 사용여부</th>
@@ -90,8 +88,6 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		//등록
-
 		//리스트 클릭시 수정할 수 있게
 		$(function() {
 			$("#meetingRoomList tbody tr").click(function() {
