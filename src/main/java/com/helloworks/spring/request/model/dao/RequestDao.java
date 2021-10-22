@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.request.model.vo.Car;
 import com.helloworks.spring.request.model.vo.Mtr;
 
 @Repository
@@ -20,5 +21,16 @@ public class RequestDao {
 	public ArrayList<Mtr> manageMtr(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
+	}
+	
+	//차량 등록
+	public int addCar(SqlSessionTemplate sqlSession, Car car) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.addCar", car);
+	}
+
+	public ArrayList<Mtr> manageCar(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
 	}
 }

@@ -43,13 +43,18 @@
 			<div class="card card-outline card-info">
 				<div class="card-header">
 					<h3 class="card-title">차량 목록</h3>
+					<div class="float-right">
+						<button class="btn btn-primary"
+							onclick="window.open('openAdd.car','차량 등록','width=600,height=360,location=no,status=no,scrollbars=yes');">
+							<i class="fas fa-clipboard-check"></i> 차량 등록
+						</button>
+					</div>
 				</div>
 				<!-- /.card-header -->
 				<div class="card-body">
 					<!-- 차량 목록 -->
 					<!-- 가운데 <div class="container"> -->
-					<table id="carList"
-						class="table table-bordered table-striped">
+					<table id="carList" class="table table-bordered table-striped">
 						<thead>
 							<tr align="center">
 								<th>차량 번호</th>
@@ -64,10 +69,10 @@
 							<!-- 회의실 목록 띄우기 -->
 							<c:forEach items="${ list }" var="c">
 								<tr align="center">
-									<td>${ c.no }</td>
-									<td>${ c.manufacturer }</td>
-									<td>${ c.name }</td>
-									<td>${ c.status }</td>
+									<td>${ c.CMNo }</td>
+									<td>${ c.CMMfr }</td>
+									<td>${ c.CMName }</td>
+									<td>${ c.CMStatus }</td>
 									<td>${ c.empName }</td>
 									<td>체크박스</td>
 								</tr>
@@ -85,8 +90,6 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		//등록
-
 		//리스트 클릭시 수정할 수 있게
 		$(function() {
 			$("#carList tbody tr").click(function() {
