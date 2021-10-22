@@ -37,4 +37,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PSA_EMP_NO = #{empNo}
 		AND PSA_CREATEDATE LIKE SYSDATE
    </select>  
+   
+   <!-- 퇴근등록 -->
+    <update id="updateOutTime" parameterType="Attendance">
+	    UPDATE PS_ATTENDANCE
+		SET PSA_OUT =#{outTime},
+		PSA_APPLIED_OUT = #{appliedOut},
+		PSA_STATUS=#{psStatus},
+		PSA_WORKINGTIME=#{workingTime},
+		PSA_OVERTIME=#{overTime},
+		PSA_TOTAL=#{total}		
+		WHERE PSA_EMP_NO = #{empNo}
+   </update>
 </mapper>

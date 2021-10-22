@@ -22,4 +22,10 @@ public class AttendanceDao {
 		return sqlSession.selectOne("attendanceMapper.selectAttendance", empNo);
 	}
 
+	//퇴근등록
+	public int updateOutTime(SqlSessionTemplate sqlSession, Attendance attendance) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("attendanceMapper.updateOutTime", attendance);
+	}
+
 }

@@ -12,4 +12,7 @@ public interface AttendanceService {
 	//메인조회
 	Attendance selectAttendance(int empNo);
 
+	//퇴근시간 등록 
+	void updateOutTime(Attendance attendance);
+
 }

@@ -35,4 +35,15 @@ public class AttendanceServiceImpl implements AttendanceService {
 		
 		return attendanceDao.selectAttendance(sqlSession, empNo);
 	}
+
+	//퇴근시간 등록
+	@Override
+	public void updateOutTime(Attendance attendance) {
+		int result = attendanceDao.updateOutTime(sqlSession, attendance);
+		
+		if(result < 0) {
+			throw new CommException("퇴근 등록 실패");
+		}
+		
+	}
 }

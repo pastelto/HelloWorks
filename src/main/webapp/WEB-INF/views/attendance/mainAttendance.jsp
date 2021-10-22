@@ -42,7 +42,7 @@ input:focus {outline:none;}
 }
 .irs-min , .irs-max{
 	visibility: hidden !important;
-}
+} 
 
 .workintTitile{
 	font-size : 12px;
@@ -58,7 +58,7 @@ input:focus {outline:none;}
 .progress{
 border-radius: 5px;
 }
-
+ 
 </style>
   
 </head>
@@ -100,9 +100,9 @@ border-radius: 5px;
 	              <div class="tab-content" id="custom-tabs-four-tabContent">
 		              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 		                  <!-- 근태정보 -->
-	                      <div class="container-fluid text-center" style="margin-top:-7px;"> 
+	                      <div class="container-fluid text-center" style="margin-top:-7px; "> 
 	                      	          
-		                     <h5><span id="now"></span></h5>                     
+		                     <h5><span id="nowTimes"></span></h5>                 
 		                  </div>
 		                  <div class="container-fluid text-center">
 							  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>						                  
@@ -112,13 +112,13 @@ border-radius: 5px;
 		                  </div>
 		                  <br>
 		                 <div class="irs-wrapper complete">
-		                  	<div class="workintTitile">소정근로시간</div>
+		                  	<div class="workintTitile">소정근로시간</div> 
 	                        <input id="range_1" type="text" name="range_1" value="9" disabled>
 	                      </div>
 	                      <div class="progress">
 							  <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
 							  70%</div>
-							</div>
+							</div> 
 	                      <br>	                
                      </div>
 		                  
@@ -204,6 +204,13 @@ function insertTime(num){
   })
 </script>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 시간을 딜레이 없이 나타내기위한 선 실행
+    realTimer();
+    // 이후 0.5초에 한번씩 시간을 갱신한다.
+    setInterval(realTimer, 100);
+});
+
 // 시간을 출력
 function realTimer() {
 
@@ -214,7 +221,7 @@ function realTimer() {
    const hour = nowDate.getHours();
    const min = nowDate.getMinutes();
    const sec = nowDate.getSeconds();
-   document.getElementById("now").innerHTML = 
+   document.getElementById("nowTimes").innerHTML = 
               hour + "시 " + addzero(min) + "분 " + addzero(sec) + "초";
 }
 
