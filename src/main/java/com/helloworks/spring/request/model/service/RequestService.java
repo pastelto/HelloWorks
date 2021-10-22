@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.helloworks.spring.request.model.vo.Car;
 import com.helloworks.spring.request.model.vo.Mtr;
@@ -15,5 +16,7 @@ public interface RequestService {
 	void addCar(Car car);
 	//차량 목록
 	ArrayList<Mtr> manageCar();
+	//차량 삭제
+	void deleteCar(List<String> checkArr);
 
 }

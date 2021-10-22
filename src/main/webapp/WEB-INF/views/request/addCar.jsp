@@ -66,7 +66,7 @@
 					url : 'add.car?cMStatus=Y',
 					data : params,
 					success : function(result) {					
-						if(result == "??!") {
+						if(result) {
 							alert("차량 등록성공!");
 							opener.parent.location='manage.car'; //페이지 새로고침
 							window.close();

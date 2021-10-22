@@ -48,6 +48,9 @@
 							onclick="window.open('openAdd.car','차량 등록','width=600,height=360,location=no,status=no,scrollbars=yes');">
 							<i class="fas fa-clipboard-check"></i> 차량 등록
 						</button>
+						<button class="btn btn-default" id="deleteBtn">	
+							<i class="far fa-trash-alt"></i> 삭제
+						</button>
 					</div>
 				</div>
 				<!-- /.card-header -->
@@ -62,7 +65,7 @@
 								<th>차량명</th>
 								<th>차량 사용여부</th>
 								<th>관리자</th>
-								<th>삭제</th>
+								<th><input type='checkbox' name='deleteAll' value='selectall'></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -74,7 +77,8 @@
 									<td>${ c.CMName }</td>
 									<td>${ c.CMStatus }</td>
 									<td>${ c.empName }</td>
-									<td>체크박스</td>
+									<td><input type='checkbox' name='deleteOne'
+										value="${c.CMNo}"></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -89,13 +93,46 @@
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 
-	<script>
-		//리스트 클릭시 수정할 수 있게
-		$(function() {
-			$("#carList tbody tr").click(function() {
-				//팝업창 띄우기
-			});
+<script>
+	$("input[name='deleteAll']").click(function(){
+		
+		if(($("input[name='deleteAll']")).prop("checked")){
+			$("input[name='deleteOne']").prop("checked",true);
+		}else{
+			$("input[name='deleteOne']").prop("checked",false);
+		}
+	});
+
+	$("#deleteBtn").click(function (){
+		var checkArr = [];
+		$("input[name='deleteOne']:checked").each(function(){
+			var ckvalue = $(this).val();
+			console.log(ckvalue);
+			checkArr.push(ckvalue);
 		});
-	</script>
+		console.log(checkArr);
+		$.ajax({
+			  url : "delete.car",
+			  type : "post",
+			  data : {
+				  checkArr : checkArr
+			  },
+			  success : function(result){
+			    if(result == "??!") {
+					alert("차량 삭제성공!");
+					location.reload(true);//페이지 새로고침
+					//location.href = location.href;
+					//history.go(0);
+			    } else {
+			      alert("삭제 실패");
+			    }
+			  }
+			});
+	});
+	
+	
+		
+</script>
+
 </body>
 </html>

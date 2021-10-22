@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class RequestServiceImpl implements RequestService {
 	// 회의실 등록
 	@Override
 	public void addMtr(Mtr mtr) {
-		System.out.println("회의실 등록 Impl 입장 ? ");
+		//System.out.println("회의실 등록 Impl 입장 ? ");
 
 		int result = requestDao.addMtr(sqlSession, mtr);
 
@@ -43,7 +44,7 @@ public class RequestServiceImpl implements RequestService {
 	// 차량 등록
 	@Override
 	public void addCar(Car car) {
-		System.out.println("차량 등록 Impl 입장 ? ");
+		//System.out.println("차량 등록 Impl 입장 ? ");
 
 		int result = requestDao.addCar(sqlSession, car);
 
@@ -59,5 +60,19 @@ public class RequestServiceImpl implements RequestService {
 		
 		return requestDao.manageCar(sqlSession);
 	}
+	
+	// 차량 삭제
+	@Override
+	public void deleteCar(List<String> checkArr) {
+		int result = 0;
+		
 
+		result = requestDao.deleteCar(sqlSession, checkArr);
+
+		
+
+		if (result < 0) {
+			throw new CommException("차량 삭제 실패");
+		}
+	}
 }

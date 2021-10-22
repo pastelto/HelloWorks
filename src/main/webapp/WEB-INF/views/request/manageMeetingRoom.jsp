@@ -88,7 +88,7 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		//리스트 클릭시 수정할 수 있게
+		//리스트 클릭시 삭제할 수 있게
 		$(function() {
 			$("#meetingRoomList tbody tr").click(function() {
 				//팝업창 띄우기
