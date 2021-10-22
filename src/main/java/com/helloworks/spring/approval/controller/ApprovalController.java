@@ -64,6 +64,13 @@ public class ApprovalController {
 		
 		return "approval/plusAppLineForm";
 	}
+
+	
+	@RequestMapping("plusccForm.ea")
+	public String plusccForm() {
+		
+		return "approval/plusccForm";
+	}
 	
 	
 	@RequestMapping("insertApproval.ea")
@@ -117,26 +124,28 @@ public class ApprovalController {
 		}
 		
 		// 첨부파일 등록 
+		
 		if(!file.getOriginalFilename().equals("")) {
 			String newName = saveFile(file,request);
-					
+						
 			if(newName!=null) {
-				ap.setOriginName(file.getOriginalFilename());
-				ap.setNewName(newName);
-				approvalService.insertAttachment(ap);
+					ap.setOriginName(file.getOriginalFilename());
+					ap.setNewName(newName);
+					approvalService.insertAttachment(ap);
+				}
 			}
-		}
+	
 				
 		// 수신참조 등록 
 						
-		Object ccName = request.getParameter("ccName");
+		Object ccCode = request.getParameter("ccCode");
 				
-		if(ccName instanceof Integer) {
-			int ccMember  = (int) ccName;
+		if(ccCode instanceof Integer) {
+			int ccMember  = (int) ccCode;
 			ac.setCcMember(ccMember);
 			approvalService.insertCcEmpl(ac);
 		} else {
-				String ccMember = (String) ccName;
+				String ccMember = (String) ccCode;
 				ac.setCcDept(ccMember);
 				approvalService.insertCcDept(ac);
 		}		
