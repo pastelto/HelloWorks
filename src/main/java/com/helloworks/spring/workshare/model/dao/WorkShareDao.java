@@ -84,7 +84,10 @@ public class WorkShareDao {
 	public ArrayList<WSAttachment> detailWSAttachment(SqlSessionTemplate sqlSession, int wsno) {
 		
 		System.out.println("dao wsno ? " + wsno);
-		return (ArrayList)sqlSession.selectList("workShareMapper.detailWSAttachment", wsno);
+		
+		ArrayList<WSAttachment> wsa = (ArrayList)sqlSession.selectList("workShareMapper.detailWSAttachment", wsno);
+		System.out.println(" DAO wsa ? " + wsa);
+		return wsa;
 	}
 	
 	

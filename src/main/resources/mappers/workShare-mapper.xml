@@ -25,13 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- WSAttachment -->
 	<resultMap id="wsAttachmentResultSet" type="WSAttachment">
-		<id column="wsa_no" property="WSA_NO"/>
-		<result column="wsa_empNo" property="WSA_EMP_NO"/>
-		<result column="wsa_wsNo" property="WSA_WSNO"/>
-		<result column="wsa_origin" property="WSA_ORIGIN"/>
-		<result column="wsa_change" property="WSA_CHANGE"/>
-		<result column="wsa_size" property="WSA_FILE_SIZE"/>
-		<result column="wsa_status" property="WSA_STATUS"/>
+		<id property="wsa_no" column="WSA_NO"/>
+		<result property="wsa_empNo" column="WSA_EMP_NO"/>
+		<result property="wsa_wsNo" column="WSA_WSNO"/>
+		<result property="wsa_origin" column="WSA_ORIGIN"/>
+		<result property="wsa_change" column="WSA_CHANGE"/>
+		<result property="wsa_size" column="WSA_FILE_SIZE"/>
+		<result property="wsa_status" column="WSA_STATUS"/>
 	</resultMap>
 	
 	<!-- 업무공유 생성 -->

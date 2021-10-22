@@ -189,7 +189,7 @@ public class WorkShareController {
 	
 	// 업무공유 상세 조회
 	@RequestMapping("detail.ws")
-	public String detailWS(int wno, ModelAndView mv, Model model) {
+	public String detailWS(int wno, Model model) {
 		
 		logger.info("해당 업무공유 상세 조회 페이지로 이동");
 		
@@ -204,17 +204,14 @@ public class WorkShareController {
 			
 			int wsno = ws.getWs_no();
 			wsa = workShareService.detailWSAttachment(wsno);
-			System.out.println("wsa : " + wsa.get(0));
+			System.out.println("wsa : " + wsa);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		// model.addAttribute("wsa", wsa);
-		 model.addAttribute("ws", ws);
-		// mv.addObject("ws", ws).addObject("wsa", wsa).setViewName("workShare/workShareDetail");
-		// return mv;
+	    
+		model.addAttribute("wsa", wsa);
+		model.addAttribute("ws", ws);
 		 
 		 return "workShare/workShareDetail";
 	}
@@ -275,14 +272,14 @@ public class WorkShareController {
 			 for(int i = 0; i < fileList.size(); i++) {
 			 WSAttachment wsa = new WSAttachment();
 			 String changeName = saveFile(fileList.get(i), request, i);
-			  
+			 
 			 System.out.println("==================== file start ====================");
 			 System.out.println("파일 이름 : " + changeName); 
 			 System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
 			 System.out.println("파일 크기 : " + fileList.get(i).getSize()); 
 			 System.out.println("content type : " + fileList.get(i).getContentType());
-			 System.out.println("==================== file end ====================="); 
-			 						 
+			 System.out.println("==================== file end ====================="); 			 
+			 
 			 wsa.setWsa_empNo(ws.getWs_empno()); 
 			 wsa.setWsa_wsNo(ws.getWs_no());
 			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
