@@ -29,4 +29,8 @@ public interface WorkShareService {
 
 	ArrayList<WorkShare> selectSavedList(Employee myEmp, PageInfo pi) throws Exception;
 
+	WorkShare detailWS(int wno) throws Exception;
+
+	ArrayList<WSAttachment> detailWSAttachment(int wsno) throws Exception;
+
 }
