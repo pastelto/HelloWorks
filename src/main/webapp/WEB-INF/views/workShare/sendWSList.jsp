@@ -45,7 +45,7 @@
           <div class="col-12" id="WorkShareTable">
             <div class="card">
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap" id="workShareTable">
+                <table class="table table-hover text-nowrap">
                   <thead align="center">
                     <tr>
                       <th>No.</th>

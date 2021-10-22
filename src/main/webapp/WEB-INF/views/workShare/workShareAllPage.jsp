@@ -97,19 +97,5 @@
 </div>
 	<jsp:include page="../common/footer.jsp"/>
 
-<script>
-// 상세 조회 페이지 
-$(function() {
-	$("#WorkShareTable tbody tr").click(
-			function() {
-			var wno = $(this).children().eq(0).text();
-			console.log("wno : " + wno);
-			
-			location.href = "detail.ws?wno="+wno;
-				
-			});
-});
-
-</script>
 </body>
 </html>

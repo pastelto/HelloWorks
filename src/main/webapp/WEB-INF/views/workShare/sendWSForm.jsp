@@ -178,7 +178,7 @@
 			
 			for(var i = 0; i < $(this)[0].files.length; i++){
 				filename += $(this)[0].files[i].name;
-				filename += " ";
+					filename += " ";
 			}
 			console.log("filename : " + filename)
 			$('#workShareAttachName').append(filename); 
@@ -219,7 +219,6 @@
 		
 	} 
 	</script>
-	
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

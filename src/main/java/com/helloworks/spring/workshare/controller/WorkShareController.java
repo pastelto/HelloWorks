@@ -34,8 +34,7 @@ public class WorkShareController {
 
 	@Autowired
 	private WorkShareService workShareService;
-	
-	// 조회 기능 (목록 조회, 상세내용 조회)
+
 	// 메뉴바 -> 미확인 업무 목록
 	@RequestMapping("unCheckedListWS.ws")
 	public String unCheckedList(HttpServletRequest request, 
@@ -186,52 +185,7 @@ public class WorkShareController {
 		model.addAttribute("pi", pi);
 		return "workShare/workShareAllPage";
 	}
-	
-	// 업무공유 상세 조회
-	@RequestMapping("detail.ws")
-	public String detailWS(int wno, ModelAndView mv, Model model) {
-		
-		logger.info("해당 업무공유 상세 조회 페이지로 이동");
-		
-		WorkShare ws = new WorkShare();
-		ArrayList<WSAttachment> wsa = new ArrayList<>();
-		
-		
-		try {
-			
-			ws = workShareService.detailWS(wno);
-			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
-			
-			int wsno = ws.getWs_no();
-			wsa = workShareService.detailWSAttachment(wsno);
-			System.out.println("wsa : " + wsa.get(0));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		// model.addAttribute("wsa", wsa);
-		 model.addAttribute("ws", ws);
-		// mv.addObject("ws", ws).addObject("wsa", wsa).setViewName("workShare/workShareDetail");
-		// return mv;
-		 
-		 return "workShare/workShareDetail";
-	}
 
-	// 수신 인원
-	private int countRead() {
-		
-		return 0;
-	}
-	
-	// 회신 인원
-	private int countReply() {
-		
-		return 0;
-	}
-	
-	// 작성 기능 (업무공유 새로 작성, 수정, 임시저장 -> 발송)
 	// 업무공유 작성 페이지 이동
 	@RequestMapping("sendFormView.ws")
 	public String sendFormView() {
@@ -384,7 +338,17 @@ public class WorkShareController {
 		return changeName;
 	}
 	
+	// 수신 인원
+	private int countRead() {
+		
+		return 0;
+	}
 	
-	
+	// 회신 인원
+	private int countReply() {
+		
+		return 0;
+	}
+
 
 }
