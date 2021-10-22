@@ -373,6 +373,42 @@
 				$("#deptTypeBlank").show();
 				$("#deptTypeOption").show();
 				$("#optionType>option").eq(1).attr("selected", true);
+				
+				switch ('${ deptTypeOption }') {
+					case "A" :
+						$("#deptTypeOption>option").eq(0).attr("selected", true);
+						break;
+					case "A1" :
+						$("#deptTypeOption>option").eq(1).attr("selected", true);
+						break;
+					case "A2" :
+						$("#deptTypeOption>option").eq(2).attr("selected", true);
+						break;
+					case "A3" :
+						$("#deptTypeOption>option").eq(3).attr("selected", true);
+						break;
+					case "B" :
+						$("#deptTypeOption>option").eq(4).attr("selected", true);
+						break;
+					case "B1" :
+						$("#deptTypeOption>option").eq(5).attr("selected", true);
+						break;
+					case "B2" :
+						$("#deptTypeOption>option").eq(6).attr("selected", true);
+						break;
+					case "C" :
+						$("#deptTypeOption>option").eq(7).attr("selected", true);
+						break;
+					case "C1" :
+						$("#deptTypeOption>option").eq(8).attr("selected", true);
+						break;
+					case "C2" :
+						$("#deptTypeOption>option").eq(9).attr("selected", true);
+						break;
+					case "C3" :
+						$("#deptTypeOption>option").eq(10).attr("selected", true);
+						break;
+				}
 				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "empNoType":

@@ -87,14 +87,18 @@
       
     <!-- 직원검색 / 사원검색 -->
       <li>
+      	<form action="searchEmployee.or">
 	      <div class="input-group">
-	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+	      	<input type="hidden" name="optionType" value="allType">
+	      	<input type="hidden" name="deptTypeOption" value="A">
+	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" value="${ search }">
 	        <div class="input-group-append">
 	          <button class="btn btn-navbar" type="submit">
 	            <i class="fas fa-search"></i>
 	          </button>
 	        </div>
 	      </div>
+	     </form>
       </li>
       
       <!-- 화면 확장   -->

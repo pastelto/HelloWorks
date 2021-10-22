@@ -132,6 +132,7 @@ public class OfficeRoomController {
 		ArrayList<Employee> list = officeRoomService.searchEmployee(se);
 		
 		model.addAttribute("optionType", optionType);
+		model.addAttribute("deptTypeOption", deptTypeOption);
 		model.addAttribute("searchEmployee", searchEmployee);
 		model.addAttribute("list", list);
 		return "searchEmployee/searchEmployeeMain";
