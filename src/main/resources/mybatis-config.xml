@@ -21,6 +21,8 @@
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalMinutes" alias="ApprovalMinutes"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.SearchEmployee" alias="SearchEmployee"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.Mtr" alias="Mtr"/>
+		<typeAlias type="com.helloworks.spring.addressBook.model.vo.OfficeAddressBook" alias="OfficeAddressBook"/>
+		<typeAlias type="com.helloworks.spring.addressBook.model.vo.PersonalAddressBook" alias="PersonalAddressBook"/>
 	</typeAliases>
 
 
@@ -32,6 +34,7 @@
 		<mapper resource="/mappers/attendance-mapper.xml"/>
 		<mapper resource="/mappers/approval-mapper.xml"/>
 		<mapper resource="/mappers/request-mapper.xml"/>
+		<mapper resource="/mappers/addressBook-mapper.xml"/>
 	</mappers>
 
 

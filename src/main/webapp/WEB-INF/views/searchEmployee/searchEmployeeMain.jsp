@@ -16,11 +16,6 @@
 	#searchCategory>tbody>tr>th>h4>span {
 		border: 1px solid #DAE1E7;
 	}
-	/* #searchCategory>tfoot>tr>th {
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	} */
 	#searchCategory>tfoot>tr>td {
 		background-color: white;
 	}
@@ -78,7 +73,6 @@
 								<b>직원 검색</b>
 							</h6>
 						</div>
-
 
 						<div class="card-body">
 
@@ -314,8 +308,8 @@
 												class="img-fluid" style="width: 90px; height: 120px;">
 										</div>
 										<div class="mt-3">
-											<button type="submit" class="btn btn-primary btn-sm">주소록
-												추가</button>
+											<input type="hidden" id="addEmpNo" name="addEmpNo"/>
+											<button type="submit" class="btn btn-primary btn-sm">주소록 추가</button>
 										</div>
 									</div>
 									<div class="col-10">
@@ -360,6 +354,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<jsp:include page="../common/footer.jsp" />
 	
 	<!-- 검색 -->
 	<script>
@@ -654,6 +650,8 @@
 					$("#empStatusCol").text("출퇴근상태값")
 					$("#empEphoneCol").text(emp.empEphone)
 					$("#empEmailCol").text(emp.empEmail)
+					
+					$("#addEmpNo").val(emp.empNo)
 				},
 				error:function(){
 					console.log("직원 부서별 검색 ajax 통신 실패")

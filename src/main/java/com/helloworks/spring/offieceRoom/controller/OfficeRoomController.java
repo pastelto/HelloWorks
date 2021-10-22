@@ -18,13 +18,8 @@ public class OfficeRoomController {
 
 	@Autowired
 	private OfficeRoomService officeRoomService;
-	/*
-	@RequestMapping("searchEmpMain.or")
-	public String enrollReportForm() {
-		System.out.println("직원검색 페이지 전환");
-		return "searchEmployee/searchEmployeeMain";
-	}
-	*/
+	
+	/* 직원 검색 */
 	@RequestMapping("searchEmpMain.or")
 	public String enrollReportForm(Model model) {
 		System.out.println("직원검색 페이지 전환");
@@ -80,30 +75,12 @@ public class OfficeRoomController {
 		return new GsonBuilder().create().toJson(emp); 
 	}
 	
-	@RequestMapping("addOfficeAddressBook.or")
-	public String addOfficeAddressBook() {
-		System.out.println("주소록 추가");
-		return "redirect:searchEmpMain.or";
-	}
-	
 	@RequestMapping("searchEmployee.or")
 	public String searchEmployee(String optionType, String deptTypeOption, String searchEmployee, Model model) {
-		/*
-		String optionType = request.getParameter("optionType");
-		String deptTypeOption = request.getParameter("deptTypeOption");
-		String searchEmployee = request.getParameter("searchEmployee");
-		*/
+
 		System.out.println("optionType: "+optionType);
 		System.out.println("deptTypeOption: "+deptTypeOption);
 		System.out.println("searchEmployee: "+searchEmployee);
-		
-		
-		
-		//mapper에서 파라미터 여러개 사용해야 함 -> HasMap 사용
-//		HashMap<String, String> map = new HashMap<String, String>();
-//		map.put("optionType", optionType);
-//		map.put("deptTypeOption", deptTypeOption);
-//		map.put("searchEmployee", searchEmployee);
 		
 		SearchEmployee se = new SearchEmployee();
 		
@@ -138,4 +115,6 @@ public class OfficeRoomController {
 		return "searchEmployee/searchEmployeeMain";
 		
 	}
+	
+
 }
