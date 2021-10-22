@@ -4,31 +4,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="requestMapper">
 
-	<resultMap id="employeeResultSet" type="EmpCodeName">
-		<id property="empNo" column="EMP_NO"/>
-		<result property="empPwd" column="EMP_PWD"/>
-		<result property="empName" column="EMP_NAME"/>
-		<result property="empEn" column="EMP_EN"/>
-		<result property="empPid" column="EMP_PID"/>
-		<result property="empEmail" column="EMP_EMAIL"/>
-		<result property="empPhone" column="EMP_PHONE"/>
-		<result property="empEphone" column="EMP_EPHONE"/>
-		<result property="empAddress" column="EMP_ADDRESS"/>
-		<result property="deptCode" column="DEPT_CODE"/>
-		<result property="jobCode" column="JOB_CODE"/>
-		<result property="empSalary" column="EMP_SALARY"/>
-		<result property="empHire" column="EMP_HIRE"/>
-		<result property="empFire" column="EMP_FIRE"/>
-		<result property="empNote" column="EMP_NOTE"/>
-		<result property="empStatus" column="EMP_STATUS"/>
-		<result property="uName" column="DEPT_UNAME"/>
-		<result property="dName" column="DEPT_DNAME"/>
-		<result property="jName" column="JOB_NAME"/>
+	<!-- 회의실관리 -->
+	<resultMap id="mtrResultSet" type="Mtr">
+		<id property="mMNo" column="RS_MM_NO" />
+		<result property="empNo" column="RS_MM_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="mMName" column="RS_MM_NAME" />
+		<result property="mMCapacity" column="RS_MM_CAPACITY" />
+		<result property="mMStatus" column="RS_MM_STATUS" />
 	</resultMap>
 
-	<select id="" parameterType="Employee" resultMap="employeeResultSet">
-		
+	<!-- 회의실 등록 -->
+	<insert id="addMtr" parameterType="Mtr">
+		INSERT INTO RS_MEETINGROOM_MANAGEMENT
+		VALUES
+		(SEQ_RS_MM_NO.NEXTVAL, #{empNo}, #{mMName}, #{mMCapacity}, DEFAULT)
+	</insert>
+
+	<select id="manageMtr" resultMap="mtrResultSet">
+		SELECT A.*, B.EMP_NAME
+		FROM RS_MEETINGROOM_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO = B.EMP_NO
+		ORDER BY RS_MM_NO DESC
 	</select>
-	
 
 </mapper>

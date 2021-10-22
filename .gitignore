@@ -163,6 +163,10 @@ target/m2e-wtp/web-resources/META-INF/maven/MANIFEST.MF
 /target/m2e-wtp/web-resources/META-INF/maven/com.helloworks/spring/pom.xml
 # Created by https://www.toptal.com/developers/gitignore/api/maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=maven
+.project
+.classpath
+.settings
+
 
 ### Maven ###
 target/

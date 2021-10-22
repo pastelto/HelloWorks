@@ -13,11 +13,11 @@ import lombok.ToString;
 @ToString
 public class ApprovalLine extends Approval{
 	
-	private int line1; 
-	private int line2;
-	private int line3;
-	private int line4;
-	private int confirmStatus; 
+	private Integer line1; 
+	private Integer line2;
+	private Integer line3;
+	private Integer line4;
+	private Integer confirmStatus; 
 	
 	/*public ApprovalLine() {
 		// TODO Auto-generated constructor stub

@@ -136,15 +136,16 @@
 														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
 														&nbsp;&nbsp;
 														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;">
+															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
 																<option value="allType">전체</option>
-																<option value="deptType" onclick="deptSelect();">부서</option>
+																<option value="deptType" >부서</option>
 																<option value="empNoType">사번</option>
 																<option value="empNameType">이름</option>
 																<option value="ePhoneType">내선번호</option>
 																<option value="emailType">이메일</option>
 															</select>
-															<select id="deptType" name="deptType" class="custom-select custom-select-sm" style="width: 15%; display:none">
+															<span id="deptTypeBlank"style="display:none">&nbsp;&nbsp;</span>
+															<select id="deptTypeOption" name="deptTypeOption" class="custom-select custom-select-sm" style="width: 15%; display:none">
 																<option value="A">경영지원본부</option>
 																<option value="A1">인사팀</option>
 																<option value="A2">총무팀</option>
@@ -159,7 +160,7 @@
 															</select>
 															&nbsp;&nbsp;
 															<div class="input-group" style="width: 30%;">
-																<input type="search"
+																<input type="search" id="searchInput"
 																	class="form-control form-control-sm"
 																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
 																<div class="input-group-append">
@@ -236,7 +237,7 @@
 								<!-- /.col -->
 								<div class="col-md-10" style="overflow:auto; height: 450px">
 									<table id="employeeTable" class="table table-sm">
-									<caption style="caption-side:top">정렬 기준 : <span id="sortOption">전체</span></caption>
+									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
 												<th style="width: 5%"></th>
@@ -309,7 +310,7 @@
 								<div class="row">
 									<div class="col-2 text-center">
 										<div>
-											<img src="./resources/img/defaultImg.jpg" alt="user-avatar"
+											<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
 												class="img-fluid" style="width: 90px; height: 120px;">
 										</div>
 										<div class="mt-3">
@@ -366,26 +367,85 @@
 			switch ('${ optionType }') {
 			case "allType":
 				$("#optionType>option").eq(0).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "deptType":
+				$("#deptTypeBlank").show();
+				$("#deptTypeOption").show();
 				$("#optionType>option").eq(1).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "empNoType":
 				$("#optionType>option").eq(2).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "empNameType":
 				$("#optionType>option").eq(3).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "ePhoneType":
 				$("#optionType>option").eq(4).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			case "emailType":
 				$("#optionType>option").eq(5).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
 				break;
 			}
+			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 		})
 	</script>
-
+	
+	<!-- select option 부서 선택시 -->
+	<script>
+		function deptSelect(selectOption){
+			$("#searchInput").val("");
+			
+			switch (selectOption) {
+			case "allType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","검색어를 입력하세요.");
+				break;
+			case "deptType":
+				$("#deptTypeBlank").show();
+				$("#deptTypeOption").show();
+				$("#searchInput").attr("placeholder","이름을 입력하세요.");
+				break;
+			case "empNoType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","사번을 입력하세요.");
+				break;
+			case "empNameType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","이름을 입력하세요.");
+				break;
+			case "ePhoneType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","내선번호를 입력하세요.");
+				break;
+			case "emailType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","이메일을 입력하세요.");
+				break;
+			}
+		}
+	</script>
+	
+	<!-- 검색창 reset -->
+	<script>
+		function resetSearch(){
+			$("#optionType>option").eq(0).attr("selected", true);
+			$("#deptTypeBlank").hide();
+			$("#deptTypeOption").hide();
+			$("#searchInput").val("");
+		}
+	</script>
+	
 	<!-- 직원 이름 키워드 검색 -->
 	<script>
 		
@@ -393,7 +453,9 @@
 			$("#searchCategory>tbody>tr>th>h4>span").click(
 			function() {
 				var catTitle = $(this).text();
-	
+				
+				resetSearch();
+				
 				if (catTitle == "ALL") {
 					selectAllEmployee();
 				} else if (catTitle >= 'ㄱ' && catTitle <= 'ㅎ') {
@@ -465,6 +527,9 @@
 	<!-- 전체 검색 버튼 -->
 	<script>
 		function selectAllEmployee(){
+			
+			resetSearch();
+			
 			$.ajax({
 				url: "selectAllEmployee.or",
 				type: "post",
@@ -500,6 +565,8 @@
 	<script>
 		function selectDept(deptCode, deptName){
 			
+			resetSearch();
+			
 			$.ajax({
 				url: "selectDeptEmployee.or",
 				type: "post",
@@ -533,7 +600,6 @@
 	
 	<script>
 		function detailEmpLoiyee(empNo){
-			console.log(empNo+" 사원 직원정보")
 			
 			$.ajax({
 				url:"searchEmployeeDetail.or",
