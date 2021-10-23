@@ -72,6 +72,7 @@ input[id*="radio"], input[id*="vacation"] {
 								<div class="card">
 									<div class="card-body">
 										<div class="card" style="margin-bottom: 0px;">
+											<form action="searchNotice.nt">
 											<table id="searchEmpTable">
 												<thead>
 													<tr>
@@ -156,6 +157,7 @@ input[id*="radio"], input[id*="vacation"] {
 														</td>
 													</tr>
 												</tbody>
+												</form>
 											</table>
 										</div>
 									</div>
