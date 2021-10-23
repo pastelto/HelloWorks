@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+.content-wrapper{
+	overflow:auto;
+}
+
+
+
+#attendanceList{
+	height : 60px !important;
+}
+
+
+
+/*캘린더*/
+/*달력 타이틀 폰트 크기 줄이기*/
+.fc-toolbar-chunk{
+	font-size : small !important;
+	
+}
+
+/*제목이랑 버튼부분 패딩*/
+.fc-header-toolbar.fc-toolbar {
+	padding : 0 !important;
+}
+
+/*<> 버튼 크기 줄이기*/
+.fc-next-button , .fc-prev-button{
+	padding-top : 0 !important;
+}
+
+
+/*테이블 */
+#attendancethead{
+	background :#DAE1E7;
+}
+
+#attendanceList>thead>tr>td, #attendanceList>thead>tr>th{
+	padding : 0 !important;
+	height : 30px !important;
+	padding-top :-3px !important;
+}
+
+
+/*검색조건*/
+#searchCategory>tbody>tr>th {
+		width: 10%;
+}
+#searchCategory>tbody>tr>th>h4 {
+	margin: auto;
+}
+#searchCategory>tbody>tr>th>h4>span {
+	border: 1px solid #DAE1E7;
+}
+#searchCategory>tfoot>tr>td {
+		background-color: white;
+}
+#searchEmpTable>tbody>tr>th	{
+	background-color: #DAE1E7;
+	width: 10%;
+	text-align: center !important;
+}
+#attendanceYear, #attendanceMonth, #atSearchBtn{
+	margin-left : 10px;
+}
+
+
+/*메인위치*/
+#mainApi{
+		margin-left :10% !important;
+}

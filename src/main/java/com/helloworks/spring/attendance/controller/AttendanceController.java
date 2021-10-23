@@ -21,10 +21,17 @@ public class AttendanceController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
+	//페이지 전환
 	@RequestMapping("attendanceApiView.ps")
 	public String attendanceApiView() {
 		System.out.println("근태현황 api  페이지 전환");
 		return "attendance/AttendanceApiView";
+	}
+	
+	@RequestMapping("checkDeptEmp.ps")
+	public String checkDeptEmp() {
+		System.out.println("부서 출근조회");
+		return "attendance/CheckDeptEmpView";
 	}
 	
 	//출근시간 등록
@@ -134,9 +141,7 @@ public class AttendanceController {
 //						 attendance.setPsStatus("조퇴");	
 //				 		 attendance.setAppliedOut(sec); 
 //					 }
-				 
-				 
-				 
+ 
 			 }
 
 		
@@ -150,5 +155,10 @@ public class AttendanceController {
 		 
 		 return "redirect:main.mi";
 	}
+	
+	
+	
+	
+	//selectAttendanceList.ps
 	
 }
