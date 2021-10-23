@@ -44,6 +44,7 @@ public class WorkShareController {
 		logger.info("미확인 업무 목록 조회 후 미확인업무목록으로 이동");
 		
 		ArrayList<WorkShare> list = new ArrayList<>();
+		
 		PageInfo pi = new PageInfo();
 		try {
 			
@@ -189,18 +190,48 @@ public class WorkShareController {
 	
 	// 업무공유 상세 조회
 	@RequestMapping("detail.ws")
-	public String detailWS(int wno, Model model) {
+	public String detailWS(int wno, Model model, HttpServletRequest request) {
 		
 		logger.info("해당 업무공유 상세 조회 페이지로 이동");
 		
-		WorkShare ws = new WorkShare();
-		ArrayList<WSAttachment> wsa = new ArrayList<>();
+		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		String empNo = String.valueOf(myEmp.getEmpNo()); // 로그인한 사번을 String형으로 변환
 		
+		WorkShare ws = new WorkShare(); // 업무공유 조회
+		ArrayList<WSAttachment> wsa = new ArrayList<>(); // 업무공유 첨부파일 조회
+		String uList = ""; // 업무공유 수신인 수신처리 후 값 (updateList)
 		
 		try {
-			
+			// 상세 조회
 			ws = workShareService.detailWS(wno);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
+			
+			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
+			String rList= ws.getWs_recv_status();
+			Boolean contain = contains(empNo, rList);
+			
+			// 수신처리가 안되어있으면 (contain == true 일 때)
+			if(contain) {
+			
+			String[] rEach = rList.split(",");
+			
+			for(int i = 0; i < rEach.length; i++) {
+				if( rEach[i].equals(empNo) ) {	
+					rEach[i] = "0"; // 수신 상태에서 로그인한 사번값을 찾아 0으로 변환 -> 읽음 처리
+				}
+			
+				uList += rEach[i] + ",";
+			}
+			// update시 여러개의 파라미터를 넘길 수 없음 -> HashMap을 사용하거나 Object를 사용해야함
+			WorkShare updateWS = new WorkShare();
+			updateWS.setWs_no(wno);
+			updateWS.setWs_recv_status(uList);
+			
+			System.out.println("새로운 수신상태 값 uList ? " + uList);
+			workShareService.readStatusWS(updateWS);
+			ws = workShareService.detailWS(wno);
+			System.out.println("수신처리 후 다시 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
+			}
 			
 			int wsno = ws.getWs_no();
 			wsa = workShareService.detailWSAttachment(wsno);
@@ -214,6 +245,20 @@ public class WorkShareController {
 		model.addAttribute("ws", ws);
 		 
 		 return "workShare/workShareDetail";
+	}
+	
+	// 포함여부 메소드
+	private boolean contains(String empNo, String rList) {
+		
+		String[] rEach = rList.split(",");
+		
+		for(int i = 0; i < rEach.length; i++) {
+			// 만약 목록에 로그인한 사번이 있으면 contains == true
+			if( rEach[i].equals(empNo) ) {	
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// 수신 인원
@@ -291,7 +336,7 @@ public class WorkShareController {
 			 }
 			 
 			
-			 System.out.println("wsaList ? " + wsaList);
+			System.out.println("wsaList ? " + wsaList);
 			workShareService.insertWSAttach(wsaList);
 		 }
 
@@ -379,6 +424,18 @@ public class WorkShareController {
 		}
 
 		return changeName;
+	}
+	
+	@RequestMapping("update.ws")
+	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) {
+		
+		
+		
+		
+		
+		
+		ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
+		return mav;
 	}
 	
 	

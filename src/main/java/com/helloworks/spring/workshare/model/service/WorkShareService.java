@@ -33,4 +33,6 @@ public interface WorkShareService {
 
 	ArrayList<WSAttachment> detailWSAttachment(int wsno) throws Exception;
 
+	void readStatusWS(WorkShare updateWS) throws Exception;
+
 }

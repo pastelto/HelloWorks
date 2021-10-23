@@ -75,7 +75,7 @@
 						</div>
 
 						<form id="UpdateWSForm" method="post" enctype="multipart/form-data">
-
+							<input type="hidden" name="workShareNo" value="${ b.boardNo }">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -142,16 +142,83 @@
 							                     </c:forEach>
 												</td>
 											</tr>
+											<tr id="editAttachment" style="display:none;">
+												<th>파일첨부</th>
+												<td colspan="3">
+													<span class="badge badge-info" id="workShareAttachName"></span>
+									                  <div class="btn btn-default btn-file btn-xs">
+									                    <i class="fas fa-paperclip"></i> 첨부파일
+									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
+									                  </div> 
+												</td>
+											</tr>
+											<tr>
+												<td colspan="12">
+													<div class="click2edit" id="ws_content"> ${ ws.ws_content }</div>
+												</td>
+											</tr>
+<!-- 											<tr>
+												<td colspan="12">															
+													<div class="btn btn-default btn-file btn-xs">
+									                    <i class="fas fa-paperclip"></i> 첨부파일
+									                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
+							                  		</div> 
+												</td>
+											</tr> -->
+<!-- 											<tr>
+												<td colspan="6">
+													<input type="text" placeholder="댓글을 입력하세요." >
+												</td>
+												<td colspan="6">
+													<button>등록하기</button>
+												</td>
+ 												<td colspan="3">
+													<span>삭제</span>
+												</td>
+											<tr>
+											<tr id="fileRow">
+												<td colspan="6">
+													 <span class="normalAttachName"></span>
+												</td >
+												<td colspan="3">
+													<span class="normalAttachSize"></span>
+												</td>
+												<td colspan="3">
+													<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
+												</td>
+											</tr> -->
 										</table>
 
-
+							            <table id="replyArea" class="table" align="center">
+							                <thead>
+							                    <tr>
+							                    	<c:if test="${ !empty loginUser }">
+								                        <th colspan="2" style="width:75%">
+								                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>
+								                        </th>
+								                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply">등록하기</button></th>
+							                        </c:if>
+							                        <c:if test="${ empty loginUser }">
+							                        	<th colspan="2" style="width:75%">
+								                            <textarea class="form-control" readonly rows="2" style="resize:none; width:100%">로그인한 사용자만 사용가능한 서비스입니다. 로그인 후 이용해주세요.</textarea>
+								                        </th>
+								                        <th style="vertical-align: middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+							                        </c:if>
+							                    </tr>
+							                    <tr>
+							                       <td colspan="3">댓글 (<span id="rcount">0</span>) </td> 
+							                    </tr>
+							                </thead>
+							                <tbody>
+							                
+							                </tbody>
+							            </table>
 									</div>
 								</div>
-								<div class="row">
+<!-- 								<div class="row">
 									<div class="col-12">
-										<div class="click2edit" id="ws_content"> ${ ws.ws_content }</div>
 									</div>
-								</div>
+								</div> -->
 
 
 							</div>
@@ -187,6 +254,21 @@
     	  });
     	});
     </script>
+    
+    <!-- 첨부파일 라벨 이름 추가 -->
+	<script>
+		
+		$("#workShareAttach").on("change", function() {
+			var filename = "";
+			
+			for(var i = 0; i < $(this)[0].files.length; i++){
+				filename += $(this)[0].files[i].name;
+				filename += "<br>";
+			}
+			console.log("filename : " + filename)
+			$('#workShareAttachName').append(filename); 
+		});
+	</script>
 	
 	<!-- 버튼 이동 -->
 	<script>
@@ -200,7 +282,7 @@
 		});
 	}
 	
-	// 업무공유 수정하기 
+	// 업무공유 수정화면 전환
  	$("#editBtn").one("click", function(){
  		  $('.click2edit').summernote({
  			  height: 300,
@@ -209,13 +291,15 @@
  			  focus: true
  			  });
  		  // console.log("클릭!");
+ 		  $('#editPlace').append('<button id="save" type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>&nbsp;&nbsp;');
+ 		  $('#editPlace').append('<button id="cancel" type="button" class="btn btn-danger btn-sm" onclick="backToList()">취소</button>');
+ 		  $('#editAttachment').attr("style", "display:''");
  		  $("#resetBtn").remove();
  		  $("#editBtn").remove(); 		  
- 		  $('#editPlace').append('<button id="save" type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>');
  		 
  	})
 	
- 	// 업무공유 수정하기 (1)
+ 	// 업무공유 수정 완료 및 저장
 	function saveBtn() {
 	  var markup = $('.click2edit').summernote('code');
 	  	
@@ -225,8 +309,7 @@
 		alert("업무공유가 발송되었습니다."); --%>
 		// console.log("저장 클릭!");
 	 	$('.click2edit').summernote('destroy');
-	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-warning btn-sm">수정하기</button>&nbsp;');
-	 	$('#editPlace').append('&nbsp;<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList();">삭제</button>');
+	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-info btn-sm">수정하기</button>&nbsp;');
 	  	$("#save").remove();
 	};
 

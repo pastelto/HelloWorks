@@ -115,10 +115,22 @@ public class WorkShareServiceImpl implements WorkShareService {
 	
 	// 업무공유 상세조회 - 첨부파일
 	@Override
-	public ArrayList<WSAttachment> detailWSAttachment(int wsno) {
+	public ArrayList<WSAttachment> detailWSAttachment(int wsno) throws Exception  {
 		
-		System.out.println("Impl wsno ? " + wsno);
 		return workShareDao.detailWSAttachment(sqlSession, wsno);
+	}
+	
+	// 미확인 업무 수신처리
+	@Override
+	public void readStatusWS(WorkShare updateWS) throws Exception {
+		
+		int result = workShareDao.readStatusWS(sqlSession, updateWS);
+		System.out.println("WS result ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 수신처리 실패"); 
+		 }
+		
 	}
 
 	

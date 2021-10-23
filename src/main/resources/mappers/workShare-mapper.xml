@@ -155,4 +155,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE WSA_STATUS = 'Y'
 		AND WSA_WSNO = #{wsno}
 	</select>
+	
+	<!-- 업무공유 수신처리 -->
+	<update id="readStatusWS" parameterType="WorkShare">
+		UPDATE WORKSHARE
+		SET WS_RECV_STATUS = #{ws_recv_status}
+		WHERE WS_NO = #{ws_no}
+	</update>
 </mapper>
