@@ -44,7 +44,7 @@
 	<div class="row">
           <div class="col-12" id="WorkShareTable">
             <div class="card">
-              <div class="card-body table-responsive p-0">
+             <!--  <div class="card-body table-responsive p-0"> -->
                 <table class="table table-hover text-nowrap" id="workShareTable">
                   <thead align="center">
                     <tr>
@@ -76,7 +76,7 @@
                     </c:forEach>	
                 </tbody>
                 </table>
-              </div>
+              <!-- </div> -->
              
             </div>
             <!-- /.card -->
