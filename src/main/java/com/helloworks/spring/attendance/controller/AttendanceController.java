@@ -21,112 +21,144 @@ public class AttendanceController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
+	//페이지 전환
 	@RequestMapping("attendanceApiView.ps")
 	public String attendanceApiView() {
 		System.out.println("근태현황 api  페이지 전환");
 		return "attendance/AttendanceApiView";
 	}
 	
+	@RequestMapping("checkDeptEmp.ps")
+	public String checkDeptEmp() {
+		System.out.println("부서 출근조회");
+		return "attendance/CheckDeptEmpView";
+	}
+	
 	//출근시간 등록
 	@RequestMapping("intime.ps")
-	public String insertInTime(String inOutTime, HttpServletRequest request) {
+	public String updateInTime(String inOutTime, HttpServletRequest request) {
 		 System.out.println("출근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inOutTime);
 		 
-		 Attendance a = new Attendance();
+		 Attendance attendance = new Attendance();
 		 
-		 //출근시간set
-		 a.setInTime(inOutTime);
+		 try {
+			 //출근시간 초로 바꾸기
+			 int hour = (Integer.parseInt(inOutTime.substring(0, 2)))*60*60;
+			 int min = (Integer.parseInt(inOutTime.substring(3, 5)))*60;
+			 int sec = hour+min+(Integer.parseInt(inOutTime.substring(6, 8)));
+			 
+			 //사번 set
+			 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		 
+			 attendance.setEmpNo(empNo);					 
+			 
+			 //출근시간set
+			 attendance.setInTime(inOutTime);
+			 
+			 //상태set
+			 int statushour = Integer.parseInt(inOutTime.substring(0, 2));
+			 if(statushour > 9) {
+				 attendance.setAppliedIN(sec);
+				 attendance.setPsStatus("지각");
+
+				 
+//			 	//오전반차결재서류 있다면 
+//			    if(반차서류가 있다면  && status < 14) {				    	
+//			    	attendance.setPsStatus("반차");	
+//				    attendance.setAppliedIN(50400); //2시출근
+//			    }
+				 
+				   	 
+			 }else {
+				 attendance.setAppliedIN(32400);//9시
+				 attendance.setPsStatus("정상출근");
+			 }
+			 
+			
+			
+			attendanceService.updateInTime(attendance);	
 		 
-		 //상태set
-		 int status = Integer.parseInt(inOutTime.substring(0, 2));
-		 if(status > 9) {
-			 a.setPsStatus("지각");
-		 }else {
-			 a.setPsStatus("정상근무");
+		 } catch(NumberFormatException e) {			 
+			 e.printStackTrace();
 		 }
-		 
-		 //사번 set
-		 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		 
-		 a.setEmpNo(empNo);		
-		 
-		
-		 attendanceService.insertInTime(a);			 
-		 //"redirect:list.nt"; -조회되면 이걸로 바꾸기?
 		 
 		 return "redirect:main.mi";
 	}
 	
-//	   //조회
-//	   @RequestMapping("attendance.ps")
-//	   public ModelAndView selectAttendance( ModelAndView mv, HttpServletRequest request) {
-//		   int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
-//	      Attendance a = attendanceService.selectAttendance(empNo);
-//	      System.out.println("a######################## +" + a);
-//	      System.out.println("empNo +" + empNo);
-//	      
-//	      mv.addObject("a", a).setViewName("main/main");
-//	      
-//	      return mv;
-//	   }
-
-	
-	//조회
-//	@ResponseBody
-//	@RequestMapping(value="attendance.ps", produces="application/json; charset=UTF-8") 
-//	public String selectAttendance(int empNo) {
-//		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$컨트롤러 탄다~~~~~~~~");
-//		
-//		
-//		 ArrayList<Attendance> a = attendanceService.selectAttendance(empNo);			 
-//		 System.out.println("a######################## +" + a);
-//		 System.out.println("empNo +" + empNo);
-//		 
-//		 
-//		 return new GsonBuilder().create().toJson(a);
-//	}
-	
 	//퇴근시간 등록
 	@RequestMapping("outTime.ps")
-	public ModelAndView updateOutTime(Attendance a, String inOutTime, ModelAndView mv, HttpServletRequest request) {
+	public String updateOutTime(String inOutTime, HttpServletRequest request) {
 		 System.out.println("퇴근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+inOutTime);
-
+		 
+		 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	 
+		 Attendance attendance = attendanceService.selectAttendance(empNo);
+		 
+		 System.out.println(attendance);
+		 
 		 //퇴근시간set
-		 a.setOutTime(inOutTime);
+		 attendance.setOutTime(inOutTime);
 		 
-		//출근시간 초로바꾸기
-		 int hour1 = (Integer.parseInt(a.getInTime().substring(0, 2)))*60*60;
-		 int min1 = (Integer.parseInt(a.getInTime().substring(3, 2)))*60;
-		 int sec1 = hour1+min1+(Integer.parseInt(a.getInTime().substring(6, 2)));
-		 
-		 //퇴근시간 초로바꾸기
-		 int hour2 = (Integer.parseInt(inOutTime.substring(0, 2)))*60*60;
-		 int min2 = (Integer.parseInt(inOutTime.substring(3, 2)))*60;
-		 int sec2 = hour2+min2+(Integer.parseInt(inOutTime.substring(6, 2)));
-		 
-		 int working = sec2-sec1;
-		 int over = 0;
-		 
-		 //총근로시간
-		 a.setTotal(working);
-		 
-		 //다시~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		 //야근시간 + 일한시간
-		 if(working > 28800) { //야근했을때
-			 over = working-28800;
-			 a.setOverTime(over);
-			 a.setWorkingTime(28800);
-		 }else {
-			 a.setOverTime(0); //야근하지않았을때
-			 a.setWorkingTime(working);
-			 a.setPsStatus("조퇴");
-		 }
-	
-		//테스트 어떻게 찍힐까
-		 System.out.println(a);
+		 try {
+			 //퇴근시간 초로바꾸기
+			 int hour = (Integer.parseInt(inOutTime.substring(0, 2)))*60*60;
+			 int min = (Integer.parseInt(inOutTime.substring(3, 5)))*60;
+			 int sec = hour+min+(Integer.parseInt(inOutTime.substring(6, 8)));
+			 
+			 
+			 //상태set
+			 int statushour = Integer.parseInt(inOutTime.substring(0, 2));
+			 int statusmin = Integer.parseInt(inOutTime.substring(3, 5));
+			 
+			 //6시 이후 퇴근
+			 if(statushour >= 18) { 
+				 
+				 	 if(statusmin < 10) {//6시 정시 퇴근 
+				 		 attendance.setAppliedOut(64800); //6시
+				 		 attendance.setTotal(attendance.getAppliedOut()-attendance.getAppliedIN()-3600); //총일한시간(퇴근-출근-점심시간)
+				 		 attendance.setWorkingTime(attendance.getTotal()); //일한시간
+				 		 attendance.setOverTime(0);//야근없음
+				 	 }else {//야근				 	 
+				 		 attendance.setAppliedOut(sec); 
+				 		 attendance.setTotal(attendance.getAppliedOut()-attendance.getAppliedIN()-3600); //총일한시간(퇴근-출근-점심시간)				 		
+				 		 attendance.setOverTime(attendance.getTotal()-28800);//야근시간(총 일한시간 - 8시간)
+				 		 attendance.setWorkingTime(28800); //일한시간(8시간
+				 	 }
+				 	 	
+			
+			 }else {//6시 이전 퇴근
+				 
+				 //조퇴
+				 attendance.setPsStatus("조퇴");	
+		 		 attendance.setAppliedOut(sec); 
+		 		 attendance.setTotal(attendance.getAppliedOut()-attendance.getAppliedIN()-3600); //총일한시간(퇴근-출근-점심시간)
+		 		 attendance.setWorkingTime(attendance.getTotal()); //일한시간
+		 		 attendance.setOverTime(0);//야근없음
+				 
+//				 	//오후반차결재서류 있다면 
+//				    if(반차서류가 있다면) {				    	
+//				    	attendance.setPsStatus("반차");	
+//					    attendance.setAppliedOut(50400); //2시출근
+//					 }else {
+//						 attendance.setPsStatus("조퇴");	
+//				 		 attendance.setAppliedOut(sec); 
+//					 }
+ 
+			 }
+
 		
-		 //attendanceService.updateOutTime(a);			 
+			//테스트 어떻게 찍힐까
+			 System.out.println(attendance);
+		 } catch(NumberFormatException e) {			 
+			 e.printStackTrace();
+		 }
+		
+		 attendanceService.updateOutTime(attendance);			 
 		 
-		 return mv;
+		 return "redirect:main.mi";
 	}
+	
+	
+	
+	
+	//selectAttendanceList.ps
 	
 }

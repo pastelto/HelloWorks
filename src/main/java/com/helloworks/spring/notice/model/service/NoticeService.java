@@ -27,10 +27,10 @@ public interface NoticeService {
 	void deleteNotice(int bno);
 	
 	//총 임시저장 게시글 갯수
-	int selectTListCount();
+	int selectTListCount(int empNo);
 	
 	//임시저장리스트
-	ArrayList<Notice> selectTList(PageInfo piT);
+	ArrayList<Notice> selectTList(PageInfo piT, int empNo);
 	
 	//임시저장 상세조회
 	Notice selectTNotice(int bno);

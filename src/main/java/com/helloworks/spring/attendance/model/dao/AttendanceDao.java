@@ -11,15 +11,21 @@ import com.helloworks.spring.attendance.model.vo.Attendance;
 public class AttendanceDao {
 	
 	//출근등록
-	public int insertInTime(SqlSessionTemplate sqlSession, Attendance a) {
+	public int updateInTime(SqlSessionTemplate sqlSession, Attendance attendance) {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("attendanceMapper.insertInTime", a);
+		return sqlSession.update("attendanceMapper.updateInTime", attendance);
 	}
 	
 	//메인조회
 	public Attendance selectAttendance(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("attendanceMapper.selectAttendance", empNo);
+	}
+
+	//퇴근등록
+	public int updateOutTime(SqlSessionTemplate sqlSession, Attendance attendance) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("attendanceMapper.updateOutTime", attendance);
 	}
 
 }

@@ -150,10 +150,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 업무공유 상세 조회 - 첨부파일 -->
 	<select id="detailWSAttachment" parameterType="_int" resultMap="wsAttachmentResultSet">
-		SELECT *
-		FROM WORKSHARE_ATTACHMENT
-		WHERE WSA_STATUS = 'Y'
-		AND WSA_WSNO = #{wsno}
+		select *
+		from workshare_attachment
+		where wsa_status = 'y'
+		and wsa_wsno = #{wsno}
 	</select>
 	
 	<!-- 업무공유 수신처리 -->

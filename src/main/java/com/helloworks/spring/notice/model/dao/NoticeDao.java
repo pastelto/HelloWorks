@@ -61,18 +61,18 @@ public class NoticeDao {
 	
 	/*~~~~~~~~~~~~~~~~임시저장~~~~~~~~~~~~~~~~*/
 	//총 임시저장 게시글 갯수
-	public int selectTListCount(SqlSessionTemplate sqlSession) {
+	public int selectTListCount(SqlSessionTemplate sqlSession , int empNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("noticeMapper.selectTListCount");
+		return sqlSession.selectOne("noticeMapper.selectTListCount" , empNo);
 	}
 	
 	//임시저장 리스트
-	public ArrayList<Notice> selectTList(SqlSessionTemplate sqlSession, PageInfo piT) {
+	public ArrayList<Notice> selectTList(SqlSessionTemplate sqlSession, PageInfo piT, int empNo) {
 		 int offset = (piT.getCurrentPage() - 1) * piT.getBoardLimit();
 	      
 	      RowBounds rowBounds = new RowBounds(offset, piT.getBoardLimit());
 	      
-	      return (ArrayList)sqlSession.selectList("noticeMapper.selectTList", null, rowBounds);
+	      return (ArrayList)sqlSession.selectList("noticeMapper.selectTList", empNo, rowBounds);
 	}
 
 	/*~~~~~~~~~~~~~~~~검색~~~~~~~~~~~~~~~~*/
