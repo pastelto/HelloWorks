@@ -85,42 +85,6 @@
 								<div class="card" style="margin-bottom: 0px;">
 										
 										<table id="searchOfficeAddressBookTable">
-										 <thead>
-											<tr>
-												<th>추가</th>
-												<td>
-													<form action="#">
-														<!-- <table id="addOfficeAddressBookEmployee" >
-															<tr>
-																<th style="height: 20px">이름</th>
-																<td style="height: 20px"></td>
-																<th style="height: 20px">부서</th>
-																<td style="height: 20px"></td>
-																<th style="height: 20px">내선번호</th>
-																<td style="height: 20px"></td>
-																<th style="height: 20px">이메일</th>
-																<td style="height: 20px"></td>
-																<td style="height: 20px"><button class="btn btn-sm">버튼</button></td>
-															</tr>
-														</table> -->
-														<div class="input-group mt-1 mb-1">
-															&nbsp;&nbsp;
-													  		<div class="input-group-prepend">
-															    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-															      	부서 선택
-															    </button>
-															    <div class="dropdown-menu">
-															      <a class="dropdown-item" href="#">Link 1</a>
-															      <a class="dropdown-item" href="#">Link 2</a>
-															      <a class="dropdown-item" href="#">Link 3</a>
-															    </div>
-															  </div>
-														  <input type="text" class="form-control form-control-sm" placeholder="Username">
-														</div>
-													</form>
-												</td>
-											</tr>
-											</thead>
 										<tbody>
 											<tr>
 												<th>검색</th>
@@ -128,7 +92,7 @@
 												<form action="searchOfficeAddressBookEmployee.adb">
 												<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllOfficeAddressBookEmployee();">전체검색</button>
+														<a id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" href="officeAddressBook.adb">전체검색</a>
 														&nbsp;&nbsp;
 														
 															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
@@ -172,9 +136,12 @@
 										</table>
 									</div>
 									
+									<hr>
+									
 									<!-- 주소록 리스트 -->
-									<div class="col-12" style="overflow:auto; height: 450px">
-									<table id="officeAddressBookTable" class="table table-sm">
+									<div class="col-12" style="overflow:auto;">
+									<div style="height: 450px">
+									<table id="officeAddressBookTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -205,9 +172,47 @@
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
-										
 										</tbody>
 									</table>
+									</div>
+									
+									<br>
+									
+									<div id="pagingArea">
+						                <ul class="pagination">
+						                	<c:choose>
+						                		<c:when test="${ pi.currentPage ne 1 }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                	
+						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						                    	<c:choose>
+							                		<c:when test="${ pi.currentPage ne p }">
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+							                		</c:when>
+							                		<c:otherwise>
+							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+							                		</c:otherwise>
+							                	</c:choose>
+						                    </c:forEach>
+						                    
+						                    
+						                    <c:choose>
+						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                </ul>
+						            </div>
+									
+									
 								</div>
 								<!-- /.col -->
 
@@ -286,6 +291,18 @@
 		                </div>
 		              </div>
 		              <!-- /.card -->
+		              
+		              
+		              <!-- card-footer -->
+					<div class="card-footer">
+						<div class="float-right">
+							<button id="deleteBtn" type="button"
+								class="btn btn-primary btn-sm">주소록 삭제</button>
+						</div>
+					</div>
+		              
+		              
+		              
 		            </div>
 		          </div>
 			
@@ -295,7 +312,145 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 	
+	<!-- 검색 -->
+	<script>
+		$(function() {
+			switch ('${ optionType }') {
+			case "allType":
+				$("#optionType>option").eq(0).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			case "deptType":
+				$("#deptTypeBlank").show();
+				$("#deptTypeOption").show();
+				$("#optionType>option").eq(1).attr("selected", true);
+				
+				switch ('${ deptTypeOption }') {
+					case "A" :
+						$("#deptTypeOption>option").eq(0).attr("selected", true);
+						break;
+					case "A1" :
+						$("#deptTypeOption>option").eq(1).attr("selected", true);
+						break;
+					case "A2" :
+						$("#deptTypeOption>option").eq(2).attr("selected", true);
+						break;
+					case "A3" :
+						$("#deptTypeOption>option").eq(3).attr("selected", true);
+						break;
+					case "B" :
+						$("#deptTypeOption>option").eq(4).attr("selected", true);
+						break;
+					case "B1" :
+						$("#deptTypeOption>option").eq(5).attr("selected", true);
+						break;
+					case "B2" :
+						$("#deptTypeOption>option").eq(6).attr("selected", true);
+						break;
+					case "C" :
+						$("#deptTypeOption>option").eq(7).attr("selected", true);
+						break;
+					case "C1" :
+						$("#deptTypeOption>option").eq(8).attr("selected", true);
+						break;
+					case "C2" :
+						$("#deptTypeOption>option").eq(9).attr("selected", true);
+						break;
+					case "C3" :
+						$("#deptTypeOption>option").eq(10).attr("selected", true);
+						break;
+				}
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			case "empNoType":
+				$("#optionType>option").eq(2).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			case "empNameType":
+				$("#optionType>option").eq(3).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			case "ePhoneType":
+				$("#optionType>option").eq(4).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			case "emailType":
+				$("#optionType>option").eq(5).attr("selected", true);
+				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+				break;
+			}
+			
+		})
+	</script>
 	
+	<!-- select option 부서 선택시 -->
+	<script>
+		function deptSelect(selectOption){
+			$("#searchInput").val("");
+			
+			switch (selectOption) {
+			case "allType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","검색어를 입력하세요.");
+				break;
+			case "deptType":
+				$("#deptTypeBlank").show();
+				$("#deptTypeOption").show();
+				$("#searchInput").attr("placeholder","이름을 입력하세요.");
+				break;
+			case "empNoType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","사번을 입력하세요.");
+				break;
+			case "empNameType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","이름을 입력하세요.");
+				break;
+			case "ePhoneType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","내선번호를 입력하세요.");
+				break;
+			case "emailType":
+				$("#deptTypeBlank").hide();
+				$("#deptTypeOption").hide();
+				$("#searchInput").attr("placeholder","이메일을 입력하세요.");
+				break;
+			}
+		}
+	</script>
+	
+	<!-- 검색창 reset -->
+	<script>
+		function resetSearch(){
+			$("#optionType>option").eq(0).attr("selected", true);
+			$("#deptTypeBlank").hide();
+			$("#deptTypeOption").hide();
+			$("#searchInput").val("");
+		}
+	</script>
+	
+	<!-- 페이징 클릭시 정렬기준 처리 -->
+	<script>
+		function previousClick(){
+			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+		}
+		function pageClick(){
+			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+		}
+		function nextClick(){
+			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+		}
+	</script>
 	
 </body>
 </html>

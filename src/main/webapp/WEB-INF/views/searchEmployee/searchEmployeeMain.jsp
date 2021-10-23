@@ -364,6 +364,7 @@
 			case "allType":
 				$("#optionType>option").eq(0).attr("selected", true);
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			case "deptType":
 				$("#deptTypeBlank").show();
@@ -406,25 +407,30 @@
 						break;
 				}
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			case "empNoType":
 				$("#optionType>option").eq(2).attr("selected", true);
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			case "empNameType":
 				$("#optionType>option").eq(3).attr("selected", true);
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			case "ePhoneType":
 				$("#optionType>option").eq(4).attr("selected", true);
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			case "emailType":
 				$("#optionType>option").eq(5).attr("selected", true);
 				$("#searchInput").val("${ searchEmployee }");
+				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
 			}
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+			
 		})
 	</script>
 	
