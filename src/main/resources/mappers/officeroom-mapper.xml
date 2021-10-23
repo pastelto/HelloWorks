@@ -131,7 +131,7 @@
 		AND A.EMP_NO = #{empNo}
 	</select>
 	
-	<select id="searchEmployee" parameterType="SearchEmployee"   resultMap="employeeResultSet">
+	<select id="searchEmployee" parameterType="SearchEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
 		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
@@ -169,4 +169,5 @@
 		</choose>
 		ORDER BY A.EMP_NO
 	</select>
+	
 </mapper>
