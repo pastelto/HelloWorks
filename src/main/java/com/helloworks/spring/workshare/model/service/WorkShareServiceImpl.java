@@ -11,6 +11,7 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.workshare.model.dao.WorkShareDao;
 import com.helloworks.spring.workshare.model.vo.WSAttachment;
+import com.helloworks.spring.workshare.model.vo.WSReply;
 import com.helloworks.spring.workshare.model.vo.WorkShare;
 
 @Service
@@ -131,6 +132,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 수신처리 실패"); 
 		 }
 		
+	}
+	
+	// 댓글 조회
+	@Override
+	public ArrayList<WSReply> selectReplyList(int wno) throws Exception {
+	
+		return workShareDao.selectReplyList(sqlSession, wno);
+	}
+	
+	// 댓글 추가
+	@Override
+	public int insertReply(WSReply wsr) throws Exception {
+		
+		return workShareDao.insertReply(sqlSession, wsr);
 	}
 
 	

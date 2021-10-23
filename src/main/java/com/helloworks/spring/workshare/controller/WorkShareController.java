@@ -16,15 +16,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.workshare.model.service.WorkShareService;
 import com.helloworks.spring.workshare.model.vo.WSAttachment;
+import com.helloworks.spring.workshare.model.vo.WSReply;
 import com.helloworks.spring.workshare.model.vo.WorkShare;
 
 @Controller
@@ -438,6 +441,40 @@ public class WorkShareController {
 		return mav;
 	}
 	
+	// -------------- 댓글 및 답글 기능 --------------
+	// 댓글 및 답글 조회하기
+	@ResponseBody
+	@RequestMapping(value="rlist.ws", produces="application/json; charset=UTF-8") 
+	public String selectReplyList(int wno) {
+		// mybatis-config에서 typeAlias에 Reply 추가해주기
+		ArrayList<WSReply> list = new ArrayList<>();
+		try {
+			list = workShareService.selectReplyList(wno);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	
+	// 댓글 추가하기
+	@ResponseBody
+	@RequestMapping("rinsert.ws")
+	public String insertReply(WSReply wsr, int wno) {
+		
+		int result = 0;
+		System.out.println("wsr ? " + wsr);
+		System.out.println("wno ? " + wno);
+		try {
+			wsr.setWsr_wsNo(wno);
+			result = workShareService.insertReply(wsr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return String.valueOf(result);
+	}
 	
 	
 

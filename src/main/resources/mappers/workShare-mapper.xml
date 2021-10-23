@@ -34,6 +34,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="wsa_status" column="WSA_STATUS"/>
 	</resultMap>
 	
+	<!-- WSReply -->
+	<resultMap id="wsReplyResultSet" type="WSReply">
+		<id property="wsr_no" column="WSR_NO"/>
+		<result property="wsr_wsNo" column="WSR_WS_NO"/>
+		<result property="wsr_empNo" column="WSR_EMP_NO"/>
+		<result property="wsr_content" column="WSR_CONTENT"/>
+		<result property="wsr_date" column="WSR_DATE"/>
+		<result property="wsr_status" column="WSR_STATUS"/>
+		<result property="wsr_empName" column="EMP_NAME"/>
+        <result property="wsr_empJobName" column="JOB_NAME"/>
+	</resultMap>
+	
 	<!-- 업무공유 생성 -->
 	<insert id="insertWorkShare" parameterType="WorkShare">
 		INSERT INTO WORKSHARE
@@ -150,10 +162,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 업무공유 상세 조회 - 첨부파일 -->
 	<select id="detailWSAttachment" parameterType="_int" resultMap="wsAttachmentResultSet">
-		select *
-		from workshare_attachment
-		where wsa_status = 'y'
-		and wsa_wsno = #{wsno}
+		SELECT *
+		FROM WORKSHARE_ATTACHMENT
+		WHERE WSA_STATUS = 'Y'
 	</select>
 	
 	<!-- 업무공유 수신처리 -->
@@ -162,4 +173,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET WS_RECV_STATUS = #{ws_recv_status}
 		WHERE WS_NO = #{ws_no}
 	</update>
+	
+	<!-- 댓글 조회 -->
+	<select id="selectReplyList" parameterType="_int" resultMap="wsReplyResultSet">
+		SELECT A.WSR_NO, A.WSR_WS_NO, A.WSR_EMP_NO, A.WSR_CONTENT, A.WSR_DATE, B.EMP_NAME, C.JOB_NAME
+		FROM WORKSHARE_REPLY A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WSR_EMP_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		WHERE WSR_WS_NO=#{wno} AND WSR_STATUS = 'Y'
+		ORDER BY WSR_NO DESC
+	</select>
+	
+	<!-- 댓글 추가 -->
+	<insert id="insertReply" parameterType="WSReply">
+		INSERT INTO WORKSHARE_REPLY
+		VALUES(SEQ_WSR.NEXTVAL, #{wsr_wsNo}, #{wsr_empNo}, #{wsr_content}, SYSDATE, 'Y')
+	</insert>
 </mapper>

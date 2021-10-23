@@ -75,7 +75,7 @@
 						</div>
 
 						<form id="UpdateWSForm" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="workShareNo" value="${ b.boardNo }">
+							<input type="hidden" name="workShareNo" value="${ ws.ws_no }">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -197,12 +197,6 @@
 								                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>
 								                        </th>
 								                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply">등록하기</button></th>
-							                        </c:if>
-							                        <c:if test="${ empty loginUser }">
-							                        	<th colspan="2" style="width:75%">
-								                            <textarea class="form-control" readonly rows="2" style="resize:none; width:100%">로그인한 사용자만 사용가능한 서비스입니다. 로그인 후 이용해주세요.</textarea>
-								                        </th>
-								                        <th style="vertical-align: middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
 							                        </c:if>
 							                    </tr>
 							                    <tr>
@@ -326,6 +320,69 @@
 		
 	} 
 	</script>
+	
+    
+    <script>
+		$(function(){
+			selectReplyList();
+			
+			$("#addReply").click(function(){
+		   		var wno = ${ws.ws_no};
+		
+				if($("#replyContent").val().trim().length != 0){
+					
+					$.ajax({
+						url:"rinsert.ws",
+						type:"post",
+						data:{wsr_content:$("#replyContent").val(),
+							  wno:wno,
+							  wsr_empNo:"${loginUser.empNo}"},
+						success:function(result){
+							if(result > 0){
+								$("#replyContent").val("");
+								selectReplyList();
+								
+							}else{
+								alert("댓글등록실패");
+							}
+						},error:function(){
+							console.log("댓글 작성 ajax 통신 실패");
+						}
+					});
+					
+				}else{
+					alert("댓글등록하셈");
+				}
+				
+			});
+		});
+	
+		function selectReplyList(){
+			var wno = ${ws.ws_no};
+			$.ajax({
+				url:"rlist.ws",
+				data:{wno:wno},
+				type:"get",
+				success:function(list){
+					$("#rcount").text(list.length);
+					
+					var value="";
+					$.each(list, function(i, obj){
+						
+						value += "<tr>" +
+								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
+								 "<td>" + obj.wsr_content + "</td>" + 
+							     "<td>" + obj.wsr_date + "</td>" +
+							     "<td>" + "버튼" + "</td>" +
+							     "</tr>";
+					});
+					$("#replyArea tbody").html(value);
+				},error:function(){
+					console.log("댓글 리스트조회용 ajax 통신 실패");
+				}
+			});
+		}
+  </script>
 	<jsp:include page="../common/footer.jsp" />
 	
 </body>
