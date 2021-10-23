@@ -39,7 +39,14 @@
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
-
+	
+	<select id="selectListCount" parameterType="_int" resultType="_int">
+ 		SELECT COUNT(*)
+ 		FROM OFFICE_ADDRESS_BOOK
+ 		WHERE OAB_USER_NO = #{ loginEmpNo }
+ 		AND OAB_STATUS = 'Y'
+ 	</select>
+	
 	<select id="selectOfficeAddressBook" parameterType="_int" resultMap="officeAddressBookResultSet">
 		SELECT A.*, B.EMP_NAME, B.EMP_EN, B.EMP_EMAIL, B.EMP_PHONE, B.DEPT_CODE, B.JOB_CODE,
 				 D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
@@ -48,10 +55,10 @@
 		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE A.OAB_USER_NO = #{ loginEmpNo }
+		AND A.OAB_STATUS = 'Y'
 		ORDER BY A.OAB_NO DESC
 	</select>
-
-
+ 
 	<select id="searchEmployee" parameterType="_int" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -65,5 +72,87 @@
 		INSERT INTO OFFICE_ADDRESS_BOOK
 		VALUES(SEQ_OAB_NO.NEXTVAL, #{oabUserNo}, #{oabEnrollNO}, DEFAULT)
 	</insert>
+	
+	<select id="selectSearchOfficeAddressBookEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
+		SELECT COUNT(*)
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND B.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND B.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+	</select>
+
+	<select id="searchOfficeAddressBookEmployee" parameterType="SearchEmployee" resultMap="officeAddressBookResultSet">
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, B.EMP_EMAIL, B.EMP_PHONE, B.DEPT_CODE, B.JOB_CODE,
+				 D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND B.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND B.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+		ORDER BY A.OAB_NO DESC
+	</select>
 
 </mapper>

@@ -10,6 +10,8 @@ public class SearchEmployee {
 	private String emailType;
 	private String deptTypeOption;
 	
+	private int loginUserEmpNo;
+	
 	public SearchEmployee() {
 		// TODO Auto-generated constructor stub
 	}
@@ -69,5 +71,14 @@ public class SearchEmployee {
 	public void setDeptTypeOption(String deptTypeOption) {
 		this.deptTypeOption = deptTypeOption;
 	}
+
+	public int getLoginUserEmpNo() {
+		return loginUserEmpNo;
+	}
+
+	public void setLoginUserEmpNo(int loginUserEmpNo) {
+		this.loginUserEmpNo = loginUserEmpNo;
+	}
+	
 	
 }
