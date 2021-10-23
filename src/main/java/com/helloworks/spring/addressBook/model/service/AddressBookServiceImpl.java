@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.addressBook.model.dao.AddressBookDao;
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Service
 public class AddressBookServiceImpl implements AddressBookService {
@@ -19,13 +21,25 @@ public class AddressBookServiceImpl implements AddressBookService {
 	
 	@Autowired
 	private AddressBookDao addresssBookDao;
+
+	@Override
+	public int selectListCount(int loginEmpNo) {
+		// TODO Auto-generated method stub
+		return addresssBookDao.selectListCount(sqlSession, loginEmpNo);
+	}
+	
+	@Override
+	public ArrayList<OfficeAddressBook> selectOfficeAddressBook(int loginEmpNo, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return addresssBookDao.selectOfficeAddressBook(sqlSession, loginEmpNo, pi);
+	}
 	
 	@Override
 	public Employee searchEmployee(int addEmpNo) {
 		// TODO Auto-generated method stub
 		return addresssBookDao.searchEmployee(sqlSession, addEmpNo);
 	}
-
+	
 	@Override
 	public void addOfficeAddressBook(OfficeAddressBook officeAddressBook) {
 		// TODO Auto-generated method stub
@@ -35,11 +49,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 			throw new CommException("사내 주소록 등록 실패");
 		}
 	}
+	
+	@Override
+	public int selectSearchOfficeAddressBookEmployeeListCount(SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return addresssBookDao.selectSearchOfficeAddressBookEmployeeListCount(sqlSession, se);
+	}
 
 	@Override
-	public ArrayList<OfficeAddressBook> selectOfficeAddressBook(int loginEmpNo) {
+	public ArrayList<Employee> searchOfficeAddressBookEmployee(SearchEmployee se, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return addresssBookDao.selectOfficeAddressBook(sqlSession, loginEmpNo);
+		return addresssBookDao.searchOfficeAddressBookEmployee(sqlSession, se, pi);
 	}
+
 
 }
