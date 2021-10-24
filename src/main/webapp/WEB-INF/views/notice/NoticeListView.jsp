@@ -8,8 +8,7 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <!-- css NoticeListView  -->
-<link href="resources/css/notice/Notice.css" rel="stylesheet"
-	type="text/css">
+<link href="resources/css/notice/Notice.css" rel="stylesheet" type="text/css">
 <style>
 </style>
 </head>
@@ -278,6 +277,7 @@
 					</div>
 					<!-- /.card -->
 				</div>
+
 		</section>
 
 	</div>

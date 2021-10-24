@@ -21,8 +21,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//출근시간 등록 
 	@Override
-	public void insertInTime(Attendance a) {
-		int result = attendanceDao.insertInTime(sqlSession, a);
+	public void updateInTime(Attendance attendance) {
+		int result = attendanceDao.updateInTime(sqlSession, attendance);
 		
 		if(result < 0) {
 			throw new CommException("출근 등록 실패");
@@ -34,5 +34,16 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public Attendance selectAttendance(int empNo) {
 		
 		return attendanceDao.selectAttendance(sqlSession, empNo);
+	}
+
+	//퇴근시간 등록
+	@Override
+	public void updateOutTime(Attendance attendance) {
+		int result = attendanceDao.updateOutTime(sqlSession, attendance);
+		
+		if(result < 0) {
+			throw new CommException("퇴근 등록 실패");
+		}
+		
 	}
 }

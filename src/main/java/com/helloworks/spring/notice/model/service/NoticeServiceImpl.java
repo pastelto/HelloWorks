@@ -91,16 +91,16 @@ public class NoticeServiceImpl implements NoticeService {
 	/*~~~~~~~~~~~~~~~~임시저장~~~~~~~~~~~~~~~~*/
 	//총 임시저장 게시글 갯수
 	@Override
-	public int selectTListCount() {
+	public int selectTListCount(int empNo) {
 		// TODO Auto-generated method stub
-		return noticeDao.selectTListCount(sqlSession);
+		return noticeDao.selectTListCount(sqlSession, empNo);
 	}
 	
 	//임시저장 리스트 
 	@Override
-	public ArrayList<Notice> selectTList(PageInfo piT) {
+	public ArrayList<Notice> selectTList(PageInfo piT, int empNo) {
 		// TODO Auto-generated method stub
-		return noticeDao.selectTList(sqlSession, piT);
+		return noticeDao.selectTList(sqlSession, piT , empNo);
 	}
 
 	@Override

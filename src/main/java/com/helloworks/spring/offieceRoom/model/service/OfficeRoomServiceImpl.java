@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.dao.OfficeRoomDao;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
@@ -61,7 +63,5 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		// TODO Auto-generated method stub
 		return officeRoomDao.searchEmployee(sqlSession, se);
 	}
-
-
 
 }
