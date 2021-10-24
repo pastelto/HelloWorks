@@ -16,16 +16,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
-		INSERT INTO RS_MEETINGROOM_MANAGEMENT
+		INSERT INTO
+		RS_MEETINGROOM_MANAGEMENT
 		VALUES
-		(SEQ_RS_MM_NO.NEXTVAL, #{empNo}, #{mMName}, #{mMCapacity}, DEFAULT)
+		(SEQ_RS_MM_NO.NEXTVAL, #{empNo},
+		#{mMName}, #{mMCapacity}, DEFAULT)
 	</insert>
 
+	<!-- 회의실 목록 -->
 	<select id="manageMtr" resultMap="mtrResultSet">
 		SELECT A.*, B.EMP_NAME
-		FROM RS_MEETINGROOM_MANAGEMENT A
-		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO = B.EMP_NO
+		FROM
+		RS_MEETINGROOM_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO =
+		B.EMP_NO
 		ORDER BY RS_MM_NO DESC
 	</select>
+	
+	<!-- 회의실 삭제 -->
+	<delete id="deleteMtr" parameterType="List">
+		DELETE FROM RS_MEETINGROOM_MANAGEMENT
+		where RS_MM_NO in
+			<foreach collection="list" item="deleteMtr" index="i" open="(" separator="," close=")">
+				#{deleteMtr}
+			</foreach>
+	</delete>
+
+	<!-- 차량관리 -->
+	<resultMap id="carResultSet" type="Car">
+		<id property="cMNo" column="RS_CM_NO" />
+		<result property="empNo" column="RS_CM_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="cMMfr" column="RS_CM_MFR" />
+		<result property="cMName" column="RS_CM_NAME" />
+		<result property="cMStatus" column="RS_CM_STATUS" />
+	</resultMap>
+
+	<!-- 차량 등록 -->
+	<insert id="addCar" parameterType="Car">
+		INSERT INTO RS_CAR_MANAGEMENT
+		VALUES
+		(#{cMNo}, #{empNo}, #{cMMfr}, #{cMName}, DEFAULT)
+	</insert>
+
+	<!-- 차량 목록 -->
+	<select id="manageCar" resultMap="carResultSet">
+		SELECT A.*, B.EMP_NAME
+		FROM
+		RS_CAR_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_CM_EMP_NO = B.EMP_NO
+	</select>
+
+	<!-- 차량 삭제 -->
+	<delete id="deleteCar" parameterType="List">
+		DELETE FROM RS_CAR_MANAGEMENT
+		where RS_CM_NO in
+			<foreach collection="list" item="deleteCar" index="i" open="(" separator="," close=")">
+				#{deleteCar}
+			</foreach>
+	</delete>
 
 </mapper>
