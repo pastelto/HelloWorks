@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회의실 정보 등록</title>
+<title>차량 정보 등록</title>
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,29 +21,34 @@
 <body>
 	<div class="card card-outline card-info">
 		<div class="card-header">
-			<h3 class="card-title">회의실 등록</h3>
+			<h3 class="card-title">차량 등록</h3>
 		</div>
 		<!-- /.card-header -->
-		<form method="post" id="addMtr" enctype="multipart/form-data">
+		<form method="post" id="addCar" enctype="multipart/form-data">
 			<input type="hidden" id="empNo" name="empNo"
 				value="${ loginUser.empNo }">
 			<div class="card-body">
-				<table id="addMtr" class="table table-bordered table-striped">
+				<table id="addCar" class="table table-bordered table-striped">
 					<tr align="center">
-						<td colspan="3"><span>회의실 이름</span></td>
+						<td colspan="3"><span>차량 번호</span></td>
 						<td colspan="6"><input type=text class="form-control"
-							id="mMName" name="mMName"></td>
+							id="cMNo" name="cMNo" placeholder="예시: 00허0000"></td>
 					</tr>
 					<tr align="center">
-						<td colspan="3"><span>회의실 수용인원</span></td>
+						<td colspan="3"><span>차량 제조사명</span></td>
 						<td colspan="6"><input type=text class="form-control"
-							id="mMCapacity" name="mMCapacity"></td>
+							id="cMMfr" name="cMMfr"></td>
+					</tr>
+					<tr align="center">
+						<td colspan="3"><span>차량 명</span></td>
+						<td colspan="6"><input type=text class="form-control"
+							id="cMName" name="cMName"></td>
 					</tr>
 				</table>
 			</div>
 			<div class="card-footer">
 				<div class="float-right">
-					<button type="button" class="btn btn-primary" onclick="addMtr();">
+					<button type="button" class="btn btn-primary" onclick="addCar();">
 						<i class="fas fa-clipboard-check"></i> 등록하기
 					</button>
 				</div>
@@ -55,24 +60,25 @@
 		</form>
 	</div>
 	<script>
-		function addMtr() {
-			var params = $("#addMtr").serialize();
-			$.ajax({
-				url : 'add.mtr?mMStatus=Y',
-				data : params,
-				success : function(result) {
-					if(result == "??!") {
-						alert("회의실 등록성공!");
-						opener.parent.location='manage.mtr'; //페이지 새로고침
-						window.close();
-					}else{
-						alert("회의실 등록실패");
-					}						
-				},
-				error : function() {
-					console.log("회의실 등록 ajax 통신 실패");
-				}
-			});
+		function addCar() {
+			var params = $("#addCar").serialize();
+				$.ajax({
+					url : 'add.car?cMStatus=Y',
+					data : params,
+					success : function(result) {					
+						if(result) {
+							alert("차량 등록성공!");
+							opener.parent.location='manage.car'; //페이지 새로고침
+							window.close();
+						}else{
+							alert("차량 등록실패");
+						}
+							
+					},
+					error : function() {
+						console.log("차량 등록 ajax 통신 실패");
+					}
+				});
 		}
 	</script>
 	<!-- 스크립트 모음 -->

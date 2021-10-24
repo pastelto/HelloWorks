@@ -204,20 +204,11 @@
  	function insertWorkShare(){
 		$('#insertWSForm').each(function(){	
 			
-		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
+		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/update.ws?ws_status=Y");
 			$("#insertWSForm").submit();
-			alert("업무공유가 발송되었습니다.");
+			alert("업무공유가 수정되었습니다.");
 		});
 	}
-	// 업무공유 임시저장하기
- 	function saveWorkShare(){
-		$('#insertWSForm').each(function(){	
-
-		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
-			$("#insertWSForm").submit();
-			alert("업무공유가 임시저장 되었습니다.");
-		});
-	} 
 	
 	// 취소버튼 - 뒤로가기
  	function backToList(){

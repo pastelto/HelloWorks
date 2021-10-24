@@ -21,8 +21,10 @@
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalMinutes" alias="ApprovalMinutes"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.SearchEmployee" alias="SearchEmployee"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.Mtr" alias="Mtr"/>
+		<typeAlias type="com.helloworks.spring.request.model.vo.Car" alias="Car"/>
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.OfficeAddressBook" alias="OfficeAddressBook"/>
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.PersonalAddressBook" alias="PersonalAddressBook"/>
+		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSReply" alias="WSReply"/>
 	</typeAliases>
 
 

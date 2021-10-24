@@ -12,5 +12,7 @@ public class RequestController {
 		System.out.println("신청메뉴페이지");
 		return "request/menu";
 	}
+	
+	// 비품 신청
 
 }
