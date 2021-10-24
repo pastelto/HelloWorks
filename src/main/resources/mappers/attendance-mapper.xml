@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="appliedOut" column="PSA_APPLIED_OUT"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptName" column="DEPT_DNAME"/>
-		<result property="deptUname" column="DEPT_UNAME"/>		
+		<result property="deptUname" column="DEPT_UNAME"/>	
+		<result property="name" column="EMP_NAME"/>	
 	</resultMap>
 	
 	<!-- 출근등록 -->
@@ -32,10 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
    <!-- 메인조회 -->
    <select id="selectAttendance" parameterType="_int" resultMap="attendanceResultSet">
-      	SELECT *
-		FROM PS_ATTENDANCE
-		WHERE PSA_EMP_NO = #{empNo}
-		AND PSA_CREATEDATE LIKE SYSDATE
+      	SELECT A.*, B.EMP_NAME
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		WHERE A.PSA_EMP_NO = #{empNo}
+		AND A.PSA_CREATEDATE LIKE SYSDATE
    </select>  
    
    <!-- 퇴근등록 -->
@@ -49,4 +51,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		PSA_TOTAL=#{total}		
 		WHERE PSA_EMP_NO = #{empNo}
    </update>
+   
+   <!-- 검색 임시저장 리스트 -->
+	<select id ="searchAttendance" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT  
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE
+           <if test='optionType eq "전체"'>
+	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
+	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+	    	</if>		
+	    	<if test='optionType eq "부서"'>
+	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
+	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+	    		AND D.DEPT_DNAME LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "사번"'>
+	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
+	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+	    		AND A.PSA_EMP_NO LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "이름"'>
+	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
+	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'
+	    	</if>
+		  AND B.EMP_STATUS='Y'
+		  ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
 </mapper>

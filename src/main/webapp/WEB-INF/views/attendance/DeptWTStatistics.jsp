@@ -151,7 +151,7 @@
 							<div class="card-body">
 				                <table class="table table-bordered" id="employeeStatistics">
 				                  <thead align="center">
-				                    <tr >
+				                    <tr >				                    	
 										<th  rowspan="2" width="14%" >소속</th>
 										<th rowspan="2" width="13%" class="rowspan">성명</th>
 										<th colspan="3">누적근로시간</th>											

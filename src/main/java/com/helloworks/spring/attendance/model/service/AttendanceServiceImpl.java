@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.attendance.model.dao.AttendanceDao;
 import com.helloworks.spring.attendance.model.vo.Attendance;
+import com.helloworks.spring.attendance.model.vo.SearchCondition;
 import com.helloworks.spring.common.exception.CommException;
 
 @Service
@@ -45,5 +46,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 			throw new CommException("퇴근 등록 실패");
 		}
 		
+	}
+
+	//소속부서출결 조회 - 근태구분
+	@Override
+	public ArrayList<Attendance> searchAttendance(SearchCondition searchCondition) {
+		// TODO Auto-generated method stub
+		return attendanceDao.searchAttendance(sqlSession, searchCondition);
 	}
 }

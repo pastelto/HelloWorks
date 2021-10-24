@@ -123,7 +123,7 @@
 <!-- fullCalendar 2.2.5 -->
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script src="./resources/plugins/fullcalendar/main.js"></script>
-<!-- 스크립트 모음 -->
+<!-- 스크립트 모음 --> 
 <script>
 
       document.addEventListener('DOMContentLoaded', function() {

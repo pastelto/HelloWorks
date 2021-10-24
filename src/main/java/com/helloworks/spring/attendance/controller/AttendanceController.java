@@ -6,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
+import com.helloworks.spring.attendance.model.vo.SearchCondition;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -162,9 +163,52 @@ public class AttendanceController {
 		 return "redirect:main.mi";
 	}
 	
+	//소속 부서 출결 조회
+//	@RequestMapping("checkDeptTime.ps")
+//	public String checkDeptEmp(String attendanceYear, String attendanceMonth, String attendance_type, String vacation_type, 
+//								String optionType, String search, Model model ){
+//		
+//		
+//		SearchCondition searchCondition = new SearchCondition();
+//		ArrayList<Attendance> searchlist = new ArrayList();
+//		
+//		searchCondition.setAttendanceYM(attendanceYear+attendanceMonth); //날짜
+//		searchCondition.setAttendance_type(attendance_type); // 근태구분
+//		searchCondition.setVacation_type(vacation_type); // 휴가구분
+//		searchCondition.setOptionType(optionType); // 검색타입
+//		searchCondition.setSearch(search);//검색 내용 
+//		
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~서치컨디션" + searchCondition);
+//		
+//		//근태구분 조회
+//		if(searchCondition.getVacation_type() == null) {
+//			
+//			searchlist = attendanceService.searchAttendance(searchCondition);
+//		}else { //휴가구분 조회
+//			//searchlist = attendanceService.searchVacation(searchCondition);
+//		}
+//		
+//		
+//
+//		model.addAttribute("searchlist",searchlist);
+//
+//		
+//		return "attendance/CheckDeptEmpView";
+//
+//	}
 	
+	 	@ResponseBody
+	    @RequestMapping(value="checkDeptTime.ps", produces="application/json; charset=UTF-8") 
+	    public String checkDeptEmp(String attendanceYear, String attendanceMonth, String attendance_type, String vacation_type, 
+												String optionType, String search) {
+	 		
+	 		SearchCondition searchCondition = new SearchCondition();
+	       ArrayList<Attendance> list = attendanceService.searchAttendance(searchCondition); 
+	       
+	      
+	    
+	       return new GsonBuilder().create().toJson(list);
+	    }
 	
-	
-	//selectAttendanceList.ps
 	
 }
