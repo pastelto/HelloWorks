@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.request.model.vo.Car;
 import com.helloworks.spring.request.model.vo.Mtr;
+import com.helloworks.spring.request.model.vo.RequestEq;
 
 @Repository
 public class RequestDao {
@@ -46,6 +47,12 @@ public class RequestDao {
 	public int deleteCar(SqlSessionTemplate sqlSession, List<String> checkArr) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("requestMapper.deleteCar", checkArr);
+	}
+
+	//비품 신청
+	public int requestEquipment(SqlSessionTemplate sqlSession, RequestEq rEq) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.requestEquipment", rEq);
 	}
 	
 

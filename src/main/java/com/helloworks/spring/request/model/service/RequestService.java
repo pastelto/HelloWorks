@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.helloworks.spring.request.model.vo.Car;
 import com.helloworks.spring.request.model.vo.Mtr;
+import com.helloworks.spring.request.model.vo.RequestEq;
 
 public interface RequestService {
 	
@@ -20,4 +21,6 @@ public interface RequestService {
 	ArrayList<Mtr> manageCar();
 	//차량 삭제
 	void deleteCar(List<String> checkArr);
+	//비품 신청
+	void requestEquipment(RequestEq rEq);
 }

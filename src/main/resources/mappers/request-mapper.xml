@@ -75,5 +75,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{deleteCar}
 			</foreach>
 	</delete>
+	
+	<!-- 비품 -->
+	<resultMap id="requestEqResultSet" type="RequestEq">
+		<id property="requestEqNo" column="ES_ER_NO" />
+		<result property="empNo" column="ES_ER_EMP_NO" />
+		<result property="requestDate" column="ES_ER_DATE" />
+		<result property="place" column="ES_ER_PLC" />
+		<result property="usage" column="ES_ER_USG" />
+		<result property="sDate" column="ES_ER_START" />
+		<result property="eDate" column="ES_ER_END" />
+		<result property="eqName" column="ES_ER_NAME" />
+		<result property="addRequest" column="RS_CM_STATUS" />
+		<result property="eqCondition" column="ES_ER_CONDITION" />
+		<result property="eqStatus" column="RS_CM_STATUS" />
+	</resultMap>	
+	
+	<!-- 비품 신청 -->
+	<insert id="requestEquipment" parameterType="RequestEq">
+		INSERT INTO ES_EQUIPMENT_REQUEST
+		VALUES
+		(SEQ_ES_ER_NO.NEXTVAL, #{empNo}, SYSDATE, #{place}, #{usage}, #{sDate}, #{eDate}, #{eqName}, #{addRequest}, DEFAULT, DEFAULT)
+	</insert>	
+	
+	
+	
 
 </mapper>

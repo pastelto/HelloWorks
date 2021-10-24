@@ -25,6 +25,7 @@
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.OfficeAddressBook" alias="OfficeAddressBook"/>
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.PersonalAddressBook" alias="PersonalAddressBook"/>
 		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSReply" alias="WSReply"/>
+		<typeAlias type="com.helloworks.spring.request.model.vo.RequestEq" alias="RequestEq"/>
 	</typeAliases>
 
 
