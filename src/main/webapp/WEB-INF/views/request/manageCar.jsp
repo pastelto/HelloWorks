@@ -69,7 +69,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- 회의실 목록 띄우기 -->
+							<!-- 차량 목록 띄우기 -->
 							<c:forEach items="${ list }" var="c">
 								<tr align="center">
 									<td>${ c.CMNo }</td>
@@ -128,10 +128,7 @@
 			    }
 			  }
 			});
-	});
-	
-	
-		
+	});	
 </script>
 
 </body>

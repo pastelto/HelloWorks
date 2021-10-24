@@ -24,6 +24,12 @@ public class RequestDao {
 		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
 	}
 	
+	//회의실 삭제
+	public int deleteMtr(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("requestMapper.deleteMtr", checkArr);
+	}
+	
 	//차량 등록
 	public int addCar(SqlSessionTemplate sqlSession, Car car) {
 		// TODO Auto-generated method stub
@@ -41,4 +47,6 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("requestMapper.deleteCar", checkArr);
 	}
+	
+
 }

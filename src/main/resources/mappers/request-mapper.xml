@@ -32,6 +32,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		B.EMP_NO
 		ORDER BY RS_MM_NO DESC
 	</select>
+	
+	<!-- 회의실 삭제 -->
+	<delete id="deleteMtr" parameterType="List">
+		DELETE FROM RS_MEETINGROOM_MANAGEMENT
+		where RS_MM_NO in
+			<foreach collection="list" item="deleteMtr" index="i" open="(" separator="," close=")">
+				#{deleteMtr}
+			</foreach>
+	</delete>
 
 	<!-- 차량관리 -->
 	<resultMap id="carResultSet" type="Car">

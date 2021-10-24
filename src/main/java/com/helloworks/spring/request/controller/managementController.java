@@ -23,7 +23,6 @@ public class managementController {
 	@Autowired
 	private RequestService requestService;
 
-	// ---------------------------- 관리 ---------------------------
 	// 회의실 관리 ----------------
 	// 회의실 리스트조회
 	@RequestMapping("manage.mtr")
@@ -50,6 +49,19 @@ public class managementController {
 		String result = "성공!";
 		return String.valueOf(result);
 	}
+	
+	// 회의실 삭제
+	@ResponseBody
+	@RequestMapping(value = "/delete.Mtr", method = RequestMethod.POST)
+	public String deleteMtr(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+		requestService.deleteMtr(checkArr);
+		System.out.println("성공");
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
 
 	// 차량 관리 ----------------
 	// 차량 관리 페이지로 전환
@@ -80,8 +92,6 @@ public class managementController {
 	@ResponseBody
 	@RequestMapping(value = "/delete.car", method = RequestMethod.POST)
 	public String deleteCar(@RequestParam(value = "checkArr[]") List<String> checkArr){
-		
-		System.out.println("1: " + checkArr);
 
 		requestService.deleteCar(checkArr);
 		System.out.println("성공");
@@ -89,7 +99,5 @@ public class managementController {
 		return String.valueOf(result);
 
 	}
-
-	// -----------------------------신청--------------------------------
 
 }
