@@ -72,29 +72,28 @@ input[id*="radio"], input[id*="vacation"] {
 								<div class="card">
 									<div class="card-body">
 										<div class="card" style="margin-bottom: 0px;">
-											<form action="searchNotice.nt">
 											<table id="searchEmpTable">
 												<thead>
 													<tr>
 														<th style="width: 20%" class="line">검색일</th>
 														<td style="width: 80%" class="line">
 															<select id="attendanceYear" name="attendanceYear" class="custom-select custom-select-sm" style="width: 15%;" onchange="">
-																<option value="2021">2021</option>
-																<option value="2020">2020</option>
-																<option value="2019">2019</option>
-																<option value="2018">2018</option>
-																<option value="2017">2017</option>
+																<option value="21/">2021</option>
+																<option value="20/">2020</option>
+																<option value="19/">2019</option>
+																<option value="18/">2018</option>
+																<option value="17/">2017</option>
 															</select> &nbsp; 
 															<select id="attendanceMonth"name="attendanceMonth" class="custom-select custom-select-sm" style="width: 15%;" onchange="">
-																<option value="1">1월</option>
-																<option value="2">2월</option>
-																<option value="3">3월</option>
-																<option value="4">4월</option>
-																<option value="5">5월</option>
-																<option value="6">6월</option>
-																<option value="7">7월</option>
-																<option value="8">8월</option>
-																<option value="9">9월</option>
+																<option value="01">1월</option>
+																<option value="02">2월</option>
+																<option value="03">3월</option>
+																<option value="04">4월</option>
+																<option value="05">5월</option>
+																<option value="06">6월</option>
+																<option value="07">7월</option>
+																<option value="08">8월</option>
+																<option value="09">9월</option>
 																<option value="10">10월</option>
 																<option value="11">11월</option>
 																<option value="12">12월</option>
@@ -157,7 +156,6 @@ input[id*="radio"], input[id*="vacation"] {
 														</td>
 													</tr>
 												</tbody>
-												</form>
 											</table>
 										</div>
 									</div>
@@ -166,8 +164,9 @@ input[id*="radio"], input[id*="vacation"] {
 							<!-- /.col -->
 							<div class="col-md-12" style="overflow: auto; height: 450px">
 								<table id="employeeTable" class="table table-sm">
-									<caption style="caption-side: top">
-										* 정렬 기준 : <span id="sortOption">전체</span>
+									<caption style=" caption-side: top ">
+										* 정렬 기준 : <span class="container-fluid" id="sortOption">전체</span>
+										<span class="float-right"><button class="btn btn-block btn-outline-warning">상태 수정</button></span>
 									</caption>
 									<thead>
 										<tr aling="center">

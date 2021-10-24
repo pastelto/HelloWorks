@@ -54,7 +54,7 @@
                                           <ul class="nav nav-pills flex-column">
                                              <li class="nav-item "><a href="attendanceApiView.ps" class="nav-link">출근기록 </a></li>
                                              <li class="nav-item"><a href="checkDeptEmp.ps" class="nav-link">부서원 출결 조회</a></li>
-                                             <li class="nav-item"><a href="#" class="nav-link">소속 근로시간 통계</a></li>      
+                                             <li class="nav-item"><a href="wtStatistics.ps" class="nav-link">소속 근로시간 통계</a></li>      
                                           </ul>                                                                                 
                                        </div>
                                     </div>

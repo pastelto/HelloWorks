@@ -34,6 +34,12 @@ public class AttendanceController {
 		return "attendance/CheckDeptEmpView";
 	}
 	
+	@RequestMapping("wtStatistics.ps")
+	public String wtStatistics() {
+		System.out.println("부서 출근조회");
+		return "attendance/DeptWTStatistics";
+	}
+	
 	//출근시간 등록
 	@RequestMapping("intime.ps")
 	public String updateInTime(String inOutTime, HttpServletRequest request) {
