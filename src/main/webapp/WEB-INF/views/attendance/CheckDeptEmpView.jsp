@@ -136,7 +136,9 @@ input[id*="radio"], input[id*="vacation"] {
                                                 &nbsp;&nbsp;&nbsp;                                             
                                                 <select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;">
                                                    <option value="전체">전체</option>
-                                                   <option value="부서" >부서</option>
+	                                                   <c:if test="${ loginUser.deptCode eq 'A1' }">
+	                                               <option value="부서" >부서</option>
+	                                                   </c:if>
                                                    <option value="사번">사번</option>
                                                    <option value="이름">이름</option>
                                                 </select>
@@ -146,7 +148,7 @@ input[id*="radio"], input[id*="vacation"] {
                                                       class="form-control form-control-sm"
                                                       placeholder="검색어를 입력하세요." name="search" value="${ search }">
                                                    <div class="input-group-append">
-                                                      <button class="btn btn-sm btn-default" onclick="searchSubmit();" >
+                                                      <button type="submit" class="btn btn-sm btn-default" >
                                                          <i class="fa fa-search"></i>
                                                       </button>
                                                    </div>
@@ -165,8 +167,10 @@ input[id*="radio"], input[id*="vacation"] {
                      <div class="col-md-12" style="overflow: auto; height: 450px">
                         <table id="employeeTable" class="table table-sm">
                            <caption style=" caption-side: top ">
-                              * 정렬 기준 : <span class="container-fluid" id="sortOption">전체</span>
-                              <span class="float-right"><button class="btn btn-block btn-outline-warning">상태 수정</button></span>
+                              * 정렬 기준 : <span class="container-fluid" id="sortOption">날짜</span>
+                              <c:if test="${ loginUser.deptCode eq 'A1' }">
+                              <span class="float-right"><button id="updatebtn" class="btn btn-block btn-outline-warning" >상태 수정</button></span>
+                              </c:if>
                            </caption>
                            <thead>
                               <tr aling="center">
@@ -184,24 +188,29 @@ input[id*="radio"], input[id*="vacation"] {
                               </tr>
                            </thead>
                            <tbody>
-                           <!--  
+                          
                            	  <c:forEach items="${ searchlist }" var="search">
 	                              <tr>
 	                              	<c:if test="${ !empty searchlist }">
 		                              <c:if test="${ loginUser.deptCode eq 'A1' }">
-		                                 <td><input type='checkbox' name='deleteOne' value="${c.CMNo}"></td>
+		                                 <td><input type='checkbox' name='deleteOne' value="${search.psaNo}"></td>
 		                              </c:if>
 		                               	 <td>${search.psCreateDate }</td>
 		                                 <td>${search.empNo }</td>
 		                                 <td>${search.deptName }</td>
 		                                 <td>${search.name }</td>
 		                                 <td>${search.jobName }</td>
-		                                 <td>${search.psStatus }</td>
+			                                 <c:if test="${ search.psStatus eq '휴가' }">
+			                                 <td>${search.vacation }</td>
+			                                 </c:if>
+			                                 <c:if test="${ search.psStatus ne '휴가' }">
+			                                 <td>${search.psStatus }</td>
+			                                 </c:if>			                             
 		                                 <td>${search.inTime }</td>
 		                                 <td>${search.outTime }</td>
 	                                 </c:if>	                                
 	                              </tr>
-                              </c:forEach>-->
+                              </c:forEach>
                            </tbody>
                         </table>
                      </div>
@@ -215,7 +224,29 @@ input[id*="radio"], input[id*="vacation"] {
       
    </div>
    <jsp:include page="../common/footer.jsp" />
-   
+   <script>
+   $("#updatebtn").click(function() {
+	   
+	   var ckvalue= "";
+	   $("input[name='deleteOne']:checked").each(function() {
+			ckvalue = $(this).val();
+			console.log("~~~~~~~~"+ckvalue);
+			
+		});
+	   var _width = '400';
+	     var _height = '500';
+	     console.log("~~~~~~~~"+ckvalue);
+	     // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
+	     var _left = Math.ceil(( window.screen.width - _width )/2);
+	     var _top = Math.ceil(( window.screen.height - _height )/4); 
+	  
+	        window.open('<%=request.getContextPath()%>/updateStatus.ps?psaNo='+ckvalue,
+	    		  '상태 수정', 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
+	   
+   });
+  
+   </script>
+   <!-- 
    <script>
    function searchSubmit(){
    	   var attendanceYear = $('select[name="attendanceYear"]').val();
@@ -266,7 +297,7 @@ input[id*="radio"], input[id*="vacation"] {
 		});
    )
    
-   </script>
+   </script> -->
    
    <!-- 검색조건  
    <script>

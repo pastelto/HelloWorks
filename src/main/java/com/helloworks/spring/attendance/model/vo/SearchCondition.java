@@ -20,6 +20,7 @@ public class SearchCondition {
 	String vacation_type; // 휴가구분
 	String optionType; // 검색타입
 	String search; // 검색내용
+	String dept; //로그인유저 부서
 	
 
 }

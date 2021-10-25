@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deptName" column="DEPT_DNAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>	
 		<result property="name" column="EMP_NAME"/>	
+		<result property="vacation" column="PSA_VACATION"/>	
 	</resultMap>
 	
 	<!-- 출근등록 -->
@@ -52,33 +53,128 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PSA_EMP_NO = #{empNo}
    </update>
    
-   <!-- 검색 임시저장 리스트 -->
+   
+   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~소속부서 출근기록~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   
+   <!--  모든 팀 검색 근태구분 -->
 	<select id ="searchAttendance" parameterType= "SearchCondition" resultMap="attendanceResultSet">
-        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT  
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
 		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE
-           <if test='optionType eq "전체"'>
-	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
-	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
-	    	</if>		
-	    	<if test='optionType eq "부서"'>
-	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
-	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
-	    		AND D.DEPT_DNAME LIKE '%'||#{search}||'%'
-	    	</if>
+		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
 	    	<if test='optionType eq "사번"'>
-	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
-	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
 	    		AND A.PSA_EMP_NO LIKE '%'||#{search}||'%'
 	    	</if>
 	    	<if test='optionType eq "이름"'>
-	    		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
-	    		AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
-	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'
-	    	</if>
+	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'	
+	    	</if>	    
+	      AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
+	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'     
 		  AND B.EMP_STATUS='Y'
 		  ORDER BY A.PSA_CREATEDATE ASC                          
      </select>
+     
+     <!--  모든 팀검색 휴가구분 -->
+     <select id ="searchVacation" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE
+		WHERE A.PSA_VACATION LIKE '%'||#{vacation_type}||'%'
+	    	<if test='optionType eq "사번"'>
+	    		AND A.PSA_EMP_NO LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "이름"'>	    		
+	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'
+	    	</if>
+	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+	      AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
+		  AND B.EMP_STATUS='Y'
+		  ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
+     
+     <!--모든팀 출결조회 전체 -->
+     <select id ="checkDeptTimeAll" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS,  A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO 
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE      
+		AND B.EMP_STATUS='Y'
+		AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
+		ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
+ 
+	 <!--  모든 팀 검색 근태구분 ~~~~인사팀 -->
+	<select id ="searchAttendance1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT, A.PSA_NO 
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE
+		WHERE A.PSA_STATUS LIKE '%'||#{attendance_type}||'%'
+	    	<if test='optionType eq "사번"'>
+	    		AND A.PSA_EMP_NO LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "이름"'>
+	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'	
+	    	</if>	
+	    	<if test='optionType eq "부서"'>
+	    		AND D.DEPT_DNAME LIKE '%'||#{search}||'%'	
+	    	</if>	          
+	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'     
+		  AND B.EMP_STATUS='Y'
+		  ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
+     
+     <!--  모든 팀검색 휴가구분  ~~~~인사팀 -->
+     <select id ="searchVacation1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE
+		WHERE A.PSA_VACATION LIKE '%'||#{vacation_type}||'%'
+	    	<if test='optionType eq "사번"'>
+	    		AND A.PSA_EMP_NO LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "이름"'>	    		
+	    		AND B.EMP_NAME LIKE '%'||#{search}||'%'
+	    	</if>
+	    	<if test='optionType eq "부서"'>
+	    		AND D.DEPT_DNAME LIKE '%'||#{search}||'%'	
+	    	</if>
+	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
+		  AND B.EMP_STATUS='Y'
+		  ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
+ 
+  <!--모든팀 출결조회 전체  ~~~~인사팀-->
+     <select id ="checkDeptTimeAll1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+        SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS,  A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE      
+		AND B.EMP_STATUS='Y'
+		ORDER BY A.PSA_CREATEDATE ASC                          
+     </select>
+     
+     <!-- updateStatus -->
+ 	<select id ="updateStatus" parameterType= "_int" resultMap="attendanceResultSet">
+ 		SELECT A.* , B.EMP_NAME, C.JOB_NAME, D.DEPT_DNAME
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE    
+		WHERE A.PSA_NO = #{psaNo}
+ 	</select>
+ 
+ <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~소속부서 출근기록~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+ 
+ 
+     
 </mapper>
