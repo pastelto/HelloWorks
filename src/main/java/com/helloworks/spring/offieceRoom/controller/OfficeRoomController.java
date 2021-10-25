@@ -116,5 +116,12 @@ public class OfficeRoomController {
 		
 	}
 	
-
+	@RequestMapping("popupSearchEmp.or")
+	public String popupSearchEmp(Model model) {
+		System.out.println("직원검색 페이지 전환");
+		
+		ArrayList<Employee> list = officeRoomService.selectAllEmployee();
+		model.addAttribute("list", list);
+		return "searchEmployee/popupSearchEmployee";
+	}
 }

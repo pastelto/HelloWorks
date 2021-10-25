@@ -224,4 +224,28 @@ public class AddressBookController {
 		System.out.println(token.countTokens());
 		return "redirect:searchEmpMain.or";
 	}
+	
+	
+	@RequestMapping("popupAddressBook.adb")
+	public String popupAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		System.out.println("공유 주소록 전환");
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		int listCount = addressBookService.selectListCount(loginEmpNo);
+		
+		System.out.println("공유 주소록 등록 인원: "+listCount);
+		int pageLimit = 10;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo, pi);
+		
+		
+		model.addAttribute("officeAddresslist", officeAddresslist);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "officeAddressBook.adb");
+		return "addressBook/popupOfficeAddressBook";
+	}
 }
