@@ -31,7 +31,7 @@
 		width: 15%;
 		text-align: center !important;
 	} 
-	.content-wrapper{
+	.content-wrapper{ 
 		overflow:auto;
 	}
 	
@@ -74,8 +74,8 @@
 							</h6>
 						</div>
 
-						<form id="UpdateWSForm" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="workShareNo" value="${ ws.ws_no }">
+						<form id="workShareForm" method="post" enctype="multipart/form-data">
+							<input type="hidden" id="workShareNo" name="workShareNo" value="${ ws.ws_no }">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -192,12 +192,25 @@
 							            <table id="replyArea" class="table" align="center">
 							                <thead>
 							                    <tr>
-							                    	<c:if test="${ !empty loginUser }">
-								                        <th colspan="2" style="width:75%">
-								                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>
-								                        </th>
-								                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply">등록하기</button></th>
-							                        </c:if>
+							                    	<c:set var="loop_flag" value="false" />
+							                    	<c:if test="${not loop_flag }">
+								                    	<c:if test="${ myEmpNo eq loginUser.empNo }">
+								                    		    <th colspan="3" style="width:75%">
+									                            	<textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>	
+										                        </th>
+										                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply">등록하기</button></th>
+								                    		 <c:set var="loop_flag" value="true" />
+							                    		</c:if>
+							                    	 </c:if>	
+							                    	 <c:if test="${not loop_flag }">
+							                    		<c:if test="${ myEmpNo ne loginUser.empNo }">
+								                    		<th colspan="3" style="width:75%">
+									                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%" placeholder="댓글작성 권한이 없습니다." disabled></textarea>
+									                        </th>
+									                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply" disabled>등록하기</button></th>
+							                    		<c:set var="loop_flag" value="false" />
+							                    		</c:if>
+							                    	</c:if>
 							                    </tr>
 							                    <tr>
 							                       <td colspan="3">댓글 (<span id="rcount">0</span>) </td> 
@@ -223,7 +236,7 @@
 									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
 									<button id="editBtn" type="button" class="btn btn-warning btn-sm">수정하기</button>
 									&nbsp;
-									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList();">삭제</button>
+									<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>
 									&nbsp;
 									</c:if>
 									
@@ -266,16 +279,6 @@
 	
 	<!-- 버튼 이동 -->
 	<script>
-	// 업무공유 보내기 -> 저장하기로 옮기기 (1)
- 	function insertWorkShare(){
-		$('#insertWSForm').each(function(){	
-			
- 		$("#updateWSForm").attr("action", "<%=request.getContextPath()%>/update.ws");
-		$("#updateWSForm").submit();
-		alert("업무공유가 수정되었습니다."); 
-		});
-	}
-	
 	// 업무공유 수정화면 전환
  	$("#editBtn").one("click", function(){
  		  $('.click2edit').summernote({
@@ -306,7 +309,34 @@
 	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-info btn-sm">수정하기</button>&nbsp;');
 	  	$("#save").remove();
 	};
-
+	
+	// 업무공유 수정하기
+ 	function insertWorkShare(){
+		$('#workShareForm').each(function(){	
+			
+ 		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
+		$("#workShareForm").submit();
+		alert("업무공유가 수정되었습니다."); 
+		});
+	}
+	
+	// 업무공유 삭제하기
+	function deleteWS(){
+		
+		var wno = $('#workShareNo').val();
+		console.log(wno)
+		var really = confirm("정말로 해당 업무공유를 삭제하시겠습니까?");
+		
+		if(really){
+		$('#workShareForm').each(function(){	
+			
+ 		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/deleteWS.ws");
+		$("#workShareForm").submit();
+		alert("업무공유가 삭제되었습니다."); 
+		});
+		}
+	}
+	
 	
 	// 취소버튼 - 뒤로가기
  	function backToList(){
@@ -369,12 +399,21 @@
 					var value="";
 					$.each(list, function(i, obj){
 						
+						if(obj.wsr_empNo == ${loginUser.empNo}){
 						value += "<tr>" +
 								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
 								 "<td>" + obj.wsr_content + "</td>" + 
 							     "<td>" + obj.wsr_date + "</td>" +
-							     "<td>" + "버튼" + "</td>" +
+							     "<td>" + "<a>'삭제하기'</a>" + "</td>" +
 							     "</tr>";
+						}else {
+							value += "<tr>" +
+							 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
+							 "<td>" + obj.wsr_content + "</td>" + 
+						     "<td>" + obj.wsr_date + "</td>" +
+						     "<td></td>" +
+						     "</tr>";
+						}
 					});
 					$("#replyArea tbody").html(value);
 				},error:function(){

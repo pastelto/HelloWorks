@@ -28,6 +28,12 @@
         color: transparent;
         text-shadow: 0 0 0 #777;
     }
+    
+    #searchTable>tbody>tr>th	{
+		background-color: #DAE1E7;
+		width: 10%;
+		text-align: center !important;
+	}
 </style>
 </head>
 <body>
@@ -39,24 +45,39 @@
           <div class="card card-outline card-info">
             <div class="card-header">
 			    <!-- 업무 목록 검색 -->			
-			   	<ul class="box1 b1">
-					<li> 
-					<strong class="label1">검색조건</strong>
-					<span class="sel1">
-						<a href="javascript:void(0);" class="btn1" id="btn_all">전체보기</a>
-						<select name="strkey" id="strkey">
-							<option value="subject">제목</option>
-							<option value="content">내용</option>
-							
-								<option value="name_kor">작성자</option>
-							
-						</select>
-						<input type="text" name="keyword" id="keyword" class="input_st1" onkeyup="if(event.keyCode==13) search();" maxlength="100">
-						<input type="text" name="hiddenTxt" class="input_st1" style="display: none;">
-						<a href="javascript:void(0);" class="btn1" id="btn_search">검색</a>
-					</span>
-					</li>
-				</ul>
+			   		<div class="card" style="margin-bottom: 0px;">
+					<table id="searchTable">
+						<tr>
+							<th>검색 조건</th>
+							<td>
+							<form action="searchEmployee.or">
+							<div class="row" style="margin-left: 0px;">
+									&nbsp;&nbsp;
+									<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllRecvList();">전체보기</button>
+									&nbsp;&nbsp;
+									
+										<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="searchSelect(this.value);">
+											<option value="searchTitle">제목</option>
+											<option value="searchContent" >내용</option>
+											<option value="searchWriter">작성자</option>
+										</select>
+										&nbsp;&nbsp;
+										<div class="input-group" style="width: 30%;">
+											<input type="search" id="searchInput"
+												class="form-control form-control-sm"
+												placeholder="검색어를 입력하세요." name="searchWorkShare" value="${ search }">
+											<div class="input-group-append">
+												<button type="submit" class="btn btn-sm btn-default">
+													<i class="fa fa-search"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</td>
+						</tr>
+					</table>
+				</div>
             </div>
             <!-- /.card-header -->
             
