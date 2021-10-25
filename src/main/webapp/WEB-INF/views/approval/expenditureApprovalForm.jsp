@@ -57,7 +57,7 @@
 				</div>
 			</section>
 			<section class="content">
-			<form id="expenditureApprovalForm" method="post" action="insertApproval.ea" enctype="multipart/form-data">
+			<form id="expenditureApprovalForm" method="post" action="insertExApproval.ea" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -70,8 +70,8 @@
 											</td>
 											<td style="font-size:0.8em;" colspan="5">
 												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="hidden" name="doc_type"  value = "지출결의" id="ex_hidden">
-													<span class="co_docu_cd_old" docu_cd="지출결의" style="cursor: pointer;">지출결의서</span>											
+													<input type="hidden" name="doc_type"  value = "지출" id="ex_hidden">
+													<span class="co_docu_cd_old" docu_cd="지출" style="cursor: pointer;">지출결의서</span>											
 												</label>
 												&nbsp;
 											</td>
@@ -279,13 +279,13 @@
 															<span>지급유형</span>
 														</td>
 														<td colspan="4">
-															<select name="exType" class="form-control" id='corpor_select' style="font-size:0.8rem">
-																<option value="none"> 선택  </option>
+															<select name="exType" class="form-control" id='corpor_select' style="font-size:0.8rem" onchange="changeExNum();">
+																<option value=""> 선택  </option>
 																<option value="법인카드"> 법인카드 </option>
 																<option value="체크카드"> 체크카드 </option>
 															</select>
 															<select name="exType" class="form-control" id='remitt_select' style="font-size:0.8rem">
-																<option value="none"> 선택  </option>
+																<option value=""> 선택  </option>
 																<option value="세금계산서"> 세금계산서 </option>
 																<option value="사업소득자"> 사업소득자 </option>
 																<option value="기타"> 기타 </option>
@@ -296,16 +296,20 @@
 														</td>
 														<td colspan="4">
 															<select name="exNum" class="form-control" id='card_select1' style="font-size:0.8rem">
-																	<option value="">선택해주세요.</option>
+																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ chlist }" var="approvalExDetails">																	
-																	<option value="${ approvalExDetails.exNum }">${ approvalExDetails.exNum }</option>																	
+																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
 																</c:forEach>
 															</select>
 															<select name="exNum" class="form-control" id='card_select2' style="font-size:0.8rem">
-																	<option value="">선택해주세요.</option>
+																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ colist }" var="approvalExDetails">																	
-																	<option value="${ approvalExDetails.exNum }">${ approvalExDetails.exNum }</option>																	
+																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
 																</c:forEach>
+															</select>
+															<select class="form-control" id='card_select3' style="font-size:0.8rem">
+																<option value="">선택해주세요.</option>
+																<option value="">--------------------</option>
 															</select>
 														</td>
 													</tr>
@@ -348,10 +352,10 @@
 															<!--  <input type="checkbox"  id="exCheck1">-->
 														</td>
 														<td colspan="1">															
-															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDetailList[0].exDate" style="font-size:0.8rem">
+															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<select name="exDetailList[0].exContent" class="form-control" id='exContent_select1'style="font-size:0.8rem">
+															<select name="exContent" class="form-control" id='exContent_select1'style="font-size:0.8rem">
 																<option value="none"> 선택  </option>
 																<option value="교통비"> 교통비 </option>
 																<option value="복리후생"> 복리후생 </option>
@@ -362,13 +366,13 @@
 															</select>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem" onkeyup="priceSum();"/>
+															<input type="text" class="form-control" id="price1" name="price" style="font-size:0.8rem" onkeyup="priceSum();"/>
 														</td>
 														<th colspan="2">
-															<input type="text" class="form-control" id="accountName1" name="exDetailList[0].accName" class="form-control" style="font-size:0.8rem">											
+															<input type="text" class="form-control" id="accountName1" name="accName" class="form-control" style="font-size:0.8rem">											
 														</th>
 														<td colspan="1">
-															<select name="exDetailList[0].bankName" class="form-control" id='exBank1' style="font-size:0.8rem">
+															<select name="bankName" class="form-control" id='exBank1' style="font-size:0.8rem">
 																<option value="none"> 은행선택  </option>
 																<option value="경남"> 경남 </option>
 																<option value="광주"> 광주 </option>
@@ -400,16 +404,16 @@
 															</select>
 														</td>
 														<td colspan="2">
-															<input type="text" class="form-control" id="accountNum1" name="exDetailList[0].accNum" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="accountNum1" name="accNum" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="accHolder1" name="exDetailList[0].accHolder" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="accHolder1" name="accHolder" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="exDept1" name="exDetailList[0].exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>
+															<input type="text" class="form-control" id="exDept1" name="exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="exNote1" name="exDetailList[0].note" style="font-size:0.8rem">
+															<input type="text" class="form-control" id="exNote1" name="note" style="font-size:0.8rem">
 														</td>					
 													</tr>
 													<tr>
@@ -439,7 +443,7 @@
 													</tr>								
 													<tr>
 														<td colspan="12">
-															<textarea id="summernote"></textarea>
+															<textarea id="summernote" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -493,11 +497,11 @@
 				</div>				
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
 									&nbsp;
-									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button type="reset" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -525,41 +529,64 @@
 			
 			$("#remitt_select").attr("style", "display:none")
 			$("#card_select1").attr("style", "display:none")
-			$('input[name$="accNum"]').attr("disabled",true);
+			$("#card_select2").attr("style", "display:none")
+			$('input[name="accNum"]').attr("disabled",true);
+			$('input[name="accHolder"]').attr("disabled",true);
 			
 			
 			$('#corpor_radio').click(function(){				
 				$("#corpor_select").css("display",'')
 				$("#temp_hidden").css("display",'')
-				$("#card_select2").css("display",'')
+				$("#card_select3").css("display",'')
 				$("#remitt_select").attr("style", "display:none")
 				$("#card_select1").attr("style", "display:none")
-				$('input[name$="accNum"]').attr("disabled",true);
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
 				
 			});
+			
+			
 			
 			$('#remitt_radio').click(function(){
 				$("#remitt_select").css("display",'')
 				$("#temp_hidden").css("display",'')
-				$("#card_select1").css("display",'')
 				$("#corpor_select").attr("style", "display:none")
+				$("#card_select1").attr("style", "display:none")
 				$("#card_select2").attr("style", "display:none")
-				$('input[name$="accNum"]').attr("disabled",false);
+				$("#card_select3").attr("style", "display:none")
+				$('input[name="accNum"]').attr("disabled",false);
+				$('input[name="accHolder"]').attr("disabled",false);
 							
 			});
 						
 			$('#temporory_radio').click(function(){				
 				$("#temp_hidden").attr("style", "display:none")
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
 			});
 			
-			$('#commonEx_check').click(function(){
+			$('#commonEx').click(function(){
 					if(this.checked){
-						$("input[id^='exDept']").attr('disabled',true);
+						$("input[name='exDept']").attr('disabled',true);
 					}else {
-						$("input[id^='exDept']").attr('disabled', false);
+						$("input[name='exDept']").attr('disabled', false);
 					}
 			});
+		
 		});
+		
+		function changeExNum(){
+			
+			if($("#corpor_select").val() == "법인카드"){
+				$("#card_select2").css("display",'')
+				$("#card_select1").attr("style", "display:none")
+				$("#card_select3").attr("style", "display:none")
+			} else if($("#corpor_select").val()=="체크카드"){
+				$("#card_select1").css("display",'')
+				$("#card_select2").attr("style", "display:none")
+				$("#card_select3").attr("style", "display:none")
+			}
+		}
 	</script>
 	
 	
@@ -575,10 +602,10 @@
 							'<input type="checkbox"  id="exCheck'+n+'">'+
 						"</td>"+
 						'<td colspan="1">'+													
-							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDetailList['+n+'].exDate" style="font-size:0.8rem">'+
+							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" style="font-size:0.8rem">'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<select name="exDetailList['+n+'].exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
+							'<select name="exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
 								'<option value="none"> 선택  </option>'+
 								'<option value="교통비"> 교통비 </option>'+
 								'<option value="복리후생"> 복리후생 </option>'+
@@ -589,13 +616,13 @@
 							'</select>'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<input type="text" class="form-control" id="price'+n+'" name="exDetailList['+n+'].price" style="font-size:0.8rem" onkeyup="priceSum();">'+
+							'<input type="text" class="form-control" id="price'+n+'" name="price" style="font-size:0.8rem" onkeyup="priceSum();">'+
 						'</td>'+
 						'<th colspan="2">'+
-							'<input type="text" class="form-control" id="accountName'+n+'" name="exDetailList['+n+'].accName"class="form-control" style="font-size:0.8rem">'+									
+							'<input type="text" class="form-control" id="accountName'+n+'" name="accName" class="form-control" style="font-size:0.8rem">'+									
 						'</th>'+
 						'<td colspan="1">'+
-							'<select name="exDetailList['+n+'].bankName" class="form-control" id="exBank'+n+'" style="font-size:0.8rem">'+
+							'<select name="bankName" class="form-control" id="exBank'+n+'" style="font-size:0.8rem">'+
 								'<option value="none"> 은행선택  </option>'+
 								'<option value="경남"> 경남 </option>'+
 								'<option value="광주"> 광주 </option>'+
@@ -627,16 +654,16 @@
 							'</select>'+
 						'</td>'+
 						'<td colspan="2">'+
-							'<input type="text" class="form-control" id="accountNum'+n+'" name="exDetailList['+n+'].accNum" style="font-size:0.8rem">'+
+							'<input type="text" class="form-control" id="accountNum'+n+'" name="accNum" style="font-size:0.8rem">'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<input type="text" class="form-control" id="accHolder'+n+'" name="exDetailList['+n+'].accHolder" style="font-size:0.8rem">'+
+							'<input type="text" class="form-control" id="accHolder'+n+'" name="accHolder" style="font-size:0.8rem">'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<input type="text" class="form-control" id="exDept'+n+'" name="exDetailList['+n+'].exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>'+
+							'<input type="text" class="form-control" id="exDept'+n+'" name="exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<input type="text" class="form-control" id="exNote'+n+'" name="exDetailList['+n+'].note" style="font-size:0.8rem">'+
+							'<input type="text" class="form-control" id="exNote'+n+'" name="note" style="font-size:0.8rem">'+
 						'</td>'+			
 					'</tr>'	;	
 					
@@ -644,11 +671,18 @@
 				trHtml.after(addRow);
 				
 				if($("input[id='corpor_radio']:checked").length > 0) {
-					$('input[name$="accNum"]').attr("disabled",true);
+					$('input[name="accNum"]').attr("disabled",true);
+					$('input[name="accHolder"]').attr("disabled",true);
 				}
 				
-				if($("input[id='commonEx_check']:checked").length > 0) {
-					$("input[name$='exDept']").attr('disabled',true);
+				if($("input[id='temporory_radio']:checked").length > 0){
+					$('input[name="accNum"]').attr("disabled",true);
+					$('input[name="accHolder"]').attr("disabled",true);
+					
+				}
+				
+				if($("input[id='commonEx']:checked").length > 0) {
+					$("input[name='exDept']").attr('disabled',true);
 				}				
 		};
 	</script>
@@ -656,15 +690,6 @@
 	<!-- 지출항목 삭제 -->
 	<script>
 		function minusExrow(){
-			
-			//var tableRow = $('#detail_table').length;
-			
-			/* for(var row=1; row <tableRow; row++){	
-				if($("input[id^='exCheck']:checked").length > 0){
-					$(this).parent().remove();
-				}
-			} */
-			
 			$("input[id^='exCheck']:checked").parent().parent().remove();
 		};	
 	</script>

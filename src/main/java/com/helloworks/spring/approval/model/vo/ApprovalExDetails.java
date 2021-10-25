@@ -20,7 +20,7 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 	private int price;			// 지출금액
 	private String accName;		// 업체명
 	private String bankName;	// 은행명
-	private String	accNum;		// 계좌번호
+	private String accNum;		// 계좌번호
 	private String accHolder;	// 예금주
 	private String exDept;		// 지출부서
 	private String note; 		// 비고
