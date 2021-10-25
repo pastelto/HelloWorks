@@ -249,12 +249,12 @@
 											<c:forEach items="${ list }" var="employee">
 							                    <tr>
 							                    	<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empNo }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empName} ( ${employee.empEn} )</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.jobName }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.deptDname }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empEphone }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("${ employee.empNo }");'>${ employee.empEmail }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empNo }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empName} ( ${employee.empEn} )</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.jobName }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.deptDname }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEphone }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEmail }</td>
 							                        <th>
 							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
 							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
@@ -508,12 +508,12 @@
 							$.each(list, function(i, obj){
 								value +="<tr>"+
 								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
 								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
 								"</tr>";
 							});
@@ -539,12 +539,12 @@
 							$.each(list, function(i, obj) {
 								value +="<tr>"+
 								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
 								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
 								"</tr>";
 							});
@@ -579,12 +579,12 @@
 						
 						value +="<tr>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
 						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
 						"</tr>";
 					});
@@ -616,12 +616,12 @@
 					$.each(list, function(i, obj){
 						value +="<tr>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmpLoiyee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
 						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
 						"</tr>";
 					});
@@ -636,8 +636,9 @@
 		}
 	</script>
 	
+	<!-- 직원 상세 정보 -->
 	<script>
-		function detailEmpLoiyee(empNo){
+		function detailEmployee(empNo){
 			
 			$.ajax({
 				url:"searchEmployeeDetail.or",

@@ -3,6 +3,7 @@ package com.helloworks.spring.addressBook.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,6 @@ public class AddressBookController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		//ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo);
 		ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo, pi);
 		
 		
@@ -51,33 +51,60 @@ public class AddressBookController {
 	
 	
 	@RequestMapping("addOfficeAddressBook.adb")
-	public String addOfficeAddressBook(int addEmpNo, HttpServletRequest request, Model model) {
-		
-				
-		Employee emp = addressBookService.searchEmployee(addEmpNo);
+	public String addOfficeAddressBook(int addEmpNo, HttpServletRequest request, HttpSession session,  Model model) {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
-		System.out.println("추가할 직원 사번: "+ addEmpNo);
-		System.out.println("로그인 직원 사번: "+ loginEmpNo);
-		
-		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
-		if(emp != null) {
-			officeAddressBook.setOabUserNo(loginEmpNo);
-			officeAddressBook.setOabEnrollNO(addEmpNo);
-			
-			addressBookService.addOfficeAddressBook(officeAddressBook);
+		// 본인은 주소록 등록 불가
+		if(loginEmpNo == addEmpNo) {
+			session.setAttribute("msg", "본인은 등록할 수 없습니다.");
+			return "redirect:searchEmpMain.or";
 		}
 		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
 		
+		officeAddressBook.setOabUserNo(loginEmpNo);
+		officeAddressBook.setOabEnrollNo(addEmpNo);
 		
-		model.addAttribute("addEmpNo", addEmpNo);
+		// 이미 주소록 등록된 직원인지 확인
+		int result = addressBookService.searchEnrollCount(officeAddressBook);
+		
+		if( result > 0) {
+			session.setAttribute("msg", "이미 등록된 직원입니다.");
+			return "redirect:searchEmpMain.or";
+		}else {
+			Employee emp = addressBookService.searchEmployee(addEmpNo);
+			
+			System.out.println("추가할 직원 사번: "+ addEmpNo);
+			System.out.println("로그인 직원 사번: "+ loginEmpNo);
+			if(emp != null) {
+				
+				addressBookService.addOfficeAddressBook(officeAddressBook);
+				session.setAttribute("msg", "주소록에 등록되었습니다.");
+			}
+			//model.addAttribute("addEmpNo", addEmpNo);
+			return "redirect:officeAddressBook.adb";
+		}
+		
+	}
+	
+	@RequestMapping("deleteOfficeAddressBook.adb")
+	public String deleteOfficeAddressBook(int deleteEmpNo, HttpServletRequest request, HttpSession session ,Model model) {
+		System.out.println("직원 삭제 컨트롤러");
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
+		
+		officeAddressBook.setOabUserNo(loginEmpNo);
+		officeAddressBook.setOabEnrollNo(deleteEmpNo);
+		
+		addressBookService.deleteOfficeAddressBook(officeAddressBook);
+		
+		session.setAttribute("msg", "주소록에서 삭제되었습니다.");
 		return "redirect:officeAddressBook.adb";
 	}
 	
 	@RequestMapping("searchOfficeAddressBookEmployee.adb")
 	public String searchOfficeAddressBookEmployee(String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
-		
-		
 		
 		SearchEmployee se = new SearchEmployee();
 		

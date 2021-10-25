@@ -39,6 +39,16 @@
 	#officeAddressBookTable {
 		text-align: center !important;
 	}
+	#employeeTable {
+		text-align: center;
+	}
+	#detailEmployeeTable>tbody>tr>th {
+		width: 15%;
+	}
+	#modalTitleDiv {
+		background: #00909E;
+		padding: 5px;
+	}
 </style>
 </head>
 <body>
@@ -160,12 +170,12 @@
 											<c:forEach items="${ officeAddresslist }" var="officeAddresslist">
 							                    <tr>
 							                    	<th><input type='checkbox' name='deleteAddressBook' id='deleteAddressBook'></th>
-							                        <td>${ officeAddresslist.oabEnrollNO }</td>
-							                        <td>${ officeAddresslist.empName} ( ${officeAddresslist.empEn} )</td>
-							                        <td>${ officeAddresslist.jobName }</td>
-							                        <td>${ officeAddresslist.deptDname }</td>
-							                        <td>${ officeAddresslist.empEphone }</td>
-							                        <td>${ officeAddresslist.empEmail }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.oabEnrollNo }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empName} ( ${officeAddresslist.empEn} )</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.jobName }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.deptDname }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEphone }</td>
+							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEmail }</td>
 							                        <th>
 							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
 							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
@@ -211,11 +221,78 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
-									
-									
 								</div>
 								<!-- /.col -->
-
+								
+								<!-- 직원 선택 시 뜨는 모달  -->
+							    <div class="modal fade" id="detailEmployeeModal">
+									<div class="modal-dialog modal-dialog-centered modal-lg">
+										<div class="modal-content">
+											<!-- Modal Header -->
+											<div class="modal-header" id="modalTitleDiv">
+												<img src="./resources/common/icon_gray.png">
+												<img src="./resources/common/logoLetter_gray.png" style="margin: 2px; margin-left: 10px;">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+							
+											<form action="deleteOfficeAddressBook.adb" method="post">
+												<!-- Modal Body -->
+												<div class="modal-body">
+													<div class="card bg-light d-flex flex-fill mb-0">
+														<div class="card-body">
+															<div class="row">
+																<div class="col-2 text-center">
+																	<div>
+																		<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
+																			class="img-fluid" style="width: 90px; height: 120px;">
+																	</div>
+																	<div class="mt-3">
+																		<input type="hidden" id="deleteEmpNo" name="deleteEmpNo"/>
+																		<button type="submit" class="btn btn-danger btn-sm">주소록 삭제</button>
+																	</div>
+																</div>
+																<div class="col-10">
+																	<table id="detailEmployeeTable" class="table table-sm"
+																		style="margin: 0px">
+																		<tr>
+																			<th>사번</th>
+																			<td id="empNoCol" style="width: 35%"></td>
+																			<th>이름</th>
+																			<td id="empNameCol" style="width: 35%"></td>
+																		</tr>
+																		<tr>
+																			<th>직급</th>
+																			<td id="empJobCol" style="width: 35%"></td>
+																			<th>영문이름</th>
+																			<td id="empEngNameCol" style="width: 35%"></td>
+																		</tr>
+																		<tr>
+																			<th>소속</th>
+																			<td id="empUDeptCol" style="width: 35%"></td>
+																			<th>부서</th>
+																			<td id="empDDeptCol" style="width: 35%"></td>
+																		</tr>
+																		<tr>
+																			<th>내선번호</th>
+																			<td id="empEphoneCol" style="width: 35%"></td>
+																			<th>상태</th>
+																			<td id="empStatusCol" style="width: 35%"></td>
+																		</tr>
+																		<tr>
+																			<th>이메일</th>
+																			<td colspan="3" id="empEmailCol" style="width: 70%"></td>
+																		</tr>
+																	</table>
+																</div>
+							
+															</div>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 		                  	</div>
 		                  
 		                  	<!-- 외부 주소록 탭 -->
@@ -297,7 +374,7 @@
 					<div class="card-footer">
 						<div class="float-right">
 							<button id="deleteBtn" type="button"
-								class="btn btn-primary btn-sm">주소록 삭제</button>
+								class="btn btn-danger btn-sm">주소록 삭제</button>
 						</div>
 					</div>
 		              
@@ -449,6 +526,37 @@
 		}
 		function nextClick(){
 			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
+		}
+	</script>
+	
+	<!-- 직원 상세 정보 -->
+	<script>
+		function detailEmployee(empNo){
+			
+			$.ajax({
+				url:"searchEmployeeDetail.or",
+				data:{empNo:empNo},
+				type:"post",
+				dataType:"json",
+				success:function(emp){
+					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
+					
+					$("#empNoCol").text(emp.empNo)
+					$("#empNameCol").text(emp.empName)
+					$("#empEngNameCol").text(emp.empEn)
+					$("#empUDeptCol").text(emp.deptUname)
+					$("#empDDeptCol").text(emp.deptDname)
+					$("#empJobCol").text(emp.jobName)
+					$("#empStatusCol").text("출퇴근상태값")
+					$("#empEphoneCol").text(emp.empEphone)
+					$("#empEmailCol").text(emp.empEmail)
+					
+					$("#deleteEmpNo").val(emp.empNo)
+				},
+				error:function(){
+					console.log("직원 부서별 검색 ajax 통신 실패")
+				}
+			})
 		}
 	</script>
 	

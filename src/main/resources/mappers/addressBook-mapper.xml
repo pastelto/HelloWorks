@@ -27,7 +27,7 @@
 	<resultMap type="OfficeAddressBook" id="officeAddressBookResultSet">
 		<id property="oabNo" column="OAB_NO"/>
 		<result property="oabUserNo" column="OAB_USER_NO"/>
-		<result property="oabEnrollNO" column="OAB_ENROLL_NO"/>
+		<result property="oabEnrollNo" column="OAB_ENROLL_NO"/>
 		<result property="oabStatus" column="OAB_STATUS"/>
 		<result property="empName" column="EMP_NAME"/>
 		<result property="empEn" column="EMP_EN"/>
@@ -59,6 +59,14 @@
 		ORDER BY A.OAB_NO DESC
 	</select>
  
+ 	<select id="searchEnrollCount" parameterType="OfficeAddressBook" resultType="_int">
+	 	SELECT COUNT(*)
+		FROM OFFICE_ADDRESS_BOOK
+		WHERE OAB_STATUS = 'Y'
+		AND OAB_USER_NO = #{oabUserNo} 
+		AND OAB_ENROLL_NO = #{oabEnrollNo}
+ 	</select>
+ 
 	<select id="searchEmployee" parameterType="_int" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -70,8 +78,15 @@
 
 	<insert id="addOfficeAddressBook" parameterType="OfficeAddressBook">
 		INSERT INTO OFFICE_ADDRESS_BOOK
-		VALUES(SEQ_OAB_NO.NEXTVAL, #{oabUserNo}, #{oabEnrollNO}, DEFAULT)
+		VALUES(SEQ_OAB_NO.NEXTVAL, #{oabUserNo}, #{oabEnrollNo}, DEFAULT)
 	</insert>
+	
+	<update id="deleteOfficeAddressBook" parameterType="OfficeAddressBook">
+		UPDATE OFFICE_ADDRESS_BOOK
+		SET OAB_STATUS = 'N'
+		WHERE OAB_USER_NO = #{oabUserNo}
+		AND OAB_ENROLL_NO = #{oabEnrollNo}
+	</update>
 	
 	<select id="selectSearchOfficeAddressBookEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
 		SELECT COUNT(*)
