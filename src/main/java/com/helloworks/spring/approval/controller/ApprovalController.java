@@ -3,6 +3,7 @@ package com.helloworks.spring.approval.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,9 @@ import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
+import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
+import com.helloworks.spring.approval.model.vo.ApprovalExList;
+import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
 import com.helloworks.spring.approval.model.vo.ApprovalHr;
 import com.helloworks.spring.approval.model.vo.ApprovalLine;
 import com.helloworks.spring.approval.model.vo.ApprovalMinutes;
@@ -48,7 +52,13 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("expenditureApprovalForm.ea")
-	public String expenditureApprovalForm() {
+	public String expenditureApprovalForm(Model model) {
+		
+		ArrayList<ApprovalExDetails> chlist = approvalService.selectExNumch();
+		ArrayList<ApprovalExDetails> colist = approvalService.selectExNumco();
+		
+		model.addAttribute("chlist",chlist);
+		model.addAttribute("colist",colist);
 		
 		return "approval/expenditureApprovalForm";
 	}
@@ -70,6 +80,12 @@ public class ApprovalController {
 	public String plusccForm() {
 		
 		return "approval/plusccForm";
+	}
+	
+	@RequestMapping("plusCooForm.ea")
+	public String plusCooForm() {
+		
+		return "approval/plusCooForm";
 	}
 	
 	
@@ -160,6 +176,14 @@ public class ApprovalController {
 		}
 		
 		return "main";
+	}
+	
+	public String insertExApproval(Approval ap, ApprovalExpenditure ae, ApprovalExDetails ad, ApprovalExList alist, 
+									String status, HttpServletRequest request, Model model,
+									@RequestParam(name="normalAttach" , required=false) MultipartFile file) {
+									
+		return "main";
+		
 	}
 	
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {

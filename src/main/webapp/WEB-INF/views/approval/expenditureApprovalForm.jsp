@@ -26,6 +26,20 @@
 	.content-wrapper{
 		overflow:auto;
 	}
+	input[id^="emp_level"], input[id^="emp_name"], input[id^="line"], input[id^="coo_level"], input[id^="coo_name"]{
+		border : none;
+		background-color: white;
+		pointer-events: none;
+	}
+	input[id^="ccName"]{
+		background-color: white;
+		pointer-events: none;
+	}
+	input[id^="fieldWriter"], input[id^="userDept"], #sumTd{
+		border : none;
+		background-color: white;
+		pointer-events: none;
+	}
 </style>
 </head>
 <body>
@@ -70,7 +84,7 @@
 									<h3 class="card-title" >지출결의서</h3>
 								</div>
 								<div class="card-body">
-									<table width="400px" style="font-size:0.8em;" height="50px" align="right">
+										<table width="400px" style="font-size:0.8em;" height="50px" align="right">
 										<tbody>
 											<tr>
 												<td>
@@ -87,41 +101,41 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level0"></span>
+																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<span id="emp_level1"></span>
+																	<input type="text" class="emp_level1" id="emp_level1_1" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level2"></span>
+																	<input type="text" class="emp_level2" id="emp_level1_2" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level3"></span>
+																	<input type="text" class="emp_level3" id="emp_level1_3" disabled/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<span id="emp_level4"></span>
+																	<input type="text" class="emp_level4" id="emp_level1_4" disabled/>
 																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="writer" name="writer" value="직원이름">
+																	<input type="text" class="emp_name0" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="line1" name="line1" value="직원이름">
+																	<input type="text" class="emp_name1" id="emp_name1_1" disabled/>
+																	<input type="hidden" class="line1" id="line1_1" name="line1" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="line2" name="line2" value="직원이름">
+																	<input type="text" class="emp_name2" id="emp_name1_2" disabled/>
+																	<input type="hidden" class="line2" id="line1_2" name="line2" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="line3" name="line3" value="직원이름">
+																	<input type="text" class="emp_name3" id="emp_name1_3" disabled/>
+																	<input type="hidden" class="line3" id="line1_3" name="line3" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<span id="emp_name4"></span>
-																	<input type="hidden" id="line4" name="line4" value="직원이름">
+																	<input type="text" class="emp_name4" id="emp_name1_4" disabled/>
+																	<input type="hidden" class="line4" id="line1_4" name="line4" >
 																</td>											
 															</tr>
 														</tbody>
@@ -141,35 +155,35 @@
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level0"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level1"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
 																</th>
-																<th class="table emp_level"  scop="col">
-																	<span id="emp_level2"></span>
+																<th class="table coo_level"  scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
 																</th>
-																<th class="table emp_level" scop="col">
-																	<span id="emp_level3"></span>
+																<th class="table coo_level" scop="col">
+																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name0"></span>
-																	<input type="hidden" id="cooperator0" name="cooperator0" value="직원이름">
+																<td class="table coo_name"  scop="col">
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
+																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
-																<td class="table emp_name"  scop="col">
-																	<span id="emp_name1"></span>
-																	<input type="hidden" id="cooperator1" name="cooperator1" value="직원이름">
+																<td class="table coo_name"  scop="col">
+																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
+																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
 																</td>
-																<td class="table emp_name" scop="col">
-																	<span id="emp_name2"></span>
-																	<input type="hidden" id="cooperator2" name="cooperator2" value="직원이름">
+																<td class="table coo_name" scop="col">
+																	<input type="text" class="coo_name1_3" id="coo_name1_3" disabled/>
+																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
-																<td class="table emp_name" scop="col">
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator3" name="cooperator3" value="직원이름">
+																<td class="table coo_name" scop="col">
+																	<input type="text" class="coo_name1_4" id="coo_name1_4" disabled/>
+																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -178,11 +192,12 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusCoo(1);">+ 협조 추가</button>
 												</td>
 											</tr>										
 										</tbody>
-									</table>							
+									</table>
 									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >									
 										<tr>
 											<td>
@@ -192,8 +207,14 @@
 														<td width="10%" colspan="1">
 															<span>수신참조 </span>												
 														</td>
-														<td colspan="11">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">수신자등록</button>																					
+														<td colspan="11" style="text-align:left !important;">
+														<div class="input-group" style="width:30% !important;">														
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%"  style="font-size:0.9em"/>	
+															<input type="hidden" id="ccCode1" name="ccCode"/>
+															<div class="input-group-append">															
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
+															</div>
+														</div>
 														</td>
 													</tr>
 													<tr>
@@ -214,9 +235,13 @@
 																<span class="co_docu_cd_old"  style="cursor: pointer;">현금가지급정산</span>											
 															</label>
 															<label style="display: inline-block" class="bottom-margin0" >
-																<input type="checkbox" name="commonEx_check"  value = "공통경비" id="commonEx_check" >
+																<input type="checkbox" name="commonEx"  value = 'Y' id="commonEx" >
+																<input type="hidden" name="commonEx" value='N' id="commonEx_hidden"/>
 																<span>공통경비</span>											
 															</label>
+																										
+															 																								
+														
 														</td>
 													</tr>
 													<tr>
@@ -232,13 +257,13 @@
 															<span>부서</span>
 														</td>
 														<td colspan="3">
-															<!-- 유저 부서 -->
+															<input type="text" name="userDept" id="userDept" class="form-control" value="${loginUser.deptDname}" style="font-size:0.9em"/> 
 														</td>
 														<td colspan="1">
-															이름
+															<span>이름</span>
 														</td>
 														<td colspan="3">
-														 	유저 부서
+														 	<input type="text" id="fieldWriter" class="form-control" value="${loginUser.empName}" style="font-size:0.9em"/>
 														</td>
 													</tr>
 													<tr>
@@ -270,10 +295,17 @@
 															<span id='exNum'>지급번호</span>
 														</td>
 														<td colspan="4">
-															<select name="exNum" class="form-control" id='card_select' style="font-size:0.8rem">
-															<%--<% for(int i=0; i < numList.length; i++) { %> --%>
-															<%-- <option value="<%= numList[i]%>"><%= numList[i]%> </option> --%>
-															<%-- <%} %> --%>	
+															<select name="exNum" class="form-control" id='card_select1' style="font-size:0.8rem">
+																	<option value="">선택해주세요.</option>
+																<c:forEach items="${ chlist }" var="approvalExDetails">																	
+																	<option value="${ approvalExDetails.exNum }">${ approvalExDetails.exNum }</option>																	
+																</c:forEach>
+															</select>
+															<select name="exNum" class="form-control" id='card_select2' style="font-size:0.8rem">
+																	<option value="">선택해주세요.</option>
+																<c:forEach items="${ colist }" var="approvalExDetails">																	
+																	<option value="${ approvalExDetails.exNum }">${ approvalExDetails.exNum }</option>																	
+																</c:forEach>
 															</select>
 														</td>
 													</tr>
@@ -330,7 +362,7 @@
 															</select>
 														</td>
 														<td colspan="1">
-															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem"/>
+															<input type="text" class="form-control" id="price1" name="exDetailList[0].price" style="font-size:0.8rem" onkeyup="priceSum();"/>
 														</td>
 														<th colspan="2">
 															<input type="text" class="form-control" id="accountName1" name="exDetailList[0].accName" class="form-control" style="font-size:0.8rem">											
@@ -384,7 +416,7 @@
 														<th colspann="1">
 															<span>합계</span>
 														</th>
-														<td colspan="5" id="sumTd">
+														<td colspan="5" >
 															<input type="text" id="sumTd" class="form-control"/>
 														</td>
 														<td colspan="6" align="right">
@@ -415,13 +447,16 @@
 															<span>부서공유</span>
 														</td>
 														<td colspan="10">													
-															<input type="checkbox" name="deptShare" value="Y"> 														
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 																								
 														</td>
 													</tr>
 													<tr>
 														<td colspan="12">
-															<label for="file_up" class="btn btn-primary" style="font-size:1em">파일추가</label>
-															<input type="file" id="file_up" style="display:none" multiple="multiple">
+															<div class="btn btn-default btn-file btn-xs">
+											                    <i class="fas fa-paperclip"></i> 첨부파일
+											                    <input type="file" class="expenditureAttach" name="expenditureAttach" id="expenditureAttach" multiple="true">
+									                  		</div> 
 														</td>
 													</tr>
 													<tr>
@@ -435,15 +470,15 @@
 															<span>삭제</span>
 														</td>
 													<tr>
-													<tr>
+													<tr id="fileRow">
 														<td colspan="6">
-															<!-- 파일명 -->
+															<span class="expenditureAttachName"></span>
 														</td >
 														<td colspan="3">
-															<!-- 파일크기-->
+															<span class="expenditureAttachSize"></span>
 														</td>
 														<td colspan="3">
-															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
+															<button type="button" class="btn btn-danger" style="font-size:1em" onclick="deletefile();">삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -489,13 +524,16 @@
 		$(function(){
 			
 			$("#remitt_select").attr("style", "display:none")
+			$("#card_select1").attr("style", "display:none")
 			$('input[name$="accNum"]').attr("disabled",true);
 			
 			
 			$('#corpor_radio').click(function(){				
 				$("#corpor_select").css("display",'')
-				$("#temp_hidden").attr("display",'')
+				$("#temp_hidden").css("display",'')
+				$("#card_select2").css("display",'')
 				$("#remitt_select").attr("style", "display:none")
+				$("#card_select1").attr("style", "display:none")
 				$('input[name$="accNum"]').attr("disabled",true);
 				
 			});
@@ -503,7 +541,9 @@
 			$('#remitt_radio').click(function(){
 				$("#remitt_select").css("display",'')
 				$("#temp_hidden").css("display",'')
+				$("#card_select1").css("display",'')
 				$("#corpor_select").attr("style", "display:none")
+				$("#card_select2").attr("style", "display:none")
 				$('input[name$="accNum"]').attr("disabled",false);
 							
 			});
@@ -521,14 +561,6 @@
 			});
 		});
 	</script>
-	
-	<!-- 부서검색 팝업창 -->		
-	<script language="javascript">		
-		function searchDept(click_id){	
-			console.log(click_id);	
-			var windowObj = window.open("searchDeptForm.ea?val="+click_id, "부서 검색", "width=450, height=600, left=100, top=50");			
-		}
-	</script>	
 	
 	
 	<!-- 지출항목 추가  -->
@@ -557,7 +589,7 @@
 							'</select>'+
 						'</td>'+
 						'<td colspan="1">'+
-							'<input type="text" class="form-control" id="price'+n+'" name="exDetailList['+n+'].price" style="font-size:0.8rem">'+
+							'<input type="text" class="form-control" id="price'+n+'" name="exDetailList['+n+'].price" style="font-size:0.8rem" onkeyup="priceSum();">'+
 						'</td>'+
 						'<th colspan="2">'+
 							'<input type="text" class="form-control" id="accountName'+n+'" name="exDetailList['+n+'].accName"class="form-control" style="font-size:0.8rem">'+									
@@ -638,18 +670,143 @@
 	</script>
 	
 	<!-- 금액 합계  -->	
-	<script type="text/javascript">
-	$(function(){			
-		var sum = 0;		
-		$("input[id^='price']").each(function(){
-			if(!isNaN(this.value)&&this.value.length!=0){
-				console.log($(this).val())
-				sum += parseInt($(this).val());
-				$("#sumTd").val(sum);
-			}
-		});				
+	<script >	
+	function priceSum(){
 		
-	});
+		var cnt = $('input[id^="price"]').length; 
+		var sum = 0;
+		
+		for(var i=1; i<=cnt; i++){				
+			sum += parseInt($('input[id^="price'+i+'"]').val());				
+		};
+		document.getElementById("sumTd").value = sum;	
+	}
 	</script>
+	
+	<!-- 첨부파일 추가 / 삭제 -->
+	<script>
+		
+		var cnt = 0;
+		
+		$(".expenditureAttach").on("change", function(e) {	
+			
+			var filename = $(this)[0].files[0].name;
+			var filesize = $(this)[0].files[0].size;
+			console.log("name : "+ filename);
+			console.log("size : "+ filesize); 	
+			
+			$(".expenditureAttachName").text(filename);
+			$(".expenditureAttachSize").text(filesize);
+		
+			cnt++
+		});
+
+		function deletefile(){
+		
+			if(cnt < 1){
+				alert("삭제할 파일이 없습니다.");
+			} else {
+				
+				if(confirm("삭제하시겠습니까?")){
+					
+					$(".expenditureAttach").val('');
+					$(".expenditureAttachName").text('');
+					$(".expenditureAttachSize").text('');
+				}			
+			}			
+		}
+	</script>
+
+	<!-- 부서공유 check -->
+	<script>
+		$(function(){
+			
+			if($("#deptShare").checked){
+				$("#deptShare_hidden").disabled = true;
+			}
+		});
+	</script>
+	<!-- 공통경비 check -->
+	<script>
+		$(function(){
+			
+			if($("#commonEx").checked){
+				$("#commonEx_hidden").disabled = true;
+			}
+		});
+	</script>
+	
+	<script>
+		function insertApp(){	
+			
+			$("#expenditureApprovalForm").each(function(){
+				$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+				$("#expenditureApprovalForm").submit();
+				
+				alert("결재 작성이 완료되었습니다.");
+			});		
+		}
+		
+		function insertTemp(){
+			$("#expenditureApprovalForm").each(function(){
+				$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=N");
+				$("#expenditureApprovalForm").submit();
+				
+				alert("임시저장되었습니다.");
+			});		
+		}
+	</script>
+	
+	<!-- 부서검색 팝업창 -->		
+	<script language="javascript">		
+		function searchDept(click_id){	
+			console.log(click_id);	
+			var windowObj = window.open("searchDeptForm.ea?val="+click_id, "부서 검색", "width=450, height=600, left=100, top=50");			
+		}
+	</script>	
+	
+	
+	<script>
+	function plusLine(num){
+		
+		var _width = '900';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		var windowObj = window.open("plusAppLineForm.ea?val="+num, "결재라인 추가 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+	}
+	</script>
+	
+	<script>
+	function plusCC(num){
+		
+		var _width = '900';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		var windowObj = window.open("plusccForm.ea?val="+num, "수신자 등록 ",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+		
+	}
+	</script>
+	
+	<script>
+	function plusCoo(num){
+		var _width = '900';
+		var _height = '1500';
+		
+		var _left = Math.ceil((window.screen.width - _width)/2);
+		var _top = Math.ceil((window.screen.height - _height)/2);
+		
+		var windowObj = window.open("plusCooForm.ea?val="+num, "협조 추가",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+		
+	}	
+	</script>
+	
 </body>
 </html>

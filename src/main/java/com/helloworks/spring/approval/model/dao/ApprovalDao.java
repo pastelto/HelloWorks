@@ -1,11 +1,14 @@
 package com.helloworks.spring.approval.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
+import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalHr;
 import com.helloworks.spring.approval.model.vo.ApprovalLine;
 import com.helloworks.spring.approval.model.vo.ApprovalMinutes;
@@ -51,6 +54,16 @@ public class ApprovalDao {
 	public int insertCcEmpl(SqlSessionTemplate sqlSession, ApprovalCC ac) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("approvalMapper.insertCcEmpl", ac);
+	}
+
+	public ArrayList<ApprovalExDetails> selectExNumch(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectExNumch");
+	}
+
+	public ArrayList<ApprovalExDetails> selectExNumco(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectExNumco");
 	}
 
 

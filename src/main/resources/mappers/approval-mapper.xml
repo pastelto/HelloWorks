@@ -66,7 +66,52 @@
 		<result property="dueDate" column="DUE_DATE"/>
 	</resultMap>
 
+	<!-- Approval Expenditure -->
+	<resultMap id="expenditureResultSet" type="ApprovalExpenditure">
+		<id property="apNo"	column="APPROVAL_NO"/>
+		<result property="exForm" column="EX_FORM"/>
+		<result property="exCommon" column="EX_COMMON"/>
+	</resultMap>
+	
+	<!-- Approval Expenditure Details -->
+	<resultMap id="exDetailResultSet" type="ApprovalExDetails">
+		<id property="exNo"	column="EXPENDITURE_NO"/>
+		<id property="apNo"	column="APPROVAL_NO"/>
+		<result property="exTitle" column="EX_TITLE"/>
+		<result property="exDate" column="EX_DATE"/>
+		<result property="exType" column="EX_TYPE"/>
+		<result property="exNum" column="EX_NUM"/>
+		<result property="exContent" column="EX_CONTENT"/>
+		<result property="price" column="EX_PRICE"/>
+		<result property="accName" column="EX_ACCOUNT"/>
+		<result property="bankName" column="EX_BANK"/>
+		<result property="accNum" column="EX_ACCOUNT_NUM"/>
+		<result property="accHolder" column="EX_HOLDER"/>
+		<result property="exDept" column="EX_DEPT"/>
+		<result property="note" column="EX_NOTE"/>
+	</resultMap>
+	
+	<!-- Approval Ex_Num -->
+	<resultMap id="exNumResultSet" type="ApprovalExDetails">
+		<id property="exNum" column="EX_NUM"/>
+		<result property="exType" column="EX_TYPE"/>
+	</resultMap>
+	
+	
 
+	
+	<!-- ex_num select -->
+	<select id="selectExNumch" resultMap="exNumResultSet">
+		SELECT *
+		FROM APPROVAL_EX_NUM 
+		WHERE EX_TYPE LIKE '체크%' 
+	</select>
+	<select id="selectExNumco" resultMap="exNumResultSet">
+		SELECT *
+		FROM APPROVAL_EX_NUM 
+		WHERE EX_TYPE LIKE '법인%' 
+	</select>
+	
 	<!-- 기안 insert -->
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL

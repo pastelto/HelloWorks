@@ -14,6 +14,7 @@ import lombok.ToString;
 public class ApprovalExDetails extends ApprovalExpenditure{
 
 	private int exNo; 			// 해당 지출결의서 내 지출번호
+	private String exTitle;		// 제목
 	private String exDate;		// 지출 날짜
 	private String exContent;	// 지출 내용
 	private int price;			// 지출금액
@@ -24,6 +25,9 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 	private String exDept;		// 지출부서
 	private String note; 		// 비고
 	
+	private String exNum; 		// 법인카드. 체크카드 계좌번호
+	private String exType;		// 법인 or 체크 
+	
 	
 	/*public ApprovalExDetails() {
 		// TODO Auto-generated constructor stub
@@ -31,10 +35,11 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 
 	
 
-	public ApprovalExDetails(int apNo, int exNo, String exDate, String exContent, int price, String accName, String bankName,
+	public ApprovalExDetails(int apNo, int exNo, String exTitle, String exDate, String exContent, int price, String accName, String bankName,
 			String accNum, String accHolder, String exDept, String note) {
 		super(apNo);
 		this.exNo = exNo;
+		this.exTitle = exTitle;
 		this.exDate = exDate;
 		this.exContent = exContent;
 		this.price = price;

@@ -14,7 +14,6 @@ import lombok.ToString;
 public class ApprovalExpenditure extends Approval{
 
 	private String exForm; 		// 지급형식
-	private String exMethod; 	// 지급방법
 	private char exCommon; 		// 공통경비 여부 
 	
 	/*public ApprovalExpenditure() {
@@ -29,7 +28,6 @@ public class ApprovalExpenditure extends Approval{
 	public ApprovalExpenditure(int apNo,String exForm, String exMethod, char exCommon) {
 		super(apNo);
 		this.exForm = exForm;
-		this.exMethod = exMethod;
 		this.exCommon = exCommon;
 	}
 
