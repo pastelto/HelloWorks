@@ -234,7 +234,7 @@
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
-												<th style="width: 5%"></th>
+												<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
 												<th style="width: 10%">사번</th>
 												<th style="width: 20%">이름</th>
 												<th style="width: 10%">직급</th>
@@ -248,7 +248,7 @@
 										
 											<c:forEach items="${ list }" var="employee">
 							                    <tr>
-							                    	<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>
+							                    	<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="${ employee.empNo }"></th>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empNo }</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empName} ( ${employee.empEn} )</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.jobName }</td>
@@ -274,7 +274,7 @@
 					<!-- card-footer -->
 					<div class="card-footer">
 						<div class="float-right">
-							<button id="submitBtn" type="button"
+							<button id="submitBtn" type="button" onclick="addOfficeAddressBookBtn();"
 								class="btn btn-primary btn-sm">주소록 추가</button>
 						</div>
 					</div>
@@ -507,7 +507,7 @@
 							var value="";
 							$.each(list, function(i, obj){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
@@ -538,7 +538,7 @@
 
 							$.each(list, function(i, obj) {
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
@@ -578,7 +578,7 @@
 					$.each(list, function(i, obj){
 						
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
@@ -615,7 +615,7 @@
 					var value="";
 					$.each(list, function(i, obj){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook'></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
@@ -664,6 +664,32 @@
 					console.log("직원 부서별 검색 ajax 통신 실패")
 				}
 			})
+		}
+	</script>
+	
+	<!-- footer 사내 주소록 추가 버튼 -->
+	<script>
+		function addOfficeAddressBookBtn(){
+			const checkList = [];
+			
+			$("input[name='plusAddressBook']:checked").each(function(){
+				const checkEmpNo = $(this).val();
+				checkList.push(checkEmpNo);
+			});
+
+			location.href="addOfficeAddressBookArr.adb?checkList="+checkList;
+			
+		}
+	</script>
+	
+	<!-- 전체 제크 -->
+	<script>
+		function checkAll(){
+			if($("input[name='checkAll']").prop("checked")){
+				$("input[name='plusAddressBook']").prop("checked", true)
+			}else{
+				$("input[name='plusAddressBook']").prop("checked", false)
+			}
 		}
 	</script>
 </body>

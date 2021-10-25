@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주소록</title>
 <style>
 	.content-wrapper {
 		overflow: auto;
@@ -149,13 +149,14 @@
 									<hr>
 									
 									<!-- 주소록 리스트 -->
-									<div class="col-12" style="overflow:auto;">
-									<div style="height: 450px">
+									<div class="col-12" >
+									<div>
+									<div style="height: 450px; overflow:auto;">
 									<table id="officeAddressBookTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
-												<th style="width: 5%"></th>
+												<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
 												<th style="width: 10%">사번</th>
 												<th style="width: 20%">이름</th>
 												<th style="width: 10%">직급</th>
@@ -167,9 +168,12 @@
 										</thead>
 										<tbody>
 										
-											<c:forEach items="${ officeAddresslist }" var="officeAddresslist">
+											<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
 							                    <tr>
-							                    	<th><input type='checkbox' name='deleteAddressBook' id='deleteAddressBook'></th>
+							                    	
+							                    	<th>
+							                    	<input type='checkbox' name='deleteAddressBook' id='deleteAddressBook' value="${ officeAddresslist.oabEnrollNo }">
+							                    	</th>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.oabEnrollNo }</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empName} ( ${officeAddresslist.empEn} )</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.jobName }</td>
@@ -184,6 +188,7 @@
 						                    </c:forEach>
 										</tbody>
 									</table>
+									</div>
 									</div>
 									
 									<br>
@@ -373,8 +378,7 @@
 		              <!-- card-footer -->
 					<div class="card-footer">
 						<div class="float-right">
-							<button id="deleteBtn" type="button"
-								class="btn btn-danger btn-sm">주소록 삭제</button>
+							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteOfficeAddressBookBtn();">주소록 삭제</button>
 						</div>
 					</div>
 		              
@@ -560,5 +564,30 @@
 		}
 	</script>
 	
+	<!-- footer 사내 주소록 삭제 버튼 -->
+	<script>
+		function deleteOfficeAddressBookBtn(){
+			const checkList = [];
+			
+			$("input[name='deleteAddressBook']:checked").each(function(){
+				const checkEmpNo = $(this).val();
+				checkList.push(checkEmpNo);
+			});
+
+			location.href="deleteOfficeAddrressBookArr.adb?checkList="+checkList;
+			
+		}
+	</script>
+	
+	<!-- 전체 제크 -->
+	<script>
+		function checkAll(){
+			if($("input[name='checkAll']").prop("checked")){
+				$("input[name='deleteAddressBook']").prop("checked", true)
+			}else{
+				$("input[name='deleteAddressBook']").prop("checked", false)
+			}
+		}
+	</script>
 </body>
 </html>
