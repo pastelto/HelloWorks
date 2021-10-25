@@ -12,6 +12,7 @@ import com.helloworks.spring.request.model.dao.RequestDao;
 import com.helloworks.spring.request.model.vo.Car;
 import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
+import com.helloworks.spring.request.model.vo.RequestId;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -94,6 +95,16 @@ public class RequestServiceImpl implements RequestService {
 
 		if (result < 0) {
 			throw new CommException("비품 신청 실패");
+		}
+	}
+
+	// 사원증 신청
+	@Override
+	public void requestIdCard(RequestId rId) {
+		int result = requestDao.requestIdCard(sqlSession, rId);
+
+		if (result < 0) {
+			throw new CommException("사원증 신청 실패");
 		}
 	}
 }

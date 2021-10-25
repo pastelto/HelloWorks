@@ -9,8 +9,6 @@
 <title>비품 신청 양식</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
 <style>
 .content-wrapper {
 	overflow: auto;
@@ -18,12 +16,6 @@
 </style>
 </head>
 <body>
-	<c:if test="${ !empty msg }">
-		<script>
-			alert("${msg}");
-		</script>
-		<c:remove var="msg" scope="session" />
-	</c:if>
 	<div class="card card-outline card-info ">
 		<div class="card-header p-0 border-bottom-0">
 			<div class="container-fluid">
@@ -44,12 +36,12 @@
 											<label>신청일시</label>
 										</div>
 										<div class="col-9">
-											<div class="float-right">
+											<div class="float-right">												
+												<c:set var="now" value="<%=new java.util.Date()%>"/>
+												<c:set var="sysdate">
+													<fmt:formatDate value="${now}" pattern="yyyy년  MM월 dd일  HH시  mm분"/>
+												</c:set>
 												<label>
-													<c:set var="now" value="<%=new java.util.Date()%>"/>
-													<c:set var="sysdate">
-														<fmt:formatDate value="${now}" pattern="yyyy년  MM월 dd일  HH시  mm분 ss초"/>
-													</c:set>
 													<c:out value="${sysdate}"/>
 												</label>
 											</div>
@@ -142,22 +134,22 @@
 											<label>비품종류</label>
 										</div>
 										<div class="col-9">
-											<div class="container-fluid">
+											<!-- <div class="container-fluid"> -->
 												<div class="row">
 													<div class="col-3">
-														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label>화이트보드</label>
+														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label> 화이트보드</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label>빔프로젝트</label>
+														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 빔프로젝트</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="카메라" id="eqName3"><label>노트북</label>
+														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 노트북</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="노트북" id="eqName4"><label>카메라</label>
+														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 카메라</label>
 													</div>
 												</div>
-											</div>
+											<!-- </div> -->
 										</div>
 									</div>
 									<div class="row">
@@ -173,11 +165,13 @@
 									</div>
 									<div class="row">
 										<div class="col-12">
-											<div class="alert alert-secondary" role="alert">
-												[주의사항] <br> 
-												1. 사용일시가 중복될 경우 접수순과 중요성을 고려하여 결정함 <br>
-												2. 사용이 끝나면 즉시 관리부로 반납하여야 함<br> 
-												3. 기타 비품은 관리부에서 심사후 신청인에게 결과 통보함<br>
+											<div class="alert alert-light" role="alert">
+												<label>
+													[주의사항] <br> 
+													1. 사용일시가 중복될 경우 접수순과 중요성을 고려하여 결정함 <br>
+													2. 사용이 끝나면 즉시 총무팀으로 반납하여야 함<br> 
+													3. 기타 비품은 총무팀에서 심사후 신청인에게 결과 통보함<br>
+												</label>
 											</div>
 										</div>
 									</div>
@@ -242,7 +236,4 @@
 		return true;
 	}
 </script>
-
-
-
 </html>
