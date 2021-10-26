@@ -50,14 +50,13 @@
 							id="custom-tabs-five-idCard-tab" data-toggle="pill"
 							href="#custom-tabs-five-idCard" role="tab"
 							aria-controls="custom-tabs-five-idCard" aria-selected="false">사원증신청</a></li>
-						<c:if test="${ loginUser.deptCode eq 'A2'}">
+						<%-- <c:if test="${ loginUser.deptCode eq 'A2'}"> --%>
 							<!-- 총무과이거나 작성자일때만 보이게 -->
 							<li class="nav-item"><a class="nav-link"
 								id="custom-tabs-five-requestList-tab" data-toggle="pill"
 								href="#custom-tabs-five-requestList" role="tab"
-								aria-controls="custom-tabs-five-requestList"
-								aria-selected="false">신청내역</a></li>
-						</c:if>
+								aria-controls="custom-tabs-five-requestList" aria-selected="false">신청내역</a></li>
+						<%-- </c:if> --%>
 					</ul>
 				</div>
 				<!-- card body -->
@@ -77,8 +76,7 @@
 										<div class="float-right">
 											<!-- 회의실관리 페이지로 -->
 											<button class="btn btn-primary"
-												id="manageMeetingRoom"
-												onclick="location.href = 'manage.mtr' ">회의실관리</button>
+												id="manageMeetingRoom" onclick="location.href = 'manage.mtr' ">회의실관리</button>
 										</div>
 									</div>
 								</c:if>
@@ -105,29 +103,25 @@
 						</div>
 						<div class="tab-pane fade" id="custom-tabs-five-equipment"
 							role="tabpanel" aria-labelledby="custom-tabs-five-equipment-tab">
-							<!-- 비품신청 -->
 							<!-- 비품신청폼 페이지 인클루드-->
 							<jsp:include page="./equipmentRequestForm.jsp" />
 						</div>
 						<div class="tab-pane fade" id="custom-tabs-five-idCard"
 							role="tabpanel" aria-labelledby="custom-tabs-five-idCard-tab">
-							<!-- 사원증신청 -->
 							<!-- 사원증 신청폼 페이지 인클루드-->
 							<jsp:include page="./idCardRequestForm.jsp" />
 						</div>
 						<div class="tab-pane fade" id="custom-tabs-five-requestList"
-							role="tabpanel"
-							aria-labelledby="custom-tabs-five-requestList-tab">
+							role="tabpanel" aria-labelledby="custom-tabs-five-requestList-tab">
 							<!-- 신청내역 -->
-							<div class="card">
 								<!-- 신청내역리스트 페이지 인클루드-->
+								<jsp:include page="./requestList.jsp" />
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<jsp:include page="../common/footer.jsp" />
 	<script>
 		
