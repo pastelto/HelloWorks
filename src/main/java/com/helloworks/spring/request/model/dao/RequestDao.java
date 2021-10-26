@@ -97,6 +97,18 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("requestMapper.cancelId", checkArr);
 	}
+
+	//비품 신청 상세조회
+	public RequestEq selectEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("requestMapper.selectEq", requestEqNo);
+	}
+	
+	//사원증 신청 상세조회
+	public RequestId selectId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("requestMapper.selectId", requestIdNo);
+	}
 	
 
 }

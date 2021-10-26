@@ -166,4 +166,25 @@ public class RequestServiceImpl implements RequestService {
 			throw new CommException("승인취소 처리 실패");
 		}
 	}
+
+	// 비품 신청 상세조회
+	@Override
+	public RequestEq selectEq(int requestEqNo) {
+		RequestEq requestEq = null;
+		
+		requestEq = requestDao.selectEq(sqlSession, requestEqNo); // 문제가 없는경우 셀렉트 해올것
+
+		return requestEq;
+	}
+	
+	// 사원증 신청 상세조회
+	@Override
+	public RequestId selectId(int requestIdNo) {
+		RequestId requestId = null;
+		
+		requestId = requestDao.selectId(sqlSession, requestIdNo); // 문제가 없는경우 셀렉트 해올것
+
+		return requestId;
+	}
+
 }

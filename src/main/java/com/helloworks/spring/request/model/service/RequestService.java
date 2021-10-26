@@ -38,5 +38,9 @@ public interface RequestService {
 	void cancelEq(List<String> checkArr);
 	//사원증 신청 승인취소
 	void cancelId(List<String> checkArr);
+	//비품 신청 상세조회
+	RequestEq selectEq(int requestEqNo);
+	//사원증 신청 상세조회
+	RequestId selectId(int requestIdNo);
 	
 }

@@ -63,6 +63,7 @@
 							</thead>
 							<tbody>
 								<!-- 비품 신청 목록 띄우기 -->
+								
 							</tbody>
 						</table>
 						<!-- 사원증 신청 목록 -->
@@ -90,7 +91,13 @@
 	<script>
 
 		//tr -> 테이블 상세조회
-
+/* 		$(function(){
+    		$("#eqListTable>tbody>tr").click(function(){
+    			console.log("hi");
+    			location.href="detail.eq?requestEqNo=" + $(this).children().eq(0).text();
+    		});
+    	}); */
+		
 		//비품 체크박스 모두 선택
 		$("input[name='updateEqAll']").click(function() {
 
@@ -100,6 +107,7 @@
 				$("input[name='updateEqOne']").prop("checked", false);
 			}
 		});
+		
 		//사원증 체크박스 모두 선택
 		$("input[name='updateIdAll']").click(function() {
 
@@ -211,7 +219,7 @@
 				  }
 				});
 		});
-		
+				
 		//컨트롤러에서 신청목록 가져오기
 		$(function() {
 			
@@ -239,18 +247,26 @@
 					$.each(list, function(i, obj){
 						
 						if(obj.empNo == ${loginUser.empNo }|| '${loginUser.deptDname }' == '총무팀'){
-						value += "<tr align='center'>" + 
-									"<td>"+ obj.requestEqNo +"</td>" +
-									"<td>"+ obj.empName + "(" +  obj.empNo+ ")" +"</td>" + 
-									"<td>"+ obj.deptDname +"</td>" + 
-									"<td>"+ obj.jobName +"</td>" + 
-									"<td>"+ obj.requestDate +"</td>" + 
-									"<td>"+ obj.erCondition +"</td>" + 
-									"<td>"+"<input type='checkbox' name='updateEqOne' value=" + obj.requestEqNo + ">"+"</td>"
-								+ "</tr>";
+							value +="<tr align='center'>" + 
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.requestEqNo +"</td>" +
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.empName + "(" +  obj.empNo+ ")" +"</td>" + 
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.deptDname +"</td>" + 
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.jobName +"</td>" + 
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.requestDate +"</td>" + 
+									"<td onclick='detailEq("+ obj.requestEqNo+")'>"+ obj.erCondition +"</td>" + 
+									"<th>"+"<input type='checkbox' name='updateEqOne' value=" + obj.requestEqNo + ">"+"</th>"
+								+ "</tr>"; 
+				
 						}
 					});
 					$("#eqListTable tbody").html(value);
+ 					/* $(function(){
+			    		$("#eqListTable>tbody>tr").click(function(){
+			    			console.log($(this).text());
+			    			//location.href="detail.eq?requestEqNo=" + $(this).children().eq(0).text();
+			    		}); 
+			    	}); */
+			    	
 				},error:function(){
 					console.log("비품리스트 ajax 통신 실패");
 				}
@@ -270,17 +286,23 @@
 								
 								if(obj.empNo == ${loginUser.empNo} || '${loginUser.deptDname }' == '총무팀'){
 								value += "<tr align='center'>" + 
-											"<td>" +  obj.requestIdNo + "</td>" + 
-											"<td>" +  obj.empKName + "(" +  obj.empNo+ ")" + "</td>" + 
-											"<td>" +  obj.deptDname + "</td>" + 
-											"<td>" +  obj.jobName + "</td>" + 
-											"<td>" +  obj.requestDate + "</td>" +  
-											"<td>" +  obj.irCondition + "</td>" + 
-											"<td>"+"<input type='checkbox' name='updateIdOne' value=" + obj.requestIdNo + ">"+"</td>"
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.requestIdNo + "</td>" + 
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.empKName + "(" +  obj.empNo+ ")" + "</td>" + 
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.deptDname + "</td>" + 
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.jobName + "</td>" + 
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.requestDate + "</td>" +  
+											"<td onclick='detailId("+ obj.requestIdNo+")'>" +  obj.irCondition + "</td>" + 
+											"<th>"+"<input type='checkbox' name='updateIdOne' value=" + obj.requestIdNo + ">"+"</th>"
 							        + "</tr>";
 								}
 							});
 							$("#idListTable tbody").html(value);
+							/* $(function(){
+					    		$("#eqListTable>tbody>tr>td").click(function(){
+					    			console.log("hi");
+					    			location.href="detail.eq?requestEqNo=" + $(this).children().eq(0).text();
+					    		});
+					    	}); */
 						},error:function(){
 							console.log("사원증리스트 ajax 통신 실패");
 						}
@@ -288,6 +310,12 @@
 			}
 		});
 	})
+	function detailEq(requestEqNo){
+    		location.href="detail.eq?requestEqNo=" + requestEqNo;
+    }
+	function detailId(requestIdNo){
+    		location.href="detail.id?requestIdNo=" + requestIdNo;
+    }
 	</script>
 </body>
 </html>

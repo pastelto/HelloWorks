@@ -182,6 +182,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<foreach collection="list" item="cancelId" index="i" open="(" separator="," close=")">
 				#{cancelId}
 			</foreach>		
-	</update>	
+	</update>
+	
+	<!-- 비품 신청 상세조회 -->
+	<select id="selectEq" parameterType="_int" resultMap="requestEqResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_EQUIPMENT_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_ER_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		WHERE ES_ER_NO = #{requestEqNo}
+	</select>
+
+	<!-- 사원증 신청 상세조회 -->
+	<select id="selectId" parameterType="_int" resultMap="requestIdResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_ID_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		WHERE ES_IR_NO = #{requestIdNo}
+	</select>	
 	
 </mapper>

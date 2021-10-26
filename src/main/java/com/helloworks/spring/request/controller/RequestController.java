@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.exception.CommException;
@@ -95,7 +96,7 @@ public class RequestController {
 	public String selectEqList() {
 		//비품리스트
 		ArrayList<RequestEq> list = requestService.selectEqList();
-		System.out.println(list+ "------------");
+		//System.out.println(list+ "------------");
 		
 		return new GsonBuilder().create().toJson(list);
 	}
@@ -106,7 +107,7 @@ public class RequestController {
 
 		//사원증리스트
 		ArrayList<RequestId> list = requestService.selectIdList();
-		System.out.println(list+ "------------");		
+		//System.out.println(list+ "------------");		
 		
 		return new GsonBuilder().create().toJson(list);
 	}
@@ -116,8 +117,6 @@ public class RequestController {
 	@RequestMapping(value = "/confirm.eq", method = RequestMethod.POST)
 	public String confirmEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
-//		System.out.println(checkArr);
-//		return "request/menu";
 		requestService.confirmEq(checkArr);
 		String result = "성공!";
 		return String.valueOf(result);
@@ -129,8 +128,6 @@ public class RequestController {
 	@RequestMapping(value = "/confirm.id", method = RequestMethod.POST)
 	public String confirmId(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
-//		System.out.println(checkArr);
-//		return "request/menu";
 		requestService.confirmId(checkArr);
 		String result = "성공!";
 		return String.valueOf(result);
@@ -142,8 +139,6 @@ public class RequestController {
 	@RequestMapping(value = "/cancel.eq", method = RequestMethod.POST)
 	public String cancelEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
-//		System.out.println(checkArr);
-//		return "request/menu";
 		requestService.cancelEq(checkArr);
 		String result = "성공!";
 		return String.valueOf(result);
@@ -155,14 +150,32 @@ public class RequestController {
 	@RequestMapping(value = "/cancel.id", method = RequestMethod.POST)
 	public String cancelId(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
-//		System.out.println(checkArr);
-//		return "request/menu";
 		requestService.cancelId(checkArr);
 		String result = "성공!";
 		return String.valueOf(result);
 
 	}
 	
-	
-	
+	// 비품신청 상세조회
+	@RequestMapping("detail.eq")
+	public ModelAndView selectEq(int requestEqNo, ModelAndView mv){
+		System.out.println(requestEqNo);
+		RequestEq requestEq = requestService.selectEq(requestEqNo);
+		System.out.println(requestEq);
+		mv.addObject("requestEq", requestEq).setViewName("request/requestEqDetail");
+		return mv;
+
+	}
+
+	// 비품신청 상세조회
+	@RequestMapping("detail.id")
+	public ModelAndView selectId(int requestIdNo, ModelAndView mv){
+		System.out.println(requestIdNo);
+		RequestId requestId = requestService.selectId(requestIdNo);
+		System.out.println(requestId);
+		mv.addObject("requestId", requestId).setViewName("request/requestIdDetail");
+		return mv;
+
+	}
+		
 }
