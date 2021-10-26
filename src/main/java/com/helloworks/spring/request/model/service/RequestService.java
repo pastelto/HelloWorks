@@ -26,4 +26,8 @@ public interface RequestService {
 	void requestEquipment(RequestEq rEq);
 	//사원증 신청
 	void requestIdCard(RequestId rId);
+	//비품 신청 목록
+	ArrayList<RequestEq> selectEqList();
+	//사원증 신청 목록
+	ArrayList<RequestId> selectIdList();
 }

@@ -28,27 +28,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="requestEqResultSet" type="RequestEq">
 		<id property="requestEqNo" column="ES_ER_NO" />
 		<result property="empNo" column="ES_ER_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
 		<result property="requestDate" column="ES_ER_DATE" />
 		<result property="place" column="ES_ER_PLC" />
 		<result property="usage" column="ES_ER_USG" />
 		<result property="sDate" column="ES_ER_START" />
 		<result property="eDate" column="ES_ER_END" />
 		<result property="eqName" column="ES_ER_NAME" />
-		<result property="addRequest" column="RS_CM_STATUS" />
-		<result property="eqCondition" column="ES_ER_CONDITION" />
-		<result property="eqStatus" column="RS_CM_STATUS" />
+		<result property="addRequest" column="ES_ER_ADD" />
+		<result property="erCondition" column="ES_ER_CONDITION" />
+		<result property="erStatus" column="ES_ER_STATUS" />
 	</resultMap>
 	
 	<!-- 사원증 -->
 	<resultMap id="requestIdResultSet" type="RequestId">
 		<id property="requestIdNo" column="ES_IR_NO" />
 		<result property="empNo" column="ES_IR_EMP_NO" />
+		<result property="empKName" column="EMP_NAME" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
 		<result property="requestDate" column="ES_IR_DATE" />
 		<result property="iRkind" column="ES_IR_KIND" />
 		<result property="orgPic" column="ES_IR_ORG_PIC" />
 		<result property="chgPic" column="ES_IR_CHG_PIC" />
-		<result property="eqCondition" column="ES_IR_CONDITION" />
-		<result property="eqStatus" column="ES_IR_STATUS" />
+		<result property="irCondition" column="ES_IR_CONDITION" />
+		<result property="irStatus" column="ES_IR_STATUS" />
 	</resultMap>	
 	
 
@@ -118,6 +124,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SEQ_ES_IR_NO.NEXTVAL, #{empNo}, SYSDATE, #{iRkind}, #{orgPic}, #{chgPic}, DEFAULT, DEFAULT)
 	</insert>	
 	
+	<!-- 비품 신청 목록 -->
+	<select id="selectEqList" resultMap="requestEqResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_EQUIPMENT_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_ER_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		ORDER BY ES_ER_DATE DESC
+	</select>
 	
+	<!-- 사원증 신청 목록 -->
+	<select id="selectIdList" resultMap="requestIdResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_ID_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		ORDER BY ES_IR_DATE DESC
+	</select>
 
 </mapper>

@@ -24,8 +24,8 @@ public class RequestId {
 	private String iRkind; //사원증 발급종류(신규발급/재발급)
 	private String orgPic; //사원증 사진원본이름
 	private String chgPic; //사원증 사진변경이름
-	private String eqCondition; //사원증 처리 상태 (제출, 승인완료, 승인취소)
-	private String eqStatus; //사원증 신청 상태값(Y|N)
+	private String irCondition; //사원증 처리 상태 (제출, 승인완료, 승인취소)
+	private String irStatus; //사원증 신청 상태값(Y|N)
 }
 
 //ES_IR_NO	NUMBER

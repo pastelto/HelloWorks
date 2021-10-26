@@ -62,5 +62,17 @@ public class RequestDao {
 		return sqlSession.insert("requestMapper.requestIdCard", rId);
 	}
 	
+	//비품 신청 리스트
+	public ArrayList<RequestEq> selectEqList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectEqList");
+	}
+	
+	//사원증 신청 리스트
+	public ArrayList<RequestId> selectIdList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectIdList");
+	}
+	
 
 }

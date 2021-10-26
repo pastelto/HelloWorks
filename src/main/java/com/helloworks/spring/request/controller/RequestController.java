@@ -3,6 +3,7 @@ package com.helloworks.spring.request.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.request.model.service.RequestService;
+import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.request.model.vo.RequestId;
 
@@ -80,5 +85,29 @@ public class RequestController {
 				throw new CommException("사진파일 등록 실패");
 			}		
 		return chgPic;
-	}	
+	}
+	
+	//비품리스트
+	@ResponseBody
+	@RequestMapping(value="list.eq", produces="application/json; charset=UTF-8")
+	public String selectEqList() {
+		System.out.println("list.eq--------------컨트롤러");
+		//비품리스트
+		ArrayList<RequestEq> list = requestService.selectEqList();
+		System.out.println(list+ "------------");
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	//사원증리스트
+	@ResponseBody
+	@RequestMapping(value="list.id", produces="application/json; charset=UTF-8")
+	public String selectIdList() {
+		System.out.println("list.id--------------컨트롤러");
+
+		//사원증리스트
+		ArrayList<RequestId> list = requestService.selectIdList();
+		System.out.println(list+ "------------");
+		
+		return new GsonBuilder().create().toJson(list);
+	}
 }

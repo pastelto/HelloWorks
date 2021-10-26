@@ -107,4 +107,18 @@ public class RequestServiceImpl implements RequestService {
 			throw new CommException("사원증 신청 실패");
 		}
 	}
+
+	// 비품 신청 리스트
+	@Override
+	public ArrayList<RequestEq> selectEqList() {
+		
+		return requestDao.selectEqList(sqlSession);
+	}
+	
+	// 사원증 신청 리스트
+	@Override
+	public ArrayList<RequestId> selectIdList() {
+		
+		return requestDao.selectIdList(sqlSession);
+	}
 }
