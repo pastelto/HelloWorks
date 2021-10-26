@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,13 +32,29 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" id="" action="" enctype="multipart/form-data">
+						<form method="post" id="requestIdCardForm" action="request.id"
+							enctype="multipart/form-data" onsubmit="return submitValidate();">
 							<div class="card-header">
 								<h3 class="card-title">사원증 신청서</h3>
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="container">
+									<div class="row">
+										<div class="col-7">
+											<label>신청일시</label>
+										</div>
+										<div class="col-5">
+											<c:set var="now" value="<%=new java.util.Date()%>" />
+											<c:set var="sysdate">
+												<fmt:formatDate value="${now}"
+													pattern="yyyy년  MM월 dd일  HH시  mm분" />
+											</c:set>
+											<label> <c:out value="${sysdate}" />
+											</label>
+										</div>
+									</div>
+									<br>
 									<div class="row">
 										<div class="col-9">
 											<div class="row">
@@ -45,8 +63,9 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.empName}"
-															class="form-control" readonly>
+														<input id="empKName" name="empKName"
+															value="${loginUser.empName}" class="form-control"
+															readonly>
 													</div>
 												</div>
 												<div class="col-3">
@@ -54,8 +73,8 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.empEn}"
-															class="form-control">
+														<input id="empEName" name="empEName"
+															value="${loginUser.empEn}" class="form-control" readonly>
 													</div>
 												</div>
 											</div>
@@ -65,8 +84,9 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.deptDname}"
-															class="form-control" readonly>
+														<input id="deptDname" name="deptDname"
+															value="${loginUser.deptDname}" class="form-control"
+															readonly>
 													</div>
 												</div>
 												<div class="col-3">
@@ -74,8 +94,9 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.jobName}"
-															class="form-control" readonly>
+														<input id="jobName" name="jobName"
+															value="${loginUser.jobName}" class="form-control"
+															readonly>
 													</div>
 												</div>
 											</div>
@@ -85,7 +106,7 @@
 												</div>
 												<div class="col-3">
 													<div class="form-group">
-														<input id="" name="" value="${loginUser.empNo}"
+														<input id="empNo" name="empNo" value="${loginUser.empNo}"
 															class="form-control" readonly>
 													</div>
 												</div>
@@ -95,9 +116,21 @@
 												<div class="col-3">
 													<label> <input type="radio" name="iRkind"
 														value="신규발급" id="radioNew" checked> 신규발급
-													</label> <label> <input type="radio" name="iRkind"
-														value="재발급" id="radioReissue"> 재발급
+													</label>&nbsp &nbsp &nbsp &nbsp &nbsp <label> <input
+														type="radio" name="iRkind" value="재발급" id="radioReissue">
+														재발급
 													</label>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-12">
+													<div class="alert alert-light" role="alert">
+														<label> [사원증 발급 유의사항] <br> 1. 발급받은 사원증은 항상
+															패용합니다. <br> 2. 승인된 장소 이외에는 출입하지 않습니다. <br>
+															3.관계사 전배 및 휴, 퇴직시 반드시 총무팀으로 반납하여야 합니다. <br>
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -112,32 +145,32 @@
 											</div>
 											<div class="col-9">
 												<div class="form-group">
-													<input id="fileName" class="form-control"
+													<input id="fileName" name="fileName" class="form-control"
 														value="jpg, jpeg, png" readonly>
 												</div>
 												<div class="fileRegiBtn">
-													<label for="myFileUp">파일등록</label> <input type="file"
-														id="myFileUp">
+													<label for="myFileUp"> <i
+														class="fas fa-cloud-upload-alt"> 이미지 파일 업로드</i>
+													</label> <input type="file" name="orgPicName" id="myFileUp">
 												</div>
 											</div>
 										</div>
-										<!--/. container -->
 									</div>
 								</div>
-								<!-- /.card-body -->
-							</div>
-							<div class="card-footer">
-								<div class="float-right">
-									<button type="submit" class="btn btn-primary">
-										<i class="fas fa-clipboard-check"></i> 신청하기
+								<!--/. container -->								
+								<div class="card-footer">
+									<div class="float-right">
+										<button type="submit" class="btn btn-primary">
+											<i class="fas fa-clipboard-check"></i> 신청하기
+										</button>
+									</div>
+									<button type="reset" class="btn btn-default">
+										<i class="fas fa-times"></i> 취소하기
 									</button>
 								</div>
-								<button type="reset" class="btn btn-default">
-									<i class="fas fa-times"></i> 취소하기
-								</button>
+								<!-- /.card-footer -->
 							</div>
-							<!-- /.card-footer -->
-							<!-- /.card -->
+							<!-- /.card-body -->							
 						</form>
 					</div>
 				</div>
@@ -163,8 +196,14 @@
 			//console.log("이미지 바뀜");
 		});
 		
-		
+		// 사진파일 없을때 알림
+		function submitValidate() {
+			if (($('#myFileUp').val() == "")) {
+				alert("사진파일을 등록해 주세요")
+				return false;
+			}
+			return true;
+		}
 	</script>
 </body>
-
 </html>
