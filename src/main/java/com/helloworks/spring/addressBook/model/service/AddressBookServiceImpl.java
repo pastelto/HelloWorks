@@ -35,6 +35,15 @@ public class AddressBookServiceImpl implements AddressBookService {
 	}
 	
 	@Override
+	public int searchEnrollCount(OfficeAddressBook officeAddressBook) {
+		// TODO Auto-generated method stub
+		
+		int result = addresssBookDao.searchEnrollCount(sqlSession, officeAddressBook);
+
+		return result;
+	}
+	
+	@Override
 	public Employee searchEmployee(int addEmpNo) {
 		// TODO Auto-generated method stub
 		return addresssBookDao.searchEmployee(sqlSession, addEmpNo);
@@ -47,6 +56,16 @@ public class AddressBookServiceImpl implements AddressBookService {
 		
 		if(result < 0) {
 			throw new CommException("사내 주소록 등록 실패");
+		}
+	}
+	
+	@Override
+	public void deleteOfficeAddressBook(OfficeAddressBook officeAddressBook) {
+		// TODO Auto-generated method stub
+		int result = addresssBookDao.deleteOfficeAddressBook(sqlSession, officeAddressBook);
+		
+		if(result < 0) {
+			throw new CommException("주소록 삭제 실패");
 		}
 	}
 	

@@ -31,14 +31,24 @@ public class AddressBookDao {
 		return (ArrayList)sqlSession.selectList("addressBookMapper.selectOfficeAddressBook", loginEmpNo, rowBounds);
 	}
 	
+	public int searchEnrollCount(SqlSessionTemplate sqlSession, OfficeAddressBook officeAddressBook) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.searchEnrollCount", officeAddressBook);
+	}
+	
 	public Employee searchEmployee(SqlSessionTemplate sqlSession, int addEmpNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("addressBookMapper.searchEmployee", addEmpNo);
 	}
-
+	
 	public int addOfficeAddressBook(SqlSessionTemplate sqlSession, OfficeAddressBook officeAddressBook) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("addressBookMapper.addOfficeAddressBook", officeAddressBook);
+	}
+	
+	public int deleteOfficeAddressBook(SqlSessionTemplate sqlSession, OfficeAddressBook officeAddressBook) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.deleteOfficeAddressBook", officeAddressBook);
 	}
 
 	public int selectSearchOfficeAddressBookEmployeeListCount(SqlSessionTemplate sqlSession, SearchEmployee se) {
@@ -56,10 +66,5 @@ public class AddressBookDao {
 		return (ArrayList)sqlSession.selectList("addressBookMapper.searchOfficeAddressBookEmployee", se, rowBounds);
 	}
 
-
-
-
-	
-	
 
 }
