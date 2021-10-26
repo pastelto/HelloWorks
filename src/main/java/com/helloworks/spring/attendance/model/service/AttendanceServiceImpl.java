@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.attendance.model.dao.AttendanceDao;
 import com.helloworks.spring.attendance.model.vo.Attendance;
-import com.helloworks.spring.attendance.model.vo.SearchCondition;
+import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.common.exception.CommException;
 
 @Service
@@ -50,14 +50,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//소속부서출결 조회 - 근태구분
 	@Override
-	public ArrayList<Attendance> searchAttendance(SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchAttendance(SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return attendanceDao.searchAttendance(sqlSession, searchCondition);
 	}
 
 	//소속부서출결 조회 - 휴가구분
 	@Override
-	public ArrayList<Attendance> searchVacation(SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchVacation(SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return attendanceDao.searchVacation(sqlSession, searchCondition);
 	}
@@ -71,14 +71,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//소속부서출결 조회 - 근태구분 ->인사팀
 	@Override
-	public ArrayList<Attendance> searchAttendance1(SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchAttendance1(SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return attendanceDao.searchAttendance1(sqlSession, searchCondition);
 	}
 	
 	//소속부서출결 조회 - 휴가구분 ->인사팀
 	@Override
-	public ArrayList<Attendance> searchVacation1(SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchVacation1(SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return attendanceDao.searchVacation1(sqlSession, searchCondition);
 	}
@@ -97,5 +97,23 @@ public class AttendanceServiceImpl implements AttendanceService {
 		Attendance update = null;
 		update = attendanceDao.updateStatus(sqlSession, psaNo);
 		return update;
+	}
+	
+	//상태변경
+	@Override
+	public void changeStatus(Attendance change) {
+		int result = attendanceDao.changeStatus(sqlSession, change);
+		
+		if(result < 0) {
+			throw new CommException("상태 변경 실패");
+		}
+		
+	}
+
+	//통계에서 달 선택 후 week 리스트 조회
+	@Override
+	public ArrayList<SearchAttendance> monthselect(String monthselect) {
+		// TODO Auto-generated method stub
+		return attendanceDao.monthselect(sqlSession, monthselect);
 	}
 }

@@ -6,7 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.attendance.model.vo.Attendance;
-import com.helloworks.spring.attendance.model.vo.SearchCondition;
+import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.common.model.vo.SearchCondition;
 
 @Repository
 public class AttendanceDao {
@@ -30,13 +31,13 @@ public class AttendanceDao {
 	}
 
 	//소속부서출결 조회 - 근태구분
-	public ArrayList<Attendance> searchAttendance(SqlSessionTemplate sqlSession, SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchAttendance(SqlSessionTemplate sqlSession, SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.searchAttendance", searchCondition);
 	}
 	
 	//소속부서출결 조회 - 휴가구분
-	public ArrayList<Attendance> searchVacation(SqlSessionTemplate sqlSession, SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchVacation(SqlSessionTemplate sqlSession, SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.searchVacation", searchCondition);
 	}
@@ -48,13 +49,13 @@ public class AttendanceDao {
 	}
 
 	//소속부서출결 조회 - 근태구분 -> 인사팀
-	public ArrayList<Attendance> searchAttendance1(SqlSessionTemplate sqlSession, SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchAttendance1(SqlSessionTemplate sqlSession, SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.searchAttendance1", searchCondition);
 	}
 
 	//소속부서출결 조회 - 휴가구분 -> 인사팀
-	public ArrayList<Attendance> searchVacation1(SqlSessionTemplate sqlSession, SearchCondition searchCondition) {
+	public ArrayList<Attendance> searchVacation1(SqlSessionTemplate sqlSession, SearchAttendance searchCondition) {
 		// TODO Auto-generated method stub
 		return  (ArrayList)sqlSession.selectList("attendanceMapper.searchVacation1", searchCondition);
 	}
@@ -69,6 +70,18 @@ public class AttendanceDao {
 	public Attendance updateStatus(SqlSessionTemplate sqlSession, int psaNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("attendanceMapper.updateStatus", psaNo);
+	}
+	
+	//상태변경 
+	public int changeStatus(SqlSessionTemplate sqlSession, Attendance change) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("attendanceMapper.changeStatus", change);
+	}
+
+	//통계에서 달 선택 후 week 리스트 조회
+	public ArrayList<SearchAttendance> monthselect(SqlSessionTemplate sqlSession, String monthselect) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.monthselect", monthselect);
 	}
 
 }

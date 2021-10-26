@@ -76,21 +76,21 @@
 								<div class="card-body">
 									<div class="card" style="margin-bottom: 0px;">
 										<table id="searchEmpTable">
-										<form action="##">
+										<form action="monthselect.ps" id="tableForm">
 											<tr>
 												<th>검색일</th>
 												<td>												
 												<div class="row" style="margin-left: 0px;">	&nbsp;&nbsp;												
-													<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+													<select id="yearselect" name="yearselect" class="custom-select custom-select-sm" style="width: 10%;" >
 														<option value="2021">2021</option>
 														<option value="2020" >2020</option>
 														<option value="2019">2019</option>
 														<option value="2018">2018</option>
 														<option value="2017">2017</option>
 													</select>&nbsp;&nbsp;
-													<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+													<select id="monthselect" name="monthselect" class="custom-select custom-select-sm" style="width: 10%;">
 														<option value="01">1월</option>
-														<option value="02" >2월</option>
+														<option value="02">2월</option>
 														<option value="03">3월</option>
 														<option value="04">4월</option>
 														<option value="05">5월</option>
@@ -101,7 +101,10 @@
 														<option value="10">10월</option>
 														<option value="11">11월</option>
 														<option value="12">12월</option>
-													</select>				
+													</select>&nbsp;&nbsp;
+													<select id="weekselect" name="weekselect" class="custom-select custom-select-sm" style="width: 10%;">
+														
+													</select>					
 												</div>													
 												</td>
 											</tr>
@@ -193,9 +196,78 @@
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			
 			
+	
 			 
 		
 	</div>
 	<jsp:include page="../common/footer.jsp" />
+	
+	<script>
+	
+
+		
+	</script>	   
+	<script>
+      $(function() {
+         
+        
+         $("#weekselect").attr("style", "display:none");
+      
+         $("select[name=monthselect]").change(function() {
+          
+           var monthselect =  $("select[name=monthselect] option:selected").val(); //text값 가져오기  
+           
+           console.log("~~" + monthselect);
+    		
+    		var params = $("#tableForm").serialize();
+    		$.ajax(
+    		{
+    			url : 'monthselect.ps',
+    			type: 'POST',
+    			data : params,
+    			dataType: 'json',
+    			success : function(weeklist)
+    					{			
+
+		    				var value="";
+		    				$.each(weeklist, function(i, obj){
+		    					
+		    					
+		    					value += 
+		    							"<option value="+ obj.month1 +">" + obj.start_date+ " ~ " + obj.end_date + "</option>"  
+		    						
+		    					
+		    				});
+		    				$("#weekselect").html(value);
+		    				$("#weekselect").css("display" ,"");
+		    				$("#weekselect").css("width" ,"20%");
+    						
+    					},
+    			error: function(e){
+    				console.log("에러다" + e)
+    			}
+    		});
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+      });
+   })
+	</script>
 </body>
 </html>
