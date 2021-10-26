@@ -6,6 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>주소록</title>
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="./resources/plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="./resources/dist/css/adminlte.min.css">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+	<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <style>
 	.content-wrapper {
 		overflow: auto;
@@ -52,46 +61,25 @@
 </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp"/>
-	
 	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<!-- Content Header (Page header) -->
-		<section class="content-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-6">
-
-						<h4>
-							<i class="nav-icon fas fa-table"></i><b> 주소록</b>
-						</h4>
-					</div>
-				</div>
-			</div>
-		</section>
+	<div class="content m-3">
 
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
 				<div class="col-12">
 				
-		            <div class="card card-info card-outline card-outline-tabs">
-		              <div class="card-header p-0 border-bottom-0">
-		                <ul class="nav nav-tabs" id="custom-tabs-addressBook-tab" role="tablist">
-		                  <li class="nav-item">
-		                    <a class="nav-link active" id="custom-tabs-officeAddressBook-tab" data-toggle="pill" href="#custom-tabs-officeAddressBook" role="tab" aria-controls="custom-tabs-officeAddressBook" aria-selected="true">사내 주소록</a>
-		                  </li>
-		                  <li class="nav-item">
-		                    <a class="nav-link" id="custom-tabs-personalAddressBook-tab" data-toggle="pill" href="#custom-tabs-personalAddressBook" role="tab" aria-controls="custom-tabs-personalAddressBook" aria-selected="false">외부주소록</a>
-		                  </li>
-		                </ul>
-		              </div>
+		            <div class="card card-outline card-info">
+
+						<div class="card-header text-center">
+							<h6 style="margin-bottom: 0px">
+								<b>주소록</b>
+							</h6>
+						</div>
 		              
 		              <div class="card-body">
-						<div class="tab-content" id="custom-tabs-four-tabContent">
 						
 							<!-- 사내 주소록 탭 -->
-							<div class="tab-pane fade show active" id="custom-tabs-officeAddressBook" role="tabpanel" aria-labelledby="custom-tabs-officeAddressBook-tab">
 								<div class="card" style="margin-bottom: 0px;">
 										
 										<table id="searchOfficeAddressBookTable">
@@ -300,78 +288,8 @@
 								</div>
 		                  	</div>
 		                  
-		                  	<!-- 외부 주소록 탭 -->
-		                  	<div class="tab-pane fade" id="custom-tabs-personalAddressBook" role="tabpanel" aria-labelledby="custom-tabs-personalAddressBook-tab">
-
-								<div class="card" style="margin-bottom: 0px;">
-										
-										<table id="searchPersonalAddressBookTable">
-										 <thead>
-											<tr>
-												<th>추가</th>
-												<td>
-													<form action="#">
-														<div class="input-group mt-1 mb-1">
-															&nbsp;&nbsp;
-													  		<div class="input-group-prepend">
-															    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-															      	부서 선택
-															    </button>
-															    <div class="dropdown-menu">
-															      <a class="dropdown-item" href="#">Link 1</a>
-															      <a class="dropdown-item" href="#">Link 2</a>
-															      <a class="dropdown-item" href="#">Link 3</a>
-															    </div>
-															  </div>
-														  <input type="text" class="form-control form-control-sm" placeholder="Username">
-														</div>
-													</form>
-												</td>
-											</tr>
-											</thead>
-										<tbody>
-											<tr>
-												<th>검색</th>
-												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
-												<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														&nbsp;&nbsp;
-														<button id="allPersonSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllPeronalAddressBookEmployee();">전체검색</button>
-														&nbsp;&nbsp;
-														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-																<option value="allType">전체</option>
-																<option value="deptType" >부서</option>
-																<option value="empNoType">사번</option>
-																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
-																<option value="emailType">이메일</option>
-															</select>
-															
-															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
-																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchPerson" value="${ search }">
-																<div class="input-group-append">
-																	<button type="submit" class="btn btn-sm btn-default">
-																		<i class="fa fa-search"></i>
-																	</button>
-																</div>
-															</div>
-														</div>
-													</form>
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-
-
-
-		                  	</div>
-		                </div>
-		              </div>
+		                
+		             
 		              <!-- /.card -->
 		              
 		              
@@ -381,17 +299,11 @@
 							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteOfficeAddressBookBtn();">주소록 삭제</button>
 						</div>
 					</div>
-		              
-		              
-		              
-		            </div>
-		          </div>
-			
+				 </div>
+				 </div>
 			</div>
 		</section>
 	</div>
-	
-	<jsp:include page="../common/footer.jsp" />
 	
 	<!-- 검색 -->
 	<script>
@@ -589,5 +501,23 @@
 			}
 		}
 	</script>
+	
+<!-- 스크립트 모음 -->
+<!-- jQuery -->
+<script src="./resources/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="./resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="./resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="./resources/dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="./resources/dist/js/demo.js"></script>
 </body>
 </html>

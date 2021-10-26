@@ -1,8 +1,10 @@
 package com.helloworks.spring.addressBook.controller;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,6 @@ public class AddressBookController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		//ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo);
 		ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo, pi);
 		
 		
@@ -51,33 +52,60 @@ public class AddressBookController {
 	
 	
 	@RequestMapping("addOfficeAddressBook.adb")
-	public String addOfficeAddressBook(int addEmpNo, HttpServletRequest request, Model model) {
-		
-				
-		Employee emp = addressBookService.searchEmployee(addEmpNo);
+	public String addOfficeAddressBook(int addEmpNo, HttpServletRequest request, HttpSession session,  Model model) {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
-		System.out.println("추가할 직원 사번: "+ addEmpNo);
-		System.out.println("로그인 직원 사번: "+ loginEmpNo);
-		
-		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
-		if(emp != null) {
-			officeAddressBook.setOabUserNo(loginEmpNo);
-			officeAddressBook.setOabEnrollNO(addEmpNo);
-			
-			addressBookService.addOfficeAddressBook(officeAddressBook);
+		// 본인은 주소록 등록 불가
+		if(loginEmpNo == addEmpNo) {
+			session.setAttribute("msg", "본인은 등록할 수 없습니다.");
+			return "redirect:searchEmpMain.or";
 		}
 		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
 		
+		officeAddressBook.setOabUserNo(loginEmpNo);
+		officeAddressBook.setOabEnrollNo(addEmpNo);
 		
-		model.addAttribute("addEmpNo", addEmpNo);
+		// 이미 주소록 등록된 직원인지 확인
+		int result = addressBookService.searchEnrollCount(officeAddressBook);
+		
+		if( result > 0) {
+			session.setAttribute("msg", "이미 등록된 직원입니다.");
+			return "redirect:searchEmpMain.or";
+		}else {
+			Employee emp = addressBookService.searchEmployee(addEmpNo);
+			
+			System.out.println("추가할 직원 사번: "+ addEmpNo);
+			System.out.println("로그인 직원 사번: "+ loginEmpNo);
+			if(emp != null) {
+				
+				addressBookService.addOfficeAddressBook(officeAddressBook);
+				session.setAttribute("msg", "주소록 추가 완료");
+			}
+			//model.addAttribute("addEmpNo", addEmpNo);
+			return "redirect:officeAddressBook.adb";
+		}
+		
+	}
+	
+	@RequestMapping("deleteOfficeAddressBook.adb")
+	public String deleteOfficeAddressBook(int deleteEmpNo, HttpServletRequest request, HttpSession session ,Model model) {
+		System.out.println("직원 삭제 컨트롤러");
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
+		
+		officeAddressBook.setOabUserNo(loginEmpNo);
+		officeAddressBook.setOabEnrollNo(deleteEmpNo);
+		
+		addressBookService.deleteOfficeAddressBook(officeAddressBook);
+		
+		session.setAttribute("msg", "주소록 삭제 완료");
 		return "redirect:officeAddressBook.adb";
 	}
 	
 	@RequestMapping("searchOfficeAddressBookEmployee.adb")
 	public String searchOfficeAddressBookEmployee(String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
-		
-		
 		
 		SearchEmployee se = new SearchEmployee();
 		
@@ -126,4 +154,98 @@ public class AddressBookController {
 		return "addressBook/officeAddressBookMain";
 	}
 	
+	@RequestMapping("deleteOfficeAddrressBookArr.adb")
+	public String deleteOfficeAddrressBookArr(HttpServletRequest request, HttpSession session ,Model model ) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		String checkList = request.getParameter("checkList");
+		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
+		
+		StringTokenizer token = new StringTokenizer(checkList, ",");
+		
+		while(token.hasMoreTokens()) {
+			officeAddressBook.setOabUserNo(loginEmpNo);
+			officeAddressBook.setOabEnrollNo(Integer.parseInt(token.nextToken()));
+			addressBookService.deleteOfficeAddressBook(officeAddressBook);
+		}
+		
+		session.setAttribute("msg", "주소록 삭제 완료");
+		return "redirect:officeAddressBook.adb";
+	}
+	
+	@RequestMapping("addOfficeAddressBookArr.adb")
+	public String addOfficeAddressBookArr(HttpServletRequest request, HttpSession session ,Model model ) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		String checkList = request.getParameter("checkList");
+		
+		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
+		
+		StringTokenizer token = new StringTokenizer(checkList, ",");
+		
+		int userCase = 0;
+		int enrollCase = 0;
+		int successCase = 0;
+		
+		while(token.hasMoreTokens()) {
+			
+			int addEmpNo = Integer.parseInt(token.nextToken());
+			
+			if(addEmpNo==loginEmpNo) {
+				userCase = 1;
+			}else{
+				officeAddressBook.setOabUserNo(loginEmpNo);
+				officeAddressBook.setOabEnrollNo(addEmpNo);
+				int result = addressBookService.searchEnrollCount(officeAddressBook);
+				
+				if( result > 0) {
+					enrollCase += 1;
+				}else {
+					addressBookService.addOfficeAddressBook(officeAddressBook);
+					successCase += 1;
+				}
+			}
+		}
+		
+		if(successCase == 0) {
+			session.setAttribute("msg", "이미 등록된 직원입니다.");
+		}else if(userCase != 0 && enrollCase != 0) {
+			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 및 중복인원 제외)");
+		}else if(userCase != 0 && enrollCase == 0 && token.countTokens() == 0) {
+			session.setAttribute("msg", "본인은 등록할 수 없습니다.");
+		}else if(userCase != 0 && enrollCase == 0) {
+			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 제외)");
+		}else if(userCase == 0 && enrollCase != 0) {
+			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*중복 인원 제외)");
+		}else {
+			session.setAttribute("msg", "주소록 추가 완료");
+		}
+		System.out.println(token.countTokens());
+		return "redirect:searchEmpMain.or";
+	}
+	
+	
+	@RequestMapping("popupAddressBook.adb")
+	public String popupAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		System.out.println("공유 주소록 전환");
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		int listCount = addressBookService.selectListCount(loginEmpNo);
+		
+		System.out.println("공유 주소록 등록 인원: "+listCount);
+		int pageLimit = 10;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<OfficeAddressBook> officeAddresslist = addressBookService.selectOfficeAddressBook(loginEmpNo, pi);
+		
+		
+		model.addAttribute("officeAddresslist", officeAddresslist);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "officeAddressBook.adb");
+		return "addressBook/popupOfficeAddressBook";
+	}
 }

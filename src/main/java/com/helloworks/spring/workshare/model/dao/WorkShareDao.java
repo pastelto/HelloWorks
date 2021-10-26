@@ -101,6 +101,16 @@ public class WorkShareDao {
 		
 		return sqlSession.insert("workShareMapper.insertReply", wsr);
 	}
+
+	public int deleteWS(SqlSessionTemplate sqlSession, int wno) {
+		
+		return sqlSession.delete("workShareMapper.deleteWS", wno);
+	}
+
+	public int deleteWSAttachment(SqlSessionTemplate sqlSession, int wno) {
+	
+		return sqlSession.delete("workShareMapper.deleteWSAttachment", wno);
+	}
 	
 	
 }

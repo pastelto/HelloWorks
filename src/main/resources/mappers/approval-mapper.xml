@@ -66,12 +66,56 @@
 		<result property="dueDate" column="DUE_DATE"/>
 	</resultMap>
 
+	<!-- Approval Expenditure -->
+	<resultMap id="expenditureResultSet" type="ApprovalExpenditure">
+		<id property="apNo"	column="APPROVAL_NO"/>
+		<result property="exForm" column="EX_FORM"/>
+		<result property="exCommon" column="EX_COMMON"/>
+	</resultMap>
+	
+	<!-- Approval Expenditure Details -->
+	<resultMap id="exDetailResultSet" type="ApprovalExDetails">
+		<id property="exNo"	column="EXPENDITURE_NO"/>
+		<id property="apNo"	column="APPROVAL_NO"/>
+		<result property="exTitle" column="EX_TITLE"/>
+		<result property="exDate" column="EX_DATE"/>
+		<result property="exType" column="EX_TYPE"/>
+		<result property="exNum" column="EX_NUM"/>
+		<result property="exContent" column="EX_CONTENT"/>
+		<result property="price" column="EX_PRICE"/>
+		<result property="accName" column="EX_ACCOUNT"/>
+		<result property="bankName" column="EX_BANK"/>
+		<result property="accNum" column="EX_ACCOUNT_NUM"/>
+		<result property="accHolder" column="EX_HOLDER"/>
+		<result property="exDept" column="EX_DEPT"/>
+		<result property="note" column="EX_NOTE"/>
+	</resultMap>
+	
+	<!-- Approval Ex_Num -->
+	<resultMap id="exNumResultSet" type="ApprovalExDetails">
+		<id property="exNum" column="EX_NUM"/>
+		<result property="exType" column="EX_TYPE"/>
+	</resultMap>
+	
 
+
+	<!-- ex_num select -->
+	<select id="selectExNumch" resultMap="exNumResultSet">
+		SELECT *
+		FROM APPROVAL_EX_NUM 
+		WHERE EX_TYPE LIKE '체크%' 
+	</select>
+	<select id="selectExNumco" resultMap="exNumResultSet">
+		SELECT *
+		FROM APPROVAL_EX_NUM 
+		WHERE EX_TYPE LIKE '법인%' 
+	</select>
+	
 	<!-- 기안 insert -->
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL
 		VALUES
-		(SEQ_EA_AP_NO.NEXTVAL, '일반', #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, DEFAULT, #{status})
+		(SEQ_EA_AP_NO.NEXTVAL, #{apClass}, #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, DEFAULT, #{status})
 	</insert>
 	<!-- 공문서 insert -->
 	<insert id="insertDiploma" parameterType="ApprovalDiploma">
@@ -97,6 +141,19 @@
 		VALUES
 		(SEQ_EA_AP_NO.CURRVAL, #{line1}, #{line2}, #{line3}, #{line4}, DEFAULT)
 	</insert>
+	
+	<!-- 지출 insert -->
+	<insert id="insertExpenditure" parameterType="ApprovalExpenditure">
+		INSERT INTO APPROVAL_EXPENDITURE
+		VALUES
+		(SEQ_EA_AP_NO.CURRVAL, #{exForm}, #{exCommon})
+	</insert>
+	<insert id="insertExpenditureDetail" parameterType="ApprovalExDetails">
+		INSERT INTO APPROVAL_EX_DETAILS
+		VALUES
+		(#{exNo},SEQ_EA_AP_NO.CURRVAL, #{exTitle}, #{exDate}, #{exType}, #{exNum}, #{exContent}, #{price}, #{accName},
+		#{bankName}, #{accNum}, #{accHolder}, #{exDept}, #{note})
+	</insert>
 	<!-- 첨부파일 insert -->
 	<insert id="insertAttachment" parameterType="Approval">
 		INSERT INTO APPROVAL_ATTACHMENTS
@@ -108,7 +165,7 @@
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL,, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
+		(SEQ_EA_AP_NO.CURRVAL, NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
 	]]>
 	</insert>
 	<insert id="insertCcDept" parameterType="ApprovalCC">
