@@ -1,18 +1,22 @@
 package com.helloworks.spring.attendance.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
+import com.helloworks.spring.attendance.model.vo.SearchCondition;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -28,10 +32,23 @@ public class AttendanceController {
 		return "attendance/AttendanceApiView";
 	}
 	
-	@RequestMapping("checkDeptEmp.ps")
-	public String checkDeptEmp() {
+	@RequestMapping("wtStatistics.ps")
+	public String wtStatistics() {
 		System.out.println("부서 출근조회");
-		return "attendance/CheckDeptEmpView";
+		return "attendance/DeptWTStatistics";
+	}
+	
+	//상태수정 새로운창 페이지 전환
+	@RequestMapping("updateStatus.ps")
+	public String updateStatus(int psaNo, Model model ) {
+		
+		System.out.println("~~~~~~~~~~~~~"+psaNo);
+		
+		Attendance update = attendanceService.updateStatus(psaNo);
+		
+		model.addAttribute("update",update);
+		
+		return "attendance/UpdateStatus";
 	}
 	
 	//출근시간 등록
@@ -156,9 +173,97 @@ public class AttendanceController {
 		 return "redirect:main.mi";
 	}
 	
+	//소속 부서 출결 조회
+	@RequestMapping("checkDeptTime.ps")
+	public String checkDeptEmp(String attendanceYear, String attendanceMonth, String attendance_type, String vacation_type, 
+								String optionType, String search, Model model,  HttpServletRequest request ){	
+		//로그인유저 본인 부서 
+		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptDname();	 
+		
+		SearchCondition searchCondition = new SearchCondition();
+		ArrayList<Attendance> searchlist = new ArrayList();
+		
+		searchCondition.setAttendanceYM(attendanceYear+attendanceMonth); //날짜
+		searchCondition.setAttendance_type(attendance_type); // 근태구분
+		searchCondition.setVacation_type(vacation_type); // 휴가구분
+		searchCondition.setOptionType(optionType); // 검색타입
+		searchCondition.setSearch(search);//검색 내용 
+		searchCondition.setDept(dept); //로그인유저 부서 
+		
+		if(dept.equals("인사팀")) {
+			if(searchCondition.getVacation_type() == null) {		
+				searchlist = attendanceService.searchAttendance1(searchCondition);//근태구분 조회
+			}else {
+				searchlist = attendanceService.searchVacation1(searchCondition); //휴가구분 조회
+			}
+
+		}else {			
+			if(searchCondition.getVacation_type() == null) {		
+				searchlist = attendanceService.searchAttendance(searchCondition);//근태구분 조회
+			}else {
+				searchlist = attendanceService.searchVacation(searchCondition); //휴가구분 조회
+			}			
+		}
+
+		model.addAttribute("searchlist",searchlist);
+
+		return "attendance/CheckDeptEmpView";
+
+	}
+	
+	//소속 부서 출결조회 -전체조회
+	@RequestMapping("checkDeptTimeAll.ps")
+	public String checkDeptTimeAll(Model model,  HttpServletRequest request ){	
+		//로그인유저 본인 부서 
+		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptDname();	 
+		
+		ArrayList<Attendance> searchlist = new ArrayList();
+		
+		if(dept.equals("인사팀")) {
+			searchlist = attendanceService.checkDeptTimeAll1(dept);
+			
+		}else {			
+			searchlist = attendanceService.checkDeptTimeAll(dept);
+		}
+		
+		model.addAttribute("searchlist",searchlist);
+
+		return "attendance/CheckDeptEmpView";
+
+	}
+	
+
+	    @ResponseBody
+		@RequestMapping(value = "changeStatus.ps", method = {RequestMethod.POST})
+		public String deleteCar(String changeIntime, String changeOuttime, String changeStatus  ){
+
+	    	System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#########################");
+	    	System.out.println(changeIntime);
+	    	System.out.println(changeOuttime);
+	    	System.out.println(changeStatus);
+
+	    	
+			System.out.println("성공");
+			String result = "성공!";
+			return String.valueOf(result);
+
+		}
 	
 	
 	
-	//selectAttendanceList.ps
+	//
+//	 	@ResponseBody
+//	    @RequestMapping(value="checkDeptTime.ps", produces="application/json; charset=UTF-8") 
+//	    public String checkDeptEmp(String attendanceYear, String attendanceMonth, String attendance_type, String vacation_type, 
+//												String optionType, String search) {
+//	 		
+//	 		SearchCondition searchCondition = new SearchCondition();
+//	       ArrayList<Attendance> list = attendanceService.searchAttendance(searchCondition); 
+//	       
+//	      
+//	    
+//	       return new GsonBuilder().create().toJson(list);
+//	    }
+//	
 	
 }
