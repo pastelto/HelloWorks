@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -30,11 +31,7 @@ public class AttendanceController {
 		return "attendance/AttendanceApiView";
 	}
 	
-	@RequestMapping("wtStatistics.ps")
-	public String wtStatistics() {
-		System.out.println("부서 출근조회");
-		return "attendance/DeptWTStatistics";
-	}
+
 	
 	//상태수정 새로운창 페이지 전환
 	@RequestMapping("updateStatus.ps")
@@ -289,5 +286,48 @@ public class AttendanceController {
 
     	return new GsonBuilder().create().toJson(weeklist);
     }
+    
+    //통계 전체조회하기
+	@RequestMapping("wtStatistics.ps")
+	public String wtStatisticsAll(Model model, HttpServletRequest request) {
+		
+		//본인 부서 
+		String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
+		
+		 ArrayList<Statistics> statistics = attendanceService.wtStatisticsAll(dept);
+		
+		 System.out.println("눈누난나" + statistics);
+
+		model.addAttribute("statistics",statistics);
+		
+		return "attendance/DeptWTStatistics";
+	}
+	
+	//통계 검색조건
+	@RequestMapping("statisticsSearch.ps")
+	public String statisticsSearch(String weekselect, String optionType, String  searchtext, 
+																	Model model, HttpServletRequest request) {
+		//본인 부서 
+		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
+		
+		 SearchAttendance search = new SearchAttendance();
+		 
+		 String startDate = weekselect.substring(0, 8); //시작일
+		 String endDate = weekselect.substring(8, 16); //종료일
+		
+		 search.setOptionType(optionType); //검색종류
+		 search.setSearch(searchtext); //검색내용
+		 search.setStart_date(startDate); //검색시작일
+		 search.setEnd_date(endDate); //검색 종료일
+		 search.setDept(dept); //부서
+		
+		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
+		
+		
+
+		model.addAttribute("statistics",statistics);
+		
+		return "attendance/DeptWTStatistics";
+	}
    
 }

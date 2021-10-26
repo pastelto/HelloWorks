@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.model.vo.SearchCondition;
 
 @Repository
@@ -82,6 +83,18 @@ public class AttendanceDao {
 	public ArrayList<SearchAttendance> monthselect(SqlSessionTemplate sqlSession, String monthselect) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.monthselect", monthselect);
+	}
+	
+	//통계 전체조회
+	public ArrayList<Statistics> wtStatisticsAll(SqlSessionTemplate sqlSession, String dept) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.wtStatisticsAll", dept);
+	}
+
+	//통계 검색조회
+	public ArrayList<Statistics> statisticsSearch(SqlSessionTemplate sqlSession, SearchAttendance search) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.statisticsSearch", search);
 	}
 
 }

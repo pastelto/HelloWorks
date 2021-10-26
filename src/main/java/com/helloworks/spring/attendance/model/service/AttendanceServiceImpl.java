@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.attendance.model.dao.AttendanceDao;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.exception.CommException;
 
 @Service
@@ -115,5 +116,19 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public ArrayList<SearchAttendance> monthselect(String monthselect) {
 		// TODO Auto-generated method stub
 		return attendanceDao.monthselect(sqlSession, monthselect);
+	}
+	
+	//통계 전체조회
+	@Override
+	public ArrayList<Statistics> wtStatisticsAll(String dept) {
+		// TODO Auto-generated method stub
+		return attendanceDao.wtStatisticsAll(sqlSession, dept);
+	}
+	
+	//통계 검색조회
+	@Override
+	public ArrayList<Statistics> statisticsSearch(SearchAttendance search) {
+		// TODO Auto-generated method stub
+		return attendanceDao.statisticsSearch(sqlSession, search);
 	}
 }
