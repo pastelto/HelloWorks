@@ -1,6 +1,7 @@
 package com.helloworks.spring.approval.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.helloworks.spring.approval.model.vo.ApprovalHr;
 import com.helloworks.spring.approval.model.vo.ApprovalLine;
 import com.helloworks.spring.approval.model.vo.ApprovalMinutes;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -143,6 +145,33 @@ public class ApprovalServiceImpl implements ApprovalService {
 			throw new CommException("결재 등록 실패");
 		}
 		
+	}
+
+
+	@Override
+	public int selectListCount(int loginEmpNo) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectListCount(sqlSession, loginEmpNo);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectTempApproval(int loginEmpNo, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectTempApproval(sqlSession, loginEmpNo, pi);
+	}
+
+	@Override
+	public ArrayList<Approval> selectTempDate(HashMap<String, Integer> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectTempDate(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateBoundSortTemp(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateBoundSortTemp(sqlSession, searchMap);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
@@ -24,7 +27,10 @@ import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
 import com.helloworks.spring.approval.model.vo.ApprovalHr;
 import com.helloworks.spring.approval.model.vo.ApprovalLine;
 import com.helloworks.spring.approval.model.vo.ApprovalMinutes;
+import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
 public class ApprovalController {
@@ -87,6 +93,30 @@ public class ApprovalController {
 		return "approval/plusCooForm";
 	}
 	
+	@RequestMapping("temporarySave.ea")
+	public String temporarySave(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		int listCount = approvalService.selectListCount(loginEmpNo);
+		
+		System.out.println("임시저장 결재 수 : " + listCount);
+		
+		int pageLimit = 10;
+		int boardLimit = 10; 
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Approval> approvalList = approvalService.selectTempApproval(loginEmpNo, pi);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "temporarySave.ea");
+		
+		
+		return "approval/temporarySaveMain";
+	}
+	
 	
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
@@ -97,8 +127,10 @@ public class ApprovalController {
 		// 등록 , 임시저장 구분
 		if(status.equals("Y")) {
 			ap.setStatus(status);
+			ap.setProgress("진행중");
 		}else if(status.equals("N")) {
 			ap.setStatus(status);
+			ap.setProgress("임시저장");
 		}
 		
 		System.out.println("status : " + status);
@@ -169,16 +201,6 @@ public class ApprovalController {
 				ac.setCcDept(ccMember);
 				approvalService.insertCcDept(ac);
 		}		*/
-		
-		/*	if(Integer.parseInt(request.getParameter("ccCode")) > 0){				
-				int eNum = Integer.parseInt(request.getParameter("ccCode"));
-				ac.setCcMember(eNum);
-				approvalService.insertCcEmpl(ac);
-			} else if ((request.getParameter("ccCode") instanceof String)){
-				String dept = (request.getParameter("ccCode"));
-				ac.setCcDept(dept);
-				approvalService.insertCcDept(ac);
-			}*/
 		
 		if(request.getParameter("ccCode")!= null) {
 			
@@ -455,5 +477,73 @@ public class ApprovalController {
 			}
 		
 		return newName;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
+	public String selectDateSortTemp(HttpServletRequest request) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+		String sdate = request.getParameter("sdate");
+		
+		HashMap<String, Integer> searchMap = new HashMap<String, Integer>();
+		
+		System.out.println("기간 : " + sdate);
+		int sDate= 0;
+		ArrayList<Approval> list = null;
+		switch(sdate) {
+			case "당일" : 
+				sDate = 0;
+				searchMap.put("sDate", sDate);
+				searchMap.put("loginEmpNo", loginEmpNo);
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			case "1주일" : 
+				sDate = 7;
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			case "1개월" :
+				sDate = 30;
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			case "3개월" :
+				sDate = 90;
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			case "6개월" :
+				sDate = 180;
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			case "1년" :
+				sDate = 365;
+				list = approvalService.selectTempDate(searchMap);
+				break;
+			default : 
+				break;
+		}
+		
+		return new GsonBuilder().create().toJson(list);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectDateBoundSortTemp.ea", produces= "application/json; charset=utf-8")
+	public String selectDateBoundSortTemp(HttpServletRequest request) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		System.out.println("기간 : " + start + "~ " + end);
+		
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("start", start);
+		searchMap.put("end", end);
+		
+		ArrayList<Approval> list = approvalService.selectDateBoundSortTemp(searchMap);
+		
+		return new GsonBuilder().create().toJson(list);
+		
 	}
 }
