@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.attendance.model.dao.AttendanceDao;
 import com.helloworks.spring.attendance.model.vo.Attendance;
+import com.helloworks.spring.attendance.model.vo.SearchCondition;
 import com.helloworks.spring.common.exception.CommException;
 
 @Service
@@ -45,5 +46,56 @@ public class AttendanceServiceImpl implements AttendanceService {
 			throw new CommException("퇴근 등록 실패");
 		}
 		
+	}
+
+	//소속부서출결 조회 - 근태구분
+	@Override
+	public ArrayList<Attendance> searchAttendance(SearchCondition searchCondition) {
+		// TODO Auto-generated method stub
+		return attendanceDao.searchAttendance(sqlSession, searchCondition);
+	}
+
+	//소속부서출결 조회 - 휴가구분
+	@Override
+	public ArrayList<Attendance> searchVacation(SearchCondition searchCondition) {
+		// TODO Auto-generated method stub
+		return attendanceDao.searchVacation(sqlSession, searchCondition);
+	}
+	
+	//소속부서출결 조회 - 전체
+	@Override
+	public ArrayList<Attendance> checkDeptTimeAll(String dept) {
+		// TODO Auto-generated method stub
+		return attendanceDao.checkDeptTimeAll(sqlSession, dept);
+	}
+
+	//소속부서출결 조회 - 근태구분 ->인사팀
+	@Override
+	public ArrayList<Attendance> searchAttendance1(SearchCondition searchCondition) {
+		// TODO Auto-generated method stub
+		return attendanceDao.searchAttendance1(sqlSession, searchCondition);
+	}
+	
+	//소속부서출결 조회 - 휴가구분 ->인사팀
+	@Override
+	public ArrayList<Attendance> searchVacation1(SearchCondition searchCondition) {
+		// TODO Auto-generated method stub
+		return attendanceDao.searchVacation1(sqlSession, searchCondition);
+	}
+
+	//소속부서출결 조회 - 전체 -> 인사팀
+	@Override
+	public ArrayList<Attendance> checkDeptTimeAll1(String dept) {
+		// TODO Auto-generated method stub
+		return  attendanceDao.checkDeptTimeAll1(sqlSession, dept);
+	}
+	
+	//상태변경 한 행 조회
+	@Override
+	public Attendance updateStatus(int psaNo) {
+		
+		Attendance update = null;
+		update = attendanceDao.updateStatus(sqlSession, psaNo);
+		return update;
 	}
 }
