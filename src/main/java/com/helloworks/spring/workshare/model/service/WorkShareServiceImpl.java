@@ -147,6 +147,30 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		return workShareDao.insertReply(sqlSession, wsr);
 	}
+	
+	// 업무공유 삭제
+	@Override
+	public void deleteWS(int wno) throws Exception {
+		
+		 int result = workShareDao.deleteWS(sqlSession, wno);
+		 System.out.println("Delete WorkShare ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 삭제 실패"); 
+		 }
+	}
+
+	// 업무공유 - 첨부파일 삭제
+	@Override
+	public void deleteWSAttachment(int wno) throws Exception {
+		
+		 int result = workShareDao.deleteWSAttachment(sqlSession, wno);
+		 System.out.println("Delete WorkShare Attachment ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 첨부파일 삭제 실패"); 
+		 }
+	}
 
 	
 }

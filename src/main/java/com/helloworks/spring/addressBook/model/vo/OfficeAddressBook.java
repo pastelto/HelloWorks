@@ -14,7 +14,7 @@ import lombok.ToString;
 public class OfficeAddressBook {
 	private int oabNo;			//	OAB_NO	NUMBER
 	private int oabUserNo;		//	OAB_USER_NO	NUMBER
-	private int oabEnrollNO;	//	OAB_ENROLL_NO	NUMBER
+	private int oabEnrollNo;	//	OAB_ENROLL_NO	NUMBER
 	private String oabStatus;	//	OAB_STATUS	VARCHAR2(1 BYTE)
 
 	private String empName;			//사원이름

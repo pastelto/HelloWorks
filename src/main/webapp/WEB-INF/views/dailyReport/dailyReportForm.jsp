@@ -65,7 +65,8 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												로그인 유저 이름 들어갈 예정
+												${ loginUser.empName }
+												<input type="hidden" name="writer" id="writer" value="${ loginUser.empNo }">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">
@@ -91,9 +92,9 @@
 												<td colspan="3">
 												&nbsp;&nbsp;
 												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook()">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 												</div>
 												</td>
 											</tr>
@@ -138,7 +139,7 @@
 									&nbsp;
 									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
 									&nbsp;
-									<button type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -150,7 +151,7 @@
 		</section>
 	</div>
 
-
+	<jsp:include page="../common/footer.jsp" />
 
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
@@ -169,6 +170,19 @@
 			$('#reportAttachName').text(filename);
 		});
 	</script>
-	<jsp:include page="../common/footer.jsp" />
+	
+	<!-- 주소록 -->
+	<script>
+		function popupAddressBook(){
+			var addressBookPopUp = window.open("popupAddressBook.adb", "주소록", "width=1000,height=500");
+		}
+	</script>
+	
+	<!-- 직원 검색  -->
+	<script>
+		function popupSearchEmp(){
+			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1000,height=500");
+		}
+	</script>
 </body>
 </html>

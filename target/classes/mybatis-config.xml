@@ -19,6 +19,8 @@
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalHr" alias="ApprovalHr"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalLine" alias="ApprovalLine"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalMinutes" alias="ApprovalMinutes"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalExpenditure" alias="ApprovalExpenditure"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalExDetails" alias="ApprovalExDetails"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.SearchEmployee" alias="SearchEmployee"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.Mtr" alias="Mtr"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.Car" alias="Car"/>
@@ -27,6 +29,8 @@
 		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSReply" alias="WSReply"/>
 		<typeAlias type="com.helloworks.spring.attendance.model.vo.SearchAttendance" alias="SearchAttendance"/>
 		<typeAlias type="com.helloworks.spring.attendance.model.vo.Statistics" alias="Statistics"/>
+		<typeAlias type="com.helloworks.spring.request.model.vo.RequestEq" alias="RequestEq"/>
+		<typeAlias type="com.helloworks.spring.request.model.vo.RequestId" alias="RequestId"/>
 	</typeAliases>
 
 
