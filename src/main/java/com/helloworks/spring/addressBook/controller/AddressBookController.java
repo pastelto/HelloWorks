@@ -187,6 +187,7 @@ public class AddressBookController {
 		int userCase = 0;
 		int enrollCase = 0;
 		int successCase = 0;
+		int allCase = token.countTokens();
 		
 		while(token.hasMoreTokens()) {
 			
@@ -212,7 +213,7 @@ public class AddressBookController {
 			session.setAttribute("msg", "이미 등록된 직원입니다.");
 		}else if(userCase != 0 && enrollCase != 0) {
 			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 및 중복인원 제외)");
-		}else if(userCase != 0 && enrollCase == 0 && token.countTokens() == 0) {
+		}else if(userCase != 0 && enrollCase == 0 && allCase == 1) {
 			session.setAttribute("msg", "본인은 등록할 수 없습니다.");
 		}else if(userCase != 0 && enrollCase == 0) {
 			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 제외)");
