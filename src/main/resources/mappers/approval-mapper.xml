@@ -202,6 +202,16 @@
  		ORDER BY CREATE_DATE DESC
  	</select>
  	
+ 	<!-- 임시저장 전체선택 -->
+ 	<select id="selectAllTempApproval" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{option}
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
  	<!-- 임시저장 날짜 sort -->
  	<select id="selectTempDate" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[

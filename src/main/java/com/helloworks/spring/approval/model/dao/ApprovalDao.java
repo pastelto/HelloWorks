@@ -106,5 +106,10 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateBoundSortTemp",searchMap);
 	}
 
+	public ArrayList<Approval> selectAllTempApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectAllTempApproval",searchMap);
+	}
+
 
 }

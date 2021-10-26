@@ -107,17 +107,17 @@
 												<td colspan="8">												
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 															&nbsp;&nbsp;
-															<button id="sysdateBtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="당일">당일</button>
+															<button id="btnsysdate" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="당일">당일</button>
 															&nbsp;&nbsp;
-															<button id="weekBtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1주일">1주일</button>
+															<button id="btnweekBtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1주일">1주일</button>
 															&nbsp;&nbsp;
-															<button id="oneMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1개월">1개월</button>
+															<button id="btnoneMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1개월">1개월</button>
 															&nbsp;&nbsp;
-															<button id="threeMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="3개월">3개월</button>
+															<button id="btnthreeMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="3개월">3개월</button>
 															&nbsp;&nbsp;
-															<button id="sixMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="6개월">6개월</button>
+															<button id="btnsixMbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="6개월">6개월</button>
 															&nbsp;&nbsp;
-															<button id="oneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
+															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
 															<input type="date" class="form-control datetimepicker-input" id="startDate" name="startDate" style="font-size:0.8rem">
 															&nbsp; ~ &nbsp;
@@ -129,7 +129,7 @@
 												<th colspan="4">문서검색</th>
 												<td colspan="8">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														<button id="allSelectBtn" type="button" class="btn btn-default btn-xs" name="selectAll" style='margin-left:3px'>전체보기</button>
+														<button id="allSelect" type="button" class="btn btn-default btn-xs" name="selectAll" style='margin-left:3px' onclick="selectAllTemp('일반');">전체보기</button>
 														&nbsp;&nbsp;
 														<select	id="conditionOption" name="conditionOption" class="form-control" style="font-size:0.8rem">
 															<option value="title"> 제목 </option>
@@ -345,11 +345,51 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 	
+	<!-- 전체보기  -->
+	 <script>
+	 	function selectAllTemp(cOption){
+	 	
+	 		$.ajax({
+	 			url: "selectAllTempApproval.ea",
+	 			type: "post",
+	 			data :{
+	 				cOption : cOption
+	 			},
+	 			success: function(list){
+	 				
+	 				var value = "";
+	 				
+ 					$.each(list, function(i, obj){
+ 						value += '<tr onclick="detailApproval"('+obj.apNo+')>'+							      
+                        '<td>'+obj.rownum+'</td>' +
+                        '<td>'+obj.title+'</td>' +
+                        '<td>'+obj.detailClass+'</td>' +
+                        '<td>'+obj.apNo +'</td>' +
+                        '<td>'+obj.progress+'</td>' +
+                        '<td>'+obj.createDate+'</td>' +
+                        '<td>'+obj.deptName+'</td>' +
+                        '<td>'+obj.writerName+'</td>' +							                       
+                    '</tr>';
+ 					});
+ 					
+ 					console.log("ajax 통신 성공")
+ 					console.log(list)
+ 					
+ 					$("#tempApprovalTable>tbody").html(value);
+ 					$("#sortOption").text("전체");
+ 				},
+ 				error:function(){
+ 					console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
+ 				}
+	 			 			
+	 		});
+	 	}	 
+	 </script>
 	
 	<!-- 날짜 검색 -->
 	<script>
 	 	$(function(){
-	 		$("#normalApprovalSearchTable>tbody>tr>td>div>button").click(
+	 		$("#normalApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
 		 		function(){
 			 		
 		 			var sdate = $(this).val();
@@ -398,14 +438,14 @@
 	 		
 	 		$("#startDate").datepicker({
 	 			onSelect: function(dateText,inst) {
-	 				start = dateText
+	 				start = $("#startDate").val();
 	 				console.log(start)
 	 			}
 	 		})
 	 		
 	 		$("#endDate").datepicker({	 		
 	 			onSelect: function(dateText, inst) {
-	 				end = dateText
+	 				end = $("#endDate").val();
 	 				console.log(end)
 	 			}
 	 		})

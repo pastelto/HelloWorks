@@ -546,4 +546,24 @@ public class ApprovalController {
 		return new GsonBuilder().create().toJson(list);
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAllTempApproval.ea", produces= "application/json; charset=utf-8")
+	public String selectAllTempApproval(HttpServletRequest request) {
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+		
+		
+		String option = request.getParameter("cOption");
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("option", option);
+		
+		ArrayList<Approval> list = approvalService.selectAllTempApproval(searchMap);
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	
+	
 }

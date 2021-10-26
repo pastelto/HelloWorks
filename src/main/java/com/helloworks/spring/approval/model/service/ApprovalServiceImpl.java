@@ -174,4 +174,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return approvalDao.selectDateBoundSortTemp(sqlSession, searchMap);
 	}
 
+
+	@Override
+	public ArrayList<Approval> selectAllTempApproval(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectAllTempApproval(sqlSession, searchMap);
+	}
+
 }

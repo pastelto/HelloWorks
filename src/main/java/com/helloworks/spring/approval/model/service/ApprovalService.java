@@ -47,6 +47,8 @@ public interface ApprovalService {
 
 	ArrayList<Approval> selectDateBoundSortTemp(HashMap<String, Object> searchMap);
 
+	ArrayList<Approval> selectAllTempApproval(HashMap<String, Object> searchMap);
+
 	
 
 }
