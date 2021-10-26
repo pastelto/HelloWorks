@@ -165,6 +165,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM WORKSHARE_ATTACHMENT
 		WHERE WSA_STATUS = 'Y'
+		AND WSA_WSNO = #{wsno}
 	</select>
 	
 	<!-- 업무공유 수신처리 -->
@@ -173,6 +174,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET WS_RECV_STATUS = #{ws_recv_status}
 		WHERE WS_NO = #{ws_no}
 	</update>
+	
+	<!-- 업무공유 삭제 -->
+	<delete id="deleteWS" parameterType="_int">
+		DELETE WORKSHARE
+		WHERE WS_NO = #{wno}
+	</delete>
+	
+	<!-- 업무공유 - 첨부파일 삭제 -->
+	<delete id="deleteWSAttachment" parameterType="_int">
+		DELETE WORKSHARE_ATTACHMENT
+		WHERE WSA_WSNO = #{wno}
+	</delete>
 	
 	<!-- 댓글 조회 -->
 	<select id="selectReplyList" parameterType="_int" resultMap="wsReplyResultSet">

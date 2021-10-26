@@ -41,6 +41,10 @@ public interface WorkShareService {
 	ArrayList<WSReply> selectReplyList(int wno) throws Exception;
 
 	int insertReply(WSReply wsr) throws Exception;
+
+	void deleteWS(int wno) throws Exception;
+
+	void deleteWSAttachment(int wno) throws Exception;
 	
 	
 }
