@@ -171,6 +171,35 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 첨부파일 삭제 실패"); 
 		 }
 	}
+	
+	// 업무공유 - 수정
+	@Override
+	public void updateWorkShare(WorkShare ws) throws Exception {
+		 
+		 int result = workShareDao.updateWorkShare(sqlSession, ws);
+		 System.out.println("WS result ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 수정 실패"); 
+		 }
+	}
+
+	// 업무공유 - 첨부파일 수정
+	@Override
+	public void updateWSAttachment(ArrayList<WSAttachment> wsaList) throws Exception {
+		
+		int result1 = 0;
+		
+		System.out.println("wsaList size ? " + wsaList);
+		 for(WSAttachment wsa : wsaList) { 
+			 result1 = workShareDao.updateWSAttachment(sqlSession, wsa);
+			 System.out.println("wsa ? " + wsa);
+		 }
+		 
+		 if(result1 < 0) { 
+			 throw new CommException("업무공유 삽입 실패"); 
+		 }
+	}
 
 	
 }

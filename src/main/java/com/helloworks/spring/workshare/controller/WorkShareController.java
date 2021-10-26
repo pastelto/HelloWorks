@@ -453,14 +453,59 @@ public class WorkShareController {
 	
 	// 업무공유 수정
 	@RequestMapping("updateWS.ws")
-	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) {
+	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) throws Exception {
 		
+		ModelAndView mav = new ModelAndView("redirect:unCheckedListWS.ws");
 		
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
 		
+		System.out.println("fileList ? " + fileList.size());
+		System.out.println("ws_status ? " + ws_status);
 		
+		WorkShare ws = new WorkShare();
 		
+		ArrayList<WSAttachment> wsaList = new ArrayList<WSAttachment>();
+		ws.setWs_no(Integer.parseInt(multiRequest.getParameter("workShareNo")));
+		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
+		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
+		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
+		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
+		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
+		ws.setWs_status("Y");
 		
-		ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
+		// 업무공유 먼저 추가하기
+		//workShareService.updateWorkShare(ws);
+		System.out.println("ws ? " + ws);
+		
+		// 첨부파일이 있으면 리스트로 값 추가하기 
+		 if(fileList.get(0).getSize() != 0) {
+		  
+			 for(int i = 0; i < fileList.size(); i++) {
+			 WSAttachment wsa = new WSAttachment();
+			 String changeName = saveFile(fileList.get(i), request, i);
+			 
+			 System.out.println("==================== file start ====================");
+			 System.out.println("파일 이름 : " + changeName); 
+			 System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+			 System.out.println("파일 크기 : " + fileList.get(i).getSize()); 
+			 System.out.println("content type : " + fileList.get(i).getContentType());
+			 System.out.println("==================== file end ====================="); 			 
+			 
+			 wsa.setWsa_empNo(ws.getWs_empno()); 
+			 wsa.setWsa_wsNo(ws.getWs_no());
+			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
+			 wsa.setWsa_change(changeName);
+			 wsa.setWsa_size(fileList.get(i).getSize());
+			 wsa.setWsa_status(ws_status);
+			 
+			 wsaList.add(wsa);
+			 }
+			 
+			
+			System.out.println("wsaList ? " + wsaList);
+			//workShareService.updateWSAttachment(wsaList);
+		 }
+
 		return mav;
 	}
 	

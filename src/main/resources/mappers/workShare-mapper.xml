@@ -202,4 +202,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO WORKSHARE_REPLY
 		VALUES(SEQ_WSR.NEXTVAL, #{wsr_wsNo}, #{wsr_empNo}, #{wsr_content}, SYSDATE, 'Y')
 	</insert>
+	
+	<!-- 업무공유 수정 -->
+	<update id="updateWorkShare" parameterType="WorkShare">
+		UPDATE WORKSHARE
+		SET WS_RECV_STATUS = #{ws_recv_status}
+		WHERE WS_NO = #{ws_no}	
+	
+		<!-- INSERT INTO WORKSHARE
+		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
+ -->	</update>
+
+	<!-- 업무공유 첨부파일 수정 -->
+	<update id="updateWSAttachment" parameterType="WSAttachment">
+		INSERT INTO WORKSHARE_ATTACHMENT
+		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, SEQ_WS.CURRVAL, #{wsa_origin}, #{wsa_change}, #{wsa_size}, #{wsa_status})
+	</update>
 </mapper>
