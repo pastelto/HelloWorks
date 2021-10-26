@@ -22,7 +22,7 @@ public class ApprovalCC extends Approval{
 		// TODO Auto-generated constructor stub
 	}*/
 
-	public ApprovalCC(int apNo, String ccDept, int ccMember, int ckCount, int ccCount) {
+	public ApprovalCC(int apNo, String ccDept, Integer ccMember, int ckCount, int ccCount) {
 		super(apNo);
 		this.ccDept = ccDept;
 		this.ccMember = ccMember;
