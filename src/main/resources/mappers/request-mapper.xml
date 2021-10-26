@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 차량 삭제 -->
 	<delete id="deleteCar" parameterType="List">
 		DELETE FROM RS_CAR_MANAGEMENT
-		where RS_CM_NO in
+		WHERE RS_CM_NO IN
 			<foreach collection="list" item="deleteCar" index="i" open="(" separator="," close=")">
 				#{deleteCar}
 			</foreach>
@@ -143,5 +143,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
 		ORDER BY ES_IR_DATE DESC
 	</select>
-
+	
+	<!-- 비품 제출-> 승인완료 -->
+	<update id="confirmEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인완료'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="confirmEq" index="i" open="(" separator="," close=")">
+				#{confirmEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 제출-> 승인완료 -->
+	<update id="confirmId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인완료'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="confirmId" index="i" open="(" separator="," close=")">
+				#{confirmId}
+			</foreach>		
+	</update>
+	
+	<!-- 비품 제출-> 승인취소 -->
+	<update id="cancelEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인취소'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="cancelEq" index="i" open="(" separator="," close=")">
+				#{cancelEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 제출-> 승인취소 -->
+	<update id="cancelId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인취소'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="cancelId" index="i" open="(" separator="," close=")">
+				#{cancelId}
+			</foreach>		
+	</update>	
+	
 </mapper>

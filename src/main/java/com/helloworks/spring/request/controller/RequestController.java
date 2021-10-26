@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,7 +93,6 @@ public class RequestController {
 	@ResponseBody
 	@RequestMapping(value="list.eq", produces="application/json; charset=UTF-8")
 	public String selectEqList() {
-		System.out.println("list.eq--------------컨트롤러");
 		//비품리스트
 		ArrayList<RequestEq> list = requestService.selectEqList();
 		System.out.println(list+ "------------");
@@ -102,12 +103,66 @@ public class RequestController {
 	@ResponseBody
 	@RequestMapping(value="list.id", produces="application/json; charset=UTF-8")
 	public String selectIdList() {
-		System.out.println("list.id--------------컨트롤러");
 
 		//사원증리스트
 		ArrayList<RequestId> list = requestService.selectIdList();
-		System.out.println(list+ "------------");
+		System.out.println(list+ "------------");		
 		
 		return new GsonBuilder().create().toJson(list);
 	}
+	
+	// 비품 체크박스 제출-> 승인완료로
+	@ResponseBody
+	@RequestMapping(value = "/confirm.eq", method = RequestMethod.POST)
+	public String confirmEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+//		System.out.println(checkArr);
+//		return "request/menu";
+		requestService.confirmEq(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	// 사원증 체크박스 제출-> 승인완료로
+	@ResponseBody
+	@RequestMapping(value = "/confirm.id", method = RequestMethod.POST)
+	public String confirmId(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+//		System.out.println(checkArr);
+//		return "request/menu";
+		requestService.confirmId(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	// 비품 체크박스 제출-> 승인취소로
+	@ResponseBody
+	@RequestMapping(value = "/cancel.eq", method = RequestMethod.POST)
+	public String cancelEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+//		System.out.println(checkArr);
+//		return "request/menu";
+		requestService.cancelEq(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	// 사원증 체크박스 제출-> 승인취소로
+	@ResponseBody
+	@RequestMapping(value = "/cancel.id", method = RequestMethod.POST)
+	public String cancelId(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+//		System.out.println(checkArr);
+//		return "request/menu";
+		requestService.cancelId(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	
+	
 }

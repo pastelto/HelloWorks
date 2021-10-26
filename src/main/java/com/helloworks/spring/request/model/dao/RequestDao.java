@@ -74,5 +74,29 @@ public class RequestDao {
 		return (ArrayList)sqlSession.selectList("requestMapper.selectIdList");
 	}
 	
+	//비품 승인완료
+	public int confirmEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmEq", checkArr);
+	}
+	
+	//사원증 승인완료
+	public int confirmId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmId", checkArr);
+	}
+	
+	//비품 승인취소
+	public int cancelEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelEq", checkArr);
+	}
+	
+	//사원증 승인취소
+	public int cancelId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelId", checkArr);
+	}
+	
 
 }
