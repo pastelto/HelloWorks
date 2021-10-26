@@ -125,7 +125,8 @@ public class WorkShareController {
 		ArrayList<WorkShare> list = new ArrayList<>();
 		PageInfo pi = new PageInfo();
 		int countRead = 0; // 읽은 사람 수 
-		int totalCount = 0; // 총 수신인 수 
+		ArrayList<Integer> cRead = new ArrayList<>(); 
+		ArrayList<Integer> totalCount = new ArrayList<>(); // 총 수신인 수 
 		try {
 			
 			Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
@@ -144,19 +145,23 @@ public class WorkShareController {
 			// 발신 업무 목록 
 			list = workShareService.selectSendList(myEmp, pi);
 			
-			/* 발신 수신인 수
-			String rList = list.get(0).getWs_recv_status();
-			System.out.println("발신인 수신인 수 ? " + rList);
-			countRead = countRead(rList);
-			String[] strList = rList.split(",");
-			totalCount = strList.length;*/
+			// 발신 수신인 수
+			for(int i = 0; i < list.size(); i++) {
+				String rList = list.get(i).getWs_recv_status();
+				System.out.println("발신인 수신인 수 ? " + rList);
+				String[] strList = rList.split(",");
+				countRead = countRead(strList);
+				totalCount.add(strList.length);
+				cRead.add(countRead);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// model.addAttribute("countRead", countRead);
-		// model.addAttribute("totalCount", totalCount);
+		model.addAttribute("cRead", cRead); // 읽은 사람 수 
+		model.addAttribute("totalCount", totalCount); // 전체 발송인 수
 		model.addAttribute("page", 3);
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
@@ -164,13 +169,12 @@ public class WorkShareController {
 	}
 	
 	// 수신 인원
-	private int countRead(String rList) {
+	private int countRead(String[] strList) {
 		
 		int countRead = 0;
-		String[] rEach = rList.split(",");
 		
-		for(int i = 0; i < rEach.length; i++) {
-			if(Integer.parseInt(rEach[i]) == 0) {
+		for(int i = 0; i < strList.length; i++) {
+			if(Integer.parseInt(strList[i]) == 0) {
 				countRead++;
 			};
 		}
