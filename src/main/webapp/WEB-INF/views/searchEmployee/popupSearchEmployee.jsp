@@ -6,6 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>직원 검색</title>
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="./resources/plugins/fontawesome-free/css/all.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="./resources/dist/css/adminlte.min.css">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+	<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
 <style>
 	#searchCategory>tbody>tr>th {
 		width: 10%;
@@ -43,23 +53,9 @@
 </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
 
 	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<!-- Content Header (Page header) -->
-		<section class="content-header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-6">
-
-						<h4>
-							<i class="nav-icon fas fa-table"></i><b> 직원 검색</b>
-						</h4>
-					</div>
-				</div>
-			</div>
-		</section>
+	<div class="content m-3">
 
 		<!-- Main content -->
 		<section class="content">
@@ -354,8 +350,6 @@
 			</div>
 		</div>
 	</div>
-	
-	<jsp:include page="../common/footer.jsp" />
 	
 	<!-- 검색 -->
 	<script>
@@ -692,5 +686,23 @@
 			}
 		}
 	</script>
+	
+<!-- 스크립트 모음 -->
+<!-- jQuery -->
+<script src="./resources/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="./resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="./resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="./resources/dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="./resources/dist/js/demo.js"></script>
 </body>
 </html>
