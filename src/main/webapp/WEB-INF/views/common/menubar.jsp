@@ -220,7 +220,37 @@
               </li>
               <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
-                  <p>Inline</p>
+                  <p>근태/휴가 결재</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="temporarySave.ea" class="nav-link">
+                  <p>임시저장함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="myApproval.ea" class="nav-link">
+                  <p>내결재함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="pendingTray.ea" class="nav-link">
+                  <p>미결재문서</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="signedTray.ea" class="nav-link">
+                  <p>결재완료문서</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="ccTray.ea" class="nav-link">
+                  <p>수신참조함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="deptTray.ea" class="nav-link">
+                  <p>부서문서함</p>
                 </a>
               </li>
             </ul>

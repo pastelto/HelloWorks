@@ -45,17 +45,19 @@
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 
-		<!-- 타이틀 -->
-		<div class="content-wrapper">
-			<section class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h5>결재문서 작성</h5>
-						</div>
-					</div>
-				</div>
-			</section>
+
+	<div class="content-wrapper">
+		<!-- 페이지 헤더 -->
+		<section class="content-header">
+	      <div class="container-fluid">
+	        <div class="row mb-2">
+	          <div class="col-sm-6">
+	            <h4><i class="fas fa-chart-pie"></i> <b>전자 결재</b></h4>
+	          </div>
+	        </div>
+	      </div><!-- /.container-fluid -->
+	    </section>
+	    
 			<section class="content">
 			<form id="expenditureApprovalForm" method="post" action="insertExApproval.ea" enctype="multipart/form-data">
 				<div class="container-fluid">

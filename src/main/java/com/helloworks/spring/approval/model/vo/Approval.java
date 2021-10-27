@@ -11,13 +11,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Approval  {
-	
+public class Approval  {	
 	private int apNo; 			// 문서번호
+	private int rownum;
 	private String apClass;		// 결재분류
 	private String detailClass; // 세부분류
 	private String title;		// 제목
 	private int writer;			// 작성자
+	private String writerName;	// 작성자 이름
 	private String createDate;	// 작성일자
 	private String deptName;	// 하위부서이름
 	private String content;		// 결재내용

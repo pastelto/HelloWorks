@@ -5,12 +5,14 @@
 	<!-- Approval -->
 	<resultMap id="approvalResultSet" type="Approval">
 		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="rownum" column="ROWNUM"/>
 		<result property="apClass" column="APPROVAL_CLASS"/>
 		<result property="detailClass" column="DETAIL_CLASS"/>
 		<result property="title" column="TITLE"/>
 		<result property="writer" column="WRITER"/>
+		<result property="writerName" column="EMP_NAME"/>
 		<result property="createDate" column="CREATE_DATE"/>
-		<result property="deptName" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_DNAME"/>
 		<result property="content" column="AP_CONTENT"/>
 		<result property="cooper" column="COOPERATION"/>
 		<result property="deptShare" column="DEPT_SHARE"/>
@@ -115,64 +117,122 @@
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL
 		VALUES
-		(SEQ_EA_AP_NO.NEXTVAL, #{apClass}, #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, DEFAULT, #{status})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0'), #{apClass}, #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, #{progress}, #{status})
 	</insert>
+	
 	<!-- 공문서 insert -->
 	<insert id="insertDiploma" parameterType="ApprovalDiploma">
 		INSERT INTO APPROVAL_DIPLOMA
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{email}, #{phone}, #{officeAddress})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{email}, #{phone}, #{officeAddress})
 	</insert>
+	
 	<!-- 회의록 insert -->
 	<insert id="insertMinutes" parameterType="ApprovalMinutes">
 		INSERT INTO APPROVAL_M_MINUTES
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{title}, #{attendees})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{title}, #{attendees})
 	</insert>
+	
 	<!-- 인사문서 insert -->
 	<insert id="insertHr" parameterType="ApprovalHr">
 		INSERT INTO APPROVAL_HR
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{hrClass}, #{dueDate})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{hrClass}, #{dueDate})
 	</insert>
+	
 	<!-- 결재라인 insert -->
 	<insert id="insertLine" parameterType="ApprovalLine">
 		INSERT INTO APPROVAL_LINE
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{line1}, #{line2}, #{line3}, #{line4}, DEFAULT)
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{line1}, #{line2}, #{line3}, #{line4}, DEFAULT)
 	</insert>
 	
 	<!-- 지출 insert -->
 	<insert id="insertExpenditure" parameterType="ApprovalExpenditure">
 		INSERT INTO APPROVAL_EXPENDITURE
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{exForm}, #{exCommon})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{exForm}, #{exCommon})
 	</insert>
 	<insert id="insertExpenditureDetail" parameterType="ApprovalExDetails">
 		INSERT INTO APPROVAL_EX_DETAILS
 		VALUES
-		(#{exNo},SEQ_EA_AP_NO.CURRVAL, #{exTitle}, #{exDate}, #{exType}, #{exNum}, #{exContent}, #{price}, #{accName},
+		(#{exNo},TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{exTitle}, #{exDate}, #{exType}, #{exNum}, #{exContent}, #{price}, #{accName},
 		#{bankName}, #{accNum}, #{accHolder}, #{exDept}, #{note})
 	</insert>
+	
 	<!-- 첨부파일 insert -->
 	<insert id="insertAttachment" parameterType="Approval">
 		INSERT INTO APPROVAL_ATTACHMENTS
 		VALUES
-		(SEQ_EA_AT_NO.NEXTVAL, #{newName}, #{originName}, SEQ_EA_AP_NO.CURRVAL)
+		(SEQ_EA_AT_NO.NEXTVAL, #{newName}, #{originName}, TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'))
 	</insert>
+	
 	<!-- CC insert -->
 	<insert id="insertCcEmpl" parameterType="ApprovalCC">
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
 	]]>
 	</insert>
 	<insert id="insertCcDept" parameterType="ApprovalCC">
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(SEQ_EA_AP_NO.CURRVAL, #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
 	]]>
 	</insert>
+	
+	<!-- listCount -->
+	<select id="selectListCount" parameterType="_int" resultType="_int">
+ 		SELECT COUNT(*)
+ 		FROM APPROVAL
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 	</select>
+ 	
+ 	<!-- 임시저장 리스트 -->
+ 	<select id="selectTempApproval" parameterType="_int" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 임시저장 전체선택 -->
+ 	<select id="selectAllTempApproval" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{option}
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	<!-- 임시저장 날짜 sort -->
+ 	<select id="selectTempDate" parameterType="HashMap" resultMap="approvalResultSet">
+ 	<![CDATA[
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD')
+ 		ORDER BY CREATE_DATE DESC
+ 	]]>
+ 	</select>
+ 	<select id="selectDateBoundSortTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 	<![CDATA[
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND CREATE_DATE = BETWEEN #{start} AND #{end}
+ 		ORDER BY CREATE_DATE DESC
+ 	]]>
+ 	</select>
 </mapper>
