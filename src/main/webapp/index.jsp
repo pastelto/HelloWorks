@@ -25,6 +25,7 @@
     </style>
 </head>
 <body>
+
     <div class="center">
     	<!-- logoImage -->
         <img src="resources/common/loginLogo.png" alt="login logo"  style="width: 22%; height: 22%;">
@@ -44,6 +45,6 @@
 	        </div>
         </form>
     </div>
-    
+
 </body>
 </html>
