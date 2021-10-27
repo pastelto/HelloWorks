@@ -1,10 +1,10 @@
 package com.helloworks.spring.employee.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -29,21 +29,21 @@ public class EmployeeController {
 	private AttendanceService attendanceService;
 	
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
-	public String loginMember(Employee m, Model model) {
+	public ModelAndView loginMember(Employee m, HttpSession session, ModelAndView mv) {
 				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
 			System.out.println("loginUser :  " + loginUser);
-			model.addAttribute("loginUser", loginUser);
-			return  "redirect:main.mi"; 
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("redirect:main.mi"); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			model.addAttribute("msg","로그인실패");
-			return  "common/errorPage";
+			mv.addObject("msg","로그인실패22");
+			mv.setViewName("common/errorPage");
 		}
-		
+		return mv;
 	}
 	
 	

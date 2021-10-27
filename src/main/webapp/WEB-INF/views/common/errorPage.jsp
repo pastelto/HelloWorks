@@ -4,47 +4,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>login</title>
-    <style>
-        .center{
-            width: 70%;
-            height: 70%;
-            margin: 0 auto;
-            margin-top: 10%;
-            text-align: center;
-        }
-        .login{  
-            margin-top: 15px;
-        }
-        #userId{
-            
-        }
-        #userPwd{
-           
-        }
-    </style>
+<title>Insert title here</title>
 </head>
 <body>
-    <div class="center">
-    	<!-- logoImage -->
-        <img src="resources/common/loginLogo.png" alt="login logo"  style="width: 22%; height: 22%;">
-      	
-        <form action="login.me" method="post">
-	        <div class="login">
-	        	<label for="empNo"></label>
-	            <input type="text" id="empNo" name="empNo" placeholder="사번" >
-	            <br>
-	            <label for="empPwd"></label>
-	            <input type="password" id="empPwd" name="empPwd" placeholder="비번">
-	            <br>	       
-	        </div>
-	        <div>
-	        	<button type="submit" class="btn btn-primary">로그인</button>
-	            <br>
-	            <h5 style="color: red;"> ${ requestScope['javax.servlet.error.message'] } 로그인 실패</h2>
-	        </div>
-        </form>
-    </div>
-    
+	<jsp:include page="menubar.jsp"/>
+	
+	<br>
+	<div align="center">	
+	
+		<img src="${ pageContext.servletContext.contextPath }/resources/images/error.png" width="300">
+		<br><br>
+		<h1 style="font-weight:bold">${ msg }</h1>
+		<h1 style="font-weight:bold">${ ref_form }</h1>
+		<h5 style="color: red;"> ${ requestScope['javax.servlet.error.message'] }</h2>
+		
+		<!-- 
+		  - javax.servlet.error.status_code (오류 상태 코드)
+		  - javax.servlet.error.exception_type (예외처리 클래스)
+		  - javax.servlet.error.message (오류 메시지)
+		  - javax.servlet.error.request_uri (오류가 발생한 요청 URI)
+		  - javax.servlet.error.exception (발생한 예외처리 내용)
+		  - javax.servlet.error.servelt_name (오류가 발생한 Servlet)
+		
+		
+		 -->
+	</div>
+	<br>
+	
+	<jsp:include page="footer.jsp"/>
 </body>
 </html>
