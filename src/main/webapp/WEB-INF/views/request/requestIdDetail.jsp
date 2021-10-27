@@ -6,181 +6,162 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비품 신청 양식</title>
+<title>사원증 신청 양식</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .content-wrapper {
 	overflow: auto;
 }
+/*파일선택시 선택된 파일명이 붙는것을 가려준다*/
+.fileRegiBtn input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
 </style>
 </head>
 <body>
-	<div class="card card-outline card-info ">
+	<div class="card card-outline card-info">
 		<div class="card-header p-0 border-bottom-0">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" id="eRequestForm" action="request.eq"
-							enctype="multipart/form-data" onsubmit="return submitValidate();">
-							<input type="hidden" id="empNo" name="empNo"
-								value="${ loginUser.empNo }">
+						<form method="post" id="requestIdCardForm" action="request.id"
+							enctype="multipart/form-data" onsubmit="return imgValidate();">
 							<div class="card-header">
-								<h3 class="card-title">비품 신청서</h3>
+								<h3 class="card-title">사원증 신청서</h3>
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-3">
+										<div class="col-7">
 											<label>신청일시</label>
 										</div>
-										<div class="col-9">
-											<div class="float-right">												
-												<c:set var="now" value="<%=new java.util.Date()%>"/>
-												<c:set var="sysdate">
-													<fmt:formatDate value="${now}" pattern="yyyy년  MM월 dd일  HH시  mm분"/>
-												</c:set>
-												<label>
-													<c:out value="${sysdate}"/>
-												</label>
-											</div>
+										<div class="col-5">
+											<c:set var="now" value="<%=new java.util.Date()%>" />
+											<c:set var="sysdate">
+												<fmt:formatDate value="${now}"
+													pattern="yyyy년  MM월 dd일  HH시  mm분" />
+											</c:set>
+											<label> <c:out value="${sysdate}" />
+											</label>
 										</div>
 									</div>
+									<br>
 									<div class="row">
-										<div class="col-3">
-											<label>신청자</label>
-										</div>
 										<div class="col-9">
-											<div class="form-group">
-												<input id="empName" name="empName"
-													value="${loginUser.empName}" class="form-control" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-3">
-											<label>부서명</label>
-										</div>
-										<div class="col-9">
-											<div class="form-group">
-												<input id="deptDname" name="deptDname"
-													value="${loginUser.deptDname}" class="form-control"
-													readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-3">
-											<label>직급명</label>
-										</div>
-										<div class="col-9">
-											<div class="form-group">
-												<input id="jobName" name="jobName"
-													value="${loginUser.jobName}" class="form-control" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-3">
-											<label>사용장소</label>
-										</div>
-										<div class="col-9">
-											<div class="form-group">
-												<input type="text" id="place" name="place"
-													class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-3">
-											<label>사용목적</label>
-										</div>
-										<div class="col-9">
-											<div class="form-group">
-												<input type="text" id="usage" name="usage"
-													class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-3">
-											<label>사용기간</label>
-										</div>
-										<div class="col-3">
-											<!-- 시작일시 -->
-											<div class="form-group">
-												<input type="date" name="sDate" class="form-control"
-													id="sDate">
-											</div>
-										</div>
-										<div class="col-1">
-											<label> 부터</label>
-										</div>
-										<div class="col-3">
-											<!-- 종료일시 -->
-											<div class="form-group">
-												<input type="date" name="eDate" class="form-control"
-													id="eDate">
-											</div>
-										</div>
-										<div class="col-1">
-											<label> 까지</label>
-										</div>
-									</div>
-									<!-- 비품종류 -->
-									<div class="row">
-										<div class="col-3">
-											<label>비품종류</label>
-										</div>
-										<div class="col-9">
-											<!-- <div class="container-fluid"> -->
-												<div class="row">
-													<div class="col-3">
-														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label> 화이트보드</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 빔프로젝트</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 노트북</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 카메라</label>
+											<div class="row">
+												<div class="col-3">
+													<label>한글이름</label>
+												</div>
+												<div class="col-3">
+													<div class="form-group">
+														<input id="empKName" name="empKName"
+															value="${loginUser.empName}" class="form-control"
+															readonly>
 													</div>
 												</div>
-											<!-- </div> -->
+												<div class="col-3">
+													<label>영문이름</label>
+												</div>
+												<div class="col-3">
+													<div class="form-group">
+														<input id="empEName" name="empEName"
+															value="${loginUser.empEn}" class="form-control" readonly>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-3">
+													<label>부서명</label>
+												</div>
+												<div class="col-3">
+													<div class="form-group">
+														<input id="deptDname" name="deptDname"
+															value="${loginUser.deptDname}" class="form-control"
+															readonly>
+													</div>
+												</div>
+												<div class="col-3">
+													<label>직급명</label>
+												</div>
+												<div class="col-3">
+													<div class="form-group">
+														<input id="jobName" name="jobName"
+															value="${loginUser.jobName}" class="form-control"
+															readonly>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-3">
+													<label>사번</label>
+												</div>
+												<div class="col-3">
+													<div class="form-group">
+														<input id="empNo" name="empNo" value="${loginUser.empNo}"
+															class="form-control" readonly>
+													</div>
+												</div>
+												<div class="col-3">
+													<label>발급종류</label>
+												</div>
+												<div class="col-3">
+													<label> <input type="radio" name="iRkind"
+														value="신규발급" id="radioNew" checked> 신규발급
+													</label>&nbsp &nbsp &nbsp &nbsp &nbsp <label> <input
+														type="radio" name="iRkind" value="재발급" id="radioReissue">
+														재발급
+													</label>
+												</div>
+											</div>
+											<br>
+											<div class="row">
+												<div class="col-12">
+													<div class="alert alert-light" role="alert">
+														<label> [사원증 발급 유의사항] <br> 
+															1. 발급받은 사원증은 항상 패용합니다. <br> 
+															2. 승인된 장소 이외에는 출입하지 않습니다. <br>
+															3.관계사 전배 및 휴, 퇴직시 반드시 총무팀으로 반납하여야 합니다. <br>
+														</label>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="row">
 										<div class="col-3">
-											<label>기타 요청사항</label>
-										</div>
-										<div class="col-9">
-											<div class="form-group">
-												<textarea class="form-control" id="addRequest"
-													name="addRequest" rows="3"></textarea>
+											<!-- 이미지파일 등록 -->
+											<div class="col-3">
+												<!-- 이미지 들어오는 부분 -->
+												<div class="selectCover">
+													<img id="cover" src="resources/empImg/defaultImg.jpg"
+														style="width: 160px; height: 200px;" />
+												</div>
+											</div>
+											<div class="col-9">
+												<div class="form-group">
+													<input id="fileName" name="fileName" class="form-control"
+														value="jpg, jpeg, png" readonly>
+												</div>
+												<div class="fileRegiBtn">
+													<label for="myFileUp"> <i
+														class="fas fa-cloud-upload-alt"> 이미지 파일 업로드</i>
+													</label> <input type="file" name="orgPicName" id="myFileUp">
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-12">
-											<div class="alert alert-light" role="alert">
-												<label>
-													[주의사항] <br> 
-													1. 사용일시가 중복될 경우 접수순과 중요성을 고려하여 결정함 <br>
-													2. 사용이 끝나면 즉시 총무팀으로 반납하여야 함<br> 
-													3. 기타 비품은 총무팀에서 심사후 신청인에게 결과 통보함<br>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!-- /.container -->
 								</div>
-								<!-- /.card-body -->
+								<!--/. container -->								
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="submit" id="submitBtn" class="btn btn-primary">
+										<button type="submit" class="btn btn-primary">
 											<i class="fas fa-clipboard-check"></i> 신청하기
 										</button>
 									</div>
@@ -188,52 +169,42 @@
 										<i class="fas fa-times"></i> 취소하기
 									</button>
 								</div>
+								<!-- /.card-footer -->
 							</div>
-							<!-- /.card-footer -->
-							<!-- /.card -->
+							<!-- /.card-body -->							
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		// 파일 URL 띄우기
+		function readURL(input) {
+			//console.log("버튼클릭");
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					$('#cover').attr('src', e.target.result); //cover src로 붙여지고
+					$('#fileName').val(input.files[0].name); //파일선택 form으로 파일명이 들어온다
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		// 이미지 바꾸기
+		$("#myFileUp").change(function() {
+			readURL(this);
+			//console.log("이미지 바뀜");
+		});
+		
+		// 사진파일 없을때 알림
+		function imgValidate() {
+			if (($('#myFileUp').val() == "")) {
+				alert("사진파일을 등록해 주세요")
+				return false;
+			}
+			return true;
+		}
+	</script>
 </body>
-<script type="text/javascript">
-	/* 	$('input[type="date"]').on('click', function() {
-	 var sDate = $("#sDate").val();
-	 console.log("시작 : " + sDate);
-
-	 var eDate = $("#eDate").val();
-	 console.log("끝 : " + eDate);
-	 }); */
-
-	function submitValidate() {
-		if (($('#place').val() == "")) {
-			$("#eRequestForm input[name=place]").focus();
-			alert("사용장소를 입력해 주세요")
-			return false;
-		}
-		if (($('#usage').val() == "")) {
-			$("#eRequestForm input[name=usage]").focus();
-			alert("사용목적을 입력해 주세요")
-			return false;
-		}
-		if (($('#sDate').val() == "")) {
-			$("#eRequestForm input[name=sDate]").focus();
-			alert("시작날짜를 입력해 주세요")
-			return false;
-		}
-		if (($('#eDate').val() == "")) {
-			$("#eRequestForm input[name=eDate]").focus();
-			alert("종료날짜를 입력해 주세요")
-			return false;
-		}
-		if (($('#eqName').val() == "")) {
-			$("#eRequestForm input[name=eqName]").focus();
-			alert("비품명을 입력해 주세요")
-			return false;
-		}
-		return true;
-	}
-</script>
 </html>

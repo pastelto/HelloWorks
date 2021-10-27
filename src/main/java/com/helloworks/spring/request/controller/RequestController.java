@@ -91,25 +91,22 @@ public class RequestController {
 	@ResponseBody
 	@RequestMapping(value="list.eq", produces="application/json; charset=UTF-8")
 	public String selectEqList() {
-		//비품리스트
-		ArrayList<RequestEq> list = requestService.selectEqList();
-		//System.out.println(list+ "------------");
 		
+		ArrayList<RequestEq> list = requestService.selectEqList();
 		return new GsonBuilder().create().toJson(list);
+		
 	}
 	//사원증리스트
 	@ResponseBody
 	@RequestMapping(value="list.id", produces="application/json; charset=UTF-8")
 	public String selectIdList() {
 
-		//사원증리스트
 		ArrayList<RequestId> list = requestService.selectIdList();
-		//System.out.println(list+ "------------");		
-		
 		return new GsonBuilder().create().toJson(list);
+		
 	}
 	
-	// 비품 체크박스 제출-> 승인완료로
+	// 목록-비품 체크박스 제출-> 승인완료로
 	@ResponseBody
 	@RequestMapping(value = "/confirm.eq", method = RequestMethod.POST)
 	public String confirmEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
@@ -120,7 +117,7 @@ public class RequestController {
 
 	}
 	
-	// 사원증 체크박스 제출-> 승인완료로
+	// 목록-사원증 체크박스 제출-> 승인완료로
 	@ResponseBody
 	@RequestMapping(value = "/confirm.id", method = RequestMethod.POST)
 	public String confirmId(@RequestParam(value = "checkArr[]") List<String> checkArr){
@@ -131,7 +128,7 @@ public class RequestController {
 
 	}
 	
-	// 비품 체크박스 제출-> 승인취소로
+	// 목록-비품 체크박스 제출-> 승인취소로
 	@ResponseBody
 	@RequestMapping(value = "/cancel.eq", method = RequestMethod.POST)
 	public String cancelEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
@@ -142,7 +139,7 @@ public class RequestController {
 
 	}
 	
-	// 사원증 체크박스 제출-> 승인취소로
+	// 목록-사원증 체크박스 제출-> 승인취소로
 	@ResponseBody
 	@RequestMapping(value = "/cancel.id", method = RequestMethod.POST)
 	public String cancelId(@RequestParam(value = "checkArr[]") List<String> checkArr){
@@ -172,6 +169,59 @@ public class RequestController {
 		System.out.println(requestId);
 		mv.addObject("requestId", requestId).setViewName("request/requestIdDetail");
 		return mv;
+
+	}
+	
+	//목록-비품 체크박스 삭제
+	@ResponseBody
+	@RequestMapping(value = "/deleteList.eq", method = RequestMethod.POST)
+	public String deleteListEq(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+		requestService.deleteListEq(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	//목록-사원증 체크박스 삭제
+	@ResponseBody
+	@RequestMapping(value = "/deleteList.id", method = RequestMethod.POST)
+	public String deleteListId(@RequestParam(value = "checkArr[]") List<String> checkArr){
+
+		requestService.deleteListId(checkArr);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	//상세-비품신청 삭제
+	@ResponseBody
+	@RequestMapping(value = "/deleteOne.eq", method = RequestMethod.POST)
+	public String deleteOneEq(int requestEqNo){
+
+		requestService.deleteOneEq(requestEqNo);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	//상세-비품신청 승인완료
+	@ResponseBody
+	@RequestMapping(value = "/confirmOne.eq", method = RequestMethod.POST)
+	public String confirmOneEq(int requestEqNo){
+
+		requestService.confirmOneEq(requestEqNo);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	//상세-비품신청 승인취소
+	@ResponseBody
+	@RequestMapping(value = "/cancelOne.eq", method = RequestMethod.POST)
+	public String cancelOneEq(int requestEqNo){
+
+		requestService.cancelOneEq(requestEqNo);
+		String result = "성공!";
+		return String.valueOf(result);
 
 	}
 		

@@ -16,7 +16,7 @@
 </style>
 </head>
 <body>
-<jsp:include page="../common/menubar.jsp" />
+	<jsp:include page="../common/menubar.jsp" />
 	<div class="content-wrapper">
 		<section class="content-header">
 			<div class="container-fluid">
@@ -26,20 +26,32 @@
 							<i class="fas fa-clipboard-list"></i><b> 비품 신청 상세</b>
 						</h4>
 					</div>
+					<div class="col-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item"><a href="request.menu">신청페이지</a></li>
+							<li class="breadcrumb-item active">비품 신청 상세</li>
+						</ol>
+					</div>
 				</div>
 			</div>
 		</section>
-	<div class="card card-outline card-info ">
-		<div class="card-header p-0 border-bottom-0">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12">
-						<form method="post" id="eRequestForm" action="request.eq"
-							enctype="multipart/form-data" onsubmit="return submitValidate();">
-							<input type="hidden" id="empNo" name="empNo"
-								value="${ loginUser.empNo }">
+		<div class="card card-outline card-info ">
+			<div class="card-header p-0 border-bottom-0">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
 							<div class="card-header">
 								<h3 class="card-title">비품 신청 상세</h3>
+								<div class="float-right">
+									<c:if
+										test="${ (loginUser.deptCode eq 'A2'|| loginUser.empNo eq requestEq.empNo) && requestEq.erCondition eq '제출'}">
+										<div class="float-letf">
+											<button class="btn btn-default" id="deleteOneEqBtn" onclick="deleteOneEq(${ requestEq.requestEqNo });">
+												<i class="far fa-trash-alt"> 삭제</i>
+											</button>
+										</div>
+									</c:if>
+								</div>
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
@@ -49,9 +61,10 @@
 											<label>신청일시</label>
 										</div>
 										<div class="col-9">
-											<div class="float-right">												
+											<div class="float-right">
 												<input id=requestDate name="requestDate"
-													value="${requestEq.requestDate}" class="form-control" readonly>
+													value="${requestEq.requestDate}" class="form-control"
+													readonly>
 											</div>
 										</div>
 									</div>
@@ -62,7 +75,8 @@
 										</div>
 										<div class="col-9">
 											<div class="form-group">
-												<input id="empName" name="empName" value="${requestEq.empName}" class="form-control" readonly>
+												<input id="empName" name="empName"
+													value="${requestEq.empName}" class="form-control" readonly>
 											</div>
 										</div>
 									</div>
@@ -72,7 +86,9 @@
 										</div>
 										<div class="col-9">
 											<div class="form-group">
-												<input id="deptDname" name="deptDname" value="${requestEq.deptDname}" class="form-control" readonly>
+												<input id="deptDname" name="deptDname"
+													value="${requestEq.deptDname}" class="form-control"
+													readonly>
 											</div>
 										</div>
 									</div>
@@ -114,98 +130,134 @@
 											<label>사용기간</label>
 										</div>
 										<div class="col-3">
-											<label>
-												${requestEq.sDate}
-											</label>
+											<input id="sDate" name="sDate" value="${requestEq.SDate}"
+												class="form-control" readonly>
 										</div>
 										<div class="col-1">
 											<label> 부터</label>
 										</div>
 										<div class="col-3">
-											<label>
-												${requestEq.eDate}
-											</label>
+											<input id="eDate" name="eDate" value="${requestEq.EDate}"
+												class="form-control" readonly>
 										</div>
 										<div class="col-1">
 											<label> 까지</label>
 										</div>
 									</div>
+									<br>
 									<!-- 비품종류 -->
 									<div class="row">
 										<div class="col-3">
 											<label>비품종류</label>
 										</div>
 										<div class="col-9">
-											<!-- <div class="container-fluid"> -->
-												<div class="row">
-													<div class="col-3">
-														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label> 화이트보드</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 빔프로젝트</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 노트북</label>
-													</div>
-													<div class="col-3">
-														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 카메라</label>
-													</div>
-												</div>
-											<!-- </div> -->
+											<input id="eDate" name="eDate" value="${requestEq.eqName}"
+												class="form-control" readonly>
 										</div>
 									</div>
+									<br>
 									<div class="row">
 										<div class="col-3">
 											<label>기타 요청사항</label>
 										</div>
 										<div class="col-9">
 											<div class="form-group">
-												<textarea class="form-control" id="addRequest"
-													name="addRequest" rows="3"></textarea>
+												<input id="eDate" name="eDate"
+													value="${requestEq.addRequest}" class="form-control"
+													readonly>
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-12">
-											<div class="alert alert-light" role="alert">
-												<label>
-													[주의사항] <br> 
-													1. 사용일시가 중복될 경우 접수순과 중요성을 고려하여 결정함 <br>
-													2. 사용이 끝나면 즉시 총무팀으로 반납하여야 함<br> 
-													3. 기타 비품은 총무팀에서 심사후 신청인에게 결과 통보함<br>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!-- /.container -->
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
-									<div class="float-right">
-										<button type="submit" id="submitBtn" class="btn btn-primary">
-											<i class="fas fa-clipboard-check"></i> 신청하기
+									<c:if test="${ loginUser.deptCode eq 'A2'}">
+										<button class="btn btn-default" id="cancelOneEqBtn" onclick="cancelOneEq(${ requestEq.requestEqNo });">
+											<i class="fas fa-times"></i>승인취소
 										</button>
-									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
-									</button>
+										<div class="float-right">
+											<button class="btn btn-primary" id="confirmOneEqBtn" onclick="confirmOneEq(${ requestEq.requestEqNo });">
+												<i class="far fa-circle"></i>승인완료
+											</button>
+										</div>
+									</c:if>
 								</div>
 							</div>
 							<!-- /.card-footer -->
 							<!-- /.card -->
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 	<jsp:include page="../common/footer.jsp" />
+	<script type="text/javascript">
+		
+		//비품 제출 -> 승인완료
+		function confirmOneEq(requestEqNo) {
+			/* alert(requestEqNo);
+			console.log(requestEqNo);	 */	
+			//var requestEqNo = requestEqNo;
+ 			$.ajax({
+				url : "confirmOne.eq",
+				type : "post",
+				data : {
+					requestEqNo : requestEqNo
+				},
+				success : function(result) {
+					if (result == "??!") {
+						alert("비품신청 승인완료 처리성공!");
+						//location.reload(true);
+						location.href = "request.menu"; //페이지 새로고침
+						//history.go(0);
+					}
+				}
+			});
+ 		}
+		// 비품 제출 -> 승인취소
+		function cancelOneEq(requestEqNo) {
+			/* alert(requestEqNo);
+			console.log(requestEqNo);	 */	
+			//var requestEqNo = requestEqNo;
+ 			$.ajax({
+				url : "cancelOne.eq",
+				type : "post",
+				data : {
+					requestEqNo : requestEqNo
+				},
+				success : function(result) {
+					if (result == "??!") {
+						alert("비품신청 승인취소 처리성공!");
+						//location.reload(true);
+						location.href = "request.menu"; //페이지 새로고침
+						//history.go(0);
+					}
+				}
+			});
+ 		}
+	
+		//비품 신청 삭제(제출인 상태만 삭제) 
+		function deleteOneEq(requestEqNo) {
+			/* alert(requestEqNo);
+			console.log(requestEqNo);	 */	
+			//var requestEqNo = requestEqNo;
+ 			$.ajax({
+				url : "deleteOne.eq",
+				type : "post",
+				data : {
+					requestEqNo : requestEqNo
+				},
+				success : function(result) {
+					if (result == "??!") {
+						alert("비품신청 삭제성공!");
+						//location.reload(true);
+						location.href = "request.menu"; //페이지 새로고침
+						//history.go(0);
+					}
+				}
+			});
+ 		}
+	</script>
 </body>
-<script type="text/javascript">
-	$(function (){
-		if
-	})
-
-</script>
 </html>

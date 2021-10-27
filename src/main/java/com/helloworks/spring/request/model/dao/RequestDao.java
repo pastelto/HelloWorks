@@ -109,6 +109,36 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("requestMapper.selectId", requestIdNo);
 	}
+
+	//비품 신청 목록에서 삭제
+	public int deleteListEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteListEq", checkArr);
+	}
+	
+	//사원증 신청 목록에서 삭제
+	public int deleteListId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteListId", checkArr);
+	}
+
+	//비품 상세페이지에서 삭제
+	public int deleteOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteOneEq", requestEqNo);
+	}
+	
+	//비품 상세페이지에서 승인완료
+	public int confirmOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmOneEq", requestEqNo);
+	}
+
+	//비품 상세페이지에서 승인취소
+	public int cancelOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelOneEq", requestEqNo);
+	}
 	
 
 }

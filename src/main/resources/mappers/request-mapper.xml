@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회의실 삭제 -->
 	<delete id="deleteMtr" parameterType="List">
 		DELETE FROM RS_MEETINGROOM_MANAGEMENT
-		where RS_MM_NO in
+		WHERE RS_MM_NO in
 			<foreach collection="list" item="deleteMtr" index="i" open="(" separator="," close=")">
 				#{deleteMtr}
 			</foreach>
@@ -131,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN EMPLOYEE B ON A.ES_ER_EMP_NO = B.EMP_NO
         JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
         JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+        WHERE ES_ER_STATUS = 'Y'
 		ORDER BY ES_ER_DATE DESC
 	</select>
 	
@@ -141,6 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
         JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
         JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+        WHERE ES_IR_STATUS = 'Y'
 		ORDER BY ES_IR_DATE DESC
 	</select>
 	
@@ -202,6 +204,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
         JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
 		WHERE ES_IR_NO = #{requestIdNo}
-	</select>	
+	</select>
+	
+	<!-- 비품 신청 목록에서 삭제 -->
+	<update id="deleteListEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_STATUS = 'N'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="deleteListEq" index="i" open="(" separator="," close=")">
+				#{deleteListEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 신청 목록에서 삭제 -->
+	<update id="deleteListId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_STATUS = 'N'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="deleteListId" index="i" open="(" separator="," close=")">
+				#{deleteListId}
+			</foreach>		
+	</update>
+	
+	<!-- 비품 상세페이지에서 삭제 -->
+	<update id="deleteOneEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_STATUS = 'N'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 비품 상세페이지에서 승인완료 -->
+	<update id="confirmOneEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인완료'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 비품 상세페이지에서 승인취소 -->
+	<update id="cancelOneEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인취소'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>	
 	
 </mapper>
