@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>HelloWorks - 발송 업무</title>
 </head>
 <body>
 
@@ -73,7 +73,7 @@
                     </tr>
                   </thead>
                 <tbody align="center">
-                	<c:forEach items="${ list }" var="ws">
+                	<c:forEach items="${ list }" var="ws" varStatus="status">
 	                    <tr>
 	                        <td>${ ws.ws_no }</td>
 	                        <c:if test="${ ws_favb eq Y }">
@@ -84,8 +84,8 @@
 	                        </c:if>
 	                        <td>${ ws.ws_title }</td>
 	                        <td>${ ws.ws_senderName } ${ ws.ws_senderJobName }</td>
-	                        <td> <%-- ${countRead}/${totalCount} --%> </td>
-		                    <td> 발신인원 </td>
+	                        <td> ${cRead[status.index]}/${totalCount[status.index]} </td>
+		                    <td> /${totalCount[status.index]} </td>
 	                        <td>${ ws.createDate }</td>
 	                    </tr>
                     </c:forEach>	

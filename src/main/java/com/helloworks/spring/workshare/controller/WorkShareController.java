@@ -125,7 +125,8 @@ public class WorkShareController {
 		ArrayList<WorkShare> list = new ArrayList<>();
 		PageInfo pi = new PageInfo();
 		int countRead = 0; // 읽은 사람 수 
-		int totalCount = 0; // 총 수신인 수 
+		ArrayList<Integer> cRead = new ArrayList<>(); 
+		ArrayList<Integer> totalCount = new ArrayList<>(); // 총 수신인 수 
 		try {
 			
 			Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
@@ -144,19 +145,23 @@ public class WorkShareController {
 			// 발신 업무 목록 
 			list = workShareService.selectSendList(myEmp, pi);
 			
-			/* 발신 수신인 수
-			String rList = list.get(0).getWs_recv_status();
-			System.out.println("발신인 수신인 수 ? " + rList);
-			countRead = countRead(rList);
-			String[] strList = rList.split(",");
-			totalCount = strList.length;*/
+			// 발신 수신인 수
+			for(int i = 0; i < list.size(); i++) {
+				String rList = list.get(i).getWs_recv_status();
+				System.out.println("발신인 수신인 수 ? " + rList);
+				String[] strList = rList.split(",");
+				countRead = countRead(strList);
+				totalCount.add(strList.length);
+				cRead.add(countRead);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// model.addAttribute("countRead", countRead);
-		// model.addAttribute("totalCount", totalCount);
+		model.addAttribute("cRead", cRead); // 읽은 사람 수 
+		model.addAttribute("totalCount", totalCount); // 전체 발송인 수
 		model.addAttribute("page", 3);
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
@@ -164,13 +169,12 @@ public class WorkShareController {
 	}
 	
 	// 수신 인원
-	private int countRead(String rList) {
+	private int countRead(String[] strList) {
 		
 		int countRead = 0;
-		String[] rEach = rList.split(",");
 		
-		for(int i = 0; i < rEach.length; i++) {
-			if(Integer.parseInt(rEach[i]) == 0) {
+		for(int i = 0; i < strList.length; i++) {
+			if(Integer.parseInt(strList[i]) == 0) {
 				countRead++;
 			};
 		}
@@ -449,14 +453,59 @@ public class WorkShareController {
 	
 	// 업무공유 수정
 	@RequestMapping("updateWS.ws")
-	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) {
+	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) throws Exception {
 		
+		ModelAndView mav = new ModelAndView("redirect:unCheckedListWS.ws");
 		
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
 		
+		System.out.println("fileList ? " + fileList.size());
+		System.out.println("ws_status ? " + ws_status);
 		
+		WorkShare ws = new WorkShare();
 		
+		ArrayList<WSAttachment> wsaList = new ArrayList<WSAttachment>();
+		ws.setWs_no(Integer.parseInt(multiRequest.getParameter("workShareNo")));
+		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
+		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
+		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
+		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
+		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
+		ws.setWs_status("Y");
 		
-		ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
+		// 업무공유 먼저 추가하기
+		//workShareService.updateWorkShare(ws);
+		System.out.println("ws ? " + ws);
+		
+		// 첨부파일이 있으면 리스트로 값 추가하기 
+		 if(fileList.get(0).getSize() != 0) {
+		  
+			 for(int i = 0; i < fileList.size(); i++) {
+			 WSAttachment wsa = new WSAttachment();
+			 String changeName = saveFile(fileList.get(i), request, i);
+			 
+			 System.out.println("==================== file start ====================");
+			 System.out.println("파일 이름 : " + changeName); 
+			 System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+			 System.out.println("파일 크기 : " + fileList.get(i).getSize()); 
+			 System.out.println("content type : " + fileList.get(i).getContentType());
+			 System.out.println("==================== file end ====================="); 			 
+			 
+			 wsa.setWsa_empNo(ws.getWs_empno()); 
+			 wsa.setWsa_wsNo(ws.getWs_no());
+			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
+			 wsa.setWsa_change(changeName);
+			 wsa.setWsa_size(fileList.get(i).getSize());
+			 wsa.setWsa_status(ws_status);
+			 
+			 wsaList.add(wsa);
+			 }
+			 
+			
+			System.out.println("wsaList ? " + wsaList);
+			//workShareService.updateWSAttachment(wsaList);
+		 }
+
 		return mav;
 	}
 	
