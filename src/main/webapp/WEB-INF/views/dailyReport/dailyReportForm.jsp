@@ -90,9 +90,10 @@
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
-												<div class="row m-0">
-													<div class="col-9 p-0">
-														<b><span class="badge badge-info" id="receiveListTag" ></span></b>
+												<!-- <div class="row m-0">
+													<div class="col-9 p-0" style="overflow: auto; height: 80%">
+														<b><span class="badge badge-info" id="receiveListTag"></span></b>
+														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
 													</div>
 													<div class="col-3">
 														<div class="float-right">
@@ -101,6 +102,19 @@
 															<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 														</div>
 													</div>
+												</div> -->
+												<div class="row m-0">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook()">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
+												&nbsp;&nbsp;
+												<div>
+												
+												<b><span class="badge badge-info" id="receiveListTag"></span></b>
+														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
+												</div>
+												
+													
 												</div>
 												</td>
 											</tr>
@@ -108,6 +122,7 @@
 												<th>참조</th>
 												<td colspan="3">
 												<b><span class="badge badge-warning" id="refListTag"></span></b>
+												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
 												</td>
 											</tr>
 											<tr>

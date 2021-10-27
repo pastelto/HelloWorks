@@ -330,7 +330,7 @@
 															<c:forEach items="${ list }" var="employee">
 																<tr>
 																	<th><input type='checkbox' name='plusAddressBook'
-																		id='plusAddressBook' value="${ employee.empNo }"></th>
+																		id='plusAddressBook' value="${ employee.empNo }+${employee.empName}"></th>
 																	<td>${ employee.empNo }</td>
 																	<td>${ employee.empName}( ${employee.empEn} )</td>
 																	<td>${ employee.jobName }</td>
@@ -379,21 +379,16 @@
 													<b>수신 직원</b>
 												</div>
 												<div class="card-body pr-1 pl-1 pt-2 pb-2">
-													<div style="overflow: auto; height: 140px">
+													<div style="overflow: auto; height: 235px">
 														<table id="receiveTable"
 															class="table table-bordered table-sm mb-0 text-center">
 															<tbody>
-																<c:forEach items="${ addReceiveList }"
-																	var="addReceiveList">
+																<c:forEach items="${ addReceiveList }" var="addReceiveList">
 																	<tr>
 																		<td><input type="checkbox" id="delReceiveList"
 																			name="delReceiveList" value="${ addReceiveList }"></td>
-																		<td><input type="hidden" id="addReceiveListKey"
-																			name="addReceiveListKey"
-																			value="${ addReceiveList.key }">${ addReceiveList.key }</td>
-																		<td><input type="hidden"
-																			id="addReceiveListValue" name="addReceiveListValue"
-																			value="${ addReceiveList.value }">${ addReceiveList.value }</td>
+																		<td>${ addReceiveList.key }</td>
+																		<td>${ addReceiveList.value }</td>
 																	</tr>
 																</c:forEach>
 															</tbody>
@@ -409,14 +404,13 @@
 													<b>참조 직원</b>
 												</div>
 												<div class="card-body pr-1 pl-1 pt-2 pb-2">
-													<div style="overflow: auto; height: 140px">
+													<div style="overflow: auto; height: 235px">
 														<table id="refTable"
 															class="table table-bordered table-sm mb-0 text-center">
 															<tbody>
 																<c:forEach items="${ addRefList }" var="addRefList">
 																	<tr>
-																		<td><input type="checkbox" id="delRefList"
-																			name="delRefList" value="${ addRefList }"></td>
+																		<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
 																		<td>${ addRefList.key }</td>
 																		<td>${ addRefList.value }</td>
 																	</tr>
@@ -436,7 +430,7 @@
 								<!-- card-footer -->
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="submitBtn" type="button" onclick="addOfficeAddressBookBtn();"
+									<button id="submitBtn" type="button" onclick="saveListSubmit();"
 										class="btn btn-primary btn-sm">저장하기</button>
 								</div>
 							</div>
@@ -744,21 +738,6 @@
 		}
 	</script>
 	
-	<!-- footer 사내 주소록 추가 버튼 -->
-	<script>
-		function addOfficeAddressBookBtn(){
-			const checkList = [];
-			
-			$("input[name='plusAddressBook']:checked").each(function(){
-				const checkEmpNo = $(this).val();
-				checkList.push(checkEmpNo);
-			});
-
-			location.href="addOfficeAddressBookArr.adb?checkList="+checkList;
-			
-		}
-	</script>
-	
 	<!-- 전체 제크 -->
 	<script>
 		function checkAll(){
@@ -770,16 +749,16 @@
 		}
 	</script>
 	
-		<!-- checkBox 수신직원 추가 -->
+	<!-- checkBox 수신직원 추가 -->
 	<script>
 		function addReceiveListBtn(){
 			var receiveList = [];
 			
-			$("input[name='addReceiveList']:checked").each(function(){
+			$("input[name='plusAddressBook']:checked").each(function(){
 				let checkEmpNo = $(this).val();
 				receiveList.push(checkEmpNo);
 			});
-			location.href="popupAddReceiveList.adb?receiveList="+receiveList;
+			location.href="popupAddReceiveList.or?receiveList="+receiveList;
 		}
 	</script>
 	
@@ -792,7 +771,7 @@
 				let checkEmpNo = $(this).val();
 				receiveList.push(checkEmpNo);
 			});
-			location.href="popupDelReceiveList.adb?receiveList="+receiveList;
+			location.href="popupDelReceiveList.or?receiveList="+receiveList;
 		}
 	</script>
 	
@@ -801,11 +780,11 @@
 		function addRefBtn(){
 			var refList = [];
 			
-			$("input[name='addReceiveList']:checked").each(function(){
+			$("input[name='plusAddressBook']:checked").each(function(){
 				let checkEmpNo = $(this).val();
 				refList.push(checkEmpNo);
 			});
-			location.href="popupAddRefList.adb?refList="+refList;
+			location.href="popupAddRefList.or?refList="+refList;
 		}
 	</script>
 	
@@ -818,7 +797,7 @@
 				let checkEmpNo = $(this).val();
 				refList.push(checkEmpNo);
 			});
-			location.href="popupDelRefList.adb?refList="+refList;
+			location.href="popupDelRefList.or?refList="+refList;
 		}
 	</script>
 	
