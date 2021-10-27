@@ -234,7 +234,7 @@
 								<div class="float-right" id="editPlace">	
 									&nbsp;						
 									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
-									<button id="editBtn" type="button" class="btn btn-warning btn-sm">수정하기</button>
+									<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>
 									&nbsp;
 									<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>
 									&nbsp;
@@ -280,7 +280,7 @@
 	<!-- 버튼 이동 -->
 	<script>
 	// 업무공유 수정화면 전환
- 	$("#editBtn").one("click", function(){
+ 	function editWS(){
  		  $('.click2edit').summernote({
  			  height: 300,
  			  minHeight: 300,
@@ -289,36 +289,38 @@
  			  });
  		  // console.log("클릭!");
  		  $('#editPlace').append('<button id="save" type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>&nbsp;&nbsp;');
- 		  $('#editPlace').append('<button id="cancel" type="button" class="btn btn-danger btn-sm" onclick="backToList()">취소</button>');
+ 		  $('#editPlace').append('<button id="cancel" type="button" class="btn btn-danger btn-sm" onclick="cancelUpdate()">취소</button>');
  		  $('#editAttachment').attr("style", "display:''");
  		  $("#resetBtn").remove();
  		  $("#editBtn").remove(); 		  
- 		 
- 	})
+ 		  $("#deleteBtn").remove(); 		  	 
+ 	};
 	
  	// 업무공유 수정 완료 및 저장
 	function saveBtn() {
 	  var markup = $('.click2edit').summernote('code');
 	  	
-	  	// 업무공유 수정하기 
-	  <%--  $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
-		$("#insertWSForm").submit();
-		alert("업무공유가 발송되었습니다."); --%>
-		// console.log("저장 클릭!");
+	 	<%-- $("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws?ws_status=Y");
+		$("#workShareForm").submit(); --%>
+		alert("업무공유가 수정되었습니다."); 
+		
 	 	$('.click2edit').summernote('destroy');
-	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-info btn-sm">수정하기</button>&nbsp;');
+	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>&nbsp;&nbsp;');
+	 	$('#editPlace').append('<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>');
 	  	$("#save").remove();
+	  	$("#cancel").remove();
 	};
 	
-	// 업무공유 수정하기
- 	function insertWorkShare(){
-		$('#workShareForm').each(function(){	
-			
- 		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
-		$("#workShareForm").submit();
-		alert("업무공유가 수정되었습니다."); 
-		});
-	}
+	// 업무공유 수정화면에서 취소버튼
+	function cancelUpdate() {
+		  var markup = $('.click2edit').summernote('code');
+
+		 	$('.click2edit').summernote('destroy');
+		 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>&nbsp;&nbsp;');
+		 	$('#editPlace').append('<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>');
+		  	$("#save").remove();
+		  	$("#cancel").remove();
+		};
 	
 	// 업무공유 삭제하기
 	function deleteWS(){
@@ -336,7 +338,6 @@
 		});
 		}
 	}
-	
 	
 	// 취소버튼 - 뒤로가기
  	function backToList(){
@@ -381,12 +382,13 @@
 					});
 					
 				}else{
-					alert("댓글등록하셈");
+					alert("내용을 입력해주세요.");
 				}
 				
 			});
 		});
-	
+		
+		// 댓글 리스트 불러오기
 		function selectReplyList(){
 			var wno = ${ws.ws_no};
 			$.ajax({
@@ -404,7 +406,7 @@
 								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
 								 "<td>" + obj.wsr_content + "</td>" + 
 							     "<td>" + obj.wsr_date + "</td>" +
-							     "<td>" + "<a>'삭제하기'</a>" + "</td>" +
+							     "<td>" + "<button type='button' onclick='" + "'deleteReply();'" + " value='" + obj.wsr_no + "'>삭제하기</button>" + "</td>" +
 							     "</tr>";
 						}else {
 							value += "<tr>" +
@@ -420,6 +422,13 @@
 					console.log("댓글 리스트조회용 ajax 통신 실패");
 				}
 			});
+		}
+		
+		// 댓글 삭제하기
+		function deleteReply(){
+			
+			
+			
 		}
   </script>
 	<jsp:include page="../common/footer.jsp" />
