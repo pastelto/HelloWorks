@@ -86,7 +86,7 @@
 			<div class="row">
 				<div class="col-12">
 				
-		            <div class="card card-outline card-info">
+		            <div class="card card-outline card-info mb-0">
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">

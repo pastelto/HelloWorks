@@ -187,7 +187,7 @@
 	<!-- 직원 검색  -->
 	<script>
 		function popupSearchEmp(){
-			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1000,height=640");
+			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
 		}
 	</script>
 </body>
