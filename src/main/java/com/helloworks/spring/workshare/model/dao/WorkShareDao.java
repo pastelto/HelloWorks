@@ -97,20 +97,32 @@ public class WorkShareDao {
 		return (ArrayList)sqlSession.selectList("workShareMapper.selectReplyList", wno);
 	}
 
-	public int insertReply(SqlSessionTemplate sqlSession, WSReply wsr) {
+	public int insertReply(SqlSessionTemplate sqlSession, WSReply wsr) throws Exception {
 		
 		return sqlSession.insert("workShareMapper.insertReply", wsr);
 	}
 
-	public int deleteWS(SqlSessionTemplate sqlSession, int wno) {
+	public int deleteWS(SqlSessionTemplate sqlSession, int wno) throws Exception {
 		
 		return sqlSession.delete("workShareMapper.deleteWS", wno);
 	}
 
-	public int deleteWSAttachment(SqlSessionTemplate sqlSession, int wno) {
+	public int deleteWSAttachment(SqlSessionTemplate sqlSession, int wno) throws Exception {
 	
 		return sqlSession.delete("workShareMapper.deleteWSAttachment", wno);
 	}
+	
+	public int updateWorkShare(SqlSessionTemplate sqlSession, WorkShare ws) {
+	
+		return sqlSession.update("workShareMapper.updateWorkShare", ws);
+	}
+
+	public int updateWSAttachment(SqlSessionTemplate sqlSession, WSAttachment wsa) throws Exception {
+		
+		return sqlSession.update("workShareMapper.updateWSAttachment", wsa);
+	}
+
+
 	
 	
 }
