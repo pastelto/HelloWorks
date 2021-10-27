@@ -65,7 +65,7 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												${ loginUser.empName }
+												<b>${ loginUser.empName }</b>
 												<input type="hidden" name="writer" id="writer" value="${ loginUser.empNo }">
 												</td>
 												<th>작성일</th>
@@ -91,8 +91,8 @@
 												<th>수신직원</th>
 												<td colspan="3">
 												<div class="row m-0">
-													<div class="col-9">
-														<span id="senderList">직원이름 들어갈 부분</span>
+													<div class="col-9 p-0">
+														<b><span class="badge badge-info" id="receiveListTag" ></span></b>
 													</div>
 													<div class="col-3">
 														<div class="float-right">
@@ -107,7 +107,7 @@
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												&nbsp;&nbsp;
+												<b><span class="badge badge-warning" id="refListTag"></span></b>
 												</td>
 											</tr>
 											<tr>
@@ -180,7 +180,7 @@
 	<!-- 주소록 -->
 	<script>
 		function popupAddressBook(){
-			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=580");
+			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
 		}
 	</script>
 	
