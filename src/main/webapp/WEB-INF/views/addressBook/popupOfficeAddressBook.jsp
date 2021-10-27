@@ -174,7 +174,7 @@
 												<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
 								                    <tr>
 								                    	<th>
-								                    		<input type='checkbox' name='receiveList' id='receiveList' value="${ officeAddresslist.oabEnrollNo }">
+								                    		<input type='checkbox' name='addReceiveList' id='addReceiveList' value="${ officeAddresslist.oabEnrollNo}+${officeAddresslist.empName }">
 								                    	</th>
 								                        <td>${ officeAddresslist.oabEnrollNo }</td>
 								                        <td>${ officeAddresslist.empName}</td>
@@ -187,12 +187,12 @@
 										</div>
 									</div>
 									
-									
+									<!--  
 									<div id="pagingArea">
 						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&addReceiveList=${ addReceiveList }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -202,7 +202,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&addReceiveList=${ addReceiveList }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -213,7 +213,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&addReceiveList=${ addReceiveList }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -221,6 +221,52 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
+						            -->
+						            
+									<div id="pagingArea">
+						                <ul class="pagination mb-0">
+						                	<c:choose>
+						                		<c:when test="${ pi.currentPage ne 1 }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                	
+						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						                    	<c:choose>
+							                		<c:when test="${ pi.currentPage ne p }">
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+							                		</c:when>
+							                		<c:otherwise>
+							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+							                		</c:otherwise>
+							                	</c:choose>
+						                    </c:forEach>
+						                    
+						                    
+						                    <c:choose>
+						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                </ul>
+						            </div>						            
+						            
+						            
+						            
+						            
+						            
+						            
+						            
+						            
+						            
+						            
+						            
 								</div>
 								<!-- /.col -->
 							</div>
@@ -230,9 +276,9 @@
 		                  	<div class="col-1">
 		                  		<div class="row" style="height: 50%">
 		                  			<div class="col-12 align-self-center text-center">
-		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addReceiveList();">추가</button>
+		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addReceiveListBtn();">추가</button>
 		                  				<br>
-		                  				<button type="button" class="btn btn-danger btn-xs" onclick="delReceiveList();">삭제</button>
+		                  				<button type="button" class="btn btn-danger btn-xs" onclick="delReceiveListBtn();">삭제</button>
 		                  			</div>
 		                  		</div>
 		                  		<div class="row" style="height: 50%">
@@ -276,7 +322,12 @@
 			                  					</tr>
 			                  					 -->
 			                  					 <tbody>
-			                  					 
+			                  					 	<c:forEach items="${ addReceiveList }" var="addReceiveList">
+			                  					 		<tr>
+					                  						<td><input type="checkbox" id="delReceiveList" name="delReceiveList" value="${ addReceiveList }"></td>
+					                  						<td>${ addReceiveList }</td>
+				                  						</tr>
+			                  					 	</c:forEach>
 			                  					 </tbody>
 			                  				</table>
 			                  				</div>
@@ -419,15 +470,16 @@
 	<script>
 		function checkAll(){
 			if($("input[name='checkAll']").prop("checked")){
-				$("input[name='receiveList']").prop("checked", true)
+				$("input[name='addReceiveList']").prop("checked", true)
 			}else{
-				$("input[name='receiveList']").prop("checked", false)
+				$("input[name='addReceiveList']").prop("checked", false)
 			}
 		}
 	</script>
 	
 	<!-- checkBox 수신직원 -->
 	<!-- 이렇게 하면 페이징 버튼 누르면 값이 사라짐... ajax 통신 필요....ㅎ -->
+	<!-- 
 	<script>
 		function addReceiveList(){
 			let addReceiveList = [];
@@ -449,6 +501,72 @@
 			$("#receiveTable>tbody").html(value);			
 		}
 	</script>
-
+ 	-->
+ 	<!--  
+ 	<script>
+		function addReceiveList(){
+			var addReceiveList = [];
+			
+			$("input[name='receiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				addReceiveList.push(checkEmpNo);
+			});
+			alert(addReceiveList);
+			$.ajax({
+				url: "popupAddReceiveList.adb",
+				type: "post",
+				dataType: "json",
+				data : {
+					addReceiveList : addReceiveList
+				},
+				success:function(list){
+					var value="";
+					$.each(list, function(i, obj){
+						value +="<tr>"+
+								"<td><input type='checkbox'></td>"+
+								"<td>"+obj+"</td>"+
+								"</tr>";
+					})
+					alert(value);
+					//$("#receiveTable>tbody").html(value);		
+				},
+				error:function(){
+					console.log("주소록 팝업 리스트 추가 실패")
+				}
+			})		
+		}
+	</script>
+	-->
+	<script>
+	<!--
+		function addReceiveListBtn(){
+			var receiveList = [];
+			
+			$("input[name='addReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			//alert(receiveList);
+			location.href="popupAddReceiveList.adb?receiveList="+receiveList;
+		}
+	-->
+		function addReceiveListBtn(){
+			var receiveList = [];
+			
+			$("input[name='addReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			alert(receiveList);
+			location.href="popupAddReceiveList.adb?receiveList="+receiveList;
+		}
+	</script>
+	
+	<script>
+		function delReceiveListBtn(){
+			var receiveList = [];
+			
+		}
+	</script>
 </body>
 </html>

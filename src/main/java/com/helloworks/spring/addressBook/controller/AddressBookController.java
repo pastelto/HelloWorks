@@ -1,6 +1,8 @@
 package com.helloworks.spring.addressBook.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.helloworks.spring.addressBook.model.service.AddressBookService;
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
@@ -228,8 +231,12 @@ public class AddressBookController {
 	
 	
 	@RequestMapping("popupOfficeAddressBook.adb")
-	public String popupAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+	public String popupAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpSession session,HttpServletRequest request, Model model) {
 		System.out.println("공유 주소록 전환");
+		
+		HashMap<String, String> receiveListSession = (HashMap<String, String>) (request.getSession().getAttribute("receiveListSession"));
+		
+		System.out.println("new 세션값: "+receiveListSession);
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
@@ -247,6 +254,9 @@ public class AddressBookController {
 		model.addAttribute("officeAddresslist", officeAddresslist);
 		model.addAttribute("pi", pi);
 		model.addAttribute("pageURL", "popupOfficeAddressBook.adb");
+		model.addAttribute("addReceiveList", receiveListSession);
+		
+		//session.removeAttribute("receiveListSession");
 		return "addressBook/popupOfficeAddressBook";
 	}
 	
@@ -254,6 +264,8 @@ public class AddressBookController {
 	public String popUpSearchOfficeAddressBookEmployee(String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		
 		SearchEmployee se = new SearchEmployee();
+		
+		HashMap<String, String> receiveListSession = (HashMap<String, String>) (request.getSession().getAttribute("receiveListSession"));
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
 		
@@ -291,6 +303,70 @@ public class AddressBookController {
 		model.addAttribute("officeAddresslist", officeAddresslist);
 		model.addAttribute("pi", pi);
 		model.addAttribute("pageURL", "popUpSearchOfficeAddressBookEmployee.adb");
+		model.addAttribute("addReceiveList", receiveListSession);
 		return "addressBook/popupOfficeAddressBook";
+	}
+	
+	@RequestMapping("popupAddReceiveList.adb")
+	public String popupAddReceiveList(HttpServletRequest request, HttpSession session, Model model, SessionStatus status) {
+		
+		// HashMap
+		HashMap<String, String> originAddReceiveList = (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession"));
+		
+		System.out.println("이전: "+(HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
+		session.removeAttribute("receiveListSession"); 
+		System.out.println("이후: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
+		
+		HashMap<String, String> receiveList = new HashMap<String, String>();
+		
+		if(originAddReceiveList == null) {
+			System.out.println("세션값 비었다.");
+			String receiveListStr = request.getParameter("receiveList");
+			System.out.println(receiveListStr);
+			StringTokenizer tokenOrigin = new StringTokenizer(receiveListStr, ",");
+			
+			while(tokenOrigin.hasMoreTokens()) {
+				
+				StringTokenizer tokenOriginDiv = new StringTokenizer(tokenOrigin.nextToken(), " ");
+				
+				while(tokenOriginDiv.hasMoreTokens()) {
+					receiveList.put(tokenOriginDiv.nextToken(), tokenOriginDiv.nextToken());
+				}
+				System.out.println("기존 session값: "+receiveList);
+			}
+			
+			session.setAttribute("receiveListSession", receiveList);
+		}else if (originAddReceiveList != null){
+			System.out.println("세션값 있었다.");
+			
+			receiveList = originAddReceiveList;
+			
+			String receiveListStr = request.getParameter("receiveList");
+			
+			// 새로 받은 값 하나씩 분리
+			StringTokenizer tokenNew = new StringTokenizer(receiveListStr, ",");
+			
+			while(tokenNew.hasMoreTokens()) {
+				
+				StringTokenizer tokenNewDiv = new StringTokenizer(tokenNew.nextToken(), " ");
+				
+				while(tokenNewDiv.hasMoreTokens()) {
+					receiveList.put(tokenNewDiv.nextToken(), tokenNewDiv.nextToken());
+				}
+				System.out.println("새로 전달 받은 값 추가: "+receiveList);
+			}
+			
+			System.out.println(receiveList);
+			
+			
+			//receiveList = request.getParameter("receiveList")+","+originAddReceiveList;
+			session.setAttribute("receiveListSession", receiveList);
+		}
+		
+		System.out.println("신규: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
+		
+		System.out.println("넘어갔나요: "+receiveList);
+		return "redirect:popupOfficeAddressBook.adb";
+		
 	}
 }
