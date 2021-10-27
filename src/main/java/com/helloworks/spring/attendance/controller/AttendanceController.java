@@ -1,7 +1,6 @@
 package com.helloworks.spring.attendance.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
-import com.helloworks.spring.attendance.model.vo.SearchCondition;
+import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -32,11 +31,7 @@ public class AttendanceController {
 		return "attendance/AttendanceApiView";
 	}
 	
-	@RequestMapping("wtStatistics.ps")
-	public String wtStatistics() {
-		System.out.println("부서 출근조회");
-		return "attendance/DeptWTStatistics";
-	}
+
 	
 	//상태수정 새로운창 페이지 전환
 	@RequestMapping("updateStatus.ps")
@@ -180,7 +175,7 @@ public class AttendanceController {
 		//로그인유저 본인 부서 
 		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptDname();	 
 		
-		SearchCondition searchCondition = new SearchCondition();
+		 SearchAttendance searchCondition = new SearchAttendance();
 		ArrayList<Attendance> searchlist = new ArrayList();
 		
 		searchCondition.setAttendanceYM(attendanceYear+attendanceMonth); //날짜
@@ -232,38 +227,107 @@ public class AttendanceController {
 
 	}
 	
+	//상태변경
+    @ResponseBody
+	@RequestMapping(value = "changeStatus.ps", method = {RequestMethod.POST})
+	public String changeStatus(String changeIntime, String changeOuttime, String changeStatus, int psaNo , int empNo ){
+    	
+    	Attendance change = attendanceService.selectAttendance(empNo);
+    	
+       try {
+    		//퇴근시간 초로바꾸기
+			 int changeIn = (Integer.parseInt(changeIntime.substring(0, 2)))*60*60;
+			 int changeOut = (Integer.parseInt(changeOuttime.substring(0, 2)))*60*60;
+			 
+			 change.setPsaNo(psaNo); //기록번호 
+			 change.setAppliedIN(changeIn); //적용 출근시간 변경
+			 change.setAppliedOut(changeOut); //적용 퇴근시간 변경 
+			 
+		     change.setPsStatus(changeStatus); //상태값 변경
+		     change.setInTime(changeIntime); // 출근시간 변경 
+		     change.setOutTime(changeOuttime); //퇴근시간 변경 
+		     
+		     if(changeIn != 0) {
+		    	 change.setTotal(change.getAppliedOut()-change.getAppliedIN()-3600); //일한시간
+			     
+			     if(change.getTotal() > 28800) { //야근
+			    	 change.setOverTime(change.getTotal()-28800); //야근시간
+			    	 change.setWorkingTime(28800); //일한시간
+			    	 
+			     }else {
+			    	 change.setOverTime(0); //야근시간
+			    	 change.setWorkingTime(change.getTotal()); //일한시간
+			     }
+		    	 
+		     }else {//출근전 상태로 변경 
+		    	 change.setTotal(0);
+		    	 change.setOverTime(0);
+		    	 change.setWorkingTime(0);
+		     }
+		     attendanceService.changeStatus(change);
+			 
+			 
+    	} catch(NumberFormatException e) {			 
+			 e.printStackTrace();
+		 }
+    	System.out.println(change);
+		String result = "성공!";
+		
+		return String.valueOf(result);
 
-	    @ResponseBody
-		@RequestMapping(value = "changeStatus.ps", method = {RequestMethod.POST})
-		public String deleteCar(String changeIntime, String changeOuttime, String changeStatus  ){
+	}
 
-	    	System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#########################");
-	    	System.out.println(changeIntime);
-	    	System.out.println(changeOuttime);
-	    	System.out.println(changeStatus);
+    //통계 주차 가져오기
+    @ResponseBody
+   	@RequestMapping(value = "monthselect.ps", method = {RequestMethod.POST})
+   	public String monthselect(String monthselect){
+       	
+    	ArrayList<SearchAttendance> weeklist = attendanceService.monthselect(monthselect);
 
-	    	
-			System.out.println("성공");
-			String result = "성공!";
-			return String.valueOf(result);
+    	return new GsonBuilder().create().toJson(weeklist);
+    }
+    
+    //통계 전체조회하기
+	@RequestMapping("wtStatistics.ps")
+	public String wtStatisticsAll(Model model, HttpServletRequest request) {
+		
+		//본인 부서 
+		String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
+		
+		 ArrayList<Statistics> statistics = attendanceService.wtStatisticsAll(dept);
+		
+		 System.out.println("눈누난나" + statistics);
 
-		}
+		model.addAttribute("statistics",statistics);
+		
+		return "attendance/DeptWTStatistics";
+	}
 	
-	
-	
-	//
-//	 	@ResponseBody
-//	    @RequestMapping(value="checkDeptTime.ps", produces="application/json; charset=UTF-8") 
-//	    public String checkDeptEmp(String attendanceYear, String attendanceMonth, String attendance_type, String vacation_type, 
-//												String optionType, String search) {
-//	 		
-//	 		SearchCondition searchCondition = new SearchCondition();
-//	       ArrayList<Attendance> list = attendanceService.searchAttendance(searchCondition); 
-//	       
-//	      
-//	    
-//	       return new GsonBuilder().create().toJson(list);
-//	    }
-//	
-	
+	//통계 검색조건
+	@RequestMapping("statisticsSearch.ps")
+	public String statisticsSearch(String weekselect, String optionType, String  searchtext, 
+																	Model model, HttpServletRequest request) {
+		//본인 부서 
+		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
+		
+		 SearchAttendance search = new SearchAttendance();
+		 
+		 String startDate = weekselect.substring(0, 8); //시작일
+		 String endDate = weekselect.substring(8, 16); //종료일
+		
+		 search.setOptionType(optionType); //검색종류
+		 search.setSearch(searchtext); //검색내용
+		 search.setStart_date(startDate); //검색시작일
+		 search.setEnd_date(endDate); //검색 종료일
+		 search.setDept(dept); //부서
+		
+		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
+		
+		
+
+		model.addAttribute("statistics",statistics);
+		
+		return "attendance/DeptWTStatistics";
+	}
+   
 }

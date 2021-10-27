@@ -233,8 +233,8 @@ input[id*="radio"], input[id*="vacation"] {
 			console.log("~~~~~~~~"+ckvalue);
 			
 		});
-	   var _width = '400';
-	     var _height = '500';
+	   var _width = '300';
+	     var _height = '300';
 	     console.log("~~~~~~~~"+ckvalue);
 	     // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
 	     var _left = Math.ceil(( window.screen.width - _width )/2);

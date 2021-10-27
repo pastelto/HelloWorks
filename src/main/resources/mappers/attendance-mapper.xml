@@ -23,6 +23,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="vacation" column="PSA_VACATION"/>	
 	</resultMap>
 	
+	<resultMap id="searchResultSet" type="SearchAttendance">
+		<id property="year1" column="YEAR1"/>
+		<result property="month1" column="MONTH1"/>
+		<result property="week_seq" column="WEEK_SEQ"/>
+		<result property="start_date" column="START_DATE"/>
+		<result property="end_date" column="END_DATE"/>
+	</resultMap>
+	
+	<resultMap id="statisticsSet" type="Statistics">
+		<id property="empNo" column="PSA_EMP_NO"/>
+		<result property="name" column="EMP_NAME"/>
+		<result property="working" column="WORKINGT"/>
+		<result property="over" column="OVERT"/>
+		<result property="totalT" column="TOTALT"/>
+		<result property="leaveWT" column="LEAVEWT"/>
+		<result property="leaveOT" column="LEAVEOT"/>
+	</resultMap>
+	
 	<!-- 출근등록 -->
     <update id="updateInTime" parameterType="Attendance">
 	    UPDATE PS_ATTENDANCE
@@ -57,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~소속부서 출근기록~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
    
    <!--  모든 팀 검색 근태구분 -->
-	<select id ="searchAttendance" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+	<select id ="searchAttendance" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -77,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      </select>
      
      <!--  모든 팀검색 휴가구분 -->
-     <select id ="searchVacation" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+     <select id ="searchVacation" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -97,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      </select>
      
      <!--모든팀 출결조회 전체 -->
-     <select id ="checkDeptTimeAll" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+     <select id ="checkDeptTimeAll" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS,  A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO 
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -109,7 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      </select>
  
 	 <!--  모든 팀 검색 근태구분 ~~~~인사팀 -->
-	<select id ="searchAttendance1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+	<select id ="searchAttendance1" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_IN, A.PSA_OUT, A.PSA_NO 
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -131,7 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      </select>
      
      <!--  모든 팀검색 휴가구분  ~~~~인사팀 -->
-     <select id ="searchVacation1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+     <select id ="searchVacation1" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS, A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -153,7 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      </select>
  
   <!--모든팀 출결조회 전체  ~~~~인사팀-->
-     <select id ="checkDeptTimeAll1" parameterType= "SearchCondition" resultMap="attendanceResultSet">
+     <select id ="checkDeptTimeAll1" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
         SELECT A.PSA_CREATEDATE, A.PSA_EMP_NO, D.DEPT_DNAME, B.EMP_NAME, C.JOB_NAME, A.PSA_STATUS,  A.PSA_VACATION, A.PSA_IN, A.PSA_OUT, A.PSA_NO  
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
@@ -163,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY A.PSA_CREATEDATE ASC                          
      </select>
      
-     <!-- updateStatus -->
+     <!--새창으로 띄우기 위한 상태 변경 행 정보 가져오기 -->
  	<select id ="updateStatus" parameterType= "_int" resultMap="attendanceResultSet">
  		SELECT A.* , B.EMP_NAME, C.JOB_NAME, D.DEPT_DNAME
 		FROM PS_ATTENDANCE A
@@ -172,9 +190,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE    
 		WHERE A.PSA_NO = #{psaNo}
  	</select>
+ 	
+ 	<!-- 상태변경  -->
+ 	<update id="changeStatus" parameterType="Attendance">
+	    UPDATE PS_ATTENDANCE
+		SET PSA_OUT =#{outTime},
+		PSA_APPLIED_OUT = #{appliedOut},
+		PSA_IN =#{inTime},
+		PSA_APPLIED_IN = #{appliedIN},
+		PSA_STATUS=#{psStatus},
+		PSA_WORKINGTIME=#{workingTime},
+		PSA_OVERTIME=#{overTime},
+		PSA_TOTAL=#{total}		
+		WHERE PSA_NO = #{psaNo}
+   </update>
  
- <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~소속부서 출근기록~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+ <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~소속부서 통계~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+ 
+   <!-- 통계에서 달 선택 후 week 리스트 조회 -->
+   <select id="monthselect"  parameterType= "SearchAttendance" resultMap="searchResultSet">
+      	SELECT * FROM V_CHECKTIME
+		WHERE MONTH1=#{monthselect}
+   </select>  
  
  
+  <!-- 통계 전체조회 -->
+   <select id="wtStatisticsAll"  parameterType= "Statistics" resultMap="statisticsSet">
+      	SELECT 
+		A.PSA_EMP_NO , B.EMP_NAME,
+	    SUM(A.PSA_WORKINGTIME) WORKINGT,
+	    SUM(A.PSA_OVERTIME) OVERT,
+	    SUM(A.PSA_TOTAL) TOTALT,
+	    DECODE(144000-SUM(A.PSA_WORKINGTIME),144000,0,144000-SUM(A.PSA_WORKINGTIME) ) LEAVEWT, 
+	    DECODE(43200-SUM(A.PSA_OVERTIME),43200,0,43200-SUM(A.PSA_OVERTIME) ) LEAVEOT        
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		WHERE A.PSA_CREATEDATE BETWEEN '21/10/24' AND '21/10/30'
+		AND B.DEPT_CODE = #{dept}
+		GROUP BY A.PSA_EMP_NO, B.EMP_NAME
+		ORDER BY A.PSA_EMP_NO ASC
+   </select>  
+   
+   <!-- 통계 검색조회 -->
+   <select id="statisticsSearch"  parameterType= "SearchAttendance" resultMap="statisticsSet">
+      	SELECT 
+		A.PSA_EMP_NO , B.EMP_NAME,
+	    SUM(A.PSA_WORKINGTIME) WORKINGT,
+	    SUM(A.PSA_OVERTIME) OVERT,
+	    SUM(A.PSA_TOTAL) TOTALT,
+	    DECODE(144000-SUM(A.PSA_WORKINGTIME),144000,0,144000-SUM(A.PSA_WORKINGTIME) ) LEAVEWT, 
+	    DECODE(43200-SUM(A.PSA_OVERTIME),43200,0,43200-SUM(A.PSA_OVERTIME) ) LEAVEOT        
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		WHERE A.PSA_CREATEDATE BETWEEN #{start_date} AND #{end_date}
+		AND B.DEPT_CODE = #{dept}
+		GROUP BY A.PSA_EMP_NO, B.EMP_NAME
+		ORDER BY A.PSA_EMP_NO ASC
+   </select>  
      
 </mapper>
