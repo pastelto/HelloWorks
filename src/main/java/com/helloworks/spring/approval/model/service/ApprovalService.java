@@ -39,15 +39,31 @@ public interface ApprovalService {
 
 	void insertExpenditureDetail(ApprovalExDetails ad);
 
-	int selectListCount(int loginEmpNo);
+	int selectListCount(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectTempApproval(int loginEmpNo, PageInfo pi);
+	ArrayList<Approval> selectTempApproval(HashMap<String, Object> searchMap, PageInfo pi);
 
-	ArrayList<Approval> selectTempDate(HashMap<String, Integer> searchMap);
-
-	ArrayList<Approval> selectDateBoundSortTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectTempDate(HashMap<String, Object> searchMap);
 
 	ArrayList<Approval> selectAllTempApproval(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectSearchApNoTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectSearchTitleTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailApNoTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailTitleTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateApNoTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateTitleTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDeteDetailApNoTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateDetailTitleTemp(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectOnlyDateSortTemp(HashMap<String, Object> searchMap);
 
 	
 
