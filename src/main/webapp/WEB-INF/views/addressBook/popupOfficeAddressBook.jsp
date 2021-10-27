@@ -15,6 +15,23 @@
 	<!-- overlayScrollbars -->
 	<link rel="stylesheet" href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 	<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+	<!-- 스크립트 모음 -->
+	<!-- jQuery -->
+	<script src="./resources/plugins/jquery/jquery.min.js"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<script>
+	  $.widget.bridge('uibutton', $.ui.button)
+	</script>
+	<!-- Bootstrap 4 -->
+	<script src="./resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="./resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="./resources/dist/js/adminlte.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="./resources/dist/js/demo.js"></script>
 <style>
 	.content-wrapper {
 		overflow: auto;
@@ -62,7 +79,7 @@
 </head>
 <body>
 	<!-- Content Wrapper. Contains page content -->
-	<div class="content m-3">
+	<div class="content ml-3 mr-3 mt-3">
 
 		<!-- Main content -->
 		<section class="content">
@@ -77,8 +94,12 @@
 							</h6>
 						</div>
 		              
+		             
 		              <div class="card-body">
-						
+		               <div class="row">
+						<div class="col-8">
+							<div class="card mb-0">
+							<div class="card-body">
 							<!-- 사내 주소록 탭 -->
 								<div class="card" style="margin-bottom: 0px;">
 										
@@ -87,22 +108,20 @@
 											<tr>
 												<th>검색</th>
 												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
+												<form action="popUpSearchOfficeAddressBookEmployee.adb">
 												<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<a id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" href="officeAddressBook.adb">전체검색</a>
 														&nbsp;&nbsp;
 														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;" onchange="deptSelect(this.value);">
 																<option value="allType">전체</option>
 																<option value="deptType" >부서</option>
 																<option value="empNoType">사번</option>
 																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
-																<option value="emailType">이메일</option>
 															</select>
 															<span id="deptTypeBlank"style="display:none">&nbsp;&nbsp;</span>
-															<select id="deptTypeOption" name="deptTypeOption" class="custom-select custom-select-sm" style="width: 15%; display:none">
+															<select id="deptTypeOption" name="deptTypeOption" class="custom-select custom-select-sm" style="width: 20%; display:none">
 																<option value="A">경영지원본부</option>
 																<option value="A1">인사팀</option>
 																<option value="A2">총무팀</option>
@@ -116,7 +135,7 @@
 																<option value="C3">IT개발팀</option>
 															</select>
 															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
+															<div class="input-group" style="width: 40%;">
 																<input type="search" id="searchInput"
 																	class="form-control form-control-sm"
 																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
@@ -139,50 +158,38 @@
 									<!-- 주소록 리스트 -->
 									<div class="col-12" >
 									<div>
-									<div style="height: 450px; overflow:auto;">
-									<table id="officeAddressBookTable" class="table table-sm" >
-									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
-										<thead>
-											<tr>
-												<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
-												<th style="width: 10%">사번</th>
-												<th style="width: 20%">이름</th>
-												<th style="width: 10%">직급</th>
-												<th style="width: 10%">부서</th>
-												<th style="width: 10%">내선번호</th>
-												<th style="width: 20%">이메일</th>
-												<th style="width: 15%"></th>
-											</tr>
-										</thead>
-										<tbody>
-										
-											<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
-							                    <tr>
-							                    	
-							                    	<th>
-							                    	<input type='checkbox' name='deleteAddressBook' id='deleteAddressBook' value="${ officeAddresslist.oabEnrollNo }">
-							                    	</th>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.oabEnrollNo }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empName} ( ${officeAddresslist.empEn} )</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.jobName }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.deptDname }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEphone }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEmail }</td>
-							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
-							                        </th>
-							                    </tr>
-						                    </c:forEach>
-										</tbody>
-									</table>
-									</div>
+										<div style="height: 278px; overflow:auto;">
+										<table id="officeAddressBookTable" class="table table-sm" >
+										<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
+											<thead>
+												<tr>
+													<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
+													<th style="width: 20%">사번</th>
+													<th style="width: 20%">이름</th>
+													<th style="width: 20%">직급</th>
+													<th style="width: 25%">부서</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
+								                    <tr>
+								                    	<th>
+								                    		<input type='checkbox' name='receiveList' id='receiveList' value="${ officeAddresslist.oabEnrollNo }">
+								                    	</th>
+								                        <td>${ officeAddresslist.oabEnrollNo }</td>
+								                        <td>${ officeAddresslist.empName}</td>
+								                        <td>${ officeAddresslist.jobName }</td>
+								                        <td>${ officeAddresslist.deptDname }</td>
+								                    </tr>
+							                    </c:forEach>
+											</tbody>
+										</table>
+										</div>
 									</div>
 									
-									<br>
 									
 									<div id="pagingArea">
-						                <ul class="pagination">
+						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
 						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
@@ -216,88 +223,94 @@
 						            </div>
 								</div>
 								<!-- /.col -->
-								
-								<!-- 직원 선택 시 뜨는 모달  -->
-							    <div class="modal fade" id="detailEmployeeModal">
-									<div class="modal-dialog modal-dialog-centered modal-lg">
-										<div class="modal-content">
-											<!-- Modal Header -->
-											<div class="modal-header" id="modalTitleDiv">
-												<img src="./resources/common/icon_gray.png">
-												<img src="./resources/common/logoLetter_gray.png" style="margin: 2px; margin-left: 10px;">
-												<button type="button" class="close" data-dismiss="modal">&times;</button>
-											</div>
-							
-											<form action="deleteOfficeAddressBook.adb" method="post">
-												<!-- Modal Body -->
-												<div class="modal-body">
-													<div class="card bg-light d-flex flex-fill mb-0">
-														<div class="card-body">
-															<div class="row">
-																<div class="col-2 text-center">
-																	<div>
-																		<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
-																			class="img-fluid" style="width: 90px; height: 120px;">
-																	</div>
-																	<div class="mt-3">
-																		<input type="hidden" id="deleteEmpNo" name="deleteEmpNo"/>
-																		<button type="submit" class="btn btn-danger btn-sm">주소록 삭제</button>
-																	</div>
-																</div>
-																<div class="col-10">
-																	<table id="detailEmployeeTable" class="table table-sm"
-																		style="margin: 0px">
-																		<tr>
-																			<th>사번</th>
-																			<td id="empNoCol" style="width: 35%"></td>
-																			<th>이름</th>
-																			<td id="empNameCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>직급</th>
-																			<td id="empJobCol" style="width: 35%"></td>
-																			<th>영문이름</th>
-																			<td id="empEngNameCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>소속</th>
-																			<td id="empUDeptCol" style="width: 35%"></td>
-																			<th>부서</th>
-																			<td id="empDDeptCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>내선번호</th>
-																			<td id="empEphoneCol" style="width: 35%"></td>
-																			<th>상태</th>
-																			<td id="empStatusCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>이메일</th>
-																			<td colspan="3" id="empEmailCol" style="width: 70%"></td>
-																		</tr>
-																	</table>
-																</div>
-							
-															</div>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
+							</div>
 		                  	</div>
-		                  
-		                
+		                  	</div>
+		                  	
+		                  	<div class="col-1">
+		                  		<div class="row" style="height: 50%">
+		                  			<div class="col-12 align-self-center text-center">
+		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addReceiveList();">추가</button>
+		                  				<br>
+		                  				<button type="button" class="btn btn-danger btn-xs" onclick="delReceiveList();">삭제</button>
+		                  			</div>
+		                  		</div>
+		                  		<div class="row" style="height: 50%">
+		                  			<div class="col-12 align-self-center text-center">
+		                  				<button type="button" class="btn btn-primary btn-xs">추가</button>
+		                  				<br>
+			                  			<button type="button" class="btn btn-danger btn-xs">삭제</button>
+		                  			</div>
+		                  		</div>
+		                  	</div>
+		                  	
+		                  	<div class="col-3">
+		                  		<div class="row" style="height: 50%">
+		                  			<div class="col-12 mb-2 card">
+			                  			<div class="card-header text-center">
+			                  				<b>수신 직원</b>
+			                  			</div>
+			                  			<div class="card-body pr-1 pl-1 pt-2 pb-2" >
+			                  				<div style="overflow:auto; height: 140px">
+			                  				<table id="receiveTable" class="table table-bordered table-sm mb-0 text-center">
+			                  					<!-- 
+			                  					<tr>
+			                  						<th style="width: 15%"><input type="checkbox"></th>
+			                  						<td>1</td>
+			                  					</tr>
+			                  					<tr>
+			                  						<td><input type="checkbox"></td>
+			                  						<td>2</td>
+			                  					</tr>
+			                  					<tr>
+			                  						<td><input type="checkbox"></td>
+			                  						<td>3</td>
+			                  					</tr>
+			                  					<tr>
+			                  						<td><input type="checkbox"></td>
+			                  						<td>4</td>
+			                  					</tr>
+			                  					<tr>
+			                  						<td><input type="checkbox"></td>
+			                  						<td>5</td>
+			                  					</tr>
+			                  					 -->
+			                  					 <tbody>
+			                  					 
+			                  					 </tbody>
+			                  				</table>
+			                  				</div>
+			                  			</div>
+		                  			</div>
+		                  		</div>
+
+		                  		<div class="row" style="height: 50%">
+		                  			<div class="col-12 mt-2 mb-0 card">
+			                  			<div class="card-header text-center">
+			                  				<b>참조 직원</b>
+			                  			</div>
+			                  				<div class="card-body pr-1 pl-1 pt-2 pb-2" >
+				                  				<div style="overflow:auto; height: 140px">
+				                  				<table class="table table-bordered table-sm mb-0 text-center">
+				                  				</table>
+				                  			</div>
+			                  			</div>
+		                  			</div>
+		                  		</div>
+		                  	</div>
+		                  </div>
+		             </div>   
 		             
 		              <!-- /.card -->
 		              
 		              
 		              <!-- card-footer -->
 					<div class="card-footer">
+						<!--  
 						<div class="float-right">
-							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteOfficeAddressBookBtn();">주소록 삭제</button>
+							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm">선택</button>
 						</div>
+						-->
 					</div>
 				 </div>
 				 </div>
@@ -305,7 +318,7 @@
 		</section>
 	</div>
 	
-	<!-- 검색 -->
+	<!-- 겁색 -->
 	<script>
 		$(function() {
 			switch ('${ optionType }') {
@@ -367,16 +380,6 @@
 				$("#searchInput").val("${ searchEmployee }");
 				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 				break;
-			case "ePhoneType":
-				$("#optionType>option").eq(4).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "emailType":
-				$("#optionType>option").eq(5).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
 			}
 			
 		})
@@ -408,116 +411,44 @@
 				$("#deptTypeOption").hide();
 				$("#searchInput").attr("placeholder","이름을 입력하세요.");
 				break;
-			case "ePhoneType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","내선번호를 입력하세요.");
-				break;
-			case "emailType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","이메일을 입력하세요.");
-				break;
 			}
 		}
 	</script>
-	
-	<!-- 검색창 reset -->
-	<script>
-		function resetSearch(){
-			$("#optionType>option").eq(0).attr("selected", true);
-			$("#deptTypeBlank").hide();
-			$("#deptTypeOption").hide();
-			$("#searchInput").val("");
-		}
-	</script>
-	
-	<!-- 페이징 클릭시 정렬기준 처리 -->
-	<script>
-		function previousClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-		function pageClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-		function nextClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-	</script>
-	
-	<!-- 직원 상세 정보 -->
-	<script>
-		function detailEmployee(empNo){
-			
-			$.ajax({
-				url:"searchEmployeeDetail.or",
-				data:{empNo:empNo},
-				type:"post",
-				dataType:"json",
-				success:function(emp){
-					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
-					
-					$("#empNoCol").text(emp.empNo)
-					$("#empNameCol").text(emp.empName)
-					$("#empEngNameCol").text(emp.empEn)
-					$("#empUDeptCol").text(emp.deptUname)
-					$("#empDDeptCol").text(emp.deptDname)
-					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
-					$("#empEphoneCol").text(emp.empEphone)
-					$("#empEmailCol").text(emp.empEmail)
-					
-					$("#deleteEmpNo").val(emp.empNo)
-				},
-				error:function(){
-					console.log("직원 부서별 검색 ajax 통신 실패")
-				}
-			})
-		}
-	</script>
-	
-	<!-- footer 사내 주소록 삭제 버튼 -->
-	<script>
-		function deleteOfficeAddressBookBtn(){
-			const checkList = [];
-			
-			$("input[name='deleteAddressBook']:checked").each(function(){
-				const checkEmpNo = $(this).val();
-				checkList.push(checkEmpNo);
-			});
-
-			location.href="deleteOfficeAddrressBookArr.adb?checkList="+checkList;
-			
-		}
-	</script>
-	
+	 
 	<!-- 전체 제크 -->
 	<script>
 		function checkAll(){
 			if($("input[name='checkAll']").prop("checked")){
-				$("input[name='deleteAddressBook']").prop("checked", true)
+				$("input[name='receiveList']").prop("checked", true)
 			}else{
-				$("input[name='deleteAddressBook']").prop("checked", false)
+				$("input[name='receiveList']").prop("checked", false)
 			}
 		}
 	</script>
 	
-<!-- 스크립트 모음 -->
-<!-- jQuery -->
-<script src="./resources/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="./resources/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="./resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="./resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="./resources/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="./resources/dist/js/demo.js"></script>
+	<!-- checkBox 수신직원 -->
+	<!-- 이렇게 하면 페이징 버튼 누르면 값이 사라짐... ajax 통신 필요....ㅎ -->
+	<script>
+		function addReceiveList(){
+			let addReceiveList = [];
+			
+			$("input[name='receiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				addReceiveList.push(checkEmpNo);
+			});
+
+			let value="";
+			//alert(addReceiveList.length);
+			for(var i=0; i< addReceiveList.length;i++){
+				value +="<tr>"+
+						"<td><input type='checkbox'></td>"+
+						"<td>"+addReceiveList[i]+"</td>"+
+						"</tr>";
+			}
+			//alert(value);
+			$("#receiveTable>tbody").html(value);			
+		}
+	</script>
+
 </body>
 </html>

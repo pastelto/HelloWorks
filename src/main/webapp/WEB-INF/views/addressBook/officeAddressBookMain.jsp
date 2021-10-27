@@ -131,7 +131,7 @@
 															<div class="input-group" style="width: 30%;">
 																<input type="search" id="searchInput"
 																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
+																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ searchEmployee }">
 																<div class="input-group-append">
 																	<button type="submit" class="btn btn-sm btn-default">
 																		<i class="fa fa-search"></i>
@@ -521,6 +521,7 @@
 	</script>
 	
 	<!-- 페이징 클릭시 정렬기준 처리 -->
+	<!--  
 	<script>
 		function previousClick(){
 			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
@@ -532,7 +533,7 @@
 			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 		}
 	</script>
-	
+	-->
 	<!-- 직원 상세 정보 -->
 	<script>
 		function detailEmployee(empNo){
