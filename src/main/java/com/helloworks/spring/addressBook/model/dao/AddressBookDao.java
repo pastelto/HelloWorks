@@ -66,5 +66,20 @@ public class AddressBookDao {
 		return (ArrayList)sqlSession.selectList("addressBookMapper.searchOfficeAddressBookEmployee", se, rowBounds);
 	}
 
+	public int popUpSearchOfficeAddressBookEmployeeListCount(SqlSessionTemplate sqlSession, SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.popUpSearchOfficeAddressBookEmployeeListCount", se);
+	}
+
+	public ArrayList<Employee> popUpSearchOfficeAddressBookEmployee(SqlSessionTemplate sqlSession, SearchEmployee se,
+			PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("addressBookMapper.popUpSearchOfficeAddressBookEmployee", se, rowBounds);
+	}
+
 
 }

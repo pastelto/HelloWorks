@@ -81,5 +81,17 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addresssBookDao.searchOfficeAddressBookEmployee(sqlSession, se, pi);
 	}
 
+	@Override
+	public int popUpSearchOfficeAddressBookEmployeeListCount(SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return addresssBookDao.popUpSearchOfficeAddressBookEmployeeListCount(sqlSession, se);
+	}
+
+	@Override
+	public ArrayList<Employee> popUpSearchOfficeAddressBookEmployee(SearchEmployee se, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return addresssBookDao.popUpSearchOfficeAddressBookEmployee(sqlSession, se, pi);
+	}
+
 
 }

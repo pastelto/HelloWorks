@@ -25,6 +25,10 @@ public interface AddressBookService {
 
 	ArrayList<Employee> searchOfficeAddressBookEmployee(SearchEmployee se, PageInfo pi);
 
+	int popUpSearchOfficeAddressBookEmployeeListCount(SearchEmployee se);
+
+	ArrayList<Employee> popUpSearchOfficeAddressBookEmployee(SearchEmployee se, PageInfo pi);
+
 	
 
 }

@@ -36,7 +36,7 @@ public class AddressBookController {
 		int listCount = addressBookService.selectListCount(loginEmpNo);
 		
 		System.out.println("공유 주소록 등록 인원: "+listCount);
-		int pageLimit = 10;
+		int pageLimit = 5;
 		int boardLimit = 10;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
@@ -187,6 +187,7 @@ public class AddressBookController {
 		int userCase = 0;
 		int enrollCase = 0;
 		int successCase = 0;
+		int allCase = token.countTokens();
 		
 		while(token.hasMoreTokens()) {
 			
@@ -212,7 +213,7 @@ public class AddressBookController {
 			session.setAttribute("msg", "이미 등록된 직원입니다.");
 		}else if(userCase != 0 && enrollCase != 0) {
 			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 및 중복인원 제외)");
-		}else if(userCase != 0 && enrollCase == 0 && token.countTokens() == 0) {
+		}else if(userCase != 0 && enrollCase == 0 && allCase == 1) {
 			session.setAttribute("msg", "본인은 등록할 수 없습니다.");
 		}else if(userCase != 0 && enrollCase == 0) {
 			session.setAttribute("msg", successCase+"명 주소록 추가 완료(*본인 제외)");
@@ -226,7 +227,7 @@ public class AddressBookController {
 	}
 	
 	
-	@RequestMapping("popupAddressBook.adb")
+	@RequestMapping("popupOfficeAddressBook.adb")
 	public String popupAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		System.out.println("공유 주소록 전환");
 		
@@ -235,8 +236,8 @@ public class AddressBookController {
 		int listCount = addressBookService.selectListCount(loginEmpNo);
 		
 		System.out.println("공유 주소록 등록 인원: "+listCount);
-		int pageLimit = 10;
-		int boardLimit = 10;
+		int pageLimit = 5;
+		int boardLimit = 5;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
@@ -245,7 +246,51 @@ public class AddressBookController {
 		
 		model.addAttribute("officeAddresslist", officeAddresslist);
 		model.addAttribute("pi", pi);
-		model.addAttribute("pageURL", "officeAddressBook.adb");
+		model.addAttribute("pageURL", "popupOfficeAddressBook.adb");
+		return "addressBook/popupOfficeAddressBook";
+	}
+	
+	@RequestMapping("popUpSearchOfficeAddressBookEmployee.adb")
+	public String popUpSearchOfficeAddressBookEmployee(String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		SearchEmployee se = new SearchEmployee();
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		se.setLoginUserEmpNo(loginEmpNo);
+		
+		switch(optionType) {
+		case "allType":
+			se.setAllType(searchEmployee);
+			break;
+		case "deptType":
+			se.setDeptType(searchEmployee);
+			se.setDeptTypeOption(deptTypeOption);
+			break;
+		case "empNoType":
+			se.setEmpNoType(searchEmployee);
+			break;
+		case "empNameType":
+			se.setEmpNameType(searchEmployee);
+			break;
+		}
+		
+		int listCount = addressBookService.popUpSearchOfficeAddressBookEmployeeListCount(se);
+		
+		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Employee> officeAddresslist = addressBookService.popUpSearchOfficeAddressBookEmployee(se, pi);
+		
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("deptTypeOption", deptTypeOption);
+		model.addAttribute("searchEmployee", searchEmployee);
+		model.addAttribute("officeAddresslist", officeAddresslist);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "popUpSearchOfficeAddressBookEmployee.adb");
 		return "addressBook/popupOfficeAddressBook";
 	}
 }
