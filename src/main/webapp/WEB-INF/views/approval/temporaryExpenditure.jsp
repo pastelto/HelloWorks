@@ -334,9 +334,9 @@
 	<script>
 		function resetSearch(){
 			$("input[name='doc_type']").attr("checked", false);
-			$("#conditionInput").val("");
-			$("#endDate").val("");
-			$("#startDate").val("");
+			$("#conditionInput2").val("");
+			$("#endDate2").val("");
+			$("#startDate2").val("");
 		}
 	</script>
 	
