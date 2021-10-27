@@ -42,34 +42,7 @@
                   </li>
                 </ul>
               </div>
-              
-     <!-- 메뉴바 -> 특정 탭 연결 -->     
-     <c:choose>
- 		<c:when test="${ page == 1 }">
-			<script>
-			$('#custom-tabs-four-unchecked-tab').addClass('active');
-			</script>
-		</c:when> 
-		<c:when test="${ page == 2 }">
-			<script>
-			$('#custom-tabs-four-unchecked-tab').removeClass('active');
-			$('#custom-tabs-four-recv-tab').addClass('active');
-			</script>
-		</c:when>
-		<c:when test="${ page == 3 }">
-			<script>
-			$('#custom-tabs-four-unchecked-tab').removeClass('active');
-			$('#custom-tabs-four-send-tab').addClass('active');
-			</script>
-		</c:when>
-		<c:when test="${ page == 4 }">
-			<script>
-			$('#custom-tabs-four-unchecked-tab').removeClass('active');
-			$('#custom-tabs-four-saved-tab').addClass('active');
-			</script>
-		</c:when>
-	</c:choose>
-              
+   
          <!-- card body -->
          <div class="card-body">
            <div class="tab-content" id="custom-tabs-four-tabContent">
@@ -92,10 +65,112 @@
              </div>
            </div>
          </div>
+         
+              <!-- 메뉴바 -> 특정 탭 연결 -->     
+     <c:choose>
+ 		<c:when test="${ page == 1 }">
+			<script>
+			$('#custom-tabs-four-unchecked').addClass('show active');
+			$('#custom-tabs-four-recv').removeClass('show active');
+			$('#custom-tabs-four-send').removeClass('show active');
+			$('#custom-tabs-four-saved').removeClass('show active');
+			
+			$('#custom-tabs-four-unchecked-tab').addClass('active');
+			$('#custom-tabs-four-recv-tab').removeClass('active');
+			$('#custom-tabs-four-send-tab').removeClass('active');
+			$('#custom-tabs-four-saved-tab').removeClass('active');
+
+			$('#custom-tabs-four-unchecked-tab').attr('aria-selected', 'true');
+			$('#custom-tabs-four-recv-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-send-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-saved-tab').attr('aria-selected', 'false');
+			</script>
+		</c:when> 
+		<c:when test="${ page == 2 }">
+			<script>
+			$('#custom-tabs-four-unchecked').removeClass('show active');
+			$('#custom-tabs-four-recv').addClass('show active');
+			$('#custom-tabs-four-send').removeClass('show active');
+			$('#custom-tabs-four-saved').removeClass('show active');
+			
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-recv-tab').addClass('active');
+			$('#custom-tabs-four-send-tab').removeClass('active');
+			$('#custom-tabs-four-saved-tab').removeClass('active');
+			
+			$('#custom-tabs-four-unchecked-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-recv-tab').attr('aria-selected', 'true');
+			$('#custom-tabs-four-send-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-saved-tab').attr('aria-selected', 'false');
+			</script>
+		</c:when>
+		<c:when test="${ page == 3 }">
+			<script>
+			$('#custom-tabs-four-unchecked').removeClass('show active');
+			$('#custom-tabs-four-recv').removeClass('show active');
+			$('#custom-tabs-four-send').addClass('show active');
+			$('#custom-tabs-four-saved').removeClass('show active');
+			
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-recv-tab').removeClass('active');
+			$('#custom-tabs-four-send-tab').addClass('active');
+			$('#custom-tabs-four-saved-tab').removeClass('active');
+			
+			$('#custom-tabs-four-unchecked-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-recv-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-send-tab').attr('aria-selected', 'true');
+			$('#custom-tabs-four-saved-tab').attr('aria-selected', 'false');
+			</script>
+		</c:when>
+		<c:when test="${ page == 4 }">
+			<script>
+			$('#custom-tabs-four-unchecked').removeClass('show active');
+			$('#custom-tabs-four-recv').removeClass('show active');
+			$('#custom-tabs-four-send').removeClass('show active');
+			$('#custom-tabs-four-saved').addClass('show active');
+			
+			$('#custom-tabs-four-unchecked-tab').removeClass('active');
+			$('#custom-tabs-four-recv-tab').removeClass('active');
+			$('#custom-tabs-four-send-tab').removeClass('active');
+			$('#custom-tabs-four-saved-tab').addClass('active');
+			
+			$('#custom-tabs-four-unchecked-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-recv-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-send-tab').attr('aria-selected', 'false');
+			$('#custom-tabs-four-saved-tab').attr('aria-selected', 'true');
+			</script>
+		</c:when>
+	</c:choose>
 	</div>
 </div>
 </div>
 	<jsp:include page="../common/footer.jsp"/>
 
+<script>
+// 일반 상세 조회 페이지 
+$(function() {
+	$("#WorkShareTable tbody tr").click(
+			function() {
+			var wno = $(this).children().eq(0).text();
+			console.log("wno : " + wno);
+			
+			location.href = "detail.ws?wno="+wno;
+				
+			});
+});
+
+// 임시저장 상세 조회 페이지
+$(function() {
+	$("#savedWSTable tbody tr").click(
+			function() {
+			var wno = $(this).children().eq(0).text();
+			console.log("wno : " + wno);
+			
+			location.href = "sDetail.ws?wno="+wno;
+				
+			});
+});
+
+</script>
 </body>
 </html>

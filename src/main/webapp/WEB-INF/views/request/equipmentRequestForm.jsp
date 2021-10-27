@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,16 +9,6 @@
 <title>비품 신청 양식</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
-<link rel="stylesheet"
-	href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
 <style>
 .content-wrapper {
 	overflow: auto;
@@ -29,7 +21,10 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" id="" action="" enctype="multipart/form-data">
+						<form method="post" id="eRequestForm" action="request.eq"
+							enctype="multipart/form-data" onsubmit="return submitValidate();">
+							<input type="hidden" id="empNo" name="empNo"
+								value="${ loginUser.empNo }">
 							<div class="card-header">
 								<h3 class="card-title">비품 신청서</h3>
 							</div>
@@ -37,100 +32,155 @@
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-2"><label>신청자</label></div>
-										<div class="col-10">
-											<div class="form-group">
-												<input id="" name="" value="${loginUser.empName}"
-													class="form-control" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2"><label>부서명</label></div>
-										<div class="col-10">
-											<div class="form-group">
-												<input id="" name="" value="${loginUser.deptDname}"
-													class="form-control" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2"><label>직급명</label></div>
-										<div class="col-10">
-											<div class="form-group">
-												<input id="" name="" value="${loginUser.jobName}"
-													class="form-control" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2"><label>사용장소</label></div>
-										<div class="col-10">
-											<div class="form-group">
-												<input id="" name="" value="" class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2"><label>사용목적</label></div>
-										<div class="col-10">
-											<div class="form-group">
-												<input id="" name="" value="" class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2"><label>사용기간</label></div>
 										<div class="col-3">
-											<div class="form-group">
-												<div class="input-group date" id="datetimepicker1"
-													data-target-input="nearest">
-													<input type="text"
-														class="form-control datetimepicker-input"
-														data-target="#datetimepicker1" value="">
-													<!-- 오늘날짜 넣기 -->
-													<div class="input-group-append"
-														data-target="#datetimepicker1"
-														data-toggle="datetimepicker">
-														<div class="input-group-text">
-															<i class="fa fa-calendar"></i>
-														</div>
-													</div>
-												</div>
+											<label>신청일시</label>
+										</div>
+										<div class="col-9">
+											<div class="float-right">												
+												<c:set var="now" value="<%=new java.util.Date()%>"/>
+												<c:set var="sysdate">
+													<fmt:formatDate value="${now}" pattern="yyyy년  MM월 dd일  HH시  mm분"/>
+												</c:set>
+												<label>
+													<c:out value="${sysdate}"/>
+												</label>
 											</div>
 										</div>
-										<label> 부터</label>
-										<div class='col-md-3 col-xs-4'>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>신청자</label>
+										</div>
+										<div class="col-9">
 											<div class="form-group">
-												<div class="input-group date" id="datetimepicker2"
-													data-target-input="nearest">
-													<input type="text"
-														class="form-control datetimepicker-input"
-														data-target="#datetimepicker2" value="">
-													<div class="input-group-append"
-														data-target="#datetimepicker2"
-														data-toggle="datetimepicker">
-														<div class="input-group-text">
-															<i class="fa fa-calendar"></i>
-														</div>
-													</div>
-												</div>
+												<input id="empName" name="empName"
+													value="${loginUser.empName}" class="form-control" readonly>
 											</div>
 										</div>
-										<label> 까지</label>
-										<!-- 기타 -->
-										<!--<div class="row">
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>부서명</label>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<input id="deptDname" name="deptDname"
+													value="${loginUser.deptDname}" class="form-control"
+													readonly>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>직급명</label>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<input id="jobName" name="jobName"
+													value="${loginUser.jobName}" class="form-control" readonly>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>사용장소</label>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<input type="text" id="place" name="place"
+													class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>사용목적</label>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<input type="text" id="usage" name="usage"
+													class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>사용기간</label>
+										</div>
+										<div class="col-3">
+											<!-- 시작일시 -->
+											<div class="form-group">
+												<input type="date" name="sDate" class="form-control"
+													id="sDate">
+											</div>
+										</div>
+										<div class="col-1">
+											<label> 부터</label>
+										</div>
+										<div class="col-3">
+											<!-- 종료일시 -->
+											<div class="form-group">
+												<input type="date" name="eDate" class="form-control"
+													id="eDate">
+											</div>
+										</div>
+										<div class="col-1">
+											<label> 까지</label>
+										</div>
+									</div>
+									<!-- 비품종류 -->
+									<div class="row">
+										<div class="col-3">
+											<label>비품종류</label>
+										</div>
+										<div class="col-9">
+											<!-- <div class="container-fluid"> -->
+												<div class="row">
+													<div class="col-3">
+														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label> 화이트보드</label>
+													</div>
+													<div class="col-3">
+														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 빔프로젝트</label>
+													</div>
+													<div class="col-3">
+														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 노트북</label>
+													</div>
+													<div class="col-3">
+														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 카메라</label>
+													</div>
+												</div>
+											<!-- </div> -->
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<label>기타 요청사항</label>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<textarea class="form-control" id="addRequest"
+													name="addRequest" rows="3"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="row">
 										<div class="col-12">
-											<textarea id="" name=""></textarea>
+											<div class="alert alert-light" role="alert">
+												<label>
+													[주의사항] <br> 
+													1. 사용일시가 중복될 경우 접수순과 중요성을 고려하여 결정함 <br>
+													2. 사용이 끝나면 즉시 총무팀으로 반납하여야 함<br> 
+													3. 기타 비품은 총무팀에서 심사후 신청인에게 결과 통보함<br>
+												</label>
+											</div>
 										</div>
-									</div>  -->
 									</div>
 									<!-- /.container -->
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="submit" class="btn btn-primary">
+										<button type="submit" id="submitBtn" class="btn btn-primary">
 											<i class="fas fa-clipboard-check"></i> 신청하기
 										</button>
 									</div>
@@ -149,20 +199,41 @@
 	</div>
 </body>
 <script type="text/javascript">
-	$(function() {
-		$('#datetimepicker1').datetimepicker({
-			format : 'L' //L : 시간까지 표시(근데 왜안됨?)
-		});
-		$('#datetimepicker2').datetimepicker({
-			format : 'L',
-			useCurrent : true
-		});
-		$("#datetimepicker1").on("change.datetimepicker", function(e) {
-			$('#datetimepicker2').datetimepicker('minDate', e.date);
-		});
-		$("#datetimepicker2").on("change.datetimepicker", function(e) {
-			$('#datetimepicker1').datetimepicker('maxDate', e.date);
-		});
-	});
+	/* 	$('input[type="date"]').on('click', function() {
+	 var sDate = $("#sDate").val();
+	 console.log("시작 : " + sDate);
+
+	 var eDate = $("#eDate").val();
+	 console.log("끝 : " + eDate);
+	 }); */
+
+	function submitValidate() {
+		if (($('#place').val() == "")) {
+			$("#eRequestForm input[name=place]").focus();
+			alert("사용장소를 입력해 주세요")
+			return false;
+		}
+		if (($('#usage').val() == "")) {
+			$("#eRequestForm input[name=usage]").focus();
+			alert("사용목적을 입력해 주세요")
+			return false;
+		}
+		if (($('#sDate').val() == "")) {
+			$("#eRequestForm input[name=sDate]").focus();
+			alert("시작날짜를 입력해 주세요")
+			return false;
+		}
+		if (($('#eDate').val() == "")) {
+			$("#eRequestForm input[name=eDate]").focus();
+			alert("종료날짜를 입력해 주세요")
+			return false;
+		}
+		if (($('#eqName').val() == "")) {
+			$("#eRequestForm input[name=eqName]").focus();
+			alert("비품명을 입력해 주세요")
+			return false;
+		}
+		return true;
+	}
 </script>
 </html>

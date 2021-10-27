@@ -84,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT COUNT(*)
 		FROM NOTICE
 		WHERE NT_STATUS = 'T'
+		AND NT_EMP_NO = #{empNo}
    </select>
    
    <!-- 임시저장 리스트 -->
@@ -93,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN EMPLOYEE B ON A.NT_EMP_NO= B.EMP_NO
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
 		WHERE NT_STATUS = 'T'
+		AND NT_EMP_NO = #{empNo}
 		ORDER BY NT_NO DESC
    </select>
    

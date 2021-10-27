@@ -20,6 +20,7 @@ import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.common.model.vo.SearchCondition;
+import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
 
@@ -31,8 +32,11 @@ public class NoticeController {
 	
 	  //보드리스트
 	  @RequestMapping("list.nt")
-	  public String selectList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage, Model model) {
-	  	   
+	  public String selectList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+			  																HttpServletRequest request, Model model) {
+		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		  
+		  
 		   //공지사항
 		   int listCount = noticeService.selectListCount();//총 게시글 갯수
 		   System.out.println("listCount : " + listCount);
@@ -45,19 +49,23 @@ public class NoticeController {
 		   model.addAttribute("list",list);
 		   model.addAttribute("pi",pi);		   
 		   
+		   
+		   
+		
 		   //임시저장 
-		   int tlistCount = noticeService.selectTListCount();//총 게시글 갯수
+		   int tlistCount = noticeService.selectTListCount(empNo);//총 게시글 갯수
 		   System.out.println("tlistCount : " + tlistCount);
 		   
 		   PageInfo piT = Pagination.getPageInfo(tlistCount, currentPage, 10, 5);
 		   
-		   ArrayList<Notice> tlist =noticeService.selectTList(piT);//임시저장 리스트
+		   ArrayList<Notice> tlist =noticeService.selectTList(piT, empNo);//임시저장 리스트
 		   System.out.println("noticeTlist : " + tlist);
 		   
 		   model.addAttribute("tlist",tlist);
 		   model.addAttribute("piT",piT);
 		   
 	      return "notice/NoticeListView";
+		   
 	   }
 	   
 	   //게시글 작성 폼 화면전환

@@ -18,6 +18,7 @@ public class WSRecomment {
 	private int wsrc_no; // 답글 번호
 	private int wsrc_wsrNo; // 댓글 번호
 	private int wsrc_empNo; // 답글 작성 사원번호
+	private String wsrc_content; // 답글 내용
 	private Timestamp wsrc_date; // 작성시간
 	private String wsrc_status; // 삭제여부
 	

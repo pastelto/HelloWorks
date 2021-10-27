@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>차량 정보 등록</title>
+<title>회의실 정보 등록</title>
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -55,21 +55,25 @@
 		</form>
 	</div>
 	<script>
-   	function addMtr()
-	{
-		var params = $("#addMtr").serialize();
-		$.ajax(
-		{
-			url : 'add.mtr?mMStatus=Y',
-			data : params,
-			success : function(xh)
-					{			
-						alert("회의실 등록성공! ");
+		function addMtr() {
+			var params = $("#addMtr").serialize();
+			$.ajax({
+				url : 'add.mtr?mMStatus=Y',
+				data : params,
+				success : function(result) {
+					if(result == "??!") {
+						alert("회의실 등록성공!");
 						opener.parent.location='manage.mtr'; //페이지 새로고침
 						window.close();
-					}
-		});
-	}
+					}else{
+						alert("회의실 등록실패");
+					}						
+				},
+				error : function() {
+					console.log("회의실 등록 ajax 통신 실패");
+				}
+			});
+		}
 	</script>
 	<!-- 스크립트 모음 -->
 	<!-- jQuery -->

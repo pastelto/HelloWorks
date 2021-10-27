@@ -274,21 +274,25 @@
 		function plus(empName, jobName, empNo){
 			
 			console.log(empName, jobName, empNo);
-			
-			$("#deleteLineBtn").css("display","");
-			
-			if(n < 5){
-			
-				$("#applineTable>thead>tr>td:eq("+n+")").text(jobName);
-				$("#applineTable>tbody>tr>td:eq("+n+")").text(empNo);
-				$("#applineTable>tfoot>tr>td:eq("+n+")").text(empName);
 				
-				n+=1
+			if(${loginUser.empNo} == empNo){
+				alert("본인은 등록할 수 없습니다.");
+			}else{
 				
+				$("#deleteLineBtn").css("display","");
+				if(n < 5){
 				
-			} else {			
-				alert("등록 가능한 결재라인 수를 초과하셨습니다.");
-			}		
+					$("#applineTable>thead>tr>td:eq("+n+")").text(jobName);
+					$("#applineTable>tbody>tr>td:eq("+n+")").text(empNo);
+					$("#applineTable>tfoot>tr>td:eq("+n+")").text(empName);
+					
+					n+=1
+					
+					
+				} else {			
+					alert("등록 가능한 결재라인 수를 초과하셨습니다.");
+				}
+			}
 		};
 	<!--라인삭제-->
 		$(function(){					

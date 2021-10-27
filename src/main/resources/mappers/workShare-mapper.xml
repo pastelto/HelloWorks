@@ -25,19 +25,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- WSAttachment -->
 	<resultMap id="wsAttachmentResultSet" type="WSAttachment">
-		<id column="wsa_no" property="WSA_NO"/>
-		<result column="wsa_empNo" property="WSA_EMP_NO"/>
-		<result column="wsa_wsNo" property="WSA_WS_NO"/>
-		<result column="wsa_origin" property="WSA_ORIGIN"/>
-		<result column="wsa_change" property="WSA_CHANGE"/>
-		<result column="wsa_size" property="WSA_FILE_SIZE"/>
-		<result column="wsa_status" property="WSA_STATUS"/>
+		<id property="wsa_no" column="WSA_NO"/>
+		<result property="wsa_empNo" column="WSA_EMP_NO"/>
+		<result property="wsa_wsNo" column="WSA_WSNO"/>
+		<result property="wsa_origin" column="WSA_ORIGIN"/>
+		<result property="wsa_change" column="WSA_CHANGE"/>
+		<result property="wsa_size" column="WSA_FILE_SIZE"/>
+		<result property="wsa_status" column="WSA_STATUS"/>
+	</resultMap>
+	
+	<!-- WSReply -->
+	<resultMap id="wsReplyResultSet" type="WSReply">
+		<id property="wsr_no" column="WSR_NO"/>
+		<result property="wsr_wsNo" column="WSR_WS_NO"/>
+		<result property="wsr_empNo" column="WSR_EMP_NO"/>
+		<result property="wsr_content" column="WSR_CONTENT"/>
+		<result property="wsr_date" column="WSR_DATE"/>
+		<result property="wsr_status" column="WSR_STATUS"/>
+		<result property="wsr_empName" column="EMP_NAME"/>
+        <result property="wsr_empJobName" column="JOB_NAME"/>
 	</resultMap>
 	
 	<!-- 업무공유 생성 -->
 	<insert id="insertWorkShare" parameterType="WorkShare">
 		INSERT INTO WORKSHARE
-		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, SYSDATE, '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
+		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
 	</insert>
 
 	<!-- 업무공유 첨부파일 생성 -->
@@ -68,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
 		AND WS_STATUS = 'Y'
 		AND WS_RECV_STATUS LIKE '%'||#{empNo}||'%'
+		ORDER BY A.WS_NO DESC
 	</select>
 
 	<!-- 수신 업무공유 개수 -->
@@ -90,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%')
 		AND WS_STATUS = 'Y'
+		ORDER BY A.WS_NO DESC
 	</select>
 	
 	<!-- 발신 업무공유 개수 -->
@@ -112,6 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE A.WS_EMP_NO = #{empNo}
 		AND WS_STATUS = 'Y'
+		ORDER BY A.WS_NO DESC
 	</select>
 	
 	<!-- 임시저장 업무공유 개수 -->
@@ -134,5 +149,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE A.WS_EMP_NO = #{empNo}
 		AND WS_STATUS = 'S'
+		ORDER BY A.WS_NO DESC
 	</select>
+	
+	<!-- 업무공유 상세 조회 -->
+	<select id="detailWS" parameterType="_int" resultMap="workShareResultSet">
+		SELECT *
+		FROM WORKSHARE
+		WHERE WS_NO = #{wno}
+		AND WS_STATUS = 'Y'
+	</select>
+	
+	<!-- 업무공유 상세 조회 - 첨부파일 -->
+	<select id="detailWSAttachment" parameterType="_int" resultMap="wsAttachmentResultSet">
+		SELECT *
+		FROM WORKSHARE_ATTACHMENT
+		WHERE WSA_STATUS = 'Y'
+		AND WSA_WSNO = #{wsno}
+	</select>
+	
+	<!-- 업무공유 수신처리 -->
+	<update id="readStatusWS" parameterType="WorkShare">
+		UPDATE WORKSHARE
+		SET WS_RECV_STATUS = #{ws_recv_status}
+		WHERE WS_NO = #{ws_no}
+	</update>
+	
+	<!-- 업무공유 삭제 -->
+	<delete id="deleteWS" parameterType="_int">
+		DELETE WORKSHARE
+		WHERE WS_NO = #{wno}
+	</delete>
+	
+	<!-- 업무공유 - 첨부파일 삭제 -->
+	<delete id="deleteWSAttachment" parameterType="_int">
+		DELETE WORKSHARE_ATTACHMENT
+		WHERE WSA_WSNO = #{wno}
+	</delete>
+	
+	<!-- 댓글 조회 -->
+	<select id="selectReplyList" parameterType="_int" resultMap="wsReplyResultSet">
+		SELECT A.WSR_NO, A.WSR_WS_NO, A.WSR_EMP_NO, A.WSR_CONTENT, A.WSR_DATE, B.EMP_NAME, C.JOB_NAME
+		FROM WORKSHARE_REPLY A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WSR_EMP_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		WHERE WSR_WS_NO=#{wno} AND WSR_STATUS = 'Y'
+		ORDER BY WSR_NO DESC
+	</select>
+	
+	<!-- 댓글 추가 -->
+	<insert id="insertReply" parameterType="WSReply">
+		INSERT INTO WORKSHARE_REPLY
+		VALUES(SEQ_WSR.NEXTVAL, #{wsr_wsNo}, #{wsr_empNo}, #{wsr_content}, SYSDATE, 'Y')
+	</insert>
 </mapper>

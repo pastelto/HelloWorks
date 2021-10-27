@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,12 @@
   <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" data-panel-auto-height-mode="height">
+	<c:if test="${ !empty msg }">
+		<script>
+			alert("${msg}");
+		</script>
+		<c:remove var="msg" scope="session"/>
+	</c:if>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -80,21 +87,25 @@
       
       <!-- 주소록 -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="officeAddressBook.or" role="button">
+        <a class="nav-link" href="officeAddressBook.adb" role="button">
           <i class="fas fa-address-book"></i>
         </a>
       </li>
       
     <!-- 직원검색 / 사원검색 -->
       <li>
+      	<form action="searchEmployee.or">
 	      <div class="input-group">
-	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+	      	<input type="hidden" name="optionType" value="allType">
+	      	<input type="hidden" name="deptTypeOption" value="A">
+	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" value="${ search }">
 	        <div class="input-group-append">
 	          <button class="btn btn-navbar" type="submit">
 	            <i class="fas fa-search"></i>
 	          </button>
 	        </div>
 	      </div>
+	     </form>
       </li>
       
       <!-- 화면 확장   -->
@@ -209,7 +220,37 @@
               </li>
               <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
-                  <p>Inline</p>
+                  <p>근태/휴가 결재</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="temporarySave.ea" class="nav-link">
+                  <p>임시저장함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="myApproval.ea" class="nav-link">
+                  <p>내결재함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="pendingTray.ea" class="nav-link">
+                  <p>미결재문서</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="signedTray.ea" class="nav-link">
+                  <p>결재완료문서</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="ccTray.ea" class="nav-link">
+                  <p>수신참조함</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="deptTray.ea" class="nav-link">
+                  <p>부서문서함</p>
                 </a>
               </li>
             </ul>
@@ -302,7 +343,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="officeAddressBook.or" class="nav-link">
+                <a href="officeAddressBook.adb" class="nav-link">
                   <p>주소록</p>
                 </a>
               </li>

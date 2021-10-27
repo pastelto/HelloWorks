@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="addressBookMapper">
+
+	<resultMap id="employeeResultSet" type="Employee">
+		<id property="empNo" column="EMP_NO"/>
+		<result property="empPwd" column="EMP_PWD"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empEn" column="EMP_EN"/>
+		<result property="empPid" column="EMP_PID"/>
+		<result property="empEmail" column="EMP_EMAIL"/>
+		<result property="empPhone" column="EMP_PHONE"/>
+		<result property="empEphone" column="EMP_EPHONE"/>
+		<result property="empAddress" column="EMP_ADDRESS"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="empSalary" column="EMP_SALARY"/>
+		<result property="empHire" column="EMP_HIRE"/>
+		<result property="empFire" column="EMP_FIRE"/>
+		<result property="empNote" column="EMP_NOTE"/>
+		<result property="empStatus" column="EMP_STATUS"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>
+		<result property="deptDname" column="DEPT_DNAME"/>
+	</resultMap>
+	
+	<resultMap type="OfficeAddressBook" id="officeAddressBookResultSet">
+		<id property="oabNo" column="OAB_NO"/>
+		<result property="oabUserNo" column="OAB_USER_NO"/>
+		<result property="oabEnrollNo" column="OAB_ENROLL_NO"/>
+		<result property="oabStatus" column="OAB_STATUS"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empEn" column="EMP_EN"/>
+		<result property="empEmail" column="EMP_EMAIL"/>
+		<result property="empEphone" column="EMP_EPHONE"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>
+		<result property="deptDname" column="DEPT_DNAME"/>
+	</resultMap>
+	
+	<select id="selectListCount" parameterType="_int" resultType="_int">
+ 		SELECT COUNT(*)
+ 		FROM OFFICE_ADDRESS_BOOK
+ 		WHERE OAB_USER_NO = #{ loginEmpNo }
+ 		AND OAB_STATUS = 'Y'
+ 	</select>
+	
+	<select id="selectOfficeAddressBook" parameterType="_int" resultMap="officeAddressBookResultSet">
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, B.EMP_EMAIL, B.EMP_EPHONE, B.DEPT_CODE, B.JOB_CODE,
+				 D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		ORDER BY A.OAB_NO DESC
+	</select>
+ 
+ 	<select id="searchEnrollCount" parameterType="OfficeAddressBook" resultType="_int">
+	 	SELECT COUNT(*)
+		FROM OFFICE_ADDRESS_BOOK
+		WHERE OAB_STATUS = 'Y'
+		AND OAB_USER_NO = #{oabUserNo} 
+		AND OAB_ENROLL_NO = #{oabEnrollNo}
+ 	</select>
+ 
+	<select id="searchEmployee" parameterType="_int" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		AND A.EMP_NO = #{addEmpNo}
+	</select>
+
+	<insert id="addOfficeAddressBook" parameterType="OfficeAddressBook">
+		INSERT INTO OFFICE_ADDRESS_BOOK
+		VALUES(SEQ_OAB_NO.NEXTVAL, #{oabUserNo}, #{oabEnrollNo}, DEFAULT)
+	</insert>
+	
+	<update id="deleteOfficeAddressBook" parameterType="OfficeAddressBook">
+		UPDATE OFFICE_ADDRESS_BOOK
+		SET OAB_STATUS = 'N'
+		WHERE OAB_USER_NO = #{oabUserNo}
+		AND OAB_ENROLL_NO = #{oabEnrollNo}
+	</update>
+	
+	<select id="selectSearchOfficeAddressBookEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
+		SELECT COUNT(*)
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND B.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND B.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+	</select>
+
+	<select id="searchOfficeAddressBookEmployee" parameterType="SearchEmployee" resultMap="officeAddressBookResultSet">
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, B.EMP_EMAIL, B.EMP_EPHONE, B.DEPT_CODE, B.JOB_CODE,
+				 D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND B.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND B.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+		ORDER BY A.OAB_NO DESC
+	</select>
+	
+	<select id="popUpSearchOfficeAddressBookEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
+		SELECT COUNT(*)
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+		</choose>
+	</select>
+
+	<select id="popUpSearchOfficeAddressBookEmployee" parameterType="SearchEmployee" resultMap="officeAddressBookResultSet">
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, B.EMP_EMAIL, B.EMP_EPHONE, B.DEPT_CODE, B.JOB_CODE,
+				 D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM OFFICE_ADDRESS_BOOK A
+		JOIN EMPLOYEE B ON B.EMP_NO =A.OAB_ENROLL_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.OAB_USER_NO = #{ loginUserEmpNo }
+		AND A.OAB_STATUS = 'Y'
+		<choose>
+			<when test="allType != null">
+				AND (A.OAB_ENROLL_NO LIKE '%'||#{allType}||'%'
+					OR B.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR B.EMP_EN LIKE '%'||#{allType}||'%'
+					OR B.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR B.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR D.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR C.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND B.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (B.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR B.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.OAB_ENROLL_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (B.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR B.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+		</choose>
+		ORDER BY A.OAB_NO DESC
+	</select>
+
+</mapper>

@@ -13,19 +13,111 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mMCapacity" column="RS_MM_CAPACITY" />
 		<result property="mMStatus" column="RS_MM_STATUS" />
 	</resultMap>
+	
+	<!-- 차량관리 -->
+	<resultMap id="carResultSet" type="Car">
+		<id property="cMNo" column="RS_CM_NO" />
+		<result property="empNo" column="RS_CM_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="cMMfr" column="RS_CM_MFR" />
+		<result property="cMName" column="RS_CM_NAME" />
+		<result property="cMStatus" column="RS_CM_STATUS" />
+	</resultMap>
+
+	<!-- 비품 -->
+	<resultMap id="requestEqResultSet" type="RequestEq">
+		<id property="requestEqNo" column="ES_ER_NO" />
+		<result property="empNo" column="ES_ER_EMP_NO" />
+		<result property="requestDate" column="ES_ER_DATE" />
+		<result property="place" column="ES_ER_PLC" />
+		<result property="usage" column="ES_ER_USG" />
+		<result property="sDate" column="ES_ER_START" />
+		<result property="eDate" column="ES_ER_END" />
+		<result property="eqName" column="ES_ER_NAME" />
+		<result property="addRequest" column="RS_CM_STATUS" />
+		<result property="eqCondition" column="ES_ER_CONDITION" />
+		<result property="eqStatus" column="RS_CM_STATUS" />
+	</resultMap>
+	
+	<!-- 사원증 -->
+	<resultMap id="requestIdResultSet" type="RequestId">
+		<id property="requestIdNo" column="ES_IR_NO" />
+		<result property="empNo" column="ES_IR_EMP_NO" />
+		<result property="requestDate" column="ES_IR_DATE" />
+		<result property="iRkind" column="ES_IR_KIND" />
+		<result property="orgPic" column="ES_IR_ORG_PIC" />
+		<result property="chgPic" column="ES_IR_CHG_PIC" />
+		<result property="eqCondition" column="ES_IR_CONDITION" />
+		<result property="eqStatus" column="ES_IR_STATUS" />
+	</resultMap>	
+	
 
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
-		INSERT INTO RS_MEETINGROOM_MANAGEMENT
+		INSERT INTO
+		RS_MEETINGROOM_MANAGEMENT
 		VALUES
-		(SEQ_RS_MM_NO.NEXTVAL, #{empNo}, #{mMName}, #{mMCapacity}, DEFAULT)
+		(SEQ_RS_MM_NO.NEXTVAL, #{empNo},
+		#{mMName}, #{mMCapacity}, DEFAULT)
 	</insert>
 
+	<!-- 회의실 목록 -->
 	<select id="manageMtr" resultMap="mtrResultSet">
 		SELECT A.*, B.EMP_NAME
-		FROM RS_MEETINGROOM_MANAGEMENT A
-		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO = B.EMP_NO
+		FROM
+		RS_MEETINGROOM_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_MM_EMP_NO =
+		B.EMP_NO
 		ORDER BY RS_MM_NO DESC
 	</select>
+	
+	<!-- 회의실 삭제 -->
+	<delete id="deleteMtr" parameterType="List">
+		DELETE FROM RS_MEETINGROOM_MANAGEMENT
+		where RS_MM_NO in
+			<foreach collection="list" item="deleteMtr" index="i" open="(" separator="," close=")">
+				#{deleteMtr}
+			</foreach>
+	</delete>
+
+	<!-- 차량 등록 -->
+	<insert id="addCar" parameterType="Car">
+		INSERT INTO RS_CAR_MANAGEMENT
+		VALUES
+		(#{cMNo}, #{empNo}, #{cMMfr}, #{cMName}, DEFAULT)
+	</insert>
+
+	<!-- 차량 목록 -->
+	<select id="manageCar" resultMap="carResultSet">
+		SELECT A.*, B.EMP_NAME
+		FROM
+		RS_CAR_MANAGEMENT A
+		JOIN EMPLOYEE B ON A.RS_CM_EMP_NO = B.EMP_NO
+	</select>
+
+	<!-- 차량 삭제 -->
+	<delete id="deleteCar" parameterType="List">
+		DELETE FROM RS_CAR_MANAGEMENT
+		where RS_CM_NO in
+			<foreach collection="list" item="deleteCar" index="i" open="(" separator="," close=")">
+				#{deleteCar}
+			</foreach>
+	</delete>
+	
+	<!-- 비품 신청 -->
+	<insert id="requestEquipment" parameterType="RequestEq">
+		INSERT INTO ES_EQUIPMENT_REQUEST
+		VALUES
+		(SEQ_ES_ER_NO.NEXTVAL, #{empNo}, SYSDATE, #{place}, #{usage}, #{sDate}, #{eDate}, #{eqName}, #{addRequest}, DEFAULT, DEFAULT)
+	</insert>
+
+	<!-- 사원증 신청 -->
+	<insert id="requestIdCard" parameterType="RequestId">
+		INSERT INTO ES_ID_REQUEST
+		VALUES
+		(SEQ_ES_IR_NO.NEXTVAL, #{empNo}, SYSDATE, #{iRkind}, #{orgPic}, #{chgPic}, DEFAULT, DEFAULT)
+	</insert>	
+	
+	
 
 </mapper>

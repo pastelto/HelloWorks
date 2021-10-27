@@ -21,6 +21,12 @@
 	.content-wrapper{
 		overflow:auto;
 	}
+	
+	.fa-trash-alt{
+		color: red;
+		border: none;
+		background-color: #FFFFFF;
+	}
 </style>
 </head>
 <body>
@@ -65,7 +71,8 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly>
+												<%-- <input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly> --%>
+												${loginUser.empName} ${loginUser.jobName}
 												<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
 												</td>
 												<th>작성일</th>
@@ -100,9 +107,9 @@
 												&nbsp;&nbsp;
 												<input type="text" name="ws_ref">
 												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+													<button id="refAB" type="button" class="btn btn-default btn-xs">주소록</button>
 													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+													<button id="refSEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
 												</div>
 												</td>
 											</tr>
@@ -120,11 +127,11 @@
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
-													<span class="badge badge-info" id="workShareAttachName"></span>
+													<span id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
-									                  </div> 
+									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple"> 
+									               	  </div> 
 												</td>
 											</tr>
 										</table>
@@ -174,11 +181,16 @@
 	<script>
 		
 		$("#workShareAttach").on("change", function() {
-			var filename = "";
+			// 첨부파일 새로 첨부시 내용 삭제
+			$('#workShareAttachName').empty();
 			
+			var filename = "";
 			for(var i = 0; i < $(this)[0].files.length; i++){
-				filename += $(this)[0].files[i].name;
-					filename += " ";
+				
+				// filename += '<input type="button" id="deleteFile'+i+'" class="far fa-trash-alt" name="dFBtn"></input>&nbsp;&nbsp;';
+				filename += $(this)[0].files[i].name + "&nbsp;&nbsp;";
+				filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;
+				filename += "<br>";
 			}
 			console.log("filename : " + filename)
 			$('#workShareAttachName').append(filename); 
@@ -218,7 +230,9 @@
 		} 
 		
 	} 
+	
 	</script>
+	
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>
