@@ -222,12 +222,13 @@
 						                </ul>
 						            </div>
 						            -->
-						            
+						           
+						           <!-- 
 									<div id="pagingArea">
 						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ addReceiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -237,7 +238,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ addReceiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -248,7 +249,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ receiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?receiveList=${ addReceiveList }&optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -256,14 +257,40 @@
 						                	</c:choose>
 						                </ul>
 						            </div>						            
+						            -->
 						            
-						            
-						            
-						            
-						            
-						            
-						            
-						            
+						            <div id="pagingArea">
+						                <ul class="pagination mb-0">
+						                	<c:choose>
+						                		<c:when test="${ pi.currentPage ne 1 }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                	
+						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						                    	<c:choose>
+							                		<c:when test="${ pi.currentPage ne p }">
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+							                		</c:when>
+							                		<c:otherwise>
+							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+							                		</c:otherwise>
+							                	</c:choose>
+						                    </c:forEach>
+						                    
+						                    <c:choose>
+						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:when>
+						                		<c:otherwise>
+						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                		</c:otherwise>
+						                	</c:choose>
+						                </ul>
+						            </div>	
 						            
 						            
 						            
@@ -283,9 +310,9 @@
 		                  		</div>
 		                  		<div class="row" style="height: 50%">
 		                  			<div class="col-12 align-self-center text-center">
-		                  				<button type="button" class="btn btn-primary btn-xs">추가</button>
+		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addRefBtn();">추가</button>
 		                  				<br>
-			                  			<button type="button" class="btn btn-danger btn-xs">삭제</button>
+			                  			<button type="button" class="btn btn-danger btn-xs" onclick="delRefBtn();">삭제</button>
 		                  			</div>
 		                  		</div>
 		                  	</div>
@@ -299,33 +326,12 @@
 			                  			<div class="card-body pr-1 pl-1 pt-2 pb-2" >
 			                  				<div style="overflow:auto; height: 140px">
 			                  				<table id="receiveTable" class="table table-bordered table-sm mb-0 text-center">
-			                  					<!-- 
-			                  					<tr>
-			                  						<th style="width: 15%"><input type="checkbox"></th>
-			                  						<td>1</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>2</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>3</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>4</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>5</td>
-			                  					</tr>
-			                  					 -->
 			                  					 <tbody>
 			                  					 	<c:forEach items="${ addReceiveList }" var="addReceiveList">
 			                  					 		<tr>
 					                  						<td><input type="checkbox" id="delReceiveList" name="delReceiveList" value="${ addReceiveList }"></td>
-					                  						<td>${ addReceiveList }</td>
+					                  						<td>${ addReceiveList.key }</td>
+					                  						<td>${ addReceiveList.value }</td>
 				                  						</tr>
 			                  					 	</c:forEach>
 			                  					 </tbody>
@@ -342,7 +348,17 @@
 			                  			</div>
 			                  				<div class="card-body pr-1 pl-1 pt-2 pb-2" >
 				                  				<div style="overflow:auto; height: 140px">
-				                  				<table class="table table-bordered table-sm mb-0 text-center">
+				                  				<table id="refTable" class="table table-bordered table-sm mb-0 text-center">
+				                  					<tbody>
+				                  					 	<c:forEach items="${ addRefList }" var="addRefList">
+				                  					 		<tr>
+						                  						<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
+						                  						<td>${ addRefList.key }</td>
+						                  						<td>${ addRefList.value }</td>
+					                  						</tr>
+				                  					 	</c:forEach>
+			                  					 </tbody>
+				                  				
 				                  				</table>
 				                  			</div>
 			                  			</div>
@@ -477,79 +493,8 @@
 		}
 	</script>
 	
-	<!-- checkBox 수신직원 -->
-	<!-- 이렇게 하면 페이징 버튼 누르면 값이 사라짐... ajax 통신 필요....ㅎ -->
-	<!-- 
+	<!-- checkBox 수신직원 추가 -->
 	<script>
-		function addReceiveList(){
-			let addReceiveList = [];
-			
-			$("input[name='receiveList']:checked").each(function(){
-				let checkEmpNo = $(this).val();
-				addReceiveList.push(checkEmpNo);
-			});
-
-			let value="";
-			//alert(addReceiveList.length);
-			for(var i=0; i< addReceiveList.length;i++){
-				value +="<tr>"+
-						"<td><input type='checkbox'></td>"+
-						"<td>"+addReceiveList[i]+"</td>"+
-						"</tr>";
-			}
-			//alert(value);
-			$("#receiveTable>tbody").html(value);			
-		}
-	</script>
- 	-->
- 	<!--  
- 	<script>
-		function addReceiveList(){
-			var addReceiveList = [];
-			
-			$("input[name='receiveList']:checked").each(function(){
-				let checkEmpNo = $(this).val();
-				addReceiveList.push(checkEmpNo);
-			});
-			alert(addReceiveList);
-			$.ajax({
-				url: "popupAddReceiveList.adb",
-				type: "post",
-				dataType: "json",
-				data : {
-					addReceiveList : addReceiveList
-				},
-				success:function(list){
-					var value="";
-					$.each(list, function(i, obj){
-						value +="<tr>"+
-								"<td><input type='checkbox'></td>"+
-								"<td>"+obj+"</td>"+
-								"</tr>";
-					})
-					alert(value);
-					//$("#receiveTable>tbody").html(value);		
-				},
-				error:function(){
-					console.log("주소록 팝업 리스트 추가 실패")
-				}
-			})		
-		}
-	</script>
-	-->
-	<script>
-	<!--
-		function addReceiveListBtn(){
-			var receiveList = [];
-			
-			$("input[name='addReceiveList']:checked").each(function(){
-				let checkEmpNo = $(this).val();
-				receiveList.push(checkEmpNo);
-			});
-			//alert(receiveList);
-			location.href="popupAddReceiveList.adb?receiveList="+receiveList;
-		}
-	-->
 		function addReceiveListBtn(){
 			var receiveList = [];
 			
@@ -562,10 +507,45 @@
 		}
 	</script>
 	
+	<!-- checkBox 수신직원 삭제 -->
 	<script>
 		function delReceiveListBtn(){
 			var receiveList = [];
 			
+			$("input[name='delReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			alert(receiveList);
+			location.href="popupDelReceiveList.adb?receiveList="+receiveList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 추가 -->
+	<script>
+		function addRefBtn(){
+			var refList = [];
+			
+			$("input[name='addReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			alert(refList);
+			location.href="popupAddRefList.adb?refList="+refList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 삭제 -->
+	<script>
+		function delRefBtn(){
+			var refList = [];
+			
+			$("input[name='delRefList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			alert(refList);
+			location.href="popupDelRefList.adb?refList="+refList;
 		}
 	</script>
 </body>
