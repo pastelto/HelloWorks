@@ -185,20 +185,22 @@
 	</insert>
 	
 	<!-- listCount -->
-	<select id="selectListCount" parameterType="_int" resultType="_int">
+	<select id="selectListCount" parameterType="HashMap" resultType="_int">
  		SELECT COUNT(*)
  		FROM APPROVAL
  		WHERE WRITER = #{ loginEmpNo }
+ 		AND APPROVAL_CLASS = #{ apClass }
  		AND STATUS = 'N'
  	</select>
  	
  	<!-- 임시저장 리스트 -->
- 	<select id="selectTempApproval" parameterType="_int" resultMap="approvalResultSet">
+ 	<select id="selectTempApproval" parameterType="HashMap" resultMap="approvalResultSet">
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
  		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
  		ORDER BY CREATE_DATE DESC
  	</select>
  	
@@ -212,6 +214,7 @@
  		AND APPROVAL_CLASS = #{option}
  		ORDER BY CREATE_DATE DESC
  	</select>
+ 	
  	<!-- 임시저장 날짜 sort -->
  	<select id="selectTempDate" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[
@@ -220,18 +223,126 @@
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
  		AND STATUS = 'N'
- 		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD')
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD') 
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
- 	<select id="selectDateBoundSortTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 	
+ 	<!-- 임시저장 문서번호 sort -->
+ 	<select id="selectSearchApNoTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 임시저장 제목 sort -->
+ 	<select id="selectSearchTitleTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 임시저장 세부분류 + 문서번호 -->
+ 	<select id="selectDetailApNoTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 임시저장 세부분류 + 제목 -->
+ 	<select id="selectDetailTitleTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC .
+ 	</select>
+ 	
+ 	<!-- 날짜 + 문서번호 -->
+ 	<select id="selectDateApNoTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜 + 제목 -->
+ 	<select id="selectDateTitleTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		ORDER BY CREATE_DATE DESC .
+ 	</select>
+ 	
+ 	<!-- 날짜 + 문서번호 + 세부분류 -->
+ 	<select id="selectDeteDetailApNoTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜 + 제목 + 세부분류  -->
+ 	<select id="selectDateDetailTitleTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜Bound -->
+ 	<select id="selectOnlyDateSortTemp" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
  		AND STATUS = 'N'
- 		AND CREATE_DATE = BETWEEN #{start} AND #{end}
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
