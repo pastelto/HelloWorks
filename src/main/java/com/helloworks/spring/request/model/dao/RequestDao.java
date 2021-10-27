@@ -139,6 +139,24 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("requestMapper.cancelOneEq", requestEqNo);
 	}
+
+	//사원증 상세페이지에서 삭제
+	public int deleteOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteOneId", requestIdNo);
+	}
+	
+	//사원증 상세페이지에서 승인완료
+	public int confirmOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmOneId", requestIdNo);
+	}
+	
+	//사원증 상세페이지에서 승인취소
+	public int cancelOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelOneId", requestIdNo);
+	}
 	
 
 }

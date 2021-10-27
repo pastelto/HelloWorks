@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비품 신청 상세내용</title>
+<title>비품 신청 상세페이지</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -171,7 +171,7 @@
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
-									<c:if test="${ loginUser.deptCode eq 'A2'}">
+									<c:if test="${ loginUser.deptCode eq 'A2'&& requestEq.erCondition eq '제출'}">
 										<button class="btn btn-default" id="cancelOneEqBtn" onclick="cancelOneEq(${ requestEq.requestEqNo });">
 											<i class="fas fa-times"></i>승인취소
 										</button>
@@ -215,7 +215,7 @@
 				}
 			});
  		}
-		// 비품 제출 -> 승인취소
+		//비품 제출 -> 승인취소
 		function cancelOneEq(requestEqNo) {
 			/* alert(requestEqNo);
 			console.log(requestEqNo);	 */	

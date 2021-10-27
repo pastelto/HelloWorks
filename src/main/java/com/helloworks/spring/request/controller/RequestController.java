@@ -224,5 +224,35 @@ public class RequestController {
 		return String.valueOf(result);
 
 	}
+	//상세-사원증신청 삭제
+	@ResponseBody
+	@RequestMapping(value = "/deleteOne.id", method = RequestMethod.POST)
+	public String deleteOneId(int requestIdNo){
+
+		requestService.deleteOneId(requestIdNo);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	//상세-사원증신청 승인완료
+	@ResponseBody
+	@RequestMapping(value = "/confirmOne.id", method = RequestMethod.POST)
+	public String confirmOneId(int requestIdNo){
+
+		requestService.confirmOneId(requestIdNo);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	//상세-사원증신청 승인취소
+	@ResponseBody
+	@RequestMapping(value = "/cancelOne.id", method = RequestMethod.POST)
+	public String cancelOneId(int requestIdNo){
+
+		requestService.cancelOneId(requestIdNo);
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
 		
 }

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사원증 신청 양식</title>
+<title>사원증 신청 상세페이지</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -27,184 +27,227 @@
 </style>
 </head>
 <body>
+<jsp:include page="../common/menubar.jsp" />
+<div class="content-wrapper">
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-6">
+					<h4>
+						<i class="fas fa-clipboard-list"></i><b> 사원증 신청 상세</b>
+					</h4>
+				</div>
+				<div class="col-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="request.menu">신청페이지</a></li>
+						<li class="breadcrumb-item active">사원증 신청 상세</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
 	<div class="card card-outline card-info">
 		<div class="card-header p-0 border-bottom-0">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" id="requestIdCardForm" action="request.id"
-							enctype="multipart/form-data" onsubmit="return imgValidate();">
-							<div class="card-header">
-								<h3 class="card-title">사원증 신청서</h3>
-							</div>
-							<!-- /.card-header -->
-							<div class="card-body">
-								<div class="container">
-									<div class="row">
-										<div class="col-7">
-											<label>신청일시</label>
-										</div>
-										<div class="col-5">
-											<c:set var="now" value="<%=new java.util.Date()%>" />
-											<c:set var="sysdate">
-												<fmt:formatDate value="${now}"
-													pattern="yyyy년  MM월 dd일  HH시  mm분" />
-											</c:set>
-											<label> <c:out value="${sysdate}" />
-											</label>
-										</div>
+						<div class="card-header">
+							<h3 class="card-title">사원증 신청서</h3>
+							<div class="float-right">
+								<c:if test="${ (loginUser.deptCode eq 'A2'|| loginUser.empNo eq requestId.empNo) && requestId.irCondition eq '제출'}">
+									<div class="float-letf">
+										<button class="btn btn-default" id="deleteOneIdBtn" onclick="deleteOneId(${ requestId.requestIdNo });">
+											<i class="far fa-trash-alt"> 삭제</i>
+										</button>
 									</div>
-									<br>
-									<div class="row">
-										<div class="col-9">
-											<div class="row">
-												<div class="col-3">
-													<label>한글이름</label>
-												</div>
-												<div class="col-3">
-													<div class="form-group">
-														<input id="empKName" name="empKName"
-															value="${loginUser.empName}" class="form-control"
-															readonly>
-													</div>
-												</div>
-												<div class="col-3">
-													<label>영문이름</label>
-												</div>
-												<div class="col-3">
-													<div class="form-group">
-														<input id="empEName" name="empEName"
-															value="${loginUser.empEn}" class="form-control" readonly>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-3">
-													<label>부서명</label>
-												</div>
-												<div class="col-3">
-													<div class="form-group">
-														<input id="deptDname" name="deptDname"
-															value="${loginUser.deptDname}" class="form-control"
-															readonly>
-													</div>
-												</div>
-												<div class="col-3">
-													<label>직급명</label>
-												</div>
-												<div class="col-3">
-													<div class="form-group">
-														<input id="jobName" name="jobName"
-															value="${loginUser.jobName}" class="form-control"
-															readonly>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-3">
-													<label>사번</label>
-												</div>
-												<div class="col-3">
-													<div class="form-group">
-														<input id="empNo" name="empNo" value="${loginUser.empNo}"
-															class="form-control" readonly>
-													</div>
-												</div>
-												<div class="col-3">
-													<label>발급종류</label>
-												</div>
-												<div class="col-3">
-													<label> <input type="radio" name="iRkind"
-														value="신규발급" id="radioNew" checked> 신규발급
-													</label>&nbsp &nbsp &nbsp &nbsp &nbsp <label> <input
-														type="radio" name="iRkind" value="재발급" id="radioReissue">
-														재발급
-													</label>
-												</div>
-											</div>
-											<br>
-											<div class="row">
-												<div class="col-12">
-													<div class="alert alert-light" role="alert">
-														<label> [사원증 발급 유의사항] <br> 
-															1. 발급받은 사원증은 항상 패용합니다. <br> 
-															2. 승인된 장소 이외에는 출입하지 않습니다. <br>
-															3.관계사 전배 및 휴, 퇴직시 반드시 총무팀으로 반납하여야 합니다. <br>
-														</label>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-3">
-											<!-- 이미지파일 등록 -->
+								</c:if>
+							</div>
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<div class="container">
+								<div class="row">
+									<div class="col-9">
+										<div class="row">
 											<div class="col-3">
-												<!-- 이미지 들어오는 부분 -->
-												<div class="selectCover">
-													<img id="cover" src="resources/empImg/defaultImg.jpg"
-														style="width: 160px; height: 200px;" />
-												</div>
+												<label>신청일시</label>
 											</div>
 											<div class="col-9">
 												<div class="form-group">
-													<input id="fileName" name="fileName" class="form-control"
-														value="jpg, jpeg, png" readonly>
+													<input id="requestDate" name="requestDate"
+													value="${requestId.requestDate}" class="form-control" readonly>
 												</div>
-												<div class="fileRegiBtn">
-													<label for="myFileUp"> <i
-														class="fas fa-cloud-upload-alt"> 이미지 파일 업로드</i>
-													</label> <input type="file" name="orgPicName" id="myFileUp">
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-3">
+												<label>한글이름</label>
+											</div>
+											<div class="col-3">
+												<div class="form-group">
+													<input id="empKName" name="empKName"
+													value="${requestId.empKName}" class="form-control" readonly>
 												</div>
+											</div>
+											<div class="col-3">
+												<label>영문이름</label>
+											</div>
+											<div class="col-3">
+												<div class="form-group">
+													<input id="empEName" name="empEName"
+													value="${requestId.empEName}" class="form-control" readonly>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-3">
+												<label>부서명</label>
+											</div>
+											<div class="col-3">
+												<div class="form-group">
+													<input id="deptDname" name="deptDname"
+														value="${requestId.deptDname}" class="form-control"
+														readonly>
+												</div>
+											</div>
+											<div class="col-3">
+												<label>직급명</label>
+											</div>
+											<div class="col-3">
+												<div class="form-group">
+													<input id="jobName" name="jobName"
+														value="${requestId.jobName}" class="form-control"
+														readonly>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-3">
+												<label>사번</label>
+											</div>
+											<div class="col-3">
+												<div class="form-group">
+													<input id="empNo" name="empNo"
+														value="${requestId.empNo}" class="form-control"
+														readonly>
+												</div>
+											</div>
+											<div class="col-3">
+												<label>발급종류</label>
+											</div>
+											<div class="col-3">
+												<label> 
+													<input id="iRkind" name="iRkind"
+													value="${requestId.IRkind}" class="form-control"
+													readonly>
+												</label>
+											</div>
+										</div>
+										<br>
+											<div class="row">
+											<div class="col-12">
+												<div class="alert alert-light" role="alert">
+													<label> [사원증 발급 유의사항] <br> 
+														1. 총무팀에서 승인처리 전(제출상태)에만 삭제가 가능합니다. <br> 
+														2. 신청인 본인 및 총무팀에서만 삭제가 가능합니다. <br> 
+														3. 추가 문의사항은 총무팀에 연락주시기 바랍니다(내선번호 : 02-413-2000/ 02-413-2001) <br>
+													</label>
+												</div>
+											</div>
+										</div> 
+									</div>
+									<div class="col-3">
+										<!-- 이미지파일 등록 -->
+										<div class="col-3">
+											<!-- 이미지 들어오는 부분 -->
+											<div class="selectCover">
+												<img id="uploadImg" src="resources/upload_files/${requestId.chgPic}"
+													style="width: 160px; height: 200px;" />
+											</div>
+										</div>
+										<div class="col-9">
+											<div class="form-group">
+												<input id="orgPic" name="orgPic" class="form-control"
+													value="${requestId.orgPic}" readonly>
 											</div>
 										</div>
 									</div>
 								</div>
-								<!--/. container -->								
-								<div class="card-footer">
+							</div>
+							<!--/. container -->								
+							<div class="card-footer">
+								<c:if test="${ loginUser.deptCode eq 'A2' && requestId.irCondition eq '제출'}">
+									<button class="btn btn-default" id="cancelOneIdBtn" onclick="cancelOneId(${ requestId.requestIdNo });">
+										<i class="fas fa-times"></i>승인취소
+									</button>
 									<div class="float-right">
-										<button type="submit" class="btn btn-primary">
-											<i class="fas fa-clipboard-check"></i> 신청하기
+										<button class="btn btn-primary" id="confirmOneIdBtn" onclick="confirmOneId(${ requestId.requestIdNo });">
+											<i class="far fa-circle"></i>승인완료
 										</button>
 									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
-									</button>
-								</div>
-								<!-- /.card-footer -->
+								</c:if>
 							</div>
-							<!-- /.card-body -->							
-						</form>
+							<!-- /.card-footer -->
+						</div>
+						<!-- /.card-body -->							
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+	<jsp:include page="../common/footer.jsp" />
 	<script>
-		// 파일 URL 띄우기
-		function readURL(input) {
-			//console.log("버튼클릭");
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					$('#cover').attr('src', e.target.result); //cover src로 붙여지고
-					$('#fileName').val(input.files[0].name); //파일선택 form으로 파일명이 들어온다
+	//사원증 제출 -> 승인완료
+	function confirmOneId(requestIdNo) {
+			$.ajax({
+			url : "confirmOne.id",
+			type : "post",
+			data : {
+				requestIdNo : requestIdNo
+			},
+			success : function(result) {
+				if (result == "??!") {
+					alert("사원증신청 승인완료 처리성공!");
+					location.href = "request.menu"; //페이지 새로고침
 				}
-				reader.readAsDataURL(input.files[0]);
 			}
-		}
-		// 이미지 바꾸기
-		$("#myFileUp").change(function() {
-			readURL(this);
-			//console.log("이미지 바뀜");
 		});
-		
-		// 사진파일 없을때 알림
-		function imgValidate() {
-			if (($('#myFileUp').val() == "")) {
-				alert("사진파일을 등록해 주세요")
-				return false;
-			}
-			return true;
 		}
+	//사원증 제출 -> 승인취소
+	function cancelOneId(requestIdNo) {
+			$.ajax({
+			url : "cancelOne.id",
+			type : "post",
+			data : {
+				requestIdNo : requestIdNo
+			},
+			success : function(result) {
+				if (result == "??!") {
+					alert("사원증신청 승인취소 처리성공!");
+					location.href = "request.menu"; //페이지 새로고침
+				}
+			}
+		});
+		}
+
+	//사원증 신청 삭제(제출인 상태만 삭제) 
+	function deleteOneId(requestIdNo) {
+			$.ajax({
+			url : "deleteOne.id",
+			type : "post",
+			data : {
+				requestIdNo : requestIdNo
+			},
+			success : function(result) {
+				if (result == "??!") {
+					alert("사원증신청 삭제성공!");
+					location.href = "request.menu"; //페이지 새로고침
+				}
+			}
+		});
+	}
 	</script>
 </body>
 </html>

@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="requestIdNo" column="ES_IR_NO" />
 		<result property="empNo" column="ES_IR_EMP_NO" />
 		<result property="empKName" column="EMP_NAME" />
+		<result property="empEName" column="EMP_EN" />
 		<result property="deptDname" column="DEPT_DNAME" />
 		<result property="jobName" column="JOB_NAME" />
 		<result property="requestDate" column="ES_IR_DATE" />
@@ -198,7 +199,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 사원증 신청 상세조회 -->
 	<select id="selectId" parameterType="_int" resultMap="requestIdResultSet">
-		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, C.DEPT_DNAME, D.JOB_NAME
 		FROM ES_ID_REQUEST A
         JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
         JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
@@ -227,24 +228,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 비품 상세페이지에서 삭제 -->
-	<update id="deleteOneEq" parameterType="List">
+	<update id="deleteOneEq" parameterType="_int">
 		UPDATE ES_EQUIPMENT_REQUEST
 			SET ES_ER_STATUS = 'N'
 		WHERE ES_ER_NO IN #{requestEqNo}
 	</update>
 	
 	<!-- 비품 상세페이지에서 승인완료 -->
-	<update id="confirmOneEq" parameterType="List">
+	<update id="confirmOneEq" parameterType="_int">
 		UPDATE ES_EQUIPMENT_REQUEST
 			SET ES_ER_CONDITION = '승인완료'
 		WHERE ES_ER_NO IN #{requestEqNo}
 	</update>
 	
 	<!-- 비품 상세페이지에서 승인취소 -->
-	<update id="cancelOneEq" parameterType="List">
+	<update id="cancelOneEq" parameterType="_int">
 		UPDATE ES_EQUIPMENT_REQUEST
 			SET ES_ER_CONDITION = '승인취소'
 		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 삭제 -->
+	<update id="deleteOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_STATUS = 'N'
+		WHERE ES_IR_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 승인완료 -->
+	<update id="confirmOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인완료'
+		WHERE ES_IR_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 승인취소 -->
+	<update id="cancelOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인취소'
+		WHERE ES_IR_NO IN #{requestEqNo}
 	</update>	
 	
 </mapper>

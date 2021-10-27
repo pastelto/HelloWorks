@@ -52,5 +52,11 @@ public interface RequestService {
 	void confirmOneEq(int requestEqNo);
 	//비품 상세 페이지에서 승인취소
 	void cancelOneEq(int requestEqNo);
+	//사원증 상세 페이지에서 삭제
+	void deleteOneId(int requestIdNo);
+	//사원증 상세 페이지에서 승인완료
+	void confirmOneId(int requestIdNo);
+	//사원증 상세 페이지에서 승인취소
+	void cancelOneId(int requestIdNo);
 	
 }
