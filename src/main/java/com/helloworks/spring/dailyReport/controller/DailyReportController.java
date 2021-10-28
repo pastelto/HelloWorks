@@ -1,6 +1,9 @@
 package com.helloworks.spring.dailyReport.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,7 @@ public class DailyReportController {
 	private DailyReportService dailyReportService;
 	
 	@RequestMapping("enrollReportForm.dr")
-	public String enrollReportForm(HttpServletRequest request, Model model) {
+	public String enrollReportForm(HttpServletRequest request, Model model, HttpSession session) {
 		System.out.println("일일보고 등록 페이지 전환");
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
