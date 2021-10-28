@@ -26,8 +26,8 @@ public class RequestEq {
 	private Date eDate; //비품 사용 종료일
 	private String eqName; //비품 명
 	private String addRequest; //기타요청사항
-	private String eqCondition; //비품 처리 상태 (제출, 승인완료, 승인취소)
-	private String eqStatus; //비품 신청 상태값(Y|N)
+	private String erCondition; //비품 처리 상태 (제출, 승인완료, 승인취소)
+	private String erStatus; //비품 신청 상태값(Y|N)
 }
 
 //ES_ER_NO	NUMBER
