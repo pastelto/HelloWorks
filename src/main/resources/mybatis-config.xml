@@ -31,6 +31,8 @@
 		<typeAlias type="com.helloworks.spring.attendance.model.vo.Statistics" alias="Statistics"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestEq" alias="RequestEq"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestId" alias="RequestId"/>
+		<typeAlias type="com.helloworks.spring.mail.model.vo.Mail" alias="Mail"/>
+		<typeAlias type="com.helloworks.spring.mail.model.vo.MailAttachment" alias="MailAttachment"/>
 	</typeAliases>
 
 
@@ -43,6 +45,7 @@
 		<mapper resource="/mappers/approval-mapper.xml"/>
 		<mapper resource="/mappers/request-mapper.xml"/>
 		<mapper resource="/mappers/addressBook-mapper.xml"/>
+		<mapper resource="/mappers/mail-mapper.xml"/>
 	</mappers>
 
 

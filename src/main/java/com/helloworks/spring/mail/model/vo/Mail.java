@@ -24,9 +24,16 @@ public class Mail {
 	private String mailContent; // 메일 내용
 	private Timestamp mailDate; // 메일 날짜
 	private String mailStatus; // 메일 열람유무(Y/N)
-	private String mailFvr; // 메일 즐겨찾기 유무(Y/N)
 	private String mailSStatus; // 발신메일 상태값(Y/N)
-	private String mailRStatus; // 수신메일 상태값(Y/N)
+	private String mailRStatus; // 수신메일 읽은사람
+
+	private String mailRcvrName; // 수신자 이름
+	private String mailRcvrDept; // 수신자 부서
+	private String mailRcvrJobName; // 수신자 직급
+	private String mailSndrName; // 발신자 이름
+	private String mailSndrDept; // 발신자 부서
+	private String mailSndrJobName; // 발신자 직급
+
 	
 //	MAIL_NO	NUMBER
 //	MAIL_RCVR	NUMBER
@@ -36,7 +43,6 @@ public class Mail {
 //	MAIL_CONTENT	VARCHAR2(4000 BYTE)
 //	MAIL_DATE	DATE
 //	MAIL_STATUS	VARCHAR2(1 BYTE)
-//	MAIL_FVR	VARCHAR2(1 BYTE)
 //	MAIL_S_STATUS	VARCHAR2(1 BYTE)
 //	MAIL_R_STATUS	VARCHAR2(1 BYTE)
 	

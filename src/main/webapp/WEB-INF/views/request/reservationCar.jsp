@@ -14,6 +14,7 @@
 	overflow: auto;
 }
 </style>
+
 </head>
 <body>
 	<div class="card card-outline card-info ">
@@ -32,7 +33,9 @@
 							<div class="card-body">
 								<div class="container">
 									<div class="row">
-										<div class="col-6">달력</div>
+										<div class="col-6">
+										   <h3 align="center">달력선택</h3>
+										</div>
 										<div class="col-6">차량종류(체크박스/드롭박스)</div>
 									</div>
 									<!-- /.container -->
@@ -79,4 +82,5 @@
 		return true;
 	}
 </script>
+
 </html>
