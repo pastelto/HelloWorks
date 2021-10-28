@@ -13,24 +13,18 @@ import lombok.ToString;
 @ToString
 public class ApprovalLine extends Approval{
 	
-	private Integer line1; 
-	private Integer line2;
-	private Integer line3;
-	private Integer line4;
-	private Integer confirmStatus; 
+	private int lineNo; 
+	private int empNo;
+	private String empName;
+	private String jobName;
+	
+	private int confirmStatus; 
 	
 	/*public ApprovalLine() {
 		// TODO Auto-generated constructor stub
 	}
 */
-	public ApprovalLine(int apNo, int line1, int line2, int line3, int line4, int confirmStatus) {
-		super(apNo);
-		this.line1 = line1;
-		this.line2 = line2;
-		this.line3 = line3;
-		this.line4 = line4;
-		this.confirmStatus = confirmStatus;
-	}
+	
 	/*
 	public int getLine1() {
 		return line1;
