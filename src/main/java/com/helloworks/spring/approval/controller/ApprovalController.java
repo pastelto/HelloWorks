@@ -42,17 +42,6 @@ public class ApprovalController {
 	@RequestMapping("normalApprovalForm.ea")
 	public String normalApprovalForm() {
 		
-		/*
-		 * Employee e = new Employee();
-		 * 
-		 * String deptCode =
-		 * ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();
-		 * 
-		 * String deptName = approvalService.selectUserDept(deptCode);
-		 * 
-		 * mv.addObject("detpName",
-		 * deptName).setViewName("approval/normalApprovalForm");
-		 */
 		return "approval/normalApprovalForm";
 	}
 	
@@ -94,11 +83,23 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("temporarySave.ea")
-	public String temporarySave(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+	public String temporarySave() {
+		
+		return "approval/temporarySaveMain";
+	}
+	
+	@RequestMapping("tempNormal.ea")
+	public String tempNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "일반";	
 		
-		int listCount = approvalService.selectListCount(loginEmpNo);
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+		
+		int listCount = approvalService.selectListCount(searchMap);
+		
 		
 		System.out.println("임시저장 결재 수 : " + listCount);
 		
@@ -107,11 +108,42 @@ public class ApprovalController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Approval> approvalList = approvalService.selectTempApproval(loginEmpNo, pi);
+		ArrayList<Approval> approvalList = approvalService.selectTempApproval(searchMap, pi);
 		
 		model.addAttribute("approvalList", approvalList);
 		model.addAttribute("pi", pi);
-		model.addAttribute("pageURL", "temporarySave.ea");
+		model.addAttribute("pageURL", "tempNormal.ea");
+		model.addAttribute("page", 1);
+		
+		
+		return "approval/temporarySaveMain";
+	}
+	
+	@RequestMapping("tempExpenditure.ea")
+	public String tempExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "지출";	
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+		
+		int listCount = approvalService.selectListCount(searchMap);
+		
+		System.out.println("임시저장 결재 수 : " + listCount);
+		
+		int pageLimit = 10;
+		int boardLimit = 10; 
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Approval> approvalList = approvalService.selectTempApproval(searchMap, pi);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "tempExpenditure.ea");
+		model.addAttribute("page", 2);
 		
 		
 		return "approval/temporarySaveMain";
@@ -249,8 +281,10 @@ public class ApprovalController {
 		// 등록 , 임시저장 구분
 		if(status.equals("Y")) {
 			ap.setStatus(status);
+			ap.setProgress("진행중");
 		}else if(status.equals("N")) {
 			ap.setStatus(status);
+			ap.setProgress("임시저장");
 		}
 				
 		System.out.println("status : " + status);
@@ -485,8 +519,10 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
 		String sdate = request.getParameter("sdate");
-		
-		HashMap<String, Integer> searchMap = new HashMap<String, Integer>();
+		String apClass = request.getParameter("apClass");
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
 		
 		System.out.println("기간 : " + sdate);
 		int sDate= 0;
@@ -494,28 +530,32 @@ public class ApprovalController {
 		switch(sdate) {
 			case "당일" : 
 				sDate = 0;
-				searchMap.put("sDate", sDate);
-				searchMap.put("loginEmpNo", loginEmpNo);
+				searchMap.put("sDate", sDate);				
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			case "1주일" : 
 				sDate = 7;
+				searchMap.put("sDate", sDate);	
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			case "1개월" :
 				sDate = 30;
+				searchMap.put("sDate", sDate);	
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			case "3개월" :
 				sDate = 90;
+				searchMap.put("sDate", sDate);	
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			case "6개월" :
 				sDate = 180;
+				searchMap.put("sDate", sDate);	
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			case "1년" :
 				sDate = 365;
+				searchMap.put("sDate", sDate);	
 				list = approvalService.selectTempDate(searchMap);
 				break;
 			default : 
@@ -526,33 +566,13 @@ public class ApprovalController {
 		
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="selectDateBoundSortTemp.ea", produces= "application/json; charset=utf-8")
-	public String selectDateBoundSortTemp(HttpServletRequest request) {
-		
-		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
-		String start = request.getParameter("start");
-		String end = request.getParameter("end");
-		
-		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
-		System.out.println("기간 : " + start + "~ " + end);
-		
-		searchMap.put("loginEmpNo", loginEmpNo);
-		searchMap.put("start", start);
-		searchMap.put("end", end);
-		
-		ArrayList<Approval> list = approvalService.selectDateBoundSortTemp(searchMap);
-		
-		return new GsonBuilder().create().toJson(list);
-		
-	}
+
 	
 	@ResponseBody
 	@RequestMapping(value="selectAllTempApproval.ea", produces= "application/json; charset=utf-8")
 	public String selectAllTempApproval(HttpServletRequest request) {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
-		
-		
+			
 		String option = request.getParameter("cOption");
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
@@ -566,4 +586,109 @@ public class ApprovalController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value="selectSearchSortTemp.ea", produces= "application/json; charset=utf-8")
+	public String selectSearchSortTemp(HttpServletRequest request) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
+		String optionType = request.getParameter("optionType");
+		String endDate = request.getParameter("endDate");
+		String startDate = request.getParameter("startDate");
+		String detailOption = request.getParameter("detailOption");
+		String input = request.getParameter("optionInput");
+		String apClass = request.getParameter("apClass");
+		int intInput = 0;
+		String stringInput = null;
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("optionType", optionType);
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("endDate", endDate);
+		searchMap.put("startDate", startDate);
+		searchMap.put("detailOption", detailOption);
+		searchMap.put("apClass", apClass);
+		
+		ArrayList<Approval> list = null;
+		
+		if(endDate == null || startDate == null) {
+			if(detailOption == null) {
+				switch(optionType) {
+					case "문서번호" : 
+						intInput = Integer.parseInt(request.getParameter("optionInput"));							
+						searchMap.put("optionInput", intInput);		
+						System.out.println("optionInput : " + intInput);
+						list = approvalService.selectSearchApNoTemp(searchMap);				
+						break;
+					case "제목" : 
+						stringInput = request.getParameter("optionInput");							
+						searchMap.put("optionInput", stringInput);		
+						System.out.println("optionInput : " + stringInput);
+						list = approvalService.selectSearchTitleTemp(searchMap);				
+						break;
+					default :
+						break;			
+				}
+			} else {
+				switch(optionType) {
+				case "문서번호" : 
+					intInput = Integer.parseInt(request.getParameter("optionInput"));							
+					searchMap.put("optionInput", intInput);		
+					System.out.println("optionInput : " + intInput);
+					list = approvalService.selectDetailApNoTemp(searchMap);				
+					break;
+				case "제목" : 
+					stringInput = request.getParameter("optionInput");							
+					searchMap.put("optionInput", stringInput);		
+					System.out.println("optionInput : " + stringInput);
+					list = approvalService.selectDetailTitleTemp(searchMap);				
+					break;
+				default :
+					break;			
+				}
+			}
+		} else {
+			if(detailOption == null) {
+				if(input != null) {
+					switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectDateApNoTemp(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);		
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectDateTitleTemp(searchMap);				
+							break;
+						default :
+							break;			
+					}
+				} else {
+					list = approvalService.selectOnlyDateSortTemp(searchMap);
+				}
+				
+			} else {
+				switch(optionType) {
+				case "문서번호" : 
+					intInput = Integer.parseInt(request.getParameter("optionInput"));							
+					searchMap.put("optionInput", intInput);		
+					System.out.println("optionInput : " + intInput);
+					list = approvalService.selectDeteDetailApNoTemp(searchMap);				
+					break;
+				case "제목" : 
+					stringInput = request.getParameter("optionInput");							
+					searchMap.put("optionInput", stringInput);		
+					System.out.println("optionInput : " + stringInput);
+					list = approvalService.selectDateDetailTitleTemp(searchMap);				
+					break;
+				default :
+					break;			
+				}
+			}
+		}
+	
+		return new GsonBuilder().create().toJson(list);
+	}
 }
