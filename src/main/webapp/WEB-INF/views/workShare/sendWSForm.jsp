@@ -92,38 +92,29 @@
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_recv">
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+												<div class="row m-0">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook();">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원 검색</button>
 													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+													<div>	
+														<b><span class="badge badge-info" id="receiveListTag"></span></b>
+														<input type="hidden" id="receiveListKey" name="drReceiverList">
+														<b><span class="badge badge-info" id="receiveDeptTag"></span></b>
+													</div>
 												</div>
 												</td>
+												
+												
 											</tr>
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_ref">
-												<div class="float-right">
-													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
-													&nbsp;&nbsp;
-													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
-												</div>
+												<b><span class="badge badge-warning" id="refListTag"></span></b>
+												<input type="hidden" id="refListKeyTag" name=drRefList>
+												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
 												</td>
 											</tr>
-<!-- 											<tr>
-												<th>수정권한</th>
-												<td colspan="3">
-												&nbsp;&nbsp;
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
-												</div>
-												</td>
-											</tr> -->
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
@@ -224,15 +215,26 @@
 		
 		var result = confirm("정말 취소하시겠습니까? (작성 중인 업무공유가 초기화됩니다.)");
 		
-		if(result){
-			// 뒤로 가기
-			history.back();
-		} 
+		$("#insertWSForm").attr("action", "<%=request.getContextPath()%>/cancelWorkShare.ws");
+		$("#insertWSForm").submit();
 		
 	} 
 	
 	</script>
 	
+	<!-- 주소록 -->
+	<script>
+		function popupAddressBook(){
+			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
+		}
+	</script>
+	
+	<!-- 직원 검색  -->
+	<script>
+		function popupSearchEmp(){
+			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
+		}
+	</script>
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

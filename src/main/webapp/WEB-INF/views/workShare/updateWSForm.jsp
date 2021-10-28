@@ -98,9 +98,19 @@
 											</tr>
 											<tr>
 												<th>수신직원</th>
-												<td colspan="3" id="editRecvList">
+												<td colspan="3">
 												&nbsp;&nbsp;
-												<input type="text" name="ws_recv" value="${ws.ws_recv}" style="border: none; width:30%;">
+												<c:forEach items="${ wsRecvEmpName }" var="sren">
+													<c:if test="${ !empty sren.ws_empno }">
+													<span class="badge badge-info">
+							                        	${sren.ws_senderName} ${sren.ws_senderJobName}(${sren.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
+												</td>
+												<td colspan="3" id="editRecvList" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_recv">
 												<div class="float-right">
 													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
 													&nbsp;&nbsp;
@@ -110,8 +120,19 @@
 											</tr>
 											<tr>
 												<th>참조</th>
-												<td colspan="3" id="editRefRecv">
+												<td colspan="3">
 												&nbsp;&nbsp;
+												<c:forEach items="${ wsRefEmpName }" var="srefn">
+													<c:if test="${ !empty srefn.ws_empno }">
+													<span class="badge badge-warning">
+							                        	${srefn.ws_senderName} ${srefn.ws_senderJobName}(${srefn.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
+												</td>
+												<td colspan="3" id="editRefRecv" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_ref">
 												<div class="float-right">
 													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
 													&nbsp;&nbsp;
@@ -291,6 +312,20 @@
 		} 
 		
 	} 
+	</script>
+	
+	<!-- 주소록 -->
+	<script>
+		function popupAddressBook(){
+			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
+		}
+	</script>
+	
+	<!-- 직원 검색  -->
+	<script>
+		function popupSearchEmp(){
+			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
+		}
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />

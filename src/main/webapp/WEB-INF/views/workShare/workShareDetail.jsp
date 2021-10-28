@@ -81,7 +81,6 @@
 									<div class="col-12">
 
 										<table class="table table-bordered table-sm">
-											<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
@@ -103,7 +102,13 @@
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-												${ws.ws_recv}
+												<c:forEach items="${ wsRecvEmpName }" var="sren">
+													<c:if test="${ !empty sren.ws_empno }">
+													<span class="badge badge-info">
+							                        	${sren.ws_senderName} ${sren.ws_senderJobName}(${sren.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
 												</td>
 												<td colspan="3" id="editRecvList" style="display:none;">
 												&nbsp;&nbsp;
@@ -119,7 +124,13 @@
 												<th>참조</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-													참조직원 목록 -> 컴마로 구분해서 입력
+												<c:forEach items="${ wsRefEmpName }" var="srefn">
+													<c:if test="${ !empty srefn.ws_empno }">
+													<span class="badge badge-warning">
+							                        	${srefn.ws_senderName} ${srefn.ws_senderJobName}(${srefn.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
 												</td>
 												<td colspan="3" id="editRefRecv" style="display:none;">
 												&nbsp;&nbsp;
@@ -260,24 +271,6 @@
 			</div>
 		</section>
 	</div>
-
-
-
-	<!-- Summernote -->
-	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>  
-    <!-- 첨부파일 라벨 이름 추가 -->
-	<script>	
-		$("#workShareAttach").on("change", function() {
-			var filename = "";
-			
-			for(var i = 0; i < $(this)[0].files.length; i++){
-				filename += $(this)[0].files[i].name;
-				filename += "<br>";
-			}
-			console.log("filename : " + filename)
-			$('#workShareAttachName').append(filename); 
-		});
-	</script>
 	
 	<!-- 버튼 이동 -->
 	<script>	
@@ -403,7 +396,7 @@
 					success:function(result){
 						if(result > 0){
 							alert("댓글이 삭제되었습니다.");
-							selectReplyList();			
+							selectReplyList();		
 						}else{
 							alert("댓글삭제실패");
 						}
@@ -412,6 +405,7 @@
 					}
 				});
 			}
+			
 		}
 		
 		// 댓글 수정하기

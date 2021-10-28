@@ -243,7 +243,12 @@ public class WorkShareController {
 		String[] rEach;
 		
 		// 수신인들 목록 가져오기
-		// String[] wsRecvList = null; 
+		String[] wsRecvList = null; 
+		ArrayList<WorkShare> wsRecvEmpName = new ArrayList<>();
+		
+		// 참조인들 목록 가져오기
+		String[] wsRefList = null; 
+		ArrayList<WorkShare> wsRefEmpName = new ArrayList<>();
 		int myEmpNo = 0;
 		try {
 			// 상세 조회
@@ -251,19 +256,32 @@ public class WorkShareController {
 			ws = workShareService.detailWS(wno);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
 			
-//			수신인 조회
-//			String recvEmp = ws.getWs_recv();
-//			System.out.println("recvEmp ? " + recvEmp);
-//			wsRecvList = recvEmp.split(",");
+      		// 수신인 조회
+			String recvEmp = ws.getWs_recv();
+			System.out.println("recvEmp ? " + recvEmp);
+			wsRecvList = recvEmp.split(",");
 			
-			// 만약 수신인 중에 내 로그인 번호가 있으면!
-//			for(int i = 0; i < wsRecvList.length; i++) {
-//				int num = Integer.parseInt(wsRecvList[i]);
-//				if(myEmp.getEmpNo() == num) {
-//					myEmpNo = num;
-//				}
-//			}
-			myEmpNo = ws.getWs_empno();
+			// 수신인들을 이름으로 가져오기!
+			for(int i = 0; i < wsRecvList.length; i++) {
+				int recvEmpNo = Integer.parseInt(wsRecvList[i]);
+				
+				wsRecvEmpName.add(workShareService.selectRecvEmpName(recvEmpNo));
+			}
+			System.out.println("wsRecvEmpName ? " + wsRecvEmpName);
+			
+      		// 참조인 조회
+			String refEmp = ws.getWs_ref();
+			System.out.println("refEmp ? " + refEmp);
+			wsRefList = refEmp.split(",");
+			
+			// 참조인들을 이름으로 가져오기!
+			for(int i = 0; i < wsRefList.length; i++) {
+				int refEmpNo = Integer.parseInt(wsRefList[i]);
+				
+				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
+			}
+			System.out.println("wsRefEmpName ? " + wsRefEmpName);
+
 			
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String rList= ws.getWs_recv_status();
@@ -307,7 +325,10 @@ public class WorkShareController {
 			e.printStackTrace();
 		}
 		
+		myEmpNo = ws.getWs_empno();
 		
+		model.addAttribute("wsRefEmpName", wsRefEmpName);
+		model.addAttribute("wsRecvEmpName", wsRecvEmpName);
 		model.addAttribute("myEmpNo", myEmpNo);
 		model.addAttribute("wsa", wsa);
 		model.addAttribute("ws", ws);
@@ -372,7 +393,7 @@ public class WorkShareController {
 
 	// 업무공유 작성 저장 원본
 	@RequestMapping("insert.ws")
-	private ModelAndView sendWorkShare(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) throws Exception {
+	private ModelAndView sendWorkShare(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status, HttpSession session) throws Exception {
 
 		ModelAndView mav = new ModelAndView("redirect:sendListWS.ws");
 		
@@ -391,8 +412,8 @@ public class WorkShareController {
 		
 		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
 		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
-		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
-		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
+		ws.setWs_recv((String) multiRequest.getParameter("drReceiverList")); 
+		ws.setWs_ref((String) multiRequest.getParameter("drRefList"));
 		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
 		ws.setWs_status("Y");
 		
@@ -428,7 +449,9 @@ public class WorkShareController {
 			System.out.println("wsaList ? " + wsaList);
 			workShareService.insertWSAttach(wsaList);
 		 }
-
+		 
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
 		return mav;
 	}
 
@@ -465,15 +488,50 @@ public class WorkShareController {
 			
 		WorkShare ws = new WorkShare();
 		ArrayList<WSAttachment> wsa = new ArrayList<WSAttachment>();
+		// 수신인들 목록 가져오기
+		String[] wsRecvList = null; 
+		ArrayList<WorkShare> wsRecvEmpName = new ArrayList<>();
 		
+		// 참조인들 목록 가져오기
+		String[] wsRefList = null; 
+		ArrayList<WorkShare> wsRefEmpName = new ArrayList<>();
 		try {
 			ws = workShareService.detailWS(wno);
 			wsa = workShareService.detailWSAttachment(wno);
+			
+			// 수신인 조회
+			String recvEmp = ws.getWs_recv();
+			System.out.println("recvEmp ? " + recvEmp);
+			wsRecvList = recvEmp.split(",");
+			
+			// 수신인들을 이름으로 가져오기!
+			for(int i = 0; i < wsRecvList.length; i++) {
+				int recvEmpNo = Integer.parseInt(wsRecvList[i]);
+				
+				wsRecvEmpName.add(workShareService.selectRecvEmpName(recvEmpNo));
+			}
+			System.out.println("wsRecvEmpName ? " + wsRecvEmpName);
+			
+	  		// 참조인 조회
+			String refEmp = ws.getWs_ref();
+			System.out.println("refEmp ? " + refEmp);
+			wsRefList = refEmp.split(",");
+			
+			// 참조인들을 이름으로 가져오기!
+			for(int i = 0; i < wsRefList.length; i++) {
+				int refEmpNo = Integer.parseInt(wsRefList[i]);
+				
+				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
+			}
+			System.out.println("wsRefEmpName ? " + wsRefEmpName);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		 model.addAttribute("wsRefEmpName", wsRefEmpName);
+		 model.addAttribute("wsRecvEmpName", wsRecvEmpName);
 		 model.addAttribute("wsa", wsa);
 		 model.addAttribute("ws", ws);
 		 return "workShare/updateWSForm";
@@ -481,7 +539,7 @@ public class WorkShareController {
 	
 	// 업무공유 수정
 	@RequestMapping("updateWS.ws")
-	public String updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
+	public String updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model, HttpSession session) throws Exception {
 		
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
 		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
@@ -527,13 +585,13 @@ public class WorkShareController {
 			 
 			 wsaList.add(wsa);
 			 }
-			 
-			
+
 			System.out.println("wsaList ? " + wsaList);
 			workShareService.updateWSAttachment(wsaList);
 		 }
 		
-		 //model.addAttribute("wno", wno);
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
 		 return "redirect:detail.ws?wno="+wno;
 	}
 	
@@ -631,6 +689,15 @@ public class WorkShareController {
 		return String.valueOf(result);
 	}
 	
+	// 업무공유 작성 취소하기
+	@RequestMapping("cancelWorkShare.ws")
+	public String cancelWorkShare(HttpSession session) {
+		
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
+		return "redirect:sendListWS.ws";
+	}
+	
 
 	// -------------- 댓글 및 답글 기능 --------------
 	// 댓글 및 답글 조회하기
@@ -685,5 +752,4 @@ public class WorkShareController {
 		return String.valueOf(result);
 	}
 	
-
 }

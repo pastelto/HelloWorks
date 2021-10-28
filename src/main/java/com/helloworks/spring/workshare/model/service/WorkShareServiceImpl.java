@@ -243,6 +243,13 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		 return result;
 	}
+	
+	// 업무공유 수신인 성함 가져오기
+	@Override
+	public WorkShare selectRecvEmpName(int recvEmpNo) throws Exception {
+		
+		return workShareDao.selectRecvEmpName(sqlSession, recvEmpNo);
+	}
 
 
 

@@ -142,6 +142,11 @@ public class WorkShareDao {
 		return sqlSession.delete("workShareMapper.deleteWsa", wsaNo);
 	}
 
+	public WorkShare selectRecvEmpName(SqlSessionTemplate sqlSession, int recvEmpNo) {
+		
+		return sqlSession.selectOne("workShareMapper.selectRecvEmpName", recvEmpNo);
+	}
+
 
 
 

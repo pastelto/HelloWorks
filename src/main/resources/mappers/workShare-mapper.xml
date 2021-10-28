@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result property="ws_reply" column="WS_REPLY"/>
        <result property="ws_favb" column="WS_FAVB"/>
        <result property="ws_senderName" column="EMP_NAME"/>
+       <result property="ws_empno" column="EMP_NO"/>
        <result property="ws_senderJobName" column="JOB_NAME"/>
     </resultMap>
 	
@@ -248,4 +249,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE WORKSHARE_ATTACHMENT
 		WHERE WSA_NO = #{wsaNo}
 	</delete>
+	
+	<select id="selectRecvEmpName" parameterType="_int" resultMap="workShareResultSet">
+		SELECT A.EMP_NO, A.EMP_NAME, B.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN JOB_LEVEL B ON B.JOB_CODE = A.JOB_CODE
+		AND EMP_NO = #{recvEmpNo}
+	</select>
 </mapper>
