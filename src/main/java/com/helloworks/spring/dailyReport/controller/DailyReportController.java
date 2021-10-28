@@ -32,6 +32,16 @@ public class DailyReportController {
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		
+		DailyReport dailyReport = new DailyReport();
+		
+		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
+		
+		if(tempDRCount > 0 ) {
+			dailyReport = dailyReportService.selectTempSaveDailyReport(loginUser.getEmpNo());
+		}
+		
+		
+		model.addAttribute("dailyReport", dailyReport);
 		model.addAttribute("loginUser", loginUser);
 		return "dailyReport/dailyReportForm";
 	}
@@ -53,21 +63,13 @@ public class DailyReportController {
 			}
 		}
 		
-		String recvList = dailyReport.getDrReceiverList();
-		String refList = dailyReport.getDrRefList();
-		
-		System.out.println("받는사람들: "+recvList);
-		System.out.println("참조인원들: "+refList);
-		
-		String[] recvArr = recvList.split(",");
-		
-		String[] refArr =  refList.split(",");
-		
 		dailyReport.setDrReceiverNo(loginUser);
 		
 		System.out.println("컨트롤러: "+dailyReport);
 		
-		int tempDRCount = dailyReportService.tempDailyReportCount(loginUser);
+		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
+		
+		System.out.println("tempDRCount: "+tempDRCount);
 		
 		if(tempDRCount > 0) {
 			
@@ -86,15 +88,29 @@ public class DailyReportController {
 			dailyReportService.insertDailyReport(dailyReport);
 		}
 		
+		String recvList = dailyReport.getDrReceiverList();
+		String refList = dailyReport.getDrRefList();
+		
+		System.out.println("받는사람들: "+recvList);
+		System.out.println("참조인원들: "+refList);
+		
+		String[] recvArr = recvList.split(",");
+		
 		for(int i = 0; i<recvArr.length;i++) {
 			dailyReport.setDrReceiverNo(Integer.parseInt(recvArr[i]));
 			dailyReportService.insertDailyReport(dailyReport);
 		}
 		
-		for(int i = 0; i<refArr.length;i++) {
-			dailyReport.setDrReceiverNo(0);
-			dailyReport.setDrRef(Integer.parseInt(refArr[i]));
-			dailyReportService.insertDailyReport(dailyReport);
+		if( !refList.equals("")) {
+			String[] refArr =  refList.split(",");
+			
+			if(recvArr != null) {
+				for(int i = 0; i<refArr.length;i++) {
+					dailyReport.setDrReceiverNo(0);
+					dailyReport.setDrRef(Integer.parseInt(refArr[i]));
+					dailyReportService.insertDailyReport(dailyReport);
+				}
+			}
 		}
 		
 		session.removeAttribute("receiveListSession");
@@ -137,5 +153,13 @@ public class DailyReportController {
 		File deleteFile = new File(savePath+fileName);
 		deleteFile.delete();
 		
+	}
+	
+	@RequestMapping("cancelDailyReport.dr")
+	public String cancelDailyReport(HttpSession session) {
+		
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
+		return "redirect:/main.mi";
 	}
 }

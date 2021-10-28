@@ -18,9 +18,9 @@ public class DailyReportServiceImpl implements DailyReportService{
 	private DailyReportDao dailyReportDao;
 	
 	@Override
-	public int tempDailyReportCount(int loginUser) {
+	public int tempDailyReportCount(DailyReport dailyReport) {
 		// TODO Auto-generated method stub
-		return dailyReportDao.tempDailyReportCount(sqlSession, loginUser);
+		return dailyReportDao.tempDailyReportCount(sqlSession, dailyReport);
 	}
 
 	@Override
@@ -41,6 +41,12 @@ public class DailyReportServiceImpl implements DailyReportService{
 		if(result < 0) {
 			throw new CommException("일일보고 저장 실패");
 		}
+	}
+
+	@Override
+	public DailyReport selectTempSaveDailyReport(int empNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectTempSaveDailyReport(sqlSession, empNo);
 	}
 
 }

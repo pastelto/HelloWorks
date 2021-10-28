@@ -8,9 +8,9 @@ import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 @Repository
 public class DailyReportDao {
 
-	public int tempDailyReportCount(SqlSessionTemplate sqlSession, int loginUser) {
+	public int tempDailyReportCount(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("dailyReportMapper.tempDailyReportCount", loginUser);
+		return sqlSession.selectOne("dailyReportMapper.tempDailyReportCount", dailyReport);
 	}
 
 	public int updateDailyReportMe(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
@@ -21,6 +21,11 @@ public class DailyReportDao {
 	public int insertDailyReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("dailyReportMapper.insertDailyReport", dailyReport);
+	}
+
+	public DailyReport selectTempSaveDailyReport(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectTempSaveDailyReport", empNo);
 	}
 
 }

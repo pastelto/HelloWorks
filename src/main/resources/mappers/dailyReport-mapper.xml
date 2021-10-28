@@ -19,29 +19,42 @@
 		<result property="receiverName" column="EMP_NAME"/>
 	</resultMap>
 
-	<select id="tempDailyReportCount" parameterType="_int" resultType="_int">
+	<select id="tempDailyReportCount" parameterType="DailyReport" resultType="_int">
 		SELECT COUNT(*)
 		FROM DAILY_REPORT
-		WHERE DR_WRITER_NO = #{ loginUser }
-		AND DR_RECEIVER_NO = #{ loginUser }
-		AND DR_CREATE_DATE = SYSDATE
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
 		AND DR_STATUS = 'TS'
 	</select>
 	
 	<update id="updateDailyReportMe" parameterType="DailyReport">
 		UPDATE DAILY_REPORT
-		SET DR_TITLE = #{drTitle}
-		AND DR_CONTENT = #{drContent}
-		AND DR_CREATE_DATE = SYSDATE
-		AND DR_ATTACH_ORIGIN = #{drAttachOrigin}
-		AND DR_ATTACH_CHANGE = #{drAttachChange}
-		AND DR_CATEGORY = #{drCategory}
-		AND DR_STATUS = 'Y'
+		SET DR_TITLE = #{drTitle},
+		DR_CONTENT = #{drContent},
+		DR_CREATE_DATE = SYSDATE,
+		DR_ATTACH_ORIGIN = #{drAttachOrigin},
+		DR_ATTACH_CHANGE = #{drAttachChange},
+		DR_CATEGORY = #{drCategory},
+		DR_STATUS = 'SN'
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'TS'
 	</update>
 
 	<insert id="insertDailyReport">
 		INSERT INTO DAILY_REPORT
 		VALUES(SEQ_DR_NO.NEXTVAL, #{drWriterNo}, #{drCategory}, #{drReceiverNo}, #{drRef}, #{drTitle}, #{drContent},
-			 DEFAULT, #{drAttachOrigin}, #{drAttachChange}, DEFAULT, 'SN')
+			 SYSDATE, #{drAttachOrigin}, #{drAttachChange}, DEFAULT, 'SN')
 	</insert>
+	
+	<select id="selectTempSaveDailyReport" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT *
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ empNo }
+		AND DR_RECEIVER_NO = #{ empNo }
+		AND DR_CREATE_DATE = SYSDATE
+		AND DR_STATUS = 'TS'
+	</select>
 </mapper>

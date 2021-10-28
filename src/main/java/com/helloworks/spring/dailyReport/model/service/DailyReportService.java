@@ -4,10 +4,12 @@ import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 
 public interface DailyReportService{
 
-	int tempDailyReportCount(int loginUser);
+	int tempDailyReportCount(DailyReport dailyReport);
 
 	void updateDailyReportMe(DailyReport dailyReport);
 
 	void insertDailyReport(DailyReport dailyReport);
+
+	DailyReport selectTempSaveDailyReport(int empNo);
 
 }

@@ -54,7 +54,8 @@
 							</h6>
 						</div>
 
-						<form id="enrollForm" method="post" action="insertDailyReport.dr" enctype="multipart/form-data">
+
+						<form id="enrollForm" method="post" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -81,11 +82,11 @@
 												<th>보고유형</th>
 												<td colspan="3">
 													&nbsp;
-													<input type="radio" value="D" name="drCategory" checked> 일일보고
+													<input type="radio" id="DR" value="D" name="drCategory"> 일일보고
 													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="W" name="drCategory"> 주간보고
+													<input type="radio" id="WR" value="W" name="drCategory"> 주간보고
 													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="M" name="drCategory"> 월간보고
+													<input type="radio" id="MR" value="M" name="drCategory"> 월간보고
 												</td>
 											</tr>
 											<tr>
@@ -146,11 +147,11 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
+									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="tempSave()">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="submit" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">발송하기</button>
 									&nbsp;
-									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
+									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="cancelFunc()" >돌아가기</button>
 									&nbsp;
 								</div>
 							</div>
@@ -226,24 +227,53 @@
 		
 		}
 	</script>
+	action="insertDailyReport.dr"
 	
 	<!-- 일일보고 발송 버튼 -->
 	<script>
-		function submitReport(){
+		function submitFunc(){
+			var check = $("input[name=drReceiverList]").val()
 			
+			if( check == ""){
+				alert("수신직원을 선택해주세요.")
+			}else{
+				$("#enrollForm").attr("action", "<%=request.getContextPath()%>/insertDailyReport.dr");
+				$("#enrollForm").submit();
+				confirm("저장 후 수정이 불가합니다. 저장하시겠습니까?");
+			}
+		}
+	</script>
+	
+	<!-- 일일보고 임시저장 버튼 -->
+	<script>
+		function tempSave(){
+			/*
 			const dailyReportData = {
 					writer : $("#drWriterNo").val(),
 					category : $('input:radio[name="reportType"]:checked').val(),
-					receiver : $("#receiveListTag").text(),
-					ref : $("#refListTag").text(),
 					title : $("#title").val(),
 					content : $("textarea[name=content]").val(),
 			}
 			
-			/* var writer = $("#drWriterNo").val(); */
 			
 			alert(dailyReportData.summernote+"\n"+dailyReportData.title);
+			*/
+			$("#enrollForm").attr("action", "<%=request.getContextPath()%>/tempSaveDailyReport.dr");
+			$("#enrollForm").submit();
+			
 		}
 	</script>
+	
+	<!-- 일일보고 취소 버튼 -->
+	<script>
+		function cancelFunc(){
+			
+			$("#enrollForm").attr("action", "<%=request.getContextPath()%>/cancelDailyReport.dr");
+			$("#enrollForm").submit();
+			
+		}
+	</script>
+	
+	
 </body>
 </html>
