@@ -66,43 +66,31 @@
 												<td style="width: 35%;">
 												&nbsp;
 												<b>${ loginUser.empName }</b>
-												<input type="hidden" name="writer" id="writer" value="${ loginUser.empNo }">
+												<input type="hidden" name="drWriterNo" id="drWriterNo" value="${ loginUser.empNo }">
 												</td>
 												<th>작성일</th>
 												<td style="width: 35%;">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
-													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd " /></c:set> 
 													<c:out value="${sysdate}" />
+													<span id="nowTimes"></span>
 												 </td>
 											</tr>
 											<tr>
 												<th>보고유형</th>
 												<td colspan="3">
 													&nbsp;
-													<input type="radio" value="daily" name="reportType" checked> 일일보고
+													<input type="radio" value="D" name="drCategory" checked> 일일보고
 													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="weekly" name="reportType"> 주간보고
+													<input type="radio" value="W" name="drCategory"> 주간보고
 													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="monthly" name="reportType"> 월간보고
+													<input type="radio" value="M" name="drCategory"> 월간보고
 												</td>
 											</tr>
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
-												<!-- <div class="row m-0">
-													<div class="col-9 p-0" style="overflow: auto; height: 80%">
-														<b><span class="badge badge-info" id="receiveListTag"></span></b>
-														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
-													</div>
-													<div class="col-3">
-														<div class="float-right">
-															<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook()">주소록</button>
-															&nbsp;
-															<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
-														</div>
-													</div>
-												</div> -->
 												<div class="row m-0">
 													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook()">주소록</button>
 													&nbsp;
@@ -111,7 +99,8 @@
 												<div>
 												
 												<b><span class="badge badge-info" id="receiveListTag"></span></b>
-														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
+												<input type="hidden" id="receiveListKey" name="drReceiverList">
+												<b><span class="badge badge-info" id="receiveDeptTag"></span></b>
 												</div>
 												
 													
@@ -122,13 +111,14 @@
 												<th>참조</th>
 												<td colspan="3">
 												<b><span class="badge badge-warning" id="refListTag"></span></b>
+												<input type="hidden" id="refListKeyTag" name=drRefList>
 												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input type="text" class="form-control form-control-sm">
+												<input id="drTitle" name="drTitle" type="text" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
@@ -137,7 +127,7 @@
 													<span class="badge badge-info" id="reportAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="reportAttach" id="reportAttach">
+									                    <input type="file" name="uploadFile" id="reportAttach">
 									                  </div> 
 												</td>
 											</tr>
@@ -148,7 +138,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote"></textarea>
+										<textarea id="summernote" name="drContent"></textarea>
 									</div>
 								</div>
 
@@ -158,7 +148,7 @@
 								<div class="float-right">
 									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm">임시저장</button>
 									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm">등록</button>
+									<button id="submitBtn" type="submit" class="btn btn-primary btn-sm">등록</button>
 									&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" >취소</button>
 									&nbsp;
@@ -203,6 +193,56 @@
 	<script>
 		function popupSearchEmp(){
 			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
+		}
+	</script>
+	
+	<!-- 시간 출력 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    // 시간을 딜레이 없이 나타내기위한 선 실행
+		    realTimer();
+		    // 이후 0.5초에 한번씩 시간을 갱신한다.
+		    setInterval(realTimer, 100);
+		});
+		
+		// 시간을 출력
+		function realTimer() {
+		
+		   const nowDate = new Date();
+		   const year = nowDate.getFullYear();
+		   const month= nowDate.getMonth() + 1;
+		   const date = nowDate.getDate();
+		   const hour = nowDate.getHours();
+		   const min = nowDate.getMinutes();
+		   const sec = nowDate.getSeconds();
+		   document.getElementById("nowTimes").innerHTML = 
+		              hour + ": " + addzero(min) + ": " + addzero(sec);
+		}
+		
+		// 1자리수의 숫자인 경우 앞에 0을 붙여준다.
+		function addzero(num) {
+		   if(num < 10) { num = "0" + num; }
+		   return num;
+		
+		}
+	</script>
+	
+	<!-- 일일보고 발송 버튼 -->
+	<script>
+		function submitReport(){
+			
+			const dailyReportData = {
+					writer : $("#drWriterNo").val(),
+					category : $('input:radio[name="reportType"]:checked').val(),
+					receiver : $("#receiveListTag").text(),
+					ref : $("#refListTag").text(),
+					title : $("#title").val(),
+					content : $("textarea[name=content]").val(),
+			}
+			
+			/* var writer = $("#drWriterNo").val(); */
+			
+			alert(dailyReportData.summernote+"\n"+dailyReportData.title);
 		}
 	</script>
 </body>

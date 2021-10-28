@@ -126,9 +126,14 @@ public class OfficeRoomController {
 	public String popupSearchEmp(Model model, HttpServletRequest request, HttpSession session) {
 		System.out.println("직원검색 페이지 전환");
 		
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		
+		
+		
 		HashMap<String, String> receiveListSession = (HashMap<String, String>) (request.getSession().getAttribute("receiveListSession"));
 		HashMap<String, String> refListSession = (HashMap<String, String>) (request.getSession().getAttribute("refListSession"));
 		
+		model.addAttribute("loginUser", loginUser);
 		ArrayList<Employee> list = officeRoomService.selectAllEmployee();
 		model.addAttribute("list", list);
 		model.addAttribute("addReceiveList", receiveListSession);
