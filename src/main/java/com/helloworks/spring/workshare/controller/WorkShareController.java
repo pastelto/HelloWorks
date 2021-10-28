@@ -595,6 +595,23 @@ public class WorkShareController {
 		return String.valueOf(result);
 	}
 	
+	// 댓글 삭제하기
+	@ResponseBody
+	@RequestMapping("deleteReply.ws")
+	public String deleteReply(int rno) {
+		
+		int result = 0;
+		System.out.println("wsr_no ? " + rno);
+		
+		try {
+			result = workShareService.deleteReply(rno);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return String.valueOf(result);
+	}
 	
 
 }

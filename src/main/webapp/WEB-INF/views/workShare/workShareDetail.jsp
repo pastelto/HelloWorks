@@ -354,6 +354,7 @@
 	
     
     <script>
+    	// 댓글 리스트 가져온 후 댓글 등록하기
 		$(function(){
 			selectReplyList();
 			
@@ -406,7 +407,7 @@
 								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
 								 "<td>" + obj.wsr_content + "</td>" + 
 							     "<td>" + obj.wsr_date + "</td>" +
-							     "<td>" + "<button type='button' onclick='" + "'deleteReply();'" + " value='" + obj.wsr_no + "'>삭제하기</button>" + "</td>" +
+							     "<td>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
 							     "</tr>";
 						}else {
 							value += "<tr>" +
@@ -425,11 +426,52 @@
 		}
 		
 		// 댓글 삭제하기
-		function deleteReply(){
+		function deleteReply(num){
 			
+			var del = confirm("댓글을 삭제하시겠습니까?");
 			
-			
+			if(del){
+				$.ajax({
+					url:"deleteReply.ws",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();			
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
 		}
+		
+		// 댓글 수정하기
+/* 		function updateReply(num){
+			
+			var del = confirm("댓글을 삭제하시겠습니까?");
+			
+			if(del){
+				$.ajax({
+					url:"deleteReply.ws",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();			
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
+		} */
   </script>
 	<jsp:include page="../common/footer.jsp" />
 	

@@ -112,7 +112,7 @@ public class WorkShareDao {
 		return sqlSession.delete("workShareMapper.deleteWSAttachment", wno);
 	}
 	
-	public int updateWorkShare(SqlSessionTemplate sqlSession, WorkShare ws) {
+	public int updateWorkShare(SqlSessionTemplate sqlSession, WorkShare ws) throws Exception {
 	
 		return sqlSession.update("workShareMapper.updateWorkShare", ws);
 	}
@@ -120,6 +120,11 @@ public class WorkShareDao {
 	public int updateWSAttachment(SqlSessionTemplate sqlSession, WSAttachment wsa) throws Exception {
 		
 		return sqlSession.update("workShareMapper.updateWSAttachment", wsa);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, int rno) throws Exception {
+		
+		return sqlSession.delete("workShareMapper.deleteReply", rno);
 	}
 
 
