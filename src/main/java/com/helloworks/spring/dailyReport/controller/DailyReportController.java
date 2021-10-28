@@ -47,7 +47,7 @@ public class DailyReportController {
 		
 		if(alreadySend > 0) {
 			session.setAttribute("msg", "제출된 일일보고가 존재합니다. 발신함으로 전환됩니다.");
-			return "dailyReport/dailySendList";
+			return "redirect:sendReport.dr";
 		}
 		
 		System.out.println("임시저장: "+dailyReport);
@@ -148,7 +148,7 @@ public class DailyReportController {
 		
 		session.removeAttribute("receiveListSession");
 		session.removeAttribute("refListSession");
-		return "dailyReport/dailySendList";
+		return "redirect:recvReport.dr";
 	}
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
@@ -237,5 +237,10 @@ public class DailyReportController {
 		return "redirect:enrollReportFormTempSave.dr";
 	}
 	
+	@RequestMapping("sendReport.dr")
+	public String recvReport() {
+		
+		return "dailyReport/dailySendList";
+	}
 	
 }

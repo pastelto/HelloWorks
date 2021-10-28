@@ -98,12 +98,7 @@
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 												&nbsp;&nbsp;
 												<div id="receiveListDiv">
-													<%-- <c:if test="${ !empty addReceiveList}">
-														<c:forEach items="${addReceiveList}" var="addReceiveList">
-															<b><span class="badge badge-info">${addReceiveList}</span></b>
-															<input type="hidden" id="receiveListKey" name="drReceiverList" value="${ addReceiveList.key }">
-														</c:forEach>
-													</c:if> --%>
+												
 												<!-- <b><span class="badge badge-info" id="receiveListTag"></span></b>
 												<input type="text" id="receiveListKey" name="drReceiverList">
 												<b><span class="badge badge-info" id="receiveDeptTag"></span></b> -->
@@ -117,12 +112,6 @@
 												<th>참조</th>
 												<td colspan="3">
 												<div id="refListDiv">
-													<%-- <c:if test="${ !empty addRefList}">
-														<c:forEach items="${addRefList}" var="addRefList">
-															<b><span class="badge badge-warning">${addRefList}</span></b>
-															<input type="hidden" id="refListKeyTag" name=drRefList value="${ addRefList.key }">
-														</c:forEach>
-													</c:if> --%>
 												
 												<!-- <b><span class="badge badge-warning" id="refListTag"></span></b>
 												<input type="text" id="refListKeyTag" name="drRefList">
