@@ -26,4 +26,21 @@ public interface RequestService {
 	void requestEquipment(RequestEq rEq);
 	//사원증 신청
 	void requestIdCard(RequestId rId);
+	//비품 신청 목록
+	ArrayList<RequestEq> selectEqList();
+	//사원증 신청 목록
+	ArrayList<RequestId> selectIdList();
+	//비품 신청 승인완료
+	void confirmEq(List<String> checkArr);
+	//사원증 신청 승인완료
+	void confirmId(List<String> checkArr);
+	//비품 신청 승인취소
+	void cancelEq(List<String> checkArr);
+	//사원증 신청 승인취소
+	void cancelId(List<String> checkArr);
+	//비품 신청 상세조회
+	RequestEq selectEq(int requestEqNo);
+	//사원증 신청 상세조회
+	RequestId selectId(int requestIdNo);
+	
 }
