@@ -107,9 +107,9 @@
 												&nbsp;&nbsp;
 												<input type="text" name="ws_ref">
 												<div class="float-right">
-													<button id="refAB" type="button" class="btn btn-default btn-xs">주소록</button>
+													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
 													&nbsp;&nbsp;
-													<button id="refSEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
 												</div>
 												</td>
 											</tr>

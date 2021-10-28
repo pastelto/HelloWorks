@@ -201,5 +201,19 @@ public class WorkShareServiceImpl implements WorkShareService {
 		 }
 	}
 
+	// 업무공유 댓글 삭제
+	@Override
+	public int deleteReply(int rno) throws Exception {
+		
+		 int result = workShareDao.deleteReply(sqlSession, rno);
+		 System.out.println("Delete WorkShare Reply ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 댓글 삭제 실패"); 
+		 }
+		
+		 return result;
+	}
+
 	
 }
