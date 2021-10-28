@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class VacationComment extends Vacation{
-
+	
 	private int coNo;			// 결재의견번호
 	private int writer; 		// 작성자
 	private String createDate;	// 작성일자
@@ -30,38 +30,6 @@ public class VacationComment extends Vacation{
 		this.acContent = acContent;
 	}
 
-	/*public int getCoNo() {
-		return coNo;
-	}
-
-	public void setCoNo(int coNo) {
-		this.coNo = coNo;
-	}
-
-	public int getWriter() {
-		return writer;
-	}
-
-	public void setWriter(int writer) {
-		this.writer = writer;
-	}
-
-	public String getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getAcContent() {
-		return acContent;
-	}
-
-	public void setAcContent(String acContent) {
-		this.acContent = acContent;
-	}
 	
-	*/
 	
 }

@@ -8,16 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="hiddenDiv" style="display:none">
-	<jsp:include page="../common/menubar.jsp" />
-	</div>
-	<br>
-	 <div class="col-md-6">
        
-            
-            
-            
-            
+    
 	<div class="card card-info card-outline">
              <div class="card-header" >            
                <div class="text-center"><b>상태 변경</b></div>

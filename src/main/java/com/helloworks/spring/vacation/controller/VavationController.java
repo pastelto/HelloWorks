@@ -45,6 +45,20 @@ public class VavationController {
 		return "vacation/AllForm";
 	}
 	
+	//페이지 전환
+		@RequestMapping("vacationUse.ps")
+		public String vacationUse() {
+			System.out.println("휴가사용현황  페이지 전환");
+			return "vacation/VacationUse";
+		}
+		
+	//페이지 전환
+	@RequestMapping("vacationStatistics.ps")
+	public String vacationStatistics() {
+		System.out.println("휴가사용통계  페이지 전환");
+		return "vacation/VacationStatistics";
+	}
+	
 	//조정문서 날짜 선택 후 상태 가져오기
     @ResponseBody
    	@RequestMapping(value="selectStatus.ps")
@@ -87,9 +101,8 @@ public class VavationController {
     //근태구분 결재 insert
     @RequestMapping("insertAttendanceF.ps")
 	public String insertAttendanceF(Vacation vacation, VacationCC vaCC, VacationLine line, ApprovalAttendance apA,
-								String status, HttpServletRequest request, Model model,
+								String status, HttpServletRequest request, Model model, 
 								@RequestParam(name="normalAttach" , required=false) MultipartFile file) {
-		
 		
 		// 등록 , 임시저장 구분
 		if(status.equals("Y")) {
@@ -100,19 +113,17 @@ public class VavationController {
 			vacation.setProgress("임시저장");
 		}
 		
-		System.out.println("status : " + status);
-		
-		
-		String detailClass = request.getParameter("doc_type"); // 문서타입 종류(근태구분,휴가구분,근태조정)
 		String title = request.getParameter("ap_title"); //제목
-		int writer = Integer.parseInt(request.getParameter("writer")); // 작성자
-		String deptName = request.getParameter("userDept"); // 부서
+		int writer =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	//작성자
+		String deptName =((Employee)request.getSession().getAttribute("loginUser")).getDeptDname(); // 부서
 		String content = request.getParameter("apContent"); //내용		
 		String deptShare = request.getParameter("deptShare"); // 부서공유
 		String documentType = request.getParameter("documentType"); //문서타입 종류(연차,반차,조퇴,결근)
+		String datailType = request.getParameter("datailType"); // 근태구분, 휴가구분/조정신청
+		
 		
 		vacation.setApClass("근태");
-		vacation.setDetailClass(detailClass);
+		vacation.setDetailClass("근태");
 		vacation.setTitle(title);
 		vacation.setWriter(writer);
 		vacation.setDeptName(deptName);
@@ -120,17 +131,19 @@ public class VavationController {
 		vacation.setDeptShare(deptShare);			
 						
 		// 문서분류에 따른 등록 				
-		switch(detailClass) {
+		switch(datailType) {
 		case "근태구분" : insertAttendance(vacation, apA, request);
 					break;
 		case "휴가구분" : 			
-						//insertVacation(vacation, ad, request);					
+						insertVacation(vacation, apA, request);					
 					break;
 		case "근태조정" :
 						//insertAdjust(vacation, am, request);					
 					break;
 		default : model.addAttribute("msg", "등록되지 않았습니다.");
 		}
+		
+		
 		
 		// 첨부파일 등록 
 		if(file != null) {
@@ -140,43 +153,47 @@ public class VavationController {
 				if(newName!=null) {
 						vacation.setOriginName(file.getOriginalFilename());
 						vacation.setNewName(newName);
-						//vacationService.insertAttachment(vacation);
+						vacationService.insertAttachment(vacation);
 					}
 				}
 		}
 				
 		//수신참조 등록 (수신자등록)
-		if(request.getParameter("ccCode")!= null) { 
-			
-			String ccCode = request.getParameter("ccCode");
-					
+		String ccCode = request.getParameter("ccCode");
+		System.out.println("ccCode : " + ccCode);
+		if(!ccCode.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
 				System.out.println("cotroller num :" + num);
 				vaCC.setCcMember(num);
-				//vacationService.insertCcEmpl(vaCC);
+				vacationService.insertCcEmpl(vaCC);
 			} else {
 				vaCC.setCcDept(ccCode);
-				//vacationService.insertCcDept(vaCC);   ->요거 무엇?????
+				System.out.println("deptCode: " + ccCode);
+				vacationService.insertCcDept(vaCC);
 			}
 		}
-			
+
 		
 								
-		// 결재라인 등록  -> 소원님 수정중 
-//		insertLine(line, request);		
-//				
-//		if(status.equals("Y")) {
-//			model.addAttribute("msg", "결재가 등록되었습니다.");
-//		}else if(status.equals("N")) {
-//			model.addAttribute("msg", "결재가 임시저장되었습니다.");
-//		}
+		// 결재라인 등록  
+		insertLine(line, request);		
+				
+		// 결재 등록 알림창 
+		if(status.equals("Y")) {
+			model.addAttribute("msg", "결재가 등록되었습니다.");
+		}else if(status.equals("N")) {
+			model.addAttribute("msg", "결재가 임시저장되었습니다.");
+		}
 		
 		return "main";
 	}
 	
 
 
+	
+
+	// 결재 수신참조 부서/직원 구분을 위한 메소드
 	private boolean isInteger(String s) { 		
 		try {
 			Integer.parseInt(s);
@@ -191,17 +208,12 @@ public class VavationController {
 			String resources = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = resources + "\\upload_files\\"; //저장경로
 			
-			System.out.println("savePath : "+ savePath);
-			
-			String originName = file.getOriginalFilename(); //원본파일명
-			
-			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간
-			
-			String ext = originName.substring(originName.lastIndexOf("."));
-			
+			System.out.println("savePath : "+ savePath);			
+			String originName = file.getOriginalFilename(); //원본파일명			
+			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간			
+			String ext = originName.substring(originName.lastIndexOf("."));			
 			String newName = cuurentTime + ext;
-			
-		
+					
 				try {
 					file.transferTo(new File(savePath + newName));
 				} catch (IllegalStateException e ) {
@@ -212,30 +224,79 @@ public class VavationController {
 					newName="";
 					e.printStackTrace();
 					throw new CommException("file upload error");
-				}
-			
+				}			
 			return newName;
 		}
+		
+		// 결재권자 파라미터로 받기 
+		 private void insertLine(VacationLine line, HttpServletRequest request) {
+			
+				String[] temp = request.getParameterValues("line");
+				System.out.println("temp:" + temp[0]);
+				int[] empNo = new int[temp.length];
+				
+				System.out.println("temp length " + temp.length);
+				for(int i=0; i < empNo.length; i++) {
+					if(!temp[i].equals("")) {
+						empNo[i] = Integer.parseInt(temp[i]);
+						System.out.println("tempI=" + temp[i]);
+						System.out.println("lineNo=" + empNo[i]);
+					}
+				}
+				
+				String[] empName = request.getParameterValues("lineName");	
+				String[] jobName = request.getParameterValues("job");
+				
+				for(int i=0; i<empNo.length; i++) {
+					if(empNo[i] != 0) {
+						line.setLineNo(i+1);
+						line.setEmpNo(empNo[i]);
+						line.setEmpName(empName[i]);
+						line.setJobName(jobName[i]);			
+						vacationService.insertLine(line);		
+					}
+				}	
+				
+			}
 	
 	//Attendance 추가양식 
 	private void insertAttendance(Vacation vacation, ApprovalAttendance apA, HttpServletRequest request) {
 		
-		String documentType = request.getParameter("documentType");
-		String halfDay = request.getParameter("halfDay");
+		String documentType = request.getParameter("documentType"); 
+		String halfDay = request.getParameter("halfDay"); 
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
-		
+
 		
 		apA.setDocumentType(documentType);//근태부분 문서종류
 		apA.setHalfDay(halfDay); //오전 or 오후
 		apA.setStartDate(startDate); // 요청시작일
 		apA.setEndDate(endDate); // 요청 종료일
 		
-		System.out.println("테스트입니다~~~~~~~~~~ApprovalAttendance~~~~~" + apA);
-		System.out.println("테스트입니다~~~~~~~~~~ApprovalAttendance~~~~~" + vacation);
+		vacationService.insertVacation(vacation); 
+		vacationService.insertAttendance(apA);
 		
-		//vacationService.insertVacation(vacation); 
-		//vacationService.insertAttendance(apA);
+	}
+	
+	//Vacation 추가양식 
+	private void insertVacation(Vacation vacation, ApprovalAttendance apA, HttpServletRequest request) {
+		
+		String vcType = request.getParameter("vcType"); 
+		String documentType = request.getParameter("documentType"); 
+		String halfDay = request.getParameter("halfDay"); 
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+
+		
+		apA.setDocumentType("휴가");
+		apA.setHalfDay(halfDay); //오전 or 오후
+		apA.setStartDate(startDate); // 요청시작일
+		apA.setEndDate(endDate); // 요청 종료일
+		apA.setVcType(vcType);// 휴가종류
+		
+		vacationService.insertVacation(vacation); 
+		vacationService.insertAttendance(apA);
+		
 		
 	}
 	

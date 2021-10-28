@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
@@ -10,200 +10,148 @@
 <title>전자결재</title>
 
 <!-- summernote -->
- <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
+<link rel="stylesheet"
+	href="./resources/plugins/summernote/summernote-bs4.min.css">
 
-<style>	
-	 td, span, input{
-		font-weight:normal;!important;
-		vertical-align: middle;!important;
-	}
-	#plus_line_btn{
-		margin-bottom:15px;
-	}
-	#ccName{
-		width: 300px; !important;
-	}
-	.bottom-margin0{
-		margin-right:8px;
-		margin-botton:0px;
-	}
-	.content-wrapper{
-		overflow:auto;
-	}
-	input[id^="emp_level"], input[id^="emp_name"], input[id^="line"], input[id^="coo_level"], input[id^="coo_name"]{
-		border : none;
-		background-color: white;
-		pointer-events: none;
-	}
-	input[id^="ccName"]{
-		background-color: white;
-		pointer-events: none;
-	}
-	input[id^="fieldWriter"], input[id^="userDept"]{
-		border : none;
-		background-color: white;
-		pointer-events: none;
-	}
-	
+<style>
+td, span, input {
+	font-weight: normal; ! important;
+	vertical-align: middle;
+	!
+	important;
+}
+
+#plus_line_btn {
+	margin-bottom: 15px;
+}
+
+#ccName {
+	width: 300px;
+	!
+	important;
+}
+
+.bottom-margin0 {
+	margin-right: 8px;
+	margin-botton: 0px;
+}
+
+.content-wrapper {
+	overflow: auto;
+}
+
+input[id^="emp_level"], input[id^="emp_name"], input[id^="line"], input[id^="coo_level"],
+	input[id^="coo_name"] {
+	border: none;
+	background-color: white;
+	pointer-events: none;
+}
+
+input[id^="ccName"] {
+	background-color: white;
+	pointer-events: none;
+}
+
+input[id^="fieldWriter"], input[id^="userDept"] {
+	border: none;
+	background-color: white;
+	pointer-events: none;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 
 
-		<div class="content-wrapper">
-			<!-- 페이지 헤더 -->
-			<section class="content-header">
-		      <div class="container-fluid">
-		        <div class="row mb-2">
-		          <div class="col-sm-6">
-		            <h4><i class="fas fa-chart-pie"></i> <b>근태/휴가 결재</b></h4>
-		          </div>
-		        </div>
-		      </div><!-- /.container-fluid -->
-		    </section>
-		    
-			<section class="content">
-			<form id="#" method="post" enctype="multipart/form-data">
+	<div class="content-wrapper">
+		<!-- 페이지 헤더 -->
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h4>
+							<i class="fas fa-chart-pie"></i> <b>근태/휴가 결재</b>
+						</h4>
+					</div>
+				</div>
+			</div>
+			<!-- /.container-fluid -->
+		</section>
+
+		<section class="content">
+			
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<div class="callout callout-info">							
+						
+						
+							<div class="callout callout-info">
 								<table class="table table-bordered">
 									<tbody>
 										<tr>
 											<td width="150px" colspan="3">
-												<p style="font-size:0.8em;">근태/휴가 결재</p>
+												<p style="font-size: 0.8em;">근태/휴가 결재</p>
 											</td>
-											<td style="font-size:0.8em;" colspan="5">
-												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="doc_type"  value = "근태구분" id="normal_radio" >
-													<span class="co_docu_cd_old" docu_cd="근태구분" style="cursor: pointer;">근태구분</span>											
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "휴가구분" id="dipl_radio">
-													<span class="co_docu_cd_old" docu_cd="휴가구분" style="cursor: pointer;">휴가구분</span>										
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="doc_type" value = "조정신청" id="humanr_radio">
-													<span class="co_docu_cd_old" docu_cd="조정신청" style="cursor: pointer;">조정신청</span>
-												</label>
-												&nbsp;
-											</td>
+											<td style="font-size: 0.8em;" colspan="5"><label
+												style="display: inline-block" class="bottom-margin0">
+													<input type="radio" name="doc_type" value="근태구분"
+													id="normal_radio"> <span class="co_docu_cd_old"
+													docu_cd="근태구분" style="cursor: pointer;">근태구분</span>
+											</label> &nbsp; <label style="display: inline-block"
+												class="bottom-margin0"> <input type="radio"
+													name="doc_type" value="휴가구분" id="dipl_radio"> <span
+													class="co_docu_cd_old" docu_cd="휴가구분"
+													style="cursor: pointer;">휴가구분</span>
+											</label> &nbsp; <label style="display: inline-block"
+												class="bottom-margin0"> <input type="radio"
+													name="doc_type" value="조정신청" id="humanr_radio"> <span
+													class="co_docu_cd_old" docu_cd="조정신청"
+													style="cursor: pointer;">조정신청</span>
+											</label> &nbsp;</td>
 										</tr>
-									<!-- 	<tr id="attendance">
-											<td  colspan="3">
-												<p style="font-size:0.8em;">분류</p>
-											</td>
-											<td style="font-size:0.8em;"colspan="5">
-												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="hr_type"  value = "반차" id="prom_radio" >
-													<span class="co_docu_cd_old" docu_cd="반차" style="cursor: pointer;">반차</span>											
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "연차" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="연차" style="cursor: pointer;">연차</span>										
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "조퇴" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="조퇴" style="cursor: pointer;">조퇴</span>										
-												</label>
-												&nbsp;	
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "결근" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="결근" style="cursor: pointer;">결근</span>										
-												</label>
-												&nbsp;														
-											</td>
-										</tr>
-										
-										<tr id="vacation">
-											<td  colspan="3">
-												<p style="font-size:0.8em;">분류</p>
-											</td>
-											<td style="font-size:0.8em;"colspan="5">
-												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="hr_type"  value = "보건휴가" id="prom_radio" >
-													<span class="co_docu_cd_old" docu_cd="보건휴가" style="cursor: pointer;">보건휴가</span>											
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "출산휴가" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="출산휴가" style="cursor: pointer;">출산휴가</span>										
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "경조사" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="경조사" style="cursor: pointer;">경조사</span>										
-												</label>
-												&nbsp;	
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "육아휴직" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="육아휴직" style="cursor: pointer;">육아휴직</span>										
-												</label>
-												&nbsp;													
-											</td>
-										</tr>
-										
-										
-										<tr id="cancle">
-											<td  colspan="3">
-												<p style="font-size:0.8em;">분류</p>
-											</td>
-											<td style="font-size:0.8em;"colspan="5">
-												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="hr_type"  value = "근태조정" id="prom_radio" >
-													<span class="co_docu_cd_old" docu_cd="근태조정" style="cursor: pointer;">근태조정</span>											
-												</label>
-												&nbsp;
-												<label style="display: inline-block" class="bottom-margin0">
-													<input type="radio" name="hr_type" value = "휴가취소" id="come_radio">
-													<span class="co_docu_cd_old" docu_cd="휴가취소" style="cursor: pointer;">휴가취소</span>										
-												</label>
-												&nbsp;												
-											</td>
-										</tr>
-										 -->
-										
+
+
 									</tbody>
-								</table> 
+								</table>
 							</div>
 							<!-- 근태구분 -->
-							<jsp:include page="AttendanceForm.jsp" />
 							
+							<jsp:include page="AttendanceForm.jsp" />
 							<!-- 휴가구분  -->
 							<jsp:include page="VacationForm.jsp" />
 												
 							<!-- 조정신청 -->
 							<jsp:include page="CancelForm.jsp" />
+						 
 							
+						</div>
+						</div>
+						</div>
+										
 							
-				
-				</form>
-			</section>
-		</div>	
-		
+						
+					</section>
+							
+				</div>
+						
+	
+							
+						 	
+	
 
-	<jsp:include page="../common/footer.jsp"/>
-
-
-<!---------- script------------>
+	<jsp:include page="../common/footer.jsp" />
 
 	
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
-
-	<script>
+  <script>
     	$(document).ready(function() {
     	  $('#summernote').summernote({
     	    height : 280
     	  });
     	});
     </script>
+
     <script>
     	$(document).ready(function() {
     	  $('#summernote2').summernote({
@@ -394,5 +342,6 @@
 	</script>
 
 
-</body>
+
+														</body>
 </html>

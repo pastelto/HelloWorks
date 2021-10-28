@@ -12,6 +12,7 @@
    
 #attendanceSidebar{
 	font-size :small !important;
+	text-align:left;
 }
 
 
@@ -19,7 +20,7 @@
 </head>
 <body>
 <!-- 사이드바 메뉴 -->
-	<div class=" text-center" >
+	<div class=" text-center col-2" >
 	
 	
 			  		<section class="content-header">
@@ -38,7 +39,7 @@
 					
 		        	<div class="content">
 		               <div id="attendanceSidebar" style="width : 220px; margin-left : 30px;">
-                           <div class="card card-info card-outline">
+                           <!-- <div class="card card-info card-outline">
                               <div class="card-header text-center">
 								<h6 style="margin-bottom: 0px">
 									<b>근태현황</b>
@@ -73,12 +74,76 @@
                            
                                  </div>
                               </div>
-                              <!-- /.card-body -->
-                           </div>
+                              /.card-body
+                           </div> -->
+                           
+                           
+				              <div class="card card-info card-outline">
+				              <div class="card-header">
+				                <h3 class="card-title">근태 관리</h3>
+				
+				                <div class="card-tools">
+				                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                    <i class="fas fa-minus"></i>
+				                  </button>
+				                </div>
+				              </div>
+				              <div class="card-body p-0">
+				                <ul class="nav nav-pills flex-column">
+				                  <li class="nav-item active">
+				                    <a href="attendanceApiView.ps" class="nav-link">
+				                      <i class="fas fa-inbox"></i> 출근기록
+				                      <span class="badge bg-primary float-right">12</span>
+				                    </a>
+				                  </li>
+				                  <li class="nav-item">
+				                    <a href="#" class="nav-link" onclick="checkJobcode();">
+				                      <i class="far fa-envelope"></i> 부서원 출결 조회
+				                    </a>
+				                  </li>
+				                  <li class="nav-item">
+				                    <a href="#" class="nav-link" onclick="checkJob();">
+				                      <i class="far fa-file-alt"></i> 소속 근로시간 통계
+				                    </a>
+				                  </li>
+				                </ul>
+				              </div>
+				            </div>
+                           
+                           
+                  
+          					  <!-- /.card -->
+				            <div class="card card-info card-outline">
+				              <div class="card-header">
+				                <h3 class="card-title">연차휴가관리</h3>
+				
+				                <div class="card-tools">
+				                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+				                    <i class="fas fa-minus"></i>
+				                  </button>
+				                </div>
+				              </div>
+				              <!-- /.card-header -->
+				              <div class="card-body p-0">
+				                <ul class="nav nav-pills flex-column">
+				                  <li class="nav-item">
+				                    <a class="nav-link" href="vacationForm.ps"><i class="far fa-circle text-danger"></i> 연차휴가신청</a>
+				                  </li>
+				                  <li class="nav-item">
+				                    <a class="nav-link" href="vacationUse.ps"><i class="far fa-circle text-warning"></i> 휴가 사용 현황</a>
+				                  </li>
+				                  <li class="nav-item">
+				                    <a class="nav-link" href="vacationStatistics.ps"><i class="far fa-circle text-primary"></i> 소속 휴가 통계</a>
+				                  </li>
+				                </ul>
+				              </div>
+				            </div>
+    
+
+                           
                         </div>
          			</div>
-        
-	
+           
 	</div>
 	<!-- 사이드바 -->
 	<script>

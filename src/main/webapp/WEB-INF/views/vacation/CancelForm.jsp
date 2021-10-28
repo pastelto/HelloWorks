@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-			
+					<form action="#">
 							<div class="card card-outline card-info" id="humanr_div">
 								<div class="card-header" >
 									<h3 class="card-title" >근태조정계</h3>
@@ -295,7 +295,7 @@
 					</div>	
 				</div>
 				
-				
+			</form>	
 				
 <script>
       $(function() {             
