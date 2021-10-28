@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -406,7 +407,7 @@ public class WorkShareController {
 			 System.out.println("content type : " + fileList.get(i).getContentType());
 			 System.out.println("==================== file end ====================="); 			 
 			 
-			 wsa.setWsa_empNo(ws.getWs_empno()); 
+			 wsa.setWsa_empNo(ws.getWs_empno());  
 			 wsa.setWsa_wsNo(ws.getWs_no());
 			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
 			 wsa.setWsa_change(changeName);
@@ -451,31 +452,49 @@ public class WorkShareController {
 		return changeName;
 	}
 	
+	// 업무공유 수정 양식으로 이동
+	@RequestMapping("updateForm.ws")
+	public String updateForm(int wno, Model model) {
+			
+		WorkShare ws = new WorkShare();
+		ArrayList<WSAttachment> wsa = new ArrayList<WSAttachment>();
+		
+		try {
+			ws = workShareService.detailWS(wno);
+			wsa = workShareService.detailWSAttachment(wno);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		 model.addAttribute("wsa", wsa);
+		 model.addAttribute("ws", ws);
+		 return "workShare/updateWSForm";
+	}
+	
 	// 업무공유 수정
 	@RequestMapping("updateWS.ws")
-	public ModelAndView updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, String ws_status) throws Exception {
-		
-		ModelAndView mav = new ModelAndView("redirect:unCheckedListWS.ws");
+	public String updateWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
 		
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		int myEmpNo = myEmp.getEmpNo();
 		
 		System.out.println("fileList ? " + fileList.size());
-		System.out.println("ws_status ? " + ws_status);
+		int wno = Integer.parseInt(multiRequest.getParameter("workShareNo"));
+		System.out.println("wno ? " + wno);
 		
 		WorkShare ws = new WorkShare();
 		
 		ArrayList<WSAttachment> wsaList = new ArrayList<WSAttachment>();
-		ws.setWs_no(Integer.parseInt(multiRequest.getParameter("workShareNo")));
-		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
+		ws.setWs_no(wno);
 		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
 		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
 		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
 		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
-		ws.setWs_status("Y");
 		
-		// 업무공유 먼저 추가하기
-		//workShareService.updateWorkShare(ws);
-		System.out.println("ws ? " + ws);
+		// 업무공유 먼저 수정하기
+		workShareService.updateWorkShare(ws);
 		
 		// 첨부파일이 있으면 리스트로 값 추가하기 
 		 if(fileList.get(0).getSize() != 0) {
@@ -491,22 +510,24 @@ public class WorkShareController {
 			 System.out.println("content type : " + fileList.get(i).getContentType());
 			 System.out.println("==================== file end ====================="); 			 
 			 
-			 wsa.setWsa_empNo(ws.getWs_empno()); 
+			 wsa.setWsa_no(wno);
+			 wsa.setWsa_empNo(myEmpNo); 
 			 wsa.setWsa_wsNo(ws.getWs_no());
 			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
 			 wsa.setWsa_change(changeName);
 			 wsa.setWsa_size(fileList.get(i).getSize());
-			 wsa.setWsa_status(ws_status);
+			 wsa.setWsa_status("Y");
 			 
 			 wsaList.add(wsa);
 			 }
 			 
 			
 			System.out.println("wsaList ? " + wsaList);
-			//workShareService.updateWSAttachment(wsaList);
+			workShareService.updateWSAttachment(wsaList);
 		 }
-
-		return mav;
+		
+		 //model.addAttribute("wno", wno);
+		 return "redirect:detail.ws?wno="+wno;
 	}
 	
 	// 업무공유 삭제
@@ -526,7 +547,7 @@ public class WorkShareController {
 		  
 			 for(int i = 0; i < wsaList.size(); i++) { // 물리적인 파일 삭제
 				 System.out.println("changeNameFile [" + i + "] ? " + wsaList.get(i));
-				 deleteFile(wsaList.get(i), request, i);
+				 deleteFile(wsaList.get(i), request);
 			 } 
 			 workShareService.deleteWSAttachment(wno); // 전체 파일 삭제
 		 }
@@ -545,7 +566,7 @@ public class WorkShareController {
 	}
 	
 	// 첨부파일 삭제
-	private void deleteFile(WSAttachment file, HttpServletRequest request, int num) {
+	private void deleteFile(WSAttachment file, HttpServletRequest request) {
 		
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\workshare_files\\";
@@ -559,6 +580,50 @@ public class WorkShareController {
 		deleteFile.delete();
 		
 	}
+	
+	// 업무공유 수정 - 첨부파일 리스트 불러오기
+	@ResponseBody
+	@RequestMapping(value="wsaList.ws", produces="application/json; charset=UTF-8")
+	public String selectWsaList(int wno) {
+		
+		// 해당 업무공유의 첨부파일 불러오기
+		List<WSAttachment> list = new ArrayList<>();
+		try {
+			list = workShareService.detailWSAttachment(wno);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(!list.isEmpty()) {
+			System.out.println("wsaList Attachment ? " + list);	
+			return new GsonBuilder().create().toJson(list); 
+		} else {
+			int result = 0;
+			return String.valueOf(result);
+		}	
+		
+	}
+	
+	// 업무공유 수정 - 첨부파일 삭제하기
+	@ResponseBody
+	@RequestMapping(value="deleteWsa.ws", produces="application/json; charset=UTF-8")
+	public String deleteWsa(int wsaNo, HttpServletRequest request) {
+		int result = 0;
+		try {
+			WSAttachment wsa = workShareService.selectWsa(wsaNo);
+			result = workShareService.deleteWsa(wsaNo);
+			deleteFile(wsa, request);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return String.valueOf(result);
+	}
+	
 
 	// -------------- 댓글 및 답글 기능 --------------
 	// 댓글 및 답글 조회하기

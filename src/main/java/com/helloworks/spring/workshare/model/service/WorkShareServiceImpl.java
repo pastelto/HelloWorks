@@ -172,6 +172,13 @@ public class WorkShareServiceImpl implements WorkShareService {
 		 }
 	}
 	
+	// 업무공유 - 해당 첨부파일 가져오기
+	@Override
+	public WSAttachment selectWsa(int wsaNo) throws Exception {
+	
+		return workShareDao.selectWsa(sqlSession, wsaNo);
+	}
+	
 	// 업무공유 - 수정
 	@Override
 	public void updateWorkShare(WorkShare ws) throws Exception {
@@ -200,6 +207,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 삽입 실패"); 
 		 }
 	}
+	
+	// 업무공유 - 해당 첨부파일 삭제
+	@Override
+	public int deleteWsa(int wsaNo) throws Exception {
+		
+		int result = workShareDao.deleteWsa(sqlSession, wsaNo);
+		 System.out.println("Delete WorkShare 첨부파일 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 첨부파일 삭제 실패"); 
+		 }
+		
+		 return result;
+	}
 
 	// 업무공유 댓글 삭제
 	@Override
@@ -214,6 +235,9 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		 return result;
 	}
+
+
+
 
 	
 }

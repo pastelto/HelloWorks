@@ -51,5 +51,9 @@ public interface WorkShareService {
 	void updateWSAttachment(ArrayList<WSAttachment> wsaList) throws Exception;
 
 	int deleteReply(int wsr_no) throws Exception;
+
+	WSAttachment selectWsa(int wsaNo) throws Exception;
+
+	int deleteWsa(int wsaNo) throws Exception;
 	
 }

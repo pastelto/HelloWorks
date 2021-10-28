@@ -204,24 +204,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 업무공유 수정 -->
-	<!--<update id="updateWorkShare" parameterType="WorkShare">
+	<update id="updateWorkShare" parameterType="WorkShare">
 		UPDATE WORKSHARE
-		SET WS_RECV_STATUS = #{ws_recv_status}
-		WHERE WS_NO = #{ws_no}	
-	
-		 INSERT INTO WORKSHARE
-		VALUES(SEQ_WS.NEXTVAL, #{ws_empno}, #{ws_recv}, #{ws_ref}, #{ws_sref}, #{ws_title}, #{ws_content}, TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), '', #{ws_status}, #{ws_recv}, #{ws_recv}, 'N')
-	</update> -->
+		SET WS_TITLE = #{ws_title}, WS_CONTENT = #{ws_content}, WS_EDITDATE = TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), WS_RECV = #{ws_recv}, WS_REF = #{ws_ref}, WS_RECV_STATUS = #{ws_recv}, WS_REPLY = #{ws_recv} 
+		WHERE WS_NO = #{ws_no} AND WS_STATUS = 'Y'
+	</update>
 
-	<!-- 업무공유 첨부파일 수정 -->
+	<!-- 업무공유 첨부파일 수정 - 추가 -->
 	<update id="updateWSAttachment" parameterType="WSAttachment">
 		INSERT INTO WORKSHARE_ATTACHMENT
-		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, SEQ_WS.CURRVAL, #{wsa_origin}, #{wsa_change}, #{wsa_size}, #{wsa_status})
+		VALUES(SEQ_WSA.NEXTVAL, #{wsa_empNo}, #{wsa_no}, #{wsa_origin}, #{wsa_change}, #{wsa_size}, #{wsa_status})
 	</update>
 	
 	<!-- 업무공유 댓글 삭제 -->
 	<delete id="deleteReply" parameterType="_int">
-	DELETE WORKSHARE_REPLY
-	WHERE WSR_NO = #{rno}
+		DELETE WORKSHARE_REPLY
+		WHERE WSR_NO = #{rno}
+	</delete>
+	
+	<!-- 업무공유 수정 - 해당 첨부파일 조회 -->
+	<select id="selectWsa" parameterType="_int" resultMap="wsAttachmentResultSet">
+		SELECT *
+		FROM WORKSHARE_ATTACHMENT
+		WHERE WSA_STATUS = 'Y'
+		AND WSA_NO = #{wsaNo}
+	</select>
+	
+	<!-- 업무공유 수정 - 해당 첨부파일 삭제 -->
+	<delete id="deleteWsa" parameterType="_int">
+		DELETE WORKSHARE_ATTACHMENT
+		WHERE WSA_NO = #{wsaNo}
 	</delete>
 </mapper>

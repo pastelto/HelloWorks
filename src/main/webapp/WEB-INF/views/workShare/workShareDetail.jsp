@@ -88,6 +88,9 @@
 													&nbsp;&nbsp;
 													${ ws.ws_title }
 												</td>
+												<td colspan="3" id="editTitle" style="display:none;">
+												<input type="text" name="ws_title" class="form-control form-control-sm" value="${ws.ws_title}">
+												</td>
 											</tr>
 											<tr>
 												<th>발송인</th>
@@ -101,7 +104,16 @@
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-													수신직원 목록 -> 컴마로 구분해서 입력
+												${ws.ws_recv}
+												</td>
+												<td colspan="3" id="editRecvList" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_recv">
+												<div class="float-right">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+													&nbsp;&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+												</div>
 												</td>
 											</tr>
 											<tr>
@@ -109,6 +121,15 @@
 												<td colspan="3">
 												&nbsp;&nbsp;
 													참조직원 목록 -> 컴마로 구분해서 입력
+												</td>
+												<td colspan="3" id="editRefRecv" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_ref">
+												<div class="float-right">
+													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
+													&nbsp;&nbsp;
+													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
+												</div>
 												</td>
 											</tr>
 											<tr>
@@ -127,6 +148,7 @@
 													<c:if test="${ empty ws.editDate }">
 													</c:if>
 												</td>
+
 											</tr>
 											<tr>
 												<th>파일첨부</th>
@@ -140,16 +162,6 @@
 							                        	첨부파일이 없습니다.
 							                        </c:if>
 							                     </c:forEach>
-												</td>
-											</tr>
-											<tr id="editAttachment" style="display:none;">
-												<th>파일첨부</th>
-												<td colspan="3">
-													<span class="badge badge-info" id="workShareAttachName"></span>
-									                  <div class="btn btn-default btn-file btn-xs">
-									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
-									                  </div> 
 												</td>
 											</tr>
 											<tr>
@@ -253,18 +265,9 @@
 
 
 	<!-- Summernote -->
-	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
-	<script>
-    $(document).ready(function() {
-    	  $('#summernote').summernote({
-    	    height : 400
-    	  });
-    	});
-    </script>
-    
+	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>  
     <!-- 첨부파일 라벨 이름 추가 -->
-	<script>
-		
+	<script>	
 		$("#workShareAttach").on("change", function() {
 			var filename = "";
 			
@@ -278,50 +281,13 @@
 	</script>
 	
 	<!-- 버튼 이동 -->
-	<script>
-	// 업무공유 수정화면 전환
- 	function editWS(){
- 		  $('.click2edit').summernote({
- 			  height: 300,
- 			  minHeight: 300,
- 			  maxHeight: 300,
- 			  focus: true
- 			  });
- 		  // console.log("클릭!");
- 		  $('#editPlace').append('<button id="save" type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>&nbsp;&nbsp;');
- 		  $('#editPlace').append('<button id="cancel" type="button" class="btn btn-danger btn-sm" onclick="cancelUpdate()">취소</button>');
- 		  $('#editAttachment').attr("style", "display:''");
- 		  $("#resetBtn").remove();
- 		  $("#editBtn").remove(); 		  
- 		  $("#deleteBtn").remove(); 		  	 
- 	};
+	<script>	
 	
- 	// 업무공유 수정 완료 및 저장
-	function saveBtn() {
-	  var markup = $('.click2edit').summernote('code');
-	  	
-	 	<%-- $("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws?ws_status=Y");
-		$("#workShareForm").submit(); --%>
-		alert("업무공유가 수정되었습니다."); 
+	function editWS(num){
 		
-	 	$('.click2edit').summernote('destroy');
-	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>&nbsp;&nbsp;');
-	 	$('#editPlace').append('<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>');
-	  	$("#save").remove();
-	  	$("#cancel").remove();
-	};
-	
-	// 업무공유 수정화면에서 취소버튼
-	function cancelUpdate() {
-		  var markup = $('.click2edit').summernote('code');
-
-		 	$('.click2edit').summernote('destroy');
-		 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>&nbsp;&nbsp;');
-		 	$('#editPlace').append('<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>');
-		  	$("#save").remove();
-		  	$("#cancel").remove();
-		};
-	
+		location.href='<%=request.getContextPath()%>/updateForm.ws?wno=${ws.ws_no}';
+		
+	}
 	// 업무공유 삭제하기
 	function deleteWS(){
 		

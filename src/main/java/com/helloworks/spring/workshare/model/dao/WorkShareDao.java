@@ -127,6 +127,16 @@ public class WorkShareDao {
 		return sqlSession.delete("workShareMapper.deleteReply", rno);
 	}
 
+	public WSAttachment selectWsa(SqlSessionTemplate sqlSession, int wsaNo) throws Exception {
+		
+		return sqlSession.selectOne("workShareMapper.selectWsa", wsaNo);
+	}
+
+	public int deleteWsa(SqlSessionTemplate sqlSession, int wsaNo) throws Exception {
+		
+		return sqlSession.delete("workShareMapper.deleteWsa", wsaNo);
+	}
+
 
 	
 	
