@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dailyReportMapper">
+	
+	<resultMap type="DailyReport" id="dailyReportResultSet">
+		<id property="drNo" column="DR_NO"/>
+		<result property="drWriterNo" column="DR_WRITER_NO"/>
+		<result property="drCategory" column="DR_CATEGORY"/>
+		<result property="drReceiverNo" column="DR_RECEIVER_NO"/>
+		<result property="drRef" column="DR_REF"/>
+		<result property="drTitle" column="DR_TITLE"/>
+		<result property="drContent" column="DR_CONTENT"/>
+		<result property="drCreateDate" column="DR_CREATE_DATE"/>
+		<result property="drAttachOrigin" column="DR_ATTACH_ORIGIN"/>
+		<result property="drAttachChange" column="DR_ATTACH_CHANGE"/>
+		<result property="drConfirm" column="DR_CONFIRM"/>
+		<result property="drStatus" column="DR_STATUS"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="receiverName" column="EMP_NAME"/>
+	</resultMap>
+
+	<select id="tempDailyReportCount" parameterType="DailyReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'TS'
+	</select>
+	
+	<update id="updateDailyReportMe" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_TITLE = #{drTitle},
+		DR_CONTENT = #{drContent},
+		DR_CREATE_DATE = SYSDATE,
+		DR_ATTACH_ORIGIN = #{drAttachOrigin},
+		DR_ATTACH_CHANGE = #{drAttachChange},
+		DR_CATEGORY = #{drCategory},
+		DR_STATUS = 'SN'
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'TS'
+	</update>
+
+	<insert id="insertDailyReport">
+		INSERT INTO DAILY_REPORT
+		VALUES(SEQ_DR_NO.NEXTVAL, #{drWriterNo}, #{drCategory}, #{drReceiverNo}, #{drRef}, #{drTitle}, #{drContent},
+			 SYSDATE, #{drAttachOrigin}, #{drAttachChange}, DEFAULT, 'SN')
+	</insert>
+	
+	<select id="selectTempSaveDailyReport" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT *
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ empNo }
+		AND DR_RECEIVER_NO = #{ empNo }
+		AND DR_CREATE_DATE = SYSDATE
+		AND DR_STATUS = 'TS'
+	</select>
+</mapper>
