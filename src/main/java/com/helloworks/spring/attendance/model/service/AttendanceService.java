@@ -50,5 +50,8 @@ public interface AttendanceService {
 
 	//통계 검색조회
 	ArrayList<Statistics> statisticsSearch(SearchAttendance search);
+	
+	//조정문서 날짜 선택 후 상태 값
+	Attendance selectStatus(String cancle);
 
 }

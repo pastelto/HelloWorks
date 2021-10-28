@@ -54,7 +54,7 @@
                                           <ul class="nav nav-pills flex-column">
                                              <li class="nav-item "><a href="attendanceApiView.ps" class="nav-link">출근기록 </a></li>
                                              <li class="nav-item"><a href="#" class="nav-link" onclick="checkJobcode();">부서원 출결 조회</a></li>
-                                             <li class="nav-item"><a href="wtStatistics.ps" class="nav-link">소속 근로시간 통계</a></li>      
+                                             <li class="nav-item"><a href="#" class="nav-link" onclick="checkJob();">소속 근로시간 통계</a></li>      
                                           </ul>                                                                                 
                                        </div>
                                     </div>
@@ -64,23 +64,13 @@
                                        </div>
                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
                                              <ul class="nav nav-pills flex-column">
-                                                <li class="nav-item "><a href="#" class="nav-link"></i>연차휴가신청 </a></li>
-                                                <li class="nav-item"><a href="#" class="nav-link">연차휴가 임시저장</a></li>
+                                                <li class="nav-item "><a href="vacationForm.ps" class="nav-link"></i>연차휴가신청 </a></li>
                                                 <li class="nav-item"><a href="#" class="nav-link"> 휴가 사용 현황 </a></li>   
                                                 <li class="nav-item"><a href="#" class="nav-link"> 소속 휴가 통계</a></li>    
                                              </ul>   
                                        </div>
                                     </div>
-                                    <div class="card">
-                                       <div class="card-header">
-                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" >근태변경 </a>
-                                       </div>
-                                       <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                             <ul class="nav nav-pills flex-column">
-                                                <li class="nav-item "><a href="###"class="nav-link">전직원 근태 변경</a></li>                                             
-                                             </ul>   
-                                       </div>
-                                    </div>
+                           
                                  </div>
                               </div>
                               <!-- /.card-body -->
@@ -106,6 +96,19 @@
 					location.href="checkDeptTimeAll.ps";
 				}					
 			}
+		}
+		
+		function checkJob(){
+			var jobName = '${loginUser.jobName}';	
+			
+	
+			if(jobName == '팀원'){
+				alert("팀장 이상만 조회 할 수 있습니다.")				
+				return false;
+			}else{
+				location.href="wtStatistics.ps";
+			}					
+		
 		}
 	
 	</script>

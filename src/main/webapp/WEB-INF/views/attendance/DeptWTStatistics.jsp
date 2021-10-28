@@ -146,7 +146,7 @@
 							
 							<br>
 							<div class="text-center">
-								<h4>2021년 10월</h4>
+								<h4>2021년 11월</h4>
 							</div>
 					
 							<!-- 조회테이블 -->
@@ -154,8 +154,8 @@
 				                <table class="table table-bordered" id="employeeStatistics">
 				                  <thead align="center">
 				                    <tr >				                    	
-										<th  rowspan="2" width="14%" >사번</th>
-										<th rowspan="2" width="13%" class="rowspan">성명</th>
+										<th  rowspan="2" width="14%" >성명 (사번)</th>
+										<th rowspan="2" width="13%" class="rowspan">직급</th>
 										<th colspan="3">누적근로시간</th>											
 										<th colspan="2">잔여근로시간</th>							
 									</tr>
@@ -168,12 +168,13 @@
 									</tr>
 				                  </thead>
 				                  <tbody align="center">
+				                  
+				                  	<c:if test="${ !empty statistics }">	
 				                    <c:forEach items="${ statistics }" var="st">
 										<tr align="center">
-											<c:if test="${ !empty statistics }">	
-																						
-												<td>${ st.empNo }</td>
-												<td>${ st.name }</td>
+																																	
+												<td>${ st.name }&nbsp;&nbsp;(${ st.empNo })</td>                     
+                                   			    <td>${ st.jobName }</td>     
 												    
 											    <c:set var="hour1" value="${ st.working/(60*60)}"/>
 											    <c:set var="minute1" value="${st.working/60-(hour1*60)}"/>
@@ -204,9 +205,16 @@
 											    <fmt:parseNumber var="H5" value="${ hour5 }" integerOnly="true"/>
 											    <fmt:parseNumber var="M5" value="${ minute5 }" integerOnly="true"/>
 												<td> ${ H5 }시간&nbsp; ${ M5 } 분</td>
-											</c:if>
+											
 										</tr>
 									</c:forEach>
+									</c:if>
+									<c:if test="${ empty statistics }">
+		                              <tr>
+		                                 <td colspan="7">게시글이  없습니다</td>      
+		                              </tr>
+		                           </c:if> 
+									
 				                  </tbody>
 				                </table>
 				            </div>
