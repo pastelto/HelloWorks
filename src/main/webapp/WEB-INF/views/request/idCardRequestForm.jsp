@@ -33,7 +33,7 @@
 				<div class="row">
 					<div class="col-12">
 						<form method="post" id="requestIdCardForm" action="request.id"
-							enctype="multipart/form-data" onsubmit="return submitValidate();">
+							enctype="multipart/form-data" onsubmit="return imgValidate();">
 							<div class="card-header">
 								<h3 class="card-title">사원증 신청서</h3>
 							</div>
@@ -197,7 +197,7 @@
 		});
 		
 		// 사진파일 없을때 알림
-		function submitValidate() {
+		function imgValidate() {
 			if (($('#myFileUp').val() == "")) {
 				alert("사진파일을 등록해 주세요")
 				return false;

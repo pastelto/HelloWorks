@@ -65,7 +65,7 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												${ loginUser.empName }
+												<b>${ loginUser.empName }</b>
 												<input type="hidden" name="writer" id="writer" value="${ loginUser.empNo }">
 												</td>
 												<th>작성일</th>
@@ -90,9 +90,10 @@
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
-												<div class="row m-0">
-													<div class="col-9">
-														<span id="senderList">직원이름 들어갈 부분</span>
+												<!-- <div class="row m-0">
+													<div class="col-9 p-0" style="overflow: auto; height: 80%">
+														<b><span class="badge badge-info" id="receiveListTag"></span></b>
+														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
 													</div>
 													<div class="col-3">
 														<div class="float-right">
@@ -101,13 +102,27 @@
 															<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 														</div>
 													</div>
+												</div> -->
+												<div class="row m-0">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook()">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
+												&nbsp;&nbsp;
+												<div>
+												
+												<b><span class="badge badge-info" id="receiveListTag"></span></b>
+														<b><span class="badge badge-info" id="receiveDeptTag" ></span></b>
+												</div>
+												
+													
 												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												&nbsp;&nbsp;
+												<b><span class="badge badge-warning" id="refListTag"></span></b>
+												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
 												</td>
 											</tr>
 											<tr>
@@ -180,14 +195,14 @@
 	<!-- 주소록 -->
 	<script>
 		function popupAddressBook(){
-			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=580");
+			var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
 		}
 	</script>
 	
 	<!-- 직원 검색  -->
 	<script>
 		function popupSearchEmp(){
-			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1000,height=640");
+			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
 		}
 	</script>
 </body>
