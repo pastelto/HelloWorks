@@ -86,7 +86,7 @@
 			<div class="row">
 				<div class="col-12">
 				
-		            <div class="card card-outline card-info">
+		            <div class="card card-outline card-info mb-0">
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
@@ -174,7 +174,7 @@
 												<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
 								                    <tr>
 								                    	<th>
-								                    		<input type='checkbox' name='receiveList' id='receiveList' value="${ officeAddresslist.oabEnrollNo }">
+								                    		<input type='checkbox' name='addReceiveList' id='addReceiveList' value="${ officeAddresslist.oabEnrollNo}+${officeAddresslist.empName }">
 								                    	</th>
 								                        <td>${ officeAddresslist.oabEnrollNo }</td>
 								                        <td>${ officeAddresslist.empName}</td>
@@ -187,8 +187,7 @@
 										</div>
 									</div>
 									
-									
-									<div id="pagingArea">
+						            <div id="pagingArea">
 						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
@@ -210,7 +209,6 @@
 							                	</c:choose>
 						                    </c:forEach>
 						                    
-						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
 						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -220,7 +218,8 @@
 						                		</c:otherwise>
 						                	</c:choose>
 						                </ul>
-						            </div>
+						            </div>	
+						            
 								</div>
 								<!-- /.col -->
 							</div>
@@ -230,16 +229,16 @@
 		                  	<div class="col-1">
 		                  		<div class="row" style="height: 50%">
 		                  			<div class="col-12 align-self-center text-center">
-		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addReceiveList();">추가</button>
+		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addReceiveListBtn();">추가</button>
 		                  				<br>
-		                  				<button type="button" class="btn btn-danger btn-xs" onclick="delReceiveList();">삭제</button>
+		                  				<button type="button" class="btn btn-danger btn-xs" onclick="delReceiveListBtn();">삭제</button>
 		                  			</div>
 		                  		</div>
 		                  		<div class="row" style="height: 50%">
 		                  			<div class="col-12 align-self-center text-center">
-		                  				<button type="button" class="btn btn-primary btn-xs">추가</button>
+		                  				<button type="button" class="btn btn-primary btn-xs" onclick="addRefBtn();">추가</button>
 		                  				<br>
-			                  			<button type="button" class="btn btn-danger btn-xs">삭제</button>
+			                  			<button type="button" class="btn btn-danger btn-xs" onclick="delRefBtn();">삭제</button>
 		                  			</div>
 		                  		</div>
 		                  	</div>
@@ -253,30 +252,14 @@
 			                  			<div class="card-body pr-1 pl-1 pt-2 pb-2" >
 			                  				<div style="overflow:auto; height: 140px">
 			                  				<table id="receiveTable" class="table table-bordered table-sm mb-0 text-center">
-			                  					<!-- 
-			                  					<tr>
-			                  						<th style="width: 15%"><input type="checkbox"></th>
-			                  						<td>1</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>2</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>3</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>4</td>
-			                  					</tr>
-			                  					<tr>
-			                  						<td><input type="checkbox"></td>
-			                  						<td>5</td>
-			                  					</tr>
-			                  					 -->
 			                  					 <tbody>
-			                  					 
+			                  					 	<c:forEach items="${ addReceiveList }" var="addReceiveList">
+			                  					 		<tr>
+					                  						<td><input type="checkbox" id="delReceiveList" name="delReceiveList" value="${ addReceiveList }"></td>
+					                  						<td><input type="hidden" id="addReceiveListKey" name="addReceiveListKey" value="${ addReceiveList.key }">${ addReceiveList.key }</td>
+					                  						<td><input type="hidden" id="addReceiveListValue" name="addReceiveListValue" value="${ addReceiveList.value }">${ addReceiveList.value }</td>
+				                  						</tr>
+			                  					 	</c:forEach>
 			                  					 </tbody>
 			                  				</table>
 			                  				</div>
@@ -291,7 +274,17 @@
 			                  			</div>
 			                  				<div class="card-body pr-1 pl-1 pt-2 pb-2" >
 				                  				<div style="overflow:auto; height: 140px">
-				                  				<table class="table table-bordered table-sm mb-0 text-center">
+				                  				<table id="refTable" class="table table-bordered table-sm mb-0 text-center">
+				                  					<tbody>
+				                  					 	<c:forEach items="${ addRefList }" var="addRefList">
+				                  					 		<tr>
+						                  						<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
+						                  						<td>${ addRefList.key }</td>
+						                  						<td>${ addRefList.value }</td>
+					                  						</tr>
+				                  					 	</c:forEach>
+			                  					 </tbody>
+				                  				
 				                  				</table>
 				                  			</div>
 			                  			</div>
@@ -306,11 +299,11 @@
 		              
 		              <!-- card-footer -->
 					<div class="card-footer">
-						<!--  
+						 
 						<div class="float-right">
-							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm">선택</button>
+							<button id="saveListBtn" type="button" class="btn btn-primary btn-sm" onclick="saveListSubmit()">저장하기</button>
 						</div>
-						-->
+						
 					</div>
 				 </div>
 				 </div>
@@ -419,36 +412,90 @@
 	<script>
 		function checkAll(){
 			if($("input[name='checkAll']").prop("checked")){
-				$("input[name='receiveList']").prop("checked", true)
+				$("input[name='addReceiveList']").prop("checked", true)
 			}else{
-				$("input[name='receiveList']").prop("checked", false)
+				$("input[name='addReceiveList']").prop("checked", false)
 			}
 		}
 	</script>
 	
-	<!-- checkBox 수신직원 -->
-	<!-- 이렇게 하면 페이징 버튼 누르면 값이 사라짐... ajax 통신 필요....ㅎ -->
+	<!-- checkBox 수신직원 추가 -->
 	<script>
-		function addReceiveList(){
-			let addReceiveList = [];
+		function addReceiveListBtn(){
+			var receiveList = [];
 			
-			$("input[name='receiveList']:checked").each(function(){
+			$("input[name='addReceiveList']:checked").each(function(){
 				let checkEmpNo = $(this).val();
-				addReceiveList.push(checkEmpNo);
+				receiveList.push(checkEmpNo);
 			});
-
-			let value="";
-			//alert(addReceiveList.length);
-			for(var i=0; i< addReceiveList.length;i++){
-				value +="<tr>"+
-						"<td><input type='checkbox'></td>"+
-						"<td>"+addReceiveList[i]+"</td>"+
-						"</tr>";
-			}
-			//alert(value);
-			$("#receiveTable>tbody").html(value);			
+			location.href="popupAddReceiveList.adb?receiveList="+receiveList;
 		}
 	</script>
+	
+	<!-- checkBox 수신직원 삭제 -->
+	<script>
+		function delReceiveListBtn(){
+			var receiveList = [];
+			
+			$("input[name='delReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			location.href="popupDelReceiveList.adb?receiveList="+receiveList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 추가 -->
+	<script>
+		function addRefBtn(){
+			var refList = [];
+			
+			$("input[name='addReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			location.href="popupAddRefList.adb?refList="+refList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 삭제 -->
+	<script>
+		function delRefBtn(){
+			var refList = [];
+			
+			$("input[name='delRefList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			location.href="popupDelRefList.adb?refList="+refList;
+		}
+	</script>
+	
+	<!-- 저장하기 버튼 -->
+	<script>
+		function saveListSubmit(){
+			
+			var receiveList = [];
+			
+			$("input[name='delReceiveList']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(" "+checkEmpNo);
+			});
+			
+			var refList = [];
+			
+			$("input[name='delRefList']").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(" "+checkEmpNo);
+			});
+			
+			$("#receiveListTag", opener.document).text(receiveList);
+			$("#refListTag", opener.document).text(refList);
+	        
+			window.close();
 
+		}
+	
+	</script>
 </body>
 </html>
