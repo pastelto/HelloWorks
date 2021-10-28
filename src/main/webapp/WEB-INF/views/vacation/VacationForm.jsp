@@ -257,8 +257,24 @@
 											</td>
 										</tr>
 									</table>
+										<!-- footer -->
+										<div class="card-footer">
+											<div class="float-right">
+												<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
+												&nbsp;
+												<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
+												&nbsp;
+												<button type="reset" class="btn btn-danger btn-sm" >취소</button>
+												&nbsp;
+											</div>
+										</div>
+									
+									
+									
 								</div>
 							</div>
+							
+						
 							
 </body>
 </html>

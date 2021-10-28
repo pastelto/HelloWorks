@@ -115,6 +115,7 @@
         			url : 'changeStatus.ps',
         			type: 'POST',
         			data : params,
+        			contentType: 'application/json; charset=utf-8',
         			success : function(result)
         					{			
         						if(result){

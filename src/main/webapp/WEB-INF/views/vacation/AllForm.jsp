@@ -64,7 +64,7 @@
 		    </section>
 		    
 			<section class="content">
-			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
+			<form id="#" method="post" enctype="multipart/form-data">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -181,17 +181,7 @@
 							<!-- 조정신청 -->
 							<jsp:include page="CancelForm.jsp" />
 							
-							<!-- footer -->
-							<div class="card-footer">
-								<div class="float-right">
-									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
-									&nbsp;
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
-									&nbsp;
-									<button type="reset" class="btn btn-danger btn-sm" >취소</button>
-									&nbsp;
-								</div>
-							</div>
+							
 				
 				</form>
 			</section>
@@ -346,26 +336,7 @@
 		});
 	</script>
 	
-	<script>
-		function insertApp(){
-			
-			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
-				$("#normalApprovalForm").submit();
-				
-				alert("결재 작성이 완료되었습니다.");
-			});		
-		}
-		
-		function insertTemp(){
-			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
-				$("#normalApprovalForm").submit();
-				
-				alert("임시저장되었습니다.");
-			});		
-		}
-	</script>
+
 	
 	<script>
 	function plusLine(num){

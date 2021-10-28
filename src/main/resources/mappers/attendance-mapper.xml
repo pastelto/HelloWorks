@@ -261,11 +261,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select>  
    
      <!--조정문서 날짜 선택 후 상태값 가져오기 -->
- 	<select id ="selectStatus" parameterType= "_int" resultMap="attendanceResultSet">
+ 	<select id ="selectStatus" parameterType= "SearchAttendance" resultMap="attendanceResultSet">
  		SELECT *
 		FROM PS_ATTENDANCE   
-		WHERE PSA_CREATEDATE = #{cancle}
-		AND PSA_EMP_NO='202100001'
+		WHERE PSA_CREATEDATE LIKE '%'||#{year1}||'%'	
+		AND PSA_EMP_NO=#{empNo}
  	</select>
      
 </mapper>

@@ -170,12 +170,15 @@
 														</td>
 														<td colspan="8">
 															<div class="row" >
-																<form id="cancleForm">
-																 <input type="date" class="form-control datetimepicker-input col-2" data-target="#cancleVDate" id="cancleVDate" name="cancleVDate" style="font-size:0.8rem">														
-																</form>
-																<div class="statusTitle1">신청상태: </div>
+																
+																 <input type="date" class="form-control datetimepicker-input col-2"  id="cancleDate" name="cancleDate" style="font-size:0.8rem">														
+																
+																<div id="statusDiv">
+																
+																</div>
+															<!-- 	<div class="statusTitle1">신청상태: </div>
 																<div class="statusTitle2">출근시간: </div>
-																<div class="statusTitle3">퇴근시간: </div>
+																<div class="statusTitle3">퇴근시간: </div> -->
 															</div>
 														</td>
 													</tr>
@@ -190,6 +193,32 @@
 																<option value="결근">결근</option>
 																<option value="휴가">휴가</option>
 															</select>&nbsp;&nbsp;&nbsp;
+															<select id="changeIntime"name="changeIntime" class="custom-select custom-select-sm col-1" style="width: 30%;" >
+								                                <option value="">출근시간선택</option> 
+								                               <option value="09:00:00">09:00</option>
+								                               <option value="10:00:00">10:00</option>
+								                               <option value="11:00:00">11:00</option>
+								                               <option value="12:00:00">12:00</option>
+								                               <option value="13:00:00">13:00</option>
+								                               <option value="14:00:00">14:00</option>  
+								                               <option value="00:00:00">00:00</option>                                
+								                            </select> &nbsp;&nbsp;&nbsp;
+															         <select id="changeOuttime"name="changeOuttime" class="custom-select custom-select-sm col-1" style="width: 30%;" >
+										                               <option value="">퇴근시간선택</option> 
+										                               <option value="09:00:00">09:00</option>
+										                               <option value="10:00:00">10:00</option>
+										                               <option value="11:00:00">11:00</option>
+										                               <option value="12:00:00">12:00</option>
+										                               <option value="13:00:00">13:00</option>
+										                               <option value="14:00:00">14:00</option>
+										                               <option value="15:00:00">15:00</option>
+										                               <option value="16:00:00">16:00</option>
+										                               <option value="17:00:00">17:00</option>
+										                               <option value="18:00:00">18:00</option>
+										                               <option value="19:00:00">19:00</option>
+										                               <option value="20:00:00">20:00</option>
+										                               <option value="00:00:00">00:00</option> 
+										                            </select> &nbsp;&nbsp;&nbsp; 
 														</td>
 													</tr>
 											
@@ -246,33 +275,70 @@
 											</td>
 										</tr>
 									</table>
+									
+									
+									<!-- footer -->
+									<div class="card-footer">
+										<div class="float-right">
+											<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
+											&nbsp;
+											<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertApp();">등록</button>
+											&nbsp;
+											<button type="reset" class="btn btn-danger btn-sm" >취소</button>
+											&nbsp;
+										</div>
+									</div>
+			
 								</div>
 							</div>																
 						</div>
-					</div>
+					</div>	
 				</div>
 				
 				
 				
-	<script>
+<script>
       $(function() {             
         
       
-         $("input[name=cancleVDate]").change(function() {
+         $("input[name=cancleDate]").change(function() {
           
-        	 
-        	 var params = $("#cancleForm").serialize();
+        	 var test = $('#cancleDate').val();
          
-    		
     		$.ajax(
     		{
     			url : 'selectStatus.ps',
     			type: 'POST',
-    			data :params,
+    			data :{
+    				cancleVDate : test
+    			},
     			dataType: 'json',
+    			
     			success : function(list)
-    					{			
-		    				alert("dd"+ list)					
+    					{	var value="";	
+    						
+    							if(list.psStatus == 'A'){
+    								value+= '<div class="statusTitle1">"출근전"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;  	
+        						}else if (list.psStatus == 'B'){
+        							value+= '<div class="statusTitle1">"정상출근"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;     
+    	   	                      }else if (list.psStatus == 'C'){
+    	   	                    	value+= '<div class="statusTitle1">"반차"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;  
+    	   	                      }else if (list.psStatus == 'D'){
+    	   	                    	value+= '<div class="statusTitle1">"지각"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;  
+    	   	                      }else if (list.psStatus == 'E'){
+    	   	                    	value+= '<div class="statusTitle1">"결근"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;   
+    	   	                      }else if (list.psStatus == 'F'){
+    	   	                    	value+= '<div class="statusTitle1">"휴가"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;   
+    	   	                      }else if (list.psStatus == 'G'){
+    	   	                    	value+= '<div class="statusTitle1">"조퇴"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;  
+    	   	                      }else if (list.psStatus == 'H'){
+    	   	                    	value+= '<div class="statusTitle1">"연차"&nbsp;  출근: ' + list.inTime + ' &nbsp;&nbsp;퇴근: ' + list.outTime +'</div>' ;   
+    	   	                      }
+    							
+    							
+    						
+    						
+		    				$("#statusDiv").html(value);
     					},
     			error: function(e){
     				console.log("에러다" + e)
@@ -283,5 +349,6 @@
       });
    })
 	</script>
+
 </body>
 </html>

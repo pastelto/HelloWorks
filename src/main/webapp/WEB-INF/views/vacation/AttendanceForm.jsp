@@ -19,7 +19,8 @@
 </style>
 </head>
 <body>
-		<div class="card card-outline card-info" id="normal_div">
+					<form action="insertAttendanceF.ps" id="attendanceForm">
+					<div class="card card-outline card-info" id="normal_div">
 								<div class="card-header" >
 									<h3 class="card-title" >근태계</h3>
 								</div>
@@ -82,58 +83,10 @@
 													</table>
 												</td>
 											</tr>
-											<tr>
-												<td>
-													<table class="table table-bordered" id="process_table">
-														<colgroup>
-																<col width="15%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-															</colgroup>
-														<tbody>
-															<tr>
-																<th rowspan="2"  scop="col">협조</th>
-																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
-																</th>
-																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
-																</th>
-																<th class="table coo_level"  scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
-																</th>
-																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
-																</th>											
-															</tr>
-															<tr>
-																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
-																	<input type="hidden" id="cooperator1_1" name="cooperator0">
-																</td>
-																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
-																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
-																</td>
-																<td class="table coo_name" scop="col">
-																	<input type="text" class="coo_name1_3" id="coo_name1_3" disabled/>
-																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
-																</td>
-																<td class="table coo_name" scop="col">
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
-																</td>										
-															</tr>
-														</tbody>
-													</table>
-												</td>											
-											</tr>
+											
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusCoo(1);">+ 협조 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>													
 												</td>
 											</tr>										
 										</tbody>
@@ -207,14 +160,6 @@
 													</tr>
 													<tr>
 														<td colspan="3">
-															<span>연락처</span>
-														</td>
-														<td colspan="6">
-															<input type=text class="form-control col-md-3" id="worker" name="worker">
-														</td>
-													</tr>
-													<tr>
-														<td colspan="3">
 															<span>대체근무자</span>
 														</td>
 														<td colspan="6">
@@ -276,10 +221,25 @@
 											</td>
 										</tr>
 									</table>
+										<!-- footer -->
+										<div class="card-footer">
+											<div class="float-right">
+												<button id="tempSaveBtn" type="button"
+													class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
+												&nbsp;
+												<button id="submitBtn" type="button"
+													class="btn btn-primary btn-sm" onclick="insertAtdn();">등록</button>
+												&nbsp;
+												<button type="reset" class="btn btn-danger btn-sm">취소</button>
+												&nbsp;
+											</div>
 								</div>
+		
+				
 							</div>
-							
-							
+						</div>
+					</form>		
+						
 		<script>
 			$(function(){
 				  $('#halfDay').hide();
@@ -300,11 +260,24 @@
 						 }
 					  
 				  })
-					 
-					  
-				
 				 
 			   });	
+		</script>
+		<script>
+			function insertAtdn(){
+				
+				$("#attendanceForm").submit();
+				
+				location.href="insertAttendanceF.ps?status=Y";
+				
+			}
+			function insertTemp(){
+				
+				$("#attendanceForm").submit();
+				
+				location.href="insertAttendanceF.ps?status=N";
+				
+			}
 		</script>
 </body>
 </html>

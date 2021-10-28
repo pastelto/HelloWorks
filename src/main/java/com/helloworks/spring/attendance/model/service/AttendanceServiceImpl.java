@@ -134,8 +134,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	//조정문서 날짜 선택 후 상태 값
 	@Override
-	public Attendance selectStatus(String cancle) {
+	public Attendance selectStatus(SearchAttendance searchStatus) {
 		// TODO Auto-generated method stub
-		return attendanceDao.selectStatus(sqlSession, cancle);
+		return attendanceDao.selectStatus(sqlSession, searchStatus);
 	}
 }

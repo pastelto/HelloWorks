@@ -98,9 +98,9 @@ public class AttendanceDao {
 	}
 	
 	//조정문서 날짜 선택 후 상태값 가져오기
-	public Attendance selectStatus(SqlSessionTemplate sqlSession, String cancle) {
+	public Attendance selectStatus(SqlSessionTemplate sqlSession, SearchAttendance searchStatus) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("attendanceMapper.selectStatus", cancle);
+		return sqlSession.selectOne("attendanceMapper.selectStatus", searchStatus);
 	}
 
 }
