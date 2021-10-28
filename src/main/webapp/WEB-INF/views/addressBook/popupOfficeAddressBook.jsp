@@ -479,7 +479,7 @@
 			var receiveListVal = ""
 			$("input[name='delReceiveList']").each(function(){
 				let checkEmpNo = $(this).val();
-				//receiveList.push(" "+checkEmpNo);
+				receiveList.push(" "+checkEmpNo);
 				
 				receiveListVal += "<b><span class='badge badge-info'>"+checkEmpNo+"</span></b> "
 			});
@@ -489,7 +489,7 @@
 			var refListVal = ""
 			$("input[name='delRefList']").each(function(){
 				let checkEmpNo = $(this).val();
-				//refList.push(" "+checkEmpNo);
+				refList.push(" "+checkEmpNo);
 				
 				refListVal += "<b><span class='badge badge-warning'>"+checkEmpNo+"</span></b> "
 
@@ -509,14 +509,15 @@
 				let checkEmpNo = $(this).val();
 				refListKey.push(checkEmpNo);
 			});
-			
+			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList"value="'+receiveListKey+'">';
+			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
 			
 			$("#receiveListDiv", opener.document).html(receiveListVal);
 			//$("#receiveListTag", opener.document).text(receiveList);
-			$("input[name='drReceiverList']", opener.document).val(receiveListKey);
+			//$("input[name='drReceiverList']", opener.document).val(receiveListKey);
 			$("#refListDiv", opener.document).html(refListVal);
 			//$("#refListTag", opener.document).text(refList);
-			$("input[name='drRefList']", opener.document).val(refListKey);
+			//$("input[name='drRefList']", opener.document).val(refListKey);
 	        
 			window.close();
 

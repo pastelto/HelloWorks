@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -48,15 +47,37 @@ public class DailyReportController {
 		
 		if(alreadySend > 0) {
 			session.setAttribute("msg", "제출된 일일보고가 존재합니다. 발신함으로 전환됩니다.");
-			return "dailyReport/dailyReportForm";
+			return "dailyReport/dailySendList";
 		}
 		
 		System.out.println("임시저장: "+dailyReport);
 		model.addAttribute("dailyReport", dailyReport);
 		model.addAttribute("loginUser", loginUser);
-		
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
 		return "dailyReport/dailyReportForm";
 	}
+	
+	@RequestMapping("enrollReportFormTempSave.dr")
+	public String enrollReportFormTempSave(HttpServletRequest request, Model model, HttpSession session) {
+		System.out.println("일일보고 등록 페이지 전환");
+		
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		
+		DailyReport dailyReport = new DailyReport();
+		dailyReport.setDrReceiverNo(loginUser.getEmpNo());
+		dailyReport.setDrWriterNo(loginUser.getEmpNo());
+		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
+		
+		if(tempDRCount > 0 ) {
+			dailyReport = dailyReportService.selectTempSaveDailyReport(loginUser.getEmpNo());
+		}
+		
+		model.addAttribute("dailyReport", dailyReport);
+		model.addAttribute("loginUser", loginUser);
+		return "dailyReport/dailyReportForm";
+	}
+	
 	
 	@RequestMapping("insertDailyReport.dr")
 	public String insertDailyReport(DailyReport dailyReport, HttpServletRequest request, HttpSession session, Model model, @RequestParam(name="uploadFile", required = false) MultipartFile file) {
@@ -213,7 +234,7 @@ public class DailyReportController {
 			dailyReportService.insertTempDailyReport(dailyReport);
 		}
 		
-		return "redirect:enrollReportForm.dr";
+		return "redirect:enrollReportFormTempSave.dr";
 	}
 	
 	
