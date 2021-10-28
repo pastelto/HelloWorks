@@ -136,6 +136,47 @@ public class OfficeRoomController {
 		
 		return "searchEmployee/popupSearchEmployee";
 	}
+
+	@RequestMapping("popupSearchEmployee.or")
+	public String popupSearchEmployee(String optionType, String deptTypeOption, String searchEmployee, Model model) {
+
+		System.out.println("optionType: "+optionType);
+		System.out.println("deptTypeOption: "+deptTypeOption);
+		System.out.println("searchEmployee: "+searchEmployee);
+		
+		SearchEmployee se = new SearchEmployee();
+		
+		switch(optionType) {
+		case "allType":
+			se.setAllType(searchEmployee);
+			break;
+		case "deptType":
+			se.setDeptType(searchEmployee);
+			se.setDeptTypeOption(deptTypeOption);
+			break;
+		case "empNoType":
+			se.setEmpNoType(searchEmployee);
+			break;
+		case "empNameType":
+			se.setEmpNameType(searchEmployee);
+			break;
+		case "ePhoneType":
+			se.setePhoneType(searchEmployee);
+			break;
+		case "emailType":
+			se.setEmailType(searchEmployee);
+			break;
+		}
+		
+		ArrayList<Employee> list = officeRoomService.searchEmployee(se);
+		
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("deptTypeOption", deptTypeOption);
+		model.addAttribute("searchEmployee", searchEmployee);
+		model.addAttribute("list", list);
+		return "searchEmployee/popupSearchEmployee";
+		
+	}
 	
 	@RequestMapping("popupAddReceiveList.or")
 	public String popupAddReceiveList(HttpServletRequest request, HttpSession session, Model model) {

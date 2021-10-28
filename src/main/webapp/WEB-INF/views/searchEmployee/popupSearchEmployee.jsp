@@ -182,7 +182,7 @@
 															<tr>
 																<th>검색 조건</th>
 																<td>
-																	<form action="searchEmployee.or">
+																	<form action="popupSearchEmployee.or">
 																		<div class="row" style="margin-left: 0px;">
 																			&nbsp;&nbsp;
 																			<button id="allEmployeeSearchBtn" type="button"
@@ -590,7 +590,7 @@
 							var value="";
 							$.each(list, function(i, obj){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td>" + obj.jobName + "</td>" +
@@ -618,7 +618,7 @@
 
 							$.each(list, function(i, obj) {
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td>" + obj.jobName + "</td>" +
@@ -655,7 +655,7 @@
 					$.each(list, function(i, obj){
 						
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td>" + obj.jobName + "</td>" +
@@ -685,11 +685,14 @@
 				data: {
 					deptCode:deptCode
 				},
-				success:function(list){
+				success:function(list){ 
 					var value="";
+					var setempNo = "";
+					var setempName = "";
+					
 					$.each(list, function(i, obj){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td>" + obj.jobName + "</td>" +
@@ -758,6 +761,7 @@
 				let checkEmpNo = $(this).val();
 				receiveList.push(checkEmpNo);
 			});
+			alert(receiveList)
 			location.href="popupAddReceiveList.or?receiveList="+receiveList;
 		}
 	</script>
