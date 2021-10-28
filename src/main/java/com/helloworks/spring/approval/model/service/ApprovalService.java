@@ -65,6 +65,14 @@ public interface ApprovalService {
 
 	ArrayList<Approval> selectOnlyDateSortTemp(HashMap<String, Object> searchMap);
 
+	Approval selectApprovalDetail(HashMap<String, Object> searchMap);
+
+	ApprovalCC selectApprovalCC(HashMap<String, Object> searchMap);
+
+	ApprovalLine selectApprovalLine(HashMap<String, Object> searchMap);
+
+	Approval selectAttachDetail(HashMap<String, Object> searchMap);
+
 	
 
 }
