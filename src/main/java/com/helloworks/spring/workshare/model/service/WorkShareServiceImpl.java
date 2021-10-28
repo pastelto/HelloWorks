@@ -107,12 +107,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 		return workShareDao.selectSavedList(sqlSession, myEmp, pi);
 	}
 	
-	// 업무공유 상세조회
+	// 업무공유 상세조회에서 작성자 가져오기
 	@Override
 	public WorkShare detailWS(int wno) throws Exception {
 		
 		return workShareDao.detailWS(sqlSession, wno);
 	}
+	
+	// 업무공유 상세조회
+	@Override
+	public WorkShare detailAllWS(WorkShare updateWS) throws Exception {
+	
+		return workShareDao.detailAllWS(sqlSession, updateWS);
+	}
+
 	
 	// 업무공유 상세조회 - 첨부파일
 	@Override
@@ -235,6 +243,7 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		 return result;
 	}
+
 
 
 

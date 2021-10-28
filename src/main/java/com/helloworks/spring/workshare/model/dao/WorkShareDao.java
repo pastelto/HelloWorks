@@ -81,6 +81,11 @@ public class WorkShareDao {
 		
 		return sqlSession.selectOne("workShareMapper.detailWS", wno);
 	}
+	
+	public WorkShare detailAllWS(SqlSessionTemplate sqlSession, WorkShare updateWS) {
+	
+		return sqlSession.selectOne("workShareMapper.detailAllWS", updateWS);
+	}
 
 	public ArrayList<WSAttachment> detailWSAttachment(SqlSessionTemplate sqlSession, int wsno) throws Exception {
 		
@@ -136,6 +141,8 @@ public class WorkShareDao {
 		
 		return sqlSession.delete("workShareMapper.deleteWsa", wsaNo);
 	}
+
+
 
 
 	

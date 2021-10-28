@@ -81,7 +81,7 @@
 									<div class="col-12">
 
 										<table class="table table-bordered table-sm">
-											
+											<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
@@ -96,8 +96,7 @@
 												<th>발송인</th>
 												<td colspan="3">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly>
-												<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
+												${ws.ws_senderName} ${ws.ws_senderJobName}
 												</td>
 											</tr>
 											<tr>

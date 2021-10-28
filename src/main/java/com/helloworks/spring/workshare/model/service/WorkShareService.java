@@ -37,6 +37,8 @@ public interface WorkShareService {
 
 	void readStatusWS(WorkShare updateWS) throws Exception;
 
+	WorkShare detailAllWS(WorkShare updateWS) throws Exception;
+	
 	// Reply
 	ArrayList<WSReply> selectReplyList(int wno) throws Exception;
 
@@ -55,5 +57,7 @@ public interface WorkShareService {
 	WSAttachment selectWsa(int wsaNo) throws Exception;
 
 	int deleteWsa(int wsaNo) throws Exception;
+
+	
 	
 }

@@ -243,25 +243,27 @@ public class WorkShareController {
 		String[] rEach;
 		
 		// 수신인들 목록 가져오기
-		String[] wsRecvList = null; 
+		// String[] wsRecvList = null; 
 		int myEmpNo = 0;
 		try {
 			// 상세 조회
+			
 			ws = workShareService.detailWS(wno);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
 			
-			// 수신인 조회
-			String recvEmp = ws.getWs_recv();
-			System.out.println("recvEmp ? " + recvEmp);
-			wsRecvList = recvEmp.split(",");
+//			수신인 조회
+//			String recvEmp = ws.getWs_recv();
+//			System.out.println("recvEmp ? " + recvEmp);
+//			wsRecvList = recvEmp.split(",");
 			
 			// 만약 수신인 중에 내 로그인 번호가 있으면!
-			for(int i = 0; i < wsRecvList.length; i++) {
-				int num = Integer.parseInt(wsRecvList[i]);
-				if(myEmp.getEmpNo() == num) {
-					myEmpNo = num;
-				}
-			}
+//			for(int i = 0; i < wsRecvList.length; i++) {
+//				int num = Integer.parseInt(wsRecvList[i]);
+//				if(myEmp.getEmpNo() == num) {
+//					myEmpNo = num;
+//				}
+//			}
+			myEmpNo = ws.getWs_empno();
 			
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String rList= ws.getWs_recv_status();
@@ -284,14 +286,18 @@ public class WorkShareController {
 			WorkShare updateWS = new WorkShare();
 			updateWS.setWs_no(wno);
 			updateWS.setWs_recv_status(uList);
+			updateWS.setWs_empno(ws.getWs_empno());
 			
 			System.out.println("새로운 수신상태 값 uList ? " + uList);
 			workShareService.readStatusWS(updateWS);
-			ws = workShareService.detailWS(wno);
-			System.out.println("수신처리 후 다시 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
 			}
 			
+			ws.setWs_no(wno);
+			ws.setWs_empno(ws.getWs_empno());
 			
+			ws = workShareService.detailAllWS(ws);
+			System.out.println("수신처리 후 다시 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
+
 			int wsno = ws.getWs_no();
 			System.out.println("wsno 첨부파일 조회시 사용되는 업무공유 번호 ? " + wsno);
 			wsa = workShareService.detailWSAttachment(wsno);
@@ -300,7 +306,8 @@ public class WorkShareController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
+		
+		
 		model.addAttribute("myEmpNo", myEmpNo);
 		model.addAttribute("wsa", wsa);
 		model.addAttribute("ws", ws);
