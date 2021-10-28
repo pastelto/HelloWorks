@@ -257,7 +257,7 @@
 			                  					 		<tr>
 					                  						<td><input type="checkbox" id="delReceiveList" name="delReceiveList" value="${ addReceiveList }"></td>
 					                  						<td><input type="hidden" id="addReceiveListKey" name="addReceiveListKey" value="${ addReceiveList.key }">${ addReceiveList.key }</td>
-					                  						<td><input type="hidden" id="addReceiveListValue" name="addReceiveListValue" value="${ addReceiveList.value }">${ addReceiveList.value }</td>
+					                  						<td>${ addReceiveList.value }</td>
 				                  						</tr>
 			                  					 	</c:forEach>
 			                  					 </tbody>
@@ -279,7 +279,7 @@
 				                  					 	<c:forEach items="${ addRefList }" var="addRefList">
 				                  					 		<tr>
 						                  						<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
-						                  						<td>${ addRefList.key }</td>
+						                  						<td><input type="hidden" id="addRefListKey" name="addRefListKey" value="${ addRefList.key }">${ addRefList.key }</td>
 						                  						<td>${ addRefList.value }</td>
 					                  						</tr>
 				                  					 	</c:forEach>
@@ -489,8 +489,27 @@
 				refList.push(" "+checkEmpNo);
 			});
 			
+			
+			var receiveListKey = [];
+			
+			$("input[name='addReceiveListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveListKey.push(checkEmpNo);
+			});
+			
+			var refListKey = [];
+			
+			$("input[name='addRefListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				refListKey.push(checkEmpNo);
+			});
+			
+			
+			
 			$("#receiveListTag", opener.document).text(receiveList);
+			$("input[name='drReceiverList']", opener.document).val(receiveListKey);
 			$("#refListTag", opener.document).text(refList);
+			$("input[name='drRefList']", opener.document).val(refListKey);
 	        
 			window.close();
 

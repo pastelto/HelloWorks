@@ -31,6 +31,7 @@
 		<typeAlias type="com.helloworks.spring.attendance.model.vo.Statistics" alias="Statistics"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestEq" alias="RequestEq"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestId" alias="RequestId"/>
+		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.DailyReport" alias="DailyReport"/>
 	</typeAliases>
 
 
@@ -43,6 +44,7 @@
 		<mapper resource="/mappers/approval-mapper.xml"/>
 		<mapper resource="/mappers/request-mapper.xml"/>
 		<mapper resource="/mappers/addressBook-mapper.xml"/>
+		<mapper resource="/mappers/dailyReport-mapper.xml"/>
 	</mappers>
 
 
