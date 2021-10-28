@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,16 +34,27 @@ public class DailyReportController {
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		
 		DailyReport dailyReport = new DailyReport();
-		
+		dailyReport.setDrReceiverNo(loginUser.getEmpNo());
+		dailyReport.setDrWriterNo(loginUser.getEmpNo());
 		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
 		
 		if(tempDRCount > 0 ) {
 			dailyReport = dailyReportService.selectTempSaveDailyReport(loginUser.getEmpNo());
+			session.setAttribute("msg", "작성 중인 일일보고 페이지로 전환됩니다.");
 		}
 		
 		
+		int alreadySend = dailyReportService.alreadySendReport(dailyReport);
+		
+		if(alreadySend > 0) {
+			session.setAttribute("msg", "제출된 일일보고가 존재합니다. 발신함으로 전환됩니다.");
+			return "dailyReport/dailyReportForm";
+		}
+		
+		System.out.println("임시저장: "+dailyReport);
 		model.addAttribute("dailyReport", dailyReport);
 		model.addAttribute("loginUser", loginUser);
+		
 		return "dailyReport/dailyReportForm";
 	}
 	
@@ -146,7 +158,7 @@ public class DailyReportController {
 	
 	private void deleteFile(String fileName, HttpServletRequest request) {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources+"\\upload_files\\";
+		String savePath = resources+"\\daily_report_file\\";
 
 		System.out.println("savePath: "+ savePath);
 		
@@ -162,4 +174,47 @@ public class DailyReportController {
 		session.removeAttribute("refListSession");
 		return "redirect:/main.mi";
 	}
+	
+	@RequestMapping("tempSaveDailyReport.dr")
+	public String tempSaveDailyReport(DailyReport dailyReport, HttpServletRequest request, HttpSession session, Model model, @RequestParam(name="uploadFile", required = false) MultipartFile file) {
+		
+		int loginUser = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		if(!file.getOriginalFilename().equals("")) {
+			String drAttachChange = saveFile(file, request);
+			
+			if(drAttachChange != null) {
+				dailyReport.setDrAttachOrigin(file.getOriginalFilename());
+				dailyReport.setDrAttachChange(drAttachChange);
+			}
+		}
+		
+		dailyReport.setDrReceiverNo(loginUser);
+		
+		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
+		
+		System.out.println("tempDRCount: "+tempDRCount);
+		
+		if(tempDRCount > 0) {
+			
+			if(!file.getOriginalFilename().equals("")) { // 널이 아니면 파일이 있는 것
+				if(dailyReport.getDrAttachChange() != null) {
+					deleteFile(dailyReport.getDrAttachChange(), request);
+				}
+				
+				String changeName = saveFile(file, request);
+				dailyReport.setDrAttachOrigin(file.getOriginalFilename());
+				dailyReport.setDrAttachChange(changeName);
+			}
+			
+			dailyReportService.updateTempDailyReportMe(dailyReport);
+			
+		}else {
+			dailyReportService.insertTempDailyReport(dailyReport);
+		}
+		
+		return "redirect:enrollReportForm.dr";
+	}
+	
+	
 }
