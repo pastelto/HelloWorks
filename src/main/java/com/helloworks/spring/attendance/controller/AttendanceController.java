@@ -303,6 +303,33 @@ public class AttendanceController {
 		return "attendance/DeptWTStatistics";
 	}
 	
+//	@ResponseBody
+//	@RequestMapping(value = "statisticsSearch.ps", method = {RequestMethod.POST, RequestMethod.GET})
+//	public String mainDate(String weekselect, String optionType, String  searchtext, HttpServletRequest request) {
+//   	
+//		//본인 부서 
+//		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
+//		
+//		 SearchAttendance search = new SearchAttendance();
+//		 
+//		 String startDate = weekselect.substring(0, 8); //시작일
+//		 String endDate = weekselect.substring(8, 16); //종료일
+//		
+//		 search.setOptionType(optionType); //검색종류
+//		 search.setSearch(searchtext); //검색내용
+//		 search.setStart_date(startDate); //검색시작일
+//		 search.setEnd_date(endDate); //검색 종료일
+//		 search.setDept(dept); //부서
+//		
+//		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
+//		 
+//		 System.out.println("뭐시여" + statistics);
+//		 
+//	
+//	
+//	return new GsonBuilder().create().toJson(statistics);
+//}
+	
 	//통계 검색조건
 	@RequestMapping("statisticsSearch.ps")
 	public String statisticsSearch(String weekselect, String optionType, String  searchtext, 
@@ -322,12 +349,39 @@ public class AttendanceController {
 		 search.setDept(dept); //부서
 		
 		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
-		
+		 
 		
 
 		model.addAttribute("statistics",statistics);
 		
 		return "attendance/DeptWTStatistics";
 	}
+	
+	
+	//메인에 선택 날짜 띄우기
+//    @ResponseBody
+//   	@RequestMapping(value = "mainDate.ps", method = {RequestMethod.POST})
+//   	public String mainDate(String weekselect){
+//       	
+//    	System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~제발" + weekselect);
+//    	String year = "20"+weekselect.substring(0, 2)+"년 ";
+//    	String monthS = weekselect.substring(3,5)+"월 ";
+//    	String dayS = weekselect.substring(6,8)+"일 ~ ";
+//    	
+//    	String monthD = weekselect.substring(11,13)+"월 ";
+//    	String dayD = weekselect.substring(14,16)+"일 ";
+//    	
+//    	//String result = year + monthS + dayS + year + monthD + dayD;
+//    	
+//    	SearchAttendance result = new SearchAttendance();
+//    	result.setAttendanceYM(year);
+//    	result.setAttendance_type(monthS);
+//    	result.setVacation_type(dayS);
+//    	result.setOptionType(monthD);
+//    	result.setSearch(dayD);
+//    	
+//    	
+//    	return new GsonBuilder().create().toJson(result);
+//    }
    
 }

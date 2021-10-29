@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="vacationMapper">
+
+	<!-- "Vacation" -->
+	<resultMap id="vacationResultSet" type="Vacation">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="rownum" column="ROWNUM"/>
+		<result property="apClass" column="APPROVAL_CLASS"/>
+		<result property="detailClass" column="DETAIL_CLASS"/>
+		<result property="title" column="TITLE"/>
+		<result property="writer" column="WRITER"/>
+		<result property="writerJob" column="WRITER_JOB"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="deptName" column="DEPT_DNAME"/>
+		<result property="content" column="AP_CONTENT"/>
+		<result property="cooper" column="COOPERATION"/>
+		<result property="cooJob" column="COO_JOB"/>
+		<result property="deptShare" column="DEPT_SHARE"/>
+		<result property="progress" column="PROGRESS"/>		
+	</resultMap>
+	
+	<!-- Approval Attachment-->
+	<resultMap id="vacationAtResultSet" type="Vacation">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="atNo" column="AT_NO"/>
+		<result property="newName" column="NEW__NAME"/>
+		<result property="originName" column="ORIGIN_NAME"/>	
+	</resultMap>
+	
+	<!-- VavationLine  -->
+	<resultMap id="vacationLineResultSet" type="VacationLine">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<id property="lineNo" column="LINE_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="confirmStatus" column="CONFIRM_STATUS"/>
+	</resultMap>
+	
+	<!-- Approval CC -->
+	<resultMap id="vacationCCResultSet" type="VacationCC">
+		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="ccDept" column="CC_DEPT"/>
+		<result property="ccMember" column="CC_MEMBER"/>
+		<result property="ckCount" column="CHECK_COUNT"/>
+		<result property="ccCount" column="CC_COUNT"/>
+	</resultMap>
+	
+	<!-- 근태구분C -->
+	<resultMap id="approvalAttendanceResultSet" type="ApprovalAttendance">
+		<id property="psrNo" column="PSR_NO"/>
+		<result property="documentType" column="PSR_DOCUMENT"/>
+		<result property="halfDay" column="PSR_STARTDATE"/>
+		<result property="startDate" column="PSR_ENDDATE"/>
+		<result property="endDate" column="PSR_HALFDAY"/>
+		<result property="alternative" column="PSR_ALTERNATIVE"/>
+	</resultMap>
+	
+
+	
+
+	
+	<!-- 결재라인 insert -->
+	<insert id="insertLine" parameterType="VacationLine">
+		INSERT INTO APPROVAL_LINE
+		VALUES
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
+	</insert>
+	
+		<!-- 첨부파일 insert -->
+	<insert id="insertAttachment" parameterType="Vacation">
+		INSERT INTO APPROVAL_ATTACHMENTS
+		VALUES
+		(SEQ_EA_AT_NO.NEXTVAL, #{newName}, #{originName}, TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'))
+	</insert>
+	
+	<!-- CC insert -->
+	<insert id="insertCcEmpl" parameterType="VacationCC">
+	<![CDATA[
+		INSERT INTO APPROVAL_CC
+		VALUES
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
+	]]>
+	</insert>
+	<insert id="insertCcDept" parameterType="VacationCC">
+	<![CDATA[
+		INSERT INTO APPROVAL_CC
+		VALUES
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
+	]]>
+	</insert>
+	
+	<!-- 기안 insert -->
+	<insert id="insertVacation" parameterType="Vacation">
+		INSERT INTO APPROVAL
+		VALUES
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0'), #{apClass}, #{detailClass}, #{title}, #{writer}, #{writerJob}, SYSDATE, #{deptName}, #{content}, 
+		#{cooper}, #{cooJob}, #{deptShare}, #{progress}, #{status})
+	</insert>
+	
+	<!-- 공문서 insert -->
+	<insert id="insertAttendance" parameterType="ApprovalAttendance">
+		INSERT INTO PS_EA_REQUEST
+		VALUES
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{documentType}, TO_DATE(#{startDate}, 'YY/MM/DD'), TO_DATE(#{endDate}, 'YY/MM/DD'),#{halfDay}, #{vcType}, #{alternative})
+	</insert>
+
+
+
+</mapper>
