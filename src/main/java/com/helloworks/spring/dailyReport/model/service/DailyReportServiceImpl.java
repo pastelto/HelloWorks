@@ -91,4 +91,20 @@ public class DailyReportServiceImpl implements DailyReportService{
 		return dailyReportDao.selectDailyReportList(sqlSession, loginUserNo, pi);
 	}
 
+	@Override
+	public int receiveCheck(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.receiveCheck(sqlSession, dailyReport);
+	}
+
+	@Override
+	public void updateDailyReportRef(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.updateDailyReportRef(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("일일보고 임시 저장 업데이트 저장 실패");
+		}
+	}
+
 }

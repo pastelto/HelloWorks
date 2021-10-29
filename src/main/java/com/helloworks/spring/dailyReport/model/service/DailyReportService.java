@@ -25,4 +25,8 @@ public interface DailyReportService{
 
 	ArrayList<DailyReport> selectDailyReportList(int loginUserNo, PageInfo pi);
 
+	int receiveCheck(DailyReport dailyReport);
+
+	void updateDailyReportRef(DailyReport dailyReport);
+
 }

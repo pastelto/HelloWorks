@@ -84,7 +84,7 @@ public class DailyReportController {
 	
 	@RequestMapping("insertDailyReport.dr")
 	public String insertDailyReport(DailyReport dailyReport, HttpServletRequest request, HttpSession session, Model model, @RequestParam(name="uploadFile", required = false) MultipartFile file) {
-		
+		/*
 		System.out.println("일일보고 등록: "+dailyReport );
 		System.out.println("일일보고 파일: "+file.getOriginalFilename() );
 		
@@ -152,6 +152,87 @@ public class DailyReportController {
 		session.removeAttribute("receiveListSession");
 		session.removeAttribute("refListSession");
 		return "redirect:sendReport.dr";
+		*/
+		
+		
+		System.out.println("일일보고 등록: "+dailyReport );
+		System.out.println("일일보고 파일: "+file.getOriginalFilename() );
+		
+		int loginUser = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		if(!file.getOriginalFilename().equals("")) {
+			String drAttachChange = saveFile(file, request);
+			
+			if(drAttachChange != null) {
+				dailyReport.setDrAttachOrigin(file.getOriginalFilename());
+				dailyReport.setDrAttachChange(drAttachChange);
+			}
+		}
+		
+		dailyReport.setDrReceiverNo(loginUser);
+		
+		System.out.println("컨트롤러: "+dailyReport);
+		
+		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
+		
+		System.out.println("tempDRCount: "+tempDRCount);
+		
+		if(tempDRCount > 0) {
+			
+			if(!file.getOriginalFilename().equals("")) { // 널이 아니면 파일이 있는 것
+				if(dailyReport.getDrAttachChange() != null) {
+					deleteFile(dailyReport.getDrAttachChange(), request);
+				}
+				
+				String changeName = saveFile(file, request);
+				dailyReport.setDrAttachOrigin(file.getOriginalFilename());
+				dailyReport.setDrAttachChange(changeName);
+			}
+			
+			dailyReportService.updateDailyReportMe(dailyReport);
+		}else {
+			dailyReportService.insertDailyReport(dailyReport);
+		}
+		
+		String recvList = dailyReport.getDrReceiverList();
+		String refList = dailyReport.getDrRefList();
+		
+		System.out.println("받는사람들: "+recvList);
+		System.out.println("참조인원들: "+refList);
+		
+		String[] recvArr = recvList.split(",");
+		
+		for(int i = 0; i<recvArr.length;i++) {
+			dailyReport.setDrReceiverNo(Integer.parseInt(recvArr[i]));
+			dailyReportService.insertDailyReport(dailyReport);
+		}
+		
+		if( !refList.equals("")) {
+			String[] refArr =  refList.split(",");
+			
+				
+			for(int i = 0; i<refArr.length;i++) {
+				
+				dailyReport.setDrReceiverNo(Integer.parseInt(refArr[i]));
+				
+				int receiveCheck = dailyReportService.receiveCheck(dailyReport);
+				
+				if( receiveCheck > 0 ) {
+					dailyReport.setDrRef(Integer.parseInt(refArr[i]));
+					dailyReportService.updateDailyReportRef(dailyReport);
+				}else {
+					dailyReport.setDrReceiverNo(0);
+					dailyReport.setDrRef(Integer.parseInt(refArr[i]));
+					dailyReportService.insertDailyReport(dailyReport);
+				}
+				
+			}
+		}
+		
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
+		return "redirect:sendReport.dr";
+		
 	}
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {

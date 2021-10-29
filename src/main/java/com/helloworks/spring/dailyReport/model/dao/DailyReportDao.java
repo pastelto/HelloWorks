@@ -61,4 +61,14 @@ public class DailyReportDao {
 		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportList", loginUserNo, rowBounds);
 	}
 
+	public int receiveCheck(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.receiveCheck", dailyReport);
+	}
+
+	public int updateDailyReportRef(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.updateDailyReportRef", dailyReport);
+	}
+
 }

@@ -114,4 +114,23 @@
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
 	</select>
+	
+	<select id="receiveCheck" parameterType="DailyReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drReceiverNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN'
+	</select>
+	
+	<update id="updateDailyReportRef" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_REF = #{ drRef }
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drReceiverNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN' 
+	</update>
+	
 </mapper>
