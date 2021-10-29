@@ -1,5 +1,8 @@
 package com.helloworks.spring.dailyReport.model.service;
 
+import java.util.ArrayList;
+
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 
 public interface DailyReportService{
@@ -17,5 +20,13 @@ public interface DailyReportService{
 	void insertTempDailyReport(DailyReport dailyReport);
 
 	int alreadySendReport(DailyReport dailyReport);
+
+	int selectDailyReportListCount(int loginUserNo);
+
+	ArrayList<DailyReport> selectDailyReportList(int loginUserNo, PageInfo pi);
+
+	int receiveCheck(DailyReport dailyReport);
+
+	void updateDailyReportRef(DailyReport dailyReport);
 
 }
