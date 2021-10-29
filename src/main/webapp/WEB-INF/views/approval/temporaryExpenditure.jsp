@@ -60,9 +60,9 @@
 															&nbsp;&nbsp;
 															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
-															<input type="date" class="form-control datetimepicker-input" id="startDate2" name="startDate" style="font-size:0.8rem">
+															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate2" name="startDate" style="font-size:0.8rem">
 															&nbsp; ~ &nbsp;
-															<input type="date" class="form-control datetimepicker-input" id="endDate2" name="endDate" style="font-size:0.8rem">																														
+															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate2" name="endDate" style="font-size:0.8rem">																														
 													</div>													
 												</td>
 											</tr>
@@ -110,7 +110,7 @@
 										</thead>
 										<tbody>										
 											<c:forEach items="${ approvalList }" var="approvalList" varStatus="status">
-							                    <tr onclick="detailApproval(${approvalList.apNo })">							      
+							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }');">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
 							                        <td>${ approvalList.detailClass }</td>
@@ -171,7 +171,7 @@
 	
 	<!-- 전체보기  -->
 	 <script>
-	 	function selectAllExTemp(cOption){
+	 	function selectAllNormalTemp(cOption){
 	 	
 	 		resetSearch();
 	 		
@@ -186,7 +186,7 @@
 	 				var value = "";
 	 				
  					$.each(list, function(i, obj){
- 						value += '<tr onclick="detailApproval"('+obj.apNo+')>'+							      
+ 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
                         '<td>'+obj.rownum+'</td>' +
                         '<td>'+obj.title+'</td>' +
                         '<td>'+obj.detailClass+'</td>' +
@@ -215,14 +215,12 @@
 	<!-- 날짜 버튼 검색 -->
 	<script>
 	 	$(function(){
-	 		$("#expenditureApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
+	 		$("#normalApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
 		 			var apClass = '지출'
 		 			console.log(sdate)
-			 			
-			 		resetSearch();
 			 			
 			 		$.ajax({
 			 			url: "selectDateSortTemp.ea",
@@ -233,21 +231,31 @@
 			 			},
 			 			success: function(list){
 			 				var value = "";
-			 				$.each(list, function(i, obj){
-			 					value += '<tr onclick="detailApproval"('+obj.apNo+')>'+							      
-			                       '<td>'+obj.rownum+'</td>' +
-			                       '<td>'+obj.title+'</td>' +
-			                       '<td>'+obj.detailClass+'</td>' +
-			                       '<td>'+obj.apNo +'</td>' +
-			                       '<td>'+obj.progress+'</td>' +
-			                       '<td>'+obj.createDate+'</td>' +
-			                       '<td>'+obj.deptName+'</td>' +
-			                       '<td>'+obj.writerName+'</td>' +							                       
-			                   '</tr>';
+			 				$.each(list, function(i, obj){			 				
+			 					if(list.length != 0){
+				 					value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+							      
+				                       '<td>'+obj.rownum+'</td>' +
+				                       '<td>'+obj.title+'</td>' +
+				                       '<td>'+obj.detailClass+'</td>' +
+				                       '<td>'+obj.apNo +'</td>' +
+				                       '<td>'+obj.progress+'</td>' +
+				                       '<td>'+obj.createDate+'</td>' +
+				                       '<td>'+obj.deptName+'</td>' +
+				                       '<td>'+obj.writerName+'</td>' +							                       
+				                   '</tr>';
+			 					} else {
+			 						value += '<tr>'+							      
+				                       '<td>검색된 결과가 없습니다.</td>'+
+				                   '</tr>';
+			 					}
 			 				});
 			 					
 			 				console.log("ajax 통신 성공")
 			 				console.log(list)
+			 				
+			 				$("#conditionInput").val("");
+		 					$("#endDate").val("");
+		 					$("#startDate").val(""); 
 			 					
 			 				$("#tempApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
@@ -263,82 +271,79 @@
 	
 	<!-- 검색 -->
 	<script>
-		function searchExApproval(){
+		function searchNormalApproval(){
 			
-			var optionType = $("#conditionOption2").val();
-			var optionInput = $("#conditionInput2").val();
-			var startDate = $("#startDate2").val();
-			var endDate = $("#endDate2").val();
-			var detailOption = null
+			var optionType = $("#conditionOption").val();
+			var optionInput = $("#conditionInput").val();
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
 			var apClass = '지출'
-			if($("input[name='doc_type']").checked){
-				detailOption = $("input[name='doc_type']:checked").val();
-			}
+						
 			console.log("type : " + optionType)
 			console.log("Input : " + optionInput)
 			console.log("endDate : " + endDate)
 			console.log("startDate : " + startDate);
-			console.log("detailOption : " + detailOption);
-			console.log("apClass : " + apClass);
-			
-			resetSearch();
-			
-			if((endDate == "" && startDate != "" )|| (startDate == "" && endDate != "")){
+
+		
+					
+			if((endDate == "" && startDate != "" )|| (startDate == "" && endDate != "")){				
 				alert("검색하고자 하는 날짜를 입력해주세요.");
+				
+			} else if((endDate == "" && startDate == "" && optionInput == "" )){
+				alert("검색어 또는 날짜를 입력해주세요.");
+				
 			} else {
-				$.ajax({
-	 				url: "selectSearchSortTemp.ea",
-	 				type: "post",
-	 				data : {
-	 					optionType : optionType,
-	 					optionInput : optionInput,
-	 					startDate : startDate,
-	 					endDate : endDate,
-	 					detailOption : detailOption,
-	 					apClass : apClass
-	 					
-	 				},
-	 				success: function(list){
-	 					var value = "";
-	 					$.each(list, function(i, obj){
-	 						value += '<tr onclick="detailApproval"('+obj.apNo+')>'+							      
-	                        '<td>'+obj.rownum+'</td>' +
-	                        '<td>'+obj.title+'</td>' +
-	                        '<td>'+obj.detailClass+'</td>' +
-	                        '<td>'+obj.apNo +'</td>' +
-	                        '<td>'+obj.progress+'</td>' +
-	                        '<td>'+obj.createDate+'</td>' +
-	                        '<td>'+obj.deptName+'</td>' +
-	                        '<td>'+obj.writerName+'</td>' +							                       
-	                    '</tr>';
-	 					});
-	 					
-	 					console.log("ajax 통신 성공")
-	 					console.log(list)
-	 					
-	 					$("#tempApprovalTable>tbody").html(value);
-	 					$("#sortOption").text(optionType);
-	 				},
-	 				error:function(){
-	 					console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
-	 				}
-	 			});			
+				
+					$.ajax({
+		 				url: "selectSearchSortTemp.ea",
+		 				type: "post",
+		 				data : {
+		 					optionType : optionType,
+		 					optionInput : optionInput,
+		 					startDate : startDate,
+		 					endDate : endDate,
+		 					apClass : apClass
+		 					
+		 				},
+		 				success: function(list){
+			 				var value = "";
+			 				$.each(list, function(i, obj){			 				
+			 					if(list.length != 0){
+			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
+				                       '<td>'+obj.rownum+'</td>' +
+				                       '<td>'+obj.title+'</td>' +
+				                       '<td>'+obj.detailClass+'</td>' +
+				                       '<td>'+obj.apNo +'</td>' +
+				                       '<td>'+obj.progress+'</td>' +
+				                       '<td>'+obj.createDate+'</td>' +
+				                       '<td>'+obj.deptName+'</td>' +
+				                       '<td>'+obj.writerName+'</td>' +							                       
+				                   '</tr>';
+			 					} else {
+			 						value += '<tr>'+							      
+				                       '<td>검색된 결과가 없습니다.</td>'+
+				                   '</tr>';
+			 					}
+			 				});
+			 					
+			 				console.log("ajax 통신 성공")
+			 				console.log(list)
+			 							 	
+		 					$("#conditionInput").val("");
+		 					$("#endDate").val("");
+		 					$("#startDate").val(""); 
+			 					
+			 				$("#tempApprovalTable>tbody").html(value);
+			 				$("#sortOption").text(sdate);
+			 			},
+			 			error:function(){
+			 				console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
+			 			}
+			 		});
 			}
-			
-			
 		}	
 	</script>
-	
-	
-	<!-- 검색창 reset -->
-	<script>
-		function resetSearch(){
-			$("input[name='doc_type']").attr("checked", false);
-			$("#conditionInput2").val("");
-			$("#endDate2").val("");
-			$("#startDate2").val("");
-		}
-	</script>
+
 	
 	<!-- 페이징 클릭시 정렬기준 처리 -->
 	<script>
