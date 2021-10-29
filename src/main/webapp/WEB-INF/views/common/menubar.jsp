@@ -219,7 +219,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
+                <a href="vacationForm.ps" class="nav-link">
                   <p>근태/휴가 결재</p>
                 </a>
               </li>

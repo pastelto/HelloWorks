@@ -32,5 +32,8 @@ public class SearchAttendance {
 	String week_seq;
 	String start_date;
 	String end_date;
+	
+	
+	int empNo; //사번
 
 }

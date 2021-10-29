@@ -68,7 +68,7 @@
 				    <div class="card card-outline card-info">
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>소속 근로시간 통계</b>
+								<b>휴가 사용 현황</b>
 							</h6>
 						</div>
 						<!-- 카드바디 -->

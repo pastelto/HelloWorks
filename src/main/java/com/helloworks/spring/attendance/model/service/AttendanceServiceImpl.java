@@ -131,4 +131,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceDao.statisticsSearch(sqlSession, search);
 	}
+
+	//조정문서 날짜 선택 후 상태 값
+	@Override
+	public Attendance selectStatus(SearchAttendance searchStatus) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectStatus(sqlSession, searchStatus);
+	}
 }
