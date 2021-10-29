@@ -49,4 +49,31 @@ public class DailyReportServiceImpl implements DailyReportService{
 		return dailyReportDao.selectTempSaveDailyReport(sqlSession, empNo);
 	}
 
+	@Override
+	public void updateTempDailyReportMe(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.updateTempDailyReportMe(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("일일보고 임시 저장 업데이트 저장 실패");
+		}
+	}
+
+	@Override
+	public void insertTempDailyReport(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		
+		int result = dailyReportDao.insertTempDailyReport(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("일일보고 임시 저장 실패");
+		}
+	}
+
+	@Override
+	public int alreadySendReport(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.alreadySendReport(sqlSession, dailyReport);
+	}
+
 }

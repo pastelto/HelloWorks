@@ -32,7 +32,7 @@
 		UPDATE DAILY_REPORT
 		SET DR_TITLE = #{drTitle},
 		DR_CONTENT = #{drContent},
-		DR_CREATE_DATE = SYSDATE,
+		DR_CREATE_DATE =		 SYSDATE,
 		DR_ATTACH_ORIGIN = #{drAttachOrigin},
 		DR_ATTACH_CHANGE = #{drAttachChange},
 		DR_CATEGORY = #{drCategory},
@@ -43,7 +43,7 @@
 		AND DR_STATUS = 'TS'
 	</update>
 
-	<insert id="insertDailyReport">
+	<insert id="insertDailyReport" parameterType="DailyReport">
 		INSERT INTO DAILY_REPORT
 		VALUES(SEQ_DR_NO.NEXTVAL, #{drWriterNo}, #{drCategory}, #{drReceiverNo}, #{drRef}, #{drTitle}, #{drContent},
 			 SYSDATE, #{drAttachOrigin}, #{drAttachChange}, DEFAULT, 'SN')
@@ -54,7 +54,36 @@
 		FROM DAILY_REPORT
 		WHERE DR_WRITER_NO = #{ empNo }
 		AND DR_RECEIVER_NO = #{ empNo }
-		AND DR_CREATE_DATE = SYSDATE
+		AND DR_CREATE_DATE LIKE SYSDATE
 		AND DR_STATUS = 'TS'
 	</select>
+	
+	<update id="updateTempDailyReportMe" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_TITLE = #{drTitle},
+		DR_CONTENT = #{drContent},
+		DR_CREATE_DATE = SYSDATE,
+		DR_ATTACH_ORIGIN = #{drAttachOrigin},
+		DR_ATTACH_CHANGE = #{drAttachChange},
+		DR_CATEGORY = #{drCategory}
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'TS'
+	</update>
+	
+	<insert id="insertTempDailyReport" parameterType="DailyReport">
+		INSERT INTO DAILY_REPORT
+		VALUES(SEQ_DR_NO.NEXTVAL, #{drWriterNo}, #{drCategory}, #{drReceiverNo}, #{drRef}, #{drTitle}, #{drContent},
+			 SYSDATE, #{drAttachOrigin}, #{drAttachChange}, DEFAULT, 'TS')
+	</insert>
+	
+	<select id="alreadySendReport" parameterType="DailyReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN'
+	</select>
+	
 </mapper>
