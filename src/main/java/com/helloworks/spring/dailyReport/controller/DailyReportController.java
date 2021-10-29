@@ -3,6 +3,7 @@ package com.helloworks.spring.dailyReport.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.service.DailyReportService;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -238,9 +241,27 @@ public class DailyReportController {
 	}
 	
 	@RequestMapping("sendReport.dr")
-	public String recvReport() {
+	public String sendReport() {
 		
 		return "dailyReport/dailySendList";
+	}
+	
+	@RequestMapping("recvReport.dr")
+	public String recvReport(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		int listCount = dailyReportService.selectDailyReportListCount(loginUserNo);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.selectDailyReportList(loginUserNo, pi);
+		
+		System.out.println("일일보고: "+dailyReportList);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("dailyReportList", dailyReportList);
+		
+		return "dailyReport/dailyReceiveList";
 	}
 	
 }

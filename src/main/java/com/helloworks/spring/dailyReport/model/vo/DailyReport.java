@@ -1,7 +1,5 @@
 package com.helloworks.spring.dailyReport.model.vo;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +26,14 @@ public class DailyReport {
 	private String drStatus;		//	DR_STATUS	VARCHAR2(2 BYTE)
 	
 	
-	private String writerName;			// 	DR_RECEIVER_NO Join -> Employee 테이블 userName
-	private String receiverName;		// 	DR_RECEIVER_NO Join -> Employee 테이블 userName
+	private String writerName;		// 	DR_WRITER_NO Join -> Employee 테이블 userName
+	private String receiverName;	// 	DR_RECEIVER_NO Join -> Employee 테이블 userName
+	private String deptCode;		//하위부서코드
+	private String jobCode;			//직급코드
+	private String jobName; 		//직급명
+	private String deptUname;		//상위부서이름
+	private String deptDname;		//하위부서이름 
 	
-	private String drReceiverList;	
+	private String drReceiverList;	//
 	private String drRefList;
 }

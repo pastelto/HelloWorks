@@ -1,8 +1,12 @@
 package com.helloworks.spring.dailyReport.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 
 @Repository
@@ -41,6 +45,20 @@ public class DailyReportDao {
 	public int alreadySendReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("dailyReportMapper.alreadySendReport", dailyReport);
+	}
+
+	public int selectDailyReportListCount(SqlSessionTemplate sqlSession, int loginUserNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDailyReportListCount", loginUserNo);
+	}
+
+	public ArrayList<DailyReport> selectDailyReportList(SqlSessionTemplate sqlSession, int loginUserNo, PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportList", loginUserNo, rowBounds);
 	}
 
 }
