@@ -148,7 +148,7 @@ public class DailyReportController {
 		
 		session.removeAttribute("receiveListSession");
 		session.removeAttribute("refListSession");
-		return "redirect:recvReport.dr";
+		return "redirect:sendReport.dr";
 	}
 
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
