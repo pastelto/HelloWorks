@@ -153,5 +153,25 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectOnlyDateSortTemp",searchMap);
 	}
 
+	public Approval selectApprovalDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalDetail", searchMap);
+	}
+
+	public ApprovalCC selectApprovalCC(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalCC", searchMap);
+	}
+
+	public ApprovalLine selectApprovalLine(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalLine", searchMap);
+	}
+
+	public Approval selectAttachDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectAttachDetail", searchMap);
+	}
+
 
 }
