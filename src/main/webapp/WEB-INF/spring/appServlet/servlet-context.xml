@@ -28,15 +28,14 @@
 	</beans:bean>
 	
 	<!-- 알림창 socket EchoHandler -->
-	<beans:bean id="echoHandler" class="com.helloworks.spring.common.socket.EchoHandler" />
-
+<!-- 	<beans:bean id="echoHandler" class="com.helloworks.spring.common.socket.EchoHandler" />
 		<websocket:handlers>
 		    <websocket:mapping handler="echoHandler" path="/echo-ws" />
 			    <websocket:handshake-interceptors>
 			        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 			    </websocket:handshake-interceptors>	
 		    <websocket:sockjs websocket-enabled="true" />
-		</websocket:handlers>
+		</websocket:handlers> -->
 		
 	<!-- 등록된 bean을 조회하는 범위 설정 -->
 	<context:component-scan base-package="com.helloworks.spring" />
