@@ -12,4 +12,10 @@ public interface DailyReportService{
 
 	DailyReport selectTempSaveDailyReport(int empNo);
 
+	void updateTempDailyReportMe(DailyReport dailyReport);
+
+	void insertTempDailyReport(DailyReport dailyReport);
+
+	int alreadySendReport(DailyReport dailyReport);
+
 }

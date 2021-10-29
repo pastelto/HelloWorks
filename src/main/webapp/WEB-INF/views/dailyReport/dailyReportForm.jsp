@@ -97,11 +97,11 @@
 													&nbsp;
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 												&nbsp;&nbsp;
-												<div>
+												<div id="receiveListDiv">
 												
-												<b><span class="badge badge-info" id="receiveListTag"></span></b>
-												<input type="hidden" id="receiveListKey" name="drReceiverList">
-												<b><span class="badge badge-info" id="receiveDeptTag"></span></b>
+												<!-- <b><span class="badge badge-info" id="receiveListTag"></span></b>
+												<input type="text" id="receiveListKey" name="drReceiverList">
+												<b><span class="badge badge-info" id="receiveDeptTag"></span></b> -->
 												</div>
 												
 													
@@ -111,25 +111,39 @@
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												<b><span class="badge badge-warning" id="refListTag"></span></b>
-												<input type="hidden" id="refListKeyTag" name=drRefList>
-												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
+												<div id="refListDiv">
+												
+												<!-- <b><span class="badge badge-warning" id="refListTag"></span></b>
+												<input type="text" id="refListKeyTag" name="drRefList">
+												<b><span class="badge badge-warning" id="refDeptTag"></span></b> -->
+												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input id="drTitle" name="drTitle" type="text" class="form-control form-control-sm">
+												<input id="drTitle" name="drTitle" type="text" class="form-control form-control-sm" value="${ dailyReport.drTitle }">
 												</td>
 											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
-													<span class="badge badge-info" id="reportAttachName"></span>
-									                  <div class="btn btn-default btn-file btn-xs">
-									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="uploadFile" id="reportAttach">
+													<c:if test="${ !empty dailyReport.drAttachOrigin }">
+							                            <span class="badge badge-info" id="reportAttachName">${ dailyReport.drAttachOrigin }</span>
+							                            <input type="hidden" name="changeName" value="${ b.drAttachChange }">
+							                            <input type="hidden" name="originName" value="${ dailyReport.drAttachOrigin }">
+							                            <div class="btn btn-default btn-file btn-xs">
+									                    	<i class="fas fa-paperclip"></i> 첨부파일
+									                    	<input type="file" name="uploadFile" id="reportAttach">
 									                  </div> 
+						                            </c:if>
+						                            <c:if test="${ empty dailyReport.drAttachOrigin }">
+							                            <span class="badge badge-info" id="reportAttachName"></span>
+							                            <div class="btn btn-default btn-file btn-xs">
+										                    <i class="fas fa-paperclip"></i> 첨부파일
+										                    <input type="file" name="uploadFile" id="reportAttach">
+									                    </div> 
+						                            </c:if>
 												</td>
 											</tr>
 										</table>
@@ -139,7 +153,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote" name="drContent"></textarea>
+										<textarea id="summernote" name="drContent">${ dailyReport.drContent }</textarea>
 									</div>
 								</div>
 
@@ -227,7 +241,6 @@
 		
 		}
 	</script>
-	action="insertDailyReport.dr"
 	
 	<!-- 일일보고 발송 버튼 -->
 	<script>
@@ -247,17 +260,7 @@
 	<!-- 일일보고 임시저장 버튼 -->
 	<script>
 		function tempSave(){
-			/*
-			const dailyReportData = {
-					writer : $("#drWriterNo").val(),
-					category : $('input:radio[name="reportType"]:checked').val(),
-					title : $("#title").val(),
-					content : $("textarea[name=content]").val(),
-			}
 			
-			
-			alert(dailyReportData.summernote+"\n"+dailyReportData.title);
-			*/
 			$("#enrollForm").attr("action", "<%=request.getContextPath()%>/tempSaveDailyReport.dr");
 			$("#enrollForm").submit();
 			
@@ -274,6 +277,18 @@
 		}
 	</script>
 	
+	<!-- 일일 보고 유형 임시저장 값 -->
+	<script>
+	   	$(function(){
+	   		if("${dailyReport.drCategory}" == "D"){
+	   			$("#DR").attr("checked", true);
+	   		}else if("${dailyReport.drCategory}" == "W"){
+	   			$("#WR").attr("checked", true);
+	   		}else if("${dailyReport.drCategory}" == "M"){
+	   			$("#MR").attr("checked", true);
+	   		}
+	   	});
+   </script>
 	
 </body>
 </html>

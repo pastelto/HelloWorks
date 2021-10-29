@@ -28,4 +28,19 @@ public class DailyReportDao {
 		return sqlSession.selectOne("dailyReportMapper.selectTempSaveDailyReport", empNo);
 	}
 
+	public int updateTempDailyReportMe(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.updateTempDailyReportMe", dailyReport);
+	}
+
+	public int insertTempDailyReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.insertTempDailyReport", dailyReport);
+	}
+
+	public int alreadySendReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.alreadySendReport", dailyReport);
+	}
+
 }
