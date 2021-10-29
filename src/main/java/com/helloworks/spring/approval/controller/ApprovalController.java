@@ -237,7 +237,6 @@ public class ApprovalController {
 		}
 		
 		// 첨부파일 등록 
-		
 		if(file != null) {
 			if(!file.getOriginalFilename().equals("")) {
 				String newName = saveFile(file,request);

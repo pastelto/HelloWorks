@@ -109,18 +109,23 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:if test="${ !empty list }">
 											<c:forEach items="${ list }" var="n">
 												<tr align="center">
-													<c:if test="${ !empty list }">
-														<td>${ n.noticeNo }</td>
-														<td>${ n.noticeTitle }</td>
-														<td>${ n.noticeWriter }</td>
-														<td>${ n.jobName }</td>
-														<td>${ n.createDate }</td>
-														<td>${ n.nt_count }</td>
-													</c:if>
+													<td>${ n.noticeNo }</td>
+													<td>${ n.noticeTitle }</td>
+													<td>${ n.noticeWriter }</td>
+													<td>${ n.jobName }</td>
+													<td>${ n.createDate }</td>
+													<td>${ n.nt_count }</td>
 												</tr>
 											</c:forEach>
+									    </c:if>
+									    <c:if test="${ empty list }">
+									    	<tr align="center">
+													<td colspan="6">검색결과가 없습니다</td>
+										    </tr>
+									    </c:if>
 										</tbody>
 									</table>
 
@@ -203,6 +208,7 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:if test="${ !empty tlist }">
 											<c:forEach items="${ tlist }" var="t">
 												<tr align="center">
 													<td>${ t.noticeNo }</td>
@@ -212,6 +218,12 @@
 													<td>${ t.createDate }</td>
 													<td>${ t.nt_count }</td>
 											</c:forEach>
+										</c:if>
+										<c:if test="${ empty tlist }">
+											<tr align="center">
+													<td colspan="6">게시글이 없습니다</td>
+										    </tr>
+										</c:if>
 										</tbody>
 
 									</table>

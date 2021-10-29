@@ -188,10 +188,10 @@ input[id*="radio"], input[id*="vacation"] {
                               </tr>
                            </thead>
                            <tbody>
-                          
+                           <c:if test="${ !empty searchlist }">
                            	  <c:forEach items="${ searchlist }" var="search">
 	                              <tr>
-	                              	<c:if test="${ !empty searchlist }">
+	                              	
 		                              <c:if test="${ loginUser.deptCode eq 'A1' }">
 		                                 <td><input type='checkbox' name='deleteOne' value="${search.psaNo}"></td>
 		                              </c:if>
@@ -208,9 +208,15 @@ input[id*="radio"], input[id*="vacation"] {
 			                                 </c:if>			                             
 		                                 <td>${search.inTime }</td>
 		                                 <td>${search.outTime }</td>
-	                                 </c:if>	                                
+	                                	                                
 	                              </tr>
                               </c:forEach>
+                            </c:if>
+                            <c:if test="${ empty searchlist }">
+                                   <tr>
+                                   	  <td colspan="9">검색결과가 없습니다</td>   
+                                   </tr>
+                            </c:if>
                            </tbody>
                         </table>
                      </div>
