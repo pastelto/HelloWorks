@@ -111,7 +111,7 @@
 												<form action="popUpSearchOfficeAddressBookEmployee.adb">
 												<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<a id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" href="officeAddressBook.adb">전체검색</a>
+														<a id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" href="popupOfficeAddressBook.adb">전체검색</a>
 														&nbsp;&nbsp;
 														
 															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 15%;" onchange="deptSelect(this.value);">
@@ -257,7 +257,7 @@
 			                  					 		<tr>
 					                  						<td><input type="checkbox" id="delReceiveList" name="delReceiveList" value="${ addReceiveList }"></td>
 					                  						<td><input type="hidden" id="addReceiveListKey" name="addReceiveListKey" value="${ addReceiveList.key }">${ addReceiveList.key }</td>
-					                  						<td><input type="hidden" id="addReceiveListValue" name="addReceiveListValue" value="${ addReceiveList.value }">${ addReceiveList.value }</td>
+					                  						<td>${ addReceiveList.value }</td>
 				                  						</tr>
 			                  					 	</c:forEach>
 			                  					 </tbody>
@@ -279,7 +279,7 @@
 				                  					 	<c:forEach items="${ addRefList }" var="addRefList">
 				                  					 		<tr>
 						                  						<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
-						                  						<td>${ addRefList.key }</td>
+						                  						<td><input type="hidden" id="addRefListKey" name="addRefListKey" value="${ addRefList.key }">${ addRefList.key }</td>
 						                  						<td>${ addRefList.value }</td>
 					                  						</tr>
 				                  					 	</c:forEach>
@@ -476,21 +476,48 @@
 		function saveListSubmit(){
 			
 			var receiveList = [];
-			
+			var receiveListVal = ""
 			$("input[name='delReceiveList']").each(function(){
 				let checkEmpNo = $(this).val();
 				receiveList.push(" "+checkEmpNo);
+				
+				receiveListVal += "<b><span class='badge badge-info'>"+checkEmpNo+"</span></b> "
 			});
 			
+			//alert(receiveListVal);
 			var refList = [];
-			
+			var refListVal = ""
 			$("input[name='delRefList']").each(function(){
 				let checkEmpNo = $(this).val();
 				refList.push(" "+checkEmpNo);
+				
+				refListVal += "<b><span class='badge badge-warning'>"+checkEmpNo+"</span></b> "
+
 			});
 			
-			$("#receiveListTag", opener.document).text(receiveList);
-			$("#refListTag", opener.document).text(refList);
+			
+			var receiveListKey = [];
+			
+			$("input[name='addReceiveListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveListKey.push(checkEmpNo);
+			});
+			
+			var refListKey = [];
+			
+			$("input[name='addRefListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				refListKey.push(checkEmpNo);
+			});
+			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList"value="'+receiveListKey+'">';
+			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
+			
+			$("#receiveListDiv", opener.document).html(receiveListVal);
+			//$("#receiveListTag", opener.document).text(receiveList);
+			//$("input[name='drReceiverList']", opener.document).val(receiveListKey);
+			$("#refListDiv", opener.document).html(refListVal);
+			//$("#refListTag", opener.document).text(refList);
+			//$("input[name='drRefList']", opener.document).val(refListKey);
 	        
 			window.close();
 
