@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
@@ -65,6 +66,7 @@
 		
 		<section class="content">
 			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" class="apNo Class" id="apNo" name="apNo" value="${approval.apNo}">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
@@ -91,42 +93,42 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
-																</th>
+																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${loginUser.jobName}" readonly/>
+																</th>																																																																
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level1" id="emp_level1_1" value="${line.job1}" disabled/>
+																	<input type="text" class="emp_level1" id="emp_level1_1" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level2" id="emp_level1_2" value="${line.job2}" disabled/>
+																<th class="table emp_level" scope="col" >																
+																	<input type="text" class="emp_level2" id="emp_level1_2" name="job" readonly/>																	
 																</th>
-																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level3" id="emp_level1_3" value="${line.job3}" disabled/>
-																</th>
-																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level4" id="emp_level1_4" value="${line.job4}" disabled/>
-																</th>															
+																<th class="table emp_level" scope="col" >																
+																	<input type="text" class="emp_level2" id="emp_level1_3" name="job" readonly/>																	
+																</th>		
+																<th class="table emp_level" scope="col" >																
+																	<input type="text" class="emp_level2" id="emp_level1_4" name="job" readonly/>																	
+																</th>																																						
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
 																	<input type="text" class="emp_name0" id="emp_name0" value="${loginUser.empName}" disabled/>
 																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
-																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name1" id="emp_name1_1" disabled/>
-																	<input type="hidden" class="line1" id="line1_1" name="line1" value="${line.line1}">
+																<td class="table emp_name" scope="col">
+																	<input type="text" class="emp_name1" id="emp_name1_1" name="job" readonly/>
+																	<input type="hidden" class="line1" id="line1_1" name="line">
 																</td>
-																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name2" id="emp_name1_2" value="${line.line2}" disabled/>
-																	<input type="hidden" class="line2" id="line1_2" name="line2" >
+																<td class="table emp_name" scope="col">
+																	<input type="text" class="emp_name2" id="emp_name1_2" name="job" readonly/>
+																	<input type="hidden" class="line2" id="line1_2" name="line" >
 																</td>
-																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name3" id="emp_name1_3" value="${line.line1}" disabled/>
-																	<input type="hidden" class="line3" id="line1_3" name="line3" >
+																<td class="table emp_name" scope="col">
+																	<input type="text" class="emp_name3" id="emp_name1_3" name="job" readonly/>
+																	<input type="hidden" class="line3" id="line1_3" name="line" >
 																</td>
-																<td class="table emp_name"scope="col" >
-																	<input type="text" class="emp_name4" id="emp_name1_4" value="${line.line1}" disabled/>
-																	<input type="hidden" class="line4" id="line1_4" name="line4" >
-																</td>											
+																<td class="table emp_name" scope="col">
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="job" readonly/>
+																	<input type="hidden" class="line4" id="line1_4" name="line" >
+																</td>
 															</tr>
 														</tbody>
 													</table>
@@ -212,7 +214,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="6">
-															<input type=text class="form-control" id="ap_title" name="ap_title">
+															<input type=text class="form-control" id="ap_title" name="ap_title" value="${approval.title}">
 														</td>
 													</tr>
 													<tr>
@@ -243,15 +245,20 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote" name="apContent"></textarea>
+															<textarea id="summernote" name="apContent">${approval.content}</textarea>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="3">
 															<span>부서공유</span>
 														</td>
-														<td colspan="6">													
+														<td colspan="6">	
+														<c:if test="${approval.deptShare eq 'Y'}">										
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y' checked/> 
+														</c:if>
+														<c:if test="${approval.deptShare eq 'N'}">										
 															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+														</c:if>														
 															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
@@ -276,7 +283,7 @@
 													<tr>
 													<tr id="fileRow">
 														<td colspan="5">
-															 <span class="normalAttachName"></span>
+															 <span class="normalAttachName">${apAttach.originName}</span>
 														</td >
 														<td colspan="2">
 															<span class="normalAttachSize"></span>
@@ -315,6 +322,21 @@
 
 
 <!---------- script------------>
+	<script>		
+		var arr = new Array();
+		<c:forEach items="${ lineList }" var="line">
+			arr.push({job:"${line.jobName}", name:"${line.empName}", number:"${line.empNo}"});
+		</c:forEach>
+		
+		var n=1;
+		
+		for(var i=0;i<arr.length;i++){
+			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
+			$('input[id="emp_name1_'+n+'"]').val(arr[i].name);
+			$('input[id="line1_'+n+'"]').val(arr[i].number);
+			n++;
+		}
+	</script>
 
 	
 	<!-- Summernote -->
@@ -376,7 +398,7 @@
 		function insertApp(){		
 			
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=Y");
 				$("#normalApprovalForm").submit();
 				
 				alert("결재 작성이 완료되었습니다.");
@@ -385,7 +407,7 @@
 		
 		function insertTemp(){
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
+				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=N");
 				$("#normalApprovalForm").submit();
 				
 				alert("임시저장되었습니다.");
