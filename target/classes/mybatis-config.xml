@@ -32,6 +32,10 @@
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestEq" alias="RequestEq"/>
 		<typeAlias type="com.helloworks.spring.request.model.vo.RequestId" alias="RequestId"/>
 		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.DailyReport" alias="DailyReport"/>
+		<typeAlias type="com.helloworks.spring.vacation.model.vo.Vacation" alias="Vacation"/>
+		<typeAlias type="com.helloworks.spring.vacation.model.vo.VacationCC" alias="VacationCC"/>
+		<typeAlias type="com.helloworks.spring.vacation.model.vo.VacationLine" alias="VacationLine"/>
+		<typeAlias type="com.helloworks.spring.vacation.model.vo.ApprovalAttendance" alias="ApprovalAttendance"/>
 	</typeAliases>
 
 
@@ -45,6 +49,7 @@
 		<mapper resource="/mappers/request-mapper.xml"/>
 		<mapper resource="/mappers/addressBook-mapper.xml"/>
 		<mapper resource="/mappers/dailyReport-mapper.xml"/>
+		<mapper resource="/mappers/vacation-mapper.xml"/>
 	</mappers>
 
 

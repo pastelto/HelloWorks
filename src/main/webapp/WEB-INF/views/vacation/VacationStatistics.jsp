@@ -68,7 +68,7 @@
 				    <div class="card card-outline card-info">
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>소속 근로시간 통계</b>
+								<b>소속 휴가 통계</b>
 							</h6>
 						</div>
 						<!-- 카드바디 -->
@@ -154,67 +154,25 @@
 				                <table class="table table-bordered" id="employeeStatistics">
 				                  <thead align="center">
 				                    <tr >				                    	
-										<th  rowspan="2" width="14%" >성명 (사번)</th>
-										<th rowspan="2" width="13%" class="rowspan">직급</th>
-										<th colspan="3">누적근로시간</th>											
-										<th colspan="2">잔여근로시간</th>							
-									</tr>
-									<tr>																					
-										<th  width="14%">소정근로시간</th>
-										<th  width="14%">소정외근로시간</th>
-										<th  width="14%">총 근로시간</th>
-										<th  width="14%">소정근로시간</th>
-										<th  width="14%">소정외근로시간</th>
+										<th  rowspan="2" width="14%" >사번</th>	
+										<th  rowspan="2" width="14%" >이름</th>
+										<th  rowspan="2" width="14%" >직급</th>
+										<th  rowspan="2" width="14%" >입사일</th>
+										<th  rowspan="2" width="14%" >연차지급일</th>
+										<th  rowspan="2" width="14%" >연차사용일</th>
+										<th  rowspan="2" width="14%" >연차잔여일</th>					
 									</tr>
 				                  </thead>
 				                  <tbody align="center">
-				                  
-				                  	<c:if test="${ !empty statistics }">	
-				                    <c:forEach items="${ statistics }" var="st">
 										<tr align="center">
-																																	
-												<td>${ st.name }&nbsp;&nbsp;(${ st.empNo })</td>                     
-                                   			    <td>${ st.jobName }</td>     
-												    
-											    <c:set var="hour1" value="${ st.working/(60*60)}"/>
-											    <c:set var="minute1" value="${st.working/60-(hour1*60)}"/>
-											    <fmt:parseNumber var="H1" value="${ hour1 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M1" value="${ minute1 }" integerOnly="true"/>
-												<td> ${ H1 }시간&nbsp; ${ M1 } 분</td>
-												
-												<c:set var="hour2" value="${ st.over/(60*60)}"/>
-											    <c:set var="minute2" value="${st.over/60-(hour2*60)}"/>
-											    <fmt:parseNumber var="H2" value="${ hour2 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M2" value="${ minute2 }" integerOnly="true"/>
-												<td> ${ H2 }시간&nbsp; ${ M2 } 분</td>
-												
-												<c:set var="hour3" value="${ st.totalT/(60*60)}"/>
-											    <c:set var="minute3" value="${st.totalT/60-(hour3*60)}"/>
-											    <fmt:parseNumber var="H3" value="${ hour3 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M3" value="${ minute3 }" integerOnly="true"/>
-												<td> ${ H3 }시간&nbsp; ${ M3 } 분</td>
-												
-												<c:set var="hour4" value="${ st.leaveWT/(60*60)}"/>
-											    <c:set var="minute4" value="${st.leaveWT/60-(hour4*60)}"/>
-											    <fmt:parseNumber var="H4" value="${ hour4 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M4" value="${ minute4 }" integerOnly="true"/>
-												<td> ${ H4 }시간&nbsp; ${ M4 } 분</td>
-												
-												<c:set var="hour5" value="${ st.leaveOT/(60*60)}"/>
-											    <c:set var="minute5" value="${st.leaveOT/60-(hour5*60)}"/>
-											    <fmt:parseNumber var="H5" value="${ hour5 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M5" value="${ minute5 }" integerOnly="true"/>
-												<td> ${ H5 }시간&nbsp; ${ M5 } 분</td>
-											
+											<td>202100008</td>	
+											<td>조아행</td>	
+											<td>팀장</td>	
+											<td>2021-10-06</td>	
+											<td>18일 0시간</td>	
+											<td>5일 5시간</td>	
+											<td>12일 21시간</td>																					
 										</tr>
-									</c:forEach>
-									</c:if>
-									<c:if test="${ empty statistics }">
-		                              <tr>
-		                                 <td colspan="7">게시글이  없습니다</td>      
-		                              </tr>
-		                           </c:if> 
-									
 				                  </tbody>
 				                </table>
 				            </div>
