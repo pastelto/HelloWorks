@@ -346,9 +346,10 @@ public class ApprovalController {
 		ap.setCooJob(cooJob);
 		ap.setDeptShare(deptShare);		
 		
+		// 전자결재 공통
 		approvalService.insertApproval(ap);
 		
-		
+		// 지출결재 기본
 		String exForm = request.getParameter("ex_radio");
 		String exCommon = request.getParameter("commonEx");
 		
@@ -357,9 +358,9 @@ public class ApprovalController {
 		
 		approvalService.insertExpenditure(ae);
 		
+		// 지출결재 detail
 		String exType = request.getParameter("exType");
-		String exNum = request.getParameter("exNum");
-		
+		String exNum = request.getParameter("exNum");		
 		
 		String[] exDate = request.getParameterValues("exDate");
 		String[] exContent = request.getParameterValues("exContent");
@@ -478,6 +479,7 @@ public class ApprovalController {
 		}	
 	}
 	
+	// 공문서 
 	public void insertDiploma(Approval ap, ApprovalDiploma ad, HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
@@ -491,6 +493,7 @@ public class ApprovalController {
 		
 	}
 
+	// 회의록
 	public void insertMinutes(Approval ap, ApprovalMinutes am, HttpServletRequest request) {
 		String attendees = request.getParameter("attendees");
 		String title = request.getParameter("mm_title");
@@ -501,6 +504,7 @@ public class ApprovalController {
 		
 	}
 
+	// 인사
 	public void insertHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 		String dueDate = request.getParameter("dueDate");
 		String hrtype = request.getParameter("hr_type");
@@ -543,6 +547,7 @@ public class ApprovalController {
 		return newName;
 	}
 	
+	// 임시저장 - 날짜버튼 클릭 
 	@ResponseBody
 	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortTemp(HttpServletRequest request) {
@@ -597,7 +602,7 @@ public class ApprovalController {
 	}
 	
 
-	
+	// 임시저장 전체 보기 
 	@ResponseBody
 	@RequestMapping(value="selectAllTempApproval.ea", produces= "application/json; charset=utf-8")
 	public String selectAllTempApproval(HttpServletRequest request) {
@@ -615,18 +620,18 @@ public class ApprovalController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
-	
+	// 임시저장 - 검색 
 	@ResponseBody
 	@RequestMapping(value="selectSearchSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectSearchSortTemp(HttpServletRequest request) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
-		String optionType = request.getParameter("optionType");
+		String optionType = request.getParameter("optionType"); // 제목 , 문서번호 
 		String endDate = request.getParameter("endDate");
 		String startDate = request.getParameter("startDate");
-		String detailOption = request.getParameter("detailOption");
-		String input = request.getParameter("optionInput");
-		String apClass = request.getParameter("apClass");
+		String detailOption = request.getParameter("detailOption"); // 기안, 공문, 인사, 회의록 
+		String input = request.getParameter("optionInput"); // 입력한 값 
+		String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
 		int intInput = 0;
 		String stringInput = null;
 		
@@ -640,7 +645,9 @@ public class ApprovalController {
 		
 		ArrayList<Approval> list = null;
 		
-		if(endDate == null || startDate == null) {
+		// 날짜구간 미입력
+		if(endDate == null || startDate == null) {		
+			// 세부 항목 미선택
 			if(detailOption == null) {
 				switch(optionType) {
 					case "문서번호" : 
@@ -658,6 +665,7 @@ public class ApprovalController {
 					default :
 						break;			
 				}
+			// 세부항목 선택
 			} else {
 				switch(optionType) {
 				case "문서번호" : 
@@ -676,8 +684,11 @@ public class ApprovalController {
 					break;			
 				}
 			}
+		// 날짜 구간 입력
 		} else {
+			// 세부항목 미선택
 			if(detailOption == null) {
+				// 검색어 입력
 				if(input != null) {
 					switch(optionType) {
 						case "문서번호" : 
@@ -695,10 +706,11 @@ public class ApprovalController {
 						default :
 							break;			
 					}
+				// 검색어 미입력 
 				} else {
 					list = approvalService.selectOnlyDateSortTemp(searchMap);
 				}
-				
+			// 세부항목 선택	
 			} else {
 				switch(optionType) {
 				case "문서번호" : 

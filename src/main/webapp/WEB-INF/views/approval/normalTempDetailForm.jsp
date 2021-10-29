@@ -373,10 +373,7 @@
 	</script>
 	
 	<script>
-		function insertApp(){
-			
-			
-			
+		function insertApp(){		
 			
 			$("#normalApprovalForm").each(function(){
 				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
