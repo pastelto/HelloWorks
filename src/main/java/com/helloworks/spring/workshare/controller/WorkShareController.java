@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -250,9 +251,9 @@ public class WorkShareController {
 		String[] wsRefList = null; 
 		ArrayList<WorkShare> wsRefEmpName = new ArrayList<>();
 		int myEmpNo = 0;
+		
 		try {
-			// 상세 조회
-			
+			// 상세 조회	
 			ws = workShareService.detailWS(wno);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);
 			
@@ -260,6 +261,14 @@ public class WorkShareController {
 			String recvEmp = ws.getWs_recv();
 			System.out.println("recvEmp ? " + recvEmp);
 			wsRecvList = recvEmp.split(",");
+			
+			// 만약 수신인 중에 내 로그인 번호가 있으면!
+			for(int i = 0; i < wsRecvList.length; i++) {
+				int num = Integer.parseInt(wsRecvList[i]);
+				if(myEmp.getEmpNo() == num) {
+					myEmpNo = num;
+				}
+			}
 			
 			// 수신인들을 이름으로 가져오기!
 			for(int i = 0; i < wsRecvList.length; i++) {
@@ -324,8 +333,6 @@ public class WorkShareController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		myEmpNo = ws.getWs_empno();
 		
 		model.addAttribute("wsRefEmpName", wsRefEmpName);
 		model.addAttribute("wsRecvEmpName", wsRecvEmpName);
@@ -484,7 +491,7 @@ public class WorkShareController {
 	
 	// 업무공유 수정 양식으로 이동
 	@RequestMapping("updateForm.ws")
-	public String updateForm(int wno, Model model) {
+	public String updateForm(int wno, Model model, HttpSession session) {
 			
 		WorkShare ws = new WorkShare();
 		ArrayList<WSAttachment> wsa = new ArrayList<WSAttachment>();
@@ -520,7 +527,9 @@ public class WorkShareController {
 			// 참조인들을 이름으로 가져오기!
 			for(int i = 0; i < wsRefList.length; i++) {
 				int refEmpNo = Integer.parseInt(wsRefList[i]);
-				
+				System.out.println("===== refEmpNo ===== ");
+				System.out.println(refEmpNo);
+				System.out.println("===== refEmpNo ===== ");
 				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
 			}
 			System.out.println("wsRefEmpName ? " + wsRefEmpName);
@@ -530,6 +539,8 @@ public class WorkShareController {
 			e.printStackTrace();
 		}
 		
+		 session.removeAttribute("receiveListSession");
+		 session.removeAttribute("refListSession");
 		 model.addAttribute("wsRefEmpName", wsRefEmpName);
 		 model.addAttribute("wsRecvEmpName", wsRecvEmpName);
 		 model.addAttribute("wsa", wsa);
@@ -715,16 +726,19 @@ public class WorkShareController {
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	
-	// 댓글 추가하기
+	// 댓글 추가하기 (기본댓글)
 	@ResponseBody
 	@RequestMapping("rinsert.ws")
-	public String insertReply(WSReply wsr, int wno) {
+	public String insertReply(WSReply wsr, int wno, HttpServletRequest request) {
 		
 		int result = 0;
+		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
 		System.out.println("wsr ? " + wsr);
 		System.out.println("wno ? " + wno);
 		try {
-			wsr.setWsr_wsNo(wno);
+			wsr.setWsr_wsNo(wno); // 업무번호
+			wsr.setWsr_empName(myEmp.getEmpName());
+			wsr.setWsr_empJobName(myEmp.getJobName());
 			result = workShareService.insertReply(wsr);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

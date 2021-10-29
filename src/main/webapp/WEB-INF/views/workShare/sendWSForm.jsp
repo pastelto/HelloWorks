@@ -97,10 +97,7 @@
 													&nbsp;
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원 검색</button>
 													&nbsp;&nbsp;
-													<div>	
-														<b><span class="badge badge-info" id="receiveListTag"></span></b>
-														<input type="hidden" id="receiveListKey" name="drReceiverList">
-														<b><span class="badge badge-info" id="receiveDeptTag"></span></b>
+													<div id="receiveListDiv">
 													</div>
 												</div>
 												</td>
@@ -110,9 +107,7 @@
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												<b><span class="badge badge-warning" id="refListTag"></span></b>
-												<input type="hidden" id="refListKeyTag" name=drRefList>
-												<b><span class="badge badge-warning" id="refDeptTag"></span></b>
+												<div id="refListDiv"></div>
 												</td>
 											</tr>
 											<tr>

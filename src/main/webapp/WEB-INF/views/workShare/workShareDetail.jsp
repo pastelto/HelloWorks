@@ -216,7 +216,7 @@
 							                    <tr>
 							                    	<c:set var="loop_flag" value="false" />
 							                    	<c:if test="${not loop_flag }">
-								                    	<c:if test="${ myEmpNo eq loginUser.empNo }">
+								                    	<c:if test="${ myEmpNo eq loginUser.empNo || ws.ws_empno eq loginUser.empNo}">
 								                    		    <th colspan="3" style="width:75%">
 									                            	<textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>	
 										                        </th>

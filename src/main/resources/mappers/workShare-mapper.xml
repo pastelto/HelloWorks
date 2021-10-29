@@ -39,12 +39,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="wsReplyResultSet" type="WSReply">
 		<id property="wsr_no" column="WSR_NO"/>
 		<result property="wsr_wsNo" column="WSR_WS_NO"/>
-		<result property="wsr_empNo" column="WSR_EMP_NO"/>
+		<result property="wsr_g" column="WSR_G"/>
+		<result property="wsr_gno" column="WSR_GNO"/>
+		<result property="wsr_gnos" column="WSR_GNOS"/>
 		<result property="wsr_content" column="WSR_CONTENT"/>
+		<result property="wsr_empNo" column="WSR_EMP_NO"/>
+		<result property="wsr_empName" column="WSR_EMP_NAME"/>
+		<result property="wsr_empJobName" column="WSR_EMP_JNAME"/>
 		<result property="wsr_date" column="WSR_DATE"/>
 		<result property="wsr_status" column="WSR_STATUS"/>
-		<result property="wsr_empName" column="EMP_NAME"/>
-        <result property="wsr_empJobName" column="JOB_NAME"/>
 	</resultMap>
 	
 	<!-- 업무공유 생성 -->
@@ -203,24 +206,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 댓글 조회 -->
 	<select id="selectReplyList" parameterType="_int" resultMap="wsReplyResultSet">
-		SELECT A.WSR_NO, A.WSR_WS_NO, A.WSR_EMP_NO, A.WSR_CONTENT, A.WSR_DATE, B.EMP_NAME, C.JOB_NAME
+		SELECT *
 		FROM WORKSHARE_REPLY A
-		JOIN EMPLOYEE B ON B.EMP_NO = A.WSR_EMP_NO
-		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
 		WHERE WSR_WS_NO=#{wno} AND WSR_STATUS = 'Y'
 		ORDER BY WSR_NO DESC
 	</select>
 	
-	<!-- 댓글 추가 -->
+	<!-- 기본 댓글 추가 -->
 	<insert id="insertReply" parameterType="WSReply">
 		INSERT INTO WORKSHARE_REPLY
-		VALUES(SEQ_WSR.NEXTVAL, #{wsr_wsNo}, #{wsr_empNo}, #{wsr_content}, SYSDATE, 'Y')
+		VALUES(SEQ_WSR.NEXTVAL, #{wsr_wsNo}, 0, SEQ_WSR.CURRVAL, 0, #{wsr_content}, #{wsr_empNo}, #{wsr_empName}, #{wsr_empJobName}, SYSDATE, 'Y')
 	</insert>
 	
 	<!-- 업무공유 수정 -->
 	<update id="updateWorkShare" parameterType="WorkShare">
 		UPDATE WORKSHARE
-		SET WS_TITLE = #{ws_title}, WS_CONTENT = #{ws_content}, WS_EDITDATE = TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS'), WS_RECV = #{ws_recv}, WS_REF = #{ws_ref}, WS_RECV_STATUS = #{ws_recv}, WS_REPLY = #{ws_recv} 
+		SET WS_TITLE = #{ws_title}, WS_CONTENT = #{ws_content}, WS_EDITDATE = TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS') 
 		WHERE WS_NO = #{ws_no} AND WS_STATUS = 'Y'
 	</update>
 
@@ -250,6 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE WSA_NO = #{wsaNo}
 	</delete>
 	
+	<!-- 수신자 이름 가져오기  -->
 	<select id="selectRecvEmpName" parameterType="_int" resultMap="workShareResultSet">
 		SELECT A.EMP_NO, A.EMP_NAME, B.JOB_NAME
 		FROM EMPLOYEE A
