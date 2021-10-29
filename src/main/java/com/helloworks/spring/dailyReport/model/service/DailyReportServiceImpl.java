@@ -1,10 +1,13 @@
 package com.helloworks.spring.dailyReport.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.dao.DailyReportDao;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 
@@ -74,6 +77,34 @@ public class DailyReportServiceImpl implements DailyReportService{
 	public int alreadySendReport(DailyReport dailyReport) {
 		// TODO Auto-generated method stub
 		return dailyReportDao.alreadySendReport(sqlSession, dailyReport);
+	}
+
+	@Override
+	public int selectDailyReportListCount(int loginUserNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDailyReportListCount(sqlSession, loginUserNo);
+	}
+
+	@Override
+	public ArrayList<DailyReport> selectDailyReportList(int loginUserNo, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDailyReportList(sqlSession, loginUserNo, pi);
+	}
+
+	@Override
+	public int receiveCheck(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.receiveCheck(sqlSession, dailyReport);
+	}
+
+	@Override
+	public void updateDailyReportRef(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.updateDailyReportRef(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("일일보고 임시 저장 업데이트 저장 실패");
+		}
 	}
 
 }
