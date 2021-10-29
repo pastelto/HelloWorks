@@ -182,7 +182,7 @@
 															<tr>
 																<th>검색 조건</th>
 																<td>
-																	<form action="searchEmployee.or">
+																	<form action="popupSearchEmployee.or">
 																		<div class="row" style="margin-left: 0px;">
 																			&nbsp;&nbsp;
 																			<button id="allEmployeeSearchBtn" type="button"
@@ -328,6 +328,7 @@
 														<tbody>
 
 															<c:forEach items="${ list }" var="employee">
+																<c:if test="${employee.empNo ne loginUser.empNo }">
 																<tr>
 																	<th><input type='checkbox' name='plusAddressBook'
 																		id='plusAddressBook' value="${ employee.empNo }+${employee.empName}"></th>
@@ -336,6 +337,7 @@
 																	<td>${ employee.jobName }</td>
 																	<td >${ employee.deptDname }</td>
 																</tr>
+																</c:if>
 															</c:forEach>
 
 														</tbody>
@@ -387,7 +389,7 @@
 																	<tr>
 																		<td><input type="checkbox" id="delReceiveList"
 																			name="delReceiveList" value="${ addReceiveList }"></td>
-																		<td>${ addReceiveList.key }</td>
+																		<td><input type="hidden" id="addReceiveListKey" name="addReceiveListKey" value="${ addReceiveList.key }">${ addReceiveList.key }</td>
 																		<td>${ addReceiveList.value }</td>
 																	</tr>
 																</c:forEach>
@@ -411,7 +413,7 @@
 																<c:forEach items="${ addRefList }" var="addRefList">
 																	<tr>
 																		<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
-																		<td>${ addRefList.key }</td>
+																		<td><input type="hidden" id="addRefListKey" name="addRefListKey" value="${ addRefList.key }">${ addRefList.key }</td>
 																		<td>${ addRefList.value }</td>
 																	</tr>
 																</c:forEach>
@@ -589,13 +591,16 @@
 						success:function(list){
 							var value="";
 							$.each(list, function(i, obj){
+								
+								if(obj.empNo != ${loginUser.empNo}){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td>" + obj.jobName + "</td>" +
 								"<td>" + obj.deptDname + "</td>" +
 								"</tr>";
+								}
 							});
 	
 							$("#employeeTable>tbody").html(value);
@@ -617,13 +622,15 @@
 							var value = "";
 
 							$.each(list, function(i, obj) {
+								if(obj.empNo != ${loginUser.empNo}){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 								"<td>" + obj.empNo + "</td>" + 
 								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 								"<td>" + obj.jobName + "</td>" +
 								"<td>" + obj.deptDname + "</td>" +
 								"</tr>";
+								}
 							});
 
 							$("#employeeTable>tbody").html(value);
@@ -653,14 +660,15 @@
 					var value="";
 					
 					$.each(list, function(i, obj){
-						
+						if(obj.empNo != ${loginUser.empNo}){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td>" + obj.jobName + "</td>" +
 						"<td>" + obj.deptDname + "</td>" +
 						"</tr>";
+						}
 					});
 					
 					$("#employeeTable>tbody").html(value);
@@ -685,16 +693,21 @@
 				data: {
 					deptCode:deptCode
 				},
-				success:function(list){
+				success:function(list){ 
 					var value="";
+					var setempNo = "";
+					var setempName = "";
+					
 					$.each(list, function(i, obj){
+						if(obj.empNo != ${loginUser.empNo}){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
 						"<td>" + obj.empNo + "</td>" + 
 						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
 						"<td>" + obj.jobName + "</td>" +
 						"<td>" + obj.deptDname + "</td>" +
 						"</tr>";
+						}
 					});
 					$("#employeeTable>tbody").html(value);
 					$("#sortOption").text(deptName);
@@ -704,37 +717,6 @@
 				}
 			})
 			
-		}
-	</script>
-	
-	<!-- 직원 상세 정보 -->
-	<script>
-		function detailEmployee(empNo){
-			
-			$.ajax({
-				url:"searchEmployeeDetail.or",
-				data:{empNo:empNo},
-				type:"post",
-				dataType:"json",
-				success:function(emp){
-					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
-					
-					$("#empNoCol").text(emp.empNo)
-					$("#empNameCol").text(emp.empName)
-					$("#empEngNameCol").text(emp.empEn)
-					$("#empUDeptCol").text(emp.deptUname)
-					$("#empDDeptCol").text(emp.deptDname)
-					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
-					$("#empEphoneCol").text(emp.empEphone)
-					$("#empEmailCol").text(emp.empEmail)
-					
-					$("#addEmpNo").val(emp.empNo)
-				},
-				error:function(){
-					console.log("직원 부서별 검색 ajax 통신 실패")
-				}
-			})
 		}
 	</script>
 	
@@ -806,21 +788,48 @@
 		function saveListSubmit(){
 			
 			var receiveList = [];
-			
+			var receiveListVal = ""
 			$("input[name='delReceiveList']").each(function(){
 				let checkEmpNo = $(this).val();
 				receiveList.push(" "+checkEmpNo);
+				
+				receiveListVal += "<b><span class='badge badge-info'>"+checkEmpNo+"</span></b> "
 			});
 			
+			//alert(receiveListVal);
 			var refList = [];
-			
+			var refListVal = ""
 			$("input[name='delRefList']").each(function(){
 				let checkEmpNo = $(this).val();
 				refList.push(" "+checkEmpNo);
+				
+				refListVal += "<b><span class='badge badge-warning'>"+checkEmpNo+"</span></b> "
+
 			});
 			
-			$("#receiveListTag", opener.document).text(receiveList);
-			$("#refListTag", opener.document).text(refList);
+			
+			var receiveListKey = [];
+			
+			$("input[name='addReceiveListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveListKey.push(checkEmpNo);
+			});
+			
+			var refListKey = [];
+			
+			$("input[name='addRefListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				refListKey.push(checkEmpNo);
+			});
+			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList"value="'+receiveListKey+'">';
+			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
+			
+			$("#receiveListDiv", opener.document).html(receiveListVal);
+			//$("#receiveListTag", opener.document).text(receiveList);
+			//$("input[name='drReceiverList']", opener.document).val(receiveListKey);
+			$("#refListDiv", opener.document).html(refListVal);
+			//$("#refListTag", opener.document).text(refList);
+			//$("input[name='drRefList']", opener.document).val(refListKey);
 	        
 			window.close();
 

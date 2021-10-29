@@ -88,6 +88,33 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
+	//임시저장함 detail - 일반결재
+	@RequestMapping("normalTempDetail.ea")
+	public String normalTempDetail(HttpServletRequest request, Model model) {
+		
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "기안";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalLine line = approvalService.selectApprovalLine(searchMap);
+		
+		 model.addAttribute(approval);
+		 model.addAttribute(apCC);
+		 model.addAttribute(line);
+		 model.addAttribute(apAttach);
+		
+		
+		return "approval/normalTempDetailFrom";
+	}
+	
+	// 임시저장함 - 일반결재
 	@RequestMapping("tempNormal.ea")
 	public String tempNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		
@@ -119,6 +146,7 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
+	// 임시저장함 - 지출결재
 	@RequestMapping("tempExpenditure.ea")
 	public String tempExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		
@@ -149,7 +177,7 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
-	
+	// 전자결재  Insert
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
 								String status, HttpServletRequest request, Model model,
@@ -166,24 +194,29 @@ public class ApprovalController {
 		}
 		
 		System.out.println("status : " + status);
-		
-		
+				
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
+		String writerJob = request.getParameter("writerJob");
 		String deptName = request.getParameter("userDept");
 		String content = request.getParameter("apContent");
-		String  cooper= request.getParameter("cooperator0");
+		String cooper= request.getParameter("cooperator0");
+		String cooJob = request.getParameter("cooJob");
 		String deptShare = request.getParameter("deptShare");
 		
 		ap.setApClass("일반");
 		ap.setDetailClass(detailClass);
 		ap.setTitle(title);
 		ap.setWriter(writer);
+		ap.setWriterJob(writerJob);
 		ap.setDeptName(deptName);
 		ap.setContent(content);
 		ap.setCooper(cooper);
-		ap.setDeptShare(deptShare);			
+		ap.setCooJob(cooJob);
+		ap.setDeptShare(deptShare);		
+		
+		System.out.println("ap :" + ap);
 						
 		// 문서분류에 따른 등록 
 		String dtype = request.getParameter("doc_type");
@@ -204,7 +237,6 @@ public class ApprovalController {
 		}
 		
 		// 첨부파일 등록 
-		
 		if(file != null) {
 			if(!file.getOriginalFilename().equals("")) {
 				String newName = saveFile(file,request);
@@ -234,10 +266,9 @@ public class ApprovalController {
 				approvalService.insertCcDept(ac);
 		}		*/
 		
-		if(request.getParameter("ccCode")!= null) {
-			
-			String ccCode = request.getParameter("ccCode");
-					
+		String ccCode = request.getParameter("ccCode");
+		System.out.println("ccCode : " + ccCode);
+		if(!ccCode.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
 				System.out.println("cotroller num :" + num);
@@ -245,6 +276,7 @@ public class ApprovalController {
 				approvalService.insertCcEmpl(ac);
 			} else {
 				ac.setCcDept(ccCode);
+				System.out.println("deptCode: " + ccCode);
 				approvalService.insertCcDept(ac);
 			}
 		}
@@ -253,7 +285,8 @@ public class ApprovalController {
 								
 		// 결재라인 등록 
 		insertLine(line, request);		
-				
+		
+		// 결재 등록 알림창 
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
 		}else if(status.equals("N")) {
@@ -263,6 +296,7 @@ public class ApprovalController {
 		return "main";
 	}
 	
+	// 결재 수신참조 부서/직원 구분을 위한 메소드
 	private boolean isInteger(String s) { 		
 		try {
 			Integer.parseInt(s);
@@ -273,6 +307,7 @@ public class ApprovalController {
 		return true;
 	}
 
+	// 전자결재 - 지출결재 등록 
 	@RequestMapping("insertExApproval.ea")
 	public String insertExApproval(Approval ap, ApprovalExpenditure ae, ApprovalExDetails ad, ApprovalCC ac, ApprovalLine line, 
 									String status, HttpServletRequest request, Model model,
@@ -292,19 +327,23 @@ public class ApprovalController {
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
+		String writerJob = request.getParameter("writerJob");
 		String deptName = request.getParameter("userDept");
 		String content = request.getParameter("apContent");
-		String  cooper= request.getParameter("cooperator0");
+		String cooper= request.getParameter("cooperator0");
+		String cooJob = request.getParameter("cooJob");
 		String deptShare = request.getParameter("deptShare");
 		
-		ap.setApClass("지출");
+		ap.setApClass("일반");
 		ap.setDetailClass(detailClass);
 		ap.setTitle(title);
 		ap.setWriter(writer);
+		ap.setWriterJob(writerJob);
 		ap.setDeptName(deptName);
 		ap.setContent(content);
 		ap.setCooper(cooper);
-		ap.setDeptShare(deptShare);	
+		ap.setCooJob(cooJob);
+		ap.setDeptShare(deptShare);		
 		
 		approvalService.insertApproval(ap);
 		
@@ -378,9 +417,9 @@ public class ApprovalController {
 									
 		// 수신참조 등록 
 								
-		if(request.getParameter("ccCode")!= null) {
+		if(request.getParameter("ccCode")!= "") {
 			
-			String ccCode = request.getParameter("ccCode");
+			String ccCode = request.getParameter("ccCode");			
 					
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
@@ -395,7 +434,8 @@ public class ApprovalController {
 										
 		// 결재라인 등록 
 		insertLine(line, request);		
-						
+		
+		//수신참조 부서, 직원 구분
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
 		}else if(status.equals("N")) {
@@ -405,47 +445,36 @@ public class ApprovalController {
 		return "main";		
 	}
 	
+	
+	//결재라인 등록 
 	public void insertLine(ApprovalLine line, HttpServletRequest request) {
 		
-		int line1 = 0;
-		int line2 = 0; 
-		int line3 = 0;
-		int line4 = 0;
+		// 결재권자 파라미터로 받기 
+		String[] temp = request.getParameterValues("line");
+		System.out.println("temp:" + temp[0]);
+		int[] empNo = new int[temp.length];
 		
-		String l2 = request.getParameter("line2");
-		String l3 = request.getParameter("line3");
-		String l4 = request.getParameter("line4");
-		
-		try {		
-			
-			line1 = Integer.parseInt(request.getParameter("line1"));
-			line2 = Integer.parseInt(request.getParameter("line2"));
-			line3 = Integer.parseInt(request.getParameter("line3"));
-			line4 = Integer.parseInt(request.getParameter("line4"));
-		
-		} catch(NumberFormatException e){
-
-			if(l2.equals(null)) {			
-				line2 = 202100000;
+		System.out.println("temp length " + temp.length);
+		for(int i=0; i < empNo.length; i++) {
+			if(!temp[i].equals("")) {
+				empNo[i] = Integer.parseInt(temp[i]);
+				System.out.println("tempI=" + temp[i]);
+				System.out.println("lineNo=" + empNo[i]);
 			}
-			if(l3.equals(null)) {			
-				line3 = 202100000;
-			}
-			if(l4.equals(null)) {			
-				line4 = 202100000;
-			}
-						
 		}
 		
-		System.out.println("LINE : " + line1 + line2 + +line3 + line4);
+		String[] empName = request.getParameterValues("lineName");	
+		String[] jobName = request.getParameterValues("job");
 		
-		line.setLine1(line1);
-		line.setLine2(line2);
-		line.setLine3(line3);
-		line.setLine4(line4);
-		
-		approvalService.insertLine(line);
-		
+		for(int i=0; i<empNo.length; i++) {
+			if(empNo[i] != 0) {
+				line.setLineNo(i+1);
+				line.setEmpNo(empNo[i]);
+				line.setEmpName(empName[i]);
+				line.setJobName(jobName[i]);			
+				approvalService.insertLine(line);		
+			}
+		}	
 	}
 	
 	public void insertDiploma(Approval ap, ApprovalDiploma ad, HttpServletRequest request) {
