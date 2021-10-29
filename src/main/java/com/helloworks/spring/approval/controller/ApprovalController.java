@@ -88,7 +88,7 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
-	//임시저장함 detail - 일반결재
+	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
 	public String normalTempDetail(HttpServletRequest request, Model model) {
 		
@@ -125,6 +125,34 @@ public class ApprovalController {
 		System.out.println("return line :" + lineList);
 		return "approval/normalTempDetailForm";
 	}
+	
+	// 임시저장함 detail - 공문서 
+ 	@RequestMapping("diplomaTempDetail.ea")
+	public String diplomaTempDetail(HttpServletRequest request, Model model) {
+		
+		return "approval/diplomaTempDetailForm";
+	}
+ 	
+ 	// 임시저장함 detail - 인사 
+  	@RequestMapping("hrTempDetail.ea")
+ 	public String hrTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/hrTempDetailForm";
+ 	}
+  	
+  	// 임시저장함 detail - 회의록
+  	@RequestMapping("minutesTempDetail.ea")
+ 	public String minutesTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/minutesTempDetailForm";
+ 	}
+  	
+  	// 임시저장함 detail - 지출
+  	@RequestMapping("expenditureTempDetail.ea")
+ 	public String expenditureTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/expenditureTempDetailForm";
+ 	}
 	
 	// 임시저장함 - 일반결재
 	@RequestMapping("tempNormal.ea")

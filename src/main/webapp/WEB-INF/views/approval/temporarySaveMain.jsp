@@ -134,13 +134,16 @@
 					location.href="<%=request.getContextPath()%>/normalTempDetail.ea?apNo="+ apNo;
 					break;
 				case "공문" :
-					location.href="diplomaTempDetailForm.jsp?apNo="+apNo;
+					location.href="<%=request.getContextPath()%>/diplomaTempDetail.ea?apNo="+ apNo;
 					break;
 				case "인사" :
-					location.href="hrTempDetailForm.jsp?apNo="+apNo;
+					location.href="<%=request.getContextPath()%>/hrTempDetail.ea?apNo="+ apNo;
 					break;
 				case "회의" :
-					location.href="minutesTempDetailForm.jsp?apNo="+apNo;
+					location.href="<%=request.getContextPath()%>/minutesTempDetail.ea?apNo="+ apNo;
+					break;
+				case "지출" :
+					location.href="<%=request.getContextPath()%>/expenditureTempDetail.ea?apNo="+ apNo;
 					break;
 			}
 			
