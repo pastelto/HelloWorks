@@ -237,4 +237,32 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return approvalDao.selectOnlyDateSortTemp(sqlSession, searchMap);
 	}
 
+
+	@Override
+	public Approval selectApprovalDetail(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalDetail(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalCC selectApprovalCC(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalCC(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalLine selectApprovalLine(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalLine(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public Approval selectAttachDetail(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectAttachDetail(sqlSession, searchMap);
+	}
+
 }

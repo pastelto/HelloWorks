@@ -139,7 +139,7 @@
 										<tbody>
 										
 											<c:forEach items="${ approvalList }" var="approvalList" varStatus="status">
-							                    <tr onclick="detailApproval(${approvalList.apNo })">							      
+							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }')">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
 							                        <td>${ approvalList.detailClass }</td>
@@ -215,7 +215,7 @@
 	 				var value = "";
 	 				
  					$.each(list, function(i, obj){
- 						value += '<tr onclick="detailApproval"('+obj.apNo+')>'+							      
+ 						value += '<tr onclick="detailApproval"(' + obj.apNo + ',"' + obj.detailClass + '")>'+							      
                         '<td>'+obj.rownum+'</td>' +
                         '<td>'+obj.title+'</td>' +
                         '<td>'+obj.detailClass+'</td>' +
@@ -380,5 +380,26 @@
 		}
 	</script>
 	
+	<!-- detail view -->
+	<script> 
+	function detailApproval(apNo, detailClass){
+		
+		switch(detailClass){
+			case "기안" :
+				location.href="normalTempDetailForm.jsp?apNo="+apNo;
+				break;
+			case "공문" :
+				location.href="diplomaTempDetailForm.jsp?apNo="+apNo;
+				break;
+			case "인사" :
+				location.href="hrTempDetailForm.jsp?apNo="+apNo;
+				break;
+			case "회의" :
+				location.href="minutesTempDetailForm.jsp?apNo="+apNo;
+				break;
+		}
+		
+	}
+	</script>
 </body>
 </html>
