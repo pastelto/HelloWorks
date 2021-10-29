@@ -69,9 +69,33 @@ public interface ApprovalService {
 
 	ApprovalCC selectApprovalCC(HashMap<String, Object> searchMap);
 
-	ApprovalLine selectApprovalLine(HashMap<String, Object> searchMap);
+	ArrayList<ApprovalLine> selectApprovalLine(HashMap<String, Object> searchMap);
 
 	Approval selectAttachDetail(HashMap<String, Object> searchMap);
+
+	void updateApproval(Approval ap);
+
+	void updateAttachment(Approval ap);
+
+	void updateCcEmpl(ApprovalCC ac);
+
+	void updateCcDept(ApprovalCC ac);
+
+	void updateExpenditure(ApprovalExpenditure ae);
+
+	void updateExpenditureDetail(ApprovalExDetails ad);
+
+	void updateLine(ApprovalLine line);
+
+	void updatetHr(ApprovalHr ah);
+
+	void updateMinutes(ApprovalMinutes am);
+
+	void updateDiploma(ApprovalDiploma ad);
+
+	void deleteLine(int apNo);
+
+
 
 	
 

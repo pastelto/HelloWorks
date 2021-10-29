@@ -163,15 +163,72 @@ public class ApprovalDao {
 		return sqlSession.selectOne("approvalMapper.selectApprovalCC", searchMap);
 	}
 
-	public ApprovalLine selectApprovalLine(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<ApprovalLine> selectApprovalLine(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("approvalMapper.selectApprovalLine", searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectApprovalLine", searchMap);
 	}
 
 	public Approval selectAttachDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("approvalMapper.selectAttachDetail", searchMap);
 	}
+
+	public int updateApproval(SqlSessionTemplate sqlSession, Approval ap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateApproval", ap);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Approval ap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateAttachment", ap);
+	}
+
+	public int updateCcEmpl(SqlSessionTemplate sqlSession, ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateCcEmpl", ac);
+	}
+
+	public int updateCcDept(SqlSessionTemplate sqlSession, ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateCcDept", ac);
+	}
+
+	public int updateExpenditure(SqlSessionTemplate sqlSession, ApprovalExpenditure ae) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateExpenditure", ae);
+	}
+
+	public int updateExpenditureDetail(SqlSessionTemplate sqlSession, ApprovalExDetails ad) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateExpenditureDetail", ad);
+	}
+
+	public int updateLine(SqlSessionTemplate sqlSession, ApprovalLine line) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("approvalMapper.updateLine", line);
+	}
+
+	public int updatetHr(SqlSessionTemplate sqlSession, ApprovalHr ah) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updatetHr", ah);
+	}
+
+	public int updateMinutes(SqlSessionTemplate sqlSession, ApprovalMinutes am) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateMinutes", am);
+	}
+
+	public int updateDiploma(SqlSessionTemplate sqlSession, ApprovalDiploma ad) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateDiploma", ad);
+	}
+
+	public int deleteLine(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("approvalMapper.deleteLine", apNo);
+	}
+
+
 
 
 }
