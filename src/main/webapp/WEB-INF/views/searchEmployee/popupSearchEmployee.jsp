@@ -821,7 +821,7 @@
 				let checkEmpNo = $(this).val();
 				refListKey.push(checkEmpNo);
 			});
-			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList"value="'+receiveListKey+'">';
+			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList" value="'+receiveListKey+'">';
 			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
 			
 			$("#receiveListDiv", opener.document).html(receiveListVal);
