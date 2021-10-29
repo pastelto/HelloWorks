@@ -419,7 +419,7 @@ public class WorkShareController {
 		
 		ws.setWs_empno(Integer.parseInt(multiRequest.getParameter("ws_empno")));
 		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
-		ws.setWs_recv((String) multiRequest.getParameter("drReceiverList")); 
+		ws.setWs_recv((String) multiRequest.getParameter("drReceiverList"));
 		ws.setWs_ref((String) multiRequest.getParameter("drRefList"));
 		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
 		ws.setWs_status("Y");
