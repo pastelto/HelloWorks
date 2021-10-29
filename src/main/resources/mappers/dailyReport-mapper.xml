@@ -113,6 +113,7 @@
 		AND A.DR_WRITER_NO != #{loginUserNo}
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
+		ORDER BY DR_RECEIVER_NO DESC
 	</select>
 	
 	<select id="receiveCheck" parameterType="DailyReport" resultType="_int">

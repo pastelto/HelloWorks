@@ -333,7 +333,7 @@ public class DailyReportController {
 		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		int listCount = dailyReportService.selectDailyReportListCount(loginUserNo);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<DailyReport> dailyReportList = dailyReportService.selectDailyReportList(loginUserNo, pi);
 		
@@ -341,6 +341,7 @@ public class DailyReportController {
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("pageURL", "recvReport.dr");
 		
 		return "dailyReport/dailyReceiveList";
 	}

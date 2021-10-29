@@ -1,5 +1,7 @@
 package com.helloworks.spring.dailyReport.model.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ public class DailyReport {
 	private int drRef;				//	DR_REF NUMBER
 	private String drTitle;			//	DR_TITLE	VARCHAR2(500 BYTE)
 	private String drContent;		//	DR_CONTENT	VARCHAR2(4000 BYTE)
-	private String drCreateDate;		//	DR_CREATE_DATE	DATE
+	private Date drCreateDate;		//	DR_CREATE_DATE	DATE
 	private String drAttachOrigin;	//	DR_ATTACH_ORIGIN	VARCHAR2(4000 BYTE)
 	private String drAttachChange;	//	DR_ATTACH_CHANGE	VARCHAR2(4000 BYTE)
 	private String drConfirm;		//	DR_CONFIRM	VARCHAR2(1 BYTE)
