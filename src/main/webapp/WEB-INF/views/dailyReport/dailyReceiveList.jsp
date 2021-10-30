@@ -94,7 +94,6 @@
 												<tr>
 													<th>보고 유형</th>
 													<td>
-													<form id="reportTypeSelect">
 													<div class="mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;
 														<input type="radio" name="reportType" value="allReport" ${ checkTypeAll }> 전체
@@ -105,7 +104,6 @@
 														&nbsp;&nbsp;&nbsp;
 														<input type="radio" name="reportType" value="M" ${ checkM }> 월간보고
 													</div>
-													</form>
 													</td>
 												</tr>
 											
@@ -116,18 +114,38 @@
 												<tr>
 													<th>작성일자</th>
 													<td>
-													<form id="termType">
 														<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1일</button>&nbsp;
-														<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1주</button>&nbsp;
-														<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1개월</button>&nbsp;
-														<button type="button" class="btn btn-default btn-sm" style="width: 100px;">3개월</button>	&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(1);">1일</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(2);">1주</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(3);">1개월</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(4);">3개월</button>	&nbsp;
+														
+														<form id="dateRange">
+														<!-- 
 														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem; width: 150px;">
 														&nbsp; ~ &nbsp;
 														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem; width: 150px">		
+														 -->
+														
+														 <div class="form-group mb-0">
+											
+											                  <div class="input-group">
+											                    <input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem; width: 150px;">
+																<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">~</span>
+																</div>
+																<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem; width: 150px">	
+											                 	<div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="termType(5);" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																</div>
+											                  </div>
+											                </div>
+													
+														</form>
+														
 														</div>
-													</form>
 													</td>
 												</tr>
 											</tbody>
@@ -156,7 +174,7 @@
 																class="form-control form-control-sm"
 																placeholder="검색어를 입력하세요." name="search" value="${ search }">
 															<div class="input-group-append">
-																<button type="submit" class="btn btn-sm btn-default">
+																<button type="submit" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
 																	<i class="fa fa-search"></i>
 																</button>
 															</div>
@@ -313,6 +331,35 @@
 		});
 	</script>
 	
+	<!-- 기간 설정 -->
+	<script>
+		function termType(typeNum){
+			//alert(typeNum);
+			var type = $("input:radio[name=reportType]:checked").val();
+			var startStr = $("#startDate").val()
+			var endDStr = $("#endDate").val()
+
+			
+			
+			
+			
+			//alert(start + ","+end)
+			if(typeNum == 5){
+				if(start == ""){
+					alert("시작일자를 선택해주세요.")
+					return false;
+				}else if(end == ""){
+					alert("종료일자를 선택해주세요.")
+					return false;
+				}
+				
+				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum+"&startDate="+start+"&endDate="+end;
+			}else{
+				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum;
+			}
+			
+		}
+	</script>
 
 
 </body>

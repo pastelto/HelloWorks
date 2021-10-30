@@ -383,6 +383,23 @@ public class DailyReportController {
 		return "dailyReport/dailyReceiveList";
 	}
 	
+	@RequestMapping("recvReportTermType.dr")
+	public String recvReportTermType(String reportType, int termType,
+									@RequestParam(value="startDate", required=false, defaultValue = "1") String startDate,
+									@RequestParam(value="endDate", required=false, defaultValue = "1") String endDate,
+									@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		System.out.println("보고유형: "+reportType);
+		System.out.println("기간타입: "+termType);
+		System.out.println("시작일자: "+startDate);
+		System.out.println("종료일자: "+endDate);
+		
+		
+		return "dailyReport/dailyReceiveList";
+	}
+	
+	
+	
 	@RequestMapping("searchDailyReport.dr")
 	public String searchDailyReport(String optionType, String search, Model model) {
 		
