@@ -17,6 +17,11 @@
 		<result property="drStatus" column="DR_STATUS"/>
 		<result property="writerName" column="EMP_NAME"/>
 		<result property="receiverName" column="EMP_NAME"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>
+		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
 
 	<select id="tempDailyReportCount" parameterType="DailyReport" resultType="_int">
@@ -85,5 +90,48 @@
 		AND DR_CREATE_DATE LIKE SYSDATE
 		AND DR_STATUS = 'SN'
 	</select>
+	
+	<select id="selectDailyReportListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT
+		WHERE (DR_RECEIVER_NO = #{loginUserNo}
+			OR DR_REF = #{loginUserNo})
+		AND DR_WRITER_NO != #{loginUserNo}
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN'
+	</select>
+	
+	<select id="selectDailyReportList" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (A.DR_RECEIVER_NO = #{loginUserNo}
+		    OR A.DR_REF = #{loginUserNo})
+		AND A.DR_WRITER_NO != #{loginUserNo}
+		AND A.DR_CREATE_DATE LIKE SYSDATE
+		AND A.DR_STATUS = 'SN'
+		ORDER BY DR_RECEIVER_NO DESC
+	</select>
+	
+	<select id="receiveCheck" parameterType="DailyReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drReceiverNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN'
+	</select>
+	
+	<update id="updateDailyReportRef" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_REF = #{ drRef }
+		WHERE DR_WRITER_NO = #{ drWriterNo }
+		AND DR_RECEIVER_NO = #{ drReceiverNo }
+		AND DR_CREATE_DATE LIKE SYSDATE
+		AND DR_STATUS = 'SN' 
+	</update>
 	
 </mapper>
