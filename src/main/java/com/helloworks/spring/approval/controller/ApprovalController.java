@@ -88,7 +88,7 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
-	//임시저장함 detail - 일반결재
+	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
 	public String normalTempDetail(HttpServletRequest request, Model model) {
 		
@@ -103,16 +103,56 @@ public class ApprovalController {
 		Approval approval = approvalService.selectApprovalDetail(searchMap);
 		Approval apAttach = approvalService.selectAttachDetail(searchMap);
 		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
-		ApprovalLine line = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
 		
-		 model.addAttribute(approval);
-		 model.addAttribute(apCC);
-		 model.addAttribute(line);
-		 model.addAttribute(apAttach);
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
 		
-		
-		return "approval/normalTempDetailFrom";
+		System.out.println("return line :" + lineList);
+		return "approval/normalTempDetailForm";
 	}
+	
+	// 임시저장함 detail - 공문서 
+ 	@RequestMapping("diplomaTempDetail.ea")
+	public String diplomaTempDetail(HttpServletRequest request, Model model) {
+		
+		return "approval/diplomaTempDetailForm";
+	}
+ 	
+ 	// 임시저장함 detail - 인사 
+  	@RequestMapping("hrTempDetail.ea")
+ 	public String hrTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/hrTempDetailForm";
+ 	}
+  	
+  	// 임시저장함 detail - 회의록
+  	@RequestMapping("minutesTempDetail.ea")
+ 	public String minutesTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/minutesTempDetailForm";
+ 	}
+  	
+  	// 임시저장함 detail - 지출
+  	@RequestMapping("expenditureTempDetail.ea")
+ 	public String expenditureTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		return "approval/expenditureTempDetailForm";
+ 	}
 	
 	// 임시저장함 - 일반결재
 	@RequestMapping("tempNormal.ea")
@@ -345,9 +385,10 @@ public class ApprovalController {
 		ap.setCooJob(cooJob);
 		ap.setDeptShare(deptShare);		
 		
+		// 전자결재 공통
 		approvalService.insertApproval(ap);
 		
-		
+		// 지출결재 기본
 		String exForm = request.getParameter("ex_radio");
 		String exCommon = request.getParameter("commonEx");
 		
@@ -356,9 +397,9 @@ public class ApprovalController {
 		
 		approvalService.insertExpenditure(ae);
 		
+		// 지출결재 detail
 		String exType = request.getParameter("exType");
-		String exNum = request.getParameter("exNum");
-		
+		String exNum = request.getParameter("exNum");		
 		
 		String[] exDate = request.getParameterValues("exDate");
 		String[] exContent = request.getParameterValues("exContent");
@@ -380,8 +421,8 @@ public class ApprovalController {
 			ad.setExNum(exNum);
 			ad.setExTitle(title);
 			ad.setExNo(i);
-			ad.setCreateDate(exDate[i]);
-			ad.setContent(exContent[i]);
+			ad.setExDate(exDate[i]);
+			ad.setExContent(exContent[i]);
 			ad.setPrice(price[i]);
 			ad.setAccName(exAccount[i]);
 			ad.setBankName(exBank[i]);
@@ -477,6 +518,7 @@ public class ApprovalController {
 		}	
 	}
 	
+	// 공문서 
 	public void insertDiploma(Approval ap, ApprovalDiploma ad, HttpServletRequest request) {
 		
 		String email = request.getParameter("email");
@@ -490,6 +532,7 @@ public class ApprovalController {
 		
 	}
 
+	// 회의록
 	public void insertMinutes(Approval ap, ApprovalMinutes am, HttpServletRequest request) {
 		String attendees = request.getParameter("attendees");
 		String title = request.getParameter("mm_title");
@@ -500,6 +543,7 @@ public class ApprovalController {
 		
 	}
 
+	// 인사
 	public void insertHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 		String dueDate = request.getParameter("dueDate");
 		String hrtype = request.getParameter("hr_type");
@@ -514,7 +558,7 @@ public class ApprovalController {
 	//Save-file
 	public String saveFile(MultipartFile file, HttpServletRequest request) {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources + "\\upload_files\\"; //저장경로
+		String savePath = resources + "\\approval_files\\"; //저장경로
 		
 		System.out.println("savePath : "+ savePath);
 		
@@ -542,6 +586,7 @@ public class ApprovalController {
 		return newName;
 	}
 	
+	// 임시저장 - 날짜버튼 클릭 
 	@ResponseBody
 	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortTemp(HttpServletRequest request) {
@@ -596,7 +641,7 @@ public class ApprovalController {
 	}
 	
 
-	
+	// 임시저장 전체 보기 
 	@ResponseBody
 	@RequestMapping(value="selectAllTempApproval.ea", produces= "application/json; charset=utf-8")
 	public String selectAllTempApproval(HttpServletRequest request) {
@@ -614,20 +659,22 @@ public class ApprovalController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
-	
+	// 임시저장 - 검색 
 	@ResponseBody
 	@RequestMapping(value="selectSearchSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectSearchSortTemp(HttpServletRequest request) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
-		String optionType = request.getParameter("optionType");
+		String optionType = request.getParameter("optionType"); // 제목 , 문서번호 
 		String endDate = request.getParameter("endDate");
 		String startDate = request.getParameter("startDate");
-		String detailOption = request.getParameter("detailOption");
-		String input = request.getParameter("optionInput");
-		String apClass = request.getParameter("apClass");
+		String detailOption = request.getParameter("detailOption"); // 기안, 공문, 인사, 회의록 
+		String input = request.getParameter("optionInput"); // 입력한 값 
+		String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
 		int intInput = 0;
-		String stringInput = null;
+		String stringInput = null;		
+		
+		System.out.println("detailOption : " + detailOption);
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("optionType", optionType);
@@ -639,8 +686,10 @@ public class ApprovalController {
 		
 		ArrayList<Approval> list = null;
 		
-		if(endDate == null || startDate == null) {
-			if(detailOption == null) {
+		// 날짜구간 미입력
+		if(endDate.equals("") || startDate.equals("")) {		
+			// 세부 항목 미선택
+			if(detailOption.equals("")) {
 				switch(optionType) {
 					case "문서번호" : 
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
@@ -657,17 +706,20 @@ public class ApprovalController {
 					default :
 						break;			
 				}
+			// 세부항목 선택
 			} else {
 				switch(optionType) {
 				case "문서번호" : 
 					intInput = Integer.parseInt(request.getParameter("optionInput"));							
 					searchMap.put("optionInput", intInput);		
+					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + intInput);
 					list = approvalService.selectDetailApNoTemp(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
 					searchMap.put("optionInput", stringInput);		
+					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + stringInput);
 					list = approvalService.selectDetailTitleTemp(searchMap);				
 					break;
@@ -675,9 +727,12 @@ public class ApprovalController {
 					break;			
 				}
 			}
+		// 날짜 구간 입력
 		} else {
-			if(detailOption == null) {
-				if(input != null) {
+			// 세부항목 미선택
+			if(detailOption.equals("")) {
+				// 검색어 입력
+				if(!input.equals("")) {
 					switch(optionType) {
 						case "문서번호" : 
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
@@ -694,21 +749,24 @@ public class ApprovalController {
 						default :
 							break;			
 					}
+				// 검색어 미입력 
 				} else {
 					list = approvalService.selectOnlyDateSortTemp(searchMap);
 				}
-				
+			// 세부항목 선택	
 			} else {
 				switch(optionType) {
 				case "문서번호" : 
 					intInput = Integer.parseInt(request.getParameter("optionInput"));							
 					searchMap.put("optionInput", intInput);		
+					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + intInput);
 					list = approvalService.selectDeteDetailApNoTemp(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
-					searchMap.put("optionInput", stringInput);		
+					searchMap.put("optionInput", stringInput);	
+					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + stringInput);
 					list = approvalService.selectDateDetailTitleTemp(searchMap);				
 					break;
@@ -720,4 +778,338 @@ public class ApprovalController {
 	
 		return new GsonBuilder().create().toJson(list);
 	}
+	
+	// 전자결재  update
+		@RequestMapping("updateApproval.ea")
+		public String updateApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
+									String status, HttpServletRequest request, Model model,
+									@RequestParam(name="normalAttach" , required=false) MultipartFile file) {
+			
+			
+			// 등록 , 임시저장 구분
+			if(status.equals("Y")) {
+				ap.setStatus(status);
+				ap.setProgress("진행중");
+			}else if(status.equals("N")) {
+				ap.setStatus(status);
+				ap.setProgress("임시저장");
+			}
+			
+			System.out.println("status : " + status);
+			
+			int apNo = Integer.parseInt(request.getParameter("apNo"));		
+			String detailClass = request.getParameter("doc_type");
+			String title = request.getParameter("ap_title");
+			int writer = Integer.parseInt(request.getParameter("writer"));
+			String writerJob = request.getParameter("writerJob");
+			String deptName = request.getParameter("userDept");
+			String content = request.getParameter("apContent");
+			String cooper= request.getParameter("cooperator0");
+			String cooJob = request.getParameter("cooJob");
+			String deptShare = request.getParameter("deptShare");
+			
+			ap.setApNo(apNo);
+			ap.setApClass("일반");
+			ap.setDetailClass(detailClass);
+			ap.setTitle(title);
+			ap.setWriter(writer);
+			ap.setWriterJob(writerJob);
+			ap.setDeptName(deptName);
+			ap.setContent(content);
+			ap.setCooper(cooper);
+			ap.setCooJob(cooJob);
+			ap.setDeptShare(deptShare);		
+			
+			ad.setApNo(apNo);
+			am.setApNo(apNo);
+			ah.setApNo(apNo);
+			ac.setApNo(apNo);
+			line.setApNo(apNo);
+			
+			System.out.println("ap :" + ap);
+							
+			// 문서분류에 따른 등록 
+			String dtype = request.getParameter("doc_type");
+					
+			switch(dtype) {
+			case "기안" : approvalService.updateApproval(ap);
+						break;
+			case "공문" : 			
+						updateDiploma(ap, ad, request);					
+						break;
+			case "회의" :
+						updateMinutes(ap, am, request);					
+						break;
+			case "인사" : 
+						updateHr(ap, ah, request);					
+						break;
+			default : model.addAttribute("msg", "등록되지 않았습니다.");
+			}
+			
+			// 첨부파일 등록 
+			if(file != null) {
+				if(!file.getOriginalFilename().equals("")) {
+					String newName = saveFile(file,request);
+								
+					if(newName!=null) {
+							ap.setOriginName(file.getOriginalFilename());
+							ap.setNewName(newName);
+							approvalService.updateAttachment(ap);
+						}
+					}
+			}
+			
+			String ccCode = request.getParameter("ccCode");
+			System.out.println("ccCode : " + ccCode);
+			if(!ccCode.equals("")) {							
+				if(isInteger(ccCode)) {
+					int num = Integer.parseInt(request.getParameter("ccCode"));
+					System.out.println("cotroller num :" + num);
+					ac.setCcMember(num);
+					approvalService.updateCcEmpl(ac);
+				} else {
+					ac.setCcDept(ccCode);
+					System.out.println("deptCode: " + ccCode);
+					approvalService.updateCcDept(ac);
+				}
+			}
+				
+			
+									
+			// 결재라인 등록 
+			updateLine(line, request);		
+			
+			// 결재 등록 알림창 
+			if(status.equals("Y")) {
+				model.addAttribute("msg", "결재가 등록되었습니다.");
+			}else if(status.equals("N")) {
+				model.addAttribute("msg", "결재가 임시저장되었습니다.");
+			}
+			
+			return "main";
+		}
+
+		private void updateHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
+			String dueDate = request.getParameter("dueDate");
+			String hrtype = request.getParameter("hr_type");
+			ap.setApClass("인사");
+			ah.setHrClass(hrtype);
+			ah.setDueDate(dueDate);
+			approvalService.updateApproval(ap); 
+			approvalService.updatetHr(ah);
+			
+		}
+
+		private void updateMinutes(Approval ap, ApprovalMinutes am, HttpServletRequest request) {
+			String attendees = request.getParameter("attendees");
+			String title = request.getParameter("mm_title");
+			am.setAttendees(attendees);
+			am.setTitle(title);
+			approvalService.updateApproval(ap); 
+			approvalService.updateMinutes(am);
+			
+			
+		}
+
+		private void updateDiploma(Approval ap, ApprovalDiploma ad, HttpServletRequest request) {
+			String email = request.getParameter("email");
+			String phone = request.getParameter("phone");
+			String officeAddress = request.getParameter("officeAddress");
+			ad.setEmail(email);
+			ad.setPhone(phone);
+			ad.setOfficeAddress(officeAddress);
+			approvalService.updateApproval(ap); 
+			approvalService.updateDiploma(ad);
+			
+		}
+
+		
+		// 전자결재 - 지출결재 수정 
+		@RequestMapping("updateExApproval.ea")
+		public String updateExApproval(Approval ap, ApprovalExpenditure ae, ApprovalExDetails ad, ApprovalCC ac, ApprovalLine line, 
+										String status, HttpServletRequest request, Model model,
+										@RequestParam(name="normalAttach" , required=false) MultipartFile file) {
+										
+			// 등록 , 임시저장 구분
+			if(status.equals("Y")) {
+				ap.setStatus(status);
+				ap.setProgress("진행중");
+			}else if(status.equals("N")) {
+				ap.setStatus(status);
+				ap.setProgress("임시저장");
+			}
+					
+			System.out.println("status : " + status);
+				
+			int apNo = Integer.parseInt(request.getParameter("apNo"));
+			String detailClass = request.getParameter("doc_type");
+			String title = request.getParameter("ap_title");
+			int writer = Integer.parseInt(request.getParameter("writer"));
+			String writerJob = request.getParameter("writerJob");
+			String deptName = request.getParameter("userDept");
+			String content = request.getParameter("apContent");
+			String cooper= request.getParameter("cooperator0");
+			String cooJob = request.getParameter("cooJob");
+			String deptShare = request.getParameter("deptShare");
+			
+			ap.setApNo(apNo);
+			ap.setApClass("일반");
+			ap.setDetailClass(detailClass);
+			ap.setTitle(title);
+			ap.setWriter(writer);
+			ap.setWriterJob(writerJob);
+			ap.setDeptName(deptName);
+			ap.setContent(content);
+			ap.setCooper(cooper);
+			ap.setCooJob(cooJob);
+			ap.setDeptShare(deptShare);	
+			
+			ad.setApNo(apNo);
+			ac.setApNo(apNo);
+			line.setApNo(apNo);
+			
+			// 전자결재 공통
+			approvalService.updateApproval(ap);
+			
+			// 지출결재 기본
+			String exForm = request.getParameter("ex_radio");
+			String exCommon = request.getParameter("commonEx");
+			
+			ae.setExForm(exForm);
+			ae.setExCommon(exCommon);
+			
+			approvalService.updateExpenditure(ae);
+			
+			// 지출결재 detail
+			String exType = request.getParameter("exType");
+			String exNum = request.getParameter("exNum");		
+			
+			String[] noTemp = request.getParameterValues("exNo");
+			int[] exNo = null;
+			exNo = new int[noTemp.length];
+			for(int i=0; i< exNo.length; i++) {
+				exNo[i] = Integer.parseInt(noTemp[i]);
+			}
+			String[] exDate = request.getParameterValues("exDate");
+			String[] exContent = request.getParameterValues("exContent");
+			String[] temp =	request.getParameterValues("price");
+			int[] price = null;
+			price = new int[temp.length];
+			for(int i=0; i < price.length; i++) {
+				price[i] = Integer.parseInt(temp[i]);
+			}
+			String[] exAccount = request.getParameterValues("accName");
+			String[] exBank = request.getParameterValues("bankName");
+			String[] accNum = request.getParameterValues("accNum");
+			String[] holder = request.getParameterValues("accHolder");
+			String[] exDept = request.getParameterValues("exDept");
+			String[] note = request.getParameterValues("note");
+			
+			for(int i=0; i<exDate.length; i++) {
+				ad.setExNo(exNo[i]);
+				ad.setExType(exType);
+				ad.setExNum(exNum);
+				ad.setExTitle(title);
+				ad.setExNo(i);
+				ad.setExDate(exDate[i]);
+				ad.setExContent(exContent[i]);
+				ad.setPrice(price[i]);
+				ad.setAccName(exAccount[i]);
+				ad.setBankName(exBank[i]);
+				if(accNum != null) {
+					ad.setAccNum(accNum[i]);
+				}
+				if(holder != null) {
+					ad.setAccHolder(holder[i]);
+				}
+				if(exDept != null) {
+					ad.setExDate(exDept[i]);
+				}
+				if(note != null) {
+					ad.setNote(note[i]);
+				}
+						
+				approvalService.updateExpenditureDetail(ad);
+			}
+			
+			// 첨부파일 등록 
+			
+			if(file != null) {
+				if(!file.getOriginalFilename().equals("")) {
+					String newName = saveFile(file,request);
+								
+					if(newName!=null) {
+							ap.setOriginName(file.getOriginalFilename());
+							ap.setNewName(newName);
+							approvalService.updateAttachment(ap);
+						}
+					}
+			}
+										
+			// 수신참조 등록 
+									
+			if(request.getParameter("ccCode")!= "") {
+				
+				String ccCode = request.getParameter("ccCode");			
+						
+				if(isInteger(ccCode)) {
+					int num = Integer.parseInt(request.getParameter("ccCode"));
+					System.out.println("cotroller num :" + num);
+					ac.setCcMember(num);
+					approvalService.updateCcEmpl(ac);
+				} else {
+					ac.setCcDept(ccCode);
+					approvalService.updateCcDept(ac);
+				}
+			}
+											
+			// 결재라인 등록 
+			insertLine(line, request);		
+			
+			//수신참조 부서, 직원 구분
+			if(status.equals("Y")) {
+				model.addAttribute("msg", "결재가 등록되었습니다.");
+			}else if(status.equals("N")) {
+				model.addAttribute("msg", "결재가 임시저장되었습니다.");
+			}
+		
+			return "main";		
+		}
+		
+		
+		//결재라인 업데이트
+		public void updateLine(ApprovalLine line, HttpServletRequest request) {
+			
+			// 결재권자 파라미터로 받기 
+			String[] temp = request.getParameterValues("line");
+			System.out.println("temp:" + temp[0]);
+			int[] empNo = new int[temp.length];
+			int apNo = Integer.parseInt(request.getParameter("apNo"));
+			
+			System.out.println("temp length " + temp.length);
+			for(int i=0; i < empNo.length; i++) {
+				if(!temp[i].equals("")) {
+					empNo[i] = Integer.parseInt(temp[i]);
+					System.out.println("tempI=" + temp[i]);
+					System.out.println("lineNo=" + empNo[i]);
+				}
+			}
+			
+			String[] empName = request.getParameterValues("lineName");	
+			String[] jobName = request.getParameterValues("job");
+			
+			//결재라인 삭제 후 재등록
+			approvalService.deleteLine(apNo);
+			
+			for(int i=0; i<empNo.length; i++) {
+				if(empNo[i] != 0) {
+					line.setLineNo(i+1);
+					line.setEmpNo(empNo[i]);
+					line.setEmpName(empName[i]);
+					line.setJobName(jobName[i]);			
+					approvalService.updateLine(line);		
+				}
+			}	
+		}
+		
 }
