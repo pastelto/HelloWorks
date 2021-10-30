@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,24 +133,27 @@
 							<div class="table-responsive mailbox-messages">
 								<table class="table table-hover table-striped" id="sentList">
 									<tbody>
-								
-										<c:forEach items="${ newList }" var="newlist" varStatus="status" begin="0" end="2">										
-											<c:forEach items="${ innerNo }" var="sent" varStatus="sta" >
+										<c:forEach items="${ sentMailList }" var="sMail"
+											varStatus="status">
 											<tr>
 												<td>
 													<div class="icheck-primary">
-														<input type="checkbox" value="" > 
+														<input type="checkbox" value="${ sMail.mailNo }">
 													</div>
 												</td>
-												<td>${newList[status.index][sta.index].mailNo}</td>												
+												<td>${ sMail.mailNo }</td>
 												<td class="mailbox-name">
-												 ${ newList[status.index][sta.index].mailRcvrDept} ${ newList[status.index][sta.index].mailRcvrName} ${ newList[status.index][sta.index].mailRcvrJobName}
-												</td>
-												<td class="mailbox-subject"><b>${ newList[status.index][sta.index].mailTitle}</b></td>
-												<td class="mailbox-date float-right">${ newList[status.index][sta.index].mailDate}</td>
+												<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}" step="1" varStatus="in">
+														<c:if
+															test="${ (sentMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
+														/ <b>${ rcvrList[i].mailRcvrName }</b> /
+													</c:if>
+													</c:forEach></td>
+												<td class="mailbox-subject"><b>${ sMail.mailTitle }</b></td>
+												<td class="mailbox-date float-right">${ sMail.mailDate }</td>
 											</tr>
-												</c:forEach>
 										</c:forEach>
+
 									</tbody>
 								</table>
 								<!-- /.table -->
@@ -228,17 +233,15 @@
 					})
 		})
 		$(function() {
-		$("#sentList tbody tr").click(
-				function() {
+			$("#sentList tbody tr").click(function() {
 				var mailNo = $(this).children().eq(1).text();
-	
+
 				//console.log("mailNo1 : " + mailNo1);
-	
-				
-				location.href = "read.ml?mailNo="+mailNo;
-					
-				});
-	});
+
+				location.href = "read.ml?mailNo=" + mailNo;
+
+			});
+		});
 	</script>
 </body>
 </html>

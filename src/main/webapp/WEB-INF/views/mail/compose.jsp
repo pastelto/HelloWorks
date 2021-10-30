@@ -86,45 +86,30 @@
 											<div class="form-group">
 												<input type="hidden" id="mailSndr" name="mailSndr"
 													value="${loginUser.empNo}" class="form-control" readonly>
-													${loginUser.empName} ${loginUser.jobName}
+												${loginUser.empName} ${loginUser.jobName}
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-2">수신자</div>
 										<div class="col-8">
-											<div class="form-group">
-												<input id="mailRcvr" name="mailRcvr"
-													class="form-control" placeholder="수신자 사번조회 -> 이메일">
-											</div>
-										</div>
-										<div class="col-2">
-											<div class="float-right">
-												<button type="button" class="btn btn-default">
-													<i class="fas fa-user-plus"></i> 주소록
-												</button>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2">참조자</div>
-										<div class="col-8">
-											<div class="form-group">
-												<input id="mailRef" name="mailRef" 
-													class="form-control" placeholder="참조자 사번조회 -> 이메일">
-											</div>
-										</div>
-										<div class="col-2">
-											<div class="float-right">
-												<button type="button" class="btn btn-default">
-													<i class="fas fa-user-plus"></i> 주소록
-												</button>
+											<div class="row m-0">
+												<button id="addressBook" type="button"
+													class="btn btn-default btn-xs"
+													onclick="popupAddressBook();">주소록</button>
+												&nbsp;
+												<button id="searchEmp" type="button"
+													class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
+													검색</button>
+												&nbsp;&nbsp;
+												<div id="receiveListDiv"></div>
 											</div>
 										</div>
 									</div>
+									<br>
 									<div class="form-group">
-										<input id="mailTitle" name="mailTitle" 
-											class="form-control" placeholder="제목">
+										<input id="mailTitle" name="mailTitle" class="form-control"
+											placeholder="제목">
 									</div>
 									<div class="row">
 										<div class="col-12">
@@ -133,8 +118,8 @@
 									</div>
 									<div class="form-group">
 										<div class="btn btn-default btn-file">
-											<i class="fas fa-paperclip"></i> 첨부파일 
-											<input type="file" name="uploadFile" id="mailAttachment" multiple="multiple">
+											<i class="fas fa-paperclip"></i> 첨부파일 <input type="file"
+												name="uploadFile" id="mailAttachment" multiple="multiple">
 										</div>
 										<p class="help-block" id="mailAttachmentName"></p>
 									</div>
@@ -198,5 +183,17 @@
 		$('#mailAttachmentName').append(filename); 
 	});
 
+</script>
+<!-- 주소록 -->	
+<script>		
+function popupAddressBook(){			
+	var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
+	}	
+</script>		
+<!-- 직원 검색  -->	
+<script>		
+function popupSearchEmp(){
+	var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
+	}	
 </script>
 </html>

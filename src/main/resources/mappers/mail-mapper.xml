@@ -19,9 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mailSndrName" column="EMP_NAME" />
 		<result property="mailSndrDept" column="DEPT_DNAME" />
 		<result property="mailSndrJobName" column="JOB_NAME" />
-		<result property="mailRcvrName" column="EMP_NAME" />
-		<result property="mailRcvrDept" column="DEPT_DNAME" />
-		<result property="mailRcvrJobName" column="JOB_NAME" />
+		<result property="mailRcvrNo" column="MAIL_RCVR_NO" />
+		<result property="mailRcvrName" column="MAIL_RCVR_NAME" />
+		<result property="mailRcvrDept" column="MAIL_RCVR_DNAME" />
+		<result property="mailRcvrJobName" column="MAIL_RCVR_JOBNAME" />
 	</resultMap>
 	
 	<!-- 메일첨부파일 -->
@@ -33,13 +34,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mailAtDate" column="MAIL_AT_DATE" />
 	</resultMap>
 	
+	<!-- 수신자정보 -->
+	<resultMap id="mailRcvrInfoResultSet" type="Employee">
+		<id property="empNo" column="EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
+	</resultMap>
+	
 	<!-- 메일보내기 -->
 	<insert id="sendMail" parameterType="Mail">
 		INSERT INTO
 		MAIL
 		VALUES
 		(SEQ_ES_MAIL_NO.NEXTVAL, #{mailRcvr}, #{mailSndr}, #{mailRef}, #{mailTitle}, 
-		#{mailContent}, SYSDATE, 'Y', DEFAULT, #{mailRcvr})
+		#{mailContent}, SYSDATE, 'Y', #{mailRcvr})
 	</insert>
 	
 	<!-- 첨부파일저장 -->
@@ -48,6 +57,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		MAIL_ATTACHMENT
 		VALUES
 		(SEQ_MAIL_AT_NO.NEXTVAL, SEQ_ES_MAIL_NO.CURRVAL, #{mailAtOrg}, #{mailAtChg}, SYSDATE)
+	</insert>
+	
+	<!--수신자 정보 저장위해  메일 수신자 정보 가져오기 -->
+	<select id="getEmpInfo" parameterType="_int" resultMap="mailRcvrInfoResultSet">
+		SELECT A.EMP_NO, A.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.EMP_NO = #{rEmpNo}
+	</select>
+	
+	<!--메일 수신자 정보 저장 -->
+	<insert id="insertMailRcvrInfo" parameterType="Mail">
+		INSERT INTO
+		MAIL_INFO
+		VALUES
+		(SEQ_ES_MAIL_NO.CURRVAL, #{mailSndr}, #{mailRcvrName}, #{mailRcvrDept}, #{mailRcvrJobName})
 	</insert>
 	
 	<!-- 받은 메일목록 -->
@@ -88,27 +115,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 보낸 메일목록 -->
-	<select id="sentMailList" parameterType="Mail" resultMap="mailResultSet">
+<!-- 	<select id="sentMailList" parameterType="Mail" resultMap="mailResultSet">
 		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_RCVR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
 		FROM MAIL A
 		JOIN EMPLOYEE B ON B.EMP_NO = #{mailNo}
 		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
-		WHERE MAIL_SNDR LIKE '%'||#{mailSndr}||'%'
+		WHERE MAIL_SNDR = #{mailSndr}
 		AND MAIL_STATUS = 'Y'
 		ORDER BY A.MAIL_NO DESC
+	</select> -->
+	
+	<!-- 보낸메일목록 -->
+	<select id="sentMailList" parameterType="_int" resultMap="mailResultSet">
+	    SELECT *
+		FROM MAIL 
+		WHERE MAIL_SNDR = #{myEmp}
+		AND MAIL_STATUS IN ('Y','A','D')
+		ORDER BY MAIL_NO DESC
 	</select>
 	
+	<!-- 수신자정보 -->
+	<select id="getRcvrInfo" parameterType="Mail" resultMap="mailResultSet">
+	    SELECT *
+        FROM MAIL_INFO
+        WHERE MAIL_RCVR_NO = #{mailRcvrNo}
+        AND MAIL_NO = #{mailNo}
+    </select>
+	
 	<!-- 메일가져오기 -->
-	<select id="getMail" parameterType="Mail" resultMap="mailResultSet">
+<!-- 	<select id="getMail" parameterType="Mail" resultMap="mailResultSet">
 		SELECT MAIL_NO, MAIL_RCVR
 		FROM MAIL 
 		WHERE (MAIL_RCVR LIKE '%'||#{mailNo}||'%' OR MAIL_RCVR LIKE '%'||#{mailRcvrDept}||'%')
 		AND MAIL_STATUS = 'Y'
 		ORDER BY MAIL_NO DESC
-	</select>
-	
-	
+	</select> -->
+
 	
 	<!-- 임시보관 메일목록 -->
 <!-- 	<select id="draftMailList" resultMap="mailResultSet">

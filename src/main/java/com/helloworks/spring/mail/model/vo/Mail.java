@@ -27,9 +27,12 @@ public class Mail {
 	private String mailSStatus; // 발신메일 상태값(Y/N)
 	private String mailRStatus; // 수신메일 읽은사람
 
+	//MailInfo
+	private int mailRcvrNo; // 수신자 사번
 	private String mailRcvrName; // 수신자 이름
 	private String mailRcvrDept; // 수신자 부서
 	private String mailRcvrJobName; // 수신자 직급
+
 	private String mailSndrName; // 발신자 이름
 	private String mailSndrDept; // 발신자 부서
 	private String mailSndrJobName; // 발신자 직급

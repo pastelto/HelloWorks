@@ -134,12 +134,12 @@
 									<tbody>
 									    <c:forEach items="${ list }" var="inbox">
 										<tr>
-											<td>
+											<th>
 												<div class="icheck-primary">
-													<input type="checkbox" value="" id="check1"> <label
+													<input type="checkbox" value="${ inbox.mailNo }" id="check1"> <label
 														for="check1"></label>
 												</div>
-											</td>
+											</th>
 											<td>${ inbox.mailNo }</td>
 											<td class="mailbox-name">${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName }</td>
 											<td class="mailbox-subject"><b>${ inbox.mailTitle }</b></td>

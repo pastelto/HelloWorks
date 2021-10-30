@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.mail.model.vo.Mail;
 import com.helloworks.spring.mail.model.vo.MailAttachment;
+import com.helloworks.spring.mail.model.vo.MailInfo;
 
 @Repository
 public class MailDao {
@@ -49,27 +50,44 @@ public class MailDao {
 	}
 
 	// 보낸 메일목록
-	public ArrayList<Mail> sentMailList(SqlSessionTemplate sqlSession, Mail mail) {
+	public ArrayList<Mail> sentMailList(SqlSessionTemplate sqlSession, int myEmp) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("mailMapper.sentMailList", mail);
+		return (ArrayList)sqlSession.selectList("mailMapper.sentMailList", myEmp);
 	}
 	
-	// 임시 보관함
-	public ArrayList<Mail> draftMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("mailMapper.draftMailList", myEmp);
-	}
-	
-	// 휴지통
-	public ArrayList<Mail> trashMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("mailMapper.trashMailList", myEmp);
-	}
+//	// 임시 보관함
+//	public ArrayList<Mail> draftMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
+//		// TODO Auto-generated method stub
+//		return (ArrayList)sqlSession.selectList("mailMapper.draftMailList", myEmp);
+//	}
+//	
+//	// 휴지통
+//	public ArrayList<Mail> trashMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
+//		// TODO Auto-generated method stub
+//		return (ArrayList)sqlSession.selectList("mailMapper.trashMailList", myEmp);
+//	}
 	
 	//메일 객체 가져오기
 	public ArrayList<Mail> getMail(SqlSessionTemplate sqlSession, Mail mail) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("mailMapper.getMail", mail);
+	}
+	
+	//메일 수신자 정보 받아오기
+	public Employee getEmpInfo(SqlSessionTemplate sqlSession, int rEmpNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mailMapper.getEmpInfo", rEmpNo);
+	}
+	
+	// 메일 수신자 정보 입력
+	public int insertMailRcvrInfo(SqlSessionTemplate sqlSession, Mail mailInfo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mailMapper.insertMailRcvrInfo", mailInfo);
+	}
+	//수신자 정보 조회
+	public Mail getRcvrInfo(SqlSessionTemplate sqlSession, Mail rEmp) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mailMapper.getRcvrInfo", rEmp);
 	}
 
 }
