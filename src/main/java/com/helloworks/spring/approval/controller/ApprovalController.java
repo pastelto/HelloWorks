@@ -129,6 +129,42 @@ public class ApprovalController {
 	// 임시저장함 detail - 공문서 
  	@RequestMapping("diplomaTempDetail.ea")
 	public String diplomaTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "공문";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalDiploma ad = approvalService.selectApprovalDiploma(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ad != null) {
+			System.out.println("ad ; " + ad);
+			 model.addAttribute("ad", ad);
+		}
+		
 		
 		return "approval/diplomaTempDetailForm";
 	}
@@ -137,12 +173,81 @@ public class ApprovalController {
   	@RequestMapping("hrTempDetail.ea")
  	public String hrTempDetail(HttpServletRequest request, Model model) {
  		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "인사";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalHr ah = approvalService.selectApprovalHr(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ah != null) {
+			System.out.println("ah ; " + ah);
+			 model.addAttribute("ah", ah);
+		}
  		return "approval/hrTempDetailForm";
  	}
   	
   	// 임시저장함 detail - 회의록
   	@RequestMapping("minutesTempDetail.ea")
  	public String minutesTempDetail(HttpServletRequest request, Model model) {
+ 		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "인사";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalMinutes am = approvalService.selectApprovalMinutes(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(am != null) {
+			System.out.println("am ; " + am);
+			 model.addAttribute("am", am);
+		}
  		
  		return "approval/minutesTempDetailForm";
  	}
@@ -151,6 +256,51 @@ public class ApprovalController {
   	@RequestMapping("expenditureTempDetail.ea")
  	public String expenditureTempDetail(HttpServletRequest request, Model model) {
  		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "인사";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalExpenditure ae = approvalService.selectApprovalExpenditure(searchMap);
+		ArrayList<ApprovalExDetails> adList = approvalService.selectApprovalExDetails(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		ArrayList<ApprovalExDetails> chlist = approvalService.selectExNumch();
+		ArrayList<ApprovalExDetails> colist = approvalService.selectExNumco();
+		
+		model.addAttribute("chlist",chlist);
+		model.addAttribute("colist",colist);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ae != null) {
+			System.out.println("ae ; " + ae);
+			 model.addAttribute("ae", ae);
+		}
+		if(adList != null) {
+			System.out.println("ad ; " + adList);
+			 model.addAttribute("adList", adList);
+		}
  		return "approval/expenditureTempDetailForm";
  	}
 	

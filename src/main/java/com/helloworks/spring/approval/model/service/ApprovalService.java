@@ -95,6 +95,16 @@ public interface ApprovalService {
 
 	void deleteLine(int apNo);
 
+	ApprovalDiploma selectApprovalDiploma(HashMap<String, Object> searchMap);
+
+	ApprovalHr selectApprovalHr(HashMap<String, Object> searchMap);
+
+	ApprovalMinutes selectApprovalMinutes(HashMap<String, Object> searchMap);
+
+	ApprovalExpenditure selectApprovalExpenditure(HashMap<String, Object> searchMap);
+
+	ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap);
+
 
 
 	

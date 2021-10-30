@@ -385,4 +385,39 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 	}
 
+
+	@Override
+	public ApprovalDiploma selectApprovalDiploma(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalDiploma(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalHr selectApprovalHr(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalHr(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalMinutes selectApprovalMinutes(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalMinutes(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalExpenditure selectApprovalExpenditure(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalExpenditure(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalExDetails(sqlSession, searchMap);
+	}
+
 }
