@@ -187,4 +187,100 @@ public class RequestServiceImpl implements RequestService {
 		return requestId;
 	}
 
+	// 비품 신청목록에서 삭제
+	@Override
+	public void deleteListEq(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.deleteListEq(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("비품 목록 삭제 실패");
+		}
+	}
+
+	// 사원증 신청목록에서 삭제
+	@Override
+	public void deleteListId(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.deleteListId(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("사원증 목록 삭제 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 삭제
+	@Override
+	public void deleteOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.deleteOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 삭제 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 승인완료
+	@Override
+	public void confirmOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.confirmOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 승인완료 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 승인취소
+	@Override
+	public void cancelOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.cancelOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 승인취소 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 삭제
+	@Override
+	public void deleteOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.deleteOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException(" 사원증 상세페이지에서 삭제 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 승인완료
+	@Override
+	public void confirmOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.confirmOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException("사원증 상세페이지에서 승인완료 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 승인취소
+	@Override
+	public void cancelOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.cancelOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException("사원증 상세페이지에서 승인취소 실패");
+		}
+	}
+
 }
