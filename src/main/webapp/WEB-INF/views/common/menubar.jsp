@@ -47,7 +47,7 @@
 
       <!-- 마이페이지 -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" href="Mypage.mp">
           <i class="far fa-comments"></i>
         </a>
       </li>
@@ -362,7 +362,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
+                <a href="insert.hr" class="nav-link">
                   <p>사원 등록</p>
                 </a>
               </li>
