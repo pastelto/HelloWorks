@@ -183,16 +183,11 @@
                 <a href="draft.ml" class="nav-link">
                   <p>임시 보관함</p>
                 </a>
-              <li class="nav-item">
-                <a href="important.ml" class="nav-link">
-                  <p>중요 메일함</p>
-                </a>
-              </li>
+			  </li>
 			  <li class="nav-item">
                 <a href="trash.ml" class="nav-link">
                   <p>휴지통</p>
                 </a>
-              </li>
               </li>
             </ul>
           </li>

@@ -24,11 +24,14 @@
 							<h3 class="card-title">신청 내역</h3>
 							<c:if test="${ loginUser.deptCode eq 'A2'}">
 							<div class="float-right">
-								<button class="btn btn-default" id="confirmBtn">	
-									<i class="far fa-trash-alt">승인완료</i> 
+								<button class="btn btn-primary" id="confirmListBtn">	
+									<i class="far fa-circle"> 승인완료</i>
 								</button>
-								<button class="btn btn-default" id="cancelBtn">	
-									<i class="far fa-trash-alt">승인취소</i> 
+								<button class="btn btn-default" id="cancelListBtn">	
+									<i class="fas fa-times"> 승인취소</i>
+								</button>
+								<button class="btn btn-default" id="deleteListBtn">	
+									<i class="far fa-trash-alt"> 삭제</i>
 								</button>
 							</div>
 							</c:if>
@@ -51,7 +54,7 @@
 						<table id="eqListTable" class="table table-bordered table-striped">
 							<thead>
 								<tr align="center">
-									<th>비품신청번호</th>
+									<th>신청번호</th>
 									<th>비품신청인(사번)</th>
 									<th>부서</th>
 									<th>직급</th>
@@ -62,15 +65,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!-- 비품 신청 목록 띄우기 -->
-								
+								<!-- 비품 신청 목록 띄우기 -->								
 							</tbody>
 						</table>
 						<!-- 사원증 신청 목록 -->
 						<table id="idListTable" class="table table-bordered table-striped">
 							<thead>
 								<tr align="center">
-									<th>사원증신청번호</th>
+									<th>신청번호</th>
 									<th>사원증신청인(사번)</th>
 									<th>부서</th>
 									<th>직급</th>
@@ -98,7 +100,7 @@
     		});
     	}); */
 		
-		//비품 체크박스 모두 선택
+    	//비품 체크박스 모두 선택
 		$("input[name='updateEqAll']").click(function() {
 
 			if (($("input[name='updateEqAll']")).prop("checked")) {
@@ -118,8 +120,60 @@
 			}
 		});
 		
+		// 비품 신청 삭제
+		$("#deleteListBtn").click(function (){
+			var checkArr = [];
+			$("input[name='updateEqOne']:checked").each(function(){
+				var ckvalue = $(this).val();
+				console.log(ckvalue);
+				checkArr.push(ckvalue);
+			});
+			console.log(checkArr);
+			$.ajax({
+				  url : "deleteList.eq",
+				  type : "post",
+				  data : {
+					  checkArr : checkArr
+				  },
+				  success : function(result){
+				    if(result == "??!") {
+						alert("비품신청 삭제성공!");
+						//location.reload(true);
+						location.href = "request.menu"; //페이지 새로고침
+						//history.go(0);
+				    }
+				  }
+				});
+		});	
+		
+		// 사원증 신청 삭제
+		$("#deleteListBtn").click(function (){
+			var checkArr = [];
+			$("input[name='updateIdOne']:checked").each(function(){
+				var ckvalue = $(this).val();
+				console.log(ckvalue);
+				checkArr.push(ckvalue);
+			});
+			console.log(checkArr);
+			$.ajax({
+				  url : "deleteList.id",
+				  type : "post",
+				  data : {
+					  checkArr : checkArr
+				  },
+				  success : function(result){
+				    if(result == "??!") {
+						alert("사원증신청 삭제성공!");
+						//location.reload(true);//페이지 새로고침
+						location.href = "request.menu";
+						//history.go(0);
+				    }
+				  }
+				});
+		});
+		
 		// 비품- 선택한 항목:  제출 -> 승인완료  바꾸기
-		$("#confirmBtn").click(function (){
+		$("#confirmListBtn").click(function (){
 			var checkArr = [];
 			$("input[name='updateEqOne']:checked").each(function(){
 				var ckvalue = $(this).val();
@@ -139,12 +193,12 @@
 						location.reload(true);//페이지 새로고침
 						//location.href = location.href;
 						//history.go(0);
-				    } 
+				    }
 				  }
 				});
 		});
 		// 비품- 선택한 항목:  제출 -> 승인취소  바꾸기
-		$("#cancelBtn").click(function (){
+		$("#cancelListBtn").click(function (){
 			var checkArr = [];
 			$("input[name='updateEqOne']:checked").each(function(){
 				var ckvalue = $(this).val();
@@ -164,13 +218,13 @@
 						location.reload(true);//페이지 새로고침
 						//location.href = location.href;
 						//history.go(0);
-				    } 
+				    }  
 				  }
 				});
 		});
 		
 		// 사원증- 선택한 항목:  제출 -> 승인완료  바꾸기
-		$("#confirmBtn").click(function (){
+		$("#confirmListBtn").click(function (){
 			var checkArr = [];
 			$("input[name='updateIdOne']:checked").each(function(){
 				var ckvalue = $(this).val();
@@ -195,7 +249,7 @@
 				});
 		});
 		// 사원증- 선택한 항목:  제출 -> 승인취소  바꾸기
-		$("#cancelBtn").click(function (){
+		$("#cancelListBtn").click(function (){
 			var checkArr = [];
 			$("input[name='updateIdOne']:checked").each(function(){
 				var ckvalue = $(this).val();
@@ -297,12 +351,6 @@
 								}
 							});
 							$("#idListTable tbody").html(value);
-							/* $(function(){
-					    		$("#eqListTable>tbody>tr>td").click(function(){
-					    			console.log("hi");
-					    			location.href="detail.eq?requestEqNo=" + $(this).children().eq(0).text();
-					    		});
-					    	}); */
 						},error:function(){
 							console.log("사원증리스트 ajax 통신 실패");
 						}

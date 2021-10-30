@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mailMapper">
+
+	<!-- 메일 -->
+	<resultMap id="mailResultSet" type="Mail">
+		<id property="mailNo" column="MAIL_NO" />
+		<result property="mailRcvr" column="MAIL_RCVR" />
+		<result property="mailSndr" column="MAIL_SNDR" />
+		<result property="mailRef" column="MAIL_REF" />
+		<result property="mailTitle" column="MAIL_TITLE" />
+		<result property="mailContent" column="MAIL_CONTENT" />
+		<result property="mailDate" column="MAIL_DATE" />
+		<result property="mailStatus" column="MAIL_STATUS" />
+		<result property="mailSStatus" column="MAIL_S_STATUS" />
+		<result property="mailRStatus" column="MAIL_R_STATUS" />
+		<result property="mailSndrName" column="EMP_NAME" />
+		<result property="mailSndrDept" column="DEPT_DNAME" />
+		<result property="mailSndrJobName" column="JOB_NAME" />
+		<result property="mailRcvrNo" column="MAIL_RCVR_NO" />
+		<result property="mailRcvrName" column="MAIL_RCVR_NAME" />
+		<result property="mailRcvrDept" column="MAIL_RCVR_DNAME" />
+		<result property="mailRcvrJobName" column="MAIL_RCVR_JOBNAME" />
+	</resultMap>
+	
+	<!-- 메일첨부파일 -->
+	<resultMap id="mailAttachmentResultSet" type="MailAttachment">
+		<id property="mailAtNo" column="MAIL_AT_NO" />
+		<result property="mailNo" column="MAIL_NO" />
+		<result property="mailAtOrg" column="MAIL_AT_ORG" />
+		<result property="mailAtChg" column="MAIL_AT_CHG" />
+		<result property="mailAtDate" column="MAIL_AT_DATE" />
+	</resultMap>
+	
+	<!-- 수신자정보 -->
+	<resultMap id="mailRcvrInfoResultSet" type="Employee">
+		<id property="empNo" column="EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
+	</resultMap>
+	
+	<!-- 메일보내기 -->
+	<insert id="sendMail" parameterType="Mail">
+		INSERT INTO
+		MAIL
+		VALUES
+		(SEQ_ES_MAIL_NO.NEXTVAL, #{mailRcvr}, #{mailSndr}, #{mailRef}, #{mailTitle}, 
+		#{mailContent}, SYSDATE, 'Y', #{mailRcvr})
+	</insert>
+	
+	<!-- 첨부파일저장 -->
+	<insert id="insertMailAttach" parameterType="MailAttachment">
+		INSERT INTO
+		MAIL_ATTACHMENT
+		VALUES
+		(SEQ_MAIL_AT_NO.NEXTVAL, SEQ_ES_MAIL_NO.CURRVAL, #{mailAtOrg}, #{mailAtChg}, SYSDATE)
+	</insert>
+	
+	<!--수신자 정보 저장위해  메일 수신자 정보 가져오기 -->
+	<select id="getEmpInfo" parameterType="_int" resultMap="mailRcvrInfoResultSet">
+		SELECT A.EMP_NO, A.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.EMP_NO = #{rEmpNo}
+	</select>
+	
+	<!--메일 수신자 정보 저장 -->
+	<insert id="insertMailRcvrInfo" parameterType="Mail">
+		INSERT INTO
+		MAIL_INFO
+		VALUES
+		(SEQ_ES_MAIL_NO.CURRVAL, #{mailSndr}, #{mailRcvrName}, #{mailRcvrDept}, #{mailRcvrJobName})
+	</insert>
+	
+	<!-- 받은 메일목록 -->
+	<select id="inboxMailList" resultMap="mailResultSet">
+		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_SNDR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
+		FROM MAIL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (MAIL_RCVR LIKE '%'||#{empNo}||'%' OR MAIL_RCVR LIKE '%'||#{deptCode}||'%')
+		AND MAIL_STATUS = 'Y'
+		ORDER BY A.MAIL_NO DESC
+	</select>
+	
+	<!-- 메일 상세조회 -->
+	<select id="readMail" parameterType="_int" resultMap="mailResultSet">
+        SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM MAIL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE MAIL_NO = #{mailNo}
+		AND MAIL_STATUS = 'Y'
+	</select>
+	
+	<!-- 메일 수신인 읽음처리 -->
+	<update id="readStatusMail" parameterType="_int">
+        UPDATE MAIL
+		SET MAIL_R_STATUS = 0
+		WHERE MAIL_NO = #{mailNo}
+	</update>
+	
+	<!--  메일 첨부파일조회 -->
+	<select id="readMailAttachment" parameterType="_int" resultMap="mailAttachmentResultSet">
+        SELECT *
+		FROM MAIL_ATTACHMENT
+		WHERE MAIL_NO = #{mailNo}
+	</select>
+	
+	<!-- 보낸 메일목록 -->
+<!-- 	<select id="sentMailList" parameterType="Mail" resultMap="mailResultSet">
+		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_RCVR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
+		FROM MAIL A
+		JOIN EMPLOYEE B ON B.EMP_NO = #{mailNo}
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE MAIL_SNDR = #{mailSndr}
+		AND MAIL_STATUS = 'Y'
+		ORDER BY A.MAIL_NO DESC
+	</select> -->
+	
+	<!-- 보낸메일목록 -->
+	<select id="sentMailList" parameterType="_int" resultMap="mailResultSet">
+	    SELECT *
+		FROM MAIL 
+		WHERE MAIL_SNDR = #{myEmp}
+		AND MAIL_STATUS IN ('Y','A','D')
+		ORDER BY MAIL_NO DESC
+	</select>
+	
+	<!-- 수신자정보 -->
+	<select id="getRcvrInfo" parameterType="Mail" resultMap="mailResultSet">
+	    SELECT *
+        FROM MAIL_INFO
+        WHERE MAIL_RCVR_NO = #{mailRcvrNo}
+        AND MAIL_NO = #{mailNo}
+    </select>
+	
+	<!-- 메일가져오기 -->
+<!-- 	<select id="getMail" parameterType="Mail" resultMap="mailResultSet">
+		SELECT MAIL_NO, MAIL_RCVR
+		FROM MAIL 
+		WHERE (MAIL_RCVR LIKE '%'||#{mailNo}||'%' OR MAIL_RCVR LIKE '%'||#{mailRcvrDept}||'%')
+		AND MAIL_STATUS = 'Y'
+		ORDER BY MAIL_NO DESC
+	</select> -->
+
+	
+	<!-- 임시보관 메일목록 -->
+<!-- 	<select id="draftMailList" resultMap="mailResultSet">
+		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_SNDR, A.MAIL_RCVR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
+		FROM MAIL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (MAIL_RCVR LIKE '%'||#{empNo}||'%' OR MAIL_RCVR LIKE '%'||#{deptCode}||'%')
+		AND MAIL_STATUS = 'S'
+		ORDER BY A.MAIL_NO DESC;
+	</select> -->
+	
+	<!-- 휴지통 메일목록 -->
+<!-- 	<select id="trashMailList" resultMap="mailResultSet">
+		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_SNDR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
+		FROM MAIL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (MAIL_RCVR LIKE '%'||#{empNo}||'%' OR MAIL_RCVR LIKE '%'||#{deptCode}||'%')
+		AND MAIL_STATUS = 'N'
+		ORDER BY A.MAIL_NO DESC 
+	</select>	-->
+	
+</mapper>

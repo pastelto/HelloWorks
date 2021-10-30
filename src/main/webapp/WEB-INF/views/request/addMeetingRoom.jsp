@@ -36,7 +36,7 @@
 					</tr>
 					<tr align="center">
 						<td colspan="3"><span>회의실 수용인원</span></td>
-						<td colspan="6"><input type=text class="form-control"
+						<td colspan="6"><input type=number class="form-control"
 							id="mMCapacity" name="mMCapacity"></td>
 					</tr>
 				</table>

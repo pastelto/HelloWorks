@@ -197,11 +197,7 @@
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 	
-	<script>
-	
-
-		
-	</script>	   
+	   
 	<script>
       $(function() {             
          $("#weekselect").attr("style", "display:none");

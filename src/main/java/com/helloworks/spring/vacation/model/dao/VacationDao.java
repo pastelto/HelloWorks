@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 import com.helloworks.spring.vacation.model.vo.VacationCC;
 import com.helloworks.spring.vacation.model.vo.VacationLine;
@@ -43,6 +44,12 @@ public class VacationDao {
 	public int insertAttendance(SqlSessionTemplate sqlSession, ApprovalAttendance apA) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("vacationMapper.insertAttendance", apA);
+	}
+	
+	//사용자 연차정보조회
+	public LoginUserVacation selectAnnual(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.selectAnnual", empNo);
 	}
 
 }
