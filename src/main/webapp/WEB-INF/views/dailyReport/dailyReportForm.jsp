@@ -10,7 +10,7 @@
 <title>일일보고</title>
 
 <!-- summernote -->
- <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
+<link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 
 <style>
 	th{
@@ -82,7 +82,7 @@
 												<th>보고유형</th>
 												<td colspan="3">
 													&nbsp;
-													<input type="radio" id="DR" value="D" name="drCategory"> 일일보고
+													<input type="radio" id="DR" value="D" name="drCategory" checked> 일일보고
 													&nbsp;&nbsp;&nbsp;
 													<input type="radio" id="WR" value="W" name="drCategory"> 주간보고
 													&nbsp;&nbsp;&nbsp;
@@ -98,7 +98,7 @@
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp()">직원 검색</button>
 												&nbsp;&nbsp;
 												<div id="receiveListDiv">
-												
+												<input type="hidden" id="checking" name="checking">
 												<!-- <b><span class="badge badge-info" id="receiveListTag"></span></b>
 												<input type="text" id="receiveListKey" name="drReceiverList">
 												<b><span class="badge badge-info" id="receiveDeptTag"></span></b> -->
@@ -245,15 +245,27 @@
 	<!-- 일일보고 발송 버튼 -->
 	<script>
 		function submitFunc(){
-			var check = $("input[name=drReceiverList]").val()
+			//var check = $("input[name=checking]").val()
 			
-			if( check == ""){
+			//alert($("input[name=drCategory]:checked").val())
+			
+			if($("input[name=checking]").val() == ""){
 				alert("수신직원을 선택해주세요.")
+			}else if($("input[name=drTitle]").val()==""){
+				alert("제목을 입력해주세요.")
+			}else if($("#summernote").val()==""){
+				alert("내용을 입력해주세요.")
 			}else{
-				$("#enrollForm").attr("action", "<%=request.getContextPath()%>/insertDailyReport.dr");
-				$("#enrollForm").submit();
-				confirm("저장 후 수정이 불가합니다. 저장하시겠습니까?");
+				if(confirm("저장 후 수정이 불가합니다. 제출하시겠습니까?") == true){
+					
+					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/insertDailyReport.dr");
+					$("#enrollForm").submit();
+				}else{   
+				   //취소 버튼 눌렀을 때 실행 할 코드
+				   return false;
+				}
 			}
+			
 		}
 	</script>
 	
