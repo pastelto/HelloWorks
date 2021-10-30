@@ -253,7 +253,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 
 	@Override
-	public ApprovalLine selectApprovalLine(HashMap<String, Object> searchMap) {
+	public ArrayList<ApprovalLine> selectApprovalLine(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
 		return approvalDao.selectApprovalLine(sqlSession, searchMap);
 	}
@@ -263,6 +263,126 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public Approval selectAttachDetail(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
 		return approvalDao.selectAttachDetail(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public void updateApproval(Approval ap) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateApproval(sqlSession, ap);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateAttachment(Approval ap) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateAttachment(sqlSession, ap);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+
+	}
+	
+	@Override
+	public void updateCcEmpl(ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateCcEmpl(sqlSession, ac);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateCcDept(ApprovalCC ac) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateCcDept(sqlSession, ac);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateExpenditure(ApprovalExpenditure ae) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateExpenditure(sqlSession, ae);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateExpenditureDetail(ApprovalExDetails ad) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateExpenditureDetail(sqlSession, ad);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateLine(ApprovalLine line) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateLine(sqlSession, line);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updatetHr(ApprovalHr ah) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updatetHr(sqlSession, ah);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateMinutes(ApprovalMinutes am) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateMinutes(sqlSession, am);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void updateDiploma(ApprovalDiploma ad) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateDiploma(sqlSession, ad);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+	}
+
+
+	@Override
+	public void deleteLine(int apNo) {
+		int result = approvalDao.deleteLine(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
 	}
 
 }

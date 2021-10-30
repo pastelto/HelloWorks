@@ -66,7 +66,7 @@
            </div>
          </div>
          
-              <!-- 메뉴바 -> 특정 탭 연결 -->     
+     <!-- 메뉴바 -> 특정 탭 연결 -->     
      <c:choose>
  		<c:when test="${ page == 1 }">
 			<script>
