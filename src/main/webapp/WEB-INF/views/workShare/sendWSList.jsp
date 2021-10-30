@@ -21,10 +21,10 @@
 						<tr>
 							<th>검색 조건</th>
 							<td>
-							<form action="searchEmployee.or">
+							<form action="searchUnchecked.ws">
 							<div class="row" style="margin-left: 0px;">
 									&nbsp;&nbsp;
-									<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllRecvList();">전체보기</button>
+									<button id="allSendWS" type="button" class="btn btn-default btn-sm" onclick="selectAllSend();">전체보기</button>
 									&nbsp;&nbsp;
 									
 										<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="searchSelect(this.value);">
@@ -64,7 +64,7 @@
                   <thead align="center">
                     <tr>
                       <th width="10px;">No.</th>
-                      <th width="10px;">⭐</th>
+                      <th width="10px;"><i class="fas fa-star text-warning"></i></th>
                       <th width="40%;">제목</th>
                       <th width="10%;">발신인</th>
                       <th width="10%;">수신인원</th>
@@ -77,7 +77,7 @@
 	                    <tr>
 	                        <td>${ ws.ws_no }</td>
 	                        <c:if test="${ ws_favb eq Y }">
-	                        	<td id="${ ws_no }" class="btn-like" onclick="clickFavb('${ ws_no }');">⭐</td>
+	                        	<td id="${ ws_no }"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
 	                        </c:if>
 	                        <c:if test="${ ws_favb ne Y }">
 	                        	<td width="10px;">&nbsp;</td>
@@ -107,5 +107,49 @@
 	  </div>
     </section>
 
+	<!-- 검색창 reset -->
+	<script>
+		function resetSearch(){
+			$("#optionType>option").eq(0).attr("selected", true);
+			$("#searchInput").val("");
+		}
+	</script>
+
+	<script>		
+	
+	function selectAllSend(){
+	
+	resetSearch();
+	
+	$.ajax({
+		url: "selectAllEmployee.or",
+		type: "post",
+		success:function(list){
+			
+			var value="";
+			
+			$.each(list, function(i, obj){
+				
+				value +="<tr>"+
+				"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
+				"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
+				"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+				"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
+				"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
+				"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
+				"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
+				"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+				"</tr>";
+			});
+			
+			$("#employeeTable>tbody").html(value);
+			$("#sortOption").text("전체");
+		},
+		error:function(){
+			console.log("직원 전체 검색 ajax 통신 실패")
+		}
+	})
+} 
+</script>
 </body>
 </html>

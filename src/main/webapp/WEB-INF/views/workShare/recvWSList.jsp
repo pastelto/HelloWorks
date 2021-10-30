@@ -64,7 +64,7 @@
                   <thead align="center">
                     <tr>
                       <th width="10px;">No.</th>
-                      <th width="10px;">⭐</th>
+                      <th width="10px;"><i class="fas fa-star text-warning"></i></th>
                       <th width="500px;">제목</th>
                       <th width="50px;">발신인</th>
                       <th width="50px;">등록일</th>
@@ -75,7 +75,7 @@
 	                    <tr>
 	                        <td width="10px;">${ ws.ws_no }</td>
 	                        <c:if test="${ ws_favb eq Y }">
-	                        	<td id="${ ws_no }" class="btn-like" width="10px;" onclick="clickFavb('${ ws_no }');">⭐</td>
+	                        	<td id="${ ws_no }" width="10px;"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
 	                        </c:if>
 	                        <c:if test="${ ws_favb ne Y }">
 	                        	<td width="10px;">&nbsp;</td>
