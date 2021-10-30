@@ -62,7 +62,7 @@
 									<jsp:include page="./temporaryExpenditure.jsp" />
 				 			</div>
 				 			<div class="tab-pane fade " id="custom-tabs-attendance" role="tabpanel" aria-labelledby="custom-tabs-attendance-tab">
-									<!-- 지출결재 -->
+									<!-- 근태 -->
 									<!--<jsp:include page="./temporaryExpenditure.jsp" />-->
 				 			</div>																										                  
 		                </div>
@@ -124,6 +124,31 @@
 	
 	
 	<jsp:include page="../common/footer.jsp" />
+	
+	<!-- detail view -->
+	<script> 
+		function detailApproval(apNo, detailClass){
+			
+			switch(detailClass){
+				case "기안" :
+					location.href="<%=request.getContextPath()%>/normalTempDetail.ea?apNo="+ apNo;
+					break;
+				case "공문" :
+					location.href="<%=request.getContextPath()%>/diplomaTempDetail.ea?apNo="+ apNo;
+					break;
+				case "인사" :
+					location.href="<%=request.getContextPath()%>/hrTempDetail.ea?apNo="+ apNo;
+					break;
+				case "회의" :
+					location.href="<%=request.getContextPath()%>/minutesTempDetail.ea?apNo="+ apNo;
+					break;
+				case "지출" :
+					location.href="<%=request.getContextPath()%>/expenditureTempDetail.ea?apNo="+ apNo;
+					break;
+			}
+			
+		}
+	</script>
 	
 	
 	

@@ -70,10 +70,11 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
-							<!-- 기안서 -->
-							<div class="card card-outline card-info" id="normal_div">
+							<!-- 회의록  -->
+							
+							<div class="card card-outline card-info" id="minut_div">
 								<div class="card-header" >
-									<h3 class="card-title" >기안서</h3>
+									<h3 class="card-title" >회의록</h3>
 								</div>
 								<div class="card-body">
 									<table width="400px" style="font-size:0.8em;" height="50px" align="right">
@@ -93,42 +94,42 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${loginUser.jobName}" readonly/>
-																</th>																																																																
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
+																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level1" id="emp_level1_1" name="job" readonly/>
+																	<input type="text" class="border_none" id="emp_level3_1" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >																
-																	<input type="text" class="emp_level2" id="emp_level1_2" name="job" readonly/>																	
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level3_2" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >																
-																	<input type="text" class="emp_level2" id="emp_level1_3" name="job" readonly/>																	
-																</th>		
-																<th class="table emp_level" scope="col" >																
-																	<input type="text" class="emp_level2" id="emp_level1_4" name="job" readonly/>																	
-																</th>																																						
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level3_3" name="job" readonly/>
+																</th>
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level3_4" name="job" readonly/>
+																</th>															
 															</tr>
 															<tr>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name0" id="emp_name0" value="${loginUser.empName}" disabled/>
-																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
+																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name1" id="emp_name1_1" name="job" readonly/>
-																	<input type="hidden" class="line1" id="line1_1" name="line">
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name3_1" name="lineName"  readonly/>
+																	<input type="hidden" id="line3_1" name="line" >
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name2" id="emp_name1_2" name="job" readonly/>
-																	<input type="hidden" class="line2" id="line1_2" name="line" >
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name3_2" name="lineName" readonly/>
+																	<input type="hidden" id="line3_2" name="line" >
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name3" id="emp_name1_3" name="job" readonly/>
-																	<input type="hidden" class="line3" id="line1_3" name="line" >
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name3_3" name="lineName" readonly/>
+																	<input type="hidden" id="line3_3" name="line" >
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name4" id="emp_name1_4" name="job" readonly/>
-																	<input type="hidden" class="line4" id="line1_4" name="line" >
-																</td>
+																<td class="table emp_name"scope="col" >
+																	<input type="text" class="border_none" id="emp_name3_4" name="lineName" readonly/>
+																	<input type="hidden" id="line3_4" name="line" >
+																</td>											
 															</tr>
 														</tbody>
 													</table>
@@ -148,34 +149,34 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
+																	<input type="text" class="coo_level3_1" id="coo_level3_1" name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
+																	<input type="text" class="coo_level3_2" id="coo_level3_2" disabled/>
 																</th>
 																<th class="table coo_level"  scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
+																	<input type="text" class="coo_level3_3" id="coo_level3_3" disabled/>
 																</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
+																	<input type="text" class="coo_level3_4" id="coo_level3_4" disabled/>
 																</th>											
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
-																	<input type="hidden" id="cooperator1_1" name="cooperator0">
+																	<input type="text" class="coo_name3_1" id="coo_name3_1" disabled/>
+																	<input type="hidden" id="cooperator3_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
-																	<input type="hidden" id="cooperator1_2" name="cooperator1" >
+																	<input type="text" class="coo_name3_2" id="coo_name3_2" disabled/>
+																	<input type="hidden" id="cooperator3_2" name="cooperator1" >
 																</td>
 																<td class="table coo_name" scop="col">
-																	<input type="text" class="coo_name1_3" id="coo_name1_3" disabled/>
-																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
+																	<input type="text" class="coo_name3_3" id="coo_name3_3" disabled/>
+																	<input type="hidden" id="cooperator3_3" name="cooperator2" >
 																</td>
 																<td class="table coo_name" scop="col">
-																	<span id="emp_name3"></span>
-																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
+																	<input type="text" class="coo_name3_4" id="coo_name3_4" disabled/>
+																	<input type="hidden" id="cooperator3_4" name="cooperator3" >
 																</td>										
 															</tr>
 														</tbody>
@@ -184,8 +185,8 @@
 											</tr>
 											<tr>
 												<td colspan="2" align="right">
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(1);">+ 결재라인 추가</button>
-													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusCoo(1);">+ 협조 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusLine(3);">+ 결재라인 추가</button>
+													<button type="button" class="btn btn-default" style="font-size:0.8rem" id="plus_line_btn" onclick="plusCoo(3);">+ 협조 추가</button>
 												</td>
 											</tr>										
 										</tbody>
@@ -199,14 +200,14 @@
 														<td width="10%" colspan="3">
 															<span>수신참조 </span>												
 														</td>
-														<td colspan="6" style="text-align:left !important;">
+														<td colspan="6">											
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" />	
-															<input type="hidden" id="ccCode1" name="ccCode"/>
+															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%"/>	
+															<input type="hidden" id="ccCode3" name="ccCode"/>
 															<div class="input-group-append">															
-																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
+																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(3);">수신자등록</button>																				
 															</div>
-														</div>
+														</div>	
 														</td>
 													</tr>
 													<tr>
@@ -214,7 +215,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="6">
-															<input type=text class="form-control" id="ap_title" name="ap_title" value="${approval.title}">
+															<input type=text class="form-control" id="ap_title" name="ap_title">
 														</td>
 													</tr>
 													<tr>
@@ -232,7 +233,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" id="fieldWriter1" class="form-control" value="${loginUser.empName}" />
+															<input type="text" id="fieldWriter3" class="form-control" value="${loginUser.empName}" />
 														</td>
 													</tr>
 													<tr>
@@ -240,25 +241,37 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${loginUser.deptDname}" /> 
+															<input type="text" name="userDept" id="userDept3" class="form-control" value="${loginUser.deptDname}" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<span>회의 이름</span>
+														</td>
+														<td colspan="6">
+															<input type=text class="form-control" id="mm_title" name="mm_title">
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<span>참석자 </span>												
+														</td>
+														<td colspan="6">											
+															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>	
+															<input type="text" id="attendees" name="attendees"/>																				
 														</td>
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote" name="apContent">${approval.content}</textarea>
+															<textarea id="summernote3" name="apContent"></textarea>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="3">
 															<span>부서공유</span>
 														</td>
-														<td colspan="6">	
-														<c:if test="${approval.deptShare eq 'Y'}">										
-															<input type="checkbox" id="deptShare" name="deptShare" value='Y' checked/> 
-														</c:if>
-														<c:if test="${approval.deptShare eq 'N'}">										
+														<td colspan="6">													
 															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
-														</c:if>														
 															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
@@ -283,13 +296,13 @@
 													<tr>
 													<tr id="fileRow">
 														<td colspan="5">
-															 <span class="normalAttachName">${apAttach.originName}</span>
+															 <span class="normalAttachName"></span>
 														</td >
 														<td colspan="2">
 															<span class="normalAttachSize"></span>
 														</td>
 														<td colspan="2">
-															<button type="button" class="btn btn-danger" style="font-size:1em" onclick="deletefile();">삭제</button>
+															<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
 														</td>
 													</tr>
 													</tbody>
@@ -298,7 +311,7 @@
 										</tr>
 									</table>
 								</div>
-							</div>																						
+							</div>				
 						</div>
 					</div>
 				</div>
@@ -331,9 +344,9 @@
 		var n=1;
 		
 		for(var i=0;i<arr.length;i++){
-			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
-			$('input[id="emp_name1_'+n+'"]').val(arr[i].name);
-			$('input[id="line1_'+n+'"]').val(arr[i].number);
+			$('input[id="emp_level3_'+n+'"]').val(arr[i].job);
+			$('input[id="emp_name3_'+n+'"]').val(arr[i].name);
+			$('input[id="line3_'+n+'"]').val(arr[i].number);
 			n++;
 		}
 	</script>
