@@ -1,6 +1,7 @@
 package com.helloworks.spring.vacation.model.service;
 
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 import com.helloworks.spring.vacation.model.vo.VacationCC;
 import com.helloworks.spring.vacation.model.vo.VacationLine;
@@ -20,5 +21,8 @@ public interface VacationService {
 	//근태구분 결재
 	void insertVacation(Vacation vacation);
 	void insertAttendance(ApprovalAttendance apA);
+
+	//사용자 연차 조회
+	LoginUserVacation selectAnnual(int empNo);
 
 }

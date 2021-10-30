@@ -16,8 +16,7 @@
 								</div>
 								<div class="card-body">
 									<input type="hidden" value="휴가구분" name="datailType"/>
-									<table width="400px" style="font-size: 0.8em;" height="50px"
-										align="right">
+									<table width="400px" style="font-size: 0.8em;" height="50px" align="right">
 										<tbody>
 											<tr>
 												<td>
@@ -31,47 +30,45 @@
 															<col width="17%" />
 														</colgroup>
 														<tbody>
-															<tr>
-																<th rowspan="2" scope="col">결재</th>
-																<th class="table emp_level" scope="col"><input
-																	type="text" class="emp_level0" id="emp_level1_0"
-																	name="writerJob" value="${loginUser.jobName}" readonly />
+																<tr>															
+																<th rowspan="2"  scope="col">결재</th>
+																<th class="table emp_level" scope="col">
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
-																<th class="table emp_level" scope="col"><input
-																	type="text" class="emp_level1" id="emp_level1_1"
-																	name="job" readonly /></th>
-																<th class="table emp_level" scope="col"><input
-																	type="text" class="emp_level2" id="emp_level1_2"
-																	name="job" readonly /></th>
-																<th class="table emp_level" scope="col"><input
-																	type="text" class="emp_level3" id="emp_level1_3"
-																	name="job" readonly /></th>
-																<th class="table emp_level" scope="col"><input
-																	type="text" class="emp_level4" id="emp_level1_4"
-																	name="job" readonly /></th>
+																<th class="table emp_level" scope="col">
+																	<input type="text" class="border_none" id="emp_level2_1" name="job" readonly/>
+																</th>
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level2_2" name="job"  readonly/>
+																</th>
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level2_3" name="job" readonly/>
+																</th>
+																<th class="table emp_level" scope="col" >
+																	<input type="text" class="border_none" id="emp_level2_4" name="job" readonly/>
+																</th>															
 															</tr>
 															<tr>
-																<td class="table emp_name" scope="col"><input
-																	type="text" class="emp_name0" id="emp_name0"
-																	value="${loginUser.empName}" disabled /> <input
-																	type="hidden" class="line0" id="writer" name="writer"
-																	value="${loginUser.empNo}"></td>
-																<td class="table emp_name" scope="col"><input
-																	type="text" class="emp_name1" id="emp_name1_1"
-																	name="lineName" readonly /> <input type="hidden"
-																	class="line1" id="line1_1" name="line"></td>
-																<td class="table emp_name" scope="col"><input
-																	type="text" class="emp_name2" id="emp_name1_2"
-																	name="lineName" readonly /> <input type="hidden"
-																	class="line2" id="line1_2" name="line"></td>
-																<td class="table emp_name" scope="col"><input
-																	type="text" class="emp_name3" id="emp_name1_3"
-																	name="lineName" readonly /> <input type="hidden"
-																	class="line3" id="line1_3" name="line"></td>
-																<td class="table emp_name" scope="col"><input
-																	type="text" class="emp_name4" id="emp_name1_4"
-																	name="lineName" readonly /> <input type="hidden"
-																	class="line4" id="line1_4" name="line"></td>
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
+																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
+																</td>
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name2_1" name="lineName" readonly/>
+																	<input type="hidden" id="line2_1" name="line" >
+																</td>
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name2_2" name="lineName" readonly/>
+																	<input type="hidden" id="line2_2" name="line" >
+																</td>
+																<td class="table emp_name" scope="col" >
+																	<input type="text" class="border_none" id="emp_name2_3" name="lineName" readonly/>
+																	<input type="hidden" id="line2_3" name="line" >
+																</td>
+																<td class="table emp_name"scope="col" >
+																	<input type="text" class="border_none" id="emp_name2_4" name="lineName" readonly/>
+																	<input type="hidden" id="line2_4" name="line" >
+																</td>											
 															</tr>
 														</tbody>
 													</table>
@@ -82,13 +79,12 @@
 												<td colspan="2" align="right">
 													<button type="button" class="btn btn-default"
 														style="font-size: 0.8rem" id="plus_line_btn"
-														onclick="plusLine(1);">+ 결재라인 추가</button>
+														onclick="plusLine(2);">+ 결재라인 추가</button>
 												</td>
 											</tr>
 										</tbody>
 									</table>
-									<table width="100%" style="font-size: 0.8rem"
-										vertical-align="middle">
+									<table width="100%" style="font-size: 0.8rem" vertical-align="middle">
 										<tr>
 											<td>
 												<table class="table table-bordered" id="detail_table">
@@ -110,19 +106,19 @@
 															<td width="10%" colspan="3"><span>수신참조 </span></td>
 															<td colspan="6" style="text-align: left !important;">
 																<div class="input-group" style="width: 30% !important;">
-																	<input type="text" id="ccName1" class="form-control"
+																	<input type="text" id="ccName2" class="form-control"
 																		name="ccName" width="30%" /> <input type="hidden"
-																		id="ccCode1" name="ccCode" />
+																		id="ccCode2" name="ccCode" />
 																	<div class="input-group-append">
 																		<button type="button" class="btn btn-default"
-																			style="font-size: 0.8rem" onclick="pLUSCC(1);">수신자등록</button>
+																			style="font-size: 0.8rem" onclick="pLUSCC(2);">수신자등록</button>
 																	</div>
 																</div>
 															</td>
 														</tr>
 														<tr>
 															<td colspan="3"><span>제목</span></td>
-															<td colspan="6"><input type=text
+															<td colspan="6"><input type="text"
 																class="form-control" id="ap_title" name="ap_title">
 															</td>
 														</tr>
@@ -159,8 +155,7 @@
 															</td>
 														</tr>
 														<tr>
-															<td colspan="9"><textarea id="summernote2"
-																	name="apContent"></textarea></td>
+															<td colspan="9"><textarea id="summernote2" name="apContent"></textarea></td>
 														</tr>
 														<tr>
 															<td colspan="3"><span>부서공유</span></td>
@@ -204,10 +199,10 @@
 									<!-- footer -->
 										<div class="card-footer">
 											<div class="float-right">
-												<button id="tempSaveBtn" type="button"
+												<button id="tempSaveBt" type="button"
 												class="btn btn-secondary btn-sm" >임시저장</button>
 												&nbsp;
-												<button id="submitBtn" type="button"
+												<button id="submitBT" type="button"
 												class="btn btn-primary btn-sm">등록</button>
 												&nbsp;
 												<button type="reset" class="btn btn-danger btn-sm">취소</button>
@@ -219,6 +214,7 @@
 								</div>
 							</div>
 					</form>	
+					
 					
 
         <script>
@@ -235,7 +231,7 @@
     		
     	}
 		$(function(){
-			$('#submitBtn').click(function(){
+			$('#submitBT').click(function(){
 				$('#attendanceApro').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
 				$('#attendanceApro').submit();
 				
@@ -243,7 +239,7 @@
 		});
 		
 		$(function(){
-			$('#tempSaveBtn').click(function(){
+			$('#tempSaveBt').click(function(){
 				$('#attendanceApro').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=N");
 				$('#attendanceApro').submit();
 				

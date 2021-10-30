@@ -206,6 +206,7 @@
 	 var eDate = $("#eDate").val();
 	 console.log("끝 : " + eDate);
 	 }); */
+ 	
 
 	function submitValidate() {
 		if (($('#place').val() == "")) {
@@ -228,11 +229,13 @@
 			alert("종료날짜를 입력해 주세요")
 			return false;
 		}
-		if (($('#eqName').val() == "")) {
+		
+/* 		
+ 		if ($('input:radio[name= eqName]).is(':checked')) {
 			$("#eRequestForm input[name=eqName]").focus();
 			alert("비품명을 입력해 주세요")
 			return false;
-		}
+		}  */
 		return true;
 	}
 </script>

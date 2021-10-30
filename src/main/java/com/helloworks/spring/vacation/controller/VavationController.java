@@ -25,6 +25,7 @@ import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 import com.helloworks.spring.vacation.model.vo.VacationCC;
 import com.helloworks.spring.vacation.model.vo.VacationLine;
@@ -38,11 +39,36 @@ public class VavationController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
-	//페이지 전환
+	//페이지 전환 + 연차 잔여일 받아오기 
 	@RequestMapping("vacationForm.ps")
-	public String attendanceApiView() {
-		System.out.println("근태현황 api  페이지 전환");
+	public String attendanceApiView(HttpServletRequest request, Model model) {
+		
+		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	 
+		
+		
+		LoginUserVacation annual = vacationService.selectAnnual(empNo);
+		
+		String loginUserAnnual = changeTime(annual.getAppliedAnnual());
+		
+		model.addAttribute("loginUserAnnual", loginUserAnnual);
+		
 		return "vacation/AllForm";
+	}
+	
+	//초를 -> 일로 변환하는 메소드
+	public String changeTime(int num) {
+		
+		int totalSec = num;
+		
+		int day = totalSec/ (60*60*24);
+		int hour =(totalSec -day*60*60*24) / (60*60);
+		int minute = (totalSec - day * 60*60*24 - hour *3600) / 60 ;
+		int second = totalSec % 60;
+		
+		String result = day+"일 " + hour+"시간 ";
+		
+		return result;
+		
 	}
 	
 	//페이지 전환
@@ -174,7 +200,7 @@ public class VavationController {
 			}
 		}
 
-		
+		System.out.println("~@@@@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + ccCode);
 								
 		// 결재라인 등록  
 		insertLine(line, request);		
@@ -293,6 +319,10 @@ public class VavationController {
 		apA.setStartDate(startDate); // 요청시작일
 		apA.setEndDate(endDate); // 요청 종료일
 		apA.setVcType(vcType);// 휴가종류
+		
+
+		System.out.println("~@@@@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + apA);
+		
 		
 		vacationService.insertVacation(vacation); 
 		vacationService.insertAttendance(apA);
