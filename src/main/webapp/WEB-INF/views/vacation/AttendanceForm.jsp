@@ -125,7 +125,7 @@
 																	</select>&nbsp;
 
 
-																	<div id="bluetitle">[잔여일: 12일 1시간]</div>
+																	<div id="bluetitle">[잔여일:&nbsp;&nbsp; ${ loginUserAnnual} ]</div>
 																</div>
 
 															</td>
@@ -146,8 +146,8 @@
 														</tr>
 														<tr>
 															<td colspan="3"><span>제목</span></td>
-															<td colspan="6"><input type=text
-																class="form-control" id="ap_title" name="ap_title">
+															<td colspan="6">
+															<input type=text class="form-control" id="ap_title" name="ap_title">
 															</td>
 														</tr>
 														<tr>
