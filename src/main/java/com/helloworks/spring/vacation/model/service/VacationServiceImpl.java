@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.vacation.model.dao.VacationDao;
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 import com.helloworks.spring.vacation.model.vo.VacationCC;
 import com.helloworks.spring.vacation.model.vo.VacationLine;
@@ -80,5 +81,12 @@ public class VacationServiceImpl implements VacationService {
 			throw new CommException("결재 등록 실패");
 		}
 		
+	}
+	
+	//사용자 연차 정보조회
+	@Override
+	public LoginUserVacation selectAnnual(int empNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.selectAnnual(sqlSession, empNo);
 	}
 }

@@ -1,15 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	#btnDiv{
+		float:center;
+	}
+</style>
 </head>
 <body>
-       
+       <div id="hiddenDiv" style="display:none">
+	<jsp:include page="../common/menubar.jsp" />
+	</div>	
     
+    <br>
+    <div class="col-12">
 	<div class="card card-info card-outline">
              <div class="card-header" >            
                <div class="text-center"><b>상태 변경</b></div>
@@ -80,8 +88,8 @@
                             </select> 
                           </div>  
                          <br>
-                         <div class="float-middle">
-                           <button type="button" id="updateBtn" class="btn btn-block btn-outline-warning" style="width : 30%" onclick="updateStatus();" >상태 수정</button>              
+                         <div class="text-center" id="btnDiv">
+                           <button type="button" id="updateBtn" class="btn  btn-outline-warning" style="width : 30%" onclick="updateStatus();" >상태 수정</button>              
 		            	 </div>
 		            </div>
 		            </form>
@@ -96,7 +104,7 @@
               				
                           
         </div>
-        
+        </div>
         
         <script>
         function updateStatus(){

@@ -36,6 +36,7 @@
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.VacationCC" alias="VacationCC"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.VacationLine" alias="VacationLine"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.ApprovalAttendance" alias="ApprovalAttendance"/>
+		<typeAlias type="com.helloworks.spring.vacation.model.vo.LoginUserVacation" alias="LoginUserVacation"/>
 	</typeAliases>
 
 

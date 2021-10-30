@@ -58,6 +58,16 @@
 		<result property="alternative" column="PSR_ALTERNATIVE"/>
 	</resultMap>
 	
+	<!-- annual  -->
+	<resultMap id="loginUserVacationResultSet" type="LoginUserVacation">
+		<id property="psdNo" column="PSD_NO"/>
+		<result property="annual" column="PSD_ANNUAL"/>
+		<result property="appliedAnnual" column="PSD_APPLIEDANL"/>
+		<result property="useAnnual" column="PSD_USE_ANNUAL"/>
+		<result property="leftAnnual" column="PSD_LEFT_ANNUAL"/>
+		<result property="empNo" column="PSD_EMP_NO"/>
+	</resultMap>
+	
 
 	
 
@@ -107,6 +117,11 @@
 		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{documentType}, TO_DATE(#{startDate}, 'YY/MM/DD'), TO_DATE(#{endDate}, 'YY/MM/DD'),#{halfDay}, #{vcType}, #{alternative})
 	</insert>
 
+
+	<!-- 사용자 연차 정보 조회  -->
+   <select id="selectAnnual" parameterType="_int" resultMap="loginUserVacationResultSet">
+      	SELECT * FROM PS_ANNUAL WHERE PSD_EMP_NO= #{empNo}
+   </select> 
 
 
 </mapper>
