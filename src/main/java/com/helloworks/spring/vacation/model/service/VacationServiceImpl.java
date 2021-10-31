@@ -138,4 +138,11 @@ public class VacationServiceImpl implements VacationService {
 		}
 		
 	}
+	
+	//출근등록시 결재서류가있다면
+	@Override
+	public Vacation sysdateVacation(int empNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.sysdateVacation(sqlSession , empNo);
+	}
 }

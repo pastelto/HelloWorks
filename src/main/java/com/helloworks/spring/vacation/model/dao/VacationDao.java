@@ -83,5 +83,11 @@ public class VacationDao {
 		// TODO Auto-generated method stub
 		return  sqlSession.update("vacationMapper.addVacation", vacation);
 	}
+	
+	//출근등록시 결재서류가 있다면
+	public Vacation sysdateVacation(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.sysdateVacation", empNo);
+	}
 
 }

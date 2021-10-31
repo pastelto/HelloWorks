@@ -40,43 +40,7 @@
 					
 		        	<div class="content">
 		               <div id="attendanceSidebar" style="width : 220px; margin-left : 30px;">
-                           <!-- <div class="card card-info card-outline">
-                              <div class="card-header text-center">
-								<h6 style="margin-bottom: 0px">
-									<b>근태현황</b>
-								</h6>
-							</div>
-                              <div class="card-body">
-                                 <div id="accordion">
-                                    <div class="card">
-                                       <div class="card-header">
-                                          <a class="card-link" data-toggle="collapse" href="#collapseOne" >근태 관리 </a>
-                                       </div>
-                                       <div id="collapseOne" class="collapse" data-parent="#accordion">                                          
-                                          <ul class="nav nav-pills flex-column">
-                                             <li class="nav-item "><a href="attendanceApiView.ps" class="nav-link">출근기록 </a></li>
-                                             <li class="nav-item"><a href="#" class="nav-link" onclick="checkJobcode();">부서원 출결 조회</a></li>
-                                             <li class="nav-item"><a href="#" class="nav-link" onclick="checkJob();">소속 근로시간 통계</a></li>      
-                                          </ul>                                                                                 
-                                       </div>
-                                    </div>
-                                    <div class="card">
-                                       <div class="card-header">
-                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" >연차휴가관리</a>
-                                       </div>
-                                       <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                             <ul class="nav nav-pills flex-column">
-                                                <li class="nav-item "><a href="vacationForm.ps" class="nav-link"></i>연차휴가신청 </a></li>
-                                                <li class="nav-item"><a href="#" class="nav-link"> 휴가 사용 현황 </a></li>   
-                                                <li class="nav-item"><a href="#" class="nav-link"> 소속 휴가 통계</a></li>    
-                                             </ul>   
-                                       </div>
-                                    </div>
-                           
-                                 </div>
-                              </div>
-                              /.card-body
-                           </div> -->
+      
                            
                            
 				              <div class="card card-info card-outline">
@@ -94,7 +58,7 @@
 				                  <li class="nav-item active">
 				                    <a href="attendanceApiView.ps" class="nav-link">
 				                      <i class="fas fa-inbox"></i> 출근기록
-				                      <span class="badge bg-primary float-right">12</span>
+				                      
 				                    </a>
 				                  </li>
 				                  <li class="nav-item">
@@ -133,15 +97,18 @@
 				                  <li class="nav-item">
 				                    <a class="nav-link" href="vacationUse.ps"><i class="far fa-circle text-warning"></i> 연차 사용 현황</a>
 				                  </li>
+				                  
+				                  <!-- 
 				                  <li class="nav-item">
 				                    <a class="nav-link" href="vacationStatistics.ps"><i class="far fa-circle text-primary"></i> 소속 연차 통계</a>
-				                  </li>
+				                  </li> -->
 				                  <!-- 인사팀만 조회가능 -->
 				                     <c:if test="${ loginUser.deptCode eq 'A1' }">
 					                  <li class="nav-item">
 					               
-					                    <a class="nav-link" href="hrOnlyPage.ps"><i class="far fa-circle text-info"></i>결재 문서함</a>
-					         
+					                    <a class="nav-link" href="hrOnlyPage.ps"><i class="far fa-circle text-info"></i> 결재 문서함
+					                    <span class="badge bg-primary float-right">12</span></a>
+					         			
 					                  </li>
 				                  </c:if>
 				                </ul>

@@ -41,6 +41,9 @@ public interface VacationService {
 	
 	//사용휴가 일수추가
 	void addVacation(LoginUserVacation vacation);
+	
+	//출근등록시 결재서류가있다면
+	Vacation sysdateVacation(int empNo);
 
 	
 

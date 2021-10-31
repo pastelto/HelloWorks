@@ -191,6 +191,13 @@
    </update>
    
    
-   
+   <!-- 출근등록시 결재서류가 있다면 -->
+    <select id="sysdateVacation" parameterType="_int" resultMap="vacationResultSet">
+      	SELECT A.*, B.PSR_STARTDATE
+		FROM APPROVAL A
+		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
+		WHERE A.WRITER = #{empNo}
+		AND B.PSR_STARTDATE LIKE SYSDATE
+   </select> 
    
 </mapper>
