@@ -334,6 +334,9 @@ public class AttendanceController {
 	@RequestMapping("statisticsSearch.ps")
 	public String statisticsSearch(String weekselect, String optionType, String  searchtext, 
 																	Model model, HttpServletRequest request) {
+		
+		
+		
 		//본인 부서 
 		 String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
 		

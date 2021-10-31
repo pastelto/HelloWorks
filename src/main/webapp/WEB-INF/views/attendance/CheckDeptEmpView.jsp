@@ -117,8 +117,6 @@ input[id*="radio"], input[id*="vacation"] {
                                                 <input type="radio" name="attendance_type" value="결근" id="radio4">결근
                                                 <input type="radio" name="attendance_type" value="반차" id="radio5">반차
                                                 <input type="radio" name="attendance_type" value="연차" id="radio6">연차
-                                                <input type="radio" name="attendance_type" value="병가" id="radio7">병가
-                                                <input type="radio" name="attendance_type" value="조퇴" id="radio8">조퇴
                                              </div>
                                              <div class="vacationtype">&nbsp;                                          
                                                 <input type="radio" name="vacation_type" value="보건휴가" id="vacation1">보건휴가

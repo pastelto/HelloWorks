@@ -53,5 +53,8 @@ public interface AttendanceService {
 	
 	//조정문서 날짜 선택 후 상태 값
 	Attendance selectStatus(SearchAttendance searchStatus);
+	
+	//결재문서에 따른 출퇴근 시간 변경 
+	void changeTime(Attendance attendance);
 
 }

@@ -1,5 +1,7 @@
 package com.helloworks.spring.vacation.model.service;
 
+import java.util.ArrayList;
+
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
@@ -24,5 +26,19 @@ public interface VacationService {
 
 	//사용자 연차 조회
 	LoginUserVacation selectAnnual(int empNo);
+	
+	//결재문서 진행중 조회
+	ArrayList<Vacation> selectApproval();
+
+	//결재문서 승인
+	void progressChange(String documentNo);
+	
+	//결재문서 승인 -해당문서 조회
+	Vacation onlyOneSelect(String documentNo);
+
+	//연차테이블 변경
+	void updateAnnual(LoginUserVacation annual);
+
+	
 
 }

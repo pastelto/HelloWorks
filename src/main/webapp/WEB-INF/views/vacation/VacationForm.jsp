@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-					<form id="attendanceApro" method="post" enctype="multipart/form-data">
+					<form id="vacationForm" method="post" enctype="multipart/form-data">
 							<div class="card card-outline card-info" id="dipl_div">
 								<div class="card-header">
 									<h3 class="card-title">휴가계</h3>
@@ -119,7 +119,7 @@
 														<tr>
 															<td colspan="3"><span>제목</span></td>
 															<td colspan="6"><input type="text"
-																class="form-control" id="ap_title" name="ap_title">
+																class="form-control"  id="ap_title" name="ap_title">
 															</td>
 														</tr>
 														<tr>
@@ -232,8 +232,17 @@
     	}
 		$(function(){
 			$('#submitBT').click(function(){
-				$('#attendanceApro').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
-				$('#attendanceApro').submit();
+				
+				
+				var test = $("input[name=ap_title]").val();
+				
+				$('#vacationForm').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
+				
+		
+				
+				$('#vacationForm').submit();
+				
+				
 				
 			});
 		});

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,11 +131,19 @@
 				                    <a class="nav-link" href="vacationForm.ps"><i class="far fa-circle text-danger"></i> 연차휴가신청</a>
 				                  </li>
 				                  <li class="nav-item">
-				                    <a class="nav-link" href="vacationUse.ps"><i class="far fa-circle text-warning"></i> 휴가 사용 현황</a>
+				                    <a class="nav-link" href="vacationUse.ps"><i class="far fa-circle text-warning"></i> 연차 사용 현황</a>
 				                  </li>
 				                  <li class="nav-item">
-				                    <a class="nav-link" href="vacationStatistics.ps"><i class="far fa-circle text-primary"></i> 소속 휴가 통계</a>
+				                    <a class="nav-link" href="vacationStatistics.ps"><i class="far fa-circle text-primary"></i> 소속 연차 통계</a>
 				                  </li>
+				                  <!-- 인사팀만 조회가능 -->
+				                     <c:if test="${ loginUser.deptCode eq 'A1' }">
+					                  <li class="nav-item">
+					               
+					                    <a class="nav-link" href="hrOnlyPage.ps"><i class="far fa-circle text-info"></i>결재 문서함</a>
+					         
+					                  </li>
+				                  </c:if>
 				                </ul>
 				              </div>
 				            </div>

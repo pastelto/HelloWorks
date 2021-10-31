@@ -1,5 +1,7 @@
 package com.helloworks.spring.vacation.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +52,30 @@ public class VacationDao {
 	public LoginUserVacation selectAnnual(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("vacationMapper.selectAnnual", empNo);
+	}
+	
+	//결재문서 진행중 조회
+	public ArrayList<Vacation> selectApproval(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("vacationMapper.selectApproval");
+	}
+	
+	//결재문서 승인
+	public int progressChange(SqlSessionTemplate sqlSession, String documentNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("vacationMapper.progressChange", documentNo);
+	}
+	
+	//해당문서조회
+	public Vacation onlyOneSelect(SqlSessionTemplate sqlSession, String documentNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.onlyOneSelect", documentNo);
+	}
+
+	//연차테이블 변경
+	public int updateAnnual(SqlSessionTemplate sqlSession, LoginUserVacation annual) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("vacationMapper.updateAnnual", annual);
 	}
 
 }
