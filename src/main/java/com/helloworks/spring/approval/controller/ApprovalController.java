@@ -83,7 +83,9 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("temporarySave.ea")
-	public String temporarySave() {
+	public String temporarySave(Model model) {
+		
+		model.addAttribute("page",1);
 		
 		return "approval/temporarySaveMain";
 	}
@@ -129,6 +131,42 @@ public class ApprovalController {
 	// 임시저장함 detail - 공문서 
  	@RequestMapping("diplomaTempDetail.ea")
 	public String diplomaTempDetail(HttpServletRequest request, Model model) {
+ 		
+ 		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "공문";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalDiploma ad = approvalService.selectApprovalDiploma(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ad != null) {
+			System.out.println("ad ; " + ad);
+			 model.addAttribute("ad", ad);
+		}
+		
 		
 		return "approval/diplomaTempDetailForm";
 	}
@@ -137,12 +175,81 @@ public class ApprovalController {
   	@RequestMapping("hrTempDetail.ea")
  	public String hrTempDetail(HttpServletRequest request, Model model) {
  		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "인사";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalHr ah = approvalService.selectApprovalHr(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ah != null) {
+			System.out.println("ah ; " + ah);
+			 model.addAttribute("ah", ah);
+		}
  		return "approval/hrTempDetailForm";
  	}
   	
   	// 임시저장함 detail - 회의록
   	@RequestMapping("minutesTempDetail.ea")
  	public String minutesTempDetail(HttpServletRequest request, Model model) {
+ 		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "회의";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalMinutes am = approvalService.selectApprovalMinutes(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(am != null) {
+			System.out.println("am ; " + am);
+			 model.addAttribute("am", am);
+		}
  		
  		return "approval/minutesTempDetailForm";
  	}
@@ -151,6 +258,51 @@ public class ApprovalController {
   	@RequestMapping("expenditureTempDetail.ea")
  	public String expenditureTempDetail(HttpServletRequest request, Model model) {
  		
+  		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "지출";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalExpenditure ae = approvalService.selectApprovalExpenditure(searchMap);
+		ArrayList<ApprovalExDetails> adList = approvalService.selectApprovalExDetails(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		ArrayList<ApprovalExDetails> chlist = approvalService.selectExNumch();
+		ArrayList<ApprovalExDetails> colist = approvalService.selectExNumco();
+		
+		model.addAttribute("chlist",chlist);
+		model.addAttribute("colist",colist);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ae != null) {
+			System.out.println("ae ; " + ae);
+			 model.addAttribute("ae", ae);
+		}
+		if(adList != null) {
+			System.out.println("ad ; " + adList);
+			 model.addAttribute("adList", adList);
+		}
  		return "approval/expenditureTempDetailForm";
  	}
 	
@@ -243,6 +395,7 @@ public class ApprovalController {
 		String content = request.getParameter("apContent");
 		String cooper= request.getParameter("cooperator0");
 		String cooJob = request.getParameter("cooJob");
+		String cooName = request.getParameter("cooName");
 		String deptShare = request.getParameter("deptShare");
 		
 		ap.setApClass("일반");
@@ -254,6 +407,7 @@ public class ApprovalController {
 		ap.setContent(content);
 		ap.setCooper(cooper);
 		ap.setCooJob(cooJob);
+		ap.setCooName(cooName);
 		ap.setDeptShare(deptShare);		
 		
 		System.out.println("ap :" + ap);
@@ -306,15 +460,19 @@ public class ApprovalController {
 				approvalService.insertCcDept(ac);
 		}		*/
 		
+		String ccName = request.getParameter("ccName");
+		System.out.println("ccName : " + ccName);
 		String ccCode = request.getParameter("ccCode");
 		System.out.println("ccCode : " + ccCode);
-		if(!ccCode.equals("")) {							
+		if(!ccName.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
 				System.out.println("cotroller num :" + num);
+				ac.setCcName(ccName);
 				ac.setCcMember(num);
 				approvalService.insertCcEmpl(ac);
 			} else {
+				ac.setCcName(ccName);
 				ac.setCcDept(ccCode);
 				System.out.println("deptCode: " + ccCode);
 				approvalService.insertCcDept(ac);
@@ -372,9 +530,10 @@ public class ApprovalController {
 		String content = request.getParameter("apContent");
 		String cooper= request.getParameter("cooperator0");
 		String cooJob = request.getParameter("cooJob");
+		String cooName = request.getParameter("cooName");
 		String deptShare = request.getParameter("deptShare");
 		
-		ap.setApClass("일반");
+		ap.setApClass("지출");
 		ap.setDetailClass(detailClass);
 		ap.setTitle(title);
 		ap.setWriter(writer);
@@ -383,6 +542,7 @@ public class ApprovalController {
 		ap.setContent(content);
 		ap.setCooper(cooper);
 		ap.setCooJob(cooJob);
+		ap.setCooName(cooName);
 		ap.setDeptShare(deptShare);		
 		
 		// 전자결재 공통
@@ -400,6 +560,8 @@ public class ApprovalController {
 		// 지출결재 detail
 		String exType = request.getParameter("exType");
 		String exNum = request.getParameter("exNum");		
+		
+		System.out.println("exNum : " + exNum);
 		
 		String[] exDate = request.getParameterValues("exDate");
 		String[] exContent = request.getParameterValues("exContent");
@@ -433,7 +595,7 @@ public class ApprovalController {
 				ad.setAccHolder(holder[i]);
 			}
 			if(exDept != null) {
-				ad.setExDate(exDept[i]);
+				ad.setExDept(exDept[i]);
 			}
 			if(note != null) {
 				ad.setNote(note[i]);
@@ -458,17 +620,21 @@ public class ApprovalController {
 									
 		// 수신참조 등록 
 								
-		if(request.getParameter("ccCode")!= "") {
-			
-			String ccCode = request.getParameter("ccCode");			
-					
+
+		String ccName = request.getParameter("ccName");
+		String ccCode = request.getParameter("ccCode");
+		System.out.println("ccCode : " + ccCode);
+		if(!ccName.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
 				System.out.println("cotroller num :" + num);
+				ac.setCcName(ccName);
 				ac.setCcMember(num);
 				approvalService.insertCcEmpl(ac);
 			} else {
+				ac.setCcName(ccName);
 				ac.setCcDept(ccCode);
+				System.out.println("deptCode: " + ccCode);
 				approvalService.insertCcDept(ac);
 			}
 		}
@@ -586,7 +752,7 @@ public class ApprovalController {
 		return newName;
 	}
 	
-	// 임시저장 - 날짜버튼 클릭 
+	// 임시저장 - 날짜 버튼 클릭 
 	@ResponseBody
 	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortTemp(HttpServletRequest request) {
@@ -806,6 +972,7 @@ public class ApprovalController {
 			String content = request.getParameter("apContent");
 			String cooper= request.getParameter("cooperator0");
 			String cooJob = request.getParameter("cooJob");
+			String cooName = request.getParameter("cooName");
 			String deptShare = request.getParameter("deptShare");
 			
 			ap.setApNo(apNo);
@@ -818,6 +985,7 @@ public class ApprovalController {
 			ap.setContent(content);
 			ap.setCooper(cooper);
 			ap.setCooJob(cooJob);
+			ap.setCooName(cooName);
 			ap.setDeptShare(deptShare);		
 			
 			ad.setApNo(apNo);
@@ -860,15 +1028,18 @@ public class ApprovalController {
 			}
 			
 			String ccCode = request.getParameter("ccCode");
+			String ccName = request.getParameter("ccCode");
 			System.out.println("ccCode : " + ccCode);
-			if(!ccCode.equals("")) {							
+			if(!ccName.equals("")) {							
 				if(isInteger(ccCode)) {
 					int num = Integer.parseInt(request.getParameter("ccCode"));
 					System.out.println("cotroller num :" + num);
 					ac.setCcMember(num);
+					ac.setCcName(ccName);
 					approvalService.updateCcEmpl(ac);
 				} else {
 					ac.setCcDept(ccCode);
+					ac.setCcName(ccName);
 					System.out.println("deptCode: " + ccCode);
 					approvalService.updateCcDept(ac);
 				}
@@ -950,6 +1121,7 @@ public class ApprovalController {
 			String content = request.getParameter("apContent");
 			String cooper= request.getParameter("cooperator0");
 			String cooJob = request.getParameter("cooJob");
+			String cooName = request.getParameter("cooName");
 			String deptShare = request.getParameter("deptShare");
 			
 			ap.setApNo(apNo);
@@ -962,6 +1134,7 @@ public class ApprovalController {
 			ap.setContent(content);
 			ap.setCooper(cooper);
 			ap.setCooJob(cooJob);
+			ap.setCooName(cooName);
 			ap.setDeptShare(deptShare);	
 			
 			ad.setApNo(apNo);
@@ -1005,6 +1178,8 @@ public class ApprovalController {
 			String[] exDept = request.getParameterValues("exDept");
 			String[] note = request.getParameterValues("note");
 			
+			approvalService.deleteExDetails(apNo);
+			
 			for(int i=0; i<exDate.length; i++) {
 				ad.setExNo(exNo[i]);
 				ad.setExType(exType);
@@ -1023,7 +1198,7 @@ public class ApprovalController {
 					ad.setAccHolder(holder[i]);
 				}
 				if(exDept != null) {
-					ad.setExDate(exDept[i]);
+					ad.setExDept(exDept[i]);
 				}
 				if(note != null) {
 					ad.setNote(note[i]);
@@ -1048,17 +1223,20 @@ public class ApprovalController {
 										
 			// 수신참조 등록 
 									
-			if(request.getParameter("ccCode")!= "") {
-				
-				String ccCode = request.getParameter("ccCode");			
-						
+			String ccCode = request.getParameter("ccCode");
+			String ccName = request.getParameter("ccCode");
+			System.out.println("ccCode : " + ccCode);
+			if(!ccName.equals("")) {							
 				if(isInteger(ccCode)) {
 					int num = Integer.parseInt(request.getParameter("ccCode"));
 					System.out.println("cotroller num :" + num);
 					ac.setCcMember(num);
+					ac.setCcName(ccName);
 					approvalService.updateCcEmpl(ac);
 				} else {
 					ac.setCcDept(ccCode);
+					ac.setCcName(ccName);
+					System.out.println("deptCode: " + ccCode);
 					approvalService.updateCcDept(ac);
 				}
 			}

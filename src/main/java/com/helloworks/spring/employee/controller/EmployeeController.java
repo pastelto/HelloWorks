@@ -1,10 +1,10 @@
 package com.helloworks.spring.employee.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -28,22 +28,38 @@ public class EmployeeController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
+	//마이페이지 전환
+	@RequestMapping("Mypage.mp")
+	public String EmployeeMypage() {
+		System.out.println("마이페이지 전환");
+		return "employee/EmployeeMypage";
+	}
+	
+	//사원등록 페이지 전환
+	@RequestMapping("insert.hr")
+	public String EmployeeEnrollForm() {
+		System.out.println("사원등록 페이지 전환");
+		return "employee/EmployeeEnrollFrom";
+	}
+	
+	
+	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
-	public ModelAndView loginMember(Employee m, HttpSession session, ModelAndView mv) {
+	public String loginMember(Employee m, Model model) {
 				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
 			System.out.println("loginUser :  " + loginUser);
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:main.mi"); 
+			model.addAttribute("loginUser", loginUser);
+			return "redirect:main.mi"; 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			mv.addObject("msg","로그인실패22");
-			mv.setViewName("common/errorPage");
+			model.addAttribute("msg","사번 및 비번이 틀렸습니다");
+			return "employee/LoginFrom";
 		}
-		return mv;
+		
 	}
 	
 	
@@ -72,6 +88,8 @@ public class EmployeeController {
 			System.out.println("@@@@@로그아웃" + status);
 			status.setComplete(); //현재 컨트롤러에 @SessionAttribute에 의해 저장된 오브젝트를 제거
 			return "redirect:index.jsp";
-		}
+		}	
+		
+		
 
 }

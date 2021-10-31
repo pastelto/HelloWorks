@@ -29,4 +29,8 @@ public interface DailyReportService{
 
 	void updateDailyReportRef(DailyReport dailyReport);
 
+	int selectDailyReportCategoryTypeListCount(DailyReport dailyReport);
+
+	ArrayList<DailyReport> selectDailyReportCategoryTypeList(DailyReport dailyReport, PageInfo pi);
+
 }

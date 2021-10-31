@@ -342,6 +342,85 @@ public class DailyReportController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
 		model.addAttribute("pageURL", "recvReport.dr");
+		model.addAttribute("checkTypeAll", "checked");
+		model.addAttribute("reportType", "ALL");
+		
+		return "dailyReport/dailyReceiveList";
+	}
+	
+	
+	@RequestMapping("recvReportType.dr")
+	public String recvReportType(String reportType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		DailyReport dailyReport = new DailyReport();
+		
+		dailyReport.setDrWriterNo(loginUserNo);
+		dailyReport.setDrCategory(reportType);
+
+		int listCount = dailyReportService.selectDailyReportCategoryTypeListCount(dailyReport);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.selectDailyReportCategoryTypeList(dailyReport, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("pageURL", "recvReportType.dr");
+		
+		if(reportType.equals("D")) {
+			model.addAttribute("checkD", "checked");
+		}else if(reportType.equals("W")){
+			model.addAttribute("checkW", "checked");
+		}else if(reportType.equals("M")) {
+			model.addAttribute("checkM", "checked");
+		}
+		
+		model.addAttribute("reportType", reportType);
+		return "dailyReport/dailyReceiveList";
+	}
+	
+	@RequestMapping("recvReportTermType.dr")
+	public String recvReportTermType(String reportType, int termType,
+									@RequestParam(value="startDate", required=false, defaultValue = "1") String startDate,
+									@RequestParam(value="endDate", required=false, defaultValue = "1") String endDate,
+									@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		System.out.println("보고유형: "+reportType);
+		System.out.println("기간타입: "+termType);
+		System.out.println("시작일자: "+startDate);
+		System.out.println("종료일자: "+endDate);
+		
+		
+		return "dailyReport/dailyReceiveList";
+	}
+	
+	
+	
+	@RequestMapping("searchDailyReport.dr")
+	public String searchDailyReport(String optionType, String search, Model model) {
+		
+		
+		switch (optionType) {
+		case "allType":
+			
+			break;
+		case "writerType":
+					
+					break;
+		case "titleType":
+			
+			break;
+		case "contentType":
+			
+			break;
+		default:
+			break;
+		}
+		
 		
 		return "dailyReport/dailyReceiveList";
 	}
