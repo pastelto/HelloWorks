@@ -8,32 +8,29 @@
 <meta charset="UTF-8">
 <title>수신함</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+
+
 <style>
 	.content-wrapper {
 		overflow: auto;
 	}
-	#searchOfficeAddressBookTable>thead{
+	#searchDailyReportTable>thead{
 		border-bottom: 1px solid #DAE1E7;
 	}
-	#searchOfficeAddressBookTable>thead>tr>th	{
+	#searchDailyReportTable>thead>tr>th	{
 		background-color: #DAE1E7;
 		width: 10%;
 		text-align: center !important;
 	}
-	#searchOfficeAddressBookTable>tbody>tr>th	{
+	#searchDailyReportTable>tbody>tr>th	{
 		background-color: #DAE1E7;
 		width: 10%;
 		text-align: center !important;
 	}
-	#searchPersonalAddressBookTable>thead{
+	#searchDailyReportTable>tbody>tr{
 		border-bottom: 1px solid #DAE1E7;
 	}
-	#searchPersonalAddressBookTable>thead>tr>th	{
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	}
-	#searchPersonalAddressBookTable>tbody>tr>th	{
+	#searchDailyReportTable>tfoot>tr>th	{
 		background-color: #DAE1E7;
 		width: 10%;
 		text-align: center !important;
@@ -90,62 +87,105 @@
 
 								<div class="card" style="margin-bottom: 0px;">
 										
-										<table id="searchPersonalAddressBookTable">
-										 <thead>
-											<tr>
-												<th>작성일자</th>
-												<td>
-													<div class="row mt-1 mb-1" style="margin-left: 0px;">
-													&nbsp;&nbsp;
-													<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1일</button>&nbsp;
-													<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1주</button>&nbsp;
-													<button type="button" class="btn btn-default btn-sm" style="width: 100px;">1개월</button>&nbsp;
-													<button type="button" class="btn btn-default btn-sm" style="width: 100px;">6개월</button>
-													<input type="date" class="date"> date가 못생겼넹...
+										<table id="searchDailyReportTable" >
+											
+											
+										<thead>
+												<tr>
+													<th>보고 유형</th>
+													<td>
+													<div class="mt-1 mb-1" style="margin-left: 0px;">
+														&nbsp;
+														<input type="radio" name="reportType" value="allReport" ${ checkTypeAll }> 전체
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="reportType" value="D" ${ checkD }> 일일보고
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="reportType" value="W" ${ checkW }> 주간보고
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="reportType" value="M" ${ checkM }> 월간보고
 													</div>
-												</td>
-											</tr>
-											</thead>
-										<tbody>
-											<tr>
-												<th>검색</th>
-												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
-												<div class="row mt-1 mb-1" style="margin-left: 0px;">
+													</td>
+												</tr>
+											
+											</thead>											
+											
+											
+											<tbody>
+												<tr>
+													<th>작성일자</th>
+													<td>
+														<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button id="allPersonSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllPeronalAddressBookEmployee();">전체검색</button>
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(1);">1일</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(2);">1주</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(3);">1개월</button>&nbsp;
+														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(4);">3개월</button>	&nbsp;
+														
+														<form id="dateRange">
+														<!-- 
+														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem; width: 150px;">
+														&nbsp; ~ &nbsp;
+														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem; width: 150px">		
+														 -->
+														
+														 <div class="form-group mb-0">
+											
+											                  <div class="input-group">
+											                    <input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem; width: 150px;">
+																<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">~</span>
+																</div>
+																<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem; width: 150px">	
+											                 	<div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="termType(5);" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																</div>
+											                  </div>
+											                </div>
+													
+														</form>
+														
+														</div>
+													</td>
+												</tr>
+											</tbody>
+											
+											
+											<tfoot>
+												<tr>
+													<th>검색</th>
+													<td>
+													<form id="searchDailyReport">
+													<div class="row mt-1 mb-1" style="margin-left: 0px;">
+														&nbsp;&nbsp;
+														<button id="allDailyReport" type="button" class="btn btn-default btn-sm" onclick="location.href='recvReport.dr'">전체검색</button>
 														&nbsp;&nbsp;
 														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-																<option value="allType">전체</option>
-																<option value="deptType" >부서</option>
-																<option value="empNoType">사번</option>
-																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
-																<option value="emailType">이메일</option>
-															</select>
-															
-															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
-																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchPerson" value="${ search }">
-																<div class="input-group-append">
-																	<button type="submit" class="btn btn-sm btn-default">
-																		<i class="fa fa-search"></i>
-																	</button>
-																</div>
+														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+															<option value="allType">전체</option>
+															<option value="writerType">작성자</option>
+															<option value="titleType">제목</option>
+															<option value="contentType">내용</option>
+														</select>
+																
+														&nbsp;&nbsp;
+														<div class="input-group" style="width: 30%;">
+															<input type="search" id="searchInput"
+																class="form-control form-control-sm"
+																placeholder="검색어를 입력하세요." name="search" value="${ search }">
+															<div class="input-group-append">
+																<button type="submit" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i>
+																</button>
 															</div>
 														</div>
+													</div>
 													</form>
-												</td>
-											</tr>
-											</tbody>
+													</td>
+												</tr>
+											</tfoot>
 										</table>
 									</div>										
-
-
-										
 
 									</div>
 								</div>
@@ -230,7 +270,7 @@
 						                <ul class="pagination">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -240,7 +280,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -251,7 +291,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -276,5 +316,51 @@
 	</div>
 	
 	<jsp:include page="../common/footer.jsp" />	
+	
+	<!-- 유형 선택 검사 -->
+	<script>
+		$("input:radio[name='reportType']").click(function(){
+	        
+			var type = $("input:radio[name=reportType]:checked").val();
+			
+		    if(type=="allReport"){
+		    	location.href="<%=request.getContextPath()%>/recvReport.dr";
+		    }else{
+		    	location.href="<%=request.getContextPath()%>/recvReportType.dr?reportType="+type;
+		    }
+		});
+	</script>
+	
+	<!-- 기간 설정 -->
+	<script>
+		function termType(typeNum){
+			//alert(typeNum);
+			var type = $("input:radio[name=reportType]:checked").val();
+			var startStr = $("#startDate").val()
+			var endDStr = $("#endDate").val()
+
+			
+			
+			
+			
+			//alert(start + ","+end)
+			if(typeNum == 5){
+				if(start == ""){
+					alert("시작일자를 선택해주세요.")
+					return false;
+				}else if(end == ""){
+					alert("종료일자를 선택해주세요.")
+					return false;
+				}
+				
+				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum+"&startDate="+start+"&endDate="+end;
+			}else{
+				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum;
+			}
+			
+		}
+	</script>
+
+
 </body>
 </html>

@@ -107,4 +107,16 @@ public class DailyReportServiceImpl implements DailyReportService{
 		}
 	}
 
+	@Override
+	public int selectDailyReportCategoryTypeListCount(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDailyReportCategoryTypeListCount(sqlSession, dailyReport);
+	}
+
+	@Override
+	public ArrayList<DailyReport> selectDailyReportCategoryTypeList(DailyReport dailyReport, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDailyReportCategoryTypeList(sqlSession, dailyReport, pi);
+	}
+
 }
