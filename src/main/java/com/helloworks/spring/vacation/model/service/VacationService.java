@@ -38,6 +38,9 @@ public interface VacationService {
 
 	//연차테이블 변경
 	void updateAnnual(LoginUserVacation annual);
+	
+	//사용휴가 일수추가
+	void addVacation(LoginUserVacation vacation);
 
 	
 

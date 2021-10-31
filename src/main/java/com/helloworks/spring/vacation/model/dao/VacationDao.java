@@ -77,5 +77,11 @@ public class VacationDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("vacationMapper.updateAnnual", annual);
 	}
+	
+	//사용휴가일수추가
+	public int addVacation(SqlSessionTemplate sqlSession, LoginUserVacation vacation) {
+		// TODO Auto-generated method stub
+		return  sqlSession.update("vacationMapper.addVacation", vacation);
+	}
 
 }

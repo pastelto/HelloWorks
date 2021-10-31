@@ -127,4 +127,15 @@ public class VacationServiceImpl implements VacationService {
 		}
 		
 	}
+	
+	//사용휴가 일수추가
+	@Override
+	public void addVacation(LoginUserVacation vacation) {
+		int result = vacationDao.addVacation(sqlSession, vacation);
+		
+		if(result < 0) {
+			throw new CommException("휴가테이블 변경 실패");
+		}
+		
+	}
 }

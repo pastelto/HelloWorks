@@ -4,6 +4,7 @@ package com.helloworks.spring.vacation.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +50,7 @@ public class VavationController {
 		
 		LoginUserVacation annual = vacationService.selectAnnual(empNo);
 		
-		String loginUserAnnual = String.valueOf(annual.getAnnual()) + " 일";
+		String loginUserAnnual = String.valueOf(annual.getLeftAnnual()) + " 일";
 		
 		model.addAttribute("loginUserAnnual", loginUserAnnual);
 		
@@ -406,15 +407,42 @@ public class VavationController {
 			break;
 		//2) 휴가
 		case "휴가" :
+			LoginUserVacation vacation = new LoginUserVacation();
+			
+			String date1 = change.getStartDate();
+		    String date2 = change.getEndDate();
+
+			//날짜계산 메소드
+			int calculation =  dateChange(date1, date2);
+			
+			System.out.println("~~~~~~~~~calculation" + calculation);
+			
 			
 			switch(change.getVcType()) {
 			case"경조사": case"육아휴직" : case"출산휴가" :
-				//휴가테이블 +1 (종료일-시작일)
+				
+				if(change.getVcType().equals("경조사")) {
+					vacation.setVcType("경조사");
+					vacation.setManstural(calculation);
+				}else if(change.getVcType().equals("육아휴직")) {
+					vacation.setVcType("육아휴직");
+					vacation.setManstural(calculation);
+				}else if(change.getVcType().equals("출산휴가")) {
+					vacation.setVcType("출산휴가");
+					vacation.setManstural(calculation);
+				}
+				
+				vacation.setPsvEmpNo(change.getWriter());
+				
+				vacationService.addVacation(vacation); 
 				break;
 			case"보건휴가":
 				
-				//휴가테이블 +1
+				vacation.setVcType("보건휴가");
+				vacation.setManstural(1);
+				vacation.setPsvEmpNo(change.getWriter());
 				
+				vacationService.addVacation(vacation); 
 				break;
 			}
 			
@@ -424,5 +452,48 @@ public class VavationController {
 		
 		
 		return "redirect:hrOnlyPage.ps";
+	}
+
+	private int dateChange(String date1, String date2) {
+		
+		  	date1 = date1.substring(0, 10);
+	        date2 = date2.substring(0, 10);
+		
+		int result = 0;
+	    try{ // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+	        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+	        // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+	        Date FirstDate = format.parse(date1);
+	        Date SecondDate = format.parse(date2);
+	        
+	        System.out.println("~~~~~~~~~FirstDate" + FirstDate);
+	        System.out.println("~~~~~~~~~SecondDate" + SecondDate);
+	        
+	        // Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+	        // 연산결과 -950400000. long type 으로 return 된다.
+	        long calDate = SecondDate.getTime() - FirstDate.getTime(); 
+	        
+	        System.out.println("~~~~~~~~~calDate" + calDate);
+	        
+	        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+	        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+	        long calDateDays = calDate / ( 24*60*60*1000); 
+	        
+	        System.out.println("~~~~~~~~~calDateDays" + calDateDays);
+	 
+	        calDateDays = Math.abs(calDateDays);
+	        
+	        System.out.println("두 날짜의 날짜 차이: "+calDateDays);
+	         result =  (int)calDateDays;
+	         
+	         
+	        }
+	        catch(ParseException e)
+	        {
+	            // 예외 처리
+	        }
+	    
+	    return result;
+		
 	}
 }
