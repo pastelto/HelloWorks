@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class MailController {
 
 	// 메일 보내기
 	@RequestMapping("send.ml")
-	public String sendMail(Mail m, HttpServletRequest request, Model model, MultipartHttpServletRequest multiRequest) {
+	public String sendMail(Mail m, HttpServletRequest request, Model model, MultipartHttpServletRequest multiRequest, HttpSession session) {
 		m.setMailRcvr((String) multiRequest.getParameter("drReceiverList"));
 		System.out.println(m);
 
@@ -77,24 +78,6 @@ public class MailController {
 			// 수신인 사번
 			String[] rcvrNo = rcvrList.split(",");
 
-//			for (int i = 0; i < rcvrNo.length; i++) {
-//				// 사번 하나하나 숫자로바꾸기
-//				int rEmpNo = Integer.parseInt(rcvrNo[i]);
-//				Employee empInfo = mailService.getEmpInfo(rEmpNo);
-//				Mail mailInfo = new Mail();//메일수신자 정보를 저장할 메일객체 생성
-//				mailInfo.setMailNo(m.getMailNo()); // 메일번호
-//				mailInfo.setMailRcvrName(empInfo.getEmpName()); // 메일수신인이름
-//				mailInfo.setMailRcvrDept(empInfo.getDeptDname());// 메일수신인부서
-//				mailInfo.setMailRcvrJobName(empInfo.getJobName());// 메일수신인직급
-//				// 센더지만 수신인 사번넣기위함
-//				mailInfo.setMailSndr(empInfo.getEmpNo());// 메일수신인사번
-////				mailInfo.setMailNo(m.getMailNo());//메일번호
-////				mailInfo.setEmpName(empInfo.getEmpName());// 메일수신인이름
-////				mailInfo.setDeptDname(empInfo.getDeptDname());// 메일수신인부서
-////				mailInfo.setDeptDname(empInfo.getJobName());// 메일수신인직급
-//				mailService.insertMailRcvrInfo(mailInfo);// 메일 수신인 정보 입력
-//			}
-
 			for (int i = 0; i < rcvrNo.length; i++) {
 				// 사번 하나하나 숫자로바꾸기
 				int rEmpNo = Integer.parseInt(rcvrNo[i]);
@@ -113,7 +96,7 @@ public class MailController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		session.removeAttribute("receiveListSession");
 		return "redirect:inbox.ml";// 등록하면 리스트 화면으로 다시보이게
 
 	}
@@ -272,45 +255,96 @@ public class MailController {
 			for (int j = 0; j < recv.length; j++) {
 
 				int recvEmpNo = Integer.parseInt(recv[j]); // 202100001, 202100002, 202100003
-				System.out.println("보낸 메일함 페이지=====recvEmpNo: " + recvEmpNo);
+				//System.out.println("보낸 메일함 페이지=====recvEmpNo: " + recvEmpNo);
 				Mail rEmp = new Mail();
 				rEmp.setMailRcvrNo(recvEmpNo);
 				rEmp.setMailNo(mailNo);
 				Mail emp = mailService.getRcvrInfo(rEmp);
-				System.out.println("보낸 메일함 페이지=====emp: " + emp);
+				//System.out.println("보낸 메일함 페이지=====emp: " + emp);
 				rcvrList.add(j, emp);
-				System.out.println("보낸 메일함 페이지=====emp[" + j + "] : " + emp);
-				System.out.println("보낸 메일함 페이지=====rcvrList[" + j + "] : " + rcvrList.get(j));
+				//System.out.println("보낸 메일함 페이지=====emp[" + j + "] : " + emp);
+				//System.out.println("보낸 메일함 페이지=====rcvrList[" + j + "] : " + rcvrList.get(j));
 
 			}
 
 		}
 
-		System.out.println("보낸 메일함 페이지 sentMailList---------------" + sentMailList);
-		System.out.println("보낸 메일함 페이지 rcvrList---------------" + rcvrList);
+		//System.out.println("보낸 메일함 페이지 sentMailList---------------" + sentMailList);
+		//System.out.println("보낸 메일함 페이지 rcvrList---------------" + rcvrList);
 		model.addAttribute("sentMailList", sentMailList);
 		model.addAttribute("rcvrList", rcvrList);
 
 		return "mail/sent";
 	}
 
-//	// 임시 메일함
-//	@RequestMapping("draft.ml")
-//	public String draftMailList(HttpServletRequest request, Model model) {
-//		System.out.println("임시 메일함 페이지");
-//
+	// 임시 메일함
+	@RequestMapping("draft.ml")
+	public String draftMailList(HttpServletRequest request, Model model) {
+		System.out.println("임시 메일함 페이지");
+
+		// 메일리스트
+				ArrayList<Mail> draftMailList = new ArrayList<Mail>();
+				// 수신자정보리스트
+				ArrayList<Mail> rcvrList = new ArrayList<Mail>();
+
+				// 메일리스트 조회
+				int myEmp = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+			
+				draftMailList = mailService.draftMailList(myEmp);
+				
+				// sentMailList.get(0).getMailRcvr(); // 수신자사번,수신자사번,수신자사번
+
+				// 수신자정보리스트조회
+				for (int i = 0; i < draftMailList.size(); i++) {
+					// rcvrList.add(mailService.getRcvrInfo(sentMailList.get(i).getMailNo()));
+
+					int mailNo = draftMailList.get(i).getMailNo();
+					String recvList = draftMailList.get(i).getMailRcvr();
+					String[] recv = recvList.split(",");
+					System.out.println("임시 메일함 페이지=====recvList: " + recvList);
+					System.out.println("임시 메일함 페이지=====recv: " + Arrays.toString(recv));
+
+					for (int j = 0; j < recv.length; j++) {
+
+						int recvEmpNo = Integer.parseInt(recv[j]); // 202100001, 202100002, 202100003
+						//System.out.println("보낸 메일함 페이지=====recvEmpNo: " + recvEmpNo);
+						Mail rEmp = new Mail();
+						rEmp.setMailRcvrNo(recvEmpNo);
+						rEmp.setMailNo(mailNo);
+						Mail emp = mailService.getRcvrInfo(rEmp);
+						//System.out.println("보낸 메일함 페이지=====emp: " + emp);
+						rcvrList.add(j, emp);
+						//System.out.println("보낸 메일함 페이지=====emp[" + j + "] : " + emp);
+						//System.out.println("보낸 메일함 페이지=====rcvrList[" + j + "] : " + rcvrList.get(j));
+
+					}
+
+				}
+
+				//System.out.println("임시 메일함 페이지 sentMailList---------------" + sentMailList);
+				//System.out.println("임시 메일함 페이지 rcvrList---------------" + rcvrList);
+				model.addAttribute("draftMailList", draftMailList);
+				model.addAttribute("rcvrList", rcvrList);
+		
+		
+		
+		
+		
+		
+//		
 //		ArrayList<Mail> list = new ArrayList<>();
-//		Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
+//		int myEmp = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+//		System.out.println(myEmp);
 //		list = mailService.draftMailList(myEmp);
 //		System.out.println("draftMailList---------------" + list);
 //		model.addAttribute("list", list);
-//
-//		return "mail/draft";
-//	}
-//
-//	// 휴지통
-//	@RequestMapping("trash.ml")
-//	public String trashMailList(HttpServletRequest request, Model model) {
+
+		return "mail/draft";
+	}
+
+	// 휴지통
+	@RequestMapping("trash.ml")
+	public String trashMailList(HttpServletRequest request, Model model) {
 //		System.out.println("메일 휴지통 페이지");
 //
 //		ArrayList<Mail> list = new ArrayList<>();
@@ -318,8 +352,8 @@ public class MailController {
 //		list = mailService.trashMailList(myEmp);
 //		// System.out.println("trashMailList---------------"+ list);
 //		model.addAttribute("list", list);
-//
-//		return "mail/trash";
-//	}
+
+		return "request/reservationTest";
+	}
 
 }

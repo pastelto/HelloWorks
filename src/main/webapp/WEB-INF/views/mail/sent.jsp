@@ -136,7 +136,7 @@
 										<c:forEach items="${ sentMailList }" var="sMail"
 											varStatus="status">
 											<tr>
-												<td>
+												<td onclick="event.cancelBubble=true;"><!-- 클릭하고싶지 않은 td!! -->
 													<div class="icheck-primary">
 														<input type="checkbox" value="${ sMail.mailNo }">
 													</div>
@@ -146,14 +146,13 @@
 												<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}" step="1" varStatus="in">
 														<c:if
 															test="${ (sentMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
-														/ <b>${ rcvrList[i].mailRcvrName }</b> /
+														<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span> 
 													</c:if>
 													</c:forEach></td>
 												<td class="mailbox-subject"><b>${ sMail.mailTitle }</b></td>
 												<td class="mailbox-date float-right">${ sMail.mailDate }</td>
 											</tr>
 										</c:forEach>
-
 									</tbody>
 								</table>
 								<!-- /.table -->
@@ -235,9 +234,8 @@
 		$(function() {
 			$("#sentList tbody tr").click(function() {
 				var mailNo = $(this).children().eq(1).text();
-
-				//console.log("mailNo1 : " + mailNo1);
-
+				//console.log("mailNo : " + mailNo);
+				//alert(mailNo);
 				location.href = "read.ml?mailNo=" + mailNo;
 
 			});
