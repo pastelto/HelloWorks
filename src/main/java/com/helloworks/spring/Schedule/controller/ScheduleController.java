@@ -8,8 +8,16 @@ public class ScheduleController {
 	
 	// 메뉴바 -> 일정관리 메인화면
 	@RequestMapping("schMain.sc")
-	public String workShareMain() {
+	public String scheduleMain() {
 		System.out.println("일정관리 메인화면으로 이동");
 		return "schedule/scheduleMain";
+	}
+	
+	
+	// 일정등록하기 - 페이지
+	@RequestMapping("addEvents.sc")
+	public String addEvents() {
+		
+		return "schedule/addSchedule";
 	}
 }
