@@ -82,13 +82,6 @@ public class ApprovalController {
 		return "approval/plusCooForm";
 	}
 	
-	@RequestMapping("temporarySave.ea")
-	public String temporarySave(Model model) {
-		
-		model.addAttribute("page",1);
-		
-		return "approval/temporarySaveMain";
-	}
 	
 	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
@@ -312,10 +305,12 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "일반";	
+		String status = request.getParameter("status");
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
 		
 		int listCount = approvalService.selectListCount(searchMap);
 		
@@ -327,7 +322,7 @@ public class ApprovalController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Approval> approvalList = approvalService.selectTempApproval(searchMap, pi);
+		ArrayList<Approval> approvalList = approvalService.selectApproval(searchMap, pi);
 		
 		model.addAttribute("approvalList", approvalList);
 		model.addAttribute("pi", pi);
@@ -344,10 +339,12 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "지출";	
+		String status = request.getParameter("status");
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
 		
 		int listCount = approvalService.selectListCount(searchMap);
 		
@@ -358,7 +355,7 @@ public class ApprovalController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Approval> approvalList = approvalService.selectTempApproval(searchMap, pi);
+		ArrayList<Approval> approvalList = approvalService.selectApproval(searchMap, pi);
 		
 		model.addAttribute("approvalList", approvalList);
 		model.addAttribute("pi", pi);
@@ -369,6 +366,131 @@ public class ApprovalController {
 		return "approval/temporarySaveMain";
 	}
 	
+	// 내결재함 - 일반결재
+	@RequestMapping("myNormal.ea")
+	public String myNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "일반";	
+		String status = request.getParameter("status");
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
+		
+		int listCount = approvalService.selectListCount(searchMap);
+		
+		
+		System.out.println("임시저장 결재 수 : " + listCount);
+		
+		int pageLimit = 10;
+		int boardLimit = 10; 
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Approval> approvalList = approvalService.selectApproval(searchMap, pi);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "myNormal.ea");
+		model.addAttribute("page", 1);
+		
+		
+		return "approval/myApprovalMain";
+	}
+	
+	// 내결재함 - 일반결재
+	@RequestMapping("myExpenditure.ea")
+	public String myExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+			
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "지출";	
+		String status = request.getParameter("status");
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
+			
+		int listCount = approvalService.selectListCount(searchMap);
+			
+		System.out.println("임시저장 결재 수 : " + listCount);
+			
+		int pageLimit = 10;
+		int boardLimit = 10; 
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+			
+		ArrayList<Approval> approvalList = approvalService.selectApproval(searchMap, pi);
+			
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "tempExpenditure.ea");
+			model.addAttribute("page", 2);
+		
+		return "approval/myApprovalMain";
+	}
+		
+	// 미결재함 - 일반결재
+	@RequestMapping("pendingNormal.ea")
+	public String pendingNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+			
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "일반";			
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+			
+		int listCount = approvalService.selectListCount(searchMap);
+			
+		System.out.println("임시저장 결재 수 : " + listCount);
+			
+		int pageLimit = 10;
+		int boardLimit = 10; 
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+			
+		ArrayList<Approval> approvalList = approvalService.selectpendingList(searchMap, pi);
+			
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "pendingNormal.ea");
+		model.addAttribute("page", 1);
+		
+		return "approval/pendingTrayMain";
+	}
+	
+	// 미결재함 - 지출결재
+	@RequestMapping("pendingExpenditure.ea")
+	public String pendingExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+			
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "지출";	
+			
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+				
+		int listCount = approvalService.selectListCount(searchMap);
+				
+		System.out.println("임시저장 결재 수 : " + listCount);
+				
+		int pageLimit = 10;
+		int boardLimit = 10; 
+			
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+				
+		ArrayList<Approval> approvalList = approvalService.selectpendingList(searchMap, pi);
+				
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "pendingExpenditure.ea");
+		model.addAttribute("page", 2);
+			
+		return "approval/pendingTrayMain";
+	}	
 	// 전자결재  Insert
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
@@ -559,9 +681,9 @@ public class ApprovalController {
 		
 		// 지출결재 detail
 		String exType = request.getParameter("exType");
-		String exNum = request.getParameter("exNum");		
+		String cardNum = request.getParameter("cardNum");		
 		
-		System.out.println("exNum : " + exNum);
+		System.out.println("cardNum : " + cardNum);
 		
 		String[] exDate = request.getParameterValues("exDate");
 		String[] exContent = request.getParameterValues("exContent");
@@ -580,7 +702,7 @@ public class ApprovalController {
 		
 		for(int i=0; i<exDate.length; i++) {
 			ad.setExType(exType);
-			ad.setExNum(exNum);
+			ad.setExNum(cardNum);
 			ad.setExTitle(title);
 			ad.setExNo(i);
 			ad.setExDate(exDate[i]);
@@ -754,15 +876,17 @@ public class ApprovalController {
 	
 	// 임시저장 - 날짜 버튼 클릭 
 	@ResponseBody
-	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
+	@RequestMapping(value="selectDateSort.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortTemp(HttpServletRequest request) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
 		String sdate = request.getParameter("sdate");
 		String apClass = request.getParameter("apClass");
+		String status = request.getParameter("status");
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
 		
 		System.out.println("기간 : " + sdate);
 		int sDate= 0;
@@ -771,32 +895,32 @@ public class ApprovalController {
 			case "당일" : 
 				sDate = 0;
 				searchMap.put("sDate", sDate);				
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			case "1주일" : 
 				sDate = 7;
 				searchMap.put("sDate", sDate);	
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			case "1개월" :
 				sDate = 30;
 				searchMap.put("sDate", sDate);	
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			case "3개월" :
 				sDate = 90;
 				searchMap.put("sDate", sDate);	
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			case "6개월" :
 				sDate = 180;
 				searchMap.put("sDate", sDate);	
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			case "1년" :
 				sDate = 365;
 				searchMap.put("sDate", sDate);	
-				list = approvalService.selectTempDate(searchMap);
+				list = approvalService.selectDate(searchMap);
 				break;
 			default : 
 				break;
@@ -809,25 +933,26 @@ public class ApprovalController {
 
 	// 임시저장 전체 보기 
 	@ResponseBody
-	@RequestMapping(value="selectAllTempApproval.ea", produces= "application/json; charset=utf-8")
+	@RequestMapping(value="selectAllApproval.ea", produces= "application/json; charset=utf-8")
 	public String selectAllTempApproval(HttpServletRequest request) {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
 			
 		String option = request.getParameter("cOption");
+		String status = request.getParameter("status");
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
-		
+		searchMap.put("status", status);
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("option", option);
 		
-		ArrayList<Approval> list = approvalService.selectAllTempApproval(searchMap);
+		ArrayList<Approval> list = approvalService.selectAllApproval(searchMap);
 		
 		return new GsonBuilder().create().toJson(list);
 	}
 	
-	// 임시저장 - 검색 
+	// 임시저장/내결재함  - 검색 
 	@ResponseBody
-	@RequestMapping(value="selectSearchSortTemp.ea", produces= "application/json; charset=utf-8")
+	@RequestMapping(value="selectSearchSort.ea", produces= "application/json; charset=utf-8")
 	public String selectSearchSortTemp(HttpServletRequest request) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
@@ -838,7 +963,8 @@ public class ApprovalController {
 		String input = request.getParameter("optionInput"); // 입력한 값 
 		String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
 		int intInput = 0;
-		String stringInput = null;		
+		String stringInput = null;	
+		String status = request.getParameter("status");
 		
 		System.out.println("detailOption : " + detailOption);
 		
@@ -849,6 +975,7 @@ public class ApprovalController {
 		searchMap.put("startDate", startDate);
 		searchMap.put("detailOption", detailOption);
 		searchMap.put("apClass", apClass);
+		searchMap.put("status", status);
 		
 		ArrayList<Approval> list = null;
 		
@@ -861,13 +988,13 @@ public class ApprovalController {
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
 						searchMap.put("optionInput", intInput);		
 						System.out.println("optionInput : " + intInput);
-						list = approvalService.selectSearchApNoTemp(searchMap);				
+						list = approvalService.selectSearchApNo(searchMap);				
 						break;
 					case "제목" : 
 						stringInput = request.getParameter("optionInput");							
 						searchMap.put("optionInput", stringInput);		
 						System.out.println("optionInput : " + stringInput);
-						list = approvalService.selectSearchTitleTemp(searchMap);				
+						list = approvalService.selectSearchTitle(searchMap);				
 						break;
 					default :
 						break;			
@@ -880,14 +1007,14 @@ public class ApprovalController {
 					searchMap.put("optionInput", intInput);		
 					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + intInput);
-					list = approvalService.selectDetailApNoTemp(searchMap);				
+					list = approvalService.selectDetailApNo(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
 					searchMap.put("optionInput", stringInput);		
 					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + stringInput);
-					list = approvalService.selectDetailTitleTemp(searchMap);				
+					list = approvalService.selectDetailTitle(searchMap);				
 					break;
 				default :
 					break;			
@@ -904,20 +1031,20 @@ public class ApprovalController {
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
 							searchMap.put("optionInput", intInput);		
 							System.out.println("optionInput : " + intInput);
-							list = approvalService.selectDateApNoTemp(searchMap);				
+							list = approvalService.selectDateApNo(searchMap);				
 							break;
 						case "제목" : 
 							stringInput = request.getParameter("optionInput");							
 							searchMap.put("optionInput", stringInput);		
 							System.out.println("optionInput : " + stringInput);
-							list = approvalService.selectDateTitleTemp(searchMap);				
+							list = approvalService.selectDateTitle(searchMap);				
 							break;
 						default :
 							break;			
 					}
 				// 검색어 미입력 
 				} else {
-					list = approvalService.selectOnlyDateSortTemp(searchMap);
+					list = approvalService.selectOnlyDateSort(searchMap);
 				}
 			// 세부항목 선택	
 			} else {
@@ -927,14 +1054,14 @@ public class ApprovalController {
 					searchMap.put("optionInput", intInput);		
 					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + intInput);
-					list = approvalService.selectDeteDetailApNoTemp(searchMap);				
+					list = approvalService.selectDeteDetailApNo(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
 					searchMap.put("optionInput", stringInput);	
 					searchMap.put("detailOption", detailOption);
 					System.out.println("optionInput : " + stringInput);
-					list = approvalService.selectDateDetailTitleTemp(searchMap);				
+					list = approvalService.selectDateDetailTitle(searchMap);				
 					break;
 				default :
 					break;			
@@ -944,6 +1071,198 @@ public class ApprovalController {
 	
 		return new GsonBuilder().create().toJson(list);
 	}
+	
+	//미결재함 전체보기
+	@ResponseBody
+	@RequestMapping(value="selectAllPending.ea", produces= "application/json; charset=utf-8")
+	public String selectAllPendingApproval(HttpServletRequest request) {
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();					
+		String option = request.getParameter("cOption");
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("option", option);
+		
+		ArrayList<Approval> list = approvalService.selectAllPending(searchMap);
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	
+	// 미결재함 - 날짜 버튼 클릭 
+	@ResponseBody
+	@RequestMapping(value="selectDateSortPending.ea", produces= "application/json; charset=utf-8")
+	public String selectDateSortPending(HttpServletRequest request) {
+			
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+		String sdate = request.getParameter("sdate");
+		String apClass = request.getParameter("apClass");
+
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+			
+		System.out.println("기간 : " + sdate);
+		int sDate= 0;
+		ArrayList<Approval> list = null;
+		switch(sdate) {
+			case "당일" : 
+				sDate = 0;
+				searchMap.put("sDate", sDate);				
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			case "1주일" : 
+				sDate = 7;
+				searchMap.put("sDate", sDate);	
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			case "1개월" :
+				sDate = 30;
+				searchMap.put("sDate", sDate);	
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			case "3개월" :
+				sDate = 90;
+				searchMap.put("sDate", sDate);	
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			case "6개월" :
+				sDate = 180;
+				searchMap.put("sDate", sDate);	
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			case "1년" :
+				sDate = 365;
+				searchMap.put("sDate", sDate);	
+				list = approvalService.selectDatePending(searchMap);
+				break;
+			default : 
+				break;
+		}
+			
+		return new GsonBuilder().create().toJson(list);
+			
+	}
+	
+	// 미결재함 - 검색 
+		@ResponseBody
+		@RequestMapping(value="selectSearchSortPending.ea", produces= "application/json; charset=utf-8")
+		public String selectSearchSortPending(HttpServletRequest request) {
+			
+			int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
+			String optionType = request.getParameter("optionType"); // 제목 , 문서번호 
+			String endDate = request.getParameter("endDate");
+			String startDate = request.getParameter("startDate");
+			String detailOption = request.getParameter("detailOption"); // 기안, 공문, 인사, 회의록 
+			String input = request.getParameter("optionInput"); // 입력한 값 
+			String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
+			int intInput = 0;
+			String stringInput = null;	
+			
+			System.out.println("detailOption : " + detailOption);
+			
+			HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+			searchMap.put("optionType", optionType);
+			searchMap.put("loginEmpNo", loginEmpNo);
+			searchMap.put("endDate", endDate);
+			searchMap.put("startDate", startDate);
+			searchMap.put("detailOption", detailOption);
+			searchMap.put("apClass", apClass);
+			
+			ArrayList<Approval> list = null;
+			
+			// 날짜구간 미입력
+			if(endDate.equals("") || startDate.equals("")) {		
+				// 세부 항목 미선택
+				if(detailOption.equals("")) {
+					switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectSearchApNoPending(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);		
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectSearchTitlePending(searchMap);				
+							break;
+						default :
+							break;			
+					}
+				// 세부항목 선택
+				} else {
+					switch(optionType) {
+					case "문서번호" : 
+						intInput = Integer.parseInt(request.getParameter("optionInput"));							
+						searchMap.put("optionInput", intInput);		
+						searchMap.put("detailOption", detailOption);
+						System.out.println("optionInput : " + intInput);
+						list = approvalService.selectDetailApNoPending(searchMap);				
+						break;
+					case "제목" : 
+						stringInput = request.getParameter("optionInput");							
+						searchMap.put("optionInput", stringInput);		
+						searchMap.put("detailOption", detailOption);
+						System.out.println("optionInput : " + stringInput);
+						list = approvalService.selectDetailTitlePending(searchMap);				
+						break;
+					default :
+						break;			
+					}
+				}
+			// 날짜 구간 입력
+			} else {
+				// 세부항목 미선택
+				if(detailOption.equals("")) {
+					// 검색어 입력
+					if(!input.equals("")) {
+						switch(optionType) {
+							case "문서번호" : 
+								intInput = Integer.parseInt(request.getParameter("optionInput"));							
+								searchMap.put("optionInput", intInput);		
+								System.out.println("optionInput : " + intInput);
+								list = approvalService.selectDateApNoPending(searchMap);				
+								break;
+							case "제목" : 
+								stringInput = request.getParameter("optionInput");							
+								searchMap.put("optionInput", stringInput);		
+								System.out.println("optionInput : " + stringInput);
+								list = approvalService.selectDateTitlePending(searchMap);				
+								break;
+							default :
+								break;			
+						}
+					// 검색어 미입력 
+					} else {
+						list = approvalService.selectOnlyDateSort(searchMap);
+					}
+				// 세부항목 선택	
+				} else {
+					switch(optionType) {
+					case "문서번호" : 
+						intInput = Integer.parseInt(request.getParameter("optionInput"));							
+						searchMap.put("optionInput", intInput);		
+						searchMap.put("detailOption", detailOption);
+						System.out.println("optionInput : " + intInput);
+						list = approvalService.selectDeteDetailApNoPending(searchMap);				
+						break;
+					case "제목" : 
+						stringInput = request.getParameter("optionInput");							
+						searchMap.put("optionInput", stringInput);	
+						searchMap.put("detailOption", detailOption);
+						System.out.println("optionInput : " + stringInput);
+						list = approvalService.selectDateDetailTitlePending(searchMap);				
+						break;
+					default :
+						break;			
+					}
+				}
+			}
+		
+			return new GsonBuilder().create().toJson(list);
+		}
+		
 	
 	// 전자결재  update
 		@RequestMapping("updateApproval.ea")

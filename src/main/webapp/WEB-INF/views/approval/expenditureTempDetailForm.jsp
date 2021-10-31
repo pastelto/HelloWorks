@@ -14,15 +14,12 @@
  <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
 
 <style>	
-	 td, span, input{
+		 td, span, input{
 		font-weight:normal;!important;
 		vertical-align: middle;!important;
 	}
 	#plus_line_btn{
 		margin-bottom:15px;
-	}
-	#ccName{
-		width: 300px; !important;
 	}
 	.bottom-margin0{
 		margin-right:8px;
@@ -40,7 +37,7 @@
 		background-color: white;
 		pointer-events: none;
 	}
-	input[id^="fieldWriter"], input[id^="userDept"]{
+	input[id^="fieldWriter"], input[id^="userDept"], #sumTd{
 		border : none;
 		background-color: white;
 		pointer-events: none;
@@ -294,7 +291,7 @@
 														</td>
 														<td colspan="4">
 															<select name="exType" class="form-control" id='corpor_select' style="font-size:0.8rem" onchange="changeExNum();">
-																<option value=""> 선택  </option>
+																<option> 선택  </option>
 																<option value="법인카드"> 법인카드 </option>
 																<option value="체크카드"> 체크카드 </option>
 															</select>
@@ -715,22 +712,36 @@
 		var type = arr[0].type;
 		var num = arr[0].cardNum;
 		
-		if($("input[id='corpor_radio']:checked").length > 0) {
-			
-			$("select[id='corpor_select']").find("'option[value="+type+"]'").prop("selected",true);
-			$("select[id='card_select3']").find("'option[value="+num+"]'").prop("selected",true);
-			
-		} else if(("input[id='remitt_radio']:checked").length > 0) {
-			
-			$("select[id='remitt_select']").find("'option[value="+type+"]'").prop("selected",true);
-			$("select[id='card_select3']").find("'option[value="+num+"]'").prop("selected",true);
 		
-		}
+		if($("input[id='corpor_radio']:checked").length > 0) {			
+			$("#corpor_select").val(type).prop("selected",true);			
+			if(type == '법인카드'){
+				$("#card_select2").css("display",'');
+				$("#card_select1").attr("style", "display:none");
+				$("#card_select3").attr("style", "display:none");
+				$("#card_select2").val(num).prop("selected",true);
+			} else if(type == '체크카드'){
+				$("#card_select1").css("display",'')
+				$("#card_select2").attr("style", "display:none");
+				$("#card_select3").attr("style", "display:none");
+				$("#card_select1").val(num).prop("selected",true);
+			} else {
+				$("#card_select3").css("display",'');
+				$("#card_select1").attr("style", "display:none");
+				$("#card_select2").attr("style", "display:none");
+			}
+			
+		} else if($("input[id='remitt_radio']:checked").length > 0) {
+			
+			$("#remitt_select").val(type).prop("selected",true);
+			
+		} 
 	</script>
 	
 	
 	<!-- 임시저장된 지출 내역 불러오기  -->
 	<script>
+	$(function(){	
 		var arr = new Array();
 		<c:forEach items="${ adList }" var="ad">
 			arr.push({date:"${ad.exDate}", type:"${ad.exType}", cardNum:"${ad.exNum}",
@@ -744,13 +755,14 @@
 		var addRow = null;
 		
 		for(var i=1; i<arr.length; i++){
+			n++;
 			var addRow = 
 				'<tr ' + 'name=exRow>'+
 					"<td colspan='1'>" +
 						'<input type="checkbox"  id="exCheck'+n+'">'+
 					"</td>"+
 					'<td colspan="1">'+													
-						'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" style="font-size:0.8rem">'+
+						'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" id="exDate'+n+'"style="font-size:0.8rem">'+
 					'</td>'+
 					'<td colspan="1">'+
 						'<select name="exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
@@ -836,39 +848,40 @@
 		}
 		
 		var k=2;
+		
 	
-		for(var i=0;i<arr.length;i++){
-			
+		for(var i=0; i<arr.length; i++){
 			if(i==0){
-				$("input[id='exDate1']").val(arr[i].date);
-				$("select[id='exContent_select1']").find("'option[value="+arr[i].content+"]'").prop("selected",true);
-				$("input[id='price1']").val(arr[i].price);
-				$("input[id='accountName1']").val(arr[i].addName);
-				$("select[id='exBank1']").find("'option[value="+arr[i].bank+"]'");
-				$("input[id='accountNum1']").val(arr[i].accNum);
-				$("input[id='exDept1']").val(arr[i].dept);
-				$("input[id='exNote1']").val(arr[i].note);
+				$("#exDate1").datepicker().datepicker("setDate", arr[i].date);
+				$("#exContent_select1").val(arr[i].content).prop("selected", true);
+				$("#price1").val(arr[i].price);
+				$("#accountName1").val(arr[i].accName);
+				$("#exBank1").val(arr[i].bank).prop("selected", true);
+				$("#accHolder1").val(arr[i].holder);
+				$("#accountNum1").val(arr[i].accNum);
+				$("#exDept1").val(arr[i].dept);
+				$("#exNote1").val(arr[i].note);
+				
+			}else {
+				$('#exDate'+k).datepicker().datepicker("setDate",arr[i].date);
+				$('#exContent_select'+k).val(arr[i].content).prop("selected",true);
+				$('#price'+k).val(arr[i].price);
+				$('#accountName'+k).val(arr[i].accName);
+				$('#exBank'+k).val(arr[i].bank).prop("selected", true);
+				$('#accountNum'+k).val(arr[i].accNum);
+				$('#accHolder'+k).val(arr[i].holder);
+				$('#exDept'+k).val(arr[i].dept);
+				$('#exNote'+k).val(arr[i].note);
 			}
-			else {
-			
-				$("input[id='exDate1']").val(arr[i].date);
-				$("select[id='exContent_select"+k+"']").find("'option[value="+arr[i].content+"]'").prop("selected",true);
-				$("input[id='price1']").val(arr[i].price);
-				$("input[id='accountName1']").val(arr[i].addName);
-				$("select[id='exBank1']").find("'option[value="+arr[i].bank+"]'");
-				$("input[id='accountNum1']").val(arr[i].accNum);
-				$("input[id='exDept1']").val(arr[i].dept);
-				$("input[id='exNote1']").val(arr[i].note);
-				k++;
-			}
-		} 
+		}
 	
+	});
 	</script>
 	
 	
 	<!-- 지출항목 추가  -->
 	<script>
-		var n = 1;
+		var n = $("tr[name='exRow']").length;
 		
 		function plusExrow(){
 				n+=1			
@@ -878,7 +891,7 @@
 							'<input type="checkbox"  id="exCheck'+n+'">'+
 						"</td>"+
 						'<td colspan="1">'+													
-							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" style="font-size:0.8rem">'+
+							'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" id="exDate'+n+'" style="font-size:0.8rem">'+
 						'</td>'+
 						'<td colspan="1">'+
 							'<select name="exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
@@ -972,6 +985,18 @@
 	
 	<!-- 금액 합계  -->	
 	<script >	
+	$(function(){
+		var cnt = $('input[id^="price"]').length; 
+		var sum = 0;
+		
+		for(var i=1; i<=cnt; i++){				
+			sum += parseInt($('input[id^="price'+i+'"]').val());				
+		};
+		
+			$("#sumTd").val(sum);	
+	})
+	
+	
 	function priceSum(){
 		
 		var cnt = $('input[id^="price"]').length; 
