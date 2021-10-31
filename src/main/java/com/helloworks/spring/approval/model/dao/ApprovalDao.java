@@ -254,6 +254,11 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectApprovalExDetails", searchMap);
 	}
 
+	public int deleteExDetails(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("approvalMapper.deleteExDetails", apNo);
+	}
+
 
 
 

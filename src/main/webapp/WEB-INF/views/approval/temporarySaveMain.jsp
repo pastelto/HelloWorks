@@ -38,7 +38,7 @@
 		              <div class="card-header p-0 border-bottom-0">
 		                <ul class="nav nav-tabs" id="custom-tabs-tempororyApproval-tab" role="tablist">
 		                  <li class="nav-item">
-		                    <a class="nav-link active" id="custom-tabs-normalApproval-tab" href="tempNormal.ea" role="tab" aria-controls="custom-tabs-normalApproval" aria-selected="true">일반 결재</a>
+		                    <a class="nav-link " id="custom-tabs-normalApproval-tab" href="tempNormal.ea" role="tab" aria-controls="custom-tabs-normalApproval" aria-selected="true">일반 결재</a>
 		                  </li>
 		                  <li class="nav-item">
 		                    <a class="nav-link" id="custom-tabs-expenditureApproval-tab"  href="tempExpenditure.ea" role="tab" aria-controls="custom-tabs-expenditureApproval" aria-selected="false">지출 결재</a>
@@ -53,7 +53,7 @@
 		              <div class="card-body">
 						<div class="tab-content" id="custom-tabs-tempororyApproval-tabContent">
 						
-							<div class="tab-pane fade show active" id="custom-tabs-normalApproval" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
+							<div class="tab-pane fade " id="custom-tabs-normalApproval" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
 									<!-- 일반결재 -->
 									<jsp:include page="./temporaryNormal.jsp" />
 				 			</div>

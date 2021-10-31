@@ -105,6 +105,8 @@ public interface ApprovalService {
 
 	ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap);
 
+	void deleteExDetails(int apNo);
+
 
 
 	

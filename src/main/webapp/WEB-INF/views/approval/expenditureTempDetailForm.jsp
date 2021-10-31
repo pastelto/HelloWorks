@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>전자결재</title>
 
 <!-- summernote -->
-<link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
+ <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
 
 <style>	
 	 td, span, input{
@@ -18,6 +20,9 @@
 	}
 	#plus_line_btn{
 		margin-bottom:15px;
+	}
+	#ccName{
+		width: 300px; !important;
 	}
 	.bottom-margin0{
 		margin-right:8px;
@@ -35,11 +40,12 @@
 		background-color: white;
 		pointer-events: none;
 	}
-	input[id^="fieldWriter"], input[id^="userDept"], #sumTd{
+	input[id^="fieldWriter"], input[id^="userDept"]{
 		border : none;
 		background-color: white;
 		pointer-events: none;
 	}
+	
 </style>
 </head>
 <body>
@@ -49,17 +55,19 @@
 	<div class="content-wrapper">
 		<!-- 페이지 헤더 -->
 		<section class="content-header">
-	      <div class="container-fluid">
-	        <div class="row mb-2">
-	          <div class="col-sm-6">
-	            <h4><i class="fas fa-chart-pie"></i> <b>전자 결재</b></h4>
-	          </div>
-	        </div>
-	      </div><!-- /.container-fluid -->
-	    </section>
-	    
-			<section class="content">
+		      <div class="container-fluid">
+		        <div class="row mb-2">
+		          <div class="col-sm-6">
+		            <h4><i class="fas fa-chart-pie"></i> <b>전자 결재</b></h4>
+		          </div>
+		        </div>
+		      </div><!-- /.container-fluid -->
+		</section>	
+		
+		<section class="content">
 			<form id="expenditureApprovalForm" method="post" action="insertExApproval.ea" enctype="multipart/form-data">
+				<input type="hidden" class="apNo class" id="apNo" name="apNo" value="${approval.apNo}">
+				<input type="hidden" class="doc_type class" id="doc_type" name="doc_type" value="지출">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -158,7 +166,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" readonly/>
+																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" value="${approval.cooJob}" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
@@ -172,8 +180,8 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" readonly/>
-																	<input type="hidden" id="cooperator1_1" name="cooperator0">
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" value ="${approval.cooName}" readonly/>
+																	<input type="hidden" id="cooperator1_1" name="cooperator0" value="${approval.cooper }">
 																</td>
 																<td class="table coo_name"  scop="col">
 																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
@@ -211,7 +219,7 @@
 														</td>
 														<td colspan="11" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%"  style="font-size:0.9em" readonly/>	
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" "/>	
 															<input type="hidden" id="ccCode1" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
@@ -225,7 +233,7 @@
 														</td>
 														<td colspan="11">
 															<label style="display: inline-block" class="bottom-margin0" >
-																<input type="radio" name="ex_radio"  value = "법인카드" id="corpor_radio" checked="true">
+																<input type="radio" name="ex_radio"  value = "법인카드" id="corpor_radio" />
 																<span class="co_docu_cd_old" style="cursor: pointer;">법인카드</span>											
 															</label>
 															<label style="display: inline-block" class="bottom-margin0" >
@@ -237,13 +245,17 @@
 																<span class="co_docu_cd_old"  style="cursor: pointer;">현금가지급정산</span>											
 															</label>
 															<label style="display: inline-block" class="bottom-margin0" >
-																<input type="checkbox" name="commonEx"  value = 'Y' id="commonEx" >
+															
+															<c:if test="${ae.exCommon eq 'Y' }">															
+																<input type="checkbox" name="commonEx"  value = 'Y' id="commonEx" checked="true"/>
+															</c:if>	
+															<c:if test="${ae.exCommon eq 'N' }">
+																<input type="checkbox" name="commonEx"  value = 'Y' id="commonEx" />
+															</c:if>	
 																<input type="hidden" name="commonEx" value='N' id="commonEx_hidden"/>
 																<span>공통경비</span>											
 															</label>
-																										
-															 																								
-														
+																												
 														</td>
 													</tr>
 													<tr>
@@ -273,7 +285,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="11">
-															<input type=text class="form-control" id="ap_title" name="ap_title">
+															<input type=text class="form-control" id="ap_title" name="ap_title" value="${approval.title}"/>
 														</td>
 													</tr>
 													<tr id="temp_hidden">
@@ -354,7 +366,7 @@
 															<!--  <input type="checkbox"  id="exCheck1">-->
 														</td>
 														<td colspan="1">															
-															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate" style="font-size:0.8rem">
+															<input type="date" class="form-control datetimepicker-input" data-target="#exDate" name="exDate" id="exDate1" style="font-size:0.8rem">
 														</td>
 														<td colspan="1">
 															<select name="exContent" class="form-control" id='exContent_select1'style="font-size:0.8rem">
@@ -445,16 +457,21 @@
 													</tr>								
 													<tr>
 														<td colspan="12">
-															<textarea id="summernote" name="apContent"></textarea>
+															<textarea id="summernote" name="apContent">${approval.content}</textarea>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="2">
 															<span>부서공유</span>
 														</td>
-														<td colspan="10">													
+														<td colspan="10">	
+														<c:if test="${approval.deptShare eq 'Y'}">										
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y' checked/> 
+														</c:if>
+														<c:if test="${approval.deptShare eq 'N'}">										
 															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
-															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 																								
+														</c:if>														
+															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
 														</td>
 													</tr>
 													<tr>
@@ -478,7 +495,7 @@
 													<tr>
 													<tr id="fileRow">
 														<td colspan="6">
-															<span class="expenditureAttachName"></span>
+															<span class="expenditureAttachName">${apAttach.originName}</span>
 														</td >
 														<td colspan="3">
 															<span class="expenditureAttachSize"></span>
@@ -509,12 +526,81 @@
 							</div>
 				</form>
 			</section>
-		</div>	
-		
+	</div>
 	<jsp:include page="../common/footer.jsp"/>
+
+
+
+
+<!---------- script------------>
+	<!-- 결재라인 -->
+	<script>		
+		var arr = new Array();
+		<c:forEach items="${ lineList }" var="line">
+			arr.push({job:"${line.jobName}", name:"${line.empName}", number:"${line.empNo}"});
+		</c:forEach>
+		
+		var n=1;
+		
+		for(var i=0;i<arr.length;i++){
+			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
+			$('input[id="emp_name1_'+n+'"]').val(arr[i].name);
+			$('input[id="line1_'+n+'"]').val(arr[i].number);
+			n++;
+		}
+	</script>
+	<!-- 수신참조 -->
+	<script>
+		var deptName = null;
+		var ccDept = null;
+		var memberName = null;
+		var ccMember = null;
+		<c:choose>
+			<c:when test="${ not empty apCC.ccName }">
+				deptName = "${apCC.ccName}"
+				ccDept = "${apCC.ccDept}"			
+			</c:when>
+			<c:when test="${ not empty apCC.ccName }">
+				memberName = "${ apCC.ccName }"
+				ccMember = "${apCC.ccMember}"
+			</c:when>	
+		</c:choose>
+		
+		if(deptName != null){
+			$('input[id="ccName1"]').val(deptName);
+			$('input[id="ccCode1"]').val(ccDept);
+		} else if (memberName != null){
+			$('input[id="ccName1"]').val(memberName);
+			$('input[id="ccCode1"]').val(ccMember);
+		}	
+	</script>
+	<!-- 지출유형 -->
+	<script>
+		var exForm = null;
+		<c:choose>
+			<c:when test="${ ae.exForm eq '법인카드'}">
+				exForm = '법인카드';
+			</c:when>
+			<c:when test="${ ae.exForm eq '송금'}">
+				exForm = '송금';
+			</c:when>
+			<c:when test="${ ae.exForm eq '현금가지급'}">
+				exForm = '현금가지급';
+			</c:when>
+		</c:choose>
+		
+		if(exForm == '법인카드'){
+			$('input[id=corpor_radio]').prop('checked',true);
+		} 
+		else if( exForm == '송금'){
+			$('input[id=remitt_radio]').prop('checked',true);
+		}
+		else if( exForm == '현금가지급'){
+			$('input[id=temporory_radio]').prop('checked',true);
+		}
+	</script>
 	
 
-<!-- script -->
 	
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
@@ -529,11 +615,39 @@
     <script>
 		$(function(){
 			
-			$("#remitt_select").attr("style", "display:none")
-			$("#card_select1").attr("style", "display:none")
-			$("#card_select2").attr("style", "display:none")
-			$('input[name="accNum"]').attr("disabled",true);
-			$('input[name="accHolder"]').attr("disabled",true);
+			if($("input[id='corpor_radio']:checked").length > 0) {
+				$("#corpor_select").css("display",'')
+				$("#temp_hidden").css("display",'')
+				$("#card_select3").css("display",'')
+				$("#remitt_select").attr("style", "display:none")
+				$("#card_select1").attr("style", "display:none")
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
+			}
+			
+			if($("input[id='remitt_radio']:checked").length > 0){
+				$("#remitt_select").css("display",'')
+				$("#temp_hidden").css("display",'')
+				$("#corpor_select").attr("style", "display:none")
+				$("#card_select1").attr("style", "display:none")
+				$("#card_select2").attr("style", "display:none")
+				$("#card_select3").attr("style", "display:none")
+				$('input[name="accNum"]').attr("disabled",false);
+				$('input[name="accHolder"]').attr("disabled",false);
+				
+			}
+			
+			if($("input[id='temporory_radio']:checked").length > 0){
+				$("#temp_hidden").attr("style", "display:none")
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
+				
+			}
+			
+			if($("input[id='commonEx']:checked").length > 0) {
+				$("input[name='exDept']").attr('disabled',true);
+			}				
+			
 			
 			
 			$('#corpor_radio').click(function(){				
@@ -589,6 +703,166 @@
 				$("#card_select3").attr("style", "display:none")
 			}
 		}
+	</script>
+	
+	<!-- 지급유형 지급번호 -->
+	<script>
+		var arr = new Array();
+		<c:forEach items="${ adList }" var="ad">
+			arr.push({type:"${ad.exType}", cardNum:"${ad.exNum}"});
+		</c:forEach>
+		
+		var type = arr[0].type;
+		var num = arr[0].cardNum;
+		
+		if($("input[id='corpor_radio']:checked").length > 0) {
+			
+			$("select[id='corpor_select']").find("'option[value="+type+"]'").prop("selected",true);
+			$("select[id='card_select3']").find("'option[value="+num+"]'").prop("selected",true);
+			
+		} else if(("input[id='remitt_radio']:checked").length > 0) {
+			
+			$("select[id='remitt_select']").find("'option[value="+type+"]'").prop("selected",true);
+			$("select[id='card_select3']").find("'option[value="+num+"]'").prop("selected",true);
+		
+		}
+	</script>
+	
+	
+	<!-- 임시저장된 지출 내역 불러오기  -->
+	<script>
+		var arr = new Array();
+		<c:forEach items="${ adList }" var="ad">
+			arr.push({date:"${ad.exDate}", type:"${ad.exType}", cardNum:"${ad.exNum}",
+					  content:"${ad.exContent}", price:"${ad.price}", accName:"${ad.accName}", bank:"${ad.bankName}",
+					  accNum:"${ad.accNum}", holder:"${ad.accHolder}", dept:"${ad.exDept}", note:"${ad.note}"});
+		</c:forEach>
+		
+		console.log(arr);
+		
+		var n=1;
+		var addRow = null;
+		
+		for(var i=1; i<arr.length; i++){
+			var addRow = 
+				'<tr ' + 'name=exRow>'+
+					"<td colspan='1'>" +
+						'<input type="checkbox"  id="exCheck'+n+'">'+
+					"</td>"+
+					'<td colspan="1">'+													
+						'<input type="date" class="form-control datetimepicker-input" data-target="#exDate'+n+'" name="exDate" style="font-size:0.8rem">'+
+					'</td>'+
+					'<td colspan="1">'+
+						'<select name="exContent" class="form-control" id="exContent_select'+n+'" style="font-size:0.8rem">'+
+							'<option value="none"> 선택  </option>'+
+							'<option value="교통비"> 교통비 </option>'+
+							'<option value="복리후생"> 복리후생 </option>'+
+							'<option value="사무비품"> 사무비품 </option>'+
+							'<option value="소모품비"> 소모품비 </option>'+															
+							'<option value="지급수수료"> 지급수수료 </option>'+
+							'<option value="출장비"> 출장비 </option>'+
+						'</select>'+
+					'</td>'+
+					'<td colspan="1">'+
+						'<input type="text" class="form-control" id="price'+n+'" name="price" style="font-size:0.8rem" onkeyup="priceSum();">'+
+					'</td>'+
+					'<th colspan="2">'+
+						'<input type="text" class="form-control" id="accountName'+n+'" name="accName" class="form-control" style="font-size:0.8rem">'+									
+					'</th>'+
+					'<td colspan="1">'+
+						'<select name="bankName" class="form-control" id="exBank'+n+'" style="font-size:0.8rem">'+
+							'<option value="none"> 은행선택  </option>'+
+							'<option value="경남"> 경남 </option>'+
+							'<option value="광주"> 광주 </option>'+
+							'<option value="국민"> 국민 </option>'+
+							'<option value="기업은행"> 기업은행 </option>'+																
+							'<option value="농협중앙"> 농협중앙 </option>'+
+							'<option value="대구"> 대구 </option>'+
+							'<option value="부산"> 부산 </option>'+
+							'<option value="산업"> 산업 </option>'+
+							'<option value="상호저축"> 상호저축 </option>'+
+							'<option value="새마을금고"> 새마을금고 </option>'+
+							'<option value="수출입"> 수출입 </option>'+
+							'<option value="수협"> 수협 </option>'+
+							'<option value="신한"> 신한 </option>'+
+							'<option value="신협"> 신협 </option>'+
+							'<option value="외환"> 외환 </option>'+
+							'<option value="우리"> 우리 </option>'+
+							'<option value="우체국"> 우체국 </option>'+
+							'<option value="전북"> 전북 </option>'+
+							'<option value="제주"> 제주 </option>'+
+							'<option value="지역농협"> 지역농협 </option>'+
+							'<option value="축협"> 축협 </option>'+
+							'<option value="카카오뱅크"> 카카오뱅크 </option>'+
+							'<option value="케이뱅크"> 케이뱅크 </option>'+
+							'<option value="하나"> 하나 </option>'+
+							'<option value="한국"> 한국 </option>'+
+							'<option value="한국씨티"> 한국씨티 </option>'+
+							'<option value="SC제일"> SC제일 </option>'+
+						'</select>'+
+					'</td>'+
+					'<td colspan="2">'+
+						'<input type="text" class="form-control" id="accountNum'+n+'" name="accNum" style="font-size:0.8rem">'+
+					'</td>'+
+					'<td colspan="1">'+
+						'<input type="text" class="form-control" id="accHolder'+n+'" name="accHolder" style="font-size:0.8rem">'+
+					'</td>'+
+					'<td colspan="1">'+
+						'<input type="text" class="form-control" id="exDept'+n+'" name="exDept" style="font-size:0.8rem" onclick="searchDept(this.id);"/>'+
+					'</td>'+
+					'<td colspan="1">'+
+						'<input type="text" class="form-control" id="exNote'+n+'" name="note" style="font-size:0.8rem">'+
+					'</td>'+			
+				'</tr>'	;	
+				
+			var trHtml = $("tr[name='exRow']:last");
+			trHtml.after(addRow);
+			
+			if($("input[id='corpor_radio']:checked").length > 0) {
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
+			}
+			
+			if($("input[id='temporory_radio']:checked").length > 0){
+				$('input[name="accNum"]').attr("disabled",true);
+				$('input[name="accHolder"]').attr("disabled",true);
+				
+			}
+			
+			if($("input[id='commonEx']:checked").length > 0) {
+				$("input[name='exDept']").attr('disabled',true);
+			}				
+			
+		}
+		
+		var k=2;
+	
+		for(var i=0;i<arr.length;i++){
+			
+			if(i==0){
+				$("input[id='exDate1']").val(arr[i].date);
+				$("select[id='exContent_select1']").find("'option[value="+arr[i].content+"]'").prop("selected",true);
+				$("input[id='price1']").val(arr[i].price);
+				$("input[id='accountName1']").val(arr[i].addName);
+				$("select[id='exBank1']").find("'option[value="+arr[i].bank+"]'");
+				$("input[id='accountNum1']").val(arr[i].accNum);
+				$("input[id='exDept1']").val(arr[i].dept);
+				$("input[id='exNote1']").val(arr[i].note);
+			}
+			else {
+			
+				$("input[id='exDate1']").val(arr[i].date);
+				$("select[id='exContent_select"+k+"']").find("'option[value="+arr[i].content+"]'").prop("selected",true);
+				$("input[id='price1']").val(arr[i].price);
+				$("input[id='accountName1']").val(arr[i].addName);
+				$("select[id='exBank1']").find("'option[value="+arr[i].bank+"]'");
+				$("input[id='accountNum1']").val(arr[i].accNum);
+				$("input[id='exDept1']").val(arr[i].dept);
+				$("input[id='exNote1']").val(arr[i].note);
+				k++;
+			}
+		} 
+	
 	</script>
 	
 	
@@ -792,7 +1066,6 @@
 		}
 	</script>	
 	
-	
 	<script>
 	function plusLine(num){
 		
@@ -834,6 +1107,7 @@
 		
 	}	
 	</script>
-	
+
+
 </body>
 </html>

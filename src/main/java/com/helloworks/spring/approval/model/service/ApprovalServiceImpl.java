@@ -384,6 +384,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 			throw new CommException("결재 수정 실패");
 		}
 	}
+	
+	@Override
+	public void deleteExDetails(int apNo) {
+		int result = approvalDao.deleteExDetails(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+		
+	}
 
 
 	@Override
@@ -419,5 +429,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return approvalDao.selectApprovalExDetails(sqlSession, searchMap);
 	}
+
+
+	
 
 }

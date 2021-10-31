@@ -219,7 +219,7 @@
                 </a>
               </li>
                <li class="nav-item">
-                <a href="temporarySave.ea" class="nav-link">
+                <a href="tempNormal.ea" class="nav-link">
                   <p>임시저장함</p>
                 </a>
               </li>
