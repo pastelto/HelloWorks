@@ -384,5 +384,53 @@ public class ApprovalServiceImpl implements ApprovalService {
 			throw new CommException("결재 수정 실패");
 		}
 	}
+	
+	@Override
+	public void deleteExDetails(int apNo) {
+		int result = approvalDao.deleteExDetails(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 수정 실패");
+		}
+		
+	}
+
+
+	@Override
+	public ApprovalDiploma selectApprovalDiploma(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalDiploma(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalHr selectApprovalHr(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalHr(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalMinutes selectApprovalMinutes(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalMinutes(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ApprovalExpenditure selectApprovalExpenditure(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalExpenditure(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectApprovalExDetails(sqlSession, searchMap);
+	}
+
+
+	
 
 }

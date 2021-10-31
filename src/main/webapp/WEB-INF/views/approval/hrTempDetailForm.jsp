@@ -66,7 +66,8 @@
 		
 		<section class="content">
 			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
-				<input type="hidden" class="apNo Class" id="apNo" name="apNo" value="${approval.apNo}">
+				<input type="hidden" class="apNo class" id="apNo" name="apNo" value="${approval.apNo}">
+				<input type="hidden" class="doc_type class" id="doc_type" name="doc_type" value="인사">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
@@ -149,7 +150,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level4_1" id="coo_level4_1"  name="cooJob" readonly/>
+																	<input type="text" class="coo_level4_1" id="coo_level4_1"  value="${approval.cooJob}" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level4_2" id="coo_level4_2" disabled/>
@@ -163,8 +164,8 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name4_1" id="coo_name4_1" disabled/>
-																	<input type="hidden" id="cooperator4_1" name="cooperator0">
+																	<input type="text" class="coo_name4_1" id="coo_name4_1"  value ="${approval.cooName}" readonly/>
+																	<input type="hidden" id="cooperator4_1" name="cooperator0" value="${approval.cooper}">
 																</td>
 																<td class="table coo_name"  scop="col">
 																	<input type="text" class="coo_name4_2" id="coo_name4_2" disabled/>
@@ -215,7 +216,7 @@
 															<span>제목</span>
 														</td>
 														<td colspan="8">
-															<input type=text class="form-control" id="ap_title" name="ap_title">
+															<input type=text class="form-control" id="ap_title" name="ap_title" value="${approval.title}">
 														</td>
 													</tr>
 													<tr>
@@ -257,17 +258,22 @@
 													</tr>
 													<tr>
 														<td colspan="12">
-															<textarea id="summernote4" name="apContent"></textarea>
+															<textarea id="summernote4" name="apContent">${approval.content}</textarea>
 														</td>
 													</tr>
 													<tr>
 														<td colspan="4">
 															<span>부서공유</span>
 														</td>
-														<td colspan="8">													
+														<td colspan="8">	
+														<c:if test="${approval.deptShare eq 'Y'}">										
+															<input type="checkbox" id="deptShare" name="deptShare" value='Y' checked/> 
+														</c:if>
+														<c:if test="${approval.deptShare eq 'N'}">										
 															<input type="checkbox" id="deptShare" name="deptShare" value='Y'/> 
+														</c:if>														
 															<input type="hidden" id="deptShare_hidden" name="deptShare" value='N'/> 														
-														</td>
+														</td>										
 													</tr>
 													<tr>
 														<td colspan="12">															
@@ -290,7 +296,7 @@
 													<tr>
 													<tr id="fileRow">
 														<td colspan="6">
-															 <span class="normalAttachName"></span>
+															<span class="normalAttachName">${apAttach.originName}</span>
 														</td >
 														<td colspan="3">
 															<span class="normalAttachSize"></span>
@@ -344,14 +350,40 @@
 			n++;
 		}
 	</script>
-
+	<!-- 수신참조 -->
+	<script>
+		var deptName = null;
+		var ccDept = null;
+		var memberName = null;
+		var ccMember = null;
+		<c:choose>
+			<c:when test="${ not empty apCC.ccName }">
+				deptName = "${apCC.ccName}"
+				ccDept = "${apCC.ccDept}"
+				
+			</c:when>
+			<c:when test="${ not empty apCC.ccName }">
+				memberName = "${ apCC.ccName }"
+				ccMember = "${apCC.ccMember}"
+			</c:when>	
+		</c:choose>
+		
+		if(deptName != null){
+			$('input[id="ccName4"]').val(deptName);
+			$('input[id="ccCode4"]').val(ccDept);
+		} else if (memberName != null){
+			$('input[id="ccName4"]').val(memberName);
+			$('input[id="ccCode4"]').val(ccMember);
+		}
+	
+	</script>
 	
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
 
 	<script>
     	$(document).ready(function() {
-    	  $('#summernote').summernote({
+    	  $('#summernote4').summernote({
     	    height : 400
     	  });
     	});

@@ -30,9 +30,9 @@ public interface MailService {
 	//보낸 메일함
 	ArrayList<Mail> sentMailList(int myEmp);
 	
-//	//임시 보관함
-//	ArrayList<Mail> draftMailList(Employee myEmp);
-//	
+	//임시 보관함
+	ArrayList<Mail> draftMailList(int myEmp);
+	
 //	//휴지통
 //	ArrayList<Mail> trashMailList(Employee myEmp);
 	

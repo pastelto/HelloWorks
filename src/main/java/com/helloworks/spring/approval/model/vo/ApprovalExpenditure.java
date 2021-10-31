@@ -13,6 +13,9 @@ import lombok.ToString;
 @ToString
 public class ApprovalExpenditure extends Approval{
 
+	public ApprovalExpenditure(int apNo) {
+		// TODO Auto-generated constructor stub
+	}
 	private String exForm; 		// 지급형식
 	private String exCommon; 		// 공통경비 여부 
 	
@@ -20,16 +23,6 @@ public class ApprovalExpenditure extends Approval{
 		// TODO Auto-generated constructor stub
 	}*/
 	
-	public ApprovalExpenditure(int apNo) {
-		super(apNo);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ApprovalExpenditure(int apNo,String exForm, String exCommon) {
-		super(apNo);
-		this.exForm = exForm;
-		this.exCommon = exCommon;
-	}
 
 	/*public String getExForm() {
 		return exForm;

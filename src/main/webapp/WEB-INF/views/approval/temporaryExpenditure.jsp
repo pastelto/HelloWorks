@@ -171,7 +171,7 @@
 	
 	<!-- 전체보기  -->
 	 <script>
-	 	function selectAllNormalTemp(cOption){
+	 	function selectAllExTemp(cOption){
 	 	
 	 		resetSearch();
 	 		
@@ -215,7 +215,7 @@
 	<!-- 날짜 버튼 검색 -->
 	<script>
 	 	$(function(){
-	 		$("#normalApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
+	 		$("#expenditureApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
@@ -271,7 +271,7 @@
 	
 	<!-- 검색 -->
 	<script>
-		function searchNormalApproval(){
+		function searchExApproval(){
 			
 			var optionType = $("#conditionOption").val();
 			var optionInput = $("#conditionInput").val();
