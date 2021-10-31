@@ -23,7 +23,7 @@ public class ApprovalMinutes extends Approval{
 	public ApprovalMinutes(int apNo, String title, String attendees) {
 		super(apNo);
 		this.title = title;
-		attendees = attendees;
+		this.attendees = attendees;
 	}
 
 	/*public String getTitle() {

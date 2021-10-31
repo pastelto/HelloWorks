@@ -21,14 +21,6 @@ public class ApprovalDiploma extends Approval{
 		// TODO Auto-generated constructor stub
 	}*/
 
-	public ApprovalDiploma(int apNo, String email, String phone, String officeAddress) {
-		super(apNo);
-		this.email = email;
-		this.phone = phone;
-		this.officeAddress = officeAddress;
-		 
-	}
-
 	/*public String getEmail() {
 		return email;
 	}

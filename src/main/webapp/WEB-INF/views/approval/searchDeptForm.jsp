@@ -64,7 +64,7 @@
 										<a href="#business" class="open" onclick="selectDept('사업본부')">사업본부</a>
 										<ul id="business">
 											<li><a href="#" onclick="selectDept('디자인팀')">디자인팀</a></li>
-											<li><a href="#" onclick="selectDept('마케팅킴')">마케팅킴</a></li>
+											<li><a href="#" onclick="selectDept('마케팅팀')">마케팅팀</a></li>
 											<li><a href="#" onclick="selectDept('IT개발팀')">IT개발팀</a></li>
 										</ul>
 									</li>
