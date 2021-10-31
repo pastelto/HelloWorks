@@ -28,6 +28,11 @@ public class EmployeeController {
 	@Autowired
 	private AttendanceService attendanceService;
 	
+	@RequestMapping("/")
+	public String indexController() {
+			return "index";
+	}
+	
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public ModelAndView loginMember(Employee m, HttpSession session, ModelAndView mv) {
 				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
