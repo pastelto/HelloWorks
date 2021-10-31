@@ -752,7 +752,7 @@ public class ApprovalController {
 		return newName;
 	}
 	
-	// 임시저장 - 날짜버튼 클릭 
+	// 임시저장 - 날짜 버튼 클릭 
 	@ResponseBody
 	@RequestMapping(value="selectDateSortTemp.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortTemp(HttpServletRequest request) {
