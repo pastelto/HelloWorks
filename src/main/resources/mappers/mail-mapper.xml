@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		MAIL
 		VALUES
 		(SEQ_ES_MAIL_NO.NEXTVAL, #{mailRcvr}, #{mailSndr}, #{mailRef}, #{mailTitle}, 
-		#{mailContent}, SYSDATE, 'Y', #{mailRcvr})
+		#{mailContent}, SYSDATE, #{mailStatus}, #{mailRcvr})
 	</insert>
 	
 	<!-- 첨부파일저장 -->
@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
 		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
-		WHERE (MAIL_RCVR LIKE '%'||#{empNo}||'%' OR MAIL_RCVR LIKE '%'||#{deptCode}||'%')
+		WHERE MAIL_RCVR LIKE '%'||#{empNo}||'%'
 		AND MAIL_STATUS = 'Y'
 		ORDER BY A.MAIL_NO DESC
 	</select>
@@ -154,16 +154,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	
 	<!-- 임시보관 메일목록 -->
-<!-- 	<select id="draftMailList" resultMap="mailResultSet">
-		SELECT A.MAIL_NO, B.EMP_NAME, A.MAIL_SNDR, A.MAIL_RCVR, A.MAIL_TITLE, A.MAIL_DATE, C.DEPT_DNAME,D.JOB_NAME
-		FROM MAIL A
-		JOIN EMPLOYEE B ON B.EMP_NO = A.MAIL_SNDR
-		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
-		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
-		WHERE (MAIL_RCVR LIKE '%'||#{empNo}||'%' OR MAIL_RCVR LIKE '%'||#{deptCode}||'%')
+ 	<select id="draftMailList" parameterType="_int" resultMap="mailResultSet">
+		SELECT *
+		FROM MAIL 
+		WHERE MAIL_SNDR = #{mailSndr}
 		AND MAIL_STATUS = 'S'
-		ORDER BY A.MAIL_NO DESC;
-	</select> -->
+		ORDER BY MAIL_NO DESC
+	</select>
 	
 	<!-- 휴지통 메일목록 -->
 <!-- 	<select id="trashMailList" resultMap="mailResultSet">

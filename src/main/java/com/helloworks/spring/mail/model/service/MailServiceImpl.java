@@ -79,13 +79,13 @@ public class MailServiceImpl implements MailService {
 		return mailDao.readMailAttachment(sqlSession, mailNo);
 	}
 	
-//	//임시 보관함
-//	@Override
-//	public ArrayList<Mail> draftMailList(Employee myEmp) {
-//		// TODO Auto-generated method stub
-//		return mailDao.draftMailList(sqlSession, myEmp);
-//	}
-//	
+	//임시 보관함
+	@Override
+	public ArrayList<Mail> draftMailList(int myEmp) {
+		// TODO Auto-generated method stub
+		return mailDao.draftMailList(sqlSession, myEmp);
+	}
+	
 //	//휴지통
 //	@Override
 //	public ArrayList<Mail> trashMailList(Employee myEmp) {

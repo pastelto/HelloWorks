@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,22 +133,45 @@
 							<div class="table-responsive mailbox-messages">
 								<table class="table table-hover table-striped" id="draftList">
 									<tbody>
-										<c:forEach items="${ list }" var="draft">
+										<c:forEach items="${ draftMailList }" var="draft"
+											varStatus="status">
+											<tr>
+												<td onclick="event.cancelBubble=true;"><!-- 클릭하고싶지 않은 td!! -->
+													<div class="icheck-primary">
+														<input type="checkbox" value="${ draft.mailNo }">
+													</div>
+												</td>
+												<td>${ draft.mailNo }</td>
+												<td class="mailbox-name">
+												<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}" step="1" varStatus="in">
+														<c:if
+															test="${ (draftMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
+														<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span> 
+													</c:if>
+													</c:forEach></td>
+												<td class="mailbox-subject"><b>${ draft.mailTitle }</b></td>
+												<td class="mailbox-date float-right">${ draft.mailDate }</td>
+											</tr>
+										</c:forEach>
+									
+									
+									
+<%-- 									
+										<c:forEach items="${ draftMailList }" var="draft">
 											<tr>
 												<td>
 													<div class="icheck-primary">
-														<input type="checkbox" value="" id="check1"> <label
+														<input type="checkbox" value="${ draft.mailNo }" id="check1"> <label
 															for="check1"></label>
 													</div>
 												</td>
-												<td>${ sent.mailNo }</td>
-												<td class="mailbox-name">${ draft.mailSndrDept }${ draft.mailSndrName }
-													${ draft.mailSndrJobName }</td>
+												<td>${ draft.mailNo }</td>
+												<td class="mailbox-name">${ draft.mailRcvr }</td>
 												<td class="mailbox-subject"><b>${ draft.mailTitle }</b></td>
 												<td class="mailbox-date float-right">${ draft.mailDate }</td>
 
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 									</tbody>
 								</table>
 								<!-- /.table -->
