@@ -612,12 +612,24 @@
     <script>
 		$(function(){
 			
-			if($("input[id='corpor_radio']:checked").length > 0) {
+			if($("input[id='corpor_radio']:checked").length > 0) {				
 				$("#corpor_select").css("display",'')
+				if($("#corpor_select").val() == '법인카드'){
+					$("#card_select2").css("display",'')
+					$("#card_select1").attr("style", "display:none")
+					$("#card_select3").attr("style", "display:none")
+				} else if($("#corpor_select").val() == '체크카드'){
+					$("#card_select1").css("display",'')
+					$("#card_select2").attr("style", "display:none")
+					$("#card_select3").attr("style", "display:none")
+				} else {
+					$("#temp_hidden").css("display",'')
+					$("#card_select3").css("display",'')
+					$("#card_select2").attr("style", "display:none")
+					$("#card_select1").attr("style", "display:none")
+				}					
 				$("#temp_hidden").css("display",'')
-				$("#card_select3").css("display",'')
 				$("#remitt_select").attr("style", "display:none")
-				$("#card_select1").attr("style", "display:none")
 				$('input[name="accNum"]').attr("disabled",true);
 				$('input[name="accHolder"]').attr("disabled",true);
 			}
@@ -852,7 +864,7 @@
 	
 		for(var i=0; i<arr.length; i++){
 			if(i==0){
-				$("#exDate1").datepicker().datepicker("setDate", arr[i].date);
+				$("#exDate1").val(arr[i].date);
 				$("#exContent_select1").val(arr[i].content).prop("selected", true);
 				$("#price1").val(arr[i].price);
 				$("#accountName1").val(arr[i].accName);
@@ -863,7 +875,7 @@
 				$("#exNote1").val(arr[i].note);
 				
 			}else {
-				$('#exDate'+k).datepicker().datepicker("setDate",arr[i].date);
+				$('#exDate'+k).val(arr[i].date);
 				$('#exContent_select'+k).val(arr[i].content).prop("selected",true);
 				$('#price'+k).val(arr[i].price);
 				$('#accountName'+k).val(arr[i].accName);

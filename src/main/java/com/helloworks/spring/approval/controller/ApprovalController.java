@@ -305,7 +305,7 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "일반";	
-		String status = request.getParameter("status");
+		String status = "N";
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
@@ -339,7 +339,7 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "지출";	
-		String status = request.getParameter("status");
+		String status = "N";
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
@@ -372,7 +372,7 @@ public class ApprovalController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "일반";	
-		String status = request.getParameter("status");
+		String status = "Y";
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
@@ -400,13 +400,13 @@ public class ApprovalController {
 		return "approval/myApprovalMain";
 	}
 	
-	// 내결재함 - 일반결재
+	// 내결재함 - 지출결재
 	@RequestMapping("myExpenditure.ea")
 	public String myExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 			
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String apClass = "지출";	
-		String status = request.getParameter("status");
+		String status = "Y";
 		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("loginEmpNo", loginEmpNo);
