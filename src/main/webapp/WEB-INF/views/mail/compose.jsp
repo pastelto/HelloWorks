@@ -128,7 +128,8 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="button" class="btn btn-default">
+										<button type="button" class="btn btn-default"
+											onclick="draftMail();">
 											<i class="fas fa-pencil-alt"></i> 임시저장
 										</button>
 										<button type="submit" class="btn btn-primary">
@@ -184,16 +185,27 @@
 	});
 
 </script>
-<!-- 주소록 -->	
+<!-- 주소록 -->
 <script>		
 function popupAddressBook(){			
 	var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
 	}	
-</script>		
-<!-- 직원 검색  -->	
+</script>
+<!-- 직원 검색  -->
 <script>		
 function popupSearchEmp(){
 	var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
 	}	
+</script>
+<!-- 임시저장 -->
+<script>
+ 	function draftMail(){
+		$('#mailForm').each(function(){	
+
+		    $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=S");
+			$("#mailForm").submit();
+			alert("작성중인 메일이 임시저장 되었습니다.");
+		});
+	} 
 </script>
 </html>

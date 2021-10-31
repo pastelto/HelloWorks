@@ -55,12 +55,12 @@ public class MailDao {
 		return (ArrayList)sqlSession.selectList("mailMapper.sentMailList", myEmp);
 	}
 	
-//	// 임시 보관함
-//	public ArrayList<Mail> draftMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
-//		// TODO Auto-generated method stub
-//		return (ArrayList)sqlSession.selectList("mailMapper.draftMailList", myEmp);
-//	}
-//	
+	// 임시 보관함
+	public ArrayList<Mail> draftMailList(SqlSessionTemplate sqlSession, int myEmp) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mailMapper.draftMailList", myEmp);
+	}
+	
 //	// 휴지통
 //	public ArrayList<Mail> trashMailList(SqlSessionTemplate sqlSession, Employee myEmp) {
 //		// TODO Auto-generated method stub
