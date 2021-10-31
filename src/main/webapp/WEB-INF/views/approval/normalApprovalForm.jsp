@@ -230,7 +230,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -269,7 +269,7 @@
 														</td>
 														<td colspan="6" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" />	
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode1" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
@@ -456,7 +456,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name2_1" id="coo_name2_1" disabled/>
+																	<input type="text" class="coo_name2_1" id="coo_name2_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator2_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -495,7 +495,7 @@
 														</td>
 														<td colspan="8">											
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName2" class="form-control" name="ccName" width="30%"/>	
+															<input type="text" id="ccName2" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode2" name="ccCode"/>	
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(2);">수신자등록</button>																				
@@ -702,7 +702,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name3_1" id="coo_name3_1" disabled/>
+																	<input type="text" class="coo_name3_1" id="coo_name3_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator3_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -741,7 +741,7 @@
 														</td>
 														<td colspan="6">											
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%"/>	
+															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode3" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(3);">수신자등록</button>																				
@@ -945,7 +945,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name4_1" id="coo_name4_1" disabled/>
+																	<input type="text" class="coo_name4_1" id="coo_name4_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator4_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -984,7 +984,7 @@
 														</td>
 														<td colspan="8">											
 															<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName4" class="form-control" name="ccName" width="30%"/>	
+															<input type="text" id="ccName4" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode4" name="ccCode" value=""/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(4)">수신자등록</button>																				

@@ -66,7 +66,8 @@
 		
 		<section class="content">
 			<form id="normalApprovalForm" method="post" enctype="multipart/form-data">
-				<input type="hidden" class="apNo Class" id="apNo" name="apNo" value="${approval.apNo}">
+				<input type="hidden" class="apNo class" id="apNo" name="apNo" value="${approval.apNo}">
+				<input type="hidden" class="doc_type class" id="doc_type" name="doc_type" value="기안">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
@@ -148,7 +149,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
+																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" value="${approval.cooJob}" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
@@ -162,8 +163,8 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
-																	<input type="hidden" id="cooperator1_1" name="cooperator0">
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" value ="${approval.cooName}" readonly/>
+																	<input type="hidden" id="cooperator1_1" name="cooperator0" value="${approval.cooper }">
 																</td>
 																<td class="table coo_name"  scop="col">
 																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
@@ -174,7 +175,7 @@
 																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
 																<td class="table coo_name" scop="col">
-																	<span id="emp_name3"></span>
+																	<input type="text" class="coo_name1_3" id="coo_name1_4" disabled/>
 																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
@@ -201,7 +202,7 @@
 														</td>
 														<td colspan="6" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" />	
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" "/>	
 															<input type="hidden" id="ccCode1" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
@@ -322,6 +323,7 @@
 
 
 <!---------- script------------>
+	<!-- 결재라인 -->
 	<script>		
 		var arr = new Array();
 		<c:forEach items="${ lineList }" var="line">
@@ -336,6 +338,33 @@
 			$('input[id="line1_'+n+'"]').val(arr[i].number);
 			n++;
 		}
+	</script>
+	<!-- 수신참조 -->
+	<script>
+		var deptName = null;
+		var ccDept = null;
+		var memberName = null;
+		var ccMember = null;
+		<c:choose>
+			<c:when test="${ not empty apCC.ccName }">
+				deptName = "${apCC.ccName}"
+				ccDept = "${apCC.ccDept}"
+				
+			</c:when>
+			<c:when test="${ not empty apCC.ccName }">
+				memberName = "${ apCC.ccName }"
+				ccMember = "${apCC.ccMember}"
+			</c:when>	
+		</c:choose>
+		
+		if(deptName != null){
+			$('input[id="ccName1"]').val(deptName);
+			$('input[id="ccCode1"]').val(ccDept);
+		} else if (memberName != null){
+			$('input[id="ccName1"]').val(memberName);
+			$('input[id="ccCode1"]').val(ccMember);
+		}
+	
 	</script>
 
 	

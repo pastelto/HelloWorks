@@ -228,6 +228,37 @@ public class ApprovalDao {
 		return sqlSession.delete("approvalMapper.deleteLine", apNo);
 	}
 
+	public ApprovalDiploma selectApprovalDiploma(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalDiploma", searchMap);
+	}
+
+	public ApprovalHr selectApprovalHr(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalHr", searchMap);
+	}
+
+	public ApprovalMinutes selectApprovalMinutes(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalMinutes", searchMap);
+	}
+
+	public ApprovalExpenditure selectApprovalExpenditure(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("approvalMapper.selectApprovalExpenditure", searchMap);
+	}
+
+	public ArrayList<ApprovalExDetails> selectApprovalExDetails(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectApprovalExDetails", searchMap);
+	}
+
+	public int deleteExDetails(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("approvalMapper.deleteExDetails", apNo);
+	}
+
 
 
 

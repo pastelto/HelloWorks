@@ -201,6 +201,8 @@
 	<!-- 전체보기  -->
 	 <script>
 	 	function selectAllNormalTemp(cOption){
+	 		
+	 		alert("확인");
 	 	
 	 		resetSearch();
 	 		

@@ -142,7 +142,7 @@
 											</th>
 											<td>${ inbox.mailNo }</td>
 											<td class="mailbox-name">${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName }</td>
-											<td class="mailbox-subject"><b>${ inbox.mailTitle }</b></td>
+											<td class="mailbox-subject">${ inbox.mailTitle }</td>
 											<td class="mailbox-date float-right">${ inbox.mailDate }</td>
 
 										</tr>
@@ -220,18 +220,19 @@
 	   })
 	 })
 	 // 일반 상세 조회 페이지 
-	$(function() {
+ 	$(function() {
 		$("#inboxList tbody tr").click(
 				function() {
 				var mailNo = $(this).children().eq(1).text();
 	
-				//console.log("mailNo : " + mailNo);
+				console.log("mailNo : " + mailNo);
 	
+				
 				
 				location.href = "read.ml?mailNo="+mailNo;
 					
 				});
-	});
+	}); 
 
 </script>
 
