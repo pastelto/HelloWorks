@@ -519,6 +519,7 @@
 			//$("#refListTag", opener.document).text(refList);
 			//$("input[name='drRefList']", opener.document).val(refListKey);
 	        
+			$("input[name='checking']", opener.document).val("1");
 			window.close();
 
 		}
