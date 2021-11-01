@@ -97,7 +97,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
 		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
 		WHERE MAIL_NO = #{mailNo}
-		AND MAIL_STATUS = 'Y'
 	</select>
 	
 	<!-- 메일 수신인 읽음처리 -->

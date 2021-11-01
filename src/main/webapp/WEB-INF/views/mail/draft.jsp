@@ -153,25 +153,6 @@
 												<td class="mailbox-date float-right">${ draft.mailDate }</td>
 											</tr>
 										</c:forEach>
-									
-									
-									
-<%-- 									
-										<c:forEach items="${ draftMailList }" var="draft">
-											<tr>
-												<td>
-													<div class="icheck-primary">
-														<input type="checkbox" value="${ draft.mailNo }" id="check1"> <label
-															for="check1"></label>
-													</div>
-												</td>
-												<td>${ draft.mailNo }</td>
-												<td class="mailbox-name">${ draft.mailRcvr }</td>
-												<td class="mailbox-subject"><b>${ draft.mailTitle }</b></td>
-												<td class="mailbox-date float-right">${ draft.mailDate }</td>
-
-											</tr>
-										</c:forEach> --%>
 									</tbody>
 								</table>
 								<!-- /.table -->
@@ -254,9 +235,9 @@
 			$("#draftList tbody tr").click(function() {
 				var mailNo = $(this).children().eq(1).text();
 
-				//console.log("mailNo1 : " + mailNo1);
+				//console.log("mailNo : " + mailNo);
 
-				location.href = "read.ml?mailNo=" + mailNo;
+				location.href = "dCompose.ml?mailNo=" + mailNo;
 
 			});
 		});
