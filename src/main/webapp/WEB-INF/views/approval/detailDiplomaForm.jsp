@@ -82,7 +82,7 @@
 							<!-- 기안서 -->
 							<div class="card card-outline card-info" id="normal_div">
 								<div class="card-header" >
-									<h3 class="card-title" >기안서</h3>
+									<h3 class="card-title" >공문서</h3>
 								</div>
 								<div class="card-body">
 									<table width="400px" style="font-size:0.8em;" height="50px" align="right">
@@ -205,54 +205,74 @@
 												<table class="table table-bordered" id="detail_table">
 													<tbody>
 													<tr height="30px">
-														<td width="10%" colspan="3">
+														<td width="10%" colspan="4">
 															<span>수신참조 </span>												
 														</td>
-														<td colspan="6" style="text-align:left !important;">
+														<td colspan="8" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" "/>	
+															<input type="text" id="ccName1" class="form-control"  width="30%" "/>	
 														</div>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="4">
 															<span>제목</span>
 														</td>
-														<td colspan="6">
-															<input type=text class="form-control" id="ap_title" name="ap_title" value="${approval.title}"/>
+														<td colspan="8">
+															<input type=text class="form-control" id="ap_title"  value="${approval.title}"/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="4">
 															<span>기안일자</span>
 														</td>
-														<td colspan="6">
-															<input type=text class="form-control" id="createDate" name="createDate" value="${approval.createDate}"/>
+														<td colspan="8">
+															<input type=text class="form-control" id="createDate"  value="${approval.createDate}"/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
-															<span>기안자</span>
+														<td colspan="2">
+															<span>작성자</span>
 														</td>
-														<td colspan="6">
-															<input type="text" id="fieldWriter1" class="form-control" value="${approval.empName}" />
+														<td colspan="4">
+															<input type="text" id="fieldWriter2" class="form-control" value="${loginUser.empName}" />
+														</td>
+														<td colspan="2">
+															<span>e-mail</span>
+														</td>
+														<td colspan="4">
+															<input type=text class="form-control" id="email"  value="${ ad.email }"/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="2">
 															<span>소속</span>
 														</td>
-														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptDname}" /> 
+														<td colspan="4">
+															<input type="text" id="userDept2" class="form-control" value="${loginUser.deptDname}" />
+														</td>
+														<td colspan="2">
+															<span>TEL.</span>
+														</td>
+														<td colspan="4">
+															<input type=text class="form-control" id="phone" value="${ ad.phone }"/>
+														</td>														
+													</tr>
+													<tr>
+														<td colspan="4">
+															<span>주소</span>
+														</td>
+														<td colspan="8">
+															<input type=text class="form-control" id="officeAddress"  value="${ ad.officeAddress }"/>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">
-															<textarea id="summernote" name="apContent">${approval.content}</textarea>
+														<td colspan="12">
+															<textarea id="summernote" >${approval.content}</textarea>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="9">															
+														<td colspan="12">															
 															<div class="btn btn-default btn-file btn-xs">
 											                    <i class="fas fa-paperclip"></i> 파일이름									                    
 									                  		</div> 
@@ -262,10 +282,10 @@
 												</table>
 												<table class="table table-bordered" id="logTable" style="margin-top:10px">
 													<tr>
-														<th colspan="3">
+														<th colspan="4">
 															<b>결재로그</b>
 														</th>
-														<td colspan="6">
+														<td colspan="8">
 															<span id="approval_log">
 																<strong>[${ approval.createDate }]</strong>
 																&nbsp;${ approval.deptName }&nbsp;${ approval.writerName }&nbsp;${ approval.writerJob }
@@ -276,10 +296,10 @@
 												</table>
 												<table class="table table-bordered" id="commentTable" style="margin-top:10px">
 													<tr>
-														<th colspan="3">
+														<th colspan="4">
 															<b>결재의견</b>
 														</th>
-														<td colspan="6">
+														<td colspan="8">
 															<span id="approval_comment">																
 															</span>
 														</td>
@@ -287,15 +307,15 @@
 												</table>
 												<table class="table table-bordered" id="writeTable" style="margin-top:10px">
 													<tr>
-														<th colspan="3">
+														<th colspan="4">
 															<b>의견작성</b>
 															<br>
 															"(250자 이내)"
 														</th>
-														<td colspan="4">
+														<td colspan="5">
 															<textarea id="approval_comment"></textarea>
 														</td>
-														<td colspan="2">
+														<td colspan="3">
 															<button type="button" class="btn btn-primary" onclick="writeComment();">등록</button>
 														</td>
 													</tr>												
@@ -338,7 +358,7 @@
 		$("#confirm1").append("${approval.writerName}");
 		
 		var n=1;
-		var user = ${ loginEmpNo };
+		var user = ${ loginEmpNo }
 		
 		for(var i=0;i<arr.length;i++){
 			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
@@ -361,9 +381,7 @@
 				$("#confirmBtn").attr("style", "dispaly:none");
 				$("#returnBtn").attr("style", "dispaly:none");
 			}
-		}
-		
-		
+		}	
 	</script>
 	<!-- 수신참조 -->
 	<script>

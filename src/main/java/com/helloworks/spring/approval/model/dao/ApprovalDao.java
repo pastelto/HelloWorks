@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
 import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
@@ -321,6 +322,33 @@ public class ApprovalDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectDatePending",searchMap);
 	}
+
+	public int insertComment(SqlSessionTemplate sqlSession, HashMap<String, Object> insertMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("approvalMapper.insertComment", insertMap);
+	}
+
+	public ArrayList<ApprovalComment> selectComment(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectComment",apNo);
+	}
+
+	public int updateLineStatus(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateLineStatus", apNo);
+	}
+
+	public int completeStatus(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.completeStatus", apNo);
+	}
+
+	public int returnStatus(SqlSessionTemplate sqlSession, int apNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.returnStatus", apNo);
+	}
+
+
 
 
 

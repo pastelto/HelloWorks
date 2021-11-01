@@ -82,7 +82,7 @@
 							<!-- 기안서 -->
 							<div class="card card-outline card-info" id="normal_div">
 								<div class="card-header" >
-									<h3 class="card-title" >기안서</h3>
+									<h3 class="card-title" >회의록</h3>
 								</div>
 								<div class="card-body">
 									<table width="400px" style="font-size:0.8em;" height="50px" align="right">
@@ -235,7 +235,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" id="fieldWriter1" class="form-control" value="${approval.empName}" />
+															<input type="text" id="fieldWriter1" class="form-control" value="${loginUser.empName}" />
 														</td>
 													</tr>
 													<tr>
@@ -243,7 +243,23 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptDname}" /> 
+															<input type="text" name="userDept" id="userDept1" class="form-control" value="${loginUser.deptDname}" /> 
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<span>회의 이름</span>
+														</td>
+														<td colspan="6">
+															<input type=text class="form-control" id="mm_title" value="${ am.title }">
+														</td>
+													</tr>
+													<tr>
+														<td colspan="3">
+															<span>참석자 </span>												
+														</td>
+														<td colspan="6">											
+															<input type="text" id="attendees" value= "${ am.attendees }"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -348,10 +364,8 @@
 			
 			if(arr[i].lineNo <= arr[i].status){
 				$('#confirm'+n).val(arr[i].name);
-			}
-			
-		}
-		
+			}			
+		}		
 		for(var i=0;i<arr.length;i++){
 			if(user == arr[i].number){
 				$("#confirmBtn").css("display", "");
