@@ -224,12 +224,12 @@
                 </a>
               </li>
                <li class="nav-item">
-                <a href="myApproval.ea" class="nav-link">
+                <a href="myNormal.ea" class="nav-link">
                   <p>내결재함</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="pendingTray.ea" class="nav-link">
+                <a href="pendingNormal.ea" class="nav-link">
                   <p>미결재문서</p>
                 </a>
               </li>

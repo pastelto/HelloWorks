@@ -343,7 +343,7 @@ public class DailyReportController {
 		model.addAttribute("dailyReportList", dailyReportList);
 		model.addAttribute("pageURL", "recvReport.dr");
 		model.addAttribute("checkTypeAll", "checked");
-		model.addAttribute("reportType", "ALL");
+		model.addAttribute("reportType", "allReport");
 		
 		return "dailyReport/dailyReceiveList";
 	}
@@ -377,6 +377,8 @@ public class DailyReportController {
 			model.addAttribute("checkW", "checked");
 		}else if(reportType.equals("M")) {
 			model.addAttribute("checkM", "checked");
+		}else {
+			model.addAttribute("checkTypeAll", "checked");
 		}
 		
 		model.addAttribute("reportType", reportType);
@@ -385,8 +387,8 @@ public class DailyReportController {
 	
 	@RequestMapping("recvReportTermType.dr")
 	public String recvReportTermType(String reportType, int termType,
-									@RequestParam(value="startDate", required=false, defaultValue = "1") String startDate,
-									@RequestParam(value="endDate", required=false, defaultValue = "1") String endDate,
+									@RequestParam(value="startDate", required=false, defaultValue = "0") String startDate,
+									@RequestParam(value="endDate", required=false, defaultValue = "0") String endDate,
 									@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
 		System.out.println("보고유형: "+reportType);
@@ -394,6 +396,49 @@ public class DailyReportController {
 		System.out.println("시작일자: "+startDate);
 		System.out.println("종료일자: "+endDate);
 		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		DailyReport dailyReport = new DailyReport();
+		
+		dailyReport.setDrWriterNo(loginUserNo);
+		dailyReport.setDrCategory(reportType);
+		dailyReport.setTermType(termType);
+		//datePicker 사용시 날짜 변환 후 담기
+		
+		if(termType==5) {
+			String start = startDate.replace("-", "/");
+			String end = endDate.replace("-", "/");
+			dailyReport.setStartDate(start);
+			dailyReport.setEndDate(end);
+		}
+
+		int listCount = dailyReportService.selectDailyReportTermTypeListCount(dailyReport);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.selectDailyReportTermTypeList(dailyReport, pi);
+		
+		
+		
+		if(reportType.equals("allReport")) {
+			model.addAttribute("checkTypeAll", "checked");
+		}else if(reportType.equals("D")) {
+			model.addAttribute("checkD", "checked");
+		}else if(reportType.equals("W")){
+			model.addAttribute("checkW", "checked");
+		}else if(reportType.equals("M")) {
+			model.addAttribute("checkM", "checked");
+		}
+		
+//		if(!startDate.equals("0") && !endDate.equals("0")) {
+//			model.addAttribute("startDate", startDate);
+//			model.addAttribute("endDate", endDate);
+//		}
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("pageURL", "recvReportTermType.dr");
+		model.addAttribute("reportType", reportType);
 		
 		return "dailyReport/dailyReceiveList";
 	}

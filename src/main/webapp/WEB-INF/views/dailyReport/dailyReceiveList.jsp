@@ -265,12 +265,12 @@
 										</table>
 									</div>
 								</div>
-
+								
 								<div id="pagingArea">
 						                <ul class="pagination">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -280,7 +280,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -291,7 +291,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -299,6 +299,7 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
+						            
 
 
 							</div>
@@ -336,14 +337,21 @@
 		function termType(typeNum){
 			//alert(typeNum);
 			var type = $("input:radio[name=reportType]:checked").val();
-			var startStr = $("#startDate").val()
-			var endDStr = $("#endDate").val()
+			var start = $("#startDate").val()
+			var end = $("#endDate").val()
 
-			
-			
+			//var start = startStr.split("-")
+			/*
+			if(startStr>endStr){
+				alert("star가 더 크다")
+			}else{
+				alert("end가 더 크다")
+			}
+			*/
 			
 			
 			//alert(start + ","+end)
+			 
 			if(typeNum == 5){
 				if(start == ""){
 					alert("시작일자를 선택해주세요.")
@@ -352,7 +360,9 @@
 					alert("종료일자를 선택해주세요.")
 					return false;
 				}
-				
+				if(start>end){
+					alert("시작일은 종료일보다 먼저 시작해야합니다.")
+				}	
 				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum+"&startDate="+start+"&endDate="+end;
 			}else{
 				location.href="<%=request.getContextPath()%>/recvReportTermType.dr?reportType="+type+"&termType="+typeNum;
