@@ -41,29 +41,29 @@ public interface ApprovalService {
 
 	int selectListCount(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectTempApproval(HashMap<String, Object> searchMap, PageInfo pi);
+	ArrayList<Approval> selectApproval(HashMap<String, Object> searchMap, PageInfo pi);
 
-	ArrayList<Approval> selectTempDate(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDate(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectAllTempApproval(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectAllApproval(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectSearchApNoTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectSearchApNo(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectSearchTitleTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectSearchTitle(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDetailApNoTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDetailApNo(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDetailTitleTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDetailTitle(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDateApNoTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDateApNo(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDateTitleTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDateTitle(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDeteDetailApNoTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDeteDetailApNo(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectDateDetailTitleTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectDateDetailTitle(HashMap<String, Object> searchMap);
 
-	ArrayList<Approval> selectOnlyDateSortTemp(HashMap<String, Object> searchMap);
+	ArrayList<Approval> selectOnlyDateSort(HashMap<String, Object> searchMap);
 
 	Approval selectApprovalDetail(HashMap<String, Object> searchMap);
 
@@ -106,6 +106,28 @@ public interface ApprovalService {
 	ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap);
 
 	void deleteExDetails(int apNo);
+
+	ArrayList<Approval> selectpendingList(HashMap<String, Object> searchMap, PageInfo pi);
+
+	ArrayList<Approval> selectSearchApNoPending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectSearchTitlePending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailApNoPending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailTitlePending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateApNoPending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateTitlePending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDeteDetailApNoPending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateDetailTitlePending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectAllPending(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDatePending(HashMap<String, Object> searchMap);
 
 
 
