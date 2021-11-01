@@ -430,13 +430,14 @@ public class DailyReportController {
 			model.addAttribute("checkM", "checked");
 		}
 		
-//		if(!startDate.equals("0") && !endDate.equals("0")) {
-//			model.addAttribute("startDate", startDate);
-//			model.addAttribute("endDate", endDate);
-//		}
+		if(!startDate.equals("0") && !endDate.equals("0")) {
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+		}
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("termType", termType);
 		model.addAttribute("pageURL", "recvReportTermType.dr");
 		model.addAttribute("reportType", reportType);
 		

@@ -168,7 +168,7 @@
 			OR DR_REF = #{drWriterNo})
 		AND DR_WRITER_NO != #{drWriterNo}
 		<choose>
-			<when test="drCategory neq 'allType'">
+			<when test="drCategory != 'allReport'">
 				AND DR_CATEGORY = #{drCategory}
 			</when>
 		</choose>
