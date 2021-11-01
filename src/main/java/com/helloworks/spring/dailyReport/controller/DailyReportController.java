@@ -14,13 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.service.DailyReportService;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
+import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -444,8 +447,6 @@ public class DailyReportController {
 		return "dailyReport/dailyReceiveList";
 	}
 	
-	
-	
 	@RequestMapping("searchDailyReport.dr")
 	public String searchDailyReport(String optionType, String search, Model model) {
 		
@@ -469,6 +470,59 @@ public class DailyReportController {
 		
 		
 		return "dailyReport/dailyReceiveList";
+	}
+	
+	@RequestMapping("detailDailyReport.dr")
+	public String detailDailyReport(int writer, Date createDate, HttpServletRequest request, Model model) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		System.out.println("작성자: "+writer);
+		System.out.println("생성일자: "+createDate);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		
+		String newDate = sdf.format(createDate);
+		System.out.println("생성일자변환: "+newDate);
+		DailyReport dailyReport = new DailyReport();
+		
+		dailyReport.setDrWriterNo(writer);
+		dailyReport.setStartDate(newDate); //타입 형태때문에 startDate에 담음
+		
+		DailyReport dailyReportResult = dailyReportService.selectDetailDailyReport(dailyReport);
+		
+		System.out.println("선택한 일일보고: "+dailyReportResult);
+		
+		model.addAttribute("dailyReportResult", dailyReportResult);
+		model.addAttribute("loginUserNo", loginUserNo);
+		
+		return "dailyReport/dailyReportDetail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="relplyList.dr", produces = "application/json; charset=utf-8")
+	public String relplyList(int drNo) {
+		ArrayList<DailyReportReply> list = dailyReportService.selectReplyList(drNo);
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); //형식적용하여 시간 출력
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="addReply.dr", produces = "application/json; charset=utf-8")
+	public String addReply(DailyReportReply r) {
+		
+		System.out.println("댓글: "+r);
+		
+		int result = dailyReportService.addReply(r);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteReply.dr")
+	public String deleteReply(int drNo) {
+		System.out.println("삭제 넘어오나요..?");
+		int result = dailyReportService.deleteReply(drNo);
+		
+		return String.valueOf(result);
 	}
 	
 }

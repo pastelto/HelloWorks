@@ -23,6 +23,21 @@
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
+	
+	<resultMap type="DailyReportReply" id="dailyReportReplyResultSet">
+		<id property="drRefNo" column="DR_REF_NO"/>
+		<result property="drRepRefNo" column="DR_REP_REF_NO"/>
+		<result property="drRepCode" column="DR_REP_CODE"/>
+		<result property="drRepReRefNo" column="DR_REP_RE_REF_NO"/>
+		<result property="drRepWriterNo" column="DR_REP_WRITER_NO"/>
+		<result property="drRepReceiverNo" column="DR_REP_RECEIVER_NO"/>
+		<result property="drRepContent" column="DR_REP_CONTENT"/>
+		<result property="drRepCreateDate" column="DR_REP_CREATE_DATE"/>
+		<result property="drRepStatus" column="DR_REP_STATUS"/>
+		<result property="drRepWriterName" column="EMP_NAME"/>
+		<result property="drRepWriterJobName" column="JOB_NAME"/>
+		<result property="drRepWriterDeptDName" column="DEPT_DNAME"/>
+	</resultMap>
 
 	<select id="tempDailyReportCount" parameterType="DailyReport" resultType="_int">
 		SELECT COUNT(*)
@@ -113,7 +128,7 @@
 		AND A.DR_WRITER_NO != #{loginUserNo}
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
 	<select id="receiveCheck" parameterType="DailyReport" resultType="_int">
@@ -158,7 +173,7 @@
 		AND DR_CATEGORY = #{drCategory}
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
 	<select id="selectDailyReportTermTypeListCount" parameterType="DailyReport" resultType="_int">
@@ -199,7 +214,6 @@
 	</select>
 	
 	<select id="selectDailyReportTermTypeList" parameterType="DailyReport" resultMap="dailyReportResultSet">
-		
 		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
 		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
 		FROM DAILY_REPORT A
@@ -239,7 +253,40 @@
 			</when>
 		</choose>
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
+	<select id="selectDetailDailyReport" parameterType="DailyReport" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_WRITER_NO = #{drWriterNo}
+		AND A.DR_RECEIVER_NO = #{drWriterNo}
+		AND A.DR_CREATE_DATE LIKE #{startDate}
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<insert id="addReply" parameterType="DailyReportReply">
+		INSERT INTO DAILY_REPORT_REPLY
+		VALUES(SEQ_DR_REF_NO.NEXTVAL, #{drRepRefNo}, DEFAULT, NULL, #{drRepWriterNo}, NULL, #{drRepContent}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="dailyReportReplyResultSet">
+		SELECT A.*, B.EMP_NAME, D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT_REPLY A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_REP_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE DR_REP_REF_NO = #{drRefNo}
+		ORDER BY 1
+	</select>
+	
+	<select id="deleteReply" parameterType="_int">
+		UPDATE DAILY_REPORT_REPLY
+		SET DR_REP_STATUS = 'N'
+		WHERE DR_REF_NO = #{drNo}
+	</select>
 </mapper>

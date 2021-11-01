@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
+import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
 
 public interface DailyReportService{
 
@@ -36,5 +37,13 @@ public interface DailyReportService{
 	int selectDailyReportTermTypeListCount(DailyReport dailyReport);
 
 	ArrayList<DailyReport> selectDailyReportTermTypeList(DailyReport dailyReport, PageInfo pi);
+
+	DailyReport selectDetailDailyReport(DailyReport dailyReport);
+
+	int addReply(DailyReportReply r);
+
+	ArrayList<DailyReportReply> selectReplyList(int drNo);
+
+	int deleteReply(int drNo);
 
 }
