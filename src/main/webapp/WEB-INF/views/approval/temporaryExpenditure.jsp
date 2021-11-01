@@ -41,6 +41,7 @@
 							<div class="tab-pane fade show active" id="custom-tabs-expenditureApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-expenditureApproval-tab">	
 								<div class="card" style="margin-bottom: 0px;">
 									<form action="searchApproval.ea">	
+									<input type="hidden" name='status' value='N'/>
 										<table id="expenditureApprovalSearchTable">
 										<tbody>
 											<tr>
@@ -176,7 +177,7 @@
 	 		resetSearch();
 	 		
 	 		$.ajax({
-	 			url: "selectAllTempApproval.ea",
+	 			url: "selectAllApproval.ea",
 	 			type: "post",
 	 			data :{
 	 				cOption : cOption
@@ -223,7 +224,7 @@
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
-			 			url: "selectDateSortTemp.ea",
+			 			url: "selectDateSort.ea",
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
@@ -295,7 +296,7 @@
 			} else {
 				
 					$.ajax({
-		 				url: "selectSearchSortTemp.ea",
+		 				url: "selectSearchSort.ea",
 		 				type: "post",
 		 				data : {
 		 					optionType : optionType,
