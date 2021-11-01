@@ -114,7 +114,6 @@
 																		style="width: 10%;">
 																		<option value="연차">연차</option>
 																		<option value="반차">반차</option>
-																		<option value="조퇴">조퇴</option>
 																		<option value="결근">결근</option>
 																	</select>&nbsp;&nbsp;&nbsp; <select id="halfDay" name="halfDay"
 																		class="custom-select custom-select-sm"
@@ -256,8 +255,6 @@
 						 if(documentType == '반차'){							 
 							 $('#halfDay').show();
 						 }else if(documentType == '연차'){
-							 $('#halfDay').hide();
-						 }else if (documentType == '조퇴'){
 							 $('#halfDay').hide();
 						 }else if (documentType == '결근'){
 							 $('#halfDay').hide();

@@ -42,7 +42,7 @@
 							<div class="tab-pane fade show active" id="custom-tabs-normalApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
 								<div class="card" style="margin-bottom: 0px;">
 									<form action="searchApproval.ea">	
-										<input type="hidden" name='status' value='N'/>
+									<input type="hidden" name='status' value='Y'/>
 										<table id="normalApprovalSearchTable">
 										<tbody>
 											<tr>

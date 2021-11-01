@@ -138,4 +138,15 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceDao.selectStatus(sqlSession, searchStatus);
 	}
+	
+	//결재문서에 따른 출퇴근 시간 변경
+	@Override
+	public void changeTime(Attendance attendance) {
+		int result = attendanceDao.changeTime(sqlSession, attendance);
+		
+		if(result < 0) {
+			throw new CommException("상태 변경 실패");
+		}
+		
+	}
 }

@@ -33,4 +33,8 @@ public interface DailyReportService{
 
 	ArrayList<DailyReport> selectDailyReportCategoryTypeList(DailyReport dailyReport, PageInfo pi);
 
+	int selectDailyReportTermTypeListCount(DailyReport dailyReport);
+
+	ArrayList<DailyReport> selectDailyReportTermTypeList(DailyReport dailyReport, PageInfo pi);
+
 }

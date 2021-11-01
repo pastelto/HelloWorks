@@ -34,6 +34,13 @@ public class Vacation  {
 	private String originName;
 	
 	
+	private String startDate;
+	private String endDate;
+	private String documentType;
+	private String vcType;
+	
+	
+	
 	//문서번호	
 	public Vacation(int apNo) {
 		super();
