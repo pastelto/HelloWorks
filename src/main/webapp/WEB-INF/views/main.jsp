@@ -10,7 +10,7 @@
 <style>
 .attendance{
 	padding-top:20px;
-	margin-left:10px;
+	margin-left:20px;
 }
 </style>
 </head>
@@ -18,10 +18,34 @@
 
 
   <jsp:include page="./common/menubar.jsp" />
-   <div class="content-wrapper">
-
-   		<div class="attendance" id="attendance">
-   	 		<jsp:include page="./attendance/mainAttendance.jsp" />
+   <div class="content-wrapper" >
+   		
+   		<div class="row">
+   		
+   		
+   			<!-- 왼쪽 -->
+			<div style="width:23%;" >
+				<div class="attendance" id="attendance">
+		   	 		<jsp:include page="./attendance/mainAttendance.jsp" />
+		   		</div>
+			</div>
+			
+			
+			
+			<!-- 중간-->
+			<div style="width:54%;">
+				중간
+			</div>
+			
+			
+			
+			<!-- 오른쪽-->
+			<div style="width:23%;" >
+				오른쪽
+			</div>
+			
+			
+			
    		</div>
   
    </div>

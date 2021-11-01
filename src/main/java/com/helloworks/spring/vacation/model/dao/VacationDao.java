@@ -89,5 +89,23 @@ public class VacationDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("vacationMapper.sysdateVacation", empNo);
 	}
+	
+	//휴가사용일수
+	public LoginUserVacation selectVacation(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.selectVacation", empNo);
+	}
+	
+	//제출한 휴가문서
+	public ArrayList<Vacation> selectAPapproval(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("vacationMapper.selectAPapproval", empNo);
+	}
+	
+	//결재할 문서갯수
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.selectListCount");
+	}
 
 }

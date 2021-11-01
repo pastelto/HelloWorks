@@ -25,6 +25,9 @@
 		<result property="endDate" column="PSR_ENDDATE"/>
 		<result property="documentType" column="PSR_DOCUMENT"/>		
 		<result property="vcType" column="PSR_VCTYPE"/>
+		<result property="psrNo" column="PSR_NO"/>
+		<result property="halfday" column="PSR_HALFDAY"/>
+		<result property="alternative" column="PSR_ALTERNATIVE"/>
 	</resultMap>
 	
 	<!-- Approval Attachment-->
@@ -136,14 +139,13 @@
    
    <!-- 결재문서 진행중 조회 -->
 	<select id="selectApproval" parameterType="_int" resultMap="vacationResultSet">
-      	SELECT A.APPROVAL_NO , C.EMP_NAME, A.DEPT_DNAME, A.WRITER_JOB, B.PSR_DOCUMENT,
-		TO_CHAR(B.PSR_STARTDATE,'YY/MM/DD') STARTDATE, TO_CHAR(B.PSR_ENDDATE,'YY/MM/DD') ENDDATE, A.PROGRESS
+      	SELECT  A.*, B.*, C.EMP_NAME
 		FROM APPROVAL A
 		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
 		JOIN EMPLOYEE C ON A.WRITER = C.EMP_NO
 		WHERE A.APPROVAL_CLASS='근태'
 		AND A.PROGRESS='진행중'
-		AND  B.PSR_STARTDATE LIKE SYSDATE
+		AND  B.PSR_STARTDATE <![CDATA[<]]> SYSDATE
 		ORDER BY A.APPROVAL_NO ASC
    </select> 
    
@@ -153,6 +155,7 @@
 		SET PROGRESS='결재완료'
 		WHERE APPROVAL_NO= #{documentNo}
 	</update>
+
 	
 	<!-- 해당문서 조회  -->
    <select id="onlyOneSelect" parameterType="string" resultMap="vacationResultSet" >
@@ -199,5 +202,31 @@
 		WHERE A.WRITER = #{empNo}
 		AND B.PSR_STARTDATE LIKE SYSDATE
    </select> 
+   
+   	<!-- 휴가사용일수 조회  -->
+   <select id="selectVacation" parameterType="_int" resultMap="loginUserVacationResultSet">
+      	SELECT * FROM PS_VACATION WHERE PSV_EMP_NO= #{empNo}
+   </select> 
+   
+    <!-- 휴가사용현황-결재문서 조회 -->
+	<select id="selectAPapproval" parameterType="_int" resultMap="vacationResultSet">
+	    SELECT A.*, B.*, C.EMP_NAME
+		FROM APPROVAL A
+		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
+		JOIN EMPLOYEE C ON A.WRITER = C.EMP_NO
+		WHERE A.WRITER = #{empNo}
+		ORDER BY A.APPROVAL_NO DESC
+   </select> 
+   
+	<!-- 결재할 문서 게시글 갯수 -->
+	<select id="selectListCount" resultType="_int">
+        SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE APPROVAL_CLASS='근태'
+		AND PROGRESS='진행중'
+		AND STATUS='Y'
+   </select>
+   
+   
    
 </mapper>
