@@ -10,7 +10,7 @@
 <!-- daterange picker -->
 <link rel="stylesheet" href="./resources/plugins/daterangepicker/daterangepicker.css">
 <style>
-	th{
+ 	#insertWSForm th{
 		background-color: #DAE1E7;
 		width: 15%;
 		text-align: center !important;
@@ -23,15 +23,25 @@
 		color: red;
 		border: none;
 		background-color: #FFFFFF;
+	} 
+	
+	#addEventNote{
+		width: 100%;
+		height:100%;
+		resize: none;
 	}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 
-	<!-- Content Wrapper. Contains page content -->
+
 	<div class="content-wrapper">
-		<!-- Content Header (Page header) -->
+	<div class="row">
+	
+	<jsp:include page="./scheduleSideMenu.jsp" />
+
+	<div class="col-8" style="margin-left: 5%; margin-top: 10px;">
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row">
@@ -44,7 +54,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
@@ -57,7 +66,7 @@
 							</h6>
 						</div>
 
-						<form id="insertWSForm" method="post" enctype="multipart/form-data">
+						<form id="insertNewEvent" method="post" enctype="multipart/form-data">
 
 							<div class="card-body">
 								<div class="row">
@@ -74,15 +83,16 @@
 									                    <div class="input-group-prepend">
 									                      <span class="input-group-text"><i class="far fa-clock"></i></span>
 									                    </div>
-									                    <input type="text" class="form-control float-left" id="reservationtime"> 
-									                    <span><input type="checkbox" class="form-check-input input-group-text" id="exampleCheck1"> 종일</span>
+									                    <input type="text" class="form-control float-left" id="setEventTime" style="margin-right: 0;"> 
+									                  	</div>
 									                  </div>
-									                  
-									                </div>
-									                
-									                
-												</div>
-											
+									                 </div> 
+									                 <div class="col-4">
+									                    <label for="checkAllDay">
+									                    <input type="checkbox" class="form-check-input input-group-text" id="checkAllDay">
+									            		 종일</label>
+									                 </div> 
+
 
 
 												</td>
@@ -128,7 +138,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote" name="ws_content"></textarea>
+										<textarea id="addEventNote" name="cal_content"></textarea>
 									</div>
 								</div>
 
@@ -138,7 +148,7 @@
 								<div class="float-right">
 									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertEvent();">저장</button>
 									&nbsp;
-									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList();">취소</button>
+									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="location.href='schMain.sc'">취소</button>
 									&nbsp;
 								</div>
 							</div>
@@ -149,8 +159,8 @@
 			</div>
 		</section>
 	</div>
-
-
+</div>
+</div>
 	<jsp:include page="../common/footer.jsp" />
 	
 
@@ -159,13 +169,18 @@
     	  $('#summernote').summernote({
     	    height : 200
     	  });
+    	  
+    	  $( "#datepicker" ).datepicker();
     	});
     </script>
 
 	<script>
 	
 	function insertEvent(){
-		
+
+	    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
+		$("#insertNewEvent").submit();
+		alert("일정이 등록되었습니다.");
 		
 	}
 	
@@ -176,7 +191,7 @@
 	    //Date range picker
 	    $('#reservation').daterangepicker()
 	    //Date range picker with time picker
-	    $('#reservationtime').daterangepicker({
+	    $('#setEventTime').daterangepicker({
 	      timePicker: true,
 	      timePickerIncrement: 30,
 	      locale: {

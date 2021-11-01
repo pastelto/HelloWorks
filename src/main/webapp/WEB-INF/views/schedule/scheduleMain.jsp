@@ -5,23 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>HelloWorks - 일정관리</title>
- <!-- fullCalendar -->
- <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
-    integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="./jquery-ui.css">
-  <script src="./jquery-ui.min.js"></script>
 <style>
 	.content-wrapper{
 		overflow:auto;
 	}
+
 </style>
 </head>
 <body>
@@ -31,17 +19,10 @@
 	
 	<div class="row">
 	
-	<!-- 캘린더 좌측메뉴 부분 -->
-	<div class="col-2" style="background-color: gray; width:200px;'">
-		<div id="insertCal" style="border: solid 1px red; height:40px;"><button type="button" class="btn" onclick="location.href='addEvents.sc'">일정 등록하기</button> </div>
-		<div class="calendar" style="border: solid 1px red; height:30%;"><div id="datepicker"></div></div>
-		<div id="calAll"style="border: solid 1px red; height:5%;"><button type="button">전체 일정</button></div>
-		<div role="button" id="deptCal"style="border: solid 1px red; height:5%;"><button type="button">사내 캘린더</button></div>
-		<div id="myCal"style="border: solid 1px red; height:5%;"><button type="button">내 캘린더</button></div>
-	</div>
+	<jsp:include page="./scheduleSideMenu.jsp" />
 	
 	<!-- 캘린더 내용 -->	
-	<div><button type="button" id="testBtn" onclick="allSave();">테스트</button></div>
+	<!-- <div><button type="button" id="testBtn" onclick="allSave();">테스트</button></div> -->
 	<div id="calendar-container" class="col-8" style="margin-left : 50px; margin-right : 50px; padding: 20px;">
 	<!-- 실제 캘린더 적용 부분 <필수!> -->
 	<div id='calendar'></div>
@@ -52,7 +33,7 @@
 	
 	</div>
 	
-	<jsp:include page="../common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 <!-- fullCalendar 2.2.5 -->
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script src="./resources/plugins/fullcalendar/main.js"></script>
@@ -164,9 +145,6 @@
 
 </script>
 
-<script>
 
-
-</script>
 </body>
 </html>

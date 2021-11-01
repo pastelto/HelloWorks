@@ -13,11 +13,17 @@ public class ScheduleController {
 		return "schedule/scheduleMain";
 	}
 	
-	
 	// 일정등록하기 - 페이지
-	@RequestMapping("addEvents.sc")
+	@RequestMapping("addEventsPage.sc")
 	public String addEvents() {
 		
 		return "schedule/addSchedule";
+	}
+	
+	// 일정등록하기
+	@RequestMapping("addEvent.sc")
+	public String addEvent() {
+		
+		return "redirect:schMain.sc";
 	}
 }
