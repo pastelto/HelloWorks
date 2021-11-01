@@ -1,5 +1,7 @@
 package com.helloworks.spring.vacation.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,5 +90,59 @@ public class VacationServiceImpl implements VacationService {
 	public LoginUserVacation selectAnnual(int empNo) {
 		// TODO Auto-generated method stub
 		return vacationDao.selectAnnual(sqlSession, empNo);
+	}
+	
+	//결재문서 진행중 조회
+	@Override
+	public ArrayList<Vacation> selectApproval() {
+		// TODO Auto-generated method stub
+		return vacationDao.selectApproval(sqlSession);
+	}
+	
+	//결재문서 승인
+	@Override
+	public void progressChange(String documentNo) {
+		int result = vacationDao.progressChange(sqlSession, documentNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 체인지 실패");
+		}
+		
+	}
+	
+	//해당문서 조회
+	@Override
+	public Vacation onlyOneSelect(String documentNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.onlyOneSelect(sqlSession , documentNo);
+	}
+
+	//연차테이블 변경
+	@Override
+	public void updateAnnual(LoginUserVacation annual) {
+		int result = vacationDao.updateAnnual(sqlSession, annual);
+		
+		if(result < 0) {
+			throw new CommException("연차테이블 변경 실패");
+		}
+		
+	}
+	
+	//사용휴가 일수추가
+	@Override
+	public void addVacation(LoginUserVacation vacation) {
+		int result = vacationDao.addVacation(sqlSession, vacation);
+		
+		if(result < 0) {
+			throw new CommException("휴가테이블 변경 실패");
+		}
+		
+	}
+	
+	//출근등록시 결재서류가있다면
+	@Override
+	public Vacation sysdateVacation(int empNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.sysdateVacation(sqlSession , empNo);
 	}
 }

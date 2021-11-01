@@ -4,7 +4,10 @@ package com.helloworks.spring.vacation.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +51,7 @@ public class VavationController {
 		
 		LoginUserVacation annual = vacationService.selectAnnual(empNo);
 		
-		String loginUserAnnual = changeTime(annual.getAppliedAnnual());
+		String loginUserAnnual = String.valueOf(annual.getLeftAnnual()) + " 일";
 		
 		model.addAttribute("loginUserAnnual", loginUserAnnual);
 		
@@ -127,7 +130,7 @@ public class VavationController {
     //근태구분 결재 insert
     @RequestMapping("insertAttendanceF.ps")
 	public String insertAttendanceF(Vacation vacation, VacationCC vaCC, VacationLine line, ApprovalAttendance apA,
-								String status, HttpServletRequest request, Model model, 
+								String status, HttpServletRequest request, Model model,
 								@RequestParam(name="normalAttach" , required=false) MultipartFile file) {
 		
 		// 등록 , 임시저장 구분
@@ -139,7 +142,8 @@ public class VavationController {
 			vacation.setProgress("임시저장");
 		}
 		
-		String title = request.getParameter("ap_title"); //제목
+	
+		String title = request.getParameter("ap_title"); //제목	
 		int writer =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	//작성자
 		String deptName =((Employee)request.getSession().getAttribute("loginUser")).getDeptDname(); // 부서
 		String content = request.getParameter("apContent"); //내용		
@@ -148,23 +152,37 @@ public class VavationController {
 		String datailType = request.getParameter("datailType"); // 근태구분, 휴가구분/조정신청
 		
 		
+
+		
 		vacation.setApClass("근태");
 		vacation.setDetailClass("근태");
 		vacation.setTitle(title);
 		vacation.setWriter(writer);
 		vacation.setDeptName(deptName);
 		vacation.setContent(content);
-		vacation.setDeptShare(deptShare);			
+		vacation.setDeptShare(deptShare);	
+		
+		System.out.println("~!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@title !!" + title);
+		System.out.println("writer!! " + writer);
+		System.out.println("deptShare!! " + deptShare);
+		System.out.println("documentType!! " + documentType);
+		System.out.println("content!! " + content);
+		
+		
+		System.out.println("datailType!! " + datailType);
 						
 		// 문서분류에 따른 등록 				
 		switch(datailType) {
 		case "근태구분" : insertAttendance(vacation, apA, request);
+						System.out.println("1111111111111111111111");
 					break;
 		case "휴가구분" : 			
-						insertVacation(vacation, apA, request);					
+						insertVacation(vacation, apA, request);	
+						System.out.println("222222222222222222222");
 					break;
 		case "근태조정" :
-						//insertAdjust(vacation, am, request);					
+						//insertAdjust(vacation, am, request);		
+						System.out.println("3333333333333333333333333");
 					break;
 		default : model.addAttribute("msg", "등록되지 않았습니다.");
 		}
@@ -312,6 +330,8 @@ public class VavationController {
 		String halfDay = request.getParameter("halfDay"); 
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
+		
+		String vacationTitle = request.getParameter("vacationTitle");
 
 		
 		apA.setDocumentType("휴가");
@@ -320,8 +340,6 @@ public class VavationController {
 		apA.setEndDate(endDate); // 요청 종료일
 		apA.setVcType(vcType);// 휴가종류
 		
-
-		System.out.println("~@@@@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + apA);
 		
 		
 		vacationService.insertVacation(vacation); 
@@ -331,5 +349,138 @@ public class VavationController {
 	}
 	
 	
-
+	//인사팀 전용페이지
+	@RequestMapping("hrOnlyPage.ps")
+	public String hrOnlyPage(Model model) {
+		
+		ArrayList<Vacation> hr  = vacationService.selectApproval();
+		model.addAttribute("hr", hr);
+		
+		return "vacation/HrOnlyPage";
+	}
+	
+	//인사팀 전용페이지 결재문서 승인
+	@RequestMapping("progressChange.ps")
+	public String progressChange(Model model, String documentNo) {
+		
+		vacationService.progressChange(documentNo); //해당문서 승인완료로 상태변경
+		
+		//해당문서 조회
+		Vacation change = vacationService.onlyOneSelect(documentNo);
+		
+		//날짜가공
+		String stdate = change.getStartDate().substring(2, 4)+"/"+change.getStartDate().substring(5, 7)+"/"+change.getStartDate().substring(8, 10);
+		
+		//출퇴근 시간변경
+		switch(change.getDocumentType()) {
+		//1) 반차, 연차
+		case"반차": case"연차" :
+			Attendance attendance = new Attendance();
+			attendance.setAppliedIN(32400);//출근시간
+			attendance.setInTime(" ");
+			attendance.setAppliedOut(64800);//퇴근시간
+			attendance.setOutTime(" ");
+			if(change.getDocumentType().equals("반차")) {//상태변경
+				attendance.setPsStatus("반차"); 
+			}else {
+				attendance.setPsStatus("연차"); 
+			}
+			attendance.setWorkingTime(28800);//일한시간
+			attendance.setOverTime(0);//야근시간
+			attendance.setTotal(28800);//총시간
+			attendance.setEmpNo(change.getWriter());//사번
+			attendance.setVacation(stdate); //해당날짜
+			
+			attendanceService.changeTime(attendance); 
+			
+			//연차테이블변경
+			LoginUserVacation annual = new LoginUserVacation();
+			annual.setEmpNo(change.getWriter());
+			
+			if(change.getDocumentType().equals("반차")) {
+				annual.setAnnual(0.5);
+			}else {
+				annual.setAnnual(1);
+			}
+			
+			vacationService.updateAnnual(annual);
+			
+			break;
+		//2) 휴가
+		case "휴가" :
+			LoginUserVacation vacation = new LoginUserVacation();
+			
+			String date1 = change.getStartDate();
+		    String date2 = change.getEndDate();
+		    
+			//날짜계산 메소드
+			int calculation =  dateChange(date1, date2);		
+			
+			switch(change.getVcType()) {
+			case"경조사": case"육아휴직" : case"출산휴가" :
+				
+				if(change.getVcType().equals("경조사")) {
+					vacation.setVcType("경조사");
+					vacation.setEvent(calculation);
+				}else if(change.getVcType().equals("육아휴직")) {
+					vacation.setVcType("육아휴직");
+					vacation.setParental(calculation);
+				}else if(change.getVcType().equals("출산휴가")) {
+					vacation.setVcType("출산휴가");
+					vacation.setMaternity(calculation);
+				}
+				
+				vacation.setPsvEmpNo(change.getWriter());
+				
+				vacationService.addVacation(vacation); 
+				break;
+			case"보건휴가":
+				
+				vacation.setVcType("보건휴가");
+				vacation.setManstural(1);
+				vacation.setPsvEmpNo(change.getWriter());
+				
+				vacationService.addVacation(vacation); 
+				break;
+			}
+			
+			break;
+		default: model.addAttribute("msg", "변경되지 않았습니다");
+		}
+		
+		
+		return "redirect:hrOnlyPage.ps";
+	}
+	
+	//두 날짜 차이 일수 계산 메소드
+	private int dateChange(String date1, String date2) {
+		long diffDays = 0;
+		try {
+		  	date2 = date2.substring(0, 10);
+	        date1 = date1.substring(0, 10);
+			      
+			Date datef;			
+			datef = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
+			
+			Calendar cmpDatef = Calendar.getInstance();
+			cmpDatef.setTime(datef); //특정 일자
+			
+			Date datel = new SimpleDateFormat("yyyy-MM-dd").parse(date2);
+			Calendar cmpDatel = Calendar.getInstance();
+			cmpDatel.setTime(datel); //특정 일자
+			
+			long diffSec = (cmpDatel.getTimeInMillis() - cmpDatef.getTimeInMillis()) / 1000;
+			 diffDays = diffSec / (24*60*60); //일자수 차이
+			
+			System.out.println(diffSec + "초 차이");
+			System.out.println(diffDays + "일 차이");
+	
+		
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   
+		 return (int)diffDays;
+	}
 }

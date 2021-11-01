@@ -86,71 +86,71 @@ public class ApprovalDao {
 		return sqlSession.selectOne("approvalMapper.selectListCount", searchMap);
 	}
 
-	public ArrayList<Approval> selectTempApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap, PageInfo pi) {
+	public ArrayList<Approval> selectApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap, PageInfo pi) {
 
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectTempApproval", searchMap, rowBounds);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectApproval", searchMap, rowBounds);
 	}
 
-	public ArrayList<Approval> selectTempDate(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDate(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectTempDate",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDate",searchMap);
 	}
 
-	public ArrayList<Approval> selectAllTempApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectAllApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectAllTempApproval",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectAllApproval",searchMap);
 	}
 
-	public ArrayList<Approval> selectSearchApNoTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectSearchApNo(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchApNoTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchApNo",searchMap);
 	}
 
-	public ArrayList<Approval> selectSearchTitleTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectSearchTitle(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchTitleTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchTitle",searchMap);
 	}
 
-	public ArrayList<Approval> selectDetailApNoTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDetailApNo(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailApNoTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailApNo",searchMap);
 	}
 
-	public ArrayList<Approval> selectDetailTitleTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDetailTitle(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailTitleTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailTitle",searchMap);
 	}
 
-	public ArrayList<Approval> selectDateApNoTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDateApNo(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateApNoTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateApNo",searchMap);
 	}
 
-	public ArrayList<Approval> selectDateTitleTemp(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDateTitle(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateTitleTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateTitle",searchMap);
 	}
 
-	public ArrayList<Approval> selectDeteDetailApNoTemp(SqlSessionTemplate sqlSession,
+	public ArrayList<Approval> selectDeteDetailApNo(SqlSessionTemplate sqlSession,
 			HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDeteDetailApNoTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDeteDetailApNo",searchMap);
 	}
 
-	public ArrayList<Approval> selectDateDetailTitleTemp(SqlSessionTemplate sqlSession,
+	public ArrayList<Approval> selectDateDetailTitle(SqlSessionTemplate sqlSession,
 			HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateDetailTitleTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateDetailTitle",searchMap);
 	}
 
-	public ArrayList<Approval> selectOnlyDateSortTemp(SqlSessionTemplate sqlSession,
+	public ArrayList<Approval> selectOnlyDateSort(SqlSessionTemplate sqlSession,
 			HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectOnlyDateSortTemp",searchMap);
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectOnlyDateSort",searchMap);
 	}
 
 	public Approval selectApprovalDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
@@ -257,6 +257,69 @@ public class ApprovalDao {
 	public int deleteExDetails(SqlSessionTemplate sqlSession, int apNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("approvalMapper.deleteExDetails", apNo);
+	}
+
+	public ArrayList<Approval> selectpendingList(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectpendingList", searchMap);
+	}
+
+	public ArrayList<Approval> selectSearchApNoPending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchApNoPending",searchMap);
+	}
+
+	public ArrayList<Approval> selectSearchTitlePending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectSearchTitlePending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDetailApNoPending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailApNoPending",searchMap);
+
+	}
+	
+	public ArrayList<Approval> selectDetailTitlePending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDetailTitlePending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDateApNoPending(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateApNoPending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDateTitlePending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateTitlePending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDeteDetailApNoPending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDeteDetailApNoPending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDateDetailTitlePending(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateDetailTitlePending",searchMap);
+	}
+
+	public ArrayList<Approval> selectAllPending(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectAllPending",searchMap);
+	}
+
+	public ArrayList<Approval> selectDatePending(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.selectDatePending",searchMap);
 	}
 
 

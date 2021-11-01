@@ -156,85 +156,85 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 
 	@Override
-	public ArrayList<Approval> selectTempApproval(HashMap<String, Object> searchMap, PageInfo pi) {
+	public ArrayList<Approval> selectApproval(HashMap<String, Object> searchMap, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectTempApproval(sqlSession, searchMap, pi);
+		return approvalDao.selectApproval(sqlSession, searchMap, pi);
 	}
 
 	@Override
-	public ArrayList<Approval> selectTempDate(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDate(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectTempDate(sqlSession, searchMap);
+		return approvalDao.selectDate(sqlSession, searchMap);
 	}
 	
 
 	@Override
-	public ArrayList<Approval> selectAllTempApproval(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectAllApproval(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectAllTempApproval(sqlSession, searchMap);
+		return approvalDao.selectAllApproval(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectSearchApNoTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectSearchApNo(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectSearchApNoTemp(sqlSession, searchMap);
+		return approvalDao.selectSearchApNo(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectSearchTitleTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectSearchTitle(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectSearchTitleTemp(sqlSession, searchMap);
+		return approvalDao.selectSearchTitle(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDetailApNoTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDetailApNo(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDetailApNoTemp(sqlSession, searchMap);
+		return approvalDao.selectDetailApNo(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDetailTitleTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDetailTitle(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDetailTitleTemp(sqlSession, searchMap);
+		return approvalDao.selectDetailTitle(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDateApNoTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDateApNo(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDateApNoTemp(sqlSession, searchMap);
+		return approvalDao.selectDateApNo(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDateTitleTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDateTitle(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDateTitleTemp(sqlSession, searchMap);
+		return approvalDao.selectDateTitle(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDeteDetailApNoTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDeteDetailApNo(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDeteDetailApNoTemp(sqlSession, searchMap);
+		return approvalDao.selectDeteDetailApNo(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectDateDetailTitleTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectDateDetailTitle(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectDateDetailTitleTemp(sqlSession, searchMap);
+		return approvalDao.selectDateDetailTitle(sqlSession, searchMap);
 	}
 
 
 	@Override
-	public ArrayList<Approval> selectOnlyDateSortTemp(HashMap<String, Object> searchMap) {
+	public ArrayList<Approval> selectOnlyDateSort(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
-		return approvalDao.selectOnlyDateSortTemp(sqlSession, searchMap);
+		return approvalDao.selectOnlyDateSort(sqlSession, searchMap);
 	}
 
 
@@ -428,6 +428,83 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<ApprovalExDetails> selectApprovalExDetails(HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
 		return approvalDao.selectApprovalExDetails(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectpendingList(HashMap<String, Object> searchMap, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectpendingList(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchApNoPending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchApNoPending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchTitlePending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchTitlePending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailApNoPending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailApNoPending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailTitlePending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailTitlePending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateApNoPending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateApNoPending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateTitlePending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateTitlePending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDeteDetailApNoPending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDeteDetailApNoPending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateDetailTitlePending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateDetailTitlePending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectAllPending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectAllPending(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDatePending(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDatePending(sqlSession, searchMap);
 	}
 
 

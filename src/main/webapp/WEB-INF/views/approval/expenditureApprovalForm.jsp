@@ -294,16 +294,16 @@
 															</select>
 														</td>
 														<td colspan="2">
-															<span id='exNum'>지급번호</span>
+															<span id='exNumSpan'>지급번호</span>
 														</td>
 														<td colspan="4">
-															<select name="exNum" class="form-control" id='card_select1' style="font-size:0.8rem">
+															<select name="cardNum" class="form-control" id='card_select1' style="font-size:0.8rem">
 																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ chlist }" var="approvalExDetails">																	
 																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
 																</c:forEach>
 															</select>
-															<select name="exNum" class="form-control" id='card_select2' style="font-size:0.8rem">
+															<select name="cardNum" class="form-control" id='card_select2' style="font-size:0.8rem">
 																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ colist }" var="approvalExDetails">																	
 																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
