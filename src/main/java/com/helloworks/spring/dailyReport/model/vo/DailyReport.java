@@ -14,6 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class DailyReport {
+	// DB table
 	private int drNo;				//	DR_NO NUMBER
 	private int drWriterNo;			//	DR_WRITER_NO	NUMBER
 	private String drCategory;		//	DR_CATEGORY	VARCHAR2(1 BYTE)
@@ -27,7 +28,7 @@ public class DailyReport {
 	private String drConfirm;		//	DR_CONFIRM	VARCHAR2(1 BYTE)
 	private String drStatus;		//	DR_STATUS	VARCHAR2(2 BYTE)
 	
-	
+	// DB join
 	private String writerName;		// 	DR_WRITER_NO Join -> Employee 테이블 userName
 	private String receiverName;	// 	DR_RECEIVER_NO Join -> Employee 테이블 userName
 	private String deptCode;		//하위부서코드
@@ -36,6 +37,10 @@ public class DailyReport {
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름 
 	
-	private String drReceiverList;	//
-	private String drRefList;
+	// 활용 데이터
+	private String drReceiverList;	//수신직원 전체
+	private String drRefList;		//참조직원 전체
+	private int termType;		//기간 값
+	private String startDate;		//기간 설정 첫번째 값
+	private String endDate; 		//기간 설정 두번째 값
 }

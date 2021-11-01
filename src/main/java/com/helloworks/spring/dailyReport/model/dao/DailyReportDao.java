@@ -86,4 +86,19 @@ public class DailyReportDao {
 		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportCategoryTypeList", dailyReport, rowBounds);
 	}
 
+	public int selectDailyReportTermTypeListCount(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDailyReportTermTypeListCount", dailyReport);
+	}
+
+	public ArrayList<DailyReport> selectDailyReportTermTypeList(SqlSessionTemplate sqlSession, DailyReport dailyReport,
+			PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportTermTypeList", dailyReport, rowBounds);
+	}
+
 }
