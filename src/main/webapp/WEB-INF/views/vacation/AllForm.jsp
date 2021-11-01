@@ -115,13 +115,15 @@ input[id^="fieldWriter"], input[id^="userDept"] {
 								</table>
 							</div>
 							<!-- 근태구분 -->
-							
+						
 							<jsp:include page="AttendanceForm.jsp" />
-							<!-- 휴가구분  -->
+							<!-- 휴가구분 -->
 							<jsp:include page="VacationForm.jsp" />
 												
 							<!-- 조정신청 -->
 							<jsp:include page="CancelForm.jsp" />
+							
+							
 						 
 							
 						</div>
@@ -177,7 +179,7 @@ input[id^="fieldWriter"], input[id^="userDept"] {
 <!-- div 전환 , disabled 주기-->	
 	<script>
 		$(function(){
-			$("#normal_div").attr("style", "display:none")		
+		 $("#normal_div").attr("style", "display:none")		
 			$("#dipl_div").attr("style", "display:none")
 			$("#humanr_div").attr("style", "display:none")
 			
@@ -188,54 +190,64 @@ input[id^="fieldWriter"], input[id^="userDept"] {
 			$("#vacation").attr("style", "display:none")
 			$("#cancle").attr("style", "display:none")
 			$("#cancle").attr("style", "display:none")
+			
+			
 						
 			$('#normal_radio').click(function(){
-				$("#normal_div").css("display",'')
-				$("#normal_div").attr("disabled", false)
+				
+			
+
+				
+				 $("#normal_div").css("display",'')
+				$("#normal_div *").attr("disabled", false)
 				$("#dipl_div").attr("style", "display:none")
-				$("#dipl_div").attr("disabled", true)
+				$("#dipl_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
-				$("#humanr_div").attr("disabled", true)
+				$("#humanr_div ").attr("disabled", true)
 				
 				
 				$("#attendance").css("display",'')
-				$("#attendance").attr("disabled", false)
+				$("#attendance *").attr("disabled", false)
 				$("#vacation").attr("style", "display:none")
-				$("#vacation").attr("disabled", true)
+				$("#vacation *").attr("disabled", true)
 				$("#cancle").attr("style", "display:none")
-				$("#cancle").attr("disabled", true)
+				$("#cancle *").attr("disabled", true) 
 			});
 			
 			$('#dipl_radio').click(function(){
+				
+				
 				$("#dipl_div").css("display",'')
-				$("#dipl_div").attr("disabled", false)
+				$("#dipl_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#normal_div").attr("disabled", true)
+				$("#normal_div *").attr("disabled", true)
 				$("#humanr_div").attr("style", "display:none")
-				$("#humanr_div").attr("disabled", true)
+				$("#humanr_div *").attr("disabled", true)
 
 				$("#vacation").css("display",'')
-				$("#vacation").attr("disabled", false)
+				$("#vacation *").attr("disabled", false)
 				$("#attendance").attr("style", "display:none")
-				$("#attendance").attr("disabled", true)
+				$("#attendance *").attr("disabled", true)
 				$("#cancle").attr("style", "display:none")
-				$("#cancle *").attr("disabled", true)
-			});					
+				$("#cancle *").attr("disabled", true) 
+			});				
 			
 			$('#humanr_radio').click(function(){
-				$("#humanr_div").css("display",'')
-				$("#humanr_div").attr("disabled", false)
+				
+				
+			 $("#humanr_div").css("display",'')
+				$("#humanr_div *").attr("disabled", false)
 				$("#normal_div").attr("style", "display:none")
-				$("#normal_div").attr("disabled", true)
+				$("#normal_div *").attr("disabled", true)
 				$("#dipl_div").attr("style", "display:none")
-				$("#dipl_div").attr("disabled", true)
+				$("#dipl_div *").attr("disabled", true)
 				
 				$("#cancle").css("display",'')
-				$("#cancle ").attr("disabled", false)
+				$("#cancle *").attr("disabled", false)
 				$("#vacation").attr("style", "display:none")
-				$("#vacation ").attr("disabled", true)
+				$("#vacation *").attr("disabled", true)
 				$("#attendance").attr("style", "display:none")
-				$("#attendance ").attr("disabled", true)
+				$("#attendance *").attr("disabled", true) 
 			});	
 
 		});

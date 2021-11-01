@@ -1,5 +1,7 @@
 package com.helloworks.spring.vacation.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +52,42 @@ public class VacationDao {
 	public LoginUserVacation selectAnnual(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("vacationMapper.selectAnnual", empNo);
+	}
+	
+	//결재문서 진행중 조회
+	public ArrayList<Vacation> selectApproval(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("vacationMapper.selectApproval");
+	}
+	
+	//결재문서 승인
+	public int progressChange(SqlSessionTemplate sqlSession, String documentNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("vacationMapper.progressChange", documentNo);
+	}
+	
+	//해당문서조회
+	public Vacation onlyOneSelect(SqlSessionTemplate sqlSession, String documentNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.onlyOneSelect", documentNo);
+	}
+
+	//연차테이블 변경
+	public int updateAnnual(SqlSessionTemplate sqlSession, LoginUserVacation annual) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("vacationMapper.updateAnnual", annual);
+	}
+	
+	//사용휴가일수추가
+	public int addVacation(SqlSessionTemplate sqlSession, LoginUserVacation vacation) {
+		// TODO Auto-generated method stub
+		return  sqlSession.update("vacationMapper.addVacation", vacation);
+	}
+	
+	//출근등록시 결재서류가 있다면
+	public Vacation sysdateVacation(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("vacationMapper.sysdateVacation", empNo);
 	}
 
 }

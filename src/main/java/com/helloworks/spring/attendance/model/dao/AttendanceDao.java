@@ -103,4 +103,10 @@ public class AttendanceDao {
 		return sqlSession.selectOne("attendanceMapper.selectStatus", searchStatus);
 	}
 
+	//결재문서에 따른 출퇴근 시간 변경
+	public int changeTime(SqlSessionTemplate sqlSession, Attendance attendance) {
+		
+		return sqlSession.update("attendanceMapper.changeTime", attendance);
+	}
+
 }

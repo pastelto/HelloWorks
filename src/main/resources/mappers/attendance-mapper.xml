@@ -268,4 +268,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND PSA_EMP_NO=#{empNo}
  	</select>
      
+     <!-- 상태변경  -->
+ 	<update id="changeTime" parameterType="Attendance">
+	    UPDATE PS_ATTENDANCE
+		SET PSA_OUT =#{outTime},
+		PSA_APPLIED_OUT = #{appliedOut},
+		PSA_IN =#{inTime},
+		PSA_APPLIED_IN = #{appliedIN},
+		PSA_STATUS=#{psStatus},
+		PSA_WORKINGTIME=#{workingTime},
+		PSA_OVERTIME=#{overTime},
+		PSA_TOTAL=#{total}		
+		WHERE PSA_EMP_NO = #{empNo}
+		AND PSA_CREATEDATE LIKE #{vacation}
+   </update>
+   
+   
+   
+   
 </mapper>
