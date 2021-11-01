@@ -18,7 +18,13 @@
 		<result property="cooper" column="COOPERATION"/>
 		<result property="cooJob" column="COO_JOB"/>
 		<result property="deptShare" column="DEPT_SHARE"/>
-		<result property="progress" column="PROGRESS"/>		
+		<result property="progress" column="PROGRESS"/>	
+		<result property="startDate" column="STARTDATE"/>	
+		<result property="startDate" column="PSR_STARTDATE"/>	
+		<result property="endDate" column="ENDDATE"/>	
+		<result property="endDate" column="PSR_ENDDATE"/>
+		<result property="documentType" column="PSR_DOCUMENT"/>		
+		<result property="vcType" column="PSR_VCTYPE"/>
 	</resultMap>
 	
 	<!-- Approval Attachment-->
@@ -62,10 +68,15 @@
 	<resultMap id="loginUserVacationResultSet" type="LoginUserVacation">
 		<id property="psdNo" column="PSD_NO"/>
 		<result property="annual" column="PSD_ANNUAL"/>
-		<result property="appliedAnnual" column="PSD_APPLIEDANL"/>
 		<result property="useAnnual" column="PSD_USE_ANNUAL"/>
 		<result property="leftAnnual" column="PSD_LEFT_ANNUAL"/>
 		<result property="empNo" column="PSD_EMP_NO"/>
+		<result property="psvNo" column="PSV_NO"/>
+		<result property="manstural" column="PSV_MANSTURAL"/>
+		<result property="maternity" column="PSV_MATERNITY"/>
+		<result property="event" column="PSV_EVENT"/>
+		<result property="parental" column="PSV_PARENTAL"/>
+		<result property="psvEmpNo" column="PSV_EMP_NO"/>
 	</resultMap>
 	
 
@@ -122,6 +133,71 @@
    <select id="selectAnnual" parameterType="_int" resultMap="loginUserVacationResultSet">
       	SELECT * FROM PS_ANNUAL WHERE PSD_EMP_NO= #{empNo}
    </select> 
+   
+   <!-- 결재문서 진행중 조회 -->
+	<select id="selectApproval" parameterType="_int" resultMap="vacationResultSet">
+      	SELECT A.APPROVAL_NO , C.EMP_NAME, A.DEPT_DNAME, A.WRITER_JOB, B.PSR_DOCUMENT,
+		TO_CHAR(B.PSR_STARTDATE,'YY/MM/DD') STARTDATE, TO_CHAR(B.PSR_ENDDATE,'YY/MM/DD') ENDDATE, A.PROGRESS
+		FROM APPROVAL A
+		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
+		JOIN EMPLOYEE C ON A.WRITER = C.EMP_NO
+		WHERE A.APPROVAL_CLASS='근태'
+		AND A.PROGRESS='진행중'
+		AND  B.PSR_STARTDATE LIKE SYSDATE
+		ORDER BY A.APPROVAL_NO ASC
+   </select> 
+   
+   	<!-- 결재문서 승인 -->
+	<update id="progressChange" parameterType="Vacation">
+		UPDATE APPROVAL
+		SET PROGRESS='결재완료'
+		WHERE APPROVAL_NO= #{documentNo}
+	</update>
+	
+	<!-- 해당문서 조회  -->
+   <select id="onlyOneSelect" parameterType="string" resultMap="vacationResultSet" >
+   		SELECT A.*, B.PSR_DOCUMENT, B.PSR_STARTDATE , B.PSR_VCTYPE , B.PSR_ENDDATE
+		FROM APPROVAL A
+		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
+		WHERE A.APPROVAL_NO= #{documentNo}
+   </select> 
+   
+   <!-- 연차테이블 변경 -->
+   <update id="updateAnnual" parameterType="LoginUserVacation">
+	    UPDATE PS_ANNUAL
+		SET PSD_USE_ANNUAL = (PSD_USE_ANNUAL+ #{annual}) ,
+		    PSD_LEFT_ANNUAL = (PSD_LEFT_ANNUAL-#{annual})
+		WHERE PSD_EMP_NO = #{empNo}
+   </update>
 
-
+   <!-- 사용휴가 일수추가  -->
+   <update id="addVacation" parameterType="LoginUserVacation">
+	    UPDATE PS_VACATION
+	    	<if test='vcType eq "보건휴가"'>
+	    		SET PSV_MANSTURAL = PSV_MANSTURAL+ #{manstural}
+	    	</if>
+		
+	    	<if test='vcType eq "출산휴가"'>
+	    		SET PSV_MATERNITY = PSV_MATERNITY+ #{maternity}
+	    	</if>
+	    	<if test='vcType eq "육아휴직"'>
+	    		SET PSV_PARENTAL = PSV_PARENTAL+ #{parental}
+	    	</if>
+	    	<if test='vcType eq "경조사"'>
+	    		SET PSV_EVENT = PSV_EVENT+ #{event}
+	    	</if>
+		 
+		WHERE PSV_EMP_NO = #{psvEmpNo}
+   </update>
+   
+   
+   <!-- 출근등록시 결재서류가 있다면 -->
+    <select id="sysdateVacation" parameterType="_int" resultMap="vacationResultSet">
+      	SELECT A.*, B.PSR_STARTDATE
+		FROM APPROVAL A
+		JOIN PS_EA_REQUEST B ON A.APPROVAL_NO = B.PSR_NO
+		WHERE A.WRITER = #{empNo}
+		AND B.PSR_STARTDATE LIKE SYSDATE
+   </select> 
+   
 </mapper>
