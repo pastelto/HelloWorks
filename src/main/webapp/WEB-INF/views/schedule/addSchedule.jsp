@@ -77,37 +77,32 @@
 												<th>일자</th>
 												<td colspan="3" >
 												<!-- 날짜 및 시간 선택 -->
-												<div class="col-4">
+												<div class="col-6">
 									                <div class="form-group">
 									                  <div class="input-group">
 									                    <div class="input-group-prepend">
 									                      <span class="input-group-text"><i class="far fa-clock"></i></span>
 									                    </div>
-									                    <input type="text" class="form-control float-left" id="setEventTime" style="margin-right: 0;"> 
-									                  	</div>
-									                  </div>
-									                 </div> 
-									                 <div class="col-4">
-									                    <label for="checkAllDay">
-									                    <input type="checkbox" class="form-check-input input-group-text" id="checkAllDay">
+									                    <input type="text" class="form-control float-left" id="setEventTime" name="setEventTime" style=" margin-right: 60px;"> 
+									                  	<label for="sch_allday">
+									                    <input type="checkbox" class="form-check-input input-group-text" name="sch_allday">
 									            		 종일</label>
-									                 </div> 
-
-
-
+									                  </div>
+									                  </div>
+									                 </div>
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input type="text" name="ws_title" class="form-control form-control-sm">
+												<input type="text" name="sch_title" class="form-control form-control-sm">
 												</td>
 											</tr>
 											<tr>
 												<th>캘린더 타입</th>
 												<td style="width: 35%;">
 												<div class="form-group">
-									                  <select class="form-control select2" style="width: 50%;">
+									                  <select class="form-control select2" style="width: 50%;" name="sch_type">
 									                    <option selected="selected">선택하세요</option>
 									                    <!-- 조건 (전체 / 본부별) -> 로그인 계정의 DeptCode(A/B/C)에 따라, 직급(J)에 따라! -->
 									                    <option>사내 전체</option>
@@ -128,7 +123,7 @@
 												</td>
 												<th>장소</th>
 												<td style="width: 35%;">
-													<input class="form-control form-control-sm" type="text" >
+													<input class="form-control form-control-sm" type="text" name="sch_place">
 												 </td>
 											</tr>
 										</table>
@@ -138,7 +133,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="addEventNote" name="cal_content"></textarea>
+										<textarea id="addEventNote" name="sch_content"></textarea>
 									</div>
 								</div>
 
@@ -177,10 +172,19 @@
 	<script>
 	
 	function insertEvent(){
+		
+		var checked = false;
 
-	    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
-		$("#insertNewEvent").submit();
-		alert("일정이 등록되었습니다.");
+		if($('input[name=sch_allday]:checked')){
+			checked = true;
+			console.log(checked);
+		}
+		
+		console.log(checked);
+		console.log();
+	    <%-- $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
+		$("#insertNewEvent").submit(); --%>
+		// alert("일정이 등록되었습니다.");
 		
 	}
 	

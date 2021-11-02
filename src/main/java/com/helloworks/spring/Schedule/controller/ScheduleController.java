@@ -3,6 +3,8 @@ package com.helloworks.spring.Schedule.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.helloworks.spring.Schedule.model.vo.Schedule;
+
 @Controller
 public class ScheduleController {
 	
@@ -22,8 +24,9 @@ public class ScheduleController {
 	
 	// 일정등록하기
 	@RequestMapping("addEvent.sc")
-	public String addEvent() {
+	public String addEvent(Schedule schedule) {
 		
+		System.out.println("schedule ? " + schedule);
 		return "redirect:schMain.sc";
 	}
 }
