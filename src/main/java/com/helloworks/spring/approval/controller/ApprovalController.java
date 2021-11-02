@@ -473,7 +473,7 @@ public class ApprovalController {
 				
 		int listCount = approvalService.selectListCount(searchMap);
 				
-		System.out.println("임시저장 결재 수 : " + listCount);
+		System.out.println("미결재함 지출 수 : " + listCount);
 				
 		int pageLimit = 10;
 		int boardLimit = 10; 
@@ -489,6 +489,66 @@ public class ApprovalController {
 			
 		return "approval/pendingTrayMain";
 	}	
+	
+	// 결재완료 - 일반결재
+	@RequestMapping("signedNormal.ea")
+	public String signedNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+				
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "일반";			
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+				
+		int listCount = approvalService.selectListCount(searchMap);
+		
+		System.out.println("결재완료 일반 수 : " + listCount);
+				
+		int pageLimit = 10;
+		int boardLimit = 10; 
+			
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+				
+		ArrayList<Approval> approvalList = approvalService.selectSignedList(searchMap, pi);
+				
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "signedNormal.ea");
+		model.addAttribute("page", 1);
+			
+		return "approval/signedTrayMain";
+	}
+	
+	// 결재완료 - 지출결재
+	@RequestMapping("signedExpenditure.ea")
+	public String signedExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "지출";	
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+			
+		int listCount = approvalService.selectListCount(searchMap);
+					
+		System.out.println("결재완료 지출 수 : " + listCount);
+					
+		int pageLimit = 10;
+		int boardLimit = 10; 
+				
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+					
+		ArrayList<Approval> approvalList = approvalService.selectSignedList(searchMap, pi);
+					
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "pendingExpenditure.ea");
+		model.addAttribute("page", 2);
+			
+		return "approval/signedTrayMain";
+	}		
 	
 	//전자결재 -기안 detail 
 	@RequestMapping("normalDetail.ea")
@@ -1465,7 +1525,197 @@ public class ApprovalController {
 		
 			return new GsonBuilder().create().toJson(list);
 		}
+
+		//결재완료 전체보기
+		@ResponseBody
+		@RequestMapping(value="selectAllSigned.ea", produces= "application/json; charset=utf-8")
+		public String selectAllSignedApproval(HttpServletRequest request) {
+			int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();					
+			String option = request.getParameter("cOption");
+			
+			HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+			searchMap.put("loginEmpNo", loginEmpNo);
+			searchMap.put("option", option);
+			
+			ArrayList<Approval> list = approvalService.selectAllSigned(searchMap);
+			
+			return new GsonBuilder().create().toJson(list);
+		}
 		
+		// 미결재함 - 날짜 버튼 클릭 
+		@ResponseBody
+		@RequestMapping(value="selectDateSortSigned.ea", produces= "application/json; charset=utf-8")
+		public String selectDateSortSigned(HttpServletRequest request) {
+				
+			int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+			String sdate = request.getParameter("sdate");
+			String apClass = request.getParameter("apClass");
+
+			HashMap<String, Object> searchMap = new HashMap<String, Object>();
+			searchMap.put("loginEmpNo", loginEmpNo);
+			searchMap.put("apClass", apClass);
+				
+			System.out.println("기간 : " + sdate);
+			int sDate= 0;
+			ArrayList<Approval> list = null;
+			switch(sdate) {
+				case "당일" : 
+					sDate = 0;
+					searchMap.put("sDate", sDate);				
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1주일" : 
+					sDate = 7;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1개월" :
+					sDate = 30;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "3개월" :
+					sDate = 90;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "6개월" :
+					sDate = 180;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1년" :
+					sDate = 365;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				default : 
+					break;
+			}
+				
+			return new GsonBuilder().create().toJson(list);
+				
+		}
+		
+		// 미결재함 - 검색 
+			@ResponseBody
+			@RequestMapping(value="selectSearchSortSigned.ea", produces= "application/json; charset=utf-8")
+			public String selectSearchSortSigned(HttpServletRequest request) {
+				
+				int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
+				String optionType = request.getParameter("optionType"); // 제목 , 문서번호 
+				String endDate = request.getParameter("endDate");
+				String startDate = request.getParameter("startDate");
+				String detailOption = request.getParameter("detailOption"); // 기안, 공문, 인사, 회의록 
+				String input = request.getParameter("optionInput"); // 입력한 값 
+				String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
+				int intInput = 0;
+				String stringInput = null;	
+				
+				System.out.println("detailOption : " + detailOption);
+				
+				HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+				searchMap.put("optionType", optionType);
+				searchMap.put("loginEmpNo", loginEmpNo);
+				searchMap.put("endDate", endDate);
+				searchMap.put("startDate", startDate);
+				searchMap.put("detailOption", detailOption);
+				searchMap.put("apClass", apClass);
+				
+				ArrayList<Approval> list = null;
+				
+				// 날짜구간 미입력
+				if(endDate.equals("") || startDate.equals("")) {		
+					// 세부 항목 미선택
+					if(detailOption.equals("")) {
+						switch(optionType) {
+							case "문서번호" : 
+								intInput = Integer.parseInt(request.getParameter("optionInput"));							
+								searchMap.put("optionInput", intInput);		
+								System.out.println("optionInput : " + intInput);
+								list = approvalService.selectSearchApNoSigned(searchMap);				
+								break;
+							case "제목" : 
+								stringInput = request.getParameter("optionInput");							
+								searchMap.put("optionInput", stringInput);		
+								System.out.println("optionInput : " + stringInput);
+								list = approvalService.selectSearchTitleSigned(searchMap);				
+								break;
+							default :
+								break;			
+						}
+					// 세부항목 선택
+					} else {
+						switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectDetailApNoSigned(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectDetailTitleSigned(searchMap);				
+							break;
+						default :
+							break;			
+						}
+					}
+				// 날짜 구간 입력
+				} else {
+					// 세부항목 미선택
+					if(detailOption.equals("")) {
+						// 검색어 입력
+						if(!input.equals("")) {
+							switch(optionType) {
+								case "문서번호" : 
+									intInput = Integer.parseInt(request.getParameter("optionInput"));							
+									searchMap.put("optionInput", intInput);		
+									System.out.println("optionInput : " + intInput);
+									list = approvalService.selectDateApNoSigned(searchMap);				
+									break;
+								case "제목" : 
+									stringInput = request.getParameter("optionInput");							
+									searchMap.put("optionInput", stringInput);		
+									System.out.println("optionInput : " + stringInput);
+									list = approvalService.selectDateTitleSigned(searchMap);				
+									break;
+								default :
+									break;			
+							}
+						// 검색어 미입력 
+						} else {
+							list = approvalService.selectOnlyDateSort(searchMap);
+						}
+					// 세부항목 선택	
+					} else {
+						switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectDeteDetailApNoSigned(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);	
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectDateDetailTitleSigned(searchMap);				
+							break;
+						default :
+							break;			
+						}
+					}
+				}
+			
+				return new GsonBuilder().create().toJson(list);
+			}		
 	
 	// 전자결재  update
 		@RequestMapping("updateApproval.ea")
