@@ -3,15 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>전자결재</title>
-
-<!-- summernote -->
- <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
 
 <style>	
 	 td, span, input{
@@ -79,7 +75,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
-							<!-- 기안서 -->
+							<!-- 지출결의서 -->
 							<div class="card card-outline card-info" id="normal_div">
 								<div class="card-header" >
 									<h3 class="card-title" >지출결의서</h3>
@@ -148,13 +144,6 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-														<colgroup>
-																<col width="15%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-															</colgroup>
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
@@ -222,7 +211,7 @@
 															일자
 														</th>
 														<td colspan="3">
-															<input type="text" id="fieldWriter1" class="form-control"  style="font-size:0.8rem" value="${approval.writerName}" />
+															<input type="text" id="createDate" class="form-control"  style="font-size:0.8rem" value="${approval.createDate}" />
 														</td>
 														<th colspan="1">
 															부서
@@ -347,8 +336,6 @@
 									                  		</div> 
 														</td>
 													</tr>
-													
-												
 													<tr>
 														<th colspan="1">
 															<b>결재로그</b>
@@ -371,8 +358,7 @@
 															</span>
 														</td>
 													</tr>												
-												<form>
-													<tr>
+													<tr id="commentBox">
 														<th colspan="1">
 															<b>의견작성</b>
 															<br>
@@ -385,7 +371,6 @@
 															<button type="button" class="btn btn-primary" onclick="writeComment('${approval.apNo}');">등록</button>
 														</td>
 													</tr>
-												</form>
 													</tbody>												
 												</table>
 											</td>
@@ -428,6 +413,7 @@
 		var n=1;
 		var user = "${ loginEmpNo }";
 		var progress = "${ approval.progress }";
+		var writer = "${ approval.writer }";
 		
 		for(var i=0;i<arr.length;i++){
 			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
@@ -449,6 +435,14 @@
 				$("#returnBtn").hide();
 			}
 		}	
+		
+		for(var i=0; i<arr.length; i++){
+			if(user == arr[i].number || user == writer ){
+				$("#commentBox").css("display",'');
+			} else {
+				$("#commentBox").attr("display",'none');
+			}
+		}
 	</script>
 	<!-- 수신참조 -->
 	<script>
@@ -505,15 +499,20 @@
 		$(function(){	
 			var arr = new Array();
 			<c:forEach items="${ adList }" var="ad">
-				arr.push({date:"${ad.exDate}", type:"${ad.exType}", cardNum:"${ad.exNum}",
+						
+				arr.push({date:"${ad.exDate2}", type:"${ad.exType}", cardNum:"${ad.exNum}",
 						  content:"${ad.exContent}", price:"${ad.price}", accName:"${ad.accName}", bank:"${ad.bankName}",
 						  accNum:"${ad.accNum}", holder:"${ad.accHolder}", dept:"${ad.exDept}", note:"${ad.note}"});
-			</c:forEach>
+				
+				</c:forEach>
 			
 			console.log(arr);
 			
 			$("#corpor_select").val(arr[0].type);
 			$("#card_select").val(arr[0].cardNum);
+			
+			
+
 			
 			var n=1;
 			var addRow = null;

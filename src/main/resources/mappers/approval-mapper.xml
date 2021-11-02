@@ -95,6 +95,7 @@
 		<result property="accHolder" column="EX_HOLDER"/>
 		<result property="exDept" column="EX_DEPT"/>
 		<result property="note" column="EX_NOTE"/>
+		<result property="exDate2" column="EX_DATE2"/>
 	</resultMap>
 	
 	<!-- Approval Ex_Num -->
@@ -604,9 +605,11 @@
  	
  	<!-- select exDetail -->
  	<select id="selectApprovalExDetails" parameterType="HashMap" resultMap="exDetailResultSet">
- 		SELECT * 
- 		FROM APPROVAL_EX_DETAILS
- 		WHERE APPROVAL_NO = #{ apNo }
+ 		SELECT A.*,TO_CHAR(B.EX_DATE,'YYYY-MM-DD') EX_DATE2
+ 		FROM APPROVAL_EX_DETAILS A,
+ 		APPROVAL_EX_DETAILS B
+ 		WHERE A.APPROVAL_NO = #{ apNo }
+ 		AND A.APPROVAL_NO = B.APPROVAL_NO
  	</select>
  	
  	<!-- update Approval -->
