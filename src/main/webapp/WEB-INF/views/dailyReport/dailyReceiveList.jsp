@@ -40,9 +40,11 @@
 	}
 	#weeklyType{
 		background: #00909E;
+		color: white;
 	}
 	#monthlyType{
 		background: #27496D;
+		color: white;
 	}
 </style>
 </head>
@@ -121,13 +123,6 @@
 														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(3);">1개월</button>&nbsp;
 														<button type="button" class="btn btn-default btn-sm" style="width: 100px;" onclick="termType(4);">3개월</button>	&nbsp;
 														
-														<form id="dateRange">
-														<!-- 
-														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem; width: 150px;">
-														&nbsp; ~ &nbsp;
-														<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem; width: 150px">		
-														 -->
-														
 														 <div class="form-group mb-0">
 											
 											                  <div class="input-group">
@@ -142,9 +137,6 @@
 																</div>
 											                  </div>
 											                </div>
-													
-														</form>
-														
 														</div>
 													</td>
 												</tr>
@@ -194,12 +186,13 @@
 								
 								<div class="row">
 									<div class="col-12" style="height: 450px">
-										<table class="table table-sm text-center" >
-										<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">
-											<c:set var="now" value="<%=new java.util.Date()%>" />
-											<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd" /></c:set> 
-											<c:out value="${sysdate}" />
-										</span></caption>
+										<table class="table table-sm text-center table-hover">
+											<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">
+													<c:set var="now" value="<%=new java.util.Date()%>" />
+													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd" /></c:set> 
+													<c:out value="${sysdate}" />
+												</span>
+											</caption>
 											<thead>
 												<tr>
 													<th style="width: 5%;">NO.</th>
@@ -217,7 +210,9 @@
 											</thead>
 											<tbody>
 												<c:forEach items="${dailyReportList}" var="dailyReportList" varStatus="status">
-													<tr>
+													<c:set var="now" value="${ dailyReportList.drCreateDate}" />
+													<c:set var="dateNew"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd " /></c:set>
+													<tr onclick="detailPage(${dailyReportList.drWriterNo},'${ dateNew }')">
 														<td>${status.index+1}</td>
 														
 														<c:if test="${ dailyReportList.drCategory == 'D' }">
@@ -340,18 +335,6 @@
 			var start = $("#startDate").val()
 			var end = $("#endDate").val()
 
-			//var start = startStr.split("-")
-			/*
-			if(startStr>endStr){
-				alert("star가 더 크다")
-			}else{
-				alert("end가 더 크다")
-			}
-			*/
-			
-			
-			//alert(start + ","+end)
-			 
 			if(typeNum == 5){
 				if(start == ""){
 					alert("시작일자를 선택해주세요.")
@@ -371,6 +354,14 @@
 		}
 	</script>
 
-
+	<!-- datail 페이지 전환 -->
+	<script>
+		function detailPage(writer, createDate){
+			//alert(createDate)
+			
+			location.href="detailDailyReport.dr?writer="+writer+"&createDate="+createDate;
+		}
+	
+	</script>
 </body>
 </html>

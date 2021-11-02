@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
 import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
@@ -128,6 +129,16 @@ public interface ApprovalService {
 	ArrayList<Approval> selectAllPending(HashMap<String, Object> searchMap);
 
 	ArrayList<Approval> selectDatePending(HashMap<String, Object> searchMap);
+
+	void insertComment(HashMap<String, Object> insertMap);
+
+	ArrayList<ApprovalComment> selectComment(int apNo);
+
+	void updateLineStatus(int apNo);
+
+	void completeStatus(int apNo);
+
+	void returnStatus(int apNo);
 
 
 
