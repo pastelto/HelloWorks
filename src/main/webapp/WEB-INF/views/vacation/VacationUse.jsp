@@ -101,7 +101,7 @@
 				                      <th  class="blue">포상휴가일수</th>
 				                      <td>미사용</td>
 				                      <th  class="blue">대체휴가일수</th>
-				                      <td>0일</td> 
+				                      <td>0.0일</td> 
 				                      <th  class="blue">입사일</th>
 				                      <td>${loginUser.empHire}</td>
 				                    </tr>
@@ -130,9 +130,9 @@
 				                  </thead>
 				                  <tbody >
 				                    <tr>
-				                      <td>0일 0시간</td>
-				                      <td>0일 0시간</td>
-				                      <td>0일 0시간</td>
+				                      <td>${threeAtdn.half }일</td>
+				                      <td>${threeAtdn.leaveWT }일</td>
+				                      <td>${threeAtdn.over }일</td>
 				                    </tr>
 				                  </tbody>
 				                </table>

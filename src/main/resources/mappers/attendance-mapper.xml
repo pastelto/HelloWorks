@@ -46,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="totalT" column="D"/>
 		<result property="leaveWT" column="E"/>
 		<result property="leaveOT" column="F"/>
+		<result property="half" column="G"/>
 		
 	</resultMap>
 	
@@ -277,7 +278,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      
      <!-- 상태변경  -->
  	<update id="changeTime" parameterType="Attendance">
-	    UPDATE PS_ATTENDANCE
+	    UPDATE PS_ATTENDANCE SET
 		PSA_APPLIED_OUT = #{appliedOut},
 		PSA_APPLIED_IN = #{appliedIN},
 		PSA_STATUS=#{psStatus},
@@ -288,6 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND PSA_CREATEDATE LIKE #{vacation}
    </update>
    
+   <!-- 출근기록-연차 사용일수 -->
     <select id="selectAtndCount" parameterType="_int" resultMap="statisticsSet">
 	   	SELECT
 		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='정상출근' AND PSA_CREATEDATE LIKE '%21/11%') A,
@@ -296,6 +298,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='반차' AND PSA_CREATEDATE LIKE '%21/11%') D,
 		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차' AND PSA_CREATEDATE LIKE '%21/11%') E,
 		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='휴가' AND PSA_CREATEDATE LIKE '%21/11%') F
+		FROM DUAL
+	</select>
+		
+		<!--연차사용현황-휴가사용일수 -->
+	  <select id="selectThreeCount" parameterType="_int" resultMap="statisticsSet">
+	  	SELECT
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='결근') C,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='반차')/2 G,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차') E
 		FROM DUAL
 	</select>
    

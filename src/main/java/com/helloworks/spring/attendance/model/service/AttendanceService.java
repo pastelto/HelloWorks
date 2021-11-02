@@ -61,6 +61,9 @@ public interface AttendanceService {
 	//근태 상태별로 조회
 	Statistics selectAtndCount(int empNo);
 	
+	//연차 사용일수 
+	Statistics selectThreeCount(int empNo);
+	
 
 
 }

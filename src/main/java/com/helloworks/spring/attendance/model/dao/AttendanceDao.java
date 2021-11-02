@@ -114,5 +114,11 @@ public class AttendanceDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("attendanceMapper.selectAtndCount", empNo);
 	}
+	
+	//출근기록-연차 사용일수
+	public Statistics selectThreeCount(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectThreeCount", empNo);
+	}
 
 }

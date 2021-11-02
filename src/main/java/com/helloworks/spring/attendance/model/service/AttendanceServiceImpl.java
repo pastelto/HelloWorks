@@ -156,4 +156,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceDao.selectAtndCount(sqlSession, empNo);
 	}
+	
+	//출근기록-연차 사용일수
+	@Override
+	public Statistics selectThreeCount(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectThreeCount(sqlSession, empNo);
+	}
 }
