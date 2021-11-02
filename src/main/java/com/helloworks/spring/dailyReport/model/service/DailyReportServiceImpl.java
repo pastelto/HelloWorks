@@ -10,6 +10,7 @@ import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.dao.DailyReportDao;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
+import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
 
 @Service
 public class DailyReportServiceImpl implements DailyReportService{
@@ -129,6 +130,38 @@ public class DailyReportServiceImpl implements DailyReportService{
 	public ArrayList<DailyReport> selectDailyReportTermTypeList(DailyReport dailyReport, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return dailyReportDao.selectDailyReportTermTypeList(sqlSession, dailyReport, pi);
+	}
+
+	@Override
+	public DailyReport selectDetailDailyReport(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDetailDailyReport(sqlSession, dailyReport);
+	}
+
+	@Override
+	public int addReply(DailyReportReply r) {
+		int result = dailyReportDao.addReply(sqlSession, r);
+		if(result < 0) {
+			throw new CommException("addReply 실패");
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<DailyReportReply> selectReplyList(int drNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectReplyList(sqlSession, drNo);
+	}
+
+	@Override
+	public int deleteReply(int drNo) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.deleteReply(sqlSession, drNo);
+		
+		if(result < 0) {
+			throw new CommException("일일보고 임시 저장 업데이트 저장 실패");
+		}
+		return result;
 	}
 
 }
