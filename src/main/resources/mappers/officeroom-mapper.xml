@@ -23,6 +23,38 @@
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
+	
+	<resultMap id="commonResourcesResultSet" type="CommonResources">
+		<id property="crNo" column="CR_NO"/>
+		<result property="crCode" column="CR_CODE"/>
+		<result property="crWriterNo" column="CR_WRITER_NO"/>
+		<result property="crCategory" column="CR_CATEGORY"/>
+		<result property="crTitle" column="CR_TITLE"/>
+		<result property="crContent" column="CR_CONTENT"/>
+		<result property="crCount" column="CR_COUNT"/>
+		<result property="crAttach" column="CR_ATTACH"/>
+		<result property="crStatus" column="CR_STATUS"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="writerJobName" column="JOB_NAME"/>
+		<result property="writerDeptUName" column="DEPT_UNAME"/>
+		<result property="writerDeptDName" column="DEPT_DNAME"/>
+	</resultMap>
+	
+	<resultMap id="deptResourcesResultSet" type="DeptResources">
+		<id property="deptrNo" column="DEPTR_NO"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="deptrWriterNo" column="DEPTR_WRITER_NO"/>
+		<result property="deptrCategory" column="DEPTR_CATEGORY"/>
+		<result property="deptrTitle" column="DEPTR_TITLE"/>
+		<result property="deptrContent" column="DEPTR_CONTENT"/>
+		<result property="deptrCount" column="DEPTR_COUNT"/>
+		<result property="deptrAttach" column="DEPTR_ATTACH"/>
+		<result property="deptrStatus" column="DEPTR_STATUS"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="writerJobName" column="JOB_NAME"/>
+		<result property="writerDeptUName" column="DEPT_UNAME"/>
+		<result property="writerDeptDName" column="DEPT_DNAME"/>
+	</resultMap>
   
   	<select id="selectAllEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
@@ -170,4 +202,35 @@
 		ORDER BY A.EMP_NO
 	</select>
 	
+	<select id="selectCommResourcesListCount"  resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMON_RESOURCES
+		WHERE CR_STATUS = 'Y'
+	</select>	
+	
+	<select id="selectCommResourcesList" resultMap="commonResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM COMMON_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_STATUS = 'Y'
+	</select>
+	
+	<select id="selectDeptResourcesListCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM DEPT_RESOURCES
+		WHERE DEPTR_STATUS = 'Y'
+		AND DEPT_CODE = #{deptCode}
+	</select>	
+	
+	<select id="selectDeptResourcesList" parameterType="String" resultMap="deptResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM DEPT_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DEPTR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.DEPTR_STATUS = 'Y'
+		AND A.DEPT_CODE = #{deptCode}
+	</select>
 </mapper>
