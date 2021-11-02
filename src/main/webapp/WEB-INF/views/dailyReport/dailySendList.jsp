@@ -65,7 +65,14 @@
 	      document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 	        var calendar = new FullCalendar.Calendar(calendarEl, {
-	          initialView: 'dayGridMonth'
+	          initialView: 'dayGridMonth',
+	          events: [
+	        	  {
+	        		  title:'이벤트',
+	        		  start: '2021-11-02',
+	        		  end: '2021-11-02'
+	        	  }
+	          ]
 	        });
 	        calendar.render();
 	      });
