@@ -74,17 +74,14 @@ public class VavationController {
 		
 	}
 	
-	//페이지 전환
-		@RequestMapping("vacationUse.ps")
-		public String vacationUse() {
-			System.out.println("휴가사용현황  페이지 전환");
-			return "vacation/VacationUse";
-		}
 		
 	//페이지 전환
 	@RequestMapping("vacationStatistics.ps")
-	public String vacationStatistics() {
+	public String vacationStatistics(Model model) {
 		System.out.println("휴가사용통계  페이지 전환");
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		return "vacation/VacationStatistics";
 	}
 	
@@ -230,7 +227,7 @@ public class VavationController {
 			model.addAttribute("msg", "결재가 임시저장되었습니다.");
 		}
 		
-		return "main";
+		return "redirect:vacationUse.ps";
 	}
 	
 
@@ -354,8 +351,21 @@ public class VavationController {
 	public String hrOnlyPage(Model model) {
 		
 		ArrayList<Vacation> hr  = vacationService.selectApproval();
+		
+
+		for(int i=0; i<hr.size(); i++) {	
+			hr.get(i).setStartDate(hr.get(i).getStartDate().substring(0, 10)); //요청시작날짜 포맷
+			hr.get(i).setEndDate(hr.get(i).getEndDate().substring(0, 10));//요청종료날짜 포맷
+			hr.get(i).setCreateDate(hr.get(i).getCreateDate().substring(0, 10));//작성날짜 포맷
+			
+		}
+		
+		
 		model.addAttribute("hr", hr);
 		
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		return "vacation/HrOnlyPage";
 	}
 	
@@ -377,9 +387,7 @@ public class VavationController {
 		case"반차": case"연차" :
 			Attendance attendance = new Attendance();
 			attendance.setAppliedIN(32400);//출근시간
-			attendance.setInTime(" ");
 			attendance.setAppliedOut(64800);//퇴근시간
-			attendance.setOutTime(" ");
 			if(change.getDocumentType().equals("반차")) {//상태변경
 				attendance.setPsStatus("반차"); 
 			}else {
@@ -481,6 +489,49 @@ public class VavationController {
 			e.printStackTrace();
 		}
 	   
-		 return (int)diffDays;
+		 return (int)diffDays+1;
 	}
+	
+	//연차사용현황
+	@RequestMapping("vacationUse.ps")
+	public String vacationUse(HttpServletRequest request, Model model) {
+		
+		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	 
+		
+		//연차조회
+		LoginUserVacation annual = vacationService.selectAnnual(empNo);
+		
+		//연차사용일수
+		
+		//휴가사용일수
+		LoginUserVacation vacation = vacationService.selectVacation(empNo);
+		
+		//제출한 휴가문서 
+		ArrayList<Vacation> apAtdn = vacationService.selectAPapproval(empNo);
+		
+		for(int i=0; i<apAtdn.size(); i++) {//사용일수 계산
+			
+			String date1 = apAtdn.get(i).getStartDate();
+			String date2 = apAtdn.get(i).getEndDate();
+			int calculation =  dateChange(date1, date2);	
+			apAtdn.get(i).setAtNo(calculation);
+			apAtdn.get(i).setStartDate(apAtdn.get(i).getStartDate().substring(0, 10)); //요청시작날짜 포맷
+			apAtdn.get(i).setEndDate(apAtdn.get(i).getEndDate().substring(0, 10));//요청종료날짜 포맷
+			apAtdn.get(i).setCreateDate(apAtdn.get(i).getCreateDate().substring(0, 10));//작성날짜 포맷
+			
+		}
+		
+		
+		
+		model.addAttribute("annual", annual);
+		model.addAttribute("vacation", vacation);
+		model.addAttribute("apAtdn", apAtdn);
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
+		
+		return "vacation/VacationUse";
+	}
+
+	
 }
