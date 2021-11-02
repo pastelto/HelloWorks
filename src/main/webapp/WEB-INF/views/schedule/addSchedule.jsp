@@ -117,7 +117,7 @@
 									                    <option>마케팅팀</option>
 									                    <option>디자인팀</option>
 									                    <option>IT개발팀</option>
-									                    <option>내 캘린더</option>
+									                    <option value="PRIVATE">내 캘린더</option>
 									                  </select>
 									                </div>
 												</td>
@@ -175,15 +175,14 @@
 		
 		var checked = false;
 
-		if($('input[name=sch_allday]:checked')){
+		if($('input[name=sch_allday]').prop("checked")){
 			checked = true;
-			console.log(checked);
 		}
 		
 		console.log(checked);
-		console.log();
-	    <%-- $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
-		$("#insertNewEvent").submit(); --%>
+		console.log($('input[name=setEventTime]').val());
+	    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
+		$("#insertNewEvent").submit(); <%----%>
 		// alert("일정이 등록되었습니다.");
 		
 	}
@@ -199,7 +198,7 @@
 	      timePicker: true,
 	      timePickerIncrement: 30,
 	      locale: {
-	        format: 'MM/DD/YYYY hh:mm A'
+	        format: 'YYYY/MM/DD hh:mm:ss'
 	      }
 	    })
 	    

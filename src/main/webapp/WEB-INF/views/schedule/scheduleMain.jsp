@@ -15,6 +15,9 @@
 	  align-items: center; /* 수직 가운데 정렬 */
 	}
 
+    .fc-day-number.fc-sat.fc-past { color:#0000FF; }     /* 토요일 */
+    .fc-day-number.fc-sun.fc-past { color:#FF0000; }    /* 일요일 */
+
 </style>
 </head>
 <body>
@@ -64,7 +67,7 @@
           navLinks: true, // 날짜 눌러서 이동 가능
           selectable: true, // 선택가능
           selectMirror: true, // ?
-          editable: true, // 수정가능 -> 만약 수정 X, 조회만 가능한 캘린더라면 false를 주면 된다. (그러면 수정이 안됨!)
+          editable: false, // 수정가능 -> 만약 수정 X, 조회만 가능한 캘린더라면 false를 주면 된다. (그러면 수정이 안됨!)
           droppable: true, // 캘린더 위로 드롭 가능
           // 기능관련 설정
           drop: function(info){ // 일정 내에서 어떤 특정 기능을 수행시, 아래에서 정의한 특정 기능 수행
@@ -77,17 +80,28 @@
           eventClick: function(info) { // 일정 클릭시 
       	    alert('일정 클릭!' + info);
           },
-        	  eventSources: [
+        	  eventSources: [ // 이벤트 전체
 
-        		    // your event source
+        		    // 전체 캘린더 (회사 전체 / 본부 / 부서 / 내 캘린더)
         		   /* {
         		      events: all_events, //
         		      color: 'black',     // an option!
         		      textColor: 'yellow' // an option!
         		    }
         		    */
+        		    {
+        		        url: 'getMyCalender.cal',
+        		        type: 'POST',
+        		        data: {
+        		          calType: 'PRIVATE'
+        		        },
+        		        error: function() {
+        		          alert('there was an error while fetching events!');
+        		        },
+        		        color: 'THISTLE',   // a non-ajax option
+        		        textColor: 'white' // a non-ajax option
+        		      }
 
-        		    // any other event sources...
 
         		  ],
         	
@@ -96,6 +110,12 @@
         calendar.render();
       });
 
+</script>
+
+
+<script>
+<!-- 내 캘린더 조회 -->
+	
 </script>
 
 <!-- 캘린더 관련 함수 메소드 -->
