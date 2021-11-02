@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.dao.OfficeRoomDao;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Service
@@ -63,5 +66,34 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		// TODO Auto-generated method stub
 		return officeRoomDao.searchEmployee(sqlSession, se);
 	}
+
+
+	@Override
+	public int selectCommResourcesListCount() {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommResourcesListCount(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<CommonResources> selectCommResourcesList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommResourcesList(sqlSession, pi);
+	}
+
+
+	@Override
+	public int selectDeptResourcesListCount(String deptCode) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesListCount(sqlSession, deptCode);
+	}
+
+
+	@Override
+	public ArrayList<DeptResources> selectDeptResourcesList(String deptCode, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesList(sqlSession, deptCode, pi);
+	}
+
 
 }

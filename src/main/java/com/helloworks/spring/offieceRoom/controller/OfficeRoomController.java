@@ -12,11 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.common.Pagination;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.service.OfficeRoomService;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Controller
@@ -426,5 +431,91 @@ public class OfficeRoomController {
 		session.setAttribute("refListSession", refList);
 		
 		return "redirect:popupSearchEmp.or";
+	}
+	
+	/* 자료실 */
+	@RequestMapping("commResourcesList.or")
+	public String commResourcesList(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
+		
+		int listCount = officeRoomService.selectCommResourcesListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<CommonResources> commResourcesList = officeRoomService.selectCommResourcesList(pi);
+		
+		System.out.println("공통자료실: "+commResourcesList);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("commResourcesList", commResourcesList);
+		model.addAttribute("pageURL", "commResourcesList.or");
+		return "officeResources/commResourcesList";
+	}
+	
+	@RequestMapping("commResourcesDetail.or")
+	public String commResourcesDetail() {
+		
+		return "officeResources/commResourcesDetail";
+	}	
+	
+	@RequestMapping("commResourcesEnroll.or")
+	public String commResourcesEnroll() {
+		
+		return "officeResources/commResourcesEnroll";
+	}
+	
+	@RequestMapping("commResourcesInsert.or")
+	public String commResourcesInsert() {
+		
+		return "redirect:commResourcesList.or";
+	}
+	
+	@RequestMapping("commResourcesDelete.or")
+	public String commResourcesDelete() {
+		
+		return "redirect:commResourcesList.or";
+	}
+	
+	@RequestMapping("deptResourcesList.or")
+	public String deptResourcesList(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		
+		
+		int listCount = officeRoomService.selectDeptResourcesListCount(loginUser.getDeptCode());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DeptResources> deptResourcesList = officeRoomService.selectDeptResourcesList(loginUser.getDeptCode(), pi);
+		
+		System.out.println("공통자료실: "+deptResourcesList);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("deptResourcesList", deptResourcesList);
+		model.addAttribute("pageURL", "deptResourcesList.or");
+		
+		return "officeResources/deptResourcesList";
+	}
+	
+	@RequestMapping("deptResourcesDetail.or")
+	public String deptResourcesDetail() {
+		
+		return "officeResources/deptResourcesDetail";
+	}
+	
+	@RequestMapping("deptResourcesEnroll.or")
+	public String deptResourcesEnroll() {
+		
+		return "officeResources/deptResourcesEnroll";
+	}
+	
+	@RequestMapping("deptResourcesInsert.or")
+	public String deptResourcesInsert() {
+		
+		return "redirect:deptResourcesList.or";
+	}
+	
+	@RequestMapping("deptResourcesDelete.or")
+	public String deptResourcesDelete() {
+		
+		return "redirect:deptResourcesList.or";
 	}
 }
