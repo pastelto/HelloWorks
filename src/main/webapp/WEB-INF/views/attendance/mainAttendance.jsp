@@ -60,7 +60,7 @@ input:focus {outline:none;}
 border-radius: 5px;
 }
 
-#headerTitle, a, #noticeTable{
+#headerTitle, #noticeTable, #aTitle{
 	font-size:small;
 }
 
@@ -93,10 +93,10 @@ border-radius: 5px;
 	              <div class="card-header p-0 border-bottom-0">
 	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true">근태정보</a>
+	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true" id="aTitle">근태정보</a>
 	                  </li>
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false">휴가정보</a>
+	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false" id="aTitle">휴가정보</a>
 	                  </li>
 	                </ul>
 	              </div>

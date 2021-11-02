@@ -29,12 +29,18 @@ public class AttendanceController {
 	@Autowired
 	private VacationService vacationService;
 	
-	//페이지 전환
+	//출근기록
 	@RequestMapping("attendanceApiView.ps")
-	public String attendanceApiView(Model model) {
+	public String attendanceApiView(Model model, HttpServletRequest request) {
 
-		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		//결재할 문서 게시글 갯수
+		int listCount = vacationService.selectListCount();
 		model.addAttribute("listCount", listCount);
+		
+		//근태상태별로 조회
+		 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
+		Statistics count = attendanceService.selectAtndCount(empNo); 
+		model.addAttribute("count", count);
 		
 		return "attendance/AttendanceApiView";
 	}

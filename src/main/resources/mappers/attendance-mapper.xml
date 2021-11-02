@@ -40,6 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="totalT" column="TOTALT"/>
 		<result property="leaveWT" column="LEAVEWT"/>
 		<result property="leaveOT" column="LEAVEOT"/>
+		<result property="empNo" column="A"/>
+		<result property="working" column="B"/>
+		<result property="over" column="C"/>
+		<result property="totalT" column="D"/>
+		<result property="leaveWT" column="E"/>
+		<result property="leaveOT" column="F"/>
+		
 	</resultMap>
 	
 	<!-- 출근등록 -->
@@ -281,7 +288,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND PSA_CREATEDATE LIKE #{vacation}
    </update>
    
-   
+    <select id="selectAtndCount" parameterType="_int" resultMap="statisticsSet">
+	   	SELECT
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='정상출근' AND PSA_CREATEDATE LIKE '%21/11%') A,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='지각' AND PSA_CREATEDATE LIKE '%21/11%') B,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='결근' AND PSA_CREATEDATE LIKE '%21/11%') C,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='반차' AND PSA_CREATEDATE LIKE '%21/11%') D,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차' AND PSA_CREATEDATE LIKE '%21/11%') E,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='휴가' AND PSA_CREATEDATE LIKE '%21/11%') F
+		FROM DUAL
+	</select>
    
    
 </mapper>

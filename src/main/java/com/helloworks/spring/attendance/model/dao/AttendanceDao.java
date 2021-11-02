@@ -108,5 +108,11 @@ public class AttendanceDao {
 		
 		return sqlSession.update("attendanceMapper.changeTime", attendance);
 	}
+	
+	//근태 상태별로 조회
+	public Statistics selectAtndCount(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectAtndCount", empNo);
+	}
 
 }

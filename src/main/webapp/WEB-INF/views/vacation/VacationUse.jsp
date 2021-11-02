@@ -174,7 +174,7 @@
 							   
 							   <!-- 제출한 휴가문서 -->         
 				              <div class="card-body">
-				                <table class="table table-bordered" id="approvalTable">
+				                <table class="table table-bordered table-hover" id="approvalTable">
 				                  <thead>
 				                    <tr>
 				                      <th width="14%">휴가분류</th>

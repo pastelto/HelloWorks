@@ -91,12 +91,12 @@
 							</thead>
 							<tbody>
 								<tr align="center" >
-									<td>1</td>
-									<td>2</td>
-									<td>3</td>
-									<td>4</td>
-									<td>5</td>
-									<td>6</td>
+									<td>${count.empNo }</td>
+									<td>${count.working }</td>
+									<td>${count.over }</td>
+									<td>${count.totalT }</td>
+									<td>${count.leaveWT }</td>
+									<td>${count.leaveOT }</td>
 								</tr>
 							</tbody>
 						</table>
