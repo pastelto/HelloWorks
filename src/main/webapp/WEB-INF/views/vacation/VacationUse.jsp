@@ -89,11 +89,11 @@
 				                  <thead>
 				                    <tr>
 				                      <th width="13%" class="blue">발생연차</th>
-				                      <td width="17%">18일 0시간</td>
+				                      <td width="17%">${annual.annual } 일 </td>
 				                      <th width="13%"  class="blue">사용연차</th>
-				                      <td width="17%">5일 8시간</td> 
+				                      <td width="17%">${annual.useAnnual } 일</td> 
 				                      <th width="13%"  class="blue">잔여연차</th>
-				                      <td width="17%">12일 7시간</td>
+				                      <td width="17%">${annual.leftAnnual } 일</td>
 				                    </tr>
 				                  </thead>
 				                  <tbody >
@@ -101,7 +101,7 @@
 				                      <th  class="blue">포상휴가일수</th>
 				                      <td>미사용</td>
 				                      <th  class="blue">대체휴가일수</th>
-				                      <td>0일 0시간</td> 
+				                      <td>0일</td> 
 				                      <th  class="blue">입사일</th>
 				                      <td>${loginUser.empHire}</td>
 				                    </tr>
@@ -123,15 +123,13 @@
 				                <table class="table table-bordered" id="approvalTable">
 				                  <thead>
 				                    <tr>
-				                      <th width="25%">반차</th>
-				                      <th width="25%">연차</th>
-				                      <th width="25%">조퇴</th>
-				                      <th width="25%">결근</th> 
+				                      <th width="33%">반차</th>
+				                      <th width="33%">연차</th>
+				                      <th width="33%">결근</th> 
 				                    </tr>
 				                  </thead>
 				                  <tbody >
 				                    <tr>
-				                      <td>0일 0시간</td>
 				                      <td>0일 0시간</td>
 				                      <td>0일 0시간</td>
 				                      <td>0일 0시간</td>
@@ -155,11 +153,11 @@
 				                  </thead>
 				                  <tbody >
 				                    <tr>
+				                      <td>${vacation.manstural } 일</td>
+				                      <td>${vacation.maternity } 일</td>
 				                      <td>0일</td>
-				                      <td>0일</td>
-				                      <td>0일</td>
-				                      <td>0일</td>
-				                      <td>0일</td>
+				                      <td>${vacation.event } 일</td>
+				                      <td>${vacation.parental } 일</td>
 				                    </tr>
 				                  </tbody>
 				                </table>
@@ -189,15 +187,42 @@
 				                    </tr>
 				                  </thead>
 				                  <tbody >
-				                    <tr>
-				                      <td>반차(오전)</td>
-				                      <td>조아혜 (202100008)</td>
-				                      <td>2021-06-05</td>
-				                      <td>2021-06-05</td>
-				                      <td>1일 0시간</td>
-				                      <td>결재진행중</td>
-				                      <td>2021-05-04</td>
-				                    </tr>
+				                    	<c:if test="${ !empty apAtdn }">
+											<c:forEach items="${ apAtdn }" var="ap">
+												<tr align="center">
+														<c:if test="${ ap.documentType eq '반차' }">
+															<td>${ ap.documentType }(${ ap.halfday })</td>
+														</c:if>
+														<c:if test="${ ap.documentType eq '휴가' }">
+															<td>${ ap.documentType }(${ ap.vcType })</td>
+														</c:if>
+														<c:if test="${ ap.documentType eq '연차' }">
+															<td>${ ap.documentType }</td>
+														</c:if>
+														<c:if test="${ ap.documentType eq '결근' }">
+															<td>${ ap.documentType }</td>
+														</c:if>
+													<td>${ ap.writerName }(${ ap.writer })</td>
+													<td>${ ap.startDate }</td>
+													<td>${ ap.endDate }</td>
+													
+													
+													 	<c:if test="${ ap.documentType ne '반차' }">
+															<td>${ap.atNo }일</td>
+														</c:if>
+														<c:if test="${ ap.documentType eq '반차' }">
+															<td>0.5일</td>
+														</c:if> 
+														
+													<td>${ ap.progress }</td>
+													<td>${ ap.createDate }</td>
+											</c:forEach>
+										</c:if>
+										<c:if test="${ empty apAtdn }">
+											<tr align="center">
+													<td colspan="7">올린 결재문서가 없습니다.</td>
+										    </tr>
+										</c:if>
 				                  </tbody>
 				                </table>
 				              </div>

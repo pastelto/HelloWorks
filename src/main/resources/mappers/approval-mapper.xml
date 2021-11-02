@@ -103,8 +103,19 @@
 		<result property="exType" column="EX_TYPE"/>
 	</resultMap>
 	
-
-
+	<!-- Approval Comment -->
+	<resultMap id ="commentResultSet" type="ApprovalComment">
+		<id property="apNo" column="COMMENT_NO"/>
+		<id property="coNo" column="APPROVAL_NO"/>
+		<result property="cmWriter" column="WRITER"/>
+		<result property="cmName" column="EMP_NAME"/>
+		<result property="cmDept" column="DEPT_DNAME"/>
+		<result property="cmJob" column="JOB_NAME"/>
+		<result property="commentDate" column="CREATE_DATE"/>
+		<result property="comment" column="AC_CONTENT"/>
+	</resultMap>
+	
+	
 	<!-- ex_num select -->
 	<select id="selectExNumch" resultMap="exNumResultSet">
 		SELECT *
@@ -535,8 +546,9 @@
  	
  	<!-- select Approval Detail -->
  	<select id="selectApprovalDetail" parameterType="HashMap" resultMap="approvalResultSet">
- 		SELECT *
- 		FROM APPROVAL
+ 		SELECT A.*, B.EMP_NAME
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON EMP_NO = WRITER
  		WHERE APPROVAL_NO = #{ apNo }
  		AND DETAIL_CLASS = #{ detailClass }
  	</select>
@@ -714,4 +726,42 @@
  		WHERE APPROVAL_NO = #{apNo}
  	</update>
  	
+ 	<!-- insert comment -->
+ 	<insert id="insertComment" parameterType="HashMap">
+ 		INSERT INTO APPROVAL_COMMENT
+ 		VALUES(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_CM_NO.NEXTVAL, 5, '0'), #{ apNo }, #{ loginEmpNo }, SYSDATE, #{ comment })
+ 	</insert>
+ 	
+ 	<!-- select comment -->
+ 	<select id="selectComment" parameterType="_int" resultMap="commentResultSet">
+	 	SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+	 	FROM APPROVAL_COMMENT A
+	 	JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+	 	JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+	 	JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+	 	WHERE APPROVAL_NO = #{ apNo }
+	 	ORDER BY COMMENT_NO
+	 </select>
+	 
+	 <!-- 결재상태 update -->
+	 <update id="updateLineStatus" parameterType="_int">
+	 <![CDATA[	
+	 	UPDATE APPROVAL_LINE
+	 	SET
+	 	CONFIRM_STATUS = CONFIRM_STATUS+1
+	 	WHERE APPROVAL_NO = #{ apNo }
+	 ]]>	 	
+	 </update>
+	 <update id="completeStatus"  parameterType="_int">
+		UPDATE APPROVAL
+	 	SET
+	 	PROGRESS = '결재완료'
+	 	WHERE APPROVAL_NO = #{ apNo }
+	 </update>
+	 <update id="returnStatus"  parameterType="_int">
+		UPDATE APPROVAL
+	 	SET
+	 	PROGRESS = '반려'
+	 	WHERE APPROVAL_NO = #{ apNo }
+	 </update>
 </mapper>

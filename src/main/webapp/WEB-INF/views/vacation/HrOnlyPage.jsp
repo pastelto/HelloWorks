@@ -152,15 +152,16 @@ input[id*="radio"], input[id*="vacation"] {
                            <thead>
                               <tr aling="center">
                               <c:if test="${ loginUser.deptCode eq 'A1' }">
-                                 <th style="width: 10px;"><input type='checkbox' name='deleteAll' value='selectall'></th>
+                                 <th style="width: 3%;"><input type='checkbox' name='deleteAll' value='selectall'></th>
                               </c:if>
-                              	 <th style="width: 14%;">부서</th>
-                                 <th style="width: 14%;">이름</th>
-                                 <th style="width: 14%;">직급</th>
-                                 <th style="width: 14%;">문서</th>
-                                 <th style="width: 14%;">시작일</th>
-                                 <th style="width: 14%;">종료일</th>
-                                 <th style="width: 14%;">상태</th>
+                              	 <th style="width: 11%;">번호</th>
+                              	 <th style="width: 11%;">부서</th>
+                                 <th style="width: 11%;">이름</th>
+                                 <th style="width: 11%;">직급</th>
+                                 <th style="width: 11%;">문서</th>
+                                 <th style="width: 11%;">시작일</th>
+                                 <th style="width: 11%;">종료일</th>
+                                 <th style="width: 11%;">상태</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -169,10 +170,24 @@ input[id*="radio"], input[id*="vacation"] {
 	                              <tr>
 	                              	
 		                                 <td><input type='checkbox' name='deleteOne' value="${hrlist.apNo}"></td>
+		                                 <td>${hrlist.psrNo }</td>
 		                               	 <td>${hrlist.deptName }</td>
 		                                 <td>${hrlist.writerName }</td>
 		                                 <td>${hrlist.writerJob }</td>
-		                                 <td>${hrlist.documentType }</td>
+		                                 
+		                                 <c:if test="${ hrlist.documentType eq '반차' }">
+											<td>${ hrlist.documentType }(${ hrlist.halfday })</td>
+										</c:if>
+										<c:if test="${ hrlist.documentType eq '휴가' }">
+											<td>${ hrlist.documentType }(${ hrlist.vcType })</td>
+										</c:if>
+										<c:if test="${ hrlist.documentType eq '연차' }">
+											<td>${ hrlist.documentType }</td>
+										</c:if>
+										<c:if test="${ hrlist.documentType eq '결근' }">
+											<td>${ hrlist.documentType }</td>
+										</c:if>
+		                            
 		                                 <td>${hrlist.startDate }</td>
 		                                 <td>${hrlist.endDate }</td>
 		                                 <td>${hrlist.progress }</td>
