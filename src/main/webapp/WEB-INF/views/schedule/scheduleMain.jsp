@@ -10,6 +10,11 @@
 		overflow:auto;
 	}
 
+	.fc-toolbar-chunk {
+	  display: flex; /* 일렬로 나란히 */
+	  align-items: center; /* 수직 가운데 정렬 */
+	}
+
 </style>
 </head>
 <body>
@@ -23,9 +28,9 @@
 	
 	<!-- 캘린더 내용 -->	
 	<!-- <div><button type="button" id="testBtn" onclick="allSave();">테스트</button></div> -->
-	<div id="calendar-container" class="col-8" style="margin-left : 50px; margin-right : 50px; padding: 20px;">
+	<div id="calendar-container" class="col-8" style="margin-left : 50px; margin-top: 20px;">
 	<!-- 실제 캘린더 적용 부분 <필수!> -->
-	<div id='calendar'></div>
+	<div id='calendar' style="width:100%;  margin-right: 0px;"></div>
 	</div>
 	
 	
