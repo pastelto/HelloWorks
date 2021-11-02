@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,12 +42,10 @@
 			<div class="col-3">
 			
 			</div>
-			
-			<div id="calendar-container" class="col-6" >
+			<div id="calendar-container" class="col-12" >
 			<!-- 캘린더 -->
 			<div id='calendar'></div>
 			</div>
-			
 			
 			</div>
 			<br>

@@ -41,6 +41,12 @@
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.ApprovalAttendance" alias="ApprovalAttendance"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.LoginUserVacation" alias="LoginUserVacation"/>
 		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.DailyReportReply" alias="DailyReportReply"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResources" alias="CommonResources"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment" alias="CommonResourcesAttachment"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply" alias="CommonResourcesReply"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResources" alias="DeptResources"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment" alias="DeptResourcesAttachment"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply" alias="DeptResourcesReply"/>
 	</typeAliases>
 
 
