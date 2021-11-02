@@ -79,10 +79,10 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">							
-							<!-- 기안서 -->
+							<!-- 인사결재 -->
 							<div class="card card-outline card-info" id="normal_div">
 								<div class="card-header" >
-									<h3 class="card-title" >기안서</h3>
+									<h3 class="card-title" >인사결재</h3>
 								</div>
 								<div class="card-body">
 									<table width="400px" style="font-size:0.8em;" height="50px" align="right">
@@ -223,11 +223,22 @@
 														</td>
 													</tr>
 													<tr>
-														<td colspan="3">
+														<td colspan="2">
 															<span>기안일자</span>
 														</td>
-														<td colspan="6">
+														<td colspan="4">
 															<input type=text class="form-control" id="createDate" name="createDate" value="${approval.createDate}"/>
+														</td>
+														<td colspan="2">
+															<span>처리시한</span>
+														</td>
+														<td colspan="4">
+															<select name="dueDate" class="form-control" >
+																<option value="none"> === 선택 ==== </option>
+																<option value="5일 이내"> 5일 이내 </option>
+																<option value="10일 이내"> 10일 이내 </option>
+																<option value="30일 이내"> 30일 이내 </option>
+															</select>
 														</td>
 													</tr>
 													<tr>
@@ -235,7 +246,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" id="fieldWriter1" class="form-control" value="${approval.empName}" />
+															<input type="text" id="fieldWriter1" class="form-control" value="${loginUser.empName}" />
 														</td>
 													</tr>
 													<tr>
@@ -243,7 +254,7 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptDname}" /> 
+															<input type="text" name="userDept" id="userDept1" class="form-control" value="${loginUser.deptDname}" /> 
 														</td>
 													</tr>
 													<tr>

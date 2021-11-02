@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.approval.model.dao.ApprovalDao;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
 import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
@@ -506,6 +507,61 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return approvalDao.selectDatePending(sqlSession, searchMap);
 	}
+
+
+	@Override
+	public void insertComment(HashMap<String, Object> insertMap) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.insertComment(sqlSession, insertMap);
+		
+		if(result < 0) {
+			throw new CommException("의견 등록 실패");
+		}
+	}
+
+
+	@Override
+	public ArrayList<ApprovalComment> selectComment(int apNo) {
+		// TODO Auto-generated method stub
+		
+		return approvalDao.selectComment(sqlSession, apNo);
+	}
+
+
+	@Override
+	public void updateLineStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateLineStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+	}
+
+
+	@Override
+	public void completeStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.completeStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+		
+	}
+
+
+	@Override
+	public void returnStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.returnStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+	}
+
+
 
 
 	

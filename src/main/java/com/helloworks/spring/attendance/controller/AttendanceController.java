@@ -31,8 +31,11 @@ public class AttendanceController {
 	
 	//페이지 전환
 	@RequestMapping("attendanceApiView.ps")
-	public String attendanceApiView() {
-		System.out.println("근태현황 api  페이지 전환");
+	public String attendanceApiView(Model model) {
+
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
+		
 		return "attendance/AttendanceApiView";
 	}
 	
@@ -46,7 +49,11 @@ public class AttendanceController {
 		
 		Attendance update = attendanceService.updateStatus(psaNo);
 		
+		
 		model.addAttribute("update",update);
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		
 		return "attendance/UpdateStatus";
 	}
@@ -221,6 +228,10 @@ public class AttendanceController {
 		
 		model.addAttribute("searchlist",searchlist);
 
+		
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		return "attendance/CheckDeptEmpView";
 
 	}
@@ -297,6 +308,9 @@ public class AttendanceController {
 		 System.out.println("눈누난나" + statistics);
 
 		model.addAttribute("statistics",statistics);
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		
 		return "attendance/DeptWTStatistics";
 	}

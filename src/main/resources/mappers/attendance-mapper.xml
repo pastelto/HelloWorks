@@ -227,7 +227,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
-		WHERE A.PSA_CREATEDATE BETWEEN '21/10/24' AND '21/10/30'
+		WHERE A.PSA_CREATEDATE BETWEEN '21/10/31' AND '21/11/06'
 		AND B.DEPT_CODE = #{dept}
 		GROUP BY A.PSA_EMP_NO, B.EMP_NAME, C.JOB_NAME
 		ORDER BY A.PSA_EMP_NO ASC
@@ -271,9 +271,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <!-- 상태변경  -->
  	<update id="changeTime" parameterType="Attendance">
 	    UPDATE PS_ATTENDANCE
-		SET PSA_OUT =#{outTime},
 		PSA_APPLIED_OUT = #{appliedOut},
-		PSA_IN =#{inTime},
 		PSA_APPLIED_IN = #{appliedIN},
 		PSA_STATUS=#{psStatus},
 		PSA_WORKINGTIME=#{workingTime},
