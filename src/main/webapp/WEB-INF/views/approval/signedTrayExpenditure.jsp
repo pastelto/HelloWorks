@@ -10,22 +10,22 @@
 	.content-wrapper {
 		overflow: auto;
 	}
-	#normalApprovalSearchTable>thead{
+	#expenditureApprovalSearchTable>thead{
 		border-bottom: 1px solid #DAE1E7;
 	}
-	#normalApprovalSearchTable>thead>tr>th	{
+	#expenditureApprovalSearchTable>thead>tr>th	{
 		background-color: #DAE1E7;
 		border-bottom: 1px solid #DAE1E7;
 		width: 20%;
 		text-align: center !important;
 	}
-	#normalApprovalSearchTable>tbody>tr>th	{
+	#expenditureApprovalSearchTable>tbody>tr>th	{
 		background-color: #DAE1E7;
 		border-bottom: 1px solid #DAE1E7;
 		width: 20%;
 		text-align: center !important;
 	}
-	#startDate, #endDate, #conditionOption, #conditionInput{
+	#startDate2, #endDate2, #conditionOption2, #conditionInput2{
 		width : 25% !important;
 	}
 </style>
@@ -34,16 +34,15 @@
 	
 		<!-- Main content -->
 		
-		              
-		              <div class="card-body">
-						<div class="tab-content" id="custom-tabs-tempororyApproval-tab">
+				<div class="card-body">
+						<div class="tab-content" id="custom-tabs-tempororyApproval-tab">			
 						
-							<!-- 일반결재 탭 -->
-							<div class="tab-pane fade show active" id="custom-tabs-normalApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
+							<!-- 지출결재 탭 -->
+							<div class="tab-pane fade show active" id="custom-tabs-expenditureApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-expenditureApproval-tab">	
 								<div class="card" style="margin-bottom: 0px;">
 									<form action="searchApproval.ea">	
 									<input type="hidden" name='status' value='Y'/>
-										<table id="normalApprovalSearchTable">
+										<table id="expenditureApprovalSearchTable">
 										<tbody>
 											<tr>
 												<th colspan="4">작성일자</th>
@@ -62,9 +61,9 @@
 															&nbsp;&nbsp;
 															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem">
+															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate2" name="startDate" style="font-size:0.8rem">
 															&nbsp; ~ &nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem">																														
+															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate2" name="endDate" style="font-size:0.8rem">																														
 													</div>													
 												</td>
 											</tr>
@@ -72,46 +71,19 @@
 												<th colspan="4">문서검색</th>
 												<td colspan="8">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														<button id="allSelect" type="button" class="btn btn-default btn-xs" name="selectAll" style='margin-left:3px' onclick="selectAllNormalTemp('일반');">전체보기</button>
+														<button id="allSelect" type="button" class="btn btn-default btn-xs" name="selectAll" style='margin-left:3px' onclick="selectAllExTemp('지출');">전체보기</button>
 														&nbsp;&nbsp;
-														<select	id="conditionOption" name="conditionOption" class="form-control" style="font-size:0.8rem">
+														<select	id="conditionOption2" name="conditionOption" class="form-control" style="font-size:0.8rem">
 															<option value="제목"> 제목 </option>
 															<option value="문서번호"> 문서번호 </option>
 														</select>
 														&nbsp;&nbsp;
-														<input type="text" class="form-control" id="conditionInput" name="conditionInput" style="font-size:0.8rem"/>
+														<input type="text" class="form-control" id="conditionInput2" name="conditionInput" style="font-size:0.8rem"/>
 														&nbsp;&nbsp;
-														<button type="button" id="searchBtn" class="btn btn-primary btn-xs" onclick="searchNormalApproval();">검색</button>
+														<button type="button" id="searchBtn" class="btn btn-primary btn-xs" onclick="searchExApproval();">검색</button>
 													</div>
 												</td>
-											</tr>
-											<tr>
-												<th colspan="4">일반 결재 문서</th>
-												<td style="font-size:0.7rem;" colspan="8">
-													<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														<label style="display: inline-block" class="bottom-margin0" >
-															<input type="radio" name="doc_type"  value = "기안" id="normal_radio" style='margin-left:3px'>
-															<span class="co_docu_cd_old" docu_cd="기안" style="cursor: pointer;">기안서</span>											
-														</label>
-														&nbsp;&nbsp;
-														<label style="display: inline-block" class="bottom-margin0">
-															<input type="radio" name="doc_type" value = "공문" id="dipl_radio">
-															<span class="co_docu_cd_old" docu_cd="공문" style="cursor: pointer;">공문서</span>										
-														</label>
-														&nbsp;&nbsp;
-														<label style="display: inline-block" class="bottom-margin0">
-															<input type="radio" name="doc_type" value = "회의" id="minut_radio">
-															<span class="co_docu_cd_old" docu_cd="회의" style="cursor: pointer;">회의록</span>
-														</label>
-														&nbsp;&nbsp;
-														<label style="display: inline-block" class="bottom-margin0">
-															<input type="radio" name="doc_type" value = "인사" id="humanr_radio">
-															<span class="co_docu_cd_old" docu_cd="인사" style="cursor: pointer;">인사</span>
-														</label>
-														&nbsp;&nbsp;
-													</div>
-												</td>
-											</tr>
+											</tr>				
 											</tbody>
 										</table>
 										</form>
@@ -119,11 +91,11 @@
 									
 									<hr>
 									
-									<!-- 미결재함 결재 list -->
+									<!-- 임시저장된 결재 list -->
 									<div class="col-12" >
 									<div>
 									<div style="height: 450px; overflow:auto;">
-									<table id="pendingApprovalTable" class="table table-sm" >
+									<table id="signedApprovalTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -137,15 +109,14 @@
 												<th style="width: 10%">기안자</th>
 											</tr>
 										</thead>
-										<tbody>
-										
+										<tbody>										
 											<c:forEach items="${ approvalList }" var="approvalList" varStatus="status">
 							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }');">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
 							                        <td>${ approvalList.detailClass }</td>
 							                        <td>${ approvalList.apNo }</td>
-							                        <td>${ approvalList.progress }</td>
+			                   						<td>${ approvalList.progress }</td>							                        
 							                        <td>${ approvalList.createDate }</td>
 							                        <td>${ approvalList.deptName }</td>
 							                        <td>${ approvalList.writerName }</td>							                       
@@ -172,7 +143,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-					                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -192,23 +163,21 @@
 						                </ul>
 						            </div>
 								</div>
-								<!-- /.col -->								
-		                  	</div>
-		                  
-		                </div>
-		              </div>
-		              <!-- /.card -->
+								<!-- /.col -->	
+							</div>
+						</div>
+					</div>
+									
+		          
 	
 	<!-- 전체보기  -->
 	 <script>
-	 	function selectAllNormalTemp(cOption){
-	 		
-	 		alert("확인");
+	 	function selectAllExTemp(cOption){
 	 	
 	 		resetSearch();
 	 		
 	 		$.ajax({
-	 			url: "selectAllPending.ea",
+	 			url: "selectAllSigned.ea",
 	 			type: "post",
 	 			data :{
 	 				cOption : cOption
@@ -233,7 +202,7 @@
  					console.log("ajax 통신 성공")
  					console.log(list)
  					
- 					$("#pendingApprovalTable>tbody").html(value);
+ 					$("#signedApprovalTable>tbody").html(value);
  					$("#sortOption").text("전체");
  				},
  				error:function(){
@@ -247,15 +216,15 @@
 	<!-- 날짜 버튼 검색 -->
 	<script>
 	 	$(function(){
-	 		$("#normalApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
+	 		$("#expenditureApprovalSearchTable>tbody>tr:eq(0)>td>div>button").click(
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
-		 			var apClass = '일반'
+		 			var apClass = '지출'
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
-			 			url: "selectDateSortPending.ea",
+			 			url: "selectDateSortSigned.ea",
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
@@ -285,13 +254,11 @@
 			 				console.log("ajax 통신 성공")
 			 				console.log(list)
 			 				
-			 				
-		 					$("input[name='doc_type']").prop('checked', false);
-		 					$("#conditionInput").val("");
+			 				$("#conditionInput").val("");
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#pendingApprovalTable>tbody").html(value);
+			 				$("#tempApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
@@ -305,42 +272,37 @@
 	
 	<!-- 검색 -->
 	<script>
-		function searchNormalApproval(){
+		function searchExApproval(){
 			
 			var optionType = $("#conditionOption").val();
 			var optionInput = $("#conditionInput").val();
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			var detailOption = null
-			var apClass = '일반'
-			if($("input[name='doc_type']").checked){
-				detailOption = $("input[name='doc_type']:checked").val();
-			}		
-			
+			var apClass = '지출'
+						
 			console.log("type : " + optionType)
 			console.log("Input : " + optionInput)
 			console.log("endDate : " + endDate)
 			console.log("startDate : " + startDate);
-			console.log("detailOption : " + detailOption);	
+
 		
 					
 			if((endDate == "" && startDate != "" )|| (startDate == "" && endDate != "")){				
 				alert("검색하고자 하는 날짜를 입력해주세요.");
-				$("input[name='doc_type']").prop('checked', false);
+				
 			} else if((endDate == "" && startDate == "" && optionInput == "" )){
 				alert("검색어 또는 날짜를 입력해주세요.");
-				$("input[name='doc_type']").prop('checked', false);
+				
 			} else {
 				
 					$.ajax({
-		 				url: "selectSearchSortPending.ea",
+		 				url: "selectSearchSortSigned.ea",
 		 				type: "post",
 		 				data : {
 		 					optionType : optionType,
 		 					optionInput : optionInput,
 		 					startDate : startDate,
 		 					endDate : endDate,
-		 					detailOption : detailOption,
 		 					apClass : apClass
 		 					
 		 				},
@@ -367,14 +329,12 @@
 			 					
 			 				console.log("ajax 통신 성공")
 			 				console.log(list)
-			 				
-			 				
-		 					$("input[name='doc_type']").prop('checked', false);
+			 							 	
 		 					$("#conditionInput").val("");
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#pendingApprovalTable>tbody").html(value);
+			 				$("#signedApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
@@ -398,7 +358,6 @@
 			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
 		}
 	</script>
-	
 	
 </body>
 </html>
