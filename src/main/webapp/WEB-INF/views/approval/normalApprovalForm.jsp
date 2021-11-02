@@ -161,19 +161,19 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
+																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${loginUser.jobName}" readonly/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level1" id="emp_level1_1" disabled/>
+																	<input type="text" class="emp_level1" id="emp_level1_1" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level2" id="emp_level1_2" disabled/>
+																	<input type="text" class="emp_level2" id="emp_level1_2" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level3" id="emp_level1_3" disabled/>
+																	<input type="text" class="emp_level3" id="emp_level1_3" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level4" id="emp_level1_4" disabled/>
+																	<input type="text" class="emp_level4" id="emp_level1_4" name="job" readonly/>
 																</th>															
 															</tr>
 															<tr>
@@ -182,20 +182,20 @@
 																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name1" id="emp_name1_1" disabled/>
-																	<input type="hidden" class="line1" id="line1_1" name="line1" >
+																	<input type="text" class="emp_name1" id="emp_name1_1" name="lineName" readonly/>
+																	<input type="hidden" class="line1" id="line1_1" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name2" id="emp_name1_2" disabled/>
-																	<input type="hidden" class="line2" id="line1_2" name="line2" >
+																	<input type="text" class="emp_name2" id="emp_name1_2" name="lineName" readonly/>
+																	<input type="hidden" class="line2" id="line1_2" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name3" id="emp_name1_3" disabled/>
-																	<input type="hidden" class="line3" id="line1_3" name="line3" >
+																	<input type="text" class="emp_name3" id="emp_name1_3" name="lineName" readonly/>
+																	<input type="hidden" class="line3" id="line1_3" name="line" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<input type="text" class="emp_name4" id="emp_name1_4" disabled/>
-																	<input type="hidden" class="line4" id="line1_4" name="line4" >
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName" readonly/>
+																	<input type="hidden" class="line4" id="line1_4" name="line" >
 																</td>											
 															</tr>
 														</tbody>
@@ -216,7 +216,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
+																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
@@ -230,7 +230,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -242,7 +242,7 @@
 																	<input type="hidden" id="cooperator1_3" name="cooperator2" >
 																</td>
 																<td class="table coo_name" scop="col">
-																	<span id="emp_name3"></span>
+																	<input type="text" class="coo_name1_4" id="coo_name1_4" disabled/>
 																	<input type="hidden" id="cooperator1_4" name="cooperator3" >
 																</td>										
 															</tr>
@@ -269,7 +269,7 @@
 														</td>
 														<td colspan="6" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" />	
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode1" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
@@ -387,19 +387,19 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level2_1" disabled/>
+																	<input type="text" class="border_none" id="emp_level2_1" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level2_2" disabled/>
+																	<input type="text" class="border_none" id="emp_level2_2" name="job"  readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level2_3" disabled/>
+																	<input type="text" class="border_none" id="emp_level2_3" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level2_4" disabled/>
+																	<input type="text" class="border_none" id="emp_level2_4" name="job" readonly/>
 																</th>															
 															</tr>
 															<tr>
@@ -408,20 +408,20 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name2_1" disabled/>
-																	<input type="hidden" id="line2_1" name="line1" >
+																	<input type="text" class="border_none" id="emp_name2_1" name="lineName" readonly/>
+																	<input type="hidden" id="line2_1" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name2_2" disabled/>
-																	<input type="hidden" id="line2_2" name="line2" >
+																	<input type="text" class="border_none" id="emp_name2_2" name="lineName" readonly/>
+																	<input type="hidden" id="line2_2" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name2_3" disabled/>
-																	<input type="hidden" id="line2_3" name="line3" >
+																	<input type="text" class="border_none" id="emp_name2_3" name="lineName" readonly/>
+																	<input type="hidden" id="line2_3" name="line" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<input type="text" class="border_none" id="emp_name2_4" disabled/>
-																	<input type="hidden" id="line2_4" name="line4" >
+																	<input type="text" class="border_none" id="emp_name2_4" name="lineName" readonly/>
+																	<input type="hidden" id="line2_4" name="line" >
 																</td>											
 															</tr>
 														</tbody>
@@ -442,7 +442,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level2_1" id="coo_level2_1" disabled/>
+																	<input type="text" class="coo_level2_1" id="coo_level2_1" name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level2_2" id="coo_level2_2" disabled/>
@@ -456,7 +456,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name2_1" id="coo_name2_1" disabled/>
+																	<input type="text" class="coo_name2_1" id="coo_name2_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator2_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -495,7 +495,7 @@
 														</td>
 														<td colspan="8">											
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName2" class="form-control" name="ccName" width="30%"/>	
+															<input type="text" id="ccName2" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode2" name="ccCode"/>	
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(2);">수신자등록</button>																				
@@ -633,19 +633,19 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level3_1" disabled/>
+																	<input type="text" class="border_none" id="emp_level3_1" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level3_2" disabled/>
+																	<input type="text" class="border_none" id="emp_level3_2" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level3_3" disabled/>
+																	<input type="text" class="border_none" id="emp_level3_3" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level3_4" disabled/>
+																	<input type="text" class="border_none" id="emp_level3_4" name="job" readonly/>
 																</th>															
 															</tr>
 															<tr>
@@ -654,20 +654,20 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name3_1" disabled/>
-																	<input type="hidden" id="line3_1" name="line1" value="202100004">
+																	<input type="text" class="border_none" id="emp_name3_1" name="lineName"  readonly/>
+																	<input type="hidden" id="line3_1" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name3_2" disabled/>
-																	<input type="hidden" id="line3_2" name="line2" >
+																	<input type="text" class="border_none" id="emp_name3_2" name="lineName" readonly/>
+																	<input type="hidden" id="line3_2" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name3_3" disabled/>
-																	<input type="hidden" id="line3_3" name="line3" >
+																	<input type="text" class="border_none" id="emp_name3_3" name="lineName" readonly/>
+																	<input type="hidden" id="line3_3" name="line" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<input type="text" class="border_none" id="emp_name3_4" disabled/>
-																	<input type="hidden" id="line3_4" name="line4" >
+																	<input type="text" class="border_none" id="emp_name3_4" name="lineName" readonly/>
+																	<input type="hidden" id="line3_4" name="line" >
 																</td>											
 															</tr>
 														</tbody>
@@ -688,7 +688,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level3_1" id="coo_level3_1" disabled/>
+																	<input type="text" class="coo_level3_1" id="coo_level3_1" name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level3_2" id="coo_level3_2" disabled/>
@@ -702,7 +702,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name3_1" id="coo_name3_1" disabled/>
+																	<input type="text" class="coo_name3_1" id="coo_name3_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator3_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -741,7 +741,7 @@
 														</td>
 														<td colspan="6">											
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%"/>	
+															<input type="text" id="ccName3" class="form-control" name="ccName" width="30%" readonly/>	
 															<input type="hidden" id="ccCode3" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(3);">수신자등록</button>																				
@@ -876,19 +876,19 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" disabled/>
+																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="border_none" id="emp_level4_1" disabled/>
+																	<input type="text" class="border_none" id="emp_level4_1" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level4_2" disabled/>
+																	<input type="text" class="border_none" id="emp_level4_2" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level4_3" disabled/>
+																	<input type="text" class="border_none" id="emp_level4_3" name="job" readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="border_none" id="emp_level4_4" disabled/>
+																	<input type="text" class="border_none" id="emp_level4_4" name="job" readonly/>
 																</th>															
 															</tr>
 															<tr>
@@ -897,20 +897,20 @@
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name4_1" disabled/>
-																	<input type="hidden" id="line4_1" name="line1" >
+																	<input type="text" class="border_none" id="emp_name4_1" name="lineName" readonly/>
+																	<input type="hidden" id="line4_1" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name4_2" disabled/>
-																	<input type="hidden" id="line4_2" name="line2" >
+																	<input type="text" class="border_none" id="emp_name4_2" name="lineName" readonly/>
+																	<input type="hidden" id="line4_2" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="border_none" id="emp_name4_3" disabled/>
-																	<input type="hidden" id="line4_3" name="line3" >
+																	<input type="text" class="border_none" id="emp_name4_3" name="lineName" readonly/>
+																	<input type="hidden" id="line4_3" name="line" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<input type="text" class="border_none" id="emp_name4_4" disabled/>
-																	<input type="hidden" id="line4_4" name="line4" >
+																	<input type="text" class="border_none" id="emp_name4_4" name="lineName" readonly/>
+																	<input type="hidden" id="line4_4" name="line" >
 																</td>											
 															</tr>
 														</tbody>
@@ -931,7 +931,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level4_1" id="coo_level4_1" disabled/>
+																	<input type="text" class="coo_level4_1" id="coo_level4_1"  name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level4_2" id="coo_level4_2" disabled/>
@@ -945,7 +945,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name4_1" id="coo_name4_1" disabled/>
+																	<input type="text" class="coo_name4_1" id="coo_name4_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator4_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -984,8 +984,8 @@
 														</td>
 														<td colspan="8">											
 															<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName4" class="form-control" name="ccName" width="30%"/>	
-															<input type="hidden" id="ccCode4" name="ccCode"/>
+															<input type="text" id="ccName4" class="form-control" name="ccName" width="30%" readonly/>	
+															<input type="hidden" id="ccCode4" name="ccCode" value=""/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(4)">수신자등록</button>																				
 															</div>
@@ -1255,10 +1255,6 @@
 	
 	<script>
 		function insertApp(){
-			
-			
-			
-			
 			$("#normalApprovalForm").each(function(){
 				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
 				$("#normalApprovalForm").submit();
@@ -1307,16 +1303,16 @@
 	</script>
 	
 	<script>
-	function plusCoo(num){
-		var _width = '900';
-		var _height = '1500';
-		
-		var _left = Math.ceil((window.screen.width - _width)/2);
-		var _top = Math.ceil((window.screen.height - _height)/2);
-		
-		var windowObj = window.open("plusCooForm.ea?val="+num, "협조 추가",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
-		
-	}	
+		function plusCoo(num){
+			var _width = '900';
+			var _height = '1500';
+			
+			var _left = Math.ceil((window.screen.width - _width)/2);
+			var _top = Math.ceil((window.screen.height - _height)/2);
+			
+			var windowObj = window.open("plusCooForm.ea?val="+num, "협조 추가",' width='+_width +', height='+_height + ', left='+_left + ', top=' + _top);
+			
+		}	
 	</script>
 
 

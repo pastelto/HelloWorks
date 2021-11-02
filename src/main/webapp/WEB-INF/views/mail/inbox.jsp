@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,7 @@
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="main.mi">Home</a></li>
 							<li class="breadcrumb-item active">받은 메일함</li>
 						</ol>
 					</div>
@@ -63,10 +64,6 @@
 								</a></li>
 								<li class="nav-item"><a href="draft.ml" class="nav-link">
 										<i class="far fa-file-alt"></i> 임시 보관함
-								</a></li>
-								<li class="nav-item"><a href="important.ml"
-									class="nav-link"> <i class="fas fa-filter"></i> 중요 메일함 <span
-										class="badge bg-warning float-right">65</span>
 								</a></li>
 								<li class="nav-item"><a href="trash.ml" class="nav-link">
 										<i class="far fa-trash-alt"></i> 휴지통
@@ -133,24 +130,23 @@
 								<!-- /.float-right -->
 							</div>
 							<div class="table-responsive mailbox-messages">
-								<table class="table table-hover table-striped">
+								<table class="table table-hover table-striped" id="inboxList">
 									<tbody>
+									    <c:forEach items="${ list }" var="inbox">
 										<tr>
-											<td>
+											<th>
 												<div class="icheck-primary">
-													<input type="checkbox" value="" id="check1"> <label
+													<input type="checkbox" value="${ inbox.mailNo }" id="check1"> <label
 														for="check1"></label>
 												</div>
-											</td>
-											<td class="mailbox-star"><a href="#"><i
-													class="fas fa-star text-warning"></i></a></td>
-											<td class="mailbox-name"><a href="read.ml">Alexander
-													Pierce</a></td>
-											<td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> -
-												Trying to find a solution to this problem...</td>
-											<td class="mailbox-attachment"></td>
-											<td class="mailbox-date">5 mins ago</td>
+											</th>
+											<td>${ inbox.mailNo }</td>
+											<td class="mailbox-name">${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName }</td>
+											<td class="mailbox-subject">${ inbox.mailTitle }</td>
+											<td class="mailbox-date float-right">${ inbox.mailDate }</td>
+
 										</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 								<!-- /.table -->
@@ -207,36 +203,38 @@
 	<!-- /.content-wrapper -->
 	<jsp:include page="../common/footer.jsp" />
 	<script>
-  $(function () {
-    //Enable check and uncheck all functionality
-    $('.checkbox-toggle').click(function () {
-      var clicks = $(this).data('clicks')
-      if (clicks) {
-        //Uncheck all checkboxes
-        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
-        $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-      } else {
-        //Check all checkboxes
-        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
-        $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
-      }
-      $(this).data('clicks', !clicks)
-    })
+	 $(function () {
+	   //Enable check and uncheck all functionality
+	   $('.checkbox-toggle').click(function () {
+	     var clicks = $(this).data('clicks')
+	     if (clicks) {
+	       //Uncheck all checkboxes
+	       $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+	       $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+	     } else {
+	       //Check all checkboxes
+	       $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+	       $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+	     }
+	     $(this).data('clicks', !clicks)
+	   })
+	 })
+	 // 일반 상세 조회 페이지 
+ 	$(function() {
+		$("#inboxList tbody tr").click(
+				function() {
+				var mailNo = $(this).children().eq(1).text();
+	
+				console.log("mailNo : " + mailNo);
+	
+				
+				
+				location.href = "read.ml?mailNo="+mailNo;
+					
+				});
+	}); 
 
-    //Handle starring for font awesome
-    $('.mailbox-star').click(function (e) {
-      e.preventDefault()
-      //detect type
-      var $this = $(this).find('a > i')
-      var fa    = $this.hasClass('fa')
-
-      //Switch states
-      if (fa) {
-        $this.toggleClass('fa-star')
-        $this.toggleClass('fa-star-o')
-      }
-    })
-  })
 </script>
+
 </body>
 </html>

@@ -38,7 +38,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-3">
-						<a href="mailbox.ml" class="btn btn-primary btn-block mb-3">받은
+						<a href="inbox.ml" class="btn btn-primary btn-block mb-3">받은
 							메일함</a>
 						<div class="card card-outline card-info">
 							<div class="card-header">
@@ -62,10 +62,6 @@
 									<li class="nav-item"><a href="draft.ml" class="nav-link">
 											<i class="far fa-file-alt"></i> 임시 보관함
 									</a></li>
-									<li class="nav-item"><a href="important.ml"
-										class="nav-link"> <i class="fas fa-filter"></i> 중요 메일함 <span
-											class="badge bg-warning float-right">65</span>
-									</a></li>
 									<li class="nav-item"><a href="trash.ml" class="nav-link">
 											<i class="far fa-trash-alt"></i> 휴지통
 									</a></li>
@@ -88,46 +84,32 @@
 										<div class="col-2">발신자</div>
 										<div class="col-10">
 											<div class="form-group">
-												<input id="mailSndr" name="mailSndr"
-													value="${loginUser.empName}" class="form-control" readonly>
+												<input type="hidden" id="mailSndr" name="mailSndr"
+													value="${loginUser.empNo}" class="form-control" readonly>
+												${loginUser.empName} ${loginUser.jobName}
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-2">수신자</div>
 										<div class="col-8">
-											<div class="form-group">
-												<input id="mailRcvr" name="mailRcvr" value=""
-													class="form-control" placeholder="수신자 사번조회 -> 이메일">
-											</div>
-										</div>
-										<div class="col-2">
-											<div class="float-right">
-												<button type="button" class="btn btn-default">
-													<i class="fas fa-user-plus"></i> 주소록
-												</button>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2">참조자</div>
-										<div class="col-8">
-											<div class="form-group">
-												<input id="mailRef" name="mailRef" value=""
-													class="form-control" placeholder="참조자 사번조회 -> 이메일">
-											</div>
-										</div>
-										<div class="col-2">
-											<div class="float-right">
-												<button type="button" class="btn btn-default">
-													<i class="fas fa-user-plus"></i> 주소록
-												</button>
+											<div class="row m-0">
+												<button id="addressBook" type="button"
+													class="btn btn-default btn-xs"
+													onclick="popupAddressBook();">주소록</button>
+												&nbsp;
+												<button id="searchEmp" type="button"
+													class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
+													검색</button>
+												&nbsp;&nbsp;
+												<div id="receiveListDiv"></div>
 											</div>
 										</div>
 									</div>
+									<br>
 									<div class="form-group">
-										<input id="mailTitle" name="mailTitle" value=""
-											class="form-control" placeholder="제목">
+										<input id="mailTitle" name="mailTitle" class="form-control"
+											placeholder="제목">
 									</div>
 									<div class="row">
 										<div class="col-12">
@@ -137,16 +119,17 @@
 									<div class="form-group">
 										<div class="btn btn-default btn-file">
 											<i class="fas fa-paperclip"></i> 첨부파일 <input type="file"
-												name="attachment">
+												name="uploadFile" id="mailAttachment" multiple="multiple">
 										</div>
-										<p class="help-block">Max. 32MB</p>
+										<p class="help-block" id="mailAttachmentName"></p>
 									</div>
 
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="button" class="btn btn-default">
+										<button type="button" class="btn btn-default"
+											onclick="draftMail();">
 											<i class="fas fa-pencil-alt"></i> 임시저장
 										</button>
 										<button type="submit" class="btn btn-primary">
@@ -181,5 +164,48 @@
 			height : 400
 		});
 	});
+</script>
+<!-- 첨부파일 라벨 이름 추가 -->
+<script>
+	
+	$("#mailAttachment").on("change", function() {
+		// 첨부파일 새로 첨부시 내용 삭제
+		$('#mailAttachmentName').empty();
+		
+		var filename = "";
+		for(var i = 0; i < $(this)[0].files.length; i++){
+			
+			// filename += '<input type="button" id="deleteFile'+i+'" class="far fa-trash-alt" name="dFBtn"></input>&nbsp;&nbsp;';
+			filename += $(this)[0].files[i].name + "&nbsp;&nbsp;";
+			filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;
+			filename += "<br>";
+		}
+		console.log("filename : " + filename)
+		$('#mailAttachmentName').append(filename); 
+	});
+
+</script>
+<!-- 주소록 -->
+<script>		
+function popupAddressBook(){			
+	var addressBookPopUp = window.open("popupOfficeAddressBook.adb", "주소록", "width=1000,height=605");
+	}	
+</script>
+<!-- 직원 검색  -->
+<script>		
+function popupSearchEmp(){
+	var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
+	}	
+</script>
+<!-- 임시저장 -->
+<script>
+ 	function draftMail(){
+		$('#mailForm').each(function(){	
+
+		    $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=S");
+			$("#mailForm").submit();
+			alert("작성중인 메일이 임시저장 되었습니다.");
+		});
+	} 
 </script>
 </html>

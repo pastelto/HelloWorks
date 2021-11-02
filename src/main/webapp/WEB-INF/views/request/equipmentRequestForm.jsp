@@ -137,16 +137,16 @@
 											<!-- <div class="container-fluid"> -->
 												<div class="row">
 													<div class="col-3">
-														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1"><label> 화이트보드</label>
+														<input type="radio" name="eqName" value="빔프로젝트" id="eqName1" checked><label> 빔프로젝트</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 빔프로젝트</label>
+														<input type="radio" name="eqName" value="화이트보드" id="eqName2"><label> 화이트보드</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 노트북</label>
+														<input type="radio" name="eqName" value="카메라" id="eqName3"><label> 카메라</label>
 													</div>
 													<div class="col-3">
-														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 카메라</label>
+														<input type="radio" name="eqName" value="노트북" id="eqName4"><label> 노트북</label>
 													</div>
 												</div>
 											<!-- </div> -->
@@ -206,6 +206,7 @@
 	 var eDate = $("#eDate").val();
 	 console.log("끝 : " + eDate);
 	 }); */
+ 	
 
 	function submitValidate() {
 		if (($('#place').val() == "")) {
@@ -227,12 +228,7 @@
 			$("#eRequestForm input[name=eDate]").focus();
 			alert("종료날짜를 입력해 주세요")
 			return false;
-		}
-		if (($('#eqName').val() == "")) {
-			$("#eRequestForm input[name=eqName]").focus();
-			alert("비품명을 입력해 주세요")
-			return false;
-		}
+		} 
 		return true;
 	}
 </script>

@@ -10,11 +10,14 @@
 		<result property="detailClass" column="DETAIL_CLASS"/>
 		<result property="title" column="TITLE"/>
 		<result property="writer" column="WRITER"/>
+		<result property="writerJob" column="WRITER_JOB"/>
 		<result property="writerName" column="EMP_NAME"/>
 		<result property="createDate" column="CREATE_DATE"/>
 		<result property="deptName" column="DEPT_DNAME"/>
 		<result property="content" column="AP_CONTENT"/>
 		<result property="cooper" column="COOPERATION"/>
+		<result property="cooName" column="COO_NAME"/>		
+		<result property="cooJob" column="COO_JOB"/>
 		<result property="deptShare" column="DEPT_SHARE"/>
 		<result property="progress" column="PROGRESS"/>		
 	</resultMap>
@@ -23,23 +26,24 @@
 	<resultMap id="approvalAtResultSet" type="Approval">
 		<id property="apNo" column="APPROVAL_NO"/>
 		<result property="atNo" column="AT_NO"/>
-		<result property="newName" column="NEW__NAME"/>
+		<result property="newName" column="NEW_NAME"/>
 		<result property="originName" column="ORIGIN_NAME"/>	
 	</resultMap>
 	
 	<!-- Approval Line -->
 	<resultMap id="approvalLineResultSet" type="ApprovalLine">
 		<id property="apNo" column="APPROVAL_NO"/>
-		<result property="line1" column="LINE1"/>
-		<result property="line2" column="LINE2"/>
-		<result property="line3" column="LINE3"/>
-		<result property="line4" column="LINE4"/>
+		<id property="lineNo" column="LINE_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
 		<result property="confirmStatus" column="CONFIRM_STATUS"/>
 	</resultMap>
 	
 	<!-- Approval CC -->
 	<resultMap id="approvalCCResultSet" type="ApprovalCC">
 		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="ccName" column = "CC_NAME"/>
 		<result property="ccDept" column="CC_DEPT"/>
 		<result property="ccMember" column="CC_MEMBER"/>
 		<result property="ckCount" column="CHECK_COUNT"/>
@@ -117,7 +121,8 @@
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0'), #{apClass}, #{detailClass}, #{title}, #{writer}, SYSDATE, #{deptName}, #{content}, #{cooper}, #{deptShare}, #{progress}, #{status})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0'), #{apClass}, #{detailClass}, #{title}, #{writer}, #{writerJob}, SYSDATE, #{deptName}, #{content}, 
+		#{cooper},#{cooName}, #{cooJob}, #{deptShare}, #{progress}, #{status})
 	</insert>
 	
 	<!-- 공문서 insert -->
@@ -145,7 +150,7 @@
 	<insert id="insertLine" parameterType="ApprovalLine">
 		INSERT INTO APPROVAL_LINE
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{line1}, #{line2}, #{line3}, #{line4}, DEFAULT)
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
 	</insert>
 	
 	<!-- 지출 insert -->
@@ -173,66 +178,540 @@
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'),#{ccName} ,NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
 	]]>
 	</insert>
 	<insert id="insertCcDept" parameterType="ApprovalCC">
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'),#{ccName}, #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
 	]]>
 	</insert>
 	
 	<!-- listCount -->
-	<select id="selectListCount" parameterType="_int" resultType="_int">
+	<select id="selectListCount" parameterType="HashMap" resultType="_int">
  		SELECT COUNT(*)
  		FROM APPROVAL
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = 'N'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND STATUS = #{ status }
  	</select>
  	
- 	<!-- 임시저장 리스트 -->
- 	<select id="selectTempApproval" parameterType="_int" resultMap="approvalResultSet">
+ 	<!-- 전자결재 리스트 -->
+ 	<select id="selectApproval" parameterType="HashMap" resultMap="approvalResultSet">
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = 'N'
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
  		ORDER BY CREATE_DATE DESC
  	</select>
  	
- 	<!-- 임시저장 전체선택 -->
- 	<select id="selectAllTempApproval" parameterType="HashMap" resultMap="approvalResultSet">
+ 	
+ 	<!-- 미결재  -->
+ 	<select id="selectpendingList" parameterType="HashMap" resultMap="approvalResultSet">
+ 	<![CDATA[	
+ 		SELECT  ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME
+		FROM APPROVAL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+		WHERE A.PROGRESS = '진행중'
+		AND A.APPROVAL_CLASS = #{ apClass }
+		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo }
+		ORDER BY CREATE_DATE DESC
+	]]>
+ 	</select>
+ 	
+ 	<!-- 전자결재 전체선택 -->
+ 	<select id="selectAllApproval" parameterType="HashMap" resultMap="approvalResultSet">
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = 'N'
+ 		AND STATUS = #{ status }
  		AND APPROVAL_CLASS = #{option}
  		ORDER BY CREATE_DATE DESC
  	</select>
- 	<!-- 임시저장 날짜 sort -->
- 	<select id="selectTempDate" parameterType="HashMap" resultMap="approvalResultSet">
+ 	
+ 	<!-- 미결재함 전체선택 -->
+ 	<select id="selectAllPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT  ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME
+		FROM APPROVAL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+		WHERE A.PROGRESS = '진행중'
+		AND A.APPROVAL_CLASS = #{ option }
+		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo }
+		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 전자결재 날짜 sort -->
+ 	<select id="selectDate" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = 'N'
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD') 
+ 		ORDER BY CREATE_DATE DESC
+ 	]]>
+ 	</select>
+ 	
+ 	<!-- 미결재함 날짜 sort -->
+ 	<select id="selectDatePending" parameterType="HashMap" resultMap="approvalResultSet">
+ 	<![CDATA[
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
  		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD')
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
- 	<select id="selectDateBoundSortTemp" parameterType="HashMap" resultMap="approvalResultSet">
+ 	
+ 	<!-- 전자결재 문서번호 sort -->
+ 	<select id="selectSearchApNo" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME,B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 미결재함 문서번호 sort -->
+ 	<select id="selectSearchApNoPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME,B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 전자결재 제목 sort -->
+ 	<select id="selectSearchTitle" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 미결재함 제목 sort -->
+ 	<select id="selectSearchTitlePending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 전자결재 세부분류 + 문서번호 -->
+ 	<select id="selectDetailApNo" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 미결재함 세부분류 + 문서번호 -->
+ 	<select id="selectDetailApNoPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }		
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 전자결재 세부분류 + 제목 -->
+ 	<select id="selectDetailTitle" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC .
+ 	</select>
+ 	
+ 	<!-- 미결재함 세부분류 + 제목 -->
+ 	<select id="selectDetailTitlePending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC .
+ 	</select>
+ 	
+ 	<!-- 날짜 + 문서번호 -->
+ 	<select id="selectDateApNo" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 미결재함 날짜 + 문서번호 -->
+ 	<select id="selectDateApNoPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜 + 제목 -->
+ 	<select id="selectDateTitle" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 미결재함 날짜 + 제목 -->
+ 	<select id="selectDateTitlePending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 날짜 + 문서번호 + 세부분류 -->
+ 	<select id="selectDeteDetailApNo" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 미결재함 날짜 + 문서번호 + 세부분류 -->
+ 	<select id="selectDeteDetailApNoPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND APPROVAL_NO = #{ optionInput }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜 + 제목 + 세부분류  -->
+ 	<select id="selectDateDetailTitle" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		WHERE WRITER = #{ loginEmpNo }
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 미결재함 날짜 + 제목 + 세부분류  -->
+ 	<select id="selectDateDetailTitlePending" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND TITLE LIKE '%'||#{ optionInput }||'%'
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND DETAIL_CLASS = #{ detailOption }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC 
+ 	</select>
+ 	
+ 	<!-- 날짜Bound -->
+ 	<select id="selectOnlyDateSort" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = 'N'
- 		AND CREATE_DATE = BETWEEN #{start} AND #{end}
+ 		AND STATUS = #{ status }
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
+ 	
+ 	<!-- 미결재함 날짜Bound -->
+ 	<select id="selectOnlyDateSortPending" parameterType="HashMap" resultMap="approvalResultSet">
+ 	<![CDATA[
+ 		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
+ 		FROM APPROVAL A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+ 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+ 		WHERE A.PROGRESS = '진행중'
+ 		AND APPROVAL_CLASS = #{ apClass }
+ 		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
+ 		AND C.CONFIRM_STATUS +1 = C.LINE_NO
+		AND C.EMP_NO = #{ loginEmpNo } 
+ 		ORDER BY CREATE_DATE DESC
+ 	]]>
+ 	</select>
+ 	
+ 	<!-- select Approval Detail -->
+ 	<select id="selectApprovalDetail" parameterType="HashMap" resultMap="approvalResultSet">
+ 		SELECT *
+ 		FROM APPROVAL
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 		AND DETAIL_CLASS = #{ detailClass }
+ 	</select>
+ 	
+ 	<!-- select ApprovalCC -->
+ 	<select id="selectApprovalCC" parameterType="HashMap" resultMap="approvalCCResultSet">
+ 		SELECT *
+ 		FROM APPROVAL_CC A
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select ApprovalLine -->
+ 	<select id="selectApprovalLine" parameterType="HashMap" resultMap="approvalLineResultSet">
+ 		SELECT *
+ 		FROM APPROVAL_LINE
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select Attachment -->
+ 	<select id="selectAttachDetail" parameterType="HashMap" resultMap="approvalLineResultSet">
+ 		SELECT *
+ 		FROM APPROVAL_ATTACHMENTS
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select diploma -->
+ 	<select id="selectApprovalDiploma" parameterType="HashMap" resultMap="approvalDiplomaResultSet">
+ 		SELECT * 
+ 		FROM APPROVAL_DIPLOMA
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select hr -->
+ 	<select id="selectApprovalHr" parameterType="HashMap" resultMap="approvalHrResultSet">
+ 		SELECT * 
+ 		FROM APPROVAL_HR
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select minutes -->
+ 	<select id="selectApprovalMinutes" parameterType="HashMap" resultMap="approvalMinutesResultSet">
+ 		SELECT * 
+ 		FROM APPROVAL_M_MINUTES
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select expenditure -->
+ 	<select id="selectApprovalExpenditure" parameterType="HashMap" resultMap="expenditureResultSet">
+ 		SELECT * 
+ 		FROM APPROVAL_EXPENDITURE
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- select exDetail -->
+ 	<select id="selectApprovalExDetails" parameterType="HashMap" resultMap="exDetailResultSet">
+ 		SELECT * 
+ 		FROM APPROVAL_EX_DETAILS
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</select>
+ 	
+ 	<!-- update Approval -->
+ 	<update id="updateApproval" parameterType="Approval">
+ 		UPDATE APPROVAL
+ 		SET		
+		TITLE = #{title},
+		WRITER_JOB = #{writerJob},
+		CREATE_DATE = SYSDATE,
+		AP_CONTENT = #{content},
+		COOPERATION = #{cooper},
+		COO_JOB = #{cooJob},
+		DEPT_SHARE = #{deptShare},
+		PROGRESS = #{progress},
+		STATUS = #{status}
+		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update Attachment -->
+ 	<update id="updateAttachment" parameterType="Approval">
+ 		UPDATE APPROVAL_ATTACHMENTS
+ 		SET
+ 		NEW_NAME = #{newName},
+ 		ORIGIN_NAME = #{originName}
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update ccEmpl -->
+ 	<update id="updateCcEmpl" parameterType="ApprovalCC">
+ 		UPDATE APPROVAL_CC
+ 		SET
+ 		CC_NAME = #{ccName},
+ 		CC_DEPT = NULL,
+ 		CC_MEMBER = #{ccMember},
+ 		CC_COUNT = (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember})
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update ccDept -->
+ 	<update id="updateCcDept" parameterType="ApprovalCC">
+ 		UPDATE APPROVAL_CC
+ 		SET
+ 		CC_NAME = #{ccName},
+ 		CC_DEPT = #{ccDept},
+ 		CC_MEMBER = NULL,
+ 		CC_COUNT = (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept})
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update Expenditure -->
+ 	<update id="updateExpenditure" parameterType="ApprovalExpenditure">
+ 		UPDATE APPROVAL_EXPENDITURE
+ 		SET
+ 		EX_FORM = #{exForm},
+ 		EX_COMMON = #{exCommon}
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update ExpenditureDetail : 원래 있던 지출내역 삭제 후 새로 insert-->
+ 	<delete id="deleteExDetails" parameterType="_int">
+ 		DELETE FROM APPROVAL_EX_DETAILS WHERE APPROVAL_NO = #{apNo}	
+ 	</delete>
+ 	<update id="updateExpenditureDetail" parameterType="ApprovalExDetails">
+ 		UPDATE APPROVAL_EX_DETAILS
+ 		SET
+		EX_TITLE = #{title},
+		EX_DATE	= #{exDate},
+		EX_TYPE = #{exType},
+		EX_NUM	= #{exNum},
+		EX_CONTENT = #{exContent},
+		EX_PRICE = #{price},
+		EX_ACCOUNT = #{accName},
+		EX_BANK	= #{bankName},
+		EX_ACCOUNT_NUM = #{accNum},
+		EX_HOLDER = #{accHolder},
+		EX_DEPT = #{exDept},
+		EX_NOTE = #{note}
+ 		WHERE
+ 		EXPENDITURE_NO = #{exNo}
+ 		AND APPROVAL_NO = #{apNo} 
+ 	</update>
+ 	
+ 	<!-- update Line : 원래 있던 결재라인 삭제 후 새로 insert -->
+ 	<delete id="deleteLine" parameterType="_int">
+ 		DELETE FROM APPROVAL_LINE WHERE APPROVAL_NO = #{apNo}
+ 	</delete>
+ 	<insert id="updateLine" parameterType="ApprovalLine">
+ 		INSERT INTO APPROVAL_LINE
+ 		VALUES(	#{apNo}, #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
+ 	</insert>
+ 	
+ 	<!-- update hr -->
+ 	<update id="updatetHr" parameterType="ApprovalHr">
+ 		UPDATE APPROVAL_HR
+ 		SET
+ 		HR_CLASS = #{hrType},
+ 		DUE_DATE = #{dueDate}
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
+ 	<!-- update Minutes -->
+ 	<update id="updateMinutes" parameterType="ApprovalMinutes">
+ 		UPDATE APPROVAL_M_MINUTES
+ 		SET
+ 		MEETING_TITLE = #{title},
+ 		ATTENDEES = #{attendees}
+ 		WHERE APPROVAL_NO = #{ apNo }
+ 	</update>
+ 	
+ 	<!-- update Diploma -->
+ 	<update id="updateDiploma" parameterType="ApprovalDiploma">
+ 		UPDATE APPROVAL_DIPLOMA
+ 		SET
+ 		EMAIL = #{email},
+ 		PHONE = #{phone},
+ 		ADDRESS = #{address}
+ 		WHERE APPROVAL_NO = #{apNo}
+ 	</update>
+ 	
 </mapper>

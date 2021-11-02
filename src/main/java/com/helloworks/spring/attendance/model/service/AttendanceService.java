@@ -6,6 +6,7 @@ import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.model.vo.SearchCondition;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 
 public interface AttendanceService {
 
@@ -50,5 +51,13 @@ public interface AttendanceService {
 
 	//통계 검색조회
 	ArrayList<Statistics> statisticsSearch(SearchAttendance search);
+	
+	//조정문서 날짜 선택 후 상태 값
+	Attendance selectStatus(SearchAttendance searchStatus);
+	
+	//결재문서에 따른 출퇴근 시간 변경 
+	void changeTime(Attendance attendance);
+	
+
 
 }

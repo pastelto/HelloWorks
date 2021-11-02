@@ -117,8 +117,6 @@ input[id*="radio"], input[id*="vacation"] {
                                                 <input type="radio" name="attendance_type" value="결근" id="radio4">결근
                                                 <input type="radio" name="attendance_type" value="반차" id="radio5">반차
                                                 <input type="radio" name="attendance_type" value="연차" id="radio6">연차
-                                                <input type="radio" name="attendance_type" value="병가" id="radio7">병가
-                                                <input type="radio" name="attendance_type" value="조퇴" id="radio8">조퇴
                                              </div>
                                              <div class="vacationtype">&nbsp;                                          
                                                 <input type="radio" name="vacation_type" value="보건휴가" id="vacation1">보건휴가
@@ -188,10 +186,10 @@ input[id*="radio"], input[id*="vacation"] {
                               </tr>
                            </thead>
                            <tbody>
-                          
+                           <c:if test="${ !empty searchlist }">
                            	  <c:forEach items="${ searchlist }" var="search">
 	                              <tr>
-	                              	<c:if test="${ !empty searchlist }">
+	                              	
 		                              <c:if test="${ loginUser.deptCode eq 'A1' }">
 		                                 <td><input type='checkbox' name='deleteOne' value="${search.psaNo}"></td>
 		                              </c:if>
@@ -208,9 +206,15 @@ input[id*="radio"], input[id*="vacation"] {
 			                                 </c:if>			                             
 		                                 <td>${search.inTime }</td>
 		                                 <td>${search.outTime }</td>
-	                                 </c:if>	                                
+	                                	                                
 	                              </tr>
                               </c:forEach>
+                            </c:if>
+                            <c:if test="${ empty searchlist }">
+                                   <tr>
+                                   	  <td colspan="9">검색결과가 없습니다</td>   
+                                   </tr>
+                            </c:if>
                            </tbody>
                         </table>
                      </div>
@@ -233,8 +237,8 @@ input[id*="radio"], input[id*="vacation"] {
 			console.log("~~~~~~~~"+ckvalue);
 			
 		});
-	   var _width = '300';
-	     var _height = '300';
+	   var _width = '370';
+	     var _height = '500';
 	     console.log("~~~~~~~~"+ckvalue);
 	     // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
 	     var _left = Math.ceil(( window.screen.width - _width )/2);

@@ -107,12 +107,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 		return workShareDao.selectSavedList(sqlSession, myEmp, pi);
 	}
 	
-	// 업무공유 상세조회
+	// 업무공유 상세조회에서 작성자 가져오기
 	@Override
 	public WorkShare detailWS(int wno) throws Exception {
 		
 		return workShareDao.detailWS(sqlSession, wno);
 	}
+	
+	// 업무공유 상세조회
+	@Override
+	public WorkShare detailAllWS(WorkShare updateWS) throws Exception {
+	
+		return workShareDao.detailAllWS(sqlSession, updateWS);
+	}
+
 	
 	// 업무공유 상세조회 - 첨부파일
 	@Override
@@ -171,6 +179,81 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 첨부파일 삭제 실패"); 
 		 }
 	}
+	
+	// 업무공유 - 해당 첨부파일 가져오기
+	@Override
+	public WSAttachment selectWsa(int wsaNo) throws Exception {
+	
+		return workShareDao.selectWsa(sqlSession, wsaNo);
+	}
+	
+	// 업무공유 - 수정
+	@Override
+	public void updateWorkShare(WorkShare ws) throws Exception {
+		 
+		 int result = workShareDao.updateWorkShare(sqlSession, ws);
+		 System.out.println("WS result ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 수정 실패"); 
+		 }
+	}
+
+	// 업무공유 - 첨부파일 수정
+	@Override
+	public void updateWSAttachment(ArrayList<WSAttachment> wsaList) throws Exception {
+		
+		int result1 = 0;
+		
+		System.out.println("wsaList size ? " + wsaList);
+		 for(WSAttachment wsa : wsaList) { 
+			 result1 = workShareDao.updateWSAttachment(sqlSession, wsa);
+			 System.out.println("wsa ? " + wsa);
+		 }
+		 
+		 if(result1 < 0) { 
+			 throw new CommException("업무공유 삽입 실패"); 
+		 }
+	}
+	
+	// 업무공유 - 해당 첨부파일 삭제
+	@Override
+	public int deleteWsa(int wsaNo) throws Exception {
+		
+		int result = workShareDao.deleteWsa(sqlSession, wsaNo);
+		 System.out.println("Delete WorkShare 첨부파일 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 첨부파일 삭제 실패"); 
+		 }
+		
+		 return result;
+	}
+
+	// 업무공유 댓글 삭제
+	@Override
+	public int deleteReply(int rno) throws Exception {
+		
+		 int result = workShareDao.deleteReply(sqlSession, rno);
+		 System.out.println("Delete WorkShare Reply ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 댓글 삭제 실패"); 
+		 }
+		
+		 return result;
+	}
+	
+	// 업무공유 수신인 성함 가져오기
+	@Override
+	public WorkShare selectRecvEmpName(int recvEmpNo) throws Exception {
+		
+		return workShareDao.selectRecvEmpName(sqlSession, recvEmpNo);
+	}
+
+
+
+
 
 	
 }

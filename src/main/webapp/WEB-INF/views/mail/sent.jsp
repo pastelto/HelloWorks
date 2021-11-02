@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +29,7 @@
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="main.mi">Home</a></li>
 							<li class="breadcrumb-item active">보낸 메일함</li>
 						</ol>
 					</div>
@@ -63,10 +66,6 @@
 								</a></li>
 								<li class="nav-item"><a href="draft.ml" class="nav-link">
 										<i class="far fa-file-alt"></i> 임시 보관함
-								</a></li>
-								<li class="nav-item"><a href="important.ml"
-									class="nav-link"> <i class="fas fa-filter"></i> 중요 메일함 <span
-										class="badge bg-warning float-right">65</span>
 								</a></li>
 								<li class="nav-item"><a href="trash.ml" class="nav-link">
 										<i class="far fa-trash-alt"></i> 휴지통
@@ -132,24 +131,28 @@
 								<!-- /.float-right -->
 							</div>
 							<div class="table-responsive mailbox-messages">
-								<table class="table table-hover table-striped">
+								<table class="table table-hover table-striped" id="sentList">
 									<tbody>
-										<tr>
-											<td>
-												<div class="icheck-primary">
-													<input type="checkbox" value="" id="check1"> <label
-														for="check1"></label>
-												</div>
-											</td>
-											<td class="mailbox-star"><a href="#"><i
-													class="fas fa-star text-warning"></i></a></td>
-											<td class="mailbox-name"><a href="read.ml">Alexander
-													Pierce</a></td>
-											<td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> -
-												Trying to find a solution to this problem...</td>
-											<td class="mailbox-attachment"></td>
-											<td class="mailbox-date">5 mins ago</td>
-										</tr>
+										<c:forEach items="${ sentMailList }" var="sMail"
+											varStatus="status">
+											<tr>
+												<td onclick="event.cancelBubble=true;"><!-- 클릭하고싶지 않은 td!! -->
+													<div class="icheck-primary">
+														<input type="checkbox" value="${ sMail.mailNo }">
+													</div>
+												</td>
+												<td>${ sMail.mailNo }</td>
+												<td class="mailbox-name">
+												<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}" step="1" varStatus="in">
+														<c:if
+															test="${ (sentMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
+														<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span> 
+													</c:if>
+													</c:forEach></td>
+												<td class="mailbox-subject"><b>${ sMail.mailTitle }</b></td>
+												<td class="mailbox-date float-right">${ sMail.mailDate }</td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 								<!-- /.table -->
@@ -227,21 +230,16 @@
 						}
 						$(this).data('clicks', !clicks)
 					})
-
-			//Handle starring for font awesome
-			$('.mailbox-star').click(function(e) {
-				e.preventDefault()
-				//detect type
-				var $this = $(this).find('a > i')
-				var fa = $this.hasClass('fa')
-
-				//Switch states
-				if (fa) {
-					$this.toggleClass('fa-star')
-					$this.toggleClass('fa-star-o')
-				}
-			})
 		})
+		$(function() {
+			$("#sentList tbody tr").click(function() {
+				var mailNo = $(this).children().eq(1).text();
+				//console.log("mailNo : " + mailNo);
+				//alert(mailNo);
+				location.href = "read.ml?mailNo=" + mailNo;
+
+			});
+		});
 	</script>
 </body>
 </html>

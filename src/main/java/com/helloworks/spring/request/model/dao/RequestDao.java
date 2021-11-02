@@ -62,5 +62,101 @@ public class RequestDao {
 		return sqlSession.insert("requestMapper.requestIdCard", rId);
 	}
 	
+	//비품 신청 리스트
+	public ArrayList<RequestEq> selectEqList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectEqList");
+	}
+	
+	//사원증 신청 리스트
+	public ArrayList<RequestId> selectIdList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectIdList");
+	}
+	
+	//비품 승인완료
+	public int confirmEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmEq", checkArr);
+	}
+	
+	//사원증 승인완료
+	public int confirmId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmId", checkArr);
+	}
+	
+	//비품 승인취소
+	public int cancelEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelEq", checkArr);
+	}
+	
+	//사원증 승인취소
+	public int cancelId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelId", checkArr);
+	}
+
+	//비품 신청 상세조회
+	public RequestEq selectEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("requestMapper.selectEq", requestEqNo);
+	}
+	
+	//사원증 신청 상세조회
+	public RequestId selectId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("requestMapper.selectId", requestIdNo);
+	}
+
+	//비품 신청 목록에서 삭제
+	public int deleteListEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteListEq", checkArr);
+	}
+	
+	//사원증 신청 목록에서 삭제
+	public int deleteListId(SqlSessionTemplate sqlSession, List<String> checkArr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteListId", checkArr);
+	}
+
+	//비품 상세페이지에서 삭제
+	public int deleteOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteOneEq", requestEqNo);
+	}
+	
+	//비품 상세페이지에서 승인완료
+	public int confirmOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmOneEq", requestEqNo);
+	}
+
+	//비품 상세페이지에서 승인취소
+	public int cancelOneEq(SqlSessionTemplate sqlSession, int requestEqNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelOneEq", requestEqNo);
+	}
+
+	//사원증 상세페이지에서 삭제
+	public int deleteOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.deleteOneId", requestIdNo);
+	}
+	
+	//사원증 상세페이지에서 승인완료
+	public int confirmOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.confirmOneId", requestIdNo);
+	}
+	
+	//사원증 상세페이지에서 승인취소
+	public int cancelOneId(SqlSessionTemplate sqlSession, int requestIdNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("requestMapper.cancelOneId", requestIdNo);
+	}
+	
 
 }

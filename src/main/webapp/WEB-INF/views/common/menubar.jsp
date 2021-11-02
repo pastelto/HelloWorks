@@ -183,16 +183,11 @@
                 <a href="draft.ml" class="nav-link">
                   <p>임시 보관함</p>
                 </a>
-              <li class="nav-item">
-                <a href="important.ml" class="nav-link">
-                  <p>중요 메일함</p>
-                </a>
-              </li>
+			  </li>
 			  <li class="nav-item">
                 <a href="trash.ml" class="nav-link">
                   <p>휴지통</p>
                 </a>
-              </li>
               </li>
             </ul>
           </li>
@@ -219,22 +214,22 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
+                <a href="vacationForm.ps" class="nav-link">
                   <p>근태/휴가 결재</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="temporarySave.ea" class="nav-link">
+                <a href="tempNormal.ea" class="nav-link">
                   <p>임시저장함</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="myApproval.ea" class="nav-link">
+                <a href="myNormal.ea" class="nav-link">
                   <p>내결재함</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="pendingTray.ea" class="nav-link">
+                <a href="pendingNormal.ea" class="nav-link">
                   <p>미결재문서</p>
                 </a>
               </li>
@@ -289,7 +284,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                	일일보고
+              	일일보고
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -301,12 +296,12 @@
               </li>
               <li class="nav-item">
                 <a href="recvReport.dr" class="nav-link">
-                  <p>수신함</p><p>(카운트)</p>
+                  <p>수신함</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="sendReport.dr" class="nav-link">
-                  <p>발신함</p><p>(카운트)</p>
+                  <p>발신함</p>
                 </a>
               </li>
               <li class="nav-item">

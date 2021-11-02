@@ -37,14 +37,31 @@ public interface WorkShareService {
 
 	void readStatusWS(WorkShare updateWS) throws Exception;
 
+	WorkShare detailAllWS(WorkShare updateWS) throws Exception;
+	
+	void deleteWS(int wno) throws Exception;
+
+	void deleteWSAttachment(int wno) throws Exception;
+
+	void updateWorkShare(WorkShare ws) throws Exception;
+
+	void updateWSAttachment(ArrayList<WSAttachment> wsaList) throws Exception;
+	
+	WSAttachment selectWsa(int wsaNo) throws Exception;
+
+	int deleteWsa(int wsaNo) throws Exception;
+
+	WorkShare selectRecvEmpName(int recvEmpNo) throws Exception;
+
 	// Reply
 	ArrayList<WSReply> selectReplyList(int wno) throws Exception;
 
 	int insertReply(WSReply wsr) throws Exception;
 
-	void deleteWS(int wno) throws Exception;
+	int deleteReply(int wsr_no) throws Exception;
 
-	void deleteWSAttachment(int wno) throws Exception;
+
+
 	
 	
 }

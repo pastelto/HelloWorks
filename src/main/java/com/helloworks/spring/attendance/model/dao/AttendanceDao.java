@@ -96,5 +96,17 @@ public class AttendanceDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.statisticsSearch", search);
 	}
+	
+	//조정문서 날짜 선택 후 상태값 가져오기
+	public Attendance selectStatus(SqlSessionTemplate sqlSession, SearchAttendance searchStatus) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectStatus", searchStatus);
+	}
+
+	//결재문서에 따른 출퇴근 시간 변경
+	public int changeTime(SqlSessionTemplate sqlSession, Attendance attendance) {
+		
+		return sqlSession.update("attendanceMapper.changeTime", attendance);
+	}
 
 }

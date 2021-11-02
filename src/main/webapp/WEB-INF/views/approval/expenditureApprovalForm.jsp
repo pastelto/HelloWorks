@@ -103,19 +103,19 @@
 															<tr>															
 																<th rowspan="2"  scope="col">결재</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" disabled/>
+																	<input type="text" class="emp_level0" id="emp_level1_0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
 																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level1" id="emp_level1_1" disabled/>
+																	<input type="text" class="emp_level1" id="emp_level1_1" name="job "readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level2" id="emp_level1_2" disabled/>
+																	<input type="text" class="emp_level2" id="emp_level1_2" name="job "readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level3" id="emp_level1_3" disabled/>
+																	<input type="text" class="emp_level3" id="emp_level1_3" name="job "readonly/>
 																</th>
 																<th class="table emp_level" scope="col" >
-																	<input type="text" class="emp_level4" id="emp_level1_4" disabled/>
+																	<input type="text" class="emp_level4" id="emp_level1_4" name="job "readonly/>
 																</th>															
 															</tr>
 															<tr>
@@ -124,20 +124,20 @@
 																	<input type="hidden" class="line0" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name1" id="emp_name1_1" disabled/>
-																	<input type="hidden" class="line1" id="line1_1" name="line1" >
+																	<input type="text" class="emp_name1" id="emp_name1_1" name="lineName "readonly/>
+																	<input type="hidden" class="line1" id="line1_1" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name2" id="emp_name1_2" disabled/>
-																	<input type="hidden" class="line2" id="line1_2" name="line2" >
+																	<input type="text" class="emp_name2" id="emp_name1_2" name="lineName "readonly/>
+																	<input type="hidden" class="line2" id="line1_2" name="line" >
 																</td>
 																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name3" id="emp_name1_3" disabled/>
-																	<input type="hidden" class="line3" id="line1_3" name="line3" >
+																	<input type="text" class="emp_name3" id="emp_name1_3" name="lineName "readonly/>
+																	<input type="hidden" class="line3" id="line1_3" name="line" >
 																</td>
 																<td class="table emp_name"scope="col" >
-																	<input type="text" class="emp_name4" id="emp_name1_4" disabled/>
-																	<input type="hidden" class="line4" id="line1_4" name="line4" >
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName "readonly/>
+																	<input type="hidden" class="line4" id="line1_4" name="line" >
 																</td>											
 															</tr>
 														</tbody>
@@ -158,7 +158,7 @@
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
 																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level1" id="coo_level1_1" disabled/>
+																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" readonly/>
 																</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
@@ -172,7 +172,7 @@
 															</tr>
 															<tr>
 																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name1_1" id="coo_name1_1" disabled/>
+																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" readonly/>
 																	<input type="hidden" id="cooperator1_1" name="cooperator0">
 																</td>
 																<td class="table coo_name"  scop="col">
@@ -211,7 +211,7 @@
 														</td>
 														<td colspan="11" style="text-align:left !important;">
 														<div class="input-group" style="width:30% !important;">														
-															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%"  style="font-size:0.9em"/>	
+															<input type="text" id="ccName1" class="form-control" name="ccName" width="30%"  style="font-size:0.9em" readonly/>	
 															<input type="hidden" id="ccCode1" name="ccCode"/>
 															<div class="input-group-append">															
 																<button type="button" class="btn btn-default" style="font-size:0.8rem" onclick="plusCC(1);">수신자등록</button>																				
@@ -294,16 +294,16 @@
 															</select>
 														</td>
 														<td colspan="2">
-															<span id='exNum'>지급번호</span>
+															<span id='exNumSpan'>지급번호</span>
 														</td>
 														<td colspan="4">
-															<select name="exNum" class="form-control" id='card_select1' style="font-size:0.8rem">
+															<select name="cardNum" class="form-control" id='card_select1' style="font-size:0.8rem">
 																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ chlist }" var="approvalExDetails">																	
 																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
 																</c:forEach>
 															</select>
-															<select name="exNum" class="form-control" id='card_select2' style="font-size:0.8rem">
+															<select name="cardNum" class="form-control" id='card_select2' style="font-size:0.8rem">
 																	<option value="" style="font-size:0.8rem">선택해주세요.</option>
 																<c:forEach items="${ colist }" var="approvalExDetails">																	
 																	<option value="${ approvalExDetails.exNum }" style="font-size:0.8rem">${ approvalExDetails.exNum }</option>																	
@@ -375,7 +375,7 @@
 														</th>
 														<td colspan="1">
 															<select name="bankName" class="form-control" id='exBank1' style="font-size:0.8rem">
-																<option value="none"> 은행선택  </option>
+																<option> 은행선택  </option>
 																<option value="경남"> 경남 </option>
 																<option value="광주"> 광주 </option>
 																<option value="국민"> 국민 </option>

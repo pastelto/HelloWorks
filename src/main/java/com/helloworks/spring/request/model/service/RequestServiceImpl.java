@@ -107,4 +107,180 @@ public class RequestServiceImpl implements RequestService {
 			throw new CommException("사원증 신청 실패");
 		}
 	}
+
+	// 비품 신청 리스트
+	@Override
+	public ArrayList<RequestEq> selectEqList() {
+		
+		return requestDao.selectEqList(sqlSession);
+	}
+	
+	// 사원증 신청 리스트
+	@Override
+	public ArrayList<RequestId> selectIdList() {
+		
+		return requestDao.selectIdList(sqlSession);
+	}
+	
+	// 비품 체크박스 제출 -> 승인완료
+	@Override
+	public void confirmEq(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.confirmEq(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("승인완료 처리 실패");
+		}
+	}
+	// 사원증 체크박스 제출 -> 승인완료
+	@Override
+	public void confirmId(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.confirmId(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("승인완료 처리 실패");
+		}
+	}
+	// 비품 체크박스 제출 -> 승인취소
+	@Override
+	public void cancelEq(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.cancelEq(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("승인취소 처리 실패");
+		}
+	}
+	// 사원증 체크박스 제출 -> 승인취소
+	@Override
+	public void cancelId(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.cancelId(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("승인취소 처리 실패");
+		}
+	}
+
+	// 비품 신청 상세조회
+	@Override
+	public RequestEq selectEq(int requestEqNo) {
+		RequestEq requestEq = null;
+		
+		requestEq = requestDao.selectEq(sqlSession, requestEqNo); // 문제가 없는경우 셀렉트 해올것
+
+		return requestEq;
+	}
+	
+	// 사원증 신청 상세조회
+	@Override
+	public RequestId selectId(int requestIdNo) {
+		RequestId requestId = null;
+		
+		requestId = requestDao.selectId(sqlSession, requestIdNo); // 문제가 없는경우 셀렉트 해올것
+
+		return requestId;
+	}
+
+	// 비품 신청목록에서 삭제
+	@Override
+	public void deleteListEq(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.deleteListEq(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("비품 목록 삭제 실패");
+		}
+	}
+
+	// 사원증 신청목록에서 삭제
+	@Override
+	public void deleteListId(List<String> checkArr) {
+		int result = 0;
+
+		result = requestDao.deleteListId(sqlSession, checkArr);
+
+		if (result < 0) {
+			throw new CommException("사원증 목록 삭제 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 삭제
+	@Override
+	public void deleteOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.deleteOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 삭제 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 승인완료
+	@Override
+	public void confirmOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.confirmOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 승인완료 실패");
+		}
+	}
+	
+	// 비품 상세페이지에서 승인취소
+	@Override
+	public void cancelOneEq(int requestEqNo) {
+		int result = 0;
+
+		result = requestDao.cancelOneEq(sqlSession, requestEqNo);
+
+		if (result < 0) {
+			throw new CommException("비품 상세페이지에서 승인취소 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 삭제
+	@Override
+	public void deleteOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.deleteOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException(" 사원증 상세페이지에서 삭제 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 승인완료
+	@Override
+	public void confirmOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.confirmOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException("사원증 상세페이지에서 승인완료 실패");
+		}
+	}
+	
+	// 사원증 상세페이지에서 승인취소
+	@Override
+	public void cancelOneId(int requestIdNo) {
+		int result = 0;
+
+		result = requestDao.cancelOneId(sqlSession, requestIdNo);
+
+		if (result < 0) {
+			throw new CommException("사원증 상세페이지에서 승인취소 실패");
+		}
+	}
+
 }

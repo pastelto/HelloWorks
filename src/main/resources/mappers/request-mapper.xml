@@ -28,27 +28,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="requestEqResultSet" type="RequestEq">
 		<id property="requestEqNo" column="ES_ER_NO" />
 		<result property="empNo" column="ES_ER_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
 		<result property="requestDate" column="ES_ER_DATE" />
 		<result property="place" column="ES_ER_PLC" />
 		<result property="usage" column="ES_ER_USG" />
 		<result property="sDate" column="ES_ER_START" />
 		<result property="eDate" column="ES_ER_END" />
 		<result property="eqName" column="ES_ER_NAME" />
-		<result property="addRequest" column="RS_CM_STATUS" />
-		<result property="eqCondition" column="ES_ER_CONDITION" />
-		<result property="eqStatus" column="RS_CM_STATUS" />
+		<result property="addRequest" column="ES_ER_ADD" />
+		<result property="erCondition" column="ES_ER_CONDITION" />
+		<result property="erStatus" column="ES_ER_STATUS" />
 	</resultMap>
 	
 	<!-- 사원증 -->
 	<resultMap id="requestIdResultSet" type="RequestId">
 		<id property="requestIdNo" column="ES_IR_NO" />
 		<result property="empNo" column="ES_IR_EMP_NO" />
+		<result property="empKName" column="EMP_NAME" />
+		<result property="empEName" column="EMP_EN" />
+		<result property="deptDname" column="DEPT_DNAME" />
+		<result property="jobName" column="JOB_NAME" />
 		<result property="requestDate" column="ES_IR_DATE" />
 		<result property="iRkind" column="ES_IR_KIND" />
 		<result property="orgPic" column="ES_IR_ORG_PIC" />
 		<result property="chgPic" column="ES_IR_CHG_PIC" />
-		<result property="eqCondition" column="ES_IR_CONDITION" />
-		<result property="eqStatus" column="ES_IR_STATUS" />
+		<result property="irCondition" column="ES_IR_CONDITION" />
+		<result property="irStatus" column="ES_IR_STATUS" />
 	</resultMap>	
 	
 
@@ -74,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회의실 삭제 -->
 	<delete id="deleteMtr" parameterType="List">
 		DELETE FROM RS_MEETINGROOM_MANAGEMENT
-		where RS_MM_NO in
+		WHERE RS_MM_NO in
 			<foreach collection="list" item="deleteMtr" index="i" open="(" separator="," close=")">
 				#{deleteMtr}
 			</foreach>
@@ -98,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 차량 삭제 -->
 	<delete id="deleteCar" parameterType="List">
 		DELETE FROM RS_CAR_MANAGEMENT
-		where RS_CM_NO in
+		WHERE RS_CM_NO IN
 			<foreach collection="list" item="deleteCar" index="i" open="(" separator="," close=")">
 				#{deleteCar}
 			</foreach>
@@ -118,6 +125,148 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SEQ_ES_IR_NO.NEXTVAL, #{empNo}, SYSDATE, #{iRkind}, #{orgPic}, #{chgPic}, DEFAULT, DEFAULT)
 	</insert>	
 	
+	<!-- 비품 신청 목록 -->
+	<select id="selectEqList" resultMap="requestEqResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_EQUIPMENT_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_ER_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+        WHERE ES_ER_STATUS = 'Y'
+		ORDER BY ES_ER_DATE DESC
+	</select>
 	
+	<!-- 사원증 신청 목록 -->
+	<select id="selectIdList" resultMap="requestIdResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_ID_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+        WHERE ES_IR_STATUS = 'Y'
+		ORDER BY ES_IR_DATE DESC
+	</select>
+	
+	<!-- 비품 제출-> 승인완료 -->
+	<update id="confirmEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인완료'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="confirmEq" index="i" open="(" separator="," close=")">
+				#{confirmEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 제출-> 승인완료 -->
+	<update id="confirmId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인완료'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="confirmId" index="i" open="(" separator="," close=")">
+				#{confirmId}
+			</foreach>		
+	</update>
+	
+	<!-- 비품 제출-> 승인취소 -->
+	<update id="cancelEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인취소'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="cancelEq" index="i" open="(" separator="," close=")">
+				#{cancelEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 제출-> 승인취소 -->
+	<update id="cancelId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인취소'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="cancelId" index="i" open="(" separator="," close=")">
+				#{cancelId}
+			</foreach>		
+	</update>
+	
+	<!-- 비품 신청 상세조회 -->
+	<select id="selectEq" parameterType="_int" resultMap="requestEqResultSet">
+		SELECT A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_EQUIPMENT_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_ER_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		WHERE ES_ER_NO = #{requestEqNo}
+	</select>
 
+	<!-- 사원증 신청 상세조회 -->
+	<select id="selectId" parameterType="_int" resultMap="requestIdResultSet">
+		SELECT A.*, B.EMP_NAME, B.EMP_EN, C.DEPT_DNAME, D.JOB_NAME
+		FROM ES_ID_REQUEST A
+        JOIN EMPLOYEE B ON A.ES_IR_EMP_NO = B.EMP_NO
+        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
+		WHERE ES_IR_NO = #{requestIdNo}
+	</select>
+	
+	<!-- 비품 신청 목록에서 삭제 -->
+	<update id="deleteListEq" parameterType="List">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_STATUS = 'N'
+		WHERE ES_ER_NO IN
+			<foreach collection="list" item="deleteListEq" index="i" open="(" separator="," close=")">
+				#{deleteListEq}
+			</foreach>		
+	</update>
+	
+	<!-- 사원증 신청 목록에서 삭제 -->
+	<update id="deleteListId" parameterType="List">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_STATUS = 'N'
+		WHERE ES_IR_NO IN
+			<foreach collection="list" item="deleteListId" index="i" open="(" separator="," close=")">
+				#{deleteListId}
+			</foreach>		
+	</update>
+	
+	<!-- 비품 상세페이지에서 삭제 -->
+	<update id="deleteOneEq" parameterType="_int">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_STATUS = 'N'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 비품 상세페이지에서 승인완료 -->
+	<update id="confirmOneEq" parameterType="_int">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인완료'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 비품 상세페이지에서 승인취소 -->
+	<update id="cancelOneEq" parameterType="_int">
+		UPDATE ES_EQUIPMENT_REQUEST
+			SET ES_ER_CONDITION = '승인취소'
+		WHERE ES_ER_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 삭제 -->
+	<update id="deleteOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_STATUS = 'N'
+		WHERE ES_IR_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 승인완료 -->
+	<update id="confirmOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인완료'
+		WHERE ES_IR_NO IN #{requestEqNo}
+	</update>
+	
+	<!-- 사원증 상세페이지에서 승인취소 -->
+	<update id="cancelOneId" parameterType="_int">
+		UPDATE ES_ID_REQUEST
+			SET ES_IR_CONDITION = '승인취소'
+		WHERE ES_IR_NO IN #{requestEqNo}
+	</update>	
+	
 </mapper>

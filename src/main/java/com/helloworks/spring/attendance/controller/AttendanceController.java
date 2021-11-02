@@ -17,12 +17,17 @@ import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.vacation.model.service.VacationService;
+import com.helloworks.spring.vacation.model.vo.Vacation;
 
 @Controller
 public class AttendanceController {
 
 	@Autowired
 	private AttendanceService attendanceService;
+	
+	@Autowired
+	private VacationService vacationService;
 	
 	//페이지 전환
 	@RequestMapping("attendanceApiView.ps")
@@ -71,13 +76,12 @@ public class AttendanceController {
 			 if(statushour > 9) {
 				 attendance.setAppliedIN(sec);
 				 attendance.setPsStatus("지각");
-
 				 
-//			 	//오전반차결재서류 있다면 
-//			    if(반차서류가 있다면  && status < 14) {				    	
-//			    	attendance.setPsStatus("반차");	
-//				    attendance.setAppliedIN(50400); //2시출근
-//			    }
+			 	//오전반차결재서류 있다면 
+				Vacation vacation =  vacationService.sysdateVacation(empNo);
+			    if(vacation != null) {				    	
+			    	attendance.setPsStatus("반차");
+			    }
 				 
 				   	 
 			 }else {
@@ -138,22 +142,16 @@ public class AttendanceController {
 			
 			 }else {//6시 이전 퇴근
 				 
-				 //조퇴
-				 attendance.setPsStatus("조퇴");	
-		 		 attendance.setAppliedOut(sec); 
-		 		 attendance.setTotal(attendance.getAppliedOut()-attendance.getAppliedIN()-3600); //총일한시간(퇴근-출근-점심시간)
-		 		 attendance.setWorkingTime(attendance.getTotal()); //일한시간
-		 		 attendance.setOverTime(0);//야근없음
-				 
-//				 	//오후반차결재서류 있다면 
-//				    if(반차서류가 있다면) {				    	
-//				    	attendance.setPsStatus("반차");	
-//					    attendance.setAppliedOut(50400); //2시출근
-//					 }else {
-//						 attendance.setPsStatus("조퇴");	
-//				 		 attendance.setAppliedOut(sec); 
-//					 }
- 
+				//오후반차결재서류 있다면 
+				Vacation vacation =  vacationService.sysdateVacation(empNo);
+			    if(vacation != null) {				    	
+			    	 attendance.setPsStatus("반차");
+			    	 attendance.setAppliedOut(64800); //2시퇴근이지만 반차로 6시퇴근 적용
+			    	 attendance.setTotal(28800); //총일한시간(퇴근-출근-점심시간)
+			 		 attendance.setWorkingTime(28800); //일한시간
+			 		 attendance.setOverTime(0);//야근없음
+			    }
+				    
 			 }
 
 		
@@ -303,6 +301,8 @@ public class AttendanceController {
 		return "attendance/DeptWTStatistics";
 	}
 	
+
+	
 	//통계 검색조건
 	@RequestMapping("statisticsSearch.ps")
 	public String statisticsSearch(String weekselect, String optionType, String  searchtext, 
@@ -322,12 +322,15 @@ public class AttendanceController {
 		 search.setDept(dept); //부서
 		
 		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
-		
+		 
 		
 
 		model.addAttribute("statistics",statistics);
 		
 		return "attendance/DeptWTStatistics";
 	}
+	
+	
+
    
 }

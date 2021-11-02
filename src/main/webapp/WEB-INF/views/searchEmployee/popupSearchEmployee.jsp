@@ -78,7 +78,7 @@
 			<div class="row">
 				<div class="col-12">
 				
-					<div class="card card-outline card-info">
+					<div class="card card-outline card-info mb-0">
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
@@ -86,286 +86,361 @@
 							</h6>
 						</div>
 
+
 						<div class="card-body">
-
-							<div class="card">
-								<div class="card-body">
-									<div class="card" style="margin-bottom: 0px;">
-										<table id="searchEmpTable">
-											<tr>
-												<th>키워드</th>
-												<td>
-												<table id="searchCategory" class="table table-borderless table-sm" style="margin: auto; width: 98%">
-														<tbody>
+							<div class="row">
+								<div class="col-9">
+									<div class="card mb-0">
+										<div class="card-body">
+											<div class="card">
+												<div class="card-body">
+													<div class="card" style="margin-bottom: 0px;">
+														<table id="searchEmpTable">
 															<tr>
-																<th><h4><span class="badge badge-light" style="width: 100%">ALL</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㄱ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㄴ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㄷ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㄹ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅁ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅂ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅅ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅇ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅈ</span></h4></th>
+																<th>키워드</th>
+																<td>
+																	<table id="searchCategory"
+																		class="table table-borderless table-sm"
+																		style="margin: auto; width: 98%">
+																		<tbody>
+																			<tr>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ALL</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㄱ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㄴ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㄷ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㄹ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅁ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅂ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅅ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅇ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅈ</span>
+																					</h4></th>
+																			</tr>
+																			<tr>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅊ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅋ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅌ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅍ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">ㅎ</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">A ~ E</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">F ~ J</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">K ~ O</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">P ~ T</span>
+																					</h4></th>
+																				<th><h4>
+																						<span class="badge badge-light" style="width: 100%">U ~ Z</span>
+																					</h4></th>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
 															</tr>
-															<tr>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅊ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅋ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅌ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅍ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">ㅎ</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">A ~ E</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">F ~ J</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">K ~ O</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">P ~ T</span></h4></th>
-																<th><h4><span class="badge badge-light" style="width: 100%">U ~ Z</span></h4></th>
-															</tr>
-														</tbody>
-													</table>
-												</td>
-											</tr>
-										</table>
-									</div>
-								
-								
-									<hr>
+														</table>
+													</div>
 
-									<div class="card" style="margin-bottom: 0px;">
-										<table id="searchEmpTable">
-											<tr>
-												<th>검색 조건</th>
-												<td>
-												<form action="searchEmployee.or">
-												<div class="row" style="margin-left: 0px;">
-														&nbsp;&nbsp;
-														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllEmployee();">전체검색</button>
-														&nbsp;&nbsp;
-														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-																<option value="allType">전체</option>
-																<option value="deptType" >부서</option>
-																<option value="empNoType">사번</option>
-																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
-																<option value="emailType">이메일</option>
-															</select>
-															<span id="deptTypeBlank"style="display:none">&nbsp;&nbsp;</span>
-															<select id="deptTypeOption" name="deptTypeOption" class="custom-select custom-select-sm" style="width: 15%; display:none">
-																<option value="A">경영지원본부</option>
-																<option value="A1">인사팀</option>
-																<option value="A2">총무팀</option>
-																<option value="A3">재무회계팀</option>
-																<option value="B">영업지원본부</option>
-																<option value="B1">영업팀</option>
-																<option value="B2">운영지원팀</option>
-																<option value="C">사업본부</option>
-																<option value="C1">디자인팀</option>
-																<option value="C2">마케팅팀</option>
-																<option value="C3">IT개발팀</option>
-															</select>
-															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
-																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
-																<div class="input-group-append">
-																	<button type="submit" class="btn btn-sm btn-default">
-																		<i class="fa fa-search"></i>
-																	</button>
+
+													<hr>
+
+													<div class="card" style="margin-bottom: 0px;">
+														<table id="searchEmpTable">
+															<tr>
+																<th>검색 조건</th>
+																<td>
+																	<form action="popupSearchEmployee.or">
+																		<div class="row" style="margin-left: 0px;">
+																			&nbsp;&nbsp;
+																			<button id="allEmployeeSearchBtn" type="button"
+																				class="btn btn-default btn-sm"
+																				onclick="selectAllEmployee();">전체검색</button>
+																			&nbsp;&nbsp; <select id="optionType"
+																				name="optionType"
+																				class="custom-select custom-select-sm"
+																				style="width: 10%;"
+																				onchange="deptSelect(this.value);">
+																				<option value="allType">전체</option>
+																				<option value="deptType">부서</option>
+																				<option value="empNoType">사번</option>
+																				<option value="empNameType">이름</option>
+																				<option value="ePhoneType">내선번호</option>
+																				<option value="emailType">이메일</option>
+																			</select> <span id="deptTypeBlank" style="display: none">&nbsp;&nbsp;</span>
+																			<select id="deptTypeOption" name="deptTypeOption"
+																				class="custom-select custom-select-sm"
+																				style="width: 15%; display: none">
+																				<option value="A">경영지원본부</option>
+																				<option value="A1">인사팀</option>
+																				<option value="A2">총무팀</option>
+																				<option value="A3">재무회계팀</option>
+																				<option value="B">영업지원본부</option>
+																				<option value="B1">영업팀</option>
+																				<option value="B2">운영지원팀</option>
+																				<option value="C">사업본부</option>
+																				<option value="C1">디자인팀</option>
+																				<option value="C2">마케팅팀</option>
+																				<option value="C3">IT개발팀</option>
+																			</select> &nbsp;&nbsp;
+																			<div class="input-group" style="width: 30%;">
+																				<input type="search" id="searchInput"
+																					class="form-control form-control-sm"
+																					placeholder="검색어를 입력하세요." name="searchEmployee"
+																					value="${ search }">
+																				<div class="input-group-append">
+																					<button type="submit"
+																						class="btn btn-sm btn-default">
+																						<i class="fa fa-search"></i>
+																					</button>
+																				</div>
+																			</div>
+																		</div>
+																	</form>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</div>
+											</div>
+
+
+											<div class="row">
+												<div class="col-3">
+													<div class="card">
+														<div class="card-header">
+															<h3 class="card-title">HelloWorks</h3>
+														</div>
+														<div class="card-body">
+															<div id="accordion">
+																<div class="card">
+																	<div class="card-header">
+																		<a class="card-link" data-toggle="collapse"
+																			href="#collapseOne"
+																			onclick="selectDept('A','경영지원본부')">경영지원본부 </a>
+																	</div>
+																	<div id="collapseOne" class="collapse"
+																		data-parent="#accordion">
+																		<div class="card-body">
+																			<ul>
+																				<li><a href="#"
+																					onclick="selectDept('A1','인사팀')">인사팀</a></li>
+																				<li><a href="#"
+																					onclick="selectDept('A2', '총무팀')">총무팀</a></li>
+																				<li><a href="#"
+																					onclick="selectDept('A3', '재무회계팀')">재무회계팀</a></li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+																<div class="card">
+																	<div class="card-header">
+																		<a class="collapsed card-link" data-toggle="collapse"
+																			href="#collapseTwo"
+																			onclick="selectDept('B', '영업지원본부')">영업지원본부 </a>
+																	</div>
+																	<div id="collapseTwo" class="collapse"
+																		data-parent="#accordion">
+																		<div class="card-body">
+																			<ul>
+																				<li><a href="#"
+																					onclick="selectDept('B1','영업팀')">영업팀</a></li>
+																				<li><a href="#"
+																					onclick="selectDept('B2','운영지원팀')">운영지원팀</a></li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+																<div class="card">
+																	<div class="card-header">
+																		<a class="collapsed card-link" data-toggle="collapse"
+																			href="#collapseThree"
+																			onclick="selectDept('C','사업본부')">사업본부 </a>
+																	</div>
+																	<div id="collapseThree" class="collapse"
+																		data-parent="#accordion">
+																		<div class="card-body">
+																			<ul>
+																				<li><a href="#"
+																					onclick="selectDept('C1','디자인팀')">디자인팀</a></li>
+																				<li><a href="#"
+																					onclick="selectDept('C2','마케팅팀')">마케팅팀</a></li>
+																				<li><a href="#"
+																					onclick="selectDept('C3','IT개발팀')">IT개발팀</a></li>
+																			</ul>
+																		</div>
+																	</div>
 																</div>
 															</div>
 														</div>
-													</form>
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</div>
+														<!-- /.card-body -->
+													</div>
+													<!-- /.card -->
+												</div>
+												<!-- /.col -->
+												<div class="col-md-9" style="overflow: auto; height: 380px">
+													<table id="employeeTable" class="table table-sm">
+														<caption style="caption-side: top">
+															* 정렬 기준 : <span id="sortOption">전체</span>
+														</caption>
+														<thead>
+															<tr>
+																<th style="width: 5%"><input type='checkbox'
+																	name='checkAll' id='checkAll' onclick="checkAll();"></th>
+																<th style="width: 10%">사번</th>
+																<th style="width: 20%">이름</th>
+																<th style="width: 10%">직급</th>
+																<th style="width: 10%">부서</th>
+															</tr>
+														</thead>
+														<tbody>
 
+															<c:forEach items="${ list }" var="employee">
+																<c:if test="${employee.empNo ne loginUser.empNo }">
+																<tr>
+																	<th><input type='checkbox' name='plusAddressBook'
+																		id='plusAddressBook' value="${ employee.empNo }+${employee.empName}"></th>
+																	<td>${ employee.empNo }</td>
+																	<td>${ employee.empName}( ${employee.empEn} )</td>
+																	<td>${ employee.jobName }</td>
+																	<td >${ employee.deptDname }</td>
+																</tr>
+																</c:if>
+															</c:forEach>
 
-							<div class="row">
-								<div class="col-md-2">
-									<div class="card">
-										<div class="card-header">
-											<h3 class="card-title">HelloWorks</h3>
+														</tbody>
+													</table>
+												</div>
+												<!-- /.col -->
+											</div>
+											<!-- /.row -->
+											</div>
 										</div>
-										<div class="card-body">
-											<div id="accordion">
-												<div class="card">
-													<div class="card-header">
-														<a class="card-link" data-toggle="collapse" href="#collapseOne" onclick="selectDept('A','경영지원본부')">경영지원본부 </a>
-													</div>
-													<div id="collapseOne" class="collapse" data-parent="#accordion">
-														<div class="card-body">
-															<ul>
-																<li><a href="#" onclick="selectDept('A1','인사팀')">인사팀</a></li>
-																<li><a href="#" onclick="selectDept('A2', '총무팀')">총무팀</a></li>
-																<li><a href="#" onclick="selectDept('A3', '재무회계팀')">재무회계팀</a></li>
-															</ul>
-														</div>
-													</div>
+									</div>
+
+
+
+									<div class="col-1">
+										<div class="row" style="height: 50%">
+											<div class="col-12 align-self-center text-center">
+												<button type="button" class="btn btn-primary btn-xs"
+													onclick="addReceiveListBtn();">추가</button>
+												<br>
+												<button type="button" class="btn btn-danger btn-xs"
+													onclick="delReceiveListBtn();">삭제</button>
+											</div>
+										</div>
+										<div class="row" style="height: 50%">
+											<div class="col-12 align-self-center text-center">
+												<button type="button" class="btn btn-primary btn-xs"
+													onclick="addRefBtn();">추가</button>
+												<br>
+												<button type="button" class="btn btn-danger btn-xs"
+													onclick="delRefBtn();">삭제</button>
+											</div>
+										</div>
+									</div>
+
+
+									<div class="col-2">
+										<div class="row" style="height: 50%">
+											<div class="col-12 mb-2 card">
+												<div class="card-header text-center">
+													<b>수신 직원</b>
 												</div>
-												<div class="card">
-													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" onclick="selectDept('B', '영업지원본부')">영업지원본부 </a>
-													</div>
-													<div id="collapseTwo" class="collapse" data-parent="#accordion">
-														<div class="card-body">
-															<ul>
-																<li><a href="#" onclick="selectDept('B1','영업팀')">영업팀</a></li>
-																<li><a href="#" onclick="selectDept('B2','운영지원팀')">운영지원팀</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-												<div class="card">
-													<div class="card-header">
-														<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" onclick="selectDept('C','사업본부')">사업본부 </a>
-													</div>
-													<div id="collapseThree" class="collapse" data-parent="#accordion">
-														<div class="card-body">
-															<ul>
-																<li><a href="#" onclick="selectDept('C1','디자인팀')">디자인팀</a></li>
-																<li><a href="#" onclick="selectDept('C2','마케팅팀')">마케팅팀</a></li>
-																<li><a href="#" onclick="selectDept('C3','IT개발팀')">IT개발팀</a></li>
-															</ul>
-														</div>
+												<div class="card-body pr-1 pl-1 pt-2 pb-2">
+													<div style="overflow: auto; height: 235px">
+														<table id="receiveTable"
+															class="table table-bordered table-sm mb-0 text-center">
+															<tbody>
+																<c:forEach items="${ addReceiveList }" var="addReceiveList">
+																	<tr>
+																		<td><input type="checkbox" id="delReceiveList"
+																			name="delReceiveList" value="${ addReceiveList }"></td>
+																		<td><input type="hidden" id="addReceiveListKey" name="addReceiveListKey" value="${ addReceiveList.key }">${ addReceiveList.key }</td>
+																		<td>${ addReceiveList.value }</td>
+																	</tr>
+																</c:forEach>
+															</tbody>
+														</table>
 													</div>
 												</div>
 											</div>
 										</div>
-										<!-- /.card-body -->
+
+										<div class="row" style="height: 50%">
+											<div class="col-12 mt-2 mb-0 card">
+												<div class="card-header text-center">
+													<b>참조 직원</b>
+												</div>
+												<div class="card-body pr-1 pl-1 pt-2 pb-2">
+													<div style="overflow: auto; height: 235px">
+														<table id="refTable"
+															class="table table-bordered table-sm mb-0 text-center">
+															<tbody>
+																<c:forEach items="${ addRefList }" var="addRefList">
+																	<tr>
+																		<td><input type="checkbox" id="delRefList" name="delRefList" value="${ addRefList }"></td>
+																		<td><input type="hidden" id="addRefListKey" name="addRefListKey" value="${ addRefList.key }">${ addRefList.key }</td>
+																		<td>${ addRefList.value }</td>
+																	</tr>
+																</c:forEach>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-									<!-- /.card -->
 								</div>
-								<!-- /.col -->
-								<div class="col-md-10" style="overflow:auto; height: 450px">
-									<table id="employeeTable" class="table table-sm">
-									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
-										<thead>
-											<tr>
-												<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
-												<th style="width: 10%">사번</th>
-												<th style="width: 20%">이름</th>
-												<th style="width: 10%">직급</th>
-												<th style="width: 10%">부서</th>
-												<th style="width: 10%">내선번호</th>
-												<th style="width: 20%">이메일</th>
-												<th style="width: 15%"></th>
-											</tr>
-										</thead>
-										<tbody>
-										
-											<c:forEach items="${ list }" var="employee">
-							                    <tr>
-							                    	<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="${ employee.empNo }"></th>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empNo }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empName} ( ${employee.empEn} )</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.jobName }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.deptDname }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEphone }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEmail }</td>
-							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
-							                        </th>
-							                    </tr>
-						                    </c:forEach>
-										
-										</tbody>
-									</table>
-								</div>
-								<!-- /.col -->
 							</div>
-							<!-- /.row -->
 
-						</div>
 
-					<!-- card-footer -->
-					<div class="card-footer">
-						<div class="float-right">
-							<button id="submitBtn" type="button" onclick="addOfficeAddressBookBtn();"
-								class="btn btn-primary btn-sm">주소록 추가</button>
-						</div>
-					</div>
-				</div>
-				</div>
-			</div>
-		</section>
-	</div>
-	
-	
-	<!-- 직원 선택 시 뜨는 모달  -->
-    <div class="modal fade" id="detailEmployeeModal">
-		<div class="modal-dialog modal-dialog-centered modal-lg">
-			<div class="modal-content">
-				<!-- Modal Header -->
-				<div class="modal-header" id="modalTitleDiv">
-					<img src="./resources/common/icon_gray.png">
-					<img src="./resources/common/logoLetter_gray.png" style="margin: 2px; margin-left: 10px;">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
 
-				<form action="addOfficeAddressBook.adb" method="post">
-					<!-- Modal Body -->
-					<div class="modal-body">
-						<div class="card bg-light d-flex flex-fill mb-0">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-2 text-center">
-										<div>
-											<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
-												class="img-fluid" style="width: 90px; height: 120px;">
-										</div>
-										<div class="mt-3">
-											<input type="hidden" id="addEmpNo" name="addEmpNo"/>
-											<button type="submit" class="btn btn-primary btn-sm">주소록 추가</button>
-										</div>
-									</div>
-									<div class="col-10">
-										<table id="detailEmployeeTable" class="table table-sm"
-											style="margin: 0px">
-											<tr>
-												<th>사번</th>
-												<td id="empNoCol" style="width: 35%"></td>
-												<th>이름</th>
-												<td id="empNameCol" style="width: 35%"></td>
-											</tr>
-											<tr>
-												<th>직급</th>
-												<td id="empJobCol" style="width: 35%"></td>
-												<th>영문이름</th>
-												<td id="empEngNameCol" style="width: 35%"></td>
-											</tr>
-											<tr>
-												<th>소속</th>
-												<td id="empUDeptCol" style="width: 35%"></td>
-												<th>부서</th>
-												<td id="empDDeptCol" style="width: 35%"></td>
-											</tr>
-											<tr>
-												<th>내선번호</th>
-												<td id="empEphoneCol" style="width: 35%"></td>
-												<th>상태</th>
-												<td id="empStatusCol" style="width: 35%"></td>
-											</tr>
-											<tr>
-												<th>이메일</th>
-												<td colspan="3" id="empEmailCol" style="width: 70%"></td>
-											</tr>
-										</table>
-									</div>
-
+								<!-- card-footer -->
+							<div class="card-footer">
+								<div class="float-right">
+									<button id="submitBtn" type="button" onclick="saveListSubmit();"
+										class="btn btn-primary btn-sm">저장하기</button>
 								</div>
 							</div>
 						</div>
+						</div>
 					</div>
-				</form>
+				</section>
 			</div>
-		</div>
-	</div>
 	
 	<!-- 검색 -->
 	<script>
@@ -516,16 +591,16 @@
 						success:function(list){
 							var value="";
 							$.each(list, function(i, obj){
+								
+								if(obj.empNo != ${loginUser.empNo}){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
+								"<td>" + obj.empNo + "</td>" + 
+								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td>" + obj.jobName + "</td>" +
+								"<td>" + obj.deptDname + "</td>" +
 								"</tr>";
+								}
 							});
 	
 							$("#employeeTable>tbody").html(value);
@@ -547,16 +622,15 @@
 							var value = "";
 
 							$.each(list, function(i, obj) {
+								if(obj.empNo != ${loginUser.empNo}){
 								value +="<tr>"+
-								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
+								"<td>" + obj.empNo + "</td>" + 
+								"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+								"<td>" + obj.jobName + "</td>" +
+								"<td>" + obj.deptDname + "</td>" +
 								"</tr>";
+								}
 							});
 
 							$("#employeeTable>tbody").html(value);
@@ -586,17 +660,15 @@
 					var value="";
 					
 					$.each(list, function(i, obj){
-						
+						if(obj.empNo != ${loginUser.empNo}){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
+						"<td>" + obj.empNo + "</td>" + 
+						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td>" + obj.jobName + "</td>" +
+						"<td>" + obj.deptDname + "</td>" +
 						"</tr>";
+						}
 					});
 					
 					$("#employeeTable>tbody").html(value);
@@ -621,19 +693,21 @@
 				data: {
 					deptCode:deptCode
 				},
-				success:function(list){
+				success:function(list){ 
 					var value="";
+					var setempNo = "";
+					var setempName = "";
+					
 					$.each(list, function(i, obj){
+						if(obj.empNo != ${loginUser.empNo}){
 						value +="<tr>"+
-						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("+obj.empNo+");'>" + obj.empNo + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.jobName + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
-						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+"'"+obj.empNo+"+"+obj.empName+"'"+"></th>" +
+						"<td>" + obj.empNo + "</td>" + 
+						"<td>" + obj.empName+" ( "+ obj.empEn + " ) " + "</td>" + 
+						"<td>" + obj.jobName + "</td>" +
+						"<td>" + obj.deptDname + "</td>" +
 						"</tr>";
+						}
 					});
 					$("#employeeTable>tbody").html(value);
 					$("#sortOption").text(deptName);
@@ -642,52 +716,6 @@
 					console.log("직원 부서별 검색 ajax 통신 실패")
 				}
 			})
-			
-		}
-	</script>
-	
-	<!-- 직원 상세 정보 -->
-	<script>
-		function detailEmployee(empNo){
-			
-			$.ajax({
-				url:"searchEmployeeDetail.or",
-				data:{empNo:empNo},
-				type:"post",
-				dataType:"json",
-				success:function(emp){
-					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
-					
-					$("#empNoCol").text(emp.empNo)
-					$("#empNameCol").text(emp.empName)
-					$("#empEngNameCol").text(emp.empEn)
-					$("#empUDeptCol").text(emp.deptUname)
-					$("#empDDeptCol").text(emp.deptDname)
-					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
-					$("#empEphoneCol").text(emp.empEphone)
-					$("#empEmailCol").text(emp.empEmail)
-					
-					$("#addEmpNo").val(emp.empNo)
-				},
-				error:function(){
-					console.log("직원 부서별 검색 ajax 통신 실패")
-				}
-			})
-		}
-	</script>
-	
-	<!-- footer 사내 주소록 추가 버튼 -->
-	<script>
-		function addOfficeAddressBookBtn(){
-			const checkList = [];
-			
-			$("input[name='plusAddressBook']:checked").each(function(){
-				const checkEmpNo = $(this).val();
-				checkList.push(checkEmpNo);
-			});
-
-			location.href="addOfficeAddressBookArr.adb?checkList="+checkList;
 			
 		}
 	</script>
@@ -703,6 +731,113 @@
 		}
 	</script>
 	
+	<!-- checkBox 수신직원 추가 -->
+	<script>
+		function addReceiveListBtn(){
+			var receiveList = [];
+			
+			$("input[name='plusAddressBook']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			location.href="popupAddReceiveList.or?receiveList="+receiveList;
+		}
+	</script>
+	
+	<!-- checkBox 수신직원 삭제 -->
+	<script>
+		function delReceiveListBtn(){
+			var receiveList = [];
+			
+			$("input[name='delReceiveList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(checkEmpNo);
+			});
+			location.href="popupDelReceiveList.or?receiveList="+receiveList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 추가 -->
+	<script>
+		function addRefBtn(){
+			var refList = [];
+			
+			$("input[name='plusAddressBook']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			location.href="popupAddRefList.or?refList="+refList;
+		}
+	</script>
+	
+	<!-- checkBox 참조직원 삭제 -->
+	<script>
+		function delRefBtn(){
+			var refList = [];
+			
+			$("input[name='delRefList']:checked").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(checkEmpNo);
+			});
+			location.href="popupDelRefList.or?refList="+refList;
+		}
+	</script>
+	
+	<!-- 저장하기 버튼 -->
+	<script>
+		function saveListSubmit(){
+			
+			var receiveList = [];
+			var receiveListVal = ""
+			$("input[name='delReceiveList']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveList.push(" "+checkEmpNo);
+				
+				receiveListVal += "<b><span class='badge badge-info'>"+checkEmpNo+"</span></b> "
+			});
+			
+			//alert(receiveListVal);
+			var refList = [];
+			var refListVal = ""
+			$("input[name='delRefList']").each(function(){
+				let checkEmpNo = $(this).val();
+				refList.push(" "+checkEmpNo);
+				
+				refListVal += "<b><span class='badge badge-warning'>"+checkEmpNo+"</span></b> "
+
+			});
+			
+			
+			var receiveListKey = [];
+			
+			$("input[name='addReceiveListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				receiveListKey.push(checkEmpNo);
+			});
+			
+			var refListKey = [];
+			
+			$("input[name='addRefListKey']").each(function(){
+				let checkEmpNo = $(this).val();
+				refListKey.push(checkEmpNo);
+			});
+			receiveListVal += '<input type="hidden" id="receiveListKey" name="drReceiverList" value="'+receiveListKey+'">';
+			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
+			
+			$("#receiveListDiv", opener.document).html(receiveListVal);
+			//$("#receiveListTag", opener.document).text(receiveList);
+			//$("input[name='drReceiverList']", opener.document).val(receiveListKey);
+			$("#refListDiv", opener.document).html(refListVal);
+			//$("#refListTag", opener.document).text(refList);
+			//$("input[name='drRefList']", opener.document).val(refListKey);
+	        
+			
+			$("input[name='checking']", opener.document).val("1");
+			window.close();
+
+		}
+	
+	</script>
 
 </body>
 </html>

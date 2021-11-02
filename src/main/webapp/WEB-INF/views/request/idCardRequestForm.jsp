@@ -33,7 +33,7 @@
 				<div class="row">
 					<div class="col-12">
 						<form method="post" id="requestIdCardForm" action="request.id"
-							enctype="multipart/form-data" onsubmit="return submitValidate();">
+							enctype="multipart/form-data" onsubmit="return imgValidate();">
 							<div class="card-header">
 								<h3 class="card-title">사원증 신청서</h3>
 							</div>
@@ -126,9 +126,11 @@
 											<div class="row">
 												<div class="col-12">
 													<div class="alert alert-light" role="alert">
-														<label> [사원증 발급 유의사항] <br> 1. 발급받은 사원증은 항상
-															패용합니다. <br> 2. 승인된 장소 이외에는 출입하지 않습니다. <br>
-															3.관계사 전배 및 휴, 퇴직시 반드시 총무팀으로 반납하여야 합니다. <br>
+														<label> 
+														[사원증 발급 유의사항] <br> 
+														1. 발급받은 사원증은 항상 패용합니다. <br> 
+														2. 승인된 장소 이외에는 출입하지 않습니다. <br>
+														3. 관계사 전배 및 휴, 퇴직시 반드시 총무팀으로 반납하여야 합니다. <br>
 														</label>
 													</div>
 												</div>
@@ -197,7 +199,7 @@
 		});
 		
 		// 사진파일 없을때 알림
-		function submitValidate() {
+		function imgValidate() {
 			if (($('#myFileUp').val() == "")) {
 				alert("사진파일을 등록해 주세요")
 				return false;

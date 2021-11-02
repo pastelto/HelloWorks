@@ -81,34 +81,65 @@
 									<div class="col-12">
 
 										<table class="table table-bordered table-sm">
-											
 											<tr>
 												<th>업무요약</th>
 												<td colspan="3">
 													&nbsp;&nbsp;
 													${ ws.ws_title }
 												</td>
+												<td colspan="3" id="editTitle" style="display:none;">
+												<input type="text" name="ws_title" class="form-control form-control-sm" value="${ws.ws_title}">
+												</td>
 											</tr>
 											<tr>
 												<th>발송인</th>
 												<td colspan="3">
 												&nbsp;
-												<input type="text" name="loginEmpId" value="${loginUser.empName} ${loginUser.jobName}" style="border: none;" readonly>
-												<input type="hidden" name="ws_empno" value="${loginUser.empNo}">
+												${ws.ws_senderName} ${ws.ws_senderJobName}
 												</td>
 											</tr>
 											<tr>
 												<th>수신직원</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-													수신직원 목록 -> 컴마로 구분해서 입력
+												<c:forEach items="${ wsRecvEmpName }" var="sren">
+													<c:if test="${ !empty sren.ws_empno }">
+													<span class="badge badge-info">
+							                        	${sren.ws_senderName} ${sren.ws_senderJobName}(${sren.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
+												</td>
+												<td colspan="3" id="editRecvList" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_recv">
+												<div class="float-right">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+													&nbsp;&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
 												&nbsp;&nbsp;
-													참조직원 목록 -> 컴마로 구분해서 입력
+												<c:forEach items="${ wsRefEmpName }" var="srefn">
+													<c:if test="${ !empty srefn.ws_empno }">
+													<span class="badge badge-warning">
+							                        	${srefn.ws_senderName} ${srefn.ws_senderJobName}(${srefn.ws_empno})
+							                        </span>
+							                        </c:if>
+							                     </c:forEach>
+												</td>
+												<td colspan="3" id="editRefRecv" style="display:none;">
+												&nbsp;&nbsp;
+												<input type="text" name="ws_ref">
+												<div class="float-right">
+													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
+													&nbsp;&nbsp;
+													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
+												</div>
 												</td>
 											</tr>
 											<tr>
@@ -127,6 +158,7 @@
 													<c:if test="${ empty ws.editDate }">
 													</c:if>
 												</td>
+
 											</tr>
 											<tr>
 												<th>파일첨부</th>
@@ -140,16 +172,6 @@
 							                        	첨부파일이 없습니다.
 							                        </c:if>
 							                     </c:forEach>
-												</td>
-											</tr>
-											<tr id="editAttachment" style="display:none;">
-												<th>파일첨부</th>
-												<td colspan="3">
-													<span class="badge badge-info" id="workShareAttachName"></span>
-									                  <div class="btn btn-default btn-file btn-xs">
-									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" name="uploadFile" id="workShareAttach" multiple="multiple">
-									                  </div> 
 												</td>
 											</tr>
 											<tr>
@@ -194,7 +216,7 @@
 							                    <tr>
 							                    	<c:set var="loop_flag" value="false" />
 							                    	<c:if test="${not loop_flag }">
-								                    	<c:if test="${ myEmpNo eq loginUser.empNo }">
+								                    	<c:if test="${ myEmpNo eq loginUser.empNo || ws.ws_empno eq loginUser.empNo}">
 								                    		    <th colspan="3" style="width:75%">
 									                            	<textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>	
 										                        </th>
@@ -234,7 +256,7 @@
 								<div class="float-right" id="editPlace">	
 									&nbsp;						
 									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
-									<button id="editBtn" type="button" class="btn btn-warning btn-sm">수정하기</button>
+									<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>
 									&nbsp;
 									<button id="deleteBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteWS();">삭제</button>
 									&nbsp;
@@ -249,77 +271,15 @@
 			</div>
 		</section>
 	</div>
-
-
-
-	<!-- Summernote -->
-	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
-	<script>
-    $(document).ready(function() {
-    	  $('#summernote').summernote({
-    	    height : 400
-    	  });
-    	});
-    </script>
-    
-    <!-- 첨부파일 라벨 이름 추가 -->
-	<script>
-		
-		$("#workShareAttach").on("change", function() {
-			var filename = "";
-			
-			for(var i = 0; i < $(this)[0].files.length; i++){
-				filename += $(this)[0].files[i].name;
-				filename += "<br>";
-			}
-			console.log("filename : " + filename)
-			$('#workShareAttachName').append(filename); 
-		});
-	</script>
 	
 	<!-- 버튼 이동 -->
-	<script>
-	// 업무공유 수정화면 전환
- 	$("#editBtn").one("click", function(){
- 		  $('.click2edit').summernote({
- 			  height: 300,
- 			  minHeight: 300,
- 			  maxHeight: 300,
- 			  focus: true
- 			  });
- 		  // console.log("클릭!");
- 		  $('#editPlace').append('<button id="save" type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>&nbsp;&nbsp;');
- 		  $('#editPlace').append('<button id="cancel" type="button" class="btn btn-danger btn-sm" onclick="backToList()">취소</button>');
- 		  $('#editAttachment').attr("style", "display:''");
- 		  $("#resetBtn").remove();
- 		  $("#editBtn").remove(); 		  
- 		 
- 	})
+	<script>	
 	
- 	// 업무공유 수정 완료 및 저장
-	function saveBtn() {
-	  var markup = $('.click2edit').summernote('code');
-	  	
-	  	// 업무공유 수정하기 
-	  <%--  $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
-		$("#insertWSForm").submit();
-		alert("업무공유가 발송되었습니다."); --%>
-		// console.log("저장 클릭!");
-	 	$('.click2edit').summernote('destroy');
-	 	$('#editPlace').append('<button id="editBtn" type="button" class="btn btn-info btn-sm">수정하기</button>&nbsp;');
-	  	$("#save").remove();
-	};
-	
-	// 업무공유 수정하기
- 	function insertWorkShare(){
-		$('#workShareForm').each(function(){	
-			
- 		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
-		$("#workShareForm").submit();
-		alert("업무공유가 수정되었습니다."); 
-		});
+	function editWS(num){
+		
+		location.href='<%=request.getContextPath()%>/updateForm.ws?wno=${ws.ws_no}';
+		
 	}
-	
 	// 업무공유 삭제하기
 	function deleteWS(){
 		
@@ -337,7 +297,6 @@
 		}
 	}
 	
-	
 	// 취소버튼 - 뒤로가기
  	function backToList(){
 		
@@ -353,6 +312,7 @@
 	
     
     <script>
+    	// 댓글 리스트 가져온 후 댓글 등록하기
 		$(function(){
 			selectReplyList();
 			
@@ -381,12 +341,13 @@
 					});
 					
 				}else{
-					alert("댓글등록하셈");
+					alert("내용을 입력해주세요.");
 				}
 				
 			});
 		});
-	
+		
+		// 댓글 리스트 불러오기
 		function selectReplyList(){
 			var wno = ${ws.ws_no};
 			$.ajax({
@@ -404,7 +365,7 @@
 								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
 								 "<td>" + obj.wsr_content + "</td>" + 
 							     "<td>" + obj.wsr_date + "</td>" +
-							     "<td>" + "<a>'삭제하기'</a>" + "</td>" +
+							     "<td>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
 							     "</tr>";
 						}else {
 							value += "<tr>" +
@@ -421,6 +382,55 @@
 				}
 			});
 		}
+		
+		// 댓글 삭제하기
+		function deleteReply(num){
+			
+			var del = confirm("댓글을 삭제하시겠습니까?");
+			
+			if(del){
+				$.ajax({
+					url:"deleteReply.ws",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();		
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
+			
+		}
+		
+		// 댓글 수정하기
+/* 		function updateReply(num){
+			
+			var del = confirm("댓글을 삭제하시겠습니까?");
+			
+			if(del){
+				$.ajax({
+					url:"deleteReply.ws",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();			
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
+		} */
   </script>
 	<jsp:include page="../common/footer.jsp" />
 	
