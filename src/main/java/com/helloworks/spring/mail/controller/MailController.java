@@ -140,17 +140,17 @@ public class MailController {
 		String[] rEach;
 
 		// 수신인들 목록 가져오기
-//		String[] mailRcvrList = null; 
+		String[] mailRcvrList = null; 
 
 		try {
 			// 상세 조회
 			mail = mailService.readMail(mailNo);
 			System.out.println("readMail 상세 조회 [mailNo : " + mail.getMailNo() + " ] : " + mail);
 
-//			// 수신인 조회
-//			String recvEmp = mail.getMailRStatus();
-//			System.out.println("recvEmp ? " + recvEmp);
-//			mailRcvrList = recvEmp.split(",");
+			// 수신인 조회
+			String recvEmp = mail.getMailRStatus();
+			System.out.println("recvEmp ? " + recvEmp);
+			mailRcvrList = recvEmp.split(",");
 
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String recvEmpList = mail.getMailRStatus();
@@ -191,7 +191,6 @@ public class MailController {
 		}
 
 		model.addAttribute("mailAttachment", mailAttachment);
-		System.out.println("mailAttachment`````````````````````" + mailAttachment);
 		model.addAttribute("inbox", mail);
 
 		return "mail/read";
@@ -309,7 +308,7 @@ public class MailController {
 		return "mail/draft";
 	}
 
-	// 메일 읽기-메일상세조회
+	// 임시보관메일 읽기-메일상세조회
 	@RequestMapping("dCompose.ml")
 	public String draftComposeMail(int mailNo, Model model, HttpServletRequest request) {
 		System.out.println("draftComposeMail 페이지");
@@ -321,7 +320,7 @@ public class MailController {
 
 		// 상세 조회
 		mail = mailService.readMail(mailNo);
-		System.out.println("readMail 상세 조회 [mailNo : " + mail.getMailNo() + " ] : " + mail);
+		System.out.println("draftComposeMail 상세 조회 [mailNo : " + mail.getMailNo() + " ] : " + mail);
 
 		// 첨부파일 상세조회
 		mailNo = mail.getMailNo();
