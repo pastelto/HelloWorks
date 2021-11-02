@@ -140,7 +140,7 @@ public class MailController {
 		String[] rEach;
 
 		// 수신인들 목록 가져오기
-		String[] mailRcvrList = null; 
+		String[] mailRcvrList = null;
 
 		try {
 			// 상세 조회
@@ -313,8 +313,8 @@ public class MailController {
 	public String draftComposeMail(int mailNo, Model model, HttpServletRequest request) {
 		System.out.println("draftComposeMail 페이지");
 
-		//Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
-		
+		// Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
+
 		Mail mail = new Mail();
 		ArrayList<MailAttachment> mailAttachment = new ArrayList<>(); // 메일 첨부파일 조회
 
@@ -366,12 +366,84 @@ public class MailController {
 		return "mail/draftCompose";
 	}
 
+	// 임시 보관 메일 보내기
+	@RequestMapping("dsend.ml")
+	public String dsendMail(Mail m, HttpServletRequest request, Model model, MultipartHttpServletRequest multiRequest,
+			HttpSession session) {
+		m.setMailRcvr((String) multiRequest.getParameter("drReceiverList"));
+		System.out.println(m);
+
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		System.out.println("메일 컨트롤러 파일리스트" + fileList);
+
+		ArrayList<MailAttachment> mailAttachmentList = new ArrayList<MailAttachment>();
+		mailService.dsendMail(m); // 메일 vo넘기기
+		try {
+			// 첨부파일이 있으면 리스트로 값 추가하기
+			if (fileList.get(0).getSize() != 0) {
+
+				for (int i = 0; i < fileList.size(); i++) {
+					MailAttachment mailAttach = new MailAttachment();
+					String changeName;
+
+					changeName = saveFile(fileList.get(i), request, i);
+
+					System.out.println("==================== file start ====================");
+					System.out.println("파일 이름 : " + changeName);
+					System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+					System.out.println("파일 크기 : " + fileList.get(i).getSize());
+					System.out.println("content type : " + fileList.get(i).getContentType());
+					System.out.println("==================== file end =====================");
+
+					mailAttach.setMailNo(m.getMailNo());
+					mailAttach.setMailAtOrg(fileList.get(i).getOriginalFilename());
+					mailAttach.setMailAtChg(changeName);
+					mailAttachmentList.add(mailAttach);
+				}
+
+				System.out.println("mailAttachmentList ? " + mailAttachmentList);
+				mailService.insertDMailAttach(mailAttachmentList);
+
+			}
+
+			String rcvrList = m.getMailRcvr();
+			// 수신인 사번
+			String[] rcvrNo = rcvrList.split(",");
+
+			for (int i = 0; i < rcvrNo.length; i++) {
+				// 사번 하나하나 숫자로바꾸기
+				int rEmpNo = Integer.parseInt(rcvrNo[i]);
+				Employee empInfo = mailService.getEmpInfo(rEmpNo);
+				Mail mailInfo = new Mail();// 메일수신자 정보를 저장할 메일객체 생성
+				mailInfo.setMailNo(m.getMailNo()); // 메일번호
+				mailInfo.setMailRcvrName(empInfo.getEmpName()); // 메일수신인이름
+				mailInfo.setMailRcvrDept(empInfo.getDeptDname());// 메일수신인부서
+				mailInfo.setMailRcvrJobName(empInfo.getJobName());// 메일수신인직급
+				// 센더지만 수신인 사번넣기위함
+				mailInfo.setMailSndr(empInfo.getEmpNo());// 메일수신인사번
+				mailService.insertMailRcvrInfo(mailInfo);// 메일 수신인 정보 입력
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.removeAttribute("receiveListSession");
+		return "redirect:inbox.ml";// 등록하면 리스트 화면으로 다시보이게
+
+	}
+
 	// 휴지통
 	@RequestMapping("trash.ml")
 	public String trashMailList(HttpServletRequest request, Model model) {
 		System.out.println("메일 휴지통 페이지");
 
-		return "request/reservationTest";
+//		ArrayList<Mail> list = new ArrayList<>();
+//		Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
+//		list = mailService.trashMailList(myEmp);
+//		model.addAttribute("list", list);
+
+		return "mail/trash";
 	}
 
 }

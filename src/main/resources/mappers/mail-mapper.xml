@@ -14,7 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mailContent" column="MAIL_CONTENT" />
 		<result property="mailDate" column="MAIL_DATE" />
 		<result property="mailStatus" column="MAIL_STATUS" />
-		<result property="mailSStatus" column="MAIL_S_STATUS" />
 		<result property="mailRStatus" column="MAIL_R_STATUS" />
 		<result property="mailSndrName" column="EMP_NAME" />
 		<result property="mailSndrDept" column="DEPT_DNAME" />
@@ -47,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO
 		MAIL
 		VALUES
-		(SEQ_ES_MAIL_NO.NEXTVAL, #{mailRcvr}, #{mailSndr}, #{mailRef}, #{mailTitle}, 
+		(SEQ_ES_MAIL_NO.NEXTVAL, #{mailRcvr}, #{mailSndr}, #{mailTitle}, 
 		#{mailContent}, SYSDATE, #{mailStatus}, #{mailRcvr})
 	</insert>
 	
@@ -172,5 +171,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND MAIL_STATUS = 'N'
 		ORDER BY A.MAIL_NO DESC 
 	</select>	-->
+	
+	<!-- 임시보관 메일 보내기 -->
+	<update id="dsendMail" parameterType="Mail">
+        UPDATE MAIL
+		SET 
+		MAIL_RCVR = #{mailRcvr}, 
+		MAIL_SNDR = #{mailSndr},
+		MAIL_TITLE = #{mailTitle}, 
+		MAIL_CONTENT = #{mailContent}, 
+		MAIL_DATE = SYSDATE, 
+		MAIL_STATUS = #{mailStatus}, 
+		MAIL_R_STATUS = #{mailRStatus} 
+		WHERE MAIL_NO = #{mailNo}		
+	</update>
+	
+	<!--임시보관 첨부파일저장 -->
+	<insert id="insertDMailAttach" parameterType="MailAttachment">
+		UPDATE
+		MAIL_ATTACHMENT
+		SET
+		MAIL_AT_ORG = #{mailAtOrg},
+		MAIL_AT_CHG = #{mailAtChg},
+		MAIL_AT_DATE = SYSDATE
+		WHERE MAIL_AT_NO = #{mailAtNo}
+		AND MAIL_NO = #{mailNo}
+	</insert>
 	
 </mapper>

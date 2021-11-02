@@ -41,7 +41,6 @@
 			</div>
 			<!-- /.container-fluid -->
 		</section>
-
 		<!-- Main content -->
 		<section class="content">
 			<div class="container-fluid">
@@ -83,123 +82,109 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-md-9">
-						<div class="card card-outline card-info">
-							<div class="card-header">
-								<h3 class="card-title">메일 읽기</h3>
-								<span class="mailbox-read-time float-right">${ draftMail.mailDate }</span>
-<!-- 								<div class="card-tools">
-									<a href="#" class="btn btn-tool" title="Previous"><i
-										class="fas fa-chevron-left"></i></a> <a href="#"
-										class="btn btn-tool" title="Next"><i
-										class="fas fa-chevron-right"></i></a>
-								</div> -->
-							</div>
-							<!-- /.card-header -->
-							<div class="card-body p-0">
-								<div class="mailbox-read-info">
-									<div class="row">
-										<div class="col-2">발신자</div>
-										<div class="col-10">
-											<div class="form-group">
-												<input type="hidden" id="mailSndr" name="mailSndr"
-													value="${loginUser.empNo}" class="form-control" readonly>
-												${loginUser.empName} ${loginUser.jobName}
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-2">수신자</div>
-										<div class="col-8">
-											<div class="row m-0">
-												<div id="receiveListDiv">To:</div>
-												&nbsp;&nbsp;
-												<div id="rcvrName">
-													<c:forEach items="${ draftMailList }" var="draft"
-														varStatus="status">
-														<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}"
-															step="1" varStatus="in">
-															<c:if
-																test="${ (draftMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
-																<c:if
-																	test="${ (draftMailList[status.index].mailNo eq draftMail.mailNo)}">
-																	<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span>
-																</c:if>
-															</c:if>
-														</c:forEach>
-													</c:forEach>
+						<form method="post" id="mailForm" action="dsend.ml?mailStatus=Y"
+							enctype="multipart/form-data">
+							<input type="hidden" name="mailNo" value="${ draftMail.mailNo }"/>
+							<div class="card card-outline card-info">
+								<div class="card-header">
+									<h3 class="card-title">임시 메일 읽기</h3>
+									<span class="mailbox-read-time float-right">${ draftMail.mailDate }</span>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body p-0">
+									<div class="mailbox-read-info">
+										<div class="row">
+											<div class="col-2">발신자</div>
+											<div class="col-10">
+												<div class="form-group">
+													<input type="hidden" id="mailSndr" name="mailSndr"
+														value="${loginUser.empNo}" class="form-control" readonly>
+													${loginUser.empName} ${loginUser.jobName}
 												</div>
-												<button id="addressBook" type="button"
-													class="btn btn-default btn-xs"
-													onclick="popupAddressBook();">주소록</button>
-												&nbsp;
-												<button id="searchEmp" type="button"
-													class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
-													검색</button>
-												&nbsp;&nbsp;
-												
 											</div>
 										</div>
-									</div>
-									<br>
-									<div class="form-group">
-										<input id="mailTitle" name="mailTitle" class="form-control"
-											value="${ draftMail.mailTitle }"> <br>
-									</div>
+										<div class="row">
+											<div class="col-2">수신자</div>
+											<div class="col-8">
+												<div class="row m-0">
+													<div id="receiveListDiv">To:</div>
+													&nbsp;&nbsp;
+													<div id="rcvrName">
+														<c:forEach items="${ draftMailList }" var="draft"
+															varStatus="status">
+															<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}"
+																step="1" varStatus="in">
+																<c:if
+																	test="${ (draftMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
+																	<c:if
+																		test="${ (draftMailList[status.index].mailNo eq draftMail.mailNo)}">
+																		<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span>
+																	</c:if>
+																</c:if>
+															</c:forEach>
+														</c:forEach>
+													</div>
+													<button id="addressBook" type="button"
+														class="btn btn-default btn-xs"
+														onclick="popupAddressBook();">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button"
+														class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
+														검색</button>
+													&nbsp;&nbsp;
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="form-group">
+											<input id="mailTitle" name="mailTitle" class="form-control"
+												value="${ draftMail.mailTitle }"> <br>
+										</div>
 
-									<div class="row">
-										<div class="col-12">
-											<textarea id="summernote" name="mailContent">${ draftMail.mailContent }</textarea>
+										<div class="row">
+											<div class="col-12">
+												<textarea id="summernote" name="mailContent">${ draftMail.mailContent }</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="btn btn-default btn-file">
+												<i class="fas fa-paperclip"></i> 첨부파일 <input type="file"
+													name="uploadFile" id="mailAttachment" multiple="multiple">
+											</div>
+											<p class="help-block" id="mailAttachmentName"></p>
+										</div>
+										<div class="mailbox-read-message"></div>
+										<!-- /.mailbox-read-message -->
+									</div>
+									<!-- /.card-body -->
+									<div class="form-group">
+										<div class="card-footer bg-white">
+											<ul
+												class="mailbox-attachments d-flex align-items-stretch clearfix">
+												<c:forEach items="${ mailAttachment }" var="mailAttachment">
+													<input type="hidden" name= "mailAtNo" value="${ mailAttachment.mailAtNo }">
+												</c:forEach>
+											</ul>
 										</div>
 									</div>
-									<div class="form-group">
-										<div class="btn btn-default btn-file">
-											<i class="fas fa-paperclip"></i> 첨부파일 <input type="file"
-												name="uploadFile" id="mailAttachment" multiple="multiple">
+									<!-- /.card-footer -->
+									<div class="card-footer">
+										<div class="float-right">
+											<button type="submit" class="btn btn-primary">
+												<i class="far fa-envelope"></i> 보내기
+											</button>
 										</div>
-										<p class="help-block" id="mailAttachmentName"></p>
-									</div>
-
-									<div class="mailbox-read-message"></div>
-									<!-- /.mailbox-read-message -->
-								</div>
-								<!-- /.card-body -->
-								<div class="form-group">
-									<div class="card-footer bg-white">
-										<ul
-											class="mailbox-attachments d-flex align-items-stretch clearfix">
-											<c:forEach items="${ mailAttachment }" var="mailAttachment">
-												<li><span class="mailbox-attachment-icon"> <i
-														class="far fa-file-pdf"></i>
-												</span>
-													<div class="mailbox-attachment-info"
-														style="width: 198px; height: 120px;">
-														<a
-															href="resources/mail_Attachment/${mailAttachment.mailAtChg}"
-															class="mailbox-attachment-name"
-															download="${ mailAttachment.mailAtChg }"><i
-															class="fas fa-paperclip"></i>${ mailAttachment.mailAtOrg }
-														</a>
-													</div></li>
-											</c:forEach>
-										</ul>
-									</div>
-								</div>
-								<!-- /.card-footer -->
-								<div class="card-footer">
-									<div class="float-right">
 										<button type="button" class="btn btn-default">
-											<i class="fas fa-reply"></i> 답장쓰기
+											<i class="far fa-trash-alt"></i> 삭제하기
 										</button>
 									</div>
-									<button type="button" class="btn btn-default">
-										<i class="far fa-trash-alt"></i> 삭제하기
-									</button>
+									<!-- /.card-footer -->
 								</div>
-								<!-- /.card-footer -->
+								<!-- /.card -->
 							</div>
-							<!-- /.card -->
-						</div>
-						<!-- /.col -->
+							<!-- /.col -->
+						</form>
+						<!-- /.form -->
 					</div>
 					<!-- /.row -->
 				</div>
@@ -211,33 +196,31 @@
 	<!-- /.content-wrapper -->
 	<jsp:include page="../common/footer.jsp" />
 	<script>
-		$(function() {
-			//Enable check and uncheck all functionality
-			$('.checkbox-toggle').click(
-					function() {
-						var clicks = $(this).data('clicks')
-						if (clicks) {
-							//Uncheck all checkboxes
-							$('.mailbox-messages input[type=\'checkbox\']')
-									.prop('checked', false)
-							$('.checkbox-toggle .far.fa-check-square')
-									.removeClass('fa-check-square').addClass(
-											'fa-square')
-						} else {
-							//Check all checkboxes
-							$('.mailbox-messages input[type=\'checkbox\']')
-									.prop('checked', true)
-							$('.checkbox-toggle .far.fa-square').removeClass(
-									'fa-square').addClass('fa-check-square')
-						}
-						$(this).data('clicks', !clicks)
-					})
-		})
-	</script>
-
-<!-- 첨부파일 라벨 이름 추가 -->
-<script>
-	
+	$(function() {
+		//Enable check and uncheck all functionality
+		$('.checkbox-toggle').click(
+				function() {
+					var clicks = $(this).data('clicks')
+					if (clicks) {
+						//Uncheck all checkboxes
+						$('.mailbox-messages input[type=\'checkbox\']')
+								.prop('checked', false)
+						$('.checkbox-toggle .far.fa-check-square')
+								.removeClass('fa-check-square').addClass(
+										'fa-square')
+					} else {
+						//Check all checkboxes
+						$('.mailbox-messages input[type=\'checkbox\']')
+								.prop('checked', true)
+						$('.checkbox-toggle .far.fa-square').removeClass(
+								'fa-square').addClass('fa-check-square')
+					}
+					$(this).data('clicks', !clicks)
+				})
+	})
+</script>
+	<!-- 첨부파일 라벨 이름 추가 -->
+	<script>	
 	$("#mailAttachment").on("change", function() {
 		// 첨부파일 새로 첨부시 내용 삭제
 		$('#mailAttachmentName').empty();
