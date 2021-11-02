@@ -41,6 +41,7 @@
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.ApprovalAttendance" alias="ApprovalAttendance"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.LoginUserVacation" alias="LoginUserVacation"/>
 		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.DailyReportReply" alias="DailyReportReply"/>
+		<typeAlias type="com.helloworks.spring.manageSchedule.model.vo.ManageSchedule" alias="ManageSchedule"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResources" alias="CommonResources"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment" alias="CommonResourcesAttachment"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply" alias="CommonResourcesReply"/>
@@ -62,6 +63,7 @@
 		<mapper resource="/mappers/mail-mapper.xml"/>
 		<mapper resource="/mappers/dailyReport-mapper.xml"/>
 		<mapper resource="/mappers/vacation-mapper.xml"/>
+		<mapper resource="/mappers/manageSchedule-mapper.xml"/>
 	</mappers>
 
 
