@@ -24,10 +24,10 @@
 	
 	<!-- Approval Attachment-->
 	<resultMap id="approvalAtResultSet" type="Approval">
-		<id property="apNo" column="APPROVAL_NO"/>
-		<result property="atNo" column="AT_NO"/>
+		<id property="atNo" column="AT_NO"/>
 		<result property="newName" column="NEW_NAME"/>
-		<result property="originName" column="ORIGIN_NAME"/>	
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="apNo" column="APPROVAL_NO"/>	
 	</resultMap>
 	
 	<!-- Approval Line -->
@@ -38,6 +38,7 @@
 		<result property="empName" column="EMP_NAME"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="confirmStatus" column="CONFIRM_STATUS"/>
+		<result property="progressDate" column="PROGRESS_DATE"/>
 	</resultMap>
 	
 	<!-- Approval CC -->
@@ -162,7 +163,7 @@
 	<insert id="insertLine" parameterType="ApprovalLine">
 		INSERT INTO APPROVAL_LINE
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT, NULL)
 	</insert>
 	
 	<!-- 지출 insert -->
@@ -245,8 +246,7 @@
 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
 		WHERE A.PROGRESS = '결재완료'
 		AND A.APPROVAL_CLASS = #{ apClass }
-		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+		AND C.EMP_NO = #{ loginEmpNo }
 		ORDER BY CREATE_DATE DESC
 	]]>
  	</select>
@@ -283,8 +283,7 @@
 		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
 		WHERE A.PROGRESS = '결재완료'
 		AND A.APPROVAL_CLASS = #{ apClass }
-		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+		AND C.EMP_NO = #{ loginEmpNo }
 		ORDER BY CREATE_DATE DESC
  	</select>
  	
@@ -328,8 +327,7 @@
  		WHERE A.PROGRESS = '결재완료'
  		AND APPROVAL_CLASS = #{ apClass }
  		AND CREATE_DATE >= TO_CHAR(SYSDATE - #{sDate},'YYYYMMDD')
-		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
@@ -369,8 +367,7 @@
  		WHERE A.PROGRESS = '결재완료'
  		AND APPROVAL_CLASS = #{ apClass }
  		AND APPROVAL_NO = #{ optionInput }
-		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE )) 
+		AND C.EMP_NO = #{ loginEmpNo } 
  		ORDER BY CREATE_DATE DESC
  	</select>
  	
@@ -409,8 +406,7 @@
  		WHERE A.PROGRESS = '결재완료'
  		AND APPROVAL_CLASS = #{ apClass }
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE )) 
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC 
  	</select>
  	
@@ -452,8 +448,7 @@
  		AND APPROVAL_CLASS = #{ apClass }
  		AND APPROVAL_NO = #{ optionInput }		 		
  		AND DETAIL_CLASS = #{ detailOption }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE )) 
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC 
  	</select>
  	
@@ -495,8 +490,7 @@
  		AND APPROVAL_CLASS = #{ apClass }
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
  		AND DETAIL_CLASS = #{ detailOption }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE )) 
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC .
  	</select>
  	
@@ -538,8 +532,7 @@
  		AND APPROVAL_CLASS = #{ apClass }
  		AND APPROVAL_NO = #{ optionInput }
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC 
  	</select>
  	
@@ -581,8 +574,7 @@
  		AND APPROVAL_CLASS = #{ apClass }
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC
  	</select>
  	
@@ -627,8 +619,7 @@
  		AND APPROVAL_NO = #{ optionInput }
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
  		AND DETAIL_CLASS = #{ detailOption }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC 
  	</select>
  	
@@ -673,8 +664,7 @@
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
  		AND DETAIL_CLASS = #{ detailOption }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC 
  	</select>
  	
@@ -708,7 +698,7 @@
  	]]>
  	</select>
  	
- 	<!-- 미결재함 날짜Bound -->
+ 	<!-- 결재완료 날짜Bound -->
  	<select id="selectOnlyDateSortSigned" parameterType="HashMap" resultMap="approvalResultSet">
  	<![CDATA[
  		SELECT ROWNUM, A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME 
@@ -718,8 +708,7 @@
  		WHERE A.PROGRESS = '결재완료'
  		AND APPROVAL_CLASS = #{ apClass }
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
- 		AND (C.EMP_NO = #{ loginEmpNo }
-		OR #{ loginEmpNo } IN (SELECT EMP_NO FROM APPROVAL_LINE ))
+ 		AND C.EMP_NO = #{ loginEmpNo }
  		ORDER BY CREATE_DATE DESC
  	]]>
  	</select>
@@ -748,7 +737,7 @@
  	</select>
  	
  	<!-- select Attachment -->
- 	<select id="selectAttachDetail" parameterType="HashMap" resultMap="approvalLineResultSet">
+ 	<select id="selectAttachDetail" parameterType="HashMap" resultMap="approvalAtResultSet">
  		SELECT *
  		FROM APPROVAL_ATTACHMENTS
  		WHERE APPROVAL_NO = #{ apNo }
@@ -945,5 +934,12 @@
 	 	SET
 	 	PROGRESS = '반려'
 	 	WHERE APPROVAL_NO = #{ apNo }
+	 </update>
+	  <update id="updateProgressDate"  parameterType="_int">
+		UPDATE APPROVAL_LINE
+	 	SET
+	 	PROGRESS_DATE = SYSDATE
+	 	WHERE APPROVAL_NO = #{ apNo }
+	 	AND EMP_NO = #{ loginEmpNo }
 	 </update>
 </mapper>

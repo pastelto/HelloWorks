@@ -88,50 +88,50 @@
 													<table class="table table-bordered" id="process_table">
 														<tbody>
 															<tr>															
-																<th rowspan="2"  colspan="1">결재</th>
-																<th class="emp_level" colspan="1">
+																<th rowspan="2"  colspan="5">결재</th>
+																<th class="table emp_level"  colspan="5">
 																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${approval.writerJob}" readonly/>
 																</th>																																																																
-																<th class="emp_level" colspan="1">
+																<th class="table emp_level"  colspan="5">
 																	<input type="text" class="emp_level1" id="emp_level1_1" name="job" readonly/>
 																	</th>
-																<th class="emp_level" colspan="1" >																
+																<th class="table emp_level"  colspan="5">																
 																	<input type="text" class="emp_level2" id="emp_level1_2" name="job" readonly/>																	
 																</th>
-																<th class="emp_level" colspan="1" >																
+																<th class="table emp_level" colspan="5" >																
 																	<input type="text" class="emp_level2" id="emp_level1_3" name="job" readonly/>																	
 																</th>		
-																<th class="emp_level" colspan="1" >																
+																<th class="table emp_level"  colspan="5">																
 																	<input type="text" class="emp_level2" id="emp_level1_4" name="job" readonly/>																	
 																</th>																																						
 															</tr>
 															<tr>
-																<td class="table emp_name" colspan="1" >
+																<td class="table emp_name"  colspan="5">
 																	<input type="text" class="emp_name0" id="emp_name0" name="lineName" value="${approval.writerName}" readonly/>
 																	<div class="confirm" id="divConfirm0">
-																		<input type="text" class="confirm-input" id="confirm0"  readonly/>
+																		<input type="text" class="confirm-input" id="confirm0" readonly/>
 																	</div>																	
 																</td>
-																<td class="table emp_name" colspan="1">
+																<td class="table emp_name"  colspan="5">
 																	<input type="text" class="emp_name1" id="emp_name1_1" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm1" readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" colspan="1">
+																<td class="table emp_name"  colspan="5">
 																	<input type="text" class="emp_name2" id="emp_name1_2" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm2" readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" colspan="1">
+																<td class="table emp_name"  colspan="5">
 																	<input type="text" class="emp_name3" id="emp_name1_3" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm3"  readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" colspan="1">
-																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName" readonly/>
+																<td class="table emp_name"  colspan="5">
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="jlineNameob" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm4" readonly/>
 																	</div>
@@ -146,33 +146,39 @@
 													<table class="table table-bordered" id="process_table">
 														<tbody>
 															<tr>
-																<th rowspan="2"  scop="col">협조</th>
+																<th rowspan="2" colspan="5">협조</th>
 																<th class="table coo_level" scop="col">
 																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" value="${approval.cooJob}" readonly/>
 																</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level" colspan="5">
 																	<input type="text" class="coo_level1" id="coo_level1_2" disabled/>
 																</th>
-																<th class="table coo_level"  scop="col">
+																<th class="table coo_level"  colspan="5">
 																	<input type="text" class="coo_level1" id="coo_level1_3" disabled/>
 																</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level"  colspan="5">
 																	<input type="text" class="coo_level1" id="coo_level1_4" disabled/>
-																</th>											
+																</th>
+																<th class="table coo_level"  colspan="5">
+																	<input type="text" class="coo_level1" id="coo_level1_5" disabled/>
+																</th>												
 															</tr>
 															<tr>
-																<td class="table coo_name"  scop="col">
+																<td class="table coo_name"  colspan="5">
 																	<input type="text" class="coo_name1_1" id="coo_name1_1" name="cooName" value ="${approval.cooName}" readonly/>
 																</td>
-																<td class="table coo_name"  scop="col">
+																<td class="table coo_name"  colspan="5">
 																	<input type="text" class="coo_name1_2" id="coo_name1_2" disabled/>
 																</td>
-																<td class="table coo_name" scop="col">
+																<td class="table coo_name"  colspan="5">
 																	<input type="text" class="coo_name1_3" id="coo_name1_3" disabled/>
 																</td>
-																<td class="table coo_name" scop="col">
-																	<input type="text" class="coo_name1_3" id="coo_name1_4" disabled/>
-																</td>										
+																<td class="table coo_name"  colspan="5">
+																	<input type="text" class="coo_name1_4" id="coo_name1_4" disabled/>
+																</td>	
+																<td class="table coo_name"  colspan="5">
+																	<input type="text" class="coo_name1_5" id="coo_name1_5" disabled/>
+																</td>									
 															</tr>
 														</tbody>
 													</table>
@@ -235,8 +241,12 @@
 													<tr>
 														<td colspan="9">															
 															<div class="btn btn-default btn-file btn-xs">
-											                    <i class="fas fa-paperclip"></i> 파일이름									                    
-									                  		</div> 
+											                  <a href="resources/approval_files/${ apAttach.newName }"
+											                  	 class="approval-attachment-name"
+											                  	 download="${ apAttach.newName }">
+											                     <i class="fas fa-paperclip"></i> ${ apAttach.originName }
+											                  </a> 
+											                </div> 
 														</td>
 													</tr>
 													</tbody>
@@ -316,7 +326,7 @@
 		$("#confirm0").append("${approval.writerName}");
 		
 		var n=1;
-		var user = "${ loginEmpNo }";
+		var user = "${ loginUser.empNo }";
 		var progress = "${ approval.progress }";
 		
 		for(var i=0;i<arr.length;i++){
@@ -434,7 +444,7 @@
 					  status:"${line.confirmStatus}"});
 		</c:forEach>
 		
-		var empNo = '${ loginEmpNo }';
+		var empNo = '${ loginUser.empNo }';
 		var flag;	
 		var apNo = ${approval.apNo}
 		

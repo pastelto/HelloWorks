@@ -96,7 +96,7 @@
 									<div>
 									<div style="height: 450px; overflow:auto;">
 									<table id="tempApprovalTable" class="table table-sm" >
-									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
+									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption2">전체</span></caption>
 										<thead>
 											<tr>
 												<th style="width: 5%">No.</th>
@@ -203,7 +203,7 @@
  					console.log(list)
  					
  					$("#tempApprovalTable>tbody").html(value);
- 					$("#sortOption").text("전체");
+ 					$("#sortOption2").text("전체");
  				},
  				error:function(){
  					console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
@@ -221,6 +221,7 @@
 		 		function(){		 		
 		 			var sdate = $(this).val();
 		 			var apClass = '지출'
+		 			var status = 'N';
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
@@ -228,7 +229,8 @@
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
-			 				apClass : apClass
+			 				apClass : apClass,
+			 				status : status
 			 			},
 			 			success: function(list){
 			 				var value = "";
@@ -259,7 +261,7 @@
 		 					$("#startDate").val(""); 
 			 					
 			 				$("#tempApprovalTable>tbody").html(value);
-			 				$("#sortOption").text(sdate);
+			 				$("#sortOption2").text(sdate);
 			 			},
 			 			error:function(){
 			 				console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
@@ -278,7 +280,8 @@
 			var optionInput = $("#conditionInput").val();
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			var apClass = '지출'
+			var apClass = '지출';
+			var status = 'N';
 						
 			console.log("type : " + optionType)
 			console.log("Input : " + optionInput)
@@ -303,7 +306,8 @@
 		 					optionInput : optionInput,
 		 					startDate : startDate,
 		 					endDate : endDate,
-		 					apClass : apClass
+		 					apClass : apClass,
+		 					status : status
 		 					
 		 				},
 		 				success: function(list){
@@ -335,7 +339,7 @@
 		 					$("#startDate").val(""); 
 			 					
 			 				$("#tempApprovalTable>tbody").html(value);
-			 				$("#sortOption").text(sdate);
+			 				$("#sortOption2").text(sdate);
 			 			},
 			 			error:function(){
 			 				console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
