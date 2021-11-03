@@ -133,7 +133,6 @@ public class OfficeRoomDao {
 		return sqlSession.insert("officeroomMapper.insertCommResourcesAttach", commonResourcesAttach);
 	}
 
-	//
 	public int selectDeptResourcesCategoryTypeListCount(SqlSessionTemplate sqlSession, DeptResources deptResources) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("officeroomMapper.selectDeptResourcesCategoryTypeListCount", deptResources);

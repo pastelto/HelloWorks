@@ -22,4 +22,9 @@ public class DeptResourcesReply {
 	private String deptrRepContent;			//	DEPTR_REP_CONTENT	VARCHAR2(4000 BYTE)
 	private Date deptrRepCreateDate;				//	DEPTR_REP_CREATE_DATE	DATE
 	private String deptrRepStatus;			//	DEPTR_REP_STATUS	VARCHAR2(1 BYTE)
+	
+	// join
+	private String writerName;
+	private String writerJobName;
+	private String writerDeptDName;
 }
