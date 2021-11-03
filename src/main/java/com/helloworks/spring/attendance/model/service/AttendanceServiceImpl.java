@@ -149,4 +149,25 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 		
 	}
+	
+	//근태 상태별로 조회
+	@Override
+	public Statistics selectAtndCount(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectAtndCount(sqlSession, empNo);
+	}
+	
+	//출근기록-연차 사용일수
+	@Override
+	public Statistics selectThreeCount(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectThreeCount(sqlSession, empNo);
+	}
+	
+	//API
+	@Override
+	public ArrayList<Attendance> selectAPI(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectAPI(sqlSession, empNo);
+	}
 }

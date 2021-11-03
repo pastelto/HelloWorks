@@ -108,5 +108,23 @@ public class AttendanceDao {
 		
 		return sqlSession.update("attendanceMapper.changeTime", attendance);
 	}
+	
+	//근태 상태별로 조회
+	public Statistics selectAtndCount(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectAtndCount", empNo);
+	}
+	
+	//출근기록-연차 사용일수
+	public Statistics selectThreeCount(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectThreeCount", empNo);
+	}
+	
+	//API
+	public ArrayList<Attendance> selectAPI(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAPI", empNo);
+	}
 
 }

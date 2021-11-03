@@ -233,13 +233,32 @@
 		$(function(){
 			$('#submitBT').click(function(){
 				
+				var line = $('#emp_level2_1').val();
+				var ap_title = $('#ap_title').val();
+				var summernote = $('#summernote2').val();
+				var startDate = $('input[name=startDate]').val();
+				var endDate = $('input[name=endDate]').val();
+							
+				if(line == ""){
+					alert("결재라인을 추가해주세요")
+					return false;
+				}else if(ap_title == ""){
+					alert("제목을 입력해주세요")
+					return false;
+				}else if(startDate == ""){
+					alert("요청 시작일자를 선택해주세요")
+					return false;
+				}else if(endDate == ""){
+					alert("요청 종료일자를 선택해주세요")
+					return false;
+				}else if(summernote ==""){
+					alert("사유를 입력해주세요")
+					return false;
+				}								
 				
 				var test = $("input[name=ap_title]").val();
 				
 				$('#vacationForm').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
-				
-		
-				
 				$('#vacationForm').submit();
 				
 				

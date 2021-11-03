@@ -12,6 +12,9 @@
 	padding-top:20px;
 	margin-left:20px;
 }
+body{
+	overflow-x:hidden;
+}
 </style>
 </head>
 <body>

@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.vacation.model.service.VacationService;
@@ -47,8 +48,7 @@ public class VavationController {
 	public String attendanceApiView(HttpServletRequest request, Model model) {
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	 
-		
-		
+			
 		LoginUserVacation annual = vacationService.selectAnnual(empNo);
 		
 		String loginUserAnnual = String.valueOf(annual.getLeftAnnual()) + " 일";
@@ -502,6 +502,7 @@ public class VavationController {
 		LoginUserVacation annual = vacationService.selectAnnual(empNo);
 		
 		//연차사용일수
+		Statistics threeAtdn = attendanceService.selectThreeCount(empNo); 
 		
 		//휴가사용일수
 		LoginUserVacation vacation = vacationService.selectVacation(empNo);
@@ -526,6 +527,7 @@ public class VavationController {
 		model.addAttribute("annual", annual);
 		model.addAttribute("vacation", vacation);
 		model.addAttribute("apAtdn", apAtdn);
+		model.addAttribute("threeAtdn", threeAtdn);
 		
 		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
 		model.addAttribute("listCount", listCount);
