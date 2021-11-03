@@ -207,5 +207,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                            
      </select>
    
+   	<!-- 공지사항탑리스트 -->
+      <select id="selectTopList" resultMap="noticeResultSet">
+   		<![CDATA[
+        SELECT *
+		FROM ( SELECT *
+		        FROM NOTICE
+		        WHERE NT_STATUS = 'Y'
+		        ORDER BY NT_NO DESC
+		        ) 
+		WHERE ROWNUM <= 3
+		]]>
+   </select>
    
 </mapper>

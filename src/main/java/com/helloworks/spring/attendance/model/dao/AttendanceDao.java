@@ -86,9 +86,15 @@ public class AttendanceDao {
 	}
 	
 	//통계 전체조회
-	public ArrayList<Statistics> wtStatisticsAll(SqlSessionTemplate sqlSession, String dept) {
+	public ArrayList<Statistics> wtStatisticsAll(SqlSessionTemplate sqlSession, SearchAttendance as) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("attendanceMapper.wtStatisticsAll", dept);
+		return (ArrayList)sqlSession.selectList("attendanceMapper.wtStatisticsAll", as);
+	}
+	
+	//sysdateWeek
+	public SearchAttendance sysdateWeek(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.sysdateWeek");
 	}
 
 	//통계 검색조회
@@ -126,5 +132,7 @@ public class AttendanceDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAPI", empNo);
 	}
+
+
 
 }

@@ -50,5 +50,8 @@ public interface NoticeService {
 	
 	//임시저장 검색리스트
 	ArrayList<Notice> searchNoticeTlist(SearchCondition sc, PageInfo piT);
+	
+	//공지사항 탑리스트
+	ArrayList<Notice> selectTopList();
 
 }

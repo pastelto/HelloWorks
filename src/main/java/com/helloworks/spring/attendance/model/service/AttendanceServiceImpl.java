@@ -120,9 +120,16 @@ public class AttendanceServiceImpl implements AttendanceService {
 	
 	//통계 전체조회
 	@Override
-	public ArrayList<Statistics> wtStatisticsAll(String dept) {
+	public ArrayList<Statistics> wtStatisticsAll(SearchAttendance as) {
 		// TODO Auto-generated method stub
-		return attendanceDao.wtStatisticsAll(sqlSession, dept);
+		return attendanceDao.wtStatisticsAll(sqlSession, as);
+	}
+	
+	//sysdateWeek
+	@Override
+	public SearchAttendance sysdateWeek() {
+		// TODO Auto-generated method stub
+		return attendanceDao.sysdateWeek(sqlSession);
 	}
 	
 	//통계 검색조회
@@ -170,4 +177,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceDao.selectAPI(sqlSession, empNo);
 	}
+
+	
 }
