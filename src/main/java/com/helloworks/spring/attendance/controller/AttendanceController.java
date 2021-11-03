@@ -1,8 +1,10 @@
 package com.helloworks.spring.attendance.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
@@ -29,10 +32,19 @@ public class AttendanceController {
 	@Autowired
 	private VacationService vacationService;
 	
-	//페이지 전환
+	//출근기록
 	@RequestMapping("attendanceApiView.ps")
-	public String attendanceApiView() {
-		System.out.println("근태현황 api  페이지 전환");
+	public String attendanceApiView(Model model, HttpServletRequest request) {
+
+		//결재할 문서 게시글 갯수
+		int listCount = vacationService.selectListCount();
+		model.addAttribute("listCount", listCount);
+		
+		//근태상태별로 조회
+		 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
+		Statistics count = attendanceService.selectAtndCount(empNo); 
+		model.addAttribute("count", count);
+		
 		return "attendance/AttendanceApiView";
 	}
 	
@@ -46,7 +58,11 @@ public class AttendanceController {
 		
 		Attendance update = attendanceService.updateStatus(psaNo);
 		
+		
 		model.addAttribute("update",update);
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		
 		return "attendance/UpdateStatus";
 	}
@@ -219,8 +235,10 @@ public class AttendanceController {
 			searchlist = attendanceService.checkDeptTimeAll(dept);
 		}
 		
-		model.addAttribute("searchlist",searchlist);
-
+		model.addAttribute("searchlist",searchlist);	
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
 		return "attendance/CheckDeptEmpView";
 
 	}
@@ -298,6 +316,9 @@ public class AttendanceController {
 
 		model.addAttribute("statistics",statistics);
 		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
+		
 		return "attendance/DeptWTStatistics";
 	}
 	
@@ -323,14 +344,45 @@ public class AttendanceController {
 		
 		 ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
 		 
-		
-
-		model.addAttribute("statistics",statistics);
+	model.addAttribute("statistics",statistics);
 		
 		return "attendance/DeptWTStatistics";
 	}
 	
-	
+	//API
+    @ResponseBody
+	@RequestMapping(value = "selectAttendanceList.ps", method = {RequestMethod.POST})
+	public String selectAttendanceList(HttpServletRequest request){
+    	
+    	 int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	 
+		 ArrayList<Attendance> attendance = attendanceService.selectAPI(empNo);
+		 
+		 System.out.println("API" + attendance);
+		 for(int i=0; i<attendance.size(); i++) {
+			 attendance.get(i).setInTime(attendance.get(i).getInTime().substring(0,5));
+			 attendance.get(i).setOutTime(attendance.get(i).getOutTime().substring(0,5));
+			
+			 if(attendance.get(i).getPsStatus().equals("정상출근")) {
+				 attendance.get(i).setPsStatus("A");
+			 }else if(attendance.get(i).getPsStatus().equals("지각")){
+				 attendance.get(i).setPsStatus("B");
+			 }else if(attendance.get(i).getPsStatus().equals("결근")){
+				 attendance.get(i).setPsStatus("C");
+			 }else if(attendance.get(i).getPsStatus().equals("반차")){
+				 attendance.get(i).setPsStatus("D");
+			 }else if(attendance.get(i).getPsStatus().equals("연차")){
+				 attendance.get(i).setPsStatus("E");
+			 }else if(attendance.get(i).getPsStatus().equals("휴가")){
+				 attendance.get(i).setPsStatus("F");
+			 }else if(attendance.get(i).getPsStatus().equals("출근전")){
+				 attendance.get(i).setPsStatus("G");
+			 }
+			 
+		 }
+		 
+    	
+    	 return new GsonBuilder().create().toJson(attendance);
+    }
 
    
 }

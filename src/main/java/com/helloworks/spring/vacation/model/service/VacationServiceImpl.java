@@ -145,4 +145,25 @@ public class VacationServiceImpl implements VacationService {
 		// TODO Auto-generated method stub
 		return vacationDao.sysdateVacation(sqlSession , empNo);
 	}
+	
+	//휴가사용일수
+	@Override
+	public LoginUserVacation selectVacation(int empNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.selectVacation(sqlSession, empNo);
+	}
+	
+	//제출한 휴가문서
+	@Override
+	public ArrayList<Vacation> selectAPapproval(int empNo) {
+		// TODO Auto-generated method stub
+		return vacationDao.selectAPapproval(sqlSession, empNo);
+	}
+	
+	//결재할 문서 갯수
+	@Override
+	public int selectListCount() {
+		// TODO Auto-generated method stub
+		return vacationDao.selectListCount(sqlSession);
+	}
 }

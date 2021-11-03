@@ -40,6 +40,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="totalT" column="TOTALT"/>
 		<result property="leaveWT" column="LEAVEWT"/>
 		<result property="leaveOT" column="LEAVEOT"/>
+		<result property="empNo" column="A"/>
+		<result property="working" column="B"/>
+		<result property="over" column="C"/>
+		<result property="totalT" column="D"/>
+		<result property="leaveWT" column="E"/>
+		<result property="leaveOT" column="F"/>
+		<result property="half" column="G"/>
+		
 	</resultMap>
 	
 	<!-- 출근등록 -->
@@ -227,7 +235,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
-		WHERE A.PSA_CREATEDATE BETWEEN '21/10/24' AND '21/10/30'
+		WHERE A.PSA_CREATEDATE BETWEEN '21/10/31' AND '21/11/06'
 		AND B.DEPT_CODE = #{dept}
 		GROUP BY A.PSA_EMP_NO, B.EMP_NAME, C.JOB_NAME
 		ORDER BY A.PSA_EMP_NO ASC
@@ -270,10 +278,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      
      <!-- 상태변경  -->
  	<update id="changeTime" parameterType="Attendance">
-	    UPDATE PS_ATTENDANCE
-		SET PSA_OUT =#{outTime},
+	    UPDATE PS_ATTENDANCE SET
 		PSA_APPLIED_OUT = #{appliedOut},
-		PSA_IN =#{inTime},
 		PSA_APPLIED_IN = #{appliedIN},
 		PSA_STATUS=#{psStatus},
 		PSA_WORKINGTIME=#{workingTime},
@@ -283,7 +289,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND PSA_CREATEDATE LIKE #{vacation}
    </update>
    
-   
-   
+   <!-- 출근기록-연차 사용일수 -->
+    <select id="selectAtndCount" parameterType="_int" resultMap="statisticsSet">
+	   	SELECT
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='정상출근' AND PSA_CREATEDATE LIKE '%21/11%') A,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='지각' AND PSA_CREATEDATE LIKE '%21/11%') B,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='결근' AND PSA_CREATEDATE LIKE '%21/11%') C,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='반차' AND PSA_CREATEDATE LIKE '%21/11%') D,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차' AND PSA_CREATEDATE LIKE '%21/11%') E,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='휴가' AND PSA_CREATEDATE LIKE '%21/11%') F
+		FROM DUAL
+	</select>
+		
+		<!--연차사용현황-휴가사용일수 -->
+	  <select id="selectThreeCount" parameterType="_int" resultMap="statisticsSet">
+	  	SELECT
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='결근') C,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='반차')/2 G,
+		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차') E
+		FROM DUAL
+	</select>
+	
+	<!-- api -->
+   <select id ="selectAPI" parameterType= "_int" resultMap="attendanceResultSet">
+   		SELECT A.*, B.EMP_NAME
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		WHERE A.PSA_EMP_NO = #{empNo}
+   </select>
    
 </mapper>

@@ -59,7 +59,11 @@ input:focus {outline:none;}
 .progress{
 border-radius: 5px;
 }
- 
+
+#headerTitle, #noticeTable, #aTitle{
+	font-size:small;
+}
+
 </style>
   
 </head>
@@ -67,9 +71,12 @@ border-radius: 5px;
 
 
 	<div id="cardAttendance">
+	
+	
+		<!-- 내정보 -->
       <div class="card card-info card-outline" style="width: 300px;">
              <div class="card-header" >            
-               <div class="float-left">내 정보</div>
+               <div class="float-left" id="headerTitle">내 정보</div>
              </div>
 			  
 			  <!-- 개인정보 -->
@@ -82,14 +89,14 @@ border-radius: 5px;
               </div>    
         	
         	  <!-- 탭 -->	
-	  		  <div class="card  card-outline card-outline-tabs" style="margin-top: -15px;">
+	  		  <div class="card  card-outline card-outline-tabs" style="margin-top: -28px;">
 	              <div class="card-header p-0 border-bottom-0">
 	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true">근태정보</a>
+	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true" id="aTitle">근태정보</a>
 	                  </li>
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false">휴가정보</a>
+	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false" id="aTitle">휴가정보</a>
 	                  </li>
 	                </ul>
 	              </div>
@@ -97,13 +104,13 @@ border-radius: 5px;
 	           <!--탭 -->
 	           
               <!-- card body -->
-              <div class="card-body">
+              <div class="card-body" id="noticeCardBody">
 	              <div class="tab-content" id="custom-tabs-four-tabContent">
 		              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 		                  <!-- 근태정보 -->
-	                      <div class="container-fluid text-center" style="margin-top:-7px; "> 
+	                      <div class="container-fluid text-center" style="margin-top:-10px; "> 
 	                      	          
-		                     <h5><span id="nowTimes"></span></h5>                 
+		                     <h5><span id="nowTimes" ></span></<h5>                
 		                  </div>
 		                  <div class="container-fluid text-center">
 							  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>						                  
@@ -112,9 +119,9 @@ border-radius: 5px;
 			                  <input type=text class="workingtime" id="outTime" value="${attendance.outTime}" readonly>
 		                  </div>
 		                  <br>
-		                 <div class="irs-wrapper complete">
+		                 <div class="irs-wrapper complete" style="margin-top:-5px; ">
 		                  	<div class="workintTitile">소정근로시간</div> 
-	                        <input id="range_1" type="text" name="range_1" value="9" disabled>
+	                        <input id="range_1" type="text" name="range_1" value="50" disabled>
 	                      </div>
 	                      <div class="progress">
 							  <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
@@ -135,6 +142,30 @@ border-radius: 5px;
               				
                           
         </div>
+        
+        
+        
+		        <!-- 공지사항 -->
+		          <div class="card card-info card-outline" style="width: 300px;">
+		             <div class="card-header" >            
+		               <div class="float-left" id="headerTitle">공지사항</div>
+		             </div>
+		              <div class="card-body" style="padding-top:5px;">
+		                <table class="table table-hover" id="noticeTable" style="marign-top:-20px;">		    
+		                    <tr >
+		                      <td style="border-top:none !important"> ◾ 첫번째 공지사항입니다</td>
+		                    </tr>
+		             		<tr>
+		                      <td>◾ 두번째 공지사항입니다</td>
+		                    </tr>
+		                </table>
+		              </div>
+				</div>
+             
+             
+             
+             
+          
 
   
   </div>
@@ -166,14 +197,14 @@ function insertTime(num){
 	if(num == 1){		
 		if(inTime == "00:00:00"){
 			alert("출근시간이 등록되었습니다")
-			location.href="intime.ps?inOutTime=" + inOutTime;		
+			/* location.href="intime.ps?inOutTime=" + inOutTime; */		
 		}else{
 			alert("출근시간이 등록되어있습니다")
 		}	
 	}else{
 		if(outTime == "00:00:00"){
 			alert("퇴근시간이 등록되었습니다")
-			location.href="outTime.ps?inOutTime=" + inOutTime;		
+			/* location.href="outTime.ps?inOutTime=" + inOutTime;	 */	
 		}else{
 			alert("퇴근시간이 등록되어있습니다")
 		}			
@@ -186,7 +217,7 @@ function insertTime(num){
   $(function () {
     $('#range_1').ionRangeSlider({
        min: 0,
-       max: 10,
+       max: 40,
        postfix   : '시간'
 
     })

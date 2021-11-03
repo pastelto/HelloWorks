@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.request.model.service.RequestService;
+import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.request.model.vo.RequestId;
 
@@ -252,6 +254,29 @@ public class RequestController {
 		requestService.cancelOneId(requestIdNo);
 		String result = "성공!";
 		return String.valueOf(result);
+
+	}
+	
+	// 회의실 목록 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/list.mtr",  produces="application/json; charset=UTF-8")
+	public String listMtr(){
+
+		ArrayList<Mtr> listMtr = requestService.listMtr();
+		return new GsonBuilder().create().toJson(listMtr);
+
+	}
+	// 회의실 시간표 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
+	public String timeMtr(int mMNo, String getDate){
+		
+		Mtr mtr = new Mtr();
+		mtr.setMMNo(mMNo);
+		mtr.setMRDate(getDate);
+		
+		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
+		return new GsonBuilder().create().toJson(timeMtr);
 
 	}
 	

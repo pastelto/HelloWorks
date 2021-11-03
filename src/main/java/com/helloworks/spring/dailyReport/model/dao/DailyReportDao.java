@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
+import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
 
 @Repository
 public class DailyReportDao {
@@ -99,6 +100,26 @@ public class DailyReportDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportTermTypeList", dailyReport, rowBounds);
+	}
+
+	public DailyReport selectDetailDailyReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDetailDailyReport", dailyReport);
+	}
+
+	public int addReply(SqlSessionTemplate sqlSession, DailyReportReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("dailyReportMapper.addReply", r);
+	}
+
+	public ArrayList<DailyReportReply> selectReplyList(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectReplyList", drNo);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.deleteReply", drNo);
 	}
 
 }

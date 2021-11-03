@@ -58,6 +58,15 @@ public interface AttendanceService {
 	//결재문서에 따른 출퇴근 시간 변경 
 	void changeTime(Attendance attendance);
 	
+	//근태 상태별로 조회
+	Statistics selectAtndCount(int empNo);
+	
+	//연차 사용일수 
+	Statistics selectThreeCount(int empNo);
+	
+	//API
+	ArrayList<Attendance> selectAPI(int empNo);
+	
 
 
 }

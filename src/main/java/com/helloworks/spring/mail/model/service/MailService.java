@@ -47,6 +47,12 @@ public interface MailService {
 	
 	//메일 수신자 정보조회
 	Mail getRcvrInfo(Mail rEmp);
+	
+	//임시보관 메일보내기
+	void dsendMail(Mail m);
+	
+	//임시보관 메일 첨부파일
+	void insertDMailAttach(ArrayList<MailAttachment> mailAttachmentList);
 
 
 }
