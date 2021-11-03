@@ -310,9 +310,31 @@ public class AttendanceController {
 		//본인 부서 
 		String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	
 		
-		 ArrayList<Statistics> statistics = attendanceService.wtStatisticsAll(dept);
+		//부서별 통계 조회
+		SearchAttendance as = attendanceService.sysdateWeek();
+		as.setDept(dept);
+		ArrayList<Statistics> statistics = attendanceService.wtStatisticsAll(as);
 		
-		 System.out.println("눈누난나" + statistics);
+		//초를 시간과 분으로 변환
+		String test = null;
+		for(int i=0; i<statistics.size(); i++) {
+			
+			//일한시간
+			test = changeTime(statistics.get(i).getWorking()); 
+			statistics.get(i).setWorkingS(test);
+			//야근시간
+			test = changeTime(statistics.get(i).getOver()); 
+			statistics.get(i).setOverS(test);
+			//총시간
+			test = changeTime(statistics.get(i).getTotalT()); 
+			statistics.get(i).setTotalTS(test);
+			//잔여일한시간
+			test = changeTime(statistics.get(i).getLeaveWT()); 
+			statistics.get(i).setLeaveWTS(test);
+			//잔여야근시간
+			test = changeTime(statistics.get(i).getLeaveOT()); 
+			statistics.get(i).setLeaveOTS(test);
+		}
 
 		model.addAttribute("statistics",statistics);
 		
@@ -322,7 +344,22 @@ public class AttendanceController {
 		return "attendance/DeptWTStatistics";
 	}
 	
-
+	//초를  변환
+	public String changeTime(int num) {
+		
+		int time = num;     
+        int hour = time/(60*60);
+        int minute = time/60-(hour*60);
+        int second = time%60;
+        System.out.println(time +"초는 " + hour + "시간, " + minute + "분, " + second + "초입니다.");
+      
+		
+		String result = hour+"시간 " + minute+"분 ";
+		
+		return result;
+		
+	}
+	
 	
 	//통계 검색조건
 	@RequestMapping("statisticsSearch.ps")

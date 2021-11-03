@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -70,7 +70,7 @@
 													</select>
 													
 														&nbsp;&nbsp;
-												<button id="atSearchBtn" type="button" class="btn btn-default btn-sm" onclick="#">전체검색</button>
+												<button id="atSearchBtn" type="button" class="btn btn-default btn-sm" onclick="annulSearch();">전체검색</button>
 												&nbsp;&nbsp;
 												
 										
@@ -131,14 +131,25 @@
 <!-- fullCalendar 2.2.5 -->
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script src="./resources/plugins/fullcalendar/main.js"></script>
-<!-- 스크립트 모음 --> 
+<!-- 스크립트 모음 -->
+<script>
+function annulSearch(){
+	alert("dd")
+	$('#calendar').fullCalendar('gotoDate', new Date('2021' + '-' + '05' + '-01'));
+}
+</script> 
 <script>
 
-     document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+	
+	
+	
+
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
           defaultDate: new Date(),
+          locale: 'ko', 
           eventLimit: true,
           contentHeight: 550,
           editable: false,
@@ -150,7 +161,7 @@
                      type:'post',
                      success: 
                          function(result) {
-   								
+   								console.log("!1"+result)
                              var events = [];
                          
                              if(result!=null){

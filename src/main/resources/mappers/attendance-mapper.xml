@@ -224,7 +224,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
  
   <!-- 통계 전체조회 -->
-   <select id="wtStatisticsAll"  parameterType= "Statistics" resultMap="statisticsSet">
+   <select id="wtStatisticsAll"  parameterType= "SearchAttendance" resultMap="statisticsSet">
       	SELECT 
 		A.PSA_EMP_NO , B.EMP_NAME,  C.JOB_NAME,
 	    SUM(A.PSA_WORKINGTIME) WORKINGT,
@@ -235,11 +235,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PS_ATTENDANCE A
 		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
-		WHERE A.PSA_CREATEDATE BETWEEN '21/10/31' AND '21/11/06'
+		WHERE A.PSA_CREATEDATE BETWEEN #{start_date} AND #{end_date}
 		AND B.DEPT_CODE = #{dept}
 		GROUP BY A.PSA_EMP_NO, B.EMP_NAME, C.JOB_NAME
 		ORDER BY A.PSA_EMP_NO ASC
    </select>  
+   
+   
+  <!-- sysdateWeek -->
+   <select id="sysdateWeek"  parameterType= "SearchAttendance" resultMap="searchResultSet">
+	   	SELECT START_DATE, END_DATE
+		FROM V_CHECKTIME
+		WHERE SYSDATE BETWEEN TO_DATE(START_DATE) AND TO_DATE(END_DATE)
+   </select>
+   
    
    <!-- 통계 검색조회 -->
    <select id="statisticsSearch"  parameterType= "SearchAttendance" resultMap="statisticsSet">

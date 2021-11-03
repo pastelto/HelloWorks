@@ -47,7 +47,10 @@ public interface AttendanceService {
 	ArrayList<SearchAttendance> monthselect(String monthselect);
 	
 	//통계 전체조회
-	ArrayList<Statistics> wtStatisticsAll(String dept);
+	ArrayList<Statistics> wtStatisticsAll(SearchAttendance as);
+	
+	//sysdateWeek
+	SearchAttendance sysdateWeek();
 
 	//통계 검색조회
 	ArrayList<Statistics> statisticsSearch(SearchAttendance search);
@@ -66,6 +69,8 @@ public interface AttendanceService {
 	
 	//API
 	ArrayList<Attendance> selectAPI(int empNo);
+	
+	
 	
 
 
