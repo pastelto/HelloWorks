@@ -1,6 +1,7 @@
 package com.helloworks.spring.manageSchedule.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
-import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
 @Controller
 public class ScheduleController {
@@ -92,20 +94,39 @@ public class ScheduleController {
 	// 내 일정 불러오기
 	@ResponseBody
 	@RequestMapping(value="getMyCalender.cal", produces="application/json; charset=UTF-8")
-	public String getMyCalender(String calType) {
+	public String getMyCalender(String cal_type, HttpServletRequest request) {
 		
-		/*
-		 * // 해당 업무공유의 첨부파일 불러오기 List<ManageSchedule> list = new ArrayList<>(); try {
-		 * list = workShareService.detailWSAttachment(wno);
-		 * 
-		 * } catch (Exception e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 * 
-		 * if(!list.isEmpty()) { System.out.println("wsaList Attachment ? " + list);
-		 * return new GsonBuilder().create().toJson(list); } else { int result = 0;
-		 *  }
-		 */
-		return String.valueOf("1");
+		Employee myEmp =  ((Employee)request.getSession().getAttribute("loginUser"));	
+		int myEmpNo = myEmp.getEmpNo();
+		
+		
+		//getMyCalender.put("cal_type", cal_type);
+		System.out.println("cal_type ? " + cal_type);
+		
+		List<ManageSchedule> myCalList = new ArrayList<ManageSchedule>();
+		ManageSchedule calType = new ManageSchedule();
+		try {
+			// 해당 사번 개인 캘린더 번호 가져오기
+			calType.setCal_maker(myEmpNo);
+			calType.setCal_type(cal_type);
+			calType = scheduleService.selectPrivateCal(calType);
+			System.out.println("내 캘린더 Private calType ? " + calType);
+			
+			// 해당 사번 개인 캘린더 내용 목록 가져오기
+			HashMap<String, Object> getMyCalender = new HashMap<String, Object>();
+			getMyCalender.put("cal_no", calType.getCalNo());	
+			getMyCalender.put("myEmpNo", myEmpNo);
+			
+			myCalList = scheduleService.getMyCalender(getMyCalender);
+			System.out.println("myCalList ? " + myCalList);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		 return new GsonBuilder().create().toJson(myCalList);
 	}
 	
 	
