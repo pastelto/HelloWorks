@@ -101,7 +101,7 @@
 				                      <th  class="blue">포상휴가일수</th>
 				                      <td>미사용</td>
 				                      <th  class="blue">대체휴가일수</th>
-				                      <td>0일</td> 
+				                      <td>0.0일</td> 
 				                      <th  class="blue">입사일</th>
 				                      <td>${loginUser.empHire}</td>
 				                    </tr>
@@ -130,9 +130,9 @@
 				                  </thead>
 				                  <tbody >
 				                    <tr>
-				                      <td>0일 0시간</td>
-				                      <td>0일 0시간</td>
-				                      <td>0일 0시간</td>
+				                      <td>${threeAtdn.half }일</td>
+				                      <td>${threeAtdn.leaveWT }일</td>
+				                      <td>${threeAtdn.over }일</td>
 				                    </tr>
 				                  </tbody>
 				                </table>
@@ -174,7 +174,7 @@
 							   
 							   <!-- 제출한 휴가문서 -->         
 				              <div class="card-body">
-				                <table class="table table-bordered" id="approvalTable">
+				                <table class="table table-bordered table-hover" id="approvalTable">
 				                  <thead>
 				                    <tr>
 				                      <th width="14%">휴가분류</th>

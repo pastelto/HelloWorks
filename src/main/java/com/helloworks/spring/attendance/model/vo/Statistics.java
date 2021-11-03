@@ -24,4 +24,6 @@ public class Statistics {
 	
 	String start; //시작일
 	String end; //종료일 
+	
+	double half; //반차 갯수 받아오는 
 }
