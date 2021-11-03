@@ -52,7 +52,7 @@
               <div class="card-header">
               <h3 class="card-title form-check-label" for="selectAllCB">
               &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input" id="selectAllCB"  onclick="selectAll();" checked>
+              <input type="checkbox" class="form-check-input" name="selectAllCB" checked>
                 	전체 캘린더</h3>
        		  </div>
        		</div>
@@ -62,7 +62,7 @@
               <div class="card-header pl-3">
                <h3 class="card-title"> 
                &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="form-check-input" id="selectDept"  onclick="selectDept();" checked>
+                <input type="checkbox" class="form-check-input" name="selectDept" checked>
               	사내 캘린더</h3>
 
                 <div class="card-tools">
@@ -76,13 +76,13 @@
                 <ul class="nav nav-pills flex-column">
                   <li class="nav-item pl-3">
                     <a class="nav-link" href="vacationForm.ps">
-                    <input type="checkbox" class="form-check-input" id="selectAllCB" onclick="selectAll();" checked> 
-                    <label class="form-check-label" for="selectAllCB">&nbsp;${loginUser.deptUname }</label></a>
+                    <input type="checkbox" class="form-check-input" name="selectDeptUname" checked> 
+                    <label class="form-check-label" for="selectDeptUname">&nbsp;${loginUser.deptUname }</label></a>
                   </li>
                   <li class="nav-item pl-3">
                     <a class="nav-link" href="vacationForm.ps">
-                    <input type="checkbox" class="form-check-input" id="selectAllCB" onclick="selectAll();" checked> 
-                    <label class="form-check-label" for="selectAllCB">&nbsp;${loginUser.deptDname }</label></a>
+                    <input type="checkbox" class="form-check-input" name="selectDeptDname" checked> 
+                    <label class="form-check-label" for="selectDeptDname">&nbsp;${loginUser.deptDname }</label></a>
                   </li>
 
                 </ul>
@@ -95,7 +95,7 @@
               <div class="card-header">
                <h3 class="card-title form-check-label" for="selectMine">
                &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input" id="selectMine"  onclick="selectMine();" checked>
+              <input type="checkbox" class="form-check-input" name="selectMine" checked>
                	내 캘린더</h3>
        		  </div>
        		</div>
@@ -119,7 +119,7 @@
 		changeMonth: true, // month 셀렉트박스 사용
 		changeYear: true, // year 셀렉트박스 사용
         weekHeader: "Wk",
-        dateFormat: "yymmdd",
+        dateFormat: "yyyy/mm/dd",
         firstDay: 0,
         isRTL: false,
         showMonthAfterYear: true,
@@ -137,22 +137,41 @@
 
 <!-- 메뉴바 스크립트 -->
 <script>
-	function selectAll(){
+	<!-- 메뉴바 : 체크박스 선택 -->
+	$('input[name="selectAllCB"]').click(function(){
 		
-		alert("전체 일정 선택");
-	}
-	
-	function selectMine(){
-		
-		alert("내 캘린더 선택");
-	}
-	
-	function selectDept(){
-		
-		alert("부서 캘린더 선택");
-	}
-	
+		if(($('input[name="selectAllCB"]')).prop("checked")){
+			$('input[name="selectDept"]').prop("checked", true);
+			$('input[name="selectDeptUname"]').prop("checked", true);
+			$('input[name="selectDeptDname"]').prop("checked", true);
+			$('input[name="selectMine"]').prop("checked", true);
+		} else{
+			$('input[name="selectDept"]').prop("checked", false);
+			$('input[name="selectDeptUname"]').prop("checked", false);
+			$('input[name="selectDeptDname"]').prop("checked", false);
+			$('input[name="selectMine"]').prop("checked", false);
+		}
 
+	});
+	
+	$('input[name="selectDept"]').click(function(){
+		
+		if(($('input[name="selectDept"]')).prop("checked")){
+			$('input[name="selectDeptUname"]').prop("checked", true);
+			$('input[name="selectDeptDname"]').prop("checked", true);
+		} else{
+			$('input[name="selectAllCB"]').prop("checked", false);
+			$('input[name="selectDeptUname"]').prop("checked", false);	
+			$('input[name="selectDeptDname"]').prop("checked", false);	
+		}
+	});
+
+	$('input[name="selectMine"]').click(function(){
+		
+		if(!($('input[name="selectMine"]')).prop("checked")){
+			$('input[name="selectAllCB"]').prop("checked", false);
+		}
+	});
 </script>
 </body>
 </html>

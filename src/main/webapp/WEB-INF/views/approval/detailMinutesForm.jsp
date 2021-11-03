@@ -3,22 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%-- Member loginUser = new Member(); --%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>전자결재</title>
 
-<!-- summernote -->
- <link rel="stylesheet" href="./resources/plugins/summernote/summernote-bs4.min.css">
-
 <style>	
 	 td, span, input{
 		font-weight:normal;!important;
 		vertical-align: middle;!important;
 	}
-	#normalApprovalForm > input{
+	input{
 		border : none;
 		background-color: white;
 		pointer-events: none;
@@ -90,60 +86,52 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-															<colgroup>
-																<col width="15%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-															</colgroup>
 														<tbody>
 															<tr>															
-																<th rowspan="2"  scope="col">결재</th>
-																<th class="table emp_level" scope="col">
-																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${loginUser.jobName}" readonly/>
+																<th rowspan="2"  colspan="1">결재</th>
+																<th class="emp_level" colspan="1">
+																	<input type="text" class="emp_level0" id="emp_level1_0" name ="writerJob" value="${approval.writerJob}" readonly/>
 																</th>																																																																
-																<th class="table emp_level" scope="col">
+																<th class="emp_level" colspan="1">
 																	<input type="text" class="emp_level1" id="emp_level1_1" name="job" readonly/>
 																	</th>
-																<th class="table emp_level" scope="col" >																
+																<th class="emp_level" colspan="1" >																
 																	<input type="text" class="emp_level2" id="emp_level1_2" name="job" readonly/>																	
 																</th>
-																<th class="table emp_level" scope="col" >																
+																<th class="emp_level" colspan="1" >																
 																	<input type="text" class="emp_level2" id="emp_level1_3" name="job" readonly/>																	
 																</th>		
-																<th class="table emp_level" scope="col" >																
+																<th class="emp_level" colspan="1" >																
 																	<input type="text" class="emp_level2" id="emp_level1_4" name="job" readonly/>																	
 																</th>																																						
 															</tr>
 															<tr>
-																<td class="table emp_name" scope="col" >
-																	<input type="text" class="emp_name0" id="emp_name0" value="${loginUser.empName}" disabled/>
+																<td class="table emp_name" colspan="1" >
+																	<input type="text" class="emp_name0" id="emp_name0" name="lineName" value="${approval.writerName}" readonly/>
 																	<div class="confirm" id="divConfirm0">
-																		<input type="text" class="confirm-input" id="confirm0" name="job" readonly/>
+																		<input type="text" class="confirm-input" id="confirm0"  readonly/>
 																	</div>																	
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name1" id="emp_name1_1" name="job" readonly/>
+																<td class="table emp_name" colspan="1">
+																	<input type="text" class="emp_name1" id="emp_name1_1" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm1" readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name2" id="emp_name1_2" name="job" readonly/>
+																<td class="table emp_name" colspan="1">
+																	<input type="text" class="emp_name2" id="emp_name1_2" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm2" readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name3" id="emp_name1_3" name="job" readonly/>
+																<td class="table emp_name" colspan="1">
+																	<input type="text" class="emp_name3" id="emp_name1_3" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm3"  readonly/>
 																	</div>
 																</td>
-																<td class="table emp_name" scope="col">
-																	<input type="text" class="emp_name4" id="emp_name1_4" name="job" readonly/>
+																<td class="table emp_name" colspan="1">
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm4" readonly/>
 																	</div>
@@ -156,13 +144,6 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-														<colgroup>
-																<col width="15%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-															</colgroup>
 														<tbody>
 															<tr>
 																<th rowspan="2"  scop="col">협조</th>
@@ -235,7 +216,7 @@
 															<span>기안자</span>
 														</td>
 														<td colspan="6">
-															<input type="text" id="fieldWriter1" class="form-control" value="${loginUser.empName}" />
+															<input type="text" id="fieldWriter1" class="form-control" value="${approval.writerName}" />
 														</td>
 													</tr>
 													<tr>
@@ -243,7 +224,7 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${loginUser.deptDname}" /> 
+															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptName}" /> 
 														</td>
 													</tr>
 													<tr>
@@ -264,7 +245,7 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote" name="apContent">${approval.content}</textarea>
+															${approval.content}
 														</td>
 													</tr>
 													<tr>
@@ -274,14 +255,11 @@
 									                  		</div> 
 														</td>
 													</tr>
-													</tbody>
-												</table>
-												<table class="table table-bordered" id="logTable" style="margin-top:10px">
 													<tr>
-														<th colspan="3">
+														<th colspan="2">
 															<b>결재로그</b>
 														</th>
-														<td colspan="6">
+														<td colspan="7">
 															<span id="approval_log">
 																<strong>[${ approval.createDate }]</strong>
 																&nbsp;${ approval.deptName }&nbsp;${ approval.writerName }&nbsp;${ approval.writerJob }
@@ -289,32 +267,30 @@
 															</span>
 														</td>
 													</tr>
-												</table>
-												<table class="table table-bordered" id="commentTable" style="margin-top:10px">
+												
 													<tr>
-														<th colspan="3">
+														<th colspan="2">
 															<b>결재의견</b>
 														</th>
-														<td colspan="6">
-															<span id="approval_comment">																
+														<td colspan="7">
+															<span id="span_comment">																
 															</span>
 														</td>
 													</tr>												
-												</table>
-												<table class="table table-bordered" id="writeTable" style="margin-top:10px">
 													<tr>
-														<th colspan="3">
+														<th colspan="2">
 															<b>의견작성</b>
 															<br>
-															"(250자 이내)"
+															(250자 이내)
 														</th>
-														<td colspan="4">
-															<textarea id="approval_comment"></textarea>
+														<td colspan="6">
+															<textarea id="approval_comment" style="height:100px; width:100%" class="form form-control" name="commentText"></textarea>
 														</td>
-														<td colspan="2">
-															<button type="button" class="btn btn-primary" onclick="writeComment();">등록</button>
+														<td colspan="1">
+															<button type="button" class="btn btn-primary" onclick="writeComment('${approval.apNo}');">등록</button>
 														</td>
-													</tr>												
+													</tr>
+													</tbody>													
 												</table>
 											</td>
 										</tr>
@@ -351,33 +327,32 @@
 					  status:"${line.confirmStatus}"});
 		</c:forEach>
 		
-		$("#confirm1").append("${approval.writerName}");
+		$("#confirm0").append("${approval.writerName}");
 		
 		var n=1;
-		var user = ${ loginEmpNo };
+		var user = "${ loginEmpNo }";
+		var progress = "${ approval.progress }";
 		
 		for(var i=0;i<arr.length;i++){
 			$('input[id="emp_level1_'+n+'"]').val(arr[i].job);
 			$('input[id="emp_name1_'+n+'"]').val(arr[i].name);
-			$('input[id="line1_'+n+'"]').val(arr[i].number);
-			
 			
 			if(arr[i].lineNo <= arr[i].status){
 				$('#confirm'+n).val(arr[i].name);
-			}			
-		}		
-		for(var i=0;i<arr.length;i++){
-			if(user == arr[i].number){
-				$("#confirmBtn").css("display", "");
-				$("#returnBtn").css("display", "");
-				break;
-			}else {
-				$("#confirmBtn").attr("style", "dispaly:none");
-				$("#returnBtn").attr("style", "dispaly:none");
 			}
+			n++;
 		}
 		
-		
+		for(var i=0;i<arr.length;i++){
+			if(user == arr[i].number && progress == '진행중'){				
+				$("#confirmBtn").show();
+				$("#returnBtn").show();
+				break;
+			}else {
+				$("#confirmBtn").hide();
+				$("#returnBtn").hide();
+			}
+		}	
 	</script>
 	<!-- 수신참조 -->
 	<script>
@@ -406,23 +381,99 @@
 	
 	</script>
 
+	<!-- comment  -->
 	<script>
+		var arr = new Array();
+		<c:forEach items="${ cmList }" var="cm">
+			arr.push({writer:"${cm.cmName}", dept:"${cm.cmDept}", job:"${cm.cmJob}", create:"${cm.commentDate}",
+					  content:"${cm.comment}"});
+		</c:forEach>
 	
+		var value ="";
+		
+		for(var i=0; i<arr.length; i++){
+			value += '<strong>['+ arr[i].create +']</strong>&nbsp;' +
+			arr[i].dept +'&nbsp;'+ arr[i].writer +'&nbsp;'+arr[i].job +'<br>'+ 
+			arr[i].content +'<br>'+'<hr color="gray">';
+		}
+		
+		$("#span_comment").html(value);
+	
+	
+	 	function writeComment(apNo){
+	 		
+	 		var comment = $("textarea[id='approval_comment']").val();
+	 		
+	 		console.log(apNo);
+	 		console.log(comment);
+	 		
+	 		$.ajax({
+	 			url: "insertComment.ea",
+	 			type: "post",
+	 			data :{
+	 				comment : comment,
+	 				apNo : apNo
+	 			},
+	 			success: function(list){
+	 				
+	 				var value = "";
+	 				
+ 					$.each(list, function(i, obj){
+ 						value += '<strong>['+ obj.commentDate +']</strong>&nbsp;' +
+						obj.cmDept +'&nbsp;'+obj.cmName +'&nbsp;'+obj.cmJob +'<br>'+ 
+						obj.comment +'<br>'+'<hr color="gray">';
+ 					});
+ 					
+ 					console.log("ajax 통신 성공")
+ 					console.log(list)
+ 					
+ 					$("#span_comment").html(value);
+ 					$("#approval_comment").val('');
+ 				},
+ 				error:function(){
+ 					console.log("comment 등록 실패");
+ 				}
+	 			 			
+	 		});
+	 	}	 
+	 </script>
+
+
+
+	<script>
+
+		var arr = new Array();
+		<c:forEach items="${ lineList }" var="line">
+			arr.push({job:"${line.jobName}", name:"${line.empName}", number:"${line.empNo}", lineNo:"${line.lineNo}",
+					  status:"${line.confirmStatus}"});
+		</c:forEach>
+		
+		var empNo = '${ loginEmpNo }';
+		var flag;	
 		var apNo = ${approval.apNo}
 		
 		function goBack(){									
 				location.href= "<%=request.getContextPath()%>/myNormal.ea";
-			};		
+					
 		}
 		
-		function confirmApproval(){						
-				location.href= "<%=request.getContextPath()%>/confirmApproavl.ea?apNo=apNo";
-			};		
+		function confirmApproval(){					
+				
+				for(var i=0; i<arr.length; i++){
+					if(empNo == arr[arr.length-1].number){
+						flag = 1;
+					} else {
+						flag = 2;
+					}
+				}
+
+				location.href= "<%=request.getContextPath()%>/confirmApproavl.ea?apNo="+apNo+"&flag="+flag;
+				
 		}
 		
 		function returnApproval(){						
-			location.href= "<%=request.getContextPath()%>/returnApproavl.ea?apNo=apNo";
-			};		
+				location.href= "<%=request.getContextPath()%>/returnApproavl.ea?apNo="+apNo;
+				
 		}
 		
 		

@@ -140,6 +140,28 @@ public interface ApprovalService {
 
 	void returnStatus(int apNo);
 
+	ArrayList<Approval> selectSignedList(HashMap<String, Object> searchMap, PageInfo pi);
+
+	ArrayList<Approval> selectAllSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectSearchApNoSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectSearchTitleSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailApNoSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDetailTitleSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateApNoSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateTitleSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDeteDetailApNoSigned(HashMap<String, Object> searchMap);
+
+	ArrayList<Approval> selectDateDetailTitleSigned(HashMap<String, Object> searchMap);
+
 
 
 	
