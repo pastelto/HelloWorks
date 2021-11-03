@@ -251,7 +251,8 @@
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
-		 			var apClass = '일반'
+		 			var apClass = '일반';
+		 			var status = 'N';
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
@@ -259,7 +260,8 @@
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
-			 				apClass : apClass
+			 				apClass : apClass,
+			 				status : status
 			 			},
 			 			success: function(list){
 			 				var value = "";
@@ -311,8 +313,9 @@
 			var optionInput = $("#conditionInput").val();
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			var detailOption = null
-			var apClass = '일반'
+			var detailOption = null;
+			var apClass = '일반';
+			var status = 'N';
 			if($("input[name='doc_type']").checked){
 				detailOption = $("input[name='doc_type']:checked").val();
 			}		
@@ -341,7 +344,8 @@
 		 					startDate : startDate,
 		 					endDate : endDate,
 		 					detailOption : detailOption,
-		 					apClass : apClass
+		 					apClass : apClass,
+		 					status : status
 		 					
 		 				},
 		 				success: function(list){

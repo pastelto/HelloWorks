@@ -234,7 +234,7 @@
                 </a>
               </li>
                <li class="nav-item">
-                <a href="signedTray.ea" class="nav-link">
+                <a href="signedNormal.ea" class="nav-link">
                   <p>결재완료문서</p>
                 </a>
               </li>

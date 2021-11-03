@@ -347,6 +347,11 @@ public class ApprovalDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("approvalMapper.returnStatus", apNo);
 	}
+	
+	public int updateProgressDate(SqlSessionTemplate sqlSession, HashMap<String, Object> updateMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("approvalMapper.updateProgressDate", updateMap);
+	}
 
 	public ArrayList<Approval> selectSignedList(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
@@ -408,6 +413,8 @@ public class ApprovalDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateDetailTitleSigned", searchMap);
 	}
+
+	
 
 
 
