@@ -72,7 +72,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="irStatus" column="ES_IR_STATUS" />
 	</resultMap>	
 	
-
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
 		INSERT INTO
