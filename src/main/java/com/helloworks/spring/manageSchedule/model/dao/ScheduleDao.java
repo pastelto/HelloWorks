@@ -1,5 +1,9 @@
 package com.helloworks.spring.manageSchedule.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +25,11 @@ public class ScheduleDao {
 	public int addEvent(SqlSessionTemplate sqlSession, ManageSchedule schedule) {
 		
 		return sqlSession.insert("manageScheduleMapper.addEvent", schedule);
+	}
+
+	public List<ManageSchedule> getMyCalender(SqlSessionTemplate sqlSession, HashMap<String, Object> getMyCalender) {
+	
+		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getMyCalender", getMyCalender);
 	}
 
 

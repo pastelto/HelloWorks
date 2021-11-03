@@ -76,6 +76,11 @@
                 <ul class="nav nav-pills flex-column">
                   <li class="nav-item pl-3">
                     <a class="nav-link" href="vacationForm.ps">
+                    <input type="checkbox" class="form-check-input" name="selectCompanyCal" checked> 
+                    <label class="form-check-label" for="selectCompanyCal">&nbsp;전체 일정</label></a>
+                  </li>
+                  <li class="nav-item pl-3">
+                    <a class="nav-link" href="vacationForm.ps">
                     <input type="checkbox" class="form-check-input" name="selectDeptUname" checked> 
                     <label class="form-check-label" for="selectDeptUname">&nbsp;${loginUser.deptUname }</label></a>
                   </li>
@@ -142,11 +147,13 @@
 		
 		if(($('input[name="selectAllCB"]')).prop("checked")){
 			$('input[name="selectDept"]').prop("checked", true);
+			$('input[name="selectCompanyCal"]').prop("checked", true);
 			$('input[name="selectDeptUname"]').prop("checked", true);
 			$('input[name="selectDeptDname"]').prop("checked", true);
 			$('input[name="selectMine"]').prop("checked", true);
 		} else{
 			$('input[name="selectDept"]').prop("checked", false);
+			$('input[name="selectCompanyCal"]').prop("checked", false);
 			$('input[name="selectDeptUname"]').prop("checked", false);
 			$('input[name="selectDeptDname"]').prop("checked", false);
 			$('input[name="selectMine"]').prop("checked", false);
@@ -157,15 +164,19 @@
 	$('input[name="selectDept"]').click(function(){
 		
 		if(($('input[name="selectDept"]')).prop("checked")){
+			$('input[name="selectCompanyCal"]').prop("checked", true);
 			$('input[name="selectDeptUname"]').prop("checked", true);
 			$('input[name="selectDeptDname"]').prop("checked", true);
 		} else{
 			$('input[name="selectAllCB"]').prop("checked", false);
+			$('input[name="selectCompanyCal"]').prop("checked", false);	
 			$('input[name="selectDeptUname"]').prop("checked", false);	
 			$('input[name="selectDeptDname"]').prop("checked", false);	
 		}
 	});
-
+	
+	// 사내 캘린더 하나 선택시 전체 캘린더 체크박스 false로 주기
+	
 	$('input[name="selectMine"]').click(function(){
 		
 		if(!($('input[name="selectMine"]')).prop("checked")){
