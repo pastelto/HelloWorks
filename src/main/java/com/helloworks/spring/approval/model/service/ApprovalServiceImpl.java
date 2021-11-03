@@ -562,6 +562,83 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 
+	@Override
+	public ArrayList<Approval> selectSignedList(HashMap<String, Object> searchMap, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSignedList(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectAllSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectAllSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDeteDetailApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDeteDetailApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateDetailTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateDetailTitleSigned(sqlSession, searchMap);
+	}
+
+
 
 
 	
