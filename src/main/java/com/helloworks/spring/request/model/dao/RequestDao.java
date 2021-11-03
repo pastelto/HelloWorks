@@ -158,5 +158,17 @@ public class RequestDao {
 		return sqlSession.update("requestMapper.cancelOneId", requestIdNo);
 	}
 	
+	//회의실 예약위한 회의실 리스트 가져오기
+	public ArrayList<Mtr> listMtr(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
+	}
+
+	//회의실 예약위한 회의실 리스트 가져오기
+	public ArrayList<Mtr> timeMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.timeMtr", mtr);
+	}
+	
 
 }

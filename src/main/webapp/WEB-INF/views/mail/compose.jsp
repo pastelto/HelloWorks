@@ -92,8 +92,9 @@
 									</div>
 									<div class="row">
 										<div class="col-2">수신자</div>
-										<div class="col-8">
+										<div class="col-8">											
 											<div class="row m-0">
+											<div id="receiveListDiv">To: </div>	&nbsp;&nbsp;									
 												<button id="addressBook" type="button"
 													class="btn btn-default btn-xs"
 													onclick="popupAddressBook();">주소록</button>
@@ -101,8 +102,7 @@
 												<button id="searchEmp" type="button"
 													class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
 													검색</button>
-												&nbsp;&nbsp;
-												<div id="receiveListDiv"></div>
+												&nbsp;&nbsp;									
 											</div>
 										</div>
 									</div>
