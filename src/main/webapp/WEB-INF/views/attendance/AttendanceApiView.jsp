@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -150,7 +150,7 @@
                      type:'post',
                      success: 
                          function(result) {
-   								
+   								console.log("!1"+result)
                              var events = [];
                          
                              if(result!=null){
