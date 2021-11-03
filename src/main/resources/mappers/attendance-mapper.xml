@@ -309,6 +309,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(SELECT COUNT(*) FROM PS_ATTENDANCE WHERE PSA_EMP_NO=#{empNo} AND PSA_STATUS='연차') E
 		FROM DUAL
 	</select>
-   
+	
+	<!-- api -->
+   <select id ="selectAPI" parameterType= "_int" resultMap="attendanceResultSet">
+   		SELECT A.*, B.EMP_NAME
+		FROM PS_ATTENDANCE A
+		JOIN EMPLOYEE B ON A.PSA_EMP_NO = B.EMP_NO
+		WHERE A.PSA_EMP_NO = #{empNo}
+   </select>
    
 </mapper>

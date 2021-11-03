@@ -64,6 +64,9 @@ public interface AttendanceService {
 	//연차 사용일수 
 	Statistics selectThreeCount(int empNo);
 	
+	//API
+	ArrayList<Attendance> selectAPI(int empNo);
+	
 
 
 }

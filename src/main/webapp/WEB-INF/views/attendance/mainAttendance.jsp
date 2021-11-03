@@ -197,14 +197,14 @@ function insertTime(num){
 	if(num == 1){		
 		if(inTime == "00:00:00"){
 			alert("출근시간이 등록되었습니다")
-			location.href="intime.ps?inOutTime=" + inOutTime;		
+			/* location.href="intime.ps?inOutTime=" + inOutTime; */		
 		}else{
 			alert("출근시간이 등록되어있습니다")
 		}	
 	}else{
 		if(outTime == "00:00:00"){
 			alert("퇴근시간이 등록되었습니다")
-			location.href="outTime.ps?inOutTime=" + inOutTime;		
+			/* location.href="outTime.ps?inOutTime=" + inOutTime;	 */	
 		}else{
 			alert("퇴근시간이 등록되어있습니다")
 		}			

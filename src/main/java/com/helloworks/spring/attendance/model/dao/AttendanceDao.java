@@ -120,5 +120,11 @@ public class AttendanceDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("attendanceMapper.selectThreeCount", empNo);
 	}
+	
+	//API
+	public ArrayList<Attendance> selectAPI(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAPI", empNo);
+	}
 
 }
