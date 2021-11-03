@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전자결재-미결재문서</title>
+<title>전자결재-결재완료문서</title>
 <style>
 	.content-wrapper {
 		overflow: auto;
@@ -24,7 +24,7 @@
 	      <div class="container-fluid">
 	        <div class="row mb-2">
 	          <div class="col-sm-6">
-	            <h4><i class="fas fa-chart-pie"></i> <b>결재완료함</b></h4>
+	            <h4><i class="fas fa-chart-pie"></i> <b>결재완료문서</b></h4>
 	          </div>
 	        </div>
 	      </div><!-- /.container-fluid -->

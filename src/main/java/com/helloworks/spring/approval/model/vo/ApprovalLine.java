@@ -18,7 +18,8 @@ public class ApprovalLine extends Approval{
 	private String empName;
 	private String jobName;
 	
-	private int confirmStatus; 
+	private int confirmStatus;
+	private String progressDate;
 	
 	/*public ApprovalLine() {
 		// TODO Auto-generated constructor stub

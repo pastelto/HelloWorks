@@ -220,7 +220,8 @@
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
-		 			var apClass = '지출'
+		 			var apClass = '지출';
+		 			var status = 'Y';
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
@@ -228,7 +229,8 @@
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
-			 				apClass : apClass
+			 				apClass : apClass,
+			 				status : status
 			 			},
 			 			success: function(list){
 			 				var value = "";
@@ -278,7 +280,8 @@
 			var optionInput = $("#conditionInput").val();
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			var apClass = '지출'
+			var apClass = '지출';
+			var status = 'Y';
 						
 			console.log("type : " + optionType)
 			console.log("Input : " + optionInput)
@@ -303,7 +306,8 @@
 		 					optionInput : optionInput,
 		 					startDate : startDate,
 		 					endDate : endDate,
-		 					apClass : apClass
+		 					apClass : apClass,
+		 					status : status
 		 					
 		 				},
 		 				success: function(list){
