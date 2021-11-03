@@ -9,7 +9,7 @@
 <title>회의실 신청페이지</title>
 <!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<!-- <script src="../plugins/jquery/jquery.min.js"></script> -->
+<script src="../plugins/jquery/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="./resources/plugins/datepicker/jquery-ui.css">
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
@@ -379,6 +379,28 @@
 				}
 			});
 		}
+		
+		$("#delMtrBtn").click(function() {
+			
+			console.log(checkArr);
+			$.ajax({
+				url : "delete.Mtr",
+				type : "post",
+				data : {
+					checkArr : checkArr
+				},
+				success : function(result) {
+					if (result == "??!") {
+						alert("회의실 삭제성공!");
+						location.reload(true);//페이지 새로고침
+						//location.href = location.href;
+						//history.go(0);
+					} else {
+						alert("삭제 실패");
+					}
+				}
+			});
+		});
 	</script>
 
 </body>
