@@ -10,6 +10,8 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 public interface OfficeRoomService {
@@ -53,6 +55,22 @@ public interface OfficeRoomService {
 	void insertCommResources(CommonResources commonResources);
 
 	void insertCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
+
+	int selectDeptResourcesCategoryTypeListCount(DeptResources deptResources);
+
+	ArrayList<DeptResources> selectDeptResourcesCategoryTypeList(DeptResources deptResources, PageInfo pi);
+
+	int addDeptCommReply(DeptResourcesReply r);
+
+	int deleteDeptReply(int deptrNo);
+
+	void increaseDeptCount(int deptrNo);
+
+	DeptResources selectDeptResources(int deptrNo);
+
+	ArrayList<DeptResourcesAttachment> selectDeptResourcesAttachMent(int deptrNo);
+
+	ArrayList<CommonResourcesReply> selectDeptReplyList(int deptrNo);
 
 
 }

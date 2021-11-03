@@ -16,6 +16,8 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
@@ -137,7 +139,7 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		int result = officeRoomDao.addCommReply(sqlSession, r);
 		
 		if(result < 0) {
-			throw new CommException("조회수 증가 실패");
+			throw new CommException("댓글 등록 실패");
 		}
 		return result;
 	}
@@ -149,7 +151,7 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		int result = officeRoomDao.deleteCommReply(sqlSession, crNo);
 		
 		if(result < 0) {
-			throw new CommException("조회수 증가 실패");
+			throw new CommException("댓글 삭제 실패");
 		}
 		return result;
 	}
@@ -191,8 +193,78 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 		 }
 		 
 		 if(result < 0) { 
-			 throw new CommException("업무공유 삽입 실패"); 
+			 throw new CommException("공통 자료실 첨부파일 삽입 실패"); 
 		 }
+	}
+
+
+	@Override
+	public int selectDeptResourcesCategoryTypeListCount(DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesCategoryTypeListCount(sqlSession, deptResources);
+	}
+
+
+	@Override
+	public ArrayList<DeptResources> selectDeptResourcesCategoryTypeList(DeptResources deptResources, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesCategoryTypeList(sqlSession, deptResources, pi);
+	}
+
+
+	@Override
+	public int addDeptCommReply(DeptResourcesReply r) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.addDeptCommReply(sqlSession, r);
+		
+		if(result < 0) {
+			throw new CommException("댓글 등록 실패");
+		}
+		return result;
+	}
+
+
+	@Override
+	public int deleteDeptReply(int deptrNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.deleteDeptReply(sqlSession, deptrNo);
+		
+		if(result < 0) {
+			throw new CommException("댓글 삭제 실패");
+		}
+		return result;
+	}
+
+
+	@Override
+	public void increaseDeptCount(int deptrNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.increaseDeptCount(sqlSession, deptrNo);
+		
+		if(result < 0) {
+			throw new CommException("조회수 증가 실패");
+		}
+	}
+
+
+	@Override
+	public DeptResources selectDeptResources(int deptrNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResources(sqlSession, deptrNo);
+	}
+
+
+	@Override
+	public ArrayList<DeptResourcesAttachment> selectDeptResourcesAttachMent(int deptrNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesAttachMent(sqlSession, deptrNo);
+	}
+
+
+	@Override
+	public ArrayList<CommonResourcesReply> selectDeptReplyList(int deptrNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptReplyList(sqlSession, deptrNo);
 	}
 
 

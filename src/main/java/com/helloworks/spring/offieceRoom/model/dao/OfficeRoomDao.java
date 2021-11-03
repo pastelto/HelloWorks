@@ -12,6 +12,8 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Repository
@@ -129,6 +131,52 @@ public class OfficeRoomDao {
 			CommonResourcesAttachment commonResourcesAttach) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("officeroomMapper.insertCommResourcesAttach", commonResourcesAttach);
+	}
+
+	//
+	public int selectDeptResourcesCategoryTypeListCount(SqlSessionTemplate sqlSession, DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDeptResourcesCategoryTypeListCount", deptResources);
+	}
+
+	public ArrayList<DeptResources> selectDeptResourcesCategoryTypeList(SqlSessionTemplate sqlSession,
+			DeptResources deptResources, PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptResourcesCategoryTypeList", deptResources, rowBounds);
+	}
+
+	public int addDeptCommReply(SqlSessionTemplate sqlSession, DeptResourcesReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.addDeptCommReply", r);
+	}
+
+	public int deleteDeptReply(SqlSessionTemplate sqlSession, int deptrNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.deleteDeptReply", deptrNo);
+	}
+
+	public int increaseDeptCount(SqlSessionTemplate sqlSession, int deptrNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.increaseDeptCount", deptrNo);
+	}
+
+	public DeptResources selectDeptResources(SqlSessionTemplate sqlSession, int deptrNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDeptResources", deptrNo);
+	}
+
+	public ArrayList<DeptResourcesAttachment> selectDeptResourcesAttachMent(SqlSessionTemplate sqlSession,
+			int deptrNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptResourcesAttachMent", deptrNo);
+	}
+
+	public ArrayList<CommonResourcesReply> selectDeptReplyList(SqlSessionTemplate sqlSession, int deptrNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptReplyList", deptrNo);
 	}
 
 }

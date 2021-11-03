@@ -257,7 +257,7 @@
 		    if(type=="allType"){
 		    	location.href="<%=request.getContextPath()%>/deptResourcesList.or";
 		    }else{
-		    	location.href="<%=request.getContextPath()%>/commResourcesListType.or?resourcesType="+type;
+		    	location.href="<%=request.getContextPath()%>/deptResourcesListType.or?resourcesType="+type;
 		    }
 		});
 	</script>
@@ -265,7 +265,7 @@
 	<!-- 글쓰기 -->
 	<script>
 		function insertResource(){
-			location.href="<%=request.getContextPath()%>/commResourcesEnroll.or";
+			location.href="<%=request.getContextPath()%>/deptResourcesEnroll.or";
 		}
 	</script>
 </body>

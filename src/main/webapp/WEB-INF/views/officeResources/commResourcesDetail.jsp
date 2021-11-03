@@ -69,8 +69,6 @@
 							</h6>
 						</div>
 
-
-
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -121,9 +119,9 @@
 											                        	&nbsp; <small style="color: gray;">첨부파일이 없습니다.</small>
 										                        		<!-- <small style="color: gray;">첨부파일이 없습니다.</small> -->
 											                  	</c:if>
-																<c:forEach items="${ commonResourcesAttch }" var="commonResourcesAttch">
-																	<c:if test="${ !empty commonResourcesAttch.crAttachOrigin }">
-											                        	&nbsp;<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttch.crAttachChange}" download="${commonResourcesAttch.crAttachOrigin}">${ commonResourcesAttch.crAttachOrigin }</a>
+																<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
+																	<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
+											                        	&nbsp;<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttach.crAttachChange}" download="${commonResourcesAttach.crAttachOrigin}">${ commonResourcesAttach.crAttachOrigin }</a>
 											                        	</br>
 											                        </c:if>
 											                        
@@ -212,7 +210,7 @@
 	
 	<jsp:include page="../common/footer.jsp" />	
 
-		<script>
+	<script>
 		window.onload = function() {
 			selectReplyList();
 		};

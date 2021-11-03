@@ -31,6 +31,7 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
@@ -504,11 +505,11 @@ public class OfficeRoomController {
 		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
 		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
 		
-		ArrayList<CommonResourcesAttachment> commonResourcesAttch = officeRoomService.selectCommonResourcesAttachMent(crNo); 
+		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
 		
-		System.out.println("자료실 첨부파일:"+commonResourcesAttch);
+		System.out.println("자료실 첨부파일:"+commonResourcesAttach);
 		model.addAttribute("commonResources", commonResources);
-		model.addAttribute("commonResourcesAttch", commonResourcesAttch);
+		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
 		model.addAttribute("loginUserNo", loginUserNo);
 		
 		return "officeResources/commResourcesDetail";
@@ -580,38 +581,6 @@ public class OfficeRoomController {
 		return "redirect:commResourcesList.or";
 	}
 	
-	// 첨부파일 저장
-	private String saveFile(MultipartFile file, HttpServletRequest request, int num, String type) throws Exception {
-
-		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = "";
-		if(type.equals("common")) {
-			savePath = resources + "\\commonResources_files\\";
-		}else if(type.equals("dept")) {
-			savePath = resources + "\\deptResources_files\\";
-		}
-		
-
-		System.out.println("savePath : " + savePath);
-
-		String originName = file.getOriginalFilename();
-
-		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
-		String ext = originName.substring(originName.lastIndexOf("."));
-
-		String changeName = currentTime + num + ext;
-
-		try {
-			file.transferTo(new File(savePath + changeName));
-		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return changeName;
-	}
-
 	@RequestMapping("commResourcesDelete.or")
 	public String commResourcesDelete() {
 		
@@ -652,7 +621,7 @@ public class OfficeRoomController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
 		
-		ArrayList<CommonResources> deptResourcesList = officeRoomService.selectDeptResourcesCategoryTypeList(deptResources, pi);
+		ArrayList<DeptResources> deptResourcesList = officeRoomService.selectDeptResourcesCategoryTypeList(deptResources, pi);
 		
 		
 		model.addAttribute("pi", pi);
@@ -675,15 +644,27 @@ public class OfficeRoomController {
 	
 	
 	@RequestMapping("deptResourcesDetail.or")
-	public String deptResourcesDetail() {
+	public String deptResourcesDetail(int deptrNo, HttpServletRequest request, Model model) {
+		System.out.println("부서별 자료실 detail: "+deptrNo);
+		
+		officeRoomService.increaseDeptCount(deptrNo);
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		DeptResources deptResources = officeRoomService.selectDeptResources(deptrNo);
+		
+		ArrayList<DeptResourcesAttachment> deptResourcesAttach = officeRoomService.selectDeptResourcesAttachMent(deptrNo); 
+		
+		System.out.println("자료실 첨부파일:"+deptResourcesAttach);
+		model.addAttribute("deptResources", deptResources);
+		model.addAttribute("deptResourcesAttach", deptResourcesAttach);
+		model.addAttribute("loginUserNo", loginUserNo);
 		
 		return "officeResources/deptResourcesDetail";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="deptResourcesRelplyList.or", produces = "application/json; charset=utf-8")
-	public String deptRelplyList(int drNo) {
-		ArrayList<CommonResourcesReply> list = officeRoomService.selectCommReplyList(crNo);
+	public String deptRelplyList(int deptrNo) {
+		ArrayList<CommonResourcesReply> list = officeRoomService.selectDeptReplyList(deptrNo);
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); //형식적용하여 시간 출력
 	}
 	
@@ -698,10 +679,10 @@ public class OfficeRoomController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("deleteCommResourcesReply.or")
-	public String deleteDeptReply(int drNo) {
+	@RequestMapping("deleteDeptResourcesReply.or")
+	public String deleteDeptReply(int deptrNo) {
 		System.out.println("삭제 넘어오나요..?");
-		int result = officeRoomService.deleteDeptReply(drNo);
+		int result = officeRoomService.deleteDeptReply(deptrNo);
 		
 		return String.valueOf(result);
 	}
@@ -724,5 +705,37 @@ public class OfficeRoomController {
 	public String deptResourcesDelete() {
 		
 		return "redirect:deptResourcesList.or";
+	}
+	
+	// 첨부파일 저장
+	private String saveFile(MultipartFile file, HttpServletRequest request, int num, String type) throws Exception {
+
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = "";
+		if(type.equals("common")) {
+			savePath = resources + "\\commonResources_files\\";
+		}else if(type.equals("dept")) {
+			savePath = resources + "\\deptResources_files\\";
+		}
+		
+
+		System.out.println("savePath : " + savePath);
+
+		String originName = file.getOriginalFilename();
+
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+		String ext = originName.substring(originName.lastIndexOf("."));
+
+		String changeName = currentTime + num + ext;
+
+		try {
+			file.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return changeName;
 	}
 }
