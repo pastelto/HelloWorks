@@ -1,5 +1,7 @@
 package com.helloworks.spring.employee.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,10 @@ import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.notice.model.service.NoticeService;
+import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.vacation.model.service.VacationService;
+import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 
 
 @SessionAttributes("loginUser")
@@ -25,8 +31,13 @@ public class EmployeeController {
 	@Autowired 
 	private EmployeeService employeeService;
 	
+	//조아혜
 	@Autowired
 	private AttendanceService attendanceService;
+	@Autowired
+	private VacationService vacationService;
+	@Autowired
+	private NoticeService noticeService;
 	
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
@@ -69,8 +80,19 @@ public class EmployeeController {
 		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
 		  
 		  //조아혜
-	      Attendance attendance = attendanceService.selectAttendance(empNo);
+	      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간정보
 	      mv.addObject("attendance", attendance);
+	      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보
+	      mv.addObject("annual", annual);
+	      ArrayList<Notice> noticeList = noticeService. selectTopList();
+	      mv.addObject("noticeList", noticeList);
+	      
+	      
+	      
+	      
+	      
+	      
+	      
 	      
 	      
 	      

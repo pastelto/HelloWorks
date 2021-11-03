@@ -105,5 +105,11 @@ public class NoticeDao {
 	      
 	      return (ArrayList)sqlSession.selectList("noticeMapper.searchNoticeTlist", sc, rowBounds);
 	}
+	
+	//공지사항 탑리스트
+	public ArrayList<Notice> selectTopList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectTopList");
+	}
 
 }
