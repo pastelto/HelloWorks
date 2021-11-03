@@ -270,6 +270,9 @@ public class ApprovalController {
 		ArrayList<ApprovalExDetails> chlist = approvalService.selectExNumch();
 		ArrayList<ApprovalExDetails> colist = approvalService.selectExNumco();
 		
+		model.addAttribute("chList", chlist);
+		model.addAttribute("coList", colist);
+		
 		if(approval != null) {
 			System.out.println("approval ; " + approval);
 			 model.addAttribute("approval",approval);
@@ -2090,9 +2093,14 @@ public class ApprovalController {
 	
 	@RequestMapping("confirmApproavl.ea")
 	public String confirmApproval(HttpServletRequest request) {
-		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		int apNo = Integer.parseInt(request.getParameter("apNo"));
 		int flag = Integer.parseInt(request.getParameter("flag"));
+		
+		HashMap<String, Object> updateMap = new HashMap<String, Object>();
+		
+		updateMap.put("loginEmpNo", loginEmpNo);
+		updateMap.put("apNo", apNo);
 		
 		approvalService.updateLineStatus(apNo);
 		
@@ -2100,15 +2108,24 @@ public class ApprovalController {
 			approvalService.completeStatus(apNo);
 		}
 				
+		approvalService.updateProgressDate(updateMap);
+		
 		return "redirect:pendingNormal.ea";
 	}
 	
 	@RequestMapping("returnApproavl.ea")
 	public String returnApproavl(HttpServletRequest request) {
 		
-		int apNo = Integer.parseInt(request.getParameter("apNo"));		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		int apNo = Integer.parseInt(request.getParameter("apNo"));	
 		
-		approvalService.returnStatus(apNo);		
+		HashMap<String, Object> updateMap = new HashMap<String, Object>();
+		
+		updateMap.put("loginEmpNo", loginEmpNo);
+		updateMap.put("apNo", apNo);
+		
+		approvalService.returnStatus(apNo);	
+		approvalService.updateProgressDate(updateMap);
 				
 		return "redirect:pendingNormal.ea";
 	}

@@ -162,6 +162,8 @@ public interface ApprovalService {
 
 	ArrayList<Approval> selectDateDetailTitleSigned(HashMap<String, Object> searchMap);
 
+	void updateProgressDate(HashMap<String, Object> updateMap);
+
 
 
 	

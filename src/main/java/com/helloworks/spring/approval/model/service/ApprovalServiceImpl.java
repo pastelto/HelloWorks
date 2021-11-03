@@ -550,7 +550,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		
 	}
 
-
+	
 	@Override
 	public void returnStatus(int apNo) {
 		// TODO Auto-generated method stub
@@ -559,6 +559,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		if(result < 0) {
 			throw new CommException("결재 상태 update 실패");
 		}
+	}
+	
+	@Override
+	public void updateProgressDate(HashMap<String, Object> updateMap) {
+		int result = approvalDao.updateProgressDate(sqlSession, updateMap);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+		
 	}
 
 
@@ -637,6 +647,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return approvalDao.selectDateDetailTitleSigned(sqlSession, searchMap);
 	}
+
+
+	
 
 
 
