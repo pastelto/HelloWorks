@@ -193,21 +193,23 @@
 			</when>
 			<when test="termType == 2">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < SYSDATE + 7
+				AND DR_CREATE_DATE >= SYSDATE - 7 AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test=" termType == 3">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +1) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -1) AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 4">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +3) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -3)  AND DR_CREATE_DATE <= SYSDATE
 				]]>
 			</when>
 			<when test="termType == 5">
-				AND DR_CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+			<![CDATA[
+				AND TRUNC(DR_CREATE_DATE) BETWEEN #{startDate} AND #{endDate}
+				]]>
 			</when>
 		</choose>
 		AND DR_STATUS = 'SN'
@@ -235,21 +237,23 @@
 			</when>
 			<when test="termType == 2">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < SYSDATE + 7
+				AND DR_CREATE_DATE >= SYSDATE - 7 AND DR_CREATE_DATE <= SYSDATE
 				]]>
 			</when>
 			<when test="termType == 3">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +1) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -1) AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 4">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +3) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -3)  AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 5">
-				AND DR_CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+			<![CDATA[
+				AND TRUNC(DR_CREATE_DATE) BETWEEN #{startDate} AND #{endDate}
+				]]>
 			</when>
 		</choose>
 		AND A.DR_STATUS = 'SN'
