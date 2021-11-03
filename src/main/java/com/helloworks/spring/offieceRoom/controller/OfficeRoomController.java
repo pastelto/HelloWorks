@@ -25,15 +25,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
-import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.service.OfficeRoomService;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
+import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
-import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
 @Controller
 public class OfficeRoomController {
@@ -465,9 +464,7 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("commResourcesListType.or")
-	public String recvReportType(String resourcesType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
-		
-		
+	public String commResourcesListType(String resourcesType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
 		CommonResources commonResources = new CommonResources();
 		
@@ -519,14 +516,14 @@ public class OfficeRoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="commResourcesRelplyList.or", produces = "application/json; charset=utf-8")
-	public String relplyList(int crNo) {
+	public String commRelplyList(int crNo) {
 		ArrayList<CommonResourcesReply> list = officeRoomService.selectCommReplyList(crNo);
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); //형식적용하여 시간 출력
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="addCommResourcesReply.or", produces = "application/json; charset=utf-8")
-	public String addReply(CommonResourcesReply r) {
+	public String addCommReply(CommonResourcesReply r) {
 		
 		System.out.println("댓글: "+r);
 		
@@ -536,7 +533,7 @@ public class OfficeRoomController {
 	
 	@ResponseBody
 	@RequestMapping("deleteCommResourcesReply.or")
-	public String deleteReply(int crNo) {
+	public String deleteCommReply(int crNo) {
 		System.out.println("삭제 넘어오나요..?");
 		int result = officeRoomService.deleteCommReply(crNo);
 		
@@ -644,11 +641,71 @@ public class OfficeRoomController {
 		return "officeResources/deptResourcesList";
 	}
 	
+	@RequestMapping("deptResourcesListType.or")
+	public String deptResourcesListType(String resourcesType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		DeptResources deptResources = new DeptResources();
+		
+		deptResources.setDeptrCategory(resourcesType);
+
+		int listCount = officeRoomService.selectDeptResourcesCategoryTypeListCount(deptResources);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
+		
+		ArrayList<CommonResources> deptResourcesList = officeRoomService.selectDeptResourcesCategoryTypeList(deptResources, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("deptResourcesList", deptResourcesList);
+		model.addAttribute("pageURL", "deptResourcesListType.or");
+		
+		if(resourcesType.equals("공유")) {
+			model.addAttribute("checkS", "checked");
+		}else if(resourcesType.equals("문서")){
+			model.addAttribute("checkD", "checked");
+		}else if(resourcesType.equals("기타")) {
+			model.addAttribute("checkE", "checked");
+		}else {
+			model.addAttribute("checkTypeAll", "checked");
+		}
+		
+		model.addAttribute("resourcesType", resourcesType);
+		return "officeResources/deptResourcesList";
+	}
+	
+	
 	@RequestMapping("deptResourcesDetail.or")
 	public String deptResourcesDetail() {
 		
 		return "officeResources/deptResourcesDetail";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="deptResourcesRelplyList.or", produces = "application/json; charset=utf-8")
+	public String deptRelplyList(int drNo) {
+		ArrayList<CommonResourcesReply> list = officeRoomService.selectCommReplyList(crNo);
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); //형식적용하여 시간 출력
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="addDeptResourcesReply.or", produces = "application/json; charset=utf-8")
+	public String addDeptReply(DeptResourcesReply r) {
+		
+		System.out.println("댓글: "+r);
+		
+		int result = officeRoomService.addDeptCommReply(r);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCommResourcesReply.or")
+	public String deleteDeptReply(int drNo) {
+		System.out.println("삭제 넘어오나요..?");
+		int result = officeRoomService.deleteDeptReply(drNo);
+		
+		return String.valueOf(result);
+	}
+	
 	
 	@RequestMapping("deptResourcesEnroll.or")
 	public String deptResourcesEnroll(HttpServletRequest request, Model model) {

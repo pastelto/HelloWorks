@@ -170,7 +170,7 @@
 														<td>${commResourcesList.writerJobName }</td>
 														<td>${commResourcesList.writerDeptDName }</td>
 														<c:if test="${commResourcesList.crAttach == 'Y' }">
-															<td><i class="bi bi-envelope"></i></td>
+															<td><i class="bi bi-paperclip"></i></td>
 														</c:if>
 														<c:if test="${commResourcesList.crAttach == 'N' }">
 															<td></td>

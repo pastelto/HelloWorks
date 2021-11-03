@@ -11,10 +11,29 @@
 	.content-wrapper{
 		overflow:auto;
 	}
+	#deptResourcesTable>thead{
+		border-bottom: 1px solid #DAE1E7;
+	}
+	#deptResourcesTable>thead>tr>th	{
+		background-color: #DAE1E7;
+		width: 10%;
+		text-align: center !important;
+	}
 	#deptResourcesTable>tbody>tr>th	{
 		background-color: #DAE1E7;
 		width: 10%;
 		text-align: center !important;
+	}
+	#sharingType{
+		background: #00909E;
+		color: white;
+	}
+	#documentType{	
+		background: #27496D;
+		color: white;
+	}
+	#etcType{
+		background: #DAE1E7;
 	}
 </style>
 </head>
@@ -56,11 +75,28 @@
 								<div class="card" style="margin-bottom: 0px;">
 										
 										<table id="deptResourcesTable" >
+											<thead>
+												<tr>
+													<th>보고 유형</th>
+													<td>
+													<div class="mt-1 mb-1" style="margin-left: 0px;">
+														&nbsp;
+														<input type="radio" name="resourcesType" value="allType" ${ checkTypeAll }> 전체
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="공유" ${ checkS }> 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="문서" ${ checkD }> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="기타" ${ checkE }> 기타
+													</div>
+													</td>
+												</tr>
 											
+											</thead>
 												<tr>
 													<th>검색</th>
 													<td>
-													<form id="searchDailyReport">
+													<form id="deptResourcesSearch">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allDailyReport" type="button" class="btn btn-default btn-sm" onclick="location.href='recvReport.dr'">전체검색</button>
@@ -116,19 +152,29 @@
 												<c:forEach items="${deptResourcesList }" var="deptResourcesList" varStatus="status">
 													<tr>
 														<td>${status.index+1}</td>
-														<td>${deptResourcesList.deptrCategory }</td>
+														<td>
+															<c:if test="${ deptResourcesList.deptrCategory == '공유' }">
+																<span class="badge" id="sharingType">공유</span>
+															</c:if>
+															<c:if test="${ deptResourcesList.deptrCategory == '문서' }">
+																<span class="badge" id="documentType">문서</span>
+															</c:if>
+															<c:if test="${ deptResourcesList.deptrCategory == '기타' }">
+																<span class="badge" id="etcType">기타</span>
+															</c:if>
+														</td>
 														<td>${deptResourcesList.deptrTitle }</td>
 														<td>${deptResourcesList.writerName }</td>
 														<td>${deptResourcesList.writerJobName }</td>
 														<td>${deptResourcesList.writerDeptDName }</td>
 														<c:if test="${deptResourcesList.deptrAttach == 'Y' }">
-															<td><i class="bi bi-envelope"></i></td>
+															<td><i class="bi bi-paperclip"></i></td>
 														</c:if>
 														<c:if test="${deptResourcesList.deptrAttach == 'N' }">
 															<td></td>
 														</c:if>
 														<td>${deptResourcesList.deptrCount }</td>
-														<td>작성일 컬럼을 안 넣었다..</td>
+														<td><fmt:formatDate value="${deptResourcesList.deptrCreateDate }" pattern="yyyy/MM/dd HH:mm"/></td>
 													</tr>
 												</c:forEach>													
 											</tbody>
@@ -136,11 +182,13 @@
 									</div>
 								</div>
 								
-								<div id="pagingArea">
-						                <ul class="pagination">
+								<div class="row">
+									<div class="col-10">
+										<div id="pagingArea">
+						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -150,7 +198,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -161,7 +209,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -169,6 +217,11 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
+									</div>
+									<div class="col-2"  align='right'>
+										<button onclick="insertResource();" class="btn btn-sm btn-primary" type="button">글쓰기</button>&nbsp;
+									</div>
+								</div>
 						            
 
 
@@ -187,5 +240,33 @@
 	
 	<jsp:include page="../common/footer.jsp" />	
 
+	<!-- 디테일 페이지 전환 -->
+	<script>
+		function detail(deptrNo){
+			location.href="<%= request.getContextPath()%>/deptResourcesDetail.or?deptrNo="+deptrNo;
+		}
+	
+	</script>
+	
+	<!-- 유형 선택 검사 -->
+	<script>
+		$("input:radio[name='resourcesType']").click(function(){
+	        
+			var type = $("input:radio[name=resourcesType]:checked").val();
+			
+		    if(type=="allType"){
+		    	location.href="<%=request.getContextPath()%>/deptResourcesList.or";
+		    }else{
+		    	location.href="<%=request.getContextPath()%>/commResourcesListType.or?resourcesType="+type;
+		    }
+		});
+	</script>
+	
+	<!-- 글쓰기 -->
+	<script>
+		function insertResource(){
+			location.href="<%=request.getContextPath()%>/commResourcesEnroll.or";
+		}
+	</script>
 </body>
 </html>
