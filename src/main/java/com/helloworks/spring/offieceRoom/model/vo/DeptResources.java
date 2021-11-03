@@ -1,5 +1,7 @@
 package com.helloworks.spring.offieceRoom.model.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class DeptResources {
 	private String deptrCategory;	//	DEPTR_CATEGORY	VARCHAR2(6 BYTE)
 	private String deptrTitle;		//	DEPTR_TITLE	VARCHAR2(500 BYTE)
 	private String deptrContent;	//	DEPTR_CONTENT	VARCHAR2(4000 BYTE)
+	private Date deptrCreateDate;	//	DEPTR_CREATE_DATE	DATE
 	private int deptrCount;			//	DEPTR_COUNT	NUMBER
 	private String deptrAttach;		//	DEPTR_ATTACH	VARCHAR2(1 BYTE)
 	private String deptrStatus;		//	DEPTR_STATUS	VARCHAR2(1 BYTE)
