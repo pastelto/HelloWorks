@@ -52,6 +52,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		return scheduleDao.getMyCalender(sqlSession, getMyCalender);
 	}
+	
+	// 본부/부서별 일정 가져오기
+	@Override
+	public List<ManageSchedule> getDeptSchedule(int cal_no) throws Exception {
+		
+		return scheduleDao.getDeptSchedule(sqlSession, cal_no);
+	}
 
 	
 	

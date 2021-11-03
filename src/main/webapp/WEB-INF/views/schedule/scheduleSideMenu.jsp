@@ -10,6 +10,8 @@
 <script src="../plugins/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="./resources/plugins/datepicker/jquery-ui.css">
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 <style>
 	.ui-datepicker-header{
 		background-color : #27496D !important;
@@ -50,20 +52,20 @@
 		    <!-- 전체 -->
 		    <div class="card card-info card-outline">
               <div class="card-header">
-              <h3 class="card-title form-check-label" for="selectAllCB">
+              <label class="card-title form-check-label" for="selectAllCB">
               &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input" name="selectAllCB" checked>
-                	전체 캘린더</h3>
+              <input type="checkbox" class="form-check-input filter" id="selectAllCB" name="selectAllCB" checked>
+                	전체 캘린더</label>
        		  </div>
        		</div>
 		 	
 		 	<!-- 사내 -->
             <div class="card card-info card-outline">
               <div class="card-header pl-3">
-               <h3 class="card-title"> 
+               <label class="card-title form-check-label"> 
                &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="form-check-input" name="selectDept" checked>
-              	사내 캘린더</h3>
+                <input type="checkbox" class="form-check-input filter" id="selectDept" name="selectDept" checked>
+              	사내 캘린더</label>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -75,18 +77,18 @@
               <div class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
                   <li class="nav-item pl-3">
-                    <a class="nav-link" href="vacationForm.ps">
-                    <input type="checkbox" class="form-check-input" name="selectCompanyCal" checked> 
+                    <a class="nav-link">
+                    <input type="checkbox" class="form-check-input filter" id="selectCompanyCal" name="selectCompanyCal" checked> 
                     <label class="form-check-label" for="selectCompanyCal">&nbsp;전체 일정</label></a>
                   </li>
                   <li class="nav-item pl-3">
-                    <a class="nav-link" href="vacationForm.ps">
-                    <input type="checkbox" class="form-check-input" name="selectDeptUname" checked> 
+                    <a class="nav-link">
+                    <input type="checkbox" class="form-check-input filter" id="selectDeptUname" name="selectDeptUname" checked> 
                     <label class="form-check-label" for="selectDeptUname">&nbsp;${loginUser.deptUname }</label></a>
                   </li>
                   <li class="nav-item pl-3">
-                    <a class="nav-link" href="vacationForm.ps">
-                    <input type="checkbox" class="form-check-input" name="selectDeptDname" checked> 
+                    <a class="nav-link">
+                    <input type="checkbox" class="form-check-input filter" id="selectDeptDname" name="selectDeptDname" checked> 
                     <label class="form-check-label" for="selectDeptDname">&nbsp;${loginUser.deptDname }</label></a>
                   </li>
 
@@ -98,10 +100,10 @@
 		<div id="myCal">
             <div class="card card-info card-outline">
               <div class="card-header">
-               <h3 class="card-title form-check-label" for="selectMine">
+               <label class="card-title form-check-label" for="selectMine">
                &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input" name="selectMine" checked>
-               	내 캘린더</h3>
+              <input type="checkbox" class="form-check-input filter" name="selectMine" checked>
+               	내 캘린더</label>
        		  </div>
        		</div>
         </div>
@@ -175,6 +177,27 @@
 		}
 	});
 	
+	$('#selectCompanyCal').click(function(){
+		if(!($('input[name="selectCompanyCal"]')).prop("checked")){
+			$('input[name="selectAllCB"]').prop("checked", false);
+			$('input[name="selectDept"]').prop("checked", false);
+		} 
+	});
+	
+	$('#selectDeptUname').click(function(){
+		if(!($('input[name="selectDeptUname"]')).prop("checked")){
+			$('input[name="selectAllCB"]').prop("checked", false);
+			$('input[name="selectDept"]').prop("checked", false);
+		} 
+	});
+	
+	$('#selectDeptDname').click(function(){
+		if(!($('input[name="selectDeptDname"]')).prop("checked")){
+			$('input[name="selectAllCB"]').prop("checked", false);
+			$('input[name="selectDept"]').prop("checked", false);
+		} 
+	});
+	
 	// 사내 캘린더 하나 선택시 전체 캘린더 체크박스 false로 주기
 	
 	$('input[name="selectMine"]').click(function(){
@@ -183,6 +206,9 @@
 			$('input[name="selectAllCB"]').prop("checked", false);
 		}
 	});
+	
 </script>
+
+
 </body>
 </html>

@@ -80,9 +80,46 @@
           eventClick: function(info) { // 일정 클릭시 
       	    alert('일정 클릭!' + info);
           },
-        	  eventSources: [ { // 이벤트 전체
-					
-        		    // 전체 캘린더 (회사 전체 / 본부 / 부서 / 내 캘린더)
+          eventDidMount: function(info) {
+              
+          },
+          eventSources: [ 
+        	  		//if()
+        		  { // 전체 캘린더
+          		    events:function(info, successCallBack, failureCallback) {
+          		    	
+          		    	$.ajax({
+          		    	url: 'getAllCalender.cal',
+           		        type: 'POST',
+           		        data: {
+           		        	cal_name: '전체'
+           		        },
+           		        dataType: "json",
+           		        success: function(allCalList){
+           		        	
+           		        	var events = []; 
+           		        	
+           		        	 $.each(allCalList, function(i, obj){	
+           		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
+           		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
+           		        		
+           		        		events.push({
+           		        			 id: obj.shc_no,
+           		        			 title: obj.sch_title,
+           		        			 start: startDate,
+           		        			 end: endDate,
+           		        			 allDay: obj.sch_allday,
+           		        			 color: obj.sch_color,   // a non-ajax option
+           	         		         textColor: 'white'
+           		        		});
+           		        	}); 
+           		        successCallBack(events);
+           		       } 
+          		      });
+          		    }
+          		   },
+        		  
+        		  { // 내 캘린더
         		    events:function(info, successCallBack, failureCallback) {
         		    	
         		    	$.ajax({
@@ -97,20 +134,11 @@
          		        	var events = []; 
          		        	
          		        	 $.each(myCalList, function(i, obj){	
-         		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD');
-         		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD');
-         		        		
-         		        		console.log("3 : " + obj.shc_no);
-         		        		console.log("4 : " + startDate);
-         		        		console.log("5 : " + endDate);
-         		        		console.log("6 : " + obj.sch_title);
-         		        		console.log("7 : " + obj.sch_startdate);
-         		        		console.log("8 : " + obj.sch_endate);
-         		        		console.log("9 : " + obj.sch_allday);
-         		        		console.log("10 : " + obj.sch_color);
+         		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
+         		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
          		        		
          		        		events.push({
-         		        			// id: obj.shc_no,
+         		        			 id: obj.shc_no,
          		        			 title: obj.sch_title,
          		        			 start: startDate,
          		        			 end: endDate,
@@ -119,27 +147,86 @@
          	         		         textColor: 'white'
          		        		});
          		        	}); 
-         		       
-         		        	// alert()
-         		        },
-         		        error: function() {
-         		          console.log('내 일정 조회 실패');
-         		        } 
+         		        successCallBack(events);
+         		       } 
         		      });
         		    }
-        		    }
-        		  ]
-        });
+        		   },
+        		   
+       		    { // 본부 캘린더 조회
+        	  		events:function(info, successCallBack, failureCallback) {
+
+    		    	$.ajax({
+    		    	url: 'getUDeptCal.cal',
+     		        type: 'POST',
+     		        data: {
+     		        	cal_name: '${loginUser.deptUname}'
+     		        },
+     		        dataType: "json",
+     		        success: function(uDeptList){
+     		        	
+     		        	var events = []; 
+     		        	
+     		        	 $.each(uDeptList, function(i, obj){	
+     		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
+     		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
+     		        		
+     		        		events.push({
+     		        			 id: obj.shc_no,
+     		        			 title: obj.sch_title,
+     		        			 start: startDate,
+     		        			 end: endDate,
+     		        			 allDay: obj.sch_allday,
+     		        			 color: obj.sch_color,   // a non-ajax option
+     	         		         textColor: 'white'
+     		        		});
+     		        	}); 
+     		        successCallBack(events);
+     		       } 
+    		      });
+    		    }
+    		   },
+    		   
+   		    { // 부서별 캘린더 조회
+    	  		events:function(info, successCallBack, failureCallback) {
+		    	
+		    	$.ajax({
+		    	url: 'getDDeptCal.cal',
+ 		        type: 'POST',
+ 		        data: {
+ 		        	cal_name: '${loginUser.deptDname}'
+ 		        },
+ 		        dataType: "json",
+ 		        success: function(dDeptList){
+ 		        	
+ 		        	var events = []; 
+ 		        	
+ 		        	 $.each(dDeptList, function(i, obj){	
+ 		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
+ 		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
+ 		        		
+ 		        		events.push({
+ 		        			 id: obj.shc_no,
+ 		        			 title: obj.sch_title,
+ 		        			 start: startDate,
+ 		        			 end: endDate,
+ 		        			 allDay: obj.sch_allday,
+ 		        			 color: obj.sch_color,   // a non-ajax option
+ 	         		         textColor: 'white'
+ 		        		});
+ 		        	}); 
+ 		        successCallBack(events);
+ 		       } 
+		      });
+		    }
+		   }]
+       	});
+        		  
         calendar.render();
       });
 
 </script>
 
-
-<script>
-<!-- 내 캘린더 조회 -->
-	
-</script>
 
 <!-- 캘린더 관련 함수 메소드 -->
 <script>

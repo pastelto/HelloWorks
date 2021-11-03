@@ -79,8 +79,9 @@
 												<td style="width: 35%;">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
-													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd " /></c:set> 
 													<c:out value="${sysdate}" />
+													<span id="nowTimes"></span>
 												 </td>
 											</tr>
 											<tr>
@@ -215,6 +216,37 @@
 		
 	} 
 	
+	</script>
+	
+		<!-- 시간 출력 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    // 시간을 딜레이 없이 나타내기위한 선 실행
+		    realTimer();
+		    // 이후 0.5초에 한번씩 시간을 갱신한다.
+		    setInterval(realTimer, 100);
+		});
+		
+		// 시간을 출력
+		function realTimer() {
+		
+		   const nowDate = new Date();
+		   const year = nowDate.getFullYear();
+		   const month= nowDate.getMonth() + 1;
+		   const date = nowDate.getDate();
+		   const hour = nowDate.getHours();
+		   const min = nowDate.getMinutes();
+		   const sec = nowDate.getSeconds();
+		   document.getElementById("nowTimes").innerHTML = 
+		              hour + ": " + addzero(min) + ": " + addzero(sec);
+		}
+		
+		// 1자리수의 숫자인 경우 앞에 0을 붙여준다.
+		function addzero(num) {
+		   if(num < 10) { num = "0" + num; }
+		   return num;
+		
+		}
 	</script>
 	
 	<!-- 주소록 -->
