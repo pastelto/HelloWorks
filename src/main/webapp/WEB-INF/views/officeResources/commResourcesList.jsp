@@ -13,10 +13,29 @@
 	.content-wrapper{
 		overflow:auto;
 	}
+	#commResourcesTable>thead{
+		border-bottom: 1px solid #DAE1E7;
+	}
+	#commResourcesTable>thead>tr>th	{
+		background-color: #DAE1E7;
+		width: 10%;
+		text-align: center !important;
+	}
 	#commResourcesTable>tbody>tr>th	{
 		background-color: #DAE1E7;
 		width: 10%;
 		text-align: center !important;
+	}
+	#sharingType{
+		background: #00909E;
+		color: white;
+	}
+	#documentType{	
+		background: #27496D;
+		color: white;
+	}
+	#etcType{
+		background: #DAE1E7;
 	}
 </style>
 </head>
@@ -58,7 +77,24 @@
 								<div class="card" style="margin-bottom: 0px;">
 										
 										<table id="commResourcesTable" >
+											<thead>
+												<tr>
+													<th>보고 유형</th>
+													<td>
+													<div class="mt-1 mb-1" style="margin-left: 0px;">
+														&nbsp;
+														<input type="radio" name="resourcesType" value="allType" ${ checkTypeAll }> 전체
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="공유" ${ checkS }> 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="문서" ${ checkD }> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" name="resourcesType" value="기타" ${ checkE }> 기타
+													</div>
+													</td>
+												</tr>
 											
+											</thead>	
 												<tr>
 													<th>검색</th>
 													<td>
@@ -99,7 +135,7 @@
 								<hr>
 								
 								<div class="row">
-									<div class="col-12" style="height: 450px">
+									<div class="col-12" style="height: 510px; overflow: auto">
 										<table class="table table-sm text-center table-hover">
 											<thead>
 												<tr>
@@ -116,9 +152,19 @@
 											</thead>
 											<tbody>
 												<c:forEach items="${commResourcesList }" var="commResourcesList" varStatus="status">
-													<tr>
+													<tr onclick="detail(${commResourcesList.crNo });">
 														<td>${status.index+1}</td>
-														<td>${commResourcesList.crCategory }</td>
+														<td>
+															<c:if test="${ commResourcesList.crCategory == '공유' }">
+																<span class="badge" id="sharingType">공유</span>
+															</c:if>
+															<c:if test="${ commResourcesList.crCategory == '문서' }">
+																<span class="badge" id="documentType">문서</span>
+															</c:if>
+															<c:if test="${ commResourcesList.crCategory == '기타' }">
+																<span class="badge" id="etcType">기타</span>
+															</c:if>
+														</td>
 														<td>${commResourcesList.crTitle }</td>
 														<td>${commResourcesList.writerName }</td>
 														<td>${commResourcesList.writerJobName }</td>
@@ -130,7 +176,7 @@
 															<td></td>
 														</c:if>
 														<td>${commResourcesList.crCount }</td>
-														<td>작성일 컬럼을 안 넣었다..</td>
+														<td><fmt:formatDate value="${commResourcesList.crCreateDate }" pattern="yyyy/MM/dd HH:mm"/></td>
 														
 													</tr>
 												</c:forEach>												
@@ -139,11 +185,13 @@
 									</div>
 								</div>
 								
-								<div id="pagingArea">
-						                <ul class="pagination">
+								<div class="row">
+									<div class="col-10">
+										<div id="pagingArea">
+						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -153,7 +201,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -164,7 +212,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -172,6 +220,14 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
+									</div>
+									<div class="col-2"  align='right'>
+										<c:if test="${ loginUser.deptCode == 'A1' or loginUser.deptCode == 'A2' or loginUser.deptCode == 'A3' or loginUser.jobCode == 'J1' or loginUser.jobCode == 'J2' or loginUser.jobCode == 'J3'}">
+											<button onclick="insertResource();" class="btn btn-sm btn-primary" type="button">글쓰기</button>&nbsp;
+										</c:if>
+									</div>
+								</div>
+								
 						            
 
 
@@ -189,5 +245,33 @@
 	
 	<jsp:include page="../common/footer.jsp" />	
 
+	<!-- 디테일 페이지 전환 -->
+	<script>
+		function detail(crNo){
+			location.href="<%= request.getContextPath()%>/commResourcesDetail.or?crNo="+crNo;
+		}
+	
+	</script>
+	
+	<!-- 유형 선택 검사 -->
+	<script>
+		$("input:radio[name='resourcesType']").click(function(){
+	        
+			var type = $("input:radio[name=resourcesType]:checked").val();
+			
+		    if(type=="allType"){
+		    	location.href="<%=request.getContextPath()%>/commResourcesList.or";
+		    }else{
+		    	location.href="<%=request.getContextPath()%>/commResourcesListType.or?resourcesType="+type;
+		    }
+		});
+	</script>
+	
+	<!-- 글쓰기 -->
+	<script>
+		function insertResource(){
+			location.href="<%=request.getContextPath()%>/commResourcesEnroll.or";
+		}
+	</script>
 </body>
 </html>

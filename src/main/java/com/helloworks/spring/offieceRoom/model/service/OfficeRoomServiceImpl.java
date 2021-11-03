@@ -13,6 +13,8 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.dao.OfficeRoomDao;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
@@ -93,6 +95,77 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	public ArrayList<DeptResources> selectDeptResourcesList(String deptCode, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return officeRoomDao.selectDeptResourcesList(sqlSession, deptCode, pi);
+	}
+
+
+	@Override
+	public CommonResources selectCommonResources(int crNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommonResources(sqlSession, crNo);
+	}
+
+
+	@Override
+	public void increaseCount(int crNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.increaseCount(sqlSession, crNo);
+		
+		if(result < 0) {
+			throw new CommException("조회수 증가 실패");
+		}
+	}
+
+
+	@Override
+	public ArrayList<CommonResourcesAttachment> selectCommonResourcesAttachMent(int crNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommonResourcesAttachMent(sqlSession, crNo);
+	}
+
+
+	@Override
+	public ArrayList<CommonResourcesReply> selectCommReplyList(int crNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommReplyList(sqlSession, crNo);
+	}
+
+
+	@Override
+	public int addCommReply(CommonResourcesReply r) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.addCommReply(sqlSession, r);
+		
+		if(result < 0) {
+			throw new CommException("조회수 증가 실패");
+		}
+		return result;
+	}
+
+
+	@Override
+	public int deleteCommReply(int crNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.deleteCommReply(sqlSession, crNo);
+		
+		if(result < 0) {
+			throw new CommException("조회수 증가 실패");
+		}
+		return result;
+	}
+
+
+	@Override
+	public int selectCommonResourcesCategoryTypeListCount(CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommonResourcesCategoryTypeListCount(sqlSession, commonResources);
+	}
+
+
+	@Override
+	public ArrayList<CommonResources> selectCommonResourcesCategoryTypeList(CommonResources commonResources,
+			PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommonResourcesCategoryTypeList(sqlSession, commonResources, pi);
 	}
 
 

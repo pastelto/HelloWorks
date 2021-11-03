@@ -31,6 +31,7 @@
 		<result property="crCategory" column="CR_CATEGORY"/>
 		<result property="crTitle" column="CR_TITLE"/>
 		<result property="crContent" column="CR_CONTENT"/>
+		<result property="crCreateDate" column="CR_CREATE_DATE"/>
 		<result property="crCount" column="CR_COUNT"/>
 		<result property="crAttach" column="CR_ATTACH"/>
 		<result property="crStatus" column="CR_STATUS"/>
@@ -47,6 +48,7 @@
 		<result property="deptrCategory" column="DEPTR_CATEGORY"/>
 		<result property="deptrTitle" column="DEPTR_TITLE"/>
 		<result property="deptrContent" column="DEPTR_CONTENT"/>
+		<result property="deptrCreateDate" column="DEPTR_CREATE_DATE"/>
 		<result property="deptrCount" column="DEPTR_COUNT"/>
 		<result property="deptrAttach" column="DEPTR_ATTACH"/>
 		<result property="deptrStatus" column="DEPTR_STATUS"/>
@@ -55,7 +57,29 @@
 		<result property="writerDeptUName" column="DEPT_UNAME"/>
 		<result property="writerDeptDName" column="DEPT_DNAME"/>
 	</resultMap>
-  
+	
+	<resultMap id="commonResourcesReplyResultSet" type="CommonResourcesReply">
+		<id property="crRepNo" column="CR_REP_NO"/>
+		<result property="crNo" column="CR_NO"/>
+		<result property="crRepCode" column="CR_REP_CODE"/>
+		<result property="crRepWriterNo" column="CR_REP_WRITER_NO"/>
+		<result property="crRepReceiverNo" column="CR_REP_RECEIVER_NO"/>
+		<result property="crRepContent" column="CR_REP_CONTENT"/>
+		<result property="crRepCreateDate" column="CR_REP_CREATE_DATE"/>
+		<result property="crRepStatus" column="CR_REP_STATUS"/>
+		<result property="writerName" column="EMP_NAME"/>
+		<result property="writerJobName" column="JOB_NAME"/>
+		<result property="writerDeptDName" column="DEPT_DNAME"/>
+	</resultMap>
+	
+  	<resultMap id="commonResourcesAttachResultSet" type="CommonResourcesAttachment">
+		<id property="crAttachNo" column="CR_ATTACH_NO"/>
+		<result property="crNo" column="CR_NO"/>
+		<result property="crAttachOrigin" column="CR_ATTACH_ORIGIN"/>
+		<result property="crAttachChange" column="CR_ATTACH_CHANGE"/>
+		<result property="crAttachStatus" column="CR_ATTACH_STATUS"/>
+	</resultMap>
+	
   	<select id="selectAllEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -215,6 +239,7 @@
 		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
 		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
 		WHERE A.CR_STATUS = 'Y'
+		ORDER BY 1 DESC
 	</select>
 	
 	<select id="selectDeptResourcesListCount" parameterType="String" resultType="_int">
@@ -232,5 +257,69 @@
 		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
 		WHERE A.DEPTR_STATUS = 'Y'
 		AND A.DEPT_CODE = #{deptCode}
+		ORDER BY 1 DESC
 	</select>
+	
+	<select id="selectCommonResources" parameterType="_int" resultMap="commonResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM COMMON_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_STATUS = 'Y'
+		AND A.CR_NO = #{crNo}
+	</select>
+	
+	<select id="increaseCount" parameterType="_int">
+		UPDATE COMMON_RESOURCES
+		SET CR_COUNT = CR_COUNT+1
+		WHERE CR_NO = #{crNo}
+	</select>
+	
+	<select id="selectCommonResourcesAttachMent" parameterType="_int" resultMap="commonResourcesAttachResultSet">
+		SELECT *
+		FROM COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_NO = #{crNo}
+		AND CR_ATTACH_STATUS = 'Y'
+	</select>
+	
+	<select id="selectCommReplyList" parameterType="_int" resultMap="commonResourcesReplyResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM COMMON_RESOURCES_REPLY A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_REP_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_NO = #{crNo}
+		ORDER BY 1
+	</select>
+	
+	<insert id="addCommReply" parameterType="CommonResourcesReply">
+		INSERT INTO COMMON_RESOURCES_REPLY
+		VALUES(SEQ_CR_REP_NO.NEXTVAL, #{crNo}, DEFAULT, #{crRepWriterNo}, NULL, #{crRepContent}, DEFAULT, DEFAULT )
+	</insert>
+	
+	<update id="deleteCommReply" parameterType="_int">
+		UPDATE COMMON_RESOURCES_REPLY
+		SET CR_REP_STATUS = 'N'
+		WHERE CR_REP_NO = #{crNo}
+	</update>
+	
+	<select id="selectCommonResourcesCategoryTypeListCount" parameterType="CommonResources" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMON_RESOURCES
+		WHERE CR_STATUS = 'Y'
+		AND CR_CATEGORY = #{ crCategory }
+	</select>	
+	
+	<select id="selectCommonResourcesCategoryTypeList" parameterType="CommonResources" resultMap="commonResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM COMMON_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_STATUS = 'Y'
+		AND A.CR_CATEGORY = #{ crCategory }
+		ORDER BY 1 DESC
+	</select>
+	
 </mapper>

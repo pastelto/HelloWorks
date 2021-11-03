@@ -36,9 +36,9 @@
 	#replyArea{
 		text-align: center;
 	}
-	#nameTd{
+	/* #nameTd{
 		background: #DAE1E7;
-	}
+	} */
 </style>
 </head>
 <body>
@@ -61,7 +61,7 @@
 		<section class="content">
 			
 			
-					<div class="row">
+			<div class="row">
 				<div class="col-12">
 					<div class="card card-outline card-info">
 
@@ -322,17 +322,17 @@
 						 
 					if("${loginUserNo}" == obj.drRepWriterNo &&  obj.drRepCode == "NEW" && obj.drRepStatus=="Y"){
 						value += "<tr id='"+obj.drRepReRefNo+"' >"+
-									"<td id='nameTd' style='width: 10%;'>" + obj.drRepWriterName+" "+obj.drRepWriterJobName + "</td>" + 
-									"<td colspan='2'>" + obj.drRepContent + "</td>" + 
-									"<td style='width: 15%;'>" + obj.drRepCreateDate + "</td>" + 
-									"<td style='width: 10%;'>" + "<button class='btn btn-sm btn-primary' onclick='deleteReply("+ obj.drRefNo +");'>삭제하기</button>" + "</td>" +
+									"<td id='nameTd' style='width: 10%; color: blue;'><b>[ " + obj.drRepWriterName+" "+obj.drRepWriterJobName + " ]</b></td>" + 
+									"<td>" + obj.drRepContent + "</td>" + 
+									"<td style='width: 10%;'><small>" + obj.drRepCreateDate + "</small></td>" + 
+									"<td style='width: 5%;' align='right'>" + "<button class='btn btn-sm btn-primary' onclick='deleteReply("+ obj.drRefNo +");'>삭제하기</button>" + "</td>" +
 								 "</tr>";
 					}else if(obj.drRepCode == "NEW" && obj.drRepStatus=="Y"){
 						value += "<tr id='"+obj.drRepReRefNo+"'>"+
-									"<td id='nameTd' style='width: 10%;'>" + obj.drRepWriterName+" "+obj.drRepWriterJobName + "</td>" + 
-									"<td colspan='2'>" + obj.drRepContent + "</td>" + 
-									"<td style='width: 15%;'>" + obj.drRepCreateDate + "</td>" + 
-									"<td style='width: 10%;'>" + "<button class='btn btn-sm btn-primary' disabled>삭제하기</button>"+ "</td>" +
+									"<td id='nameTd' style='width: 10%;'><b>[ " + obj.drRepWriterName+" "+obj.drRepWriterJobName + " ]</b></td>" + 
+									"<td>" + obj.drRepContent + "</td>" + 
+									"<td style='width: 10%;'><small>" + obj.drRepCreateDate + "</small></td>" + 
+									"<td style='width: 5%;' align='right'>" + "<button class='btn btn-sm btn-primary' disabled>삭제하기</button>"+ "</td>" +
 								 "</tr>";
 					}else if(obj.drRepCode == "NEW" && obj.drRepStatus=="N"){
 						value += "<tr style='background:#F6F6F6'>"+

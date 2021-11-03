@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
+import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.service.OfficeRoomService;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
+import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
@@ -438,7 +441,7 @@ public class OfficeRoomController {
 	public String commResourcesList(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
 		
 		int listCount = officeRoomService.selectCommResourcesListCount();
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
 		
 		ArrayList<CommonResources> commResourcesList = officeRoomService.selectCommResourcesList(pi);
 		
@@ -447,18 +450,95 @@ public class OfficeRoomController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("commResourcesList", commResourcesList);
 		model.addAttribute("pageURL", "commResourcesList.or");
+		model.addAttribute("checkTypeAll", "checked");
+		model.addAttribute("resourcesType", "allType");
+		
 		return "officeResources/commResourcesList";
 	}
 	
+	@RequestMapping("commResourcesListType.or")
+	public String recvReportType(String resourcesType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		
+		
+		CommonResources commonResources = new CommonResources();
+		
+		commonResources.setCrCategory(resourcesType);
+
+		int listCount = officeRoomService.selectCommonResourcesCategoryTypeListCount(commonResources);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
+		
+		ArrayList<CommonResources> commResourcesList = officeRoomService.selectCommonResourcesCategoryTypeList(commonResources, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("commResourcesList", commResourcesList);
+		model.addAttribute("pageURL", "commResourcesListType.or");
+		
+		if(resourcesType.equals("공유")) {
+			model.addAttribute("checkS", "checked");
+		}else if(resourcesType.equals("문서")){
+			model.addAttribute("checkD", "checked");
+		}else if(resourcesType.equals("기타")) {
+			model.addAttribute("checkE", "checked");
+		}else {
+			model.addAttribute("checkTypeAll", "checked");
+		}
+		
+		model.addAttribute("resourcesType", resourcesType);
+		return "officeResources/commResourcesList";
+	}
+	
+	
 	@RequestMapping("commResourcesDetail.or")
-	public String commResourcesDetail() {
+	public String commResourcesDetail(int crNo, HttpServletRequest request, Model model) {
+		System.out.println("공통 자료실 detail"+crNo);
+		
+		officeRoomService.increaseCount(crNo);
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
+		
+		ArrayList<CommonResourcesAttachment> commonResourcesAttch = officeRoomService.selectCommonResourcesAttachMent(crNo); 
+		
+		System.out.println("자료실 첨부파일:"+commonResourcesAttch);
+		model.addAttribute("commonResources", commonResources);
+		model.addAttribute("commonResourcesAttch", commonResourcesAttch);
+		model.addAttribute("loginUserNo", loginUserNo);
 		
 		return "officeResources/commResourcesDetail";
 	}	
 	
-	@RequestMapping("commResourcesEnroll.or")
-	public String commResourcesEnroll() {
+	@ResponseBody
+	@RequestMapping(value="commResourcesRelplyList.or", produces = "application/json; charset=utf-8")
+	public String relplyList(int crNo) {
+		ArrayList<CommonResourcesReply> list = officeRoomService.selectCommReplyList(crNo);
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list); //형식적용하여 시간 출력
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="addCommResourcesReply.or", produces = "application/json; charset=utf-8")
+	public String addReply(CommonResourcesReply r) {
 		
+		System.out.println("댓글: "+r);
+		
+		int result = officeRoomService.addCommReply(r);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCommResourcesReply.or")
+	public String deleteReply(int crNo) {
+		System.out.println("삭제 넘어오나요..?");
+		int result = officeRoomService.deleteCommReply(crNo);
+		
+		return String.valueOf(result);
+	}
+	
+	@RequestMapping("commResourcesEnroll.or")
+	public String commResourcesEnroll(HttpServletRequest request, Model model) {
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		model.addAttribute("loginUser", loginUser);
 		return "officeResources/commResourcesEnroll";
 	}
 	
@@ -482,7 +562,7 @@ public class OfficeRoomController {
 		
 		int listCount = officeRoomService.selectDeptResourcesListCount(loginUser.getDeptCode());
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
 		
 		ArrayList<DeptResources> deptResourcesList = officeRoomService.selectDeptResourcesList(loginUser.getDeptCode(), pi);
 		
@@ -491,6 +571,8 @@ public class OfficeRoomController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("deptResourcesList", deptResourcesList);
 		model.addAttribute("pageURL", "deptResourcesList.or");
+		model.addAttribute("checkTypeAll", "checked");
+		model.addAttribute("resourcesType", "allType");
 		
 		return "officeResources/deptResourcesList";
 	}
@@ -502,8 +584,9 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("deptResourcesEnroll.or")
-	public String deptResourcesEnroll() {
-		
+	public String deptResourcesEnroll(HttpServletRequest request, Model model) {
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		model.addAttribute("loginUser", loginUser);
 		return "officeResources/deptResourcesEnroll";
 	}
 	
