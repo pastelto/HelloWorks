@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 <style>
 	.content-wrapper{
 		overflow:auto;
@@ -99,10 +100,10 @@
 													<form id="deptResourcesSearch">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<button id="allDailyReport" type="button" class="btn btn-default btn-sm" onclick="location.href='recvReport.dr'">전체검색</button>
+														<button id="allDeptResources" type="button" class="btn btn-default btn-sm" onclick="location.href='deptResourcesList.or'">전체검색</button>
 														&nbsp;&nbsp;
 														
-														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;"">
 															<option value="allType">전체</option>
 															<option value="writerType">작성자</option>
 															<option value="titleType">제목</option>
@@ -133,7 +134,7 @@
 								<hr>
 								
 								<div class="row">
-									<div class="col-12" style="height: 450px">
+									<div class="col-12" style="height: 510px">
 										<table class="table table-sm text-center table-hover">
 											<thead>
 												<tr>
@@ -150,7 +151,7 @@
 											</thead>
 											<tbody>
 												<c:forEach items="${deptResourcesList }" var="deptResourcesList" varStatus="status">
-													<tr>
+													<tr onclick="detail(${deptResourcesList.deptrNo });">
 														<td>${status.index+1}</td>
 														<td>
 															<c:if test="${ deptResourcesList.deptrCategory == '공유' }">
@@ -188,7 +189,7 @@
 						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -198,7 +199,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -209,7 +210,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType?=${ resourcesType }currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>

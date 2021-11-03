@@ -178,4 +178,14 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptReplyList", deptrNo);
 	}
 
+	public int insertDeptResources(SqlSessionTemplate sqlSession, DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertDeptResources", deptResources);
+	}
+
+	public int insertDeptResourcesAttach(SqlSessionTemplate sqlSession, DeptResourcesAttachment deptResourcesAttach) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertDeptResourcesAttach", deptResourcesAttach);
+	}
+
 }

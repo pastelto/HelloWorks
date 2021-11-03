@@ -268,4 +268,30 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	}
 
 
+	@Override
+	public void insertDeptResources(DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.insertDeptResources(sqlSession, deptResources);
+		
+		if(result < 0) {
+			throw new CommException("부서별 주소록 등록 실패");
+		}
+	}
+
+
+	@Override
+	public void insertDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		 for(DeptResourcesAttachment deptResourcesAttach : deptResourcesAttachList) { 
+			 result = officeRoomDao.insertDeptResourcesAttach(sqlSession, deptResourcesAttach);
+		 }
+		 
+		 if(result < 0) { 
+			 throw new CommException("공통 자료실 첨부파일 삽입 실패"); 
+		 }
+	}
+
+
 }

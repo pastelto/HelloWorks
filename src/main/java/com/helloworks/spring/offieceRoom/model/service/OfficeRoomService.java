@@ -72,5 +72,9 @@ public interface OfficeRoomService {
 
 	ArrayList<CommonResourcesReply> selectDeptReplyList(int deptrNo);
 
+	void insertDeptResources(DeptResources deptResources);
+
+	void insertDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList);
+
 
 }

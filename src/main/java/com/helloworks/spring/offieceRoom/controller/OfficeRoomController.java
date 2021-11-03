@@ -696,7 +696,34 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("deptResourcesInsert.or")
-	public String deptResourcesInsert() {
+	public String deptResourcesInsert(DeptResources deptResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
+		
+		System.out.println("전달 값: "+deptResources);
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		System.out.println("fileList ? " + fileList.size());
+		if(fileList.get(0).getSize() == 0) {
+			deptResources.setDeptrAttach("N");
+		}else {
+			deptResources.setDeptrAttach("Y");
+		}
+		
+		officeRoomService.insertDeptResources(deptResources);
+		
+		ArrayList<DeptResourcesAttachment> deptResourcesAttachList = new ArrayList<DeptResourcesAttachment>();
+		
+		if(fileList.get(0).getSize() != 0) {
+			  
+			 for(int i = 0; i < fileList.size(); i++) {
+				 DeptResourcesAttachment deptResourcesAttach = new DeptResourcesAttachment();
+				 String changeName = saveFile(fileList.get(i), request, i, "dept");
+				 
+				 deptResourcesAttach.setDeptrAttachOrigin(fileList.get(i).getOriginalFilename());
+				 deptResourcesAttach.setDeptrAttachChange(changeName);
+				 
+				 deptResourcesAttachList.add(deptResourcesAttach);
+			 }
+			 officeRoomService.insertDeptResourcesAttach(deptResourcesAttachList);
+		}
 		
 		return "redirect:deptResourcesList.or";
 	}

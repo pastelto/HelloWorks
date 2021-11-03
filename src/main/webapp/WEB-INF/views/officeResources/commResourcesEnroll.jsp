@@ -127,7 +127,7 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">발송하기</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">등록하기</button>
 									&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="cancelFunc()">돌아가기</button>
 									&nbsp;
@@ -200,7 +200,7 @@
 		});
 	</script>
 	
-	<!-- 일일보고 발송 버튼 -->
+	<!-- 자료실 등록 버튼 -->
 	<script>
 		function submitFunc(){
 			
@@ -225,11 +225,10 @@
 		}
 	</script>
 	
-	<!-- 일일보고 취소 버튼 -->
+	<!-- 자료실 취소 버튼 -->
 	<script>
 		function cancelFunc(){
-			$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesDelete.or");
-			$("#enrollForm").submit();
+			location.href="<%=request.getContextPath()%>/commResourcesList.or";
 		}
 	</script>
 	

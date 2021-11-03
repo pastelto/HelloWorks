@@ -365,16 +365,16 @@
 	</select>
 	
 	<select id="increaseDeptCount" parameterType="_int">
-		UPDATE DEPTR_RESOURCES
+		UPDATE DEPT_RESOURCES
 		SET DEPTR_COUNT = DEPTR_COUNT+1
-		WHERE CR_NO = #{deptrNo}
+		WHERE DEPTR_NO = #{deptrNo}
 	</select>
 	
 	<select id="selectDeptResourcesAttachMent" parameterType="_int" resultMap="deptResourcesAttachResultSet">
 		SELECT *
 		FROM DEPT_RESOURCES_ATTACHMENT
 		WHERE DEPTR_NO = #{deptrNo}
-		AND DEPTR_ATTACH_STATUS = 'Y'
+		AND DEPT_ATTACH_STATUS = 'Y'
 	</select>
 	
 	<select id="selectDeptReplyList" parameterType="_int" resultMap="deptResourcesReplyResultSet">
@@ -394,8 +394,8 @@
 	
 	<update id="deleteDeptReply" parameterType="_int">
 		UPDATE DEPT_RESOURCES_REPLY
-		SET DEPT_REP_STATUS = 'N'
-		WHERE DEPT_REP_NO = #{deptrNo}
+		SET DEPTR_REP_STATUS = 'N'
+		WHERE DEPTR_REP_NO = #{deptrNo}
 	</update>
 	
 	<select id="selectDeptResourcesCategoryTypeListCount" parameterType="DeptResources" resultType="_int">
@@ -416,14 +416,14 @@
 		ORDER BY 1 DESC
 	</select>
 	<!--  -->
-	<insert id="insertCommResources" parameterType="CommonResources" >
-		INSERT INTO COMMON_RESOURCES
-		VALUES(SEQ_CR_NO.NEXTVAL, #{crCode}, #{crWriterNo}, #{crCategory}, #{crTitle}, #{crContent}, DEFAULT, DEFAULT, #{crAttach}, DEFAULT )
+	<insert id="insertDeptResources" parameterType="DeptResources" >
+		INSERT INTO DEPT_RESOURCES
+		VALUES(SEQ_DEPTR_NO.NEXTVAL, #{deptCode}, #{deptrWriterNo}, #{deptrCategory}, #{deptrTitle}, #{deptrContent}, DEFAULT, DEFAULT, #{deptrAttach}, DEFAULT )
 	</insert>
 	
-	<insert id="insertCommResourcesAttach" parameterType="CommonResourcesAttachment" >
-		INSERT INTO COMMON_RESOURCES_ATTACHMENT
-		VALUES(SEQ_CR_ATTACH_NO.NEXTVAL, SEQ_CR_NO.CURRVAL, #{crAttachOrigin}, #{crAttachChange}, DEFAULT )
+	<insert id="insertDeptResourcesAttach" parameterType="DeptResourcesAttachment" >
+		INSERT INTO DEPT_RESOURCES_ATTACHMENT
+		VALUES(SEQ_DEPTR_ATTACH_NO.NEXTVAL, SEQ_DEPTR_NO.CURRVAL, #{deptrAttachOrigin}, #{deptrAttachChange}, DEFAULT )
 	</insert>
 	 
 </mapper>
