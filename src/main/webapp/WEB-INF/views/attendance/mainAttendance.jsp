@@ -195,19 +195,31 @@ function insertTime(num){
     var outTime = document.getElementById('outTime').value;
     
 	if(num == 1){		
-		if(inTime == "00:00:00"){
-			alert("출근시간이 등록되었습니다")
-			/* location.href="intime.ps?inOutTime=" + inOutTime; */		
+		
+		if( hour > 15 || hour < 08 ){ //오후 3시부터 오전 7시까지는 출근등록을 할 수 없음			
+			alert("지금은 출근시간을 등록할 수 없습니다")		
 		}else{
-			alert("출근시간이 등록되어있습니다")
-		}	
+			if(inTime == "00:00:00"){
+				alert("출근시간이 등록되었습니다")
+				 location.href="intime.ps?inOutTime=" + inOutTime; 		
+			}else{
+				alert("출근시간이 등록되어있습니다") //출근등록을 두번눌렀을때 방지
+			}	
+		}
+		
 	}else{
-		if(outTime == "00:00:00"){
-			alert("퇴근시간이 등록되었습니다")
-			/* location.href="outTime.ps?inOutTime=" + inOutTime;	 */	
+		
+		if( hour > 23 || hour < 10 ){ //오전 12시부터 오전 9시까지는 퇴근등록을 할 수 없음			
+			alert("지금은 퇴근시간을 등록할 수 없습니다")		
 		}else{
-			alert("퇴근시간이 등록되어있습니다")
-		}			
+			if(outTime == "00:00:00"){
+				alert("퇴근시간이 등록되었습니다")
+				 location.href="outTime.ps?inOutTime=" + inOutTime;	 
+			}else{
+				alert("퇴근시간이 등록되어있습니다")
+			}	
+		}
+				
 	}
 	
 }
