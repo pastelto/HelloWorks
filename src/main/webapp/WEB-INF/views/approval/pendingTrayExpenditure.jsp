@@ -91,11 +91,11 @@
 									
 									<hr>
 									
-									<!-- 임시저장된 결재 list -->
+									<!-- 미결재함 결재 list -->
 									<div class="col-12" >
 									<div>
 									<div style="height: 450px; overflow:auto;">
-									<table id="tempApprovalTable" class="table table-sm" >
+									<table id="pendingApprovalTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -177,7 +177,7 @@
 	 		resetSearch();
 	 		
 	 		$.ajax({
-	 			url: "selectAllPendingApproval.ea",
+	 			url: "selectAllPending.ea",
 	 			type: "post",
 	 			data :{
 	 				cOption : cOption
@@ -202,7 +202,7 @@
  					console.log("ajax 통신 성공")
  					console.log(list)
  					
- 					$("#tempApprovalTable>tbody").html(value);
+ 					$("#pendingApprovalTable>tbody").html(value);
  					$("#sortOption").text("전체");
  				},
  				error:function(){
@@ -258,7 +258,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#tempApprovalTable>tbody").html(value);
+			 				$("#pendingApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
@@ -334,7 +334,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#tempApprovalTable>tbody").html(value);
+			 				$("#pendingApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
