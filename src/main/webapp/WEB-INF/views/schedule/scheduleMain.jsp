@@ -80,33 +80,56 @@
           eventClick: function(info) { // 일정 클릭시 
       	    alert('일정 클릭!' + info);
           },
-        	  eventSources: [ // 이벤트 전체
-
+        	  eventSources: [ { // 이벤트 전체
+					
         		    // 전체 캘린더 (회사 전체 / 본부 / 부서 / 내 캘린더)
-        		   /* {
-        		      events: all_events, //
-        		      color: 'black',     // an option!
-        		      textColor: 'yellow' // an option!
+        		    events:function(info, successCallBack, failureCallback) {
+        		    	
+        		    	$.ajax({
+        		    	url: 'getMyCalender.cal',
+         		        type: 'POST',
+         		        data: {
+         		        	cal_type: 'PRIVATE'
+         		        },
+         		        dataType: "json",
+         		        success: function(myCalList){
+         		        	
+         		        	var events = []; 
+         		        	
+         		        	 $.each(myCalList, function(i, obj){	
+         		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD');
+         		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD');
+         		        		
+         		        		console.log("3 : " + obj.shc_no);
+         		        		console.log("4 : " + startDate);
+         		        		console.log("5 : " + endDate);
+         		        		console.log("6 : " + obj.sch_title);
+         		        		console.log("7 : " + obj.sch_startdate);
+         		        		console.log("8 : " + obj.sch_endate);
+         		        		console.log("9 : " + obj.sch_allday);
+         		        		console.log("10 : " + obj.sch_color);
+         		        		
+         		        		events.push({
+         		        			// id: obj.shc_no,
+         		        			 title: obj.sch_title,
+         		        			 start: startDate,
+         		        			 end: endDate,
+         		        			 allDay: obj.sch_allday,
+         		        			 color: obj.sch_color,   // a non-ajax option
+         	         		         textColor: 'white'
+         		        		});
+         		        	}); 
+         		       
+         		        	// alert()
+         		        },
+         		        error: function() {
+         		          console.log('내 일정 조회 실패');
+         		        } 
+        		      });
         		    }
-        		    */
-        		    {
-        		        url: 'getMyCalender.cal',
-        		        type: 'POST',
-        		        data: {
-        		          calType: 'PRIVATE'
-        		        },
-        		        error: function() {
-        		          alert('there was an error while fetching events!');
-        		        },
-        		        color: 'THISTLE',   // a non-ajax option
-        		        textColor: 'white' // a non-ajax option
-        		      }
-
-
-        		  ],
-        	
+        		    }
+        		  ]
         });
-        
         calendar.render();
       });
 

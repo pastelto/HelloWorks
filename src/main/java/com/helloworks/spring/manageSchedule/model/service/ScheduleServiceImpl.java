@@ -1,5 +1,8 @@
 package com.helloworks.spring.manageSchedule.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		 if(result < 0) { 
 			 throw new CommException("일정등록 실패"); 
 		 }
+	}
+	
+	// 내 일정 가져오기
+	@Override
+	public List<ManageSchedule> getMyCalender(HashMap<String, Object> getMyCalender) throws Exception {
+		
+		return scheduleDao.getMyCalender(sqlSession, getMyCalender);
 	}
 
 	
