@@ -322,4 +322,14 @@
 		ORDER BY 1 DESC
 	</select>
 	
+	<insert id="insertCommResources" parameterType="CommonResources" >
+		INSERT INTO COMMON_RESOURCES
+		VALUES(SEQ_CR_NO.NEXTVAL, #{crCode}, #{crWriterNo}, #{crCategory}, #{crTitle}, #{crContent}, DEFAULT, DEFAULT, #{crAttach}, DEFAULT )
+	</insert>
+	
+	<insert id="insertCommResourcesAttach" parameterType="CommonResourcesAttachment" >
+		INSERT INTO COMMON_RESOURCES_ATTACHMENT
+		VALUES(SEQ_CR_ATTACH_NO.NEXTVAL, SEQ_CR_NO.CURRVAL, #{crAttachOrigin}, #{crAttachChange}, DEFAULT )
+	</insert>
+	
 </mapper>

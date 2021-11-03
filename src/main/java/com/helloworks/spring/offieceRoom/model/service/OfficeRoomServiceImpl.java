@@ -17,6 +17,7 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
+import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
 @Service
 public class OfficeRoomServiceImpl implements OfficeRoomService {
@@ -166,6 +167,32 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 			PageInfo pi) {
 		// TODO Auto-generated method stub
 		return officeRoomDao.selectCommonResourcesCategoryTypeList(sqlSession, commonResources, pi);
+	}
+
+
+	@Override
+	public void insertCommResources(CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.insertCommResources(sqlSession, commonResources);
+		
+		if(result < 0) {
+			throw new CommException("공유 주소록 등록 실패");
+		}
+	}
+
+
+	@Override
+	public void insertCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		 for(CommonResourcesAttachment commonResourcesAttach : commonResourcesAttachList) { 
+			 result = officeRoomDao.insertCommResourcesAttach(sqlSession, commonResourcesAttach);
+		 }
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 삽입 실패"); 
+		 }
 	}
 
 

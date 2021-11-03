@@ -120,4 +120,15 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectCommonResourcesCategoryTypeList", commonResources, rowBounds);
 	}
 
+	public int insertCommResources(SqlSessionTemplate sqlSession, CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertCommResources", commonResources);
+	}
+
+	public int insertCommResourcesAttach(SqlSessionTemplate sqlSession,
+			CommonResourcesAttachment commonResourcesAttach) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertCommResourcesAttach", commonResourcesAttach);
+	}
+
 }

@@ -50,5 +50,9 @@ public interface OfficeRoomService {
 
 	ArrayList<CommonResources> selectCommonResourcesCategoryTypeList(CommonResources commonResources, PageInfo pi);
 
+	void insertCommResources(CommonResources commonResources);
+
+	void insertCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
+
 
 }

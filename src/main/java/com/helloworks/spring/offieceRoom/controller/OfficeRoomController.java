@@ -1,8 +1,13 @@
 package com.helloworks.spring.offieceRoom.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
@@ -26,6 +33,7 @@ import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
+import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
 @Controller
 public class OfficeRoomController {
@@ -543,11 +551,70 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("commResourcesInsert.or")
-	public String commResourcesInsert() {
+	public String commResourcesInsert(CommonResources commonResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
+		
+		System.out.println("전달 값: "+commonResources);
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		System.out.println("fileList ? " + fileList.size());
+		if(fileList.get(0).getSize() == 0) {
+			commonResources.setCrAttach("N");
+		}else {
+			commonResources.setCrAttach("Y");
+		}
+		
+		officeRoomService.insertCommResources(commonResources);
+		
+		ArrayList<CommonResourcesAttachment> commonResourcesAttachList = new ArrayList<CommonResourcesAttachment>();
+		
+		if(fileList.get(0).getSize() != 0) {
+			  
+			 for(int i = 0; i < fileList.size(); i++) {
+				 CommonResourcesAttachment commonResourcesAttach = new CommonResourcesAttachment();
+				 String changeName = saveFile(fileList.get(i), request, i, "common");
+				 
+				 commonResourcesAttach.setCrAttachOrigin(fileList.get(i).getOriginalFilename());
+				 commonResourcesAttach.setCrAttachChange(changeName);
+				 
+				 commonResourcesAttachList.add(commonResourcesAttach);
+			 }
+			 officeRoomService.insertCommResourcesAttach(commonResourcesAttachList);
+		}
 		
 		return "redirect:commResourcesList.or";
 	}
 	
+	// 첨부파일 저장
+	private String saveFile(MultipartFile file, HttpServletRequest request, int num, String type) throws Exception {
+
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = "";
+		if(type.equals("common")) {
+			savePath = resources + "\\commonResources_files\\";
+		}else if(type.equals("dept")) {
+			savePath = resources + "\\deptResources_files\\";
+		}
+		
+
+		System.out.println("savePath : " + savePath);
+
+		String originName = file.getOriginalFilename();
+
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+		String ext = originName.substring(originName.lastIndexOf("."));
+
+		String changeName = currentTime + num + ext;
+
+		try {
+			file.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return changeName;
+	}
+
 	@RequestMapping("commResourcesDelete.or")
 	public String commResourcesDelete() {
 		
