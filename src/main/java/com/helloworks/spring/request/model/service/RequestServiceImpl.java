@@ -282,5 +282,19 @@ public class RequestServiceImpl implements RequestService {
 			throw new CommException("사원증 상세페이지에서 승인취소 실패");
 		}
 	}
+	
+	// 회의실 예약 위한 회의실 리스트 가져오기
+	@Override
+	public ArrayList<Mtr> listMtr() {
+		// TODO Auto-generated method stub
+		return requestDao.listMtr(sqlSession);
+	}
+	
+	// 회의실 예약위한 시간표 가져오기
+	@Override
+	public ArrayList<Mtr> timeMtr(Mtr mtr) {
+		// TODO Auto-generated method stub
+		return requestDao.timeMtr(sqlSession, mtr);
+	}
 
 }
