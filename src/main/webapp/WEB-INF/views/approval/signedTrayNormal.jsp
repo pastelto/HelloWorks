@@ -119,11 +119,11 @@
 									
 									<hr>
 									
-									<!-- 미결재함 결재 list -->
+									<!-- 임시저장된 결재 list -->
 									<div class="col-12" >
 									<div>
 									<div style="height: 450px; overflow:auto;">
-									<table id="pendingApprovalTable" class="table table-sm" >
+									<table id="signedApprovalTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -202,13 +202,11 @@
 	<!-- 전체보기  -->
 	 <script>
 	 	function selectAllNormalTemp(cOption){
-	 		
-	 		alert("확인");
 	 	
 	 		resetSearch();
 	 		
 	 		$.ajax({
-	 			url: "selectAllPending.ea",
+	 			url: "selectAllsigned.ea",
 	 			type: "post",
 	 			data :{
 	 				cOption : cOption
@@ -233,7 +231,7 @@
  					console.log("ajax 통신 성공")
  					console.log(list)
  					
- 					$("#pendingApprovalTable>tbody").html(value);
+ 					$("#signedApprovalTable>tbody").html(value);
  					$("#sortOption").text("전체");
  				},
  				error:function(){
@@ -255,7 +253,7 @@
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
-			 			url: "selectDateSortPending.ea",
+			 			url: "selectDateSortSigned.ea",
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
@@ -291,7 +289,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#pendingApprovalTable>tbody").html(value);
+			 				$("#signedApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
@@ -333,7 +331,7 @@
 			} else {
 				
 					$.ajax({
-		 				url: "selectSearchSortPending.ea",
+		 				url: "selectSearchSortSigned.ea",
 		 				type: "post",
 		 				data : {
 		 					optionType : optionType,
@@ -374,7 +372,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#pendingApprovalTable>tbody").html(value);
+			 				$("#signedApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){

@@ -28,6 +28,7 @@ public class ApprovalExDetails extends ApprovalExpenditure{
 	private String exNum; 		// 법인카드. 체크카드 계좌번호
 	private String exType;		// 법인 or 체크 
 	
+	private String exDate2; // 단축날짜
 	
 	/*public ApprovalExDetails() {
 		// TODO Auto-generated constructor stub
