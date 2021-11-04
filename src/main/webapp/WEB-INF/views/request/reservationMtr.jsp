@@ -18,6 +18,10 @@
 .content-wrapper {
 	overflow: auto;
 }
+
+.ui-datepicker-inline .ui-datepicker .ui-widget .ui-widget-content .ui-helper-clearfix .ui-corner-all{
+	margin-top: 0 !important;
+}
 </style>
 </head>
 <body>
@@ -45,7 +49,7 @@
 											</div>
 										</div>
 										<div class="col-6">
-											<div class="card">
+											<div class="card mt-2">
 												<table class="table table-hover text-nowrap" id="mtrList">
 													<thead>
 														<tr align="center">
@@ -170,7 +174,7 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="submit" id="submitBtn" class="btn btn-primary">
+										<button type="button" id="rsvMtrBtn" class="btn btn-primary">
 											<i class="fas fa-clipboard-check"></i> 신청하기
 										</button>
 									</div>
@@ -281,7 +285,9 @@
 			
 			var mMNo = mMNo;
 			var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
-
+			
+			//alert(${loginUser.empNo});
+			
 			$.ajax({
 				url : "time.mtr",
 				data : {
@@ -299,10 +305,10 @@
 							var iCheckbox = "#" +  i + "Checkbox";
 							var iButton = "#" + i + "Button";
 
-							$(iName).text("");			
+/* 							$(iName).text("");			
 							$(iUse).text("");			
 							$(iCheckbox).attr("disabled", false);			
-							$(iButton).attr("style", "display:none");
+							$(iButton).attr("style", "display:none"); */
 							
 							if(obj.mRTime==i){							
 								$(iName).text(obj.empName);
@@ -310,10 +316,17 @@
 								$(iCheckbox).attr("disabled", true);
 								$(iButton).attr("style", "display:''");
 								/* $(iButton).attr("onclick", "delRsvMtr("+ obj.mRNo +',"' + obj.rEmpNo+'","' +obj.mRDate +'","' + obj.mRTime + '");'); */
-								if(){
-								$(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
-								//console.log( obj.mRNo)
-								}
+								/* $(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
+								console.log( obj.mRNo) */
+								//alert(obj.rEmpNo)
+								
+								 if(obj.rEmpNo == "${loginUser.empNo}"){ 
+									$(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
+								}else if(obj.rEmpNo != "${loginUser.empNo}"){
+									$(iButton).prop("style", "display:none");
+
+								} 
+								
 							}
 														
 						}
