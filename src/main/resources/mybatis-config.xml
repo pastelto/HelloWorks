@@ -48,6 +48,7 @@
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResources" alias="DeptResources"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment" alias="DeptResourcesAttachment"/>
 		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply" alias="DeptResourcesReply"/>
+		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.SearchDailyReport" alias="SearchDailyReport"/>
 	</typeAliases>
 
 

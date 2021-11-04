@@ -24,6 +24,7 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.service.DailyReportService;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
+import com.helloworks.spring.dailyReport.model.vo.SearchDailyReport;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -335,6 +336,7 @@ public class DailyReportController {
 		}
 		
 		model.addAttribute("reportType", reportType);
+		model.addAttribute("sortOption", "당일");
 		return "dailyReport/dailyReceiveList";
 	}
 	
@@ -358,9 +360,11 @@ public class DailyReportController {
 		dailyReport.setTermType(termType);
 		//datePicker 사용시 날짜 변환 후 담기
 		
+		String start="";
+		String end = "";
 		if(termType==5) {
-			String start = startDate.replace("-", "/");
-			String end = endDate.replace("-", "/");
+			start = startDate.replace("-", "/");
+			end = endDate.replace("-", "/");
 			dailyReport.setStartDate(start);
 			dailyReport.setEndDate(end);
 		}
@@ -388,9 +392,24 @@ public class DailyReportController {
 			model.addAttribute("endDate", endDate);
 		}
 		
+		String sortOption = "";
+		
+		if(termType==1) {
+			sortOption = "당일";
+		}else if(termType==2) {
+			sortOption = "1주일";
+		}else if(termType==3) {
+			sortOption = "1개월";
+		}else if(termType==4) {
+			sortOption = "3개월";
+		}else if(termType==5) {
+			sortOption = start+" ~ "+end;
+		}
+		
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
 		model.addAttribute("termType", termType);
+		model.addAttribute("sortOption", sortOption);
 		model.addAttribute("pageURL", "recvReportTermType.dr");
 		model.addAttribute("reportType", reportType);
 		
@@ -398,27 +417,72 @@ public class DailyReportController {
 	}
 	
 	@RequestMapping("searchDailyReport.dr")
-	public String searchDailyReport(String optionType, String search, Model model) {
+	public String searchDailyReport(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, 
+									String reportType, String optionType, String search, HttpServletRequest request, Model model) {
 		
 		
-		switch (optionType) {
-		case "allType":
-			
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		SearchDailyReport sdr = new SearchDailyReport();
+		sdr.setUserNo(loginUserNo);
+		
+		switch (reportType) {
+		case "allReport":
+			sdr.setAllReport(reportType);
+			model.addAttribute("checkTypeAll", "checked");
 			break;
-		case "writerType":
-					
-					break;
-		case "titleType":
-			
+		case "D":
+			sdr.setReportDType(reportType);		
+			model.addAttribute("checkD", "checked");
 			break;
-		case "contentType":
-			
+		case "W":
+			sdr.setReportWType(reportType);	
+			model.addAttribute("checkW", "checked");
+			break;
+		case "M":
+			sdr.setReportMType(reportType);	
+			model.addAttribute("checkM", "checked");
 			break;
 		default:
 			break;
 		}
 		
 		
+		switch (optionType) {
+		case "allType":
+			sdr.setAllType(search);	
+			break;
+		case "writerType":
+			sdr.setWriterType(search);		
+			break;
+		case "titleType":
+			sdr.setTitleType(search);
+			break;
+		case "contentType":
+			sdr.setContentType(search);
+			break;
+		default:
+			break;
+		}
+		
+		DailyReport dailyReport = new DailyReport();
+		dailyReport.setDrWriterNo(loginUserNo);
+		dailyReport.setSearch(search);
+		dailyReport.setDrCategory(reportType);
+		dailyReport.setSearchType(optionType);
+		
+		int listCount = dailyReportService.searchDailyReportListCount(sdr);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.searchDailyReportList(dailyReport, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("reportType", reportType);
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("search", search);
 		return "dailyReport/dailyReceiveList";
 	}
 	
