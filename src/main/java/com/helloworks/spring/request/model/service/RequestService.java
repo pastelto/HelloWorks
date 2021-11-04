@@ -66,6 +66,8 @@ public interface RequestService {
 	void delRsvMtr(int mRNo);
 	//회의실  예약하기
 	void rsvMtr(Mtr mtr);
+	//차량 예약위한 차량 리스트 가져오기
+	ArrayList<Car> listCar();
 
 	
 }

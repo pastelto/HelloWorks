@@ -325,6 +325,13 @@ public class RequestServiceImpl implements RequestService {
 		}
 		
 	}
+	
+	// 차량예약위한 차량리스트
+	@Override
+	public ArrayList<Car> listCar() {
+		// TODO Auto-generated method stub
+		return requestDao.listCar(sqlSession);
+	}
 
 
 }

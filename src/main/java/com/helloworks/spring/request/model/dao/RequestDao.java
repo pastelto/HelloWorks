@@ -181,6 +181,12 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("requestMapper.rsvMtr", mtr);
 	}
+	
+	//차량 예약위한 차량 리스트
+	public ArrayList<Car> listCar(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
+	}
 
 	
 
