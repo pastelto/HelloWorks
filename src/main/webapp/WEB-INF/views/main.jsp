@@ -12,6 +12,10 @@
 	padding-top:20px;
 	margin-left:20px;
 }
+.approval{
+	padding-top:20px;
+	margin-left:20px;
+}
 body{
 	overflow-x:hidden;
 }
@@ -37,7 +41,9 @@ body{
 			
 			<!-- 중간-->
 			<div style="width:54%;">
-				중간
+				<div class="approval" id="approval">
+		   	 		<jsp:include page="./approval/mainApproval.jsp" />
+		   		</div>
 			</div>
 			
 			

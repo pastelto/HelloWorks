@@ -414,6 +414,16 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectDateDetailTitleSigned", searchMap);
 	}
 
+	public ArrayList<ApprovalComment> mainMyApproval(SqlSessionTemplate sqlSession, HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.mainMyApproval", selectMap);
+	}
+
+	public ArrayList<Approval> mainPending(SqlSessionTemplate sqlSession, HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("approvalMapper.mainPending", selectMap);
+	}
+
 	
 
 

@@ -83,6 +83,50 @@ public class ApprovalController {
 		return "approval/plusCooForm";
 	}
 	
+	@RequestMapping("mainMyApproval.ea")
+	public String mainMyApproval(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String status = "Y"; 
+		
+		ArrayList<ApprovalComment> acList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		selectMap.put("status", status);
+		
+		acList = approvalService.mainMyApproval(selectMap);
+		
+		model.addAttribute("acList", acList);
+		model.addAttribute("commentPageURL", "mainMyApproval.ea");
+		model.addAttribute("commentPage", 1);
+		
+		
+		return "main";
+	}
+	
+	@RequestMapping("mainPending.ea")
+	public String mainPending(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<Approval> approvalList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		
+		approvalList = approvalService.mainPending(selectMap);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("commentPageURL", "mainPending.ea");
+		model.addAttribute("commentPage", 2);
+		
+		
+		return "main";
+	}
+	
 	
 	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
