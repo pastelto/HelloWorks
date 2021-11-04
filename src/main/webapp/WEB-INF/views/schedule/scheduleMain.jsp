@@ -17,7 +17,10 @@
 
     .fc-day-number.fc-sat.fc-past { color:#0000FF; }     /* 토요일 */
     .fc-day-number.fc-sun.fc-past { color:#FF0000; }    /* 일요일 */
-
+	
+	.fc-event-time{
+		
+	}
 </style>
 </head>
 <body>
@@ -30,13 +33,11 @@
 	<jsp:include page="./scheduleSideMenu.jsp" />
 	
 	<!-- 캘린더 내용 -->	
-	<!-- <div><button type="button" id="testBtn" onclick="allSave();">테스트</button></div> -->
 	<div id="calendar-container" class="col-8" style="margin-left : 50px; margin-top: 20px;">
 	<!-- 실제 캘린더 적용 부분 <필수!> -->
 	<div id='calendar' style="width:100%;  margin-right: 0px;"></div>
 	</div>
-	
-	
+
 	</div>
 	<!-- 모달들 -->
 	<jsp:include page="./popupAddSchedule.jsp"/>
@@ -65,6 +66,12 @@
         	 			   center: 'prev title next', // 캘린더 상단줄 가운데
         	  			   right: 'listYear,dayGridMonth,timeGridWeek,timeGridDay' // 캘린더 상단 오른쪽 : 월별, 주별, 일별 
         	  			   },
+          views: {
+        	  dayGrid: { // name of view
+  			      titleFormat: { time: '2-digit' }
+  			      // other view-specific options here
+  			    }
+  		  },
           navLinks: true, // 날짜 눌러서 이동 가능
           selectable: true, // 선택가능
           selectMirror: true, // ?
@@ -81,9 +88,29 @@
           	 
           },
           eventClick: function(info) { // 일정 클릭시 수정모달
-        	  var modal = $("#schedule-edit");
-        	  console.log(info);
-
+        	  var modal = $("#schedule-check");
+        	  console.log("eventClick : " + info.event.start);
+        	  
+        	  var startDate = moment(info.event.start).format('YYYY-MM-DD hh:mm:ss');
+        	  var allD = info.event.allDay;
+        	  var title = info.event.title;
+        	  
+          	  var allDayBoolean = info.event.allDay == true ? 1 : 0; // true false는 1 / 0으로 구분
+        	 
+        	  $('#sch_allday').text("종일");
+        	  console.log(" true 숫자 ? " + allDayBoolean);
+        	  console.log(" true 여부 ? " + info.event.allDay);
+        	
+        	  if(allDayBoolean == 0){
+        		$('#sch_allday').text("");
+        		$('#dateEndCheck').text("");
+	          	var endDate = moment(info.event.end).format('YYYY-MM-DD hh:mm:ss');
+	          	$('#dateEndCheck').text("　 ~　 " + endDate);
+	          	console.log(allDayBoolean);
+        	  }
+        	  $('#sch_type').val();
+			  $('#sch_title').val(title);
+			  $('#dateStartCheck').text(startDate);
               modal.modal();
           },
           eventDidMount: function(arg) {
@@ -104,8 +131,7 @@
               });
           },
           eventSources: [ 
-        	  		//if()
-        		  { // 전체 캘린더
+        		  { // 전체 사내 캘린더
           		    events:function(info, successCallBack, failureCallback) {
           		    	
           		    	$.ajax({
@@ -122,16 +148,17 @@
            		        	 $.each(allCalList, function(i, obj){	
            		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
            		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
-           		        		
+
            		        		events.push({
            		        			 id: obj.shc_no,
            		        			 title: obj.sch_title,
            		        			 start: startDate,
            		        			 end: endDate,
-           		        			 allDay: obj.sch_allday,
+           		        			 displayEventTime : true,
+           		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
            		        			 color: obj.sch_color,   // a non-ajax option
            	         		         textColor: 'white',
-           	         		         cid: "01"
+           	         		         cid: "021"
            		        		});
            		        	}); 
            		        successCallBack(events);
@@ -157,13 +184,14 @@
          		        	 $.each(myCalList, function(i, obj){	
          		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
          		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
-         		        		
+
          		        		events.push({
          		        			 id: obj.shc_no,
          		        			 title: obj.sch_title,
          		        			 start: startDate,
          		        			 end: endDate,
-         		        			 allDay: obj.sch_allday,
+         		        			 displayEventTime : true,
+         		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
          		        			 color: obj.sch_color,   // a non-ajax option
          	         		         textColor: 'white',
          	         		       	 cid: "03"
@@ -192,14 +220,15 @@
      		        	 $.each(uDeptList, function(i, obj){	
      		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
      		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
-     		        		
+
      		        		events.push({
      		        			 id: obj.shc_no,
      		        			 title: obj.sch_title,
      		        			 start: startDate,
      		        			 end: endDate,
-     		        			 allDay: obj.sch_allday,
-     		        			 color: obj.sch_color,   // a non-ajax option
+     		        			 displayEventTime : true,
+     		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
+     		        			 color: obj.sch_color,
      	         		         textColor: 'white',
      	         		         cid: "022"
      		        		});
@@ -227,13 +256,14 @@
  		        	 $.each(dDeptList, function(i, obj){	
  		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
  		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
- 		        		
+
  		        		events.push({
  		        			 id: obj.shc_no,
  		        			 title: obj.sch_title,
  		        			 start: startDate,
  		        			 end: endDate,
- 		        			 allDay: obj.sch_allday,
+ 		        			 displayEventTime : true,
+ 		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
  		        			 color: obj.sch_color,   // a non-ajax option
  	         		         textColor: 'white',
  	         		         cid: "023"	
@@ -244,6 +274,7 @@
 		      });
 		    }
 		   }]
+		   
        	});
         		  
         calendar.render();
@@ -258,56 +289,6 @@
 
 </script>
 
-
-<!-- 캘린더 관련 함수 메소드 -->
-<script>
-	
-/*	function allSave(){
-		
-		var allEvent = calendar.getEvents();
-		console.log(allEvent);
-		
-		var events = new Array();
-		for(var i = 0; i < allEvent.length; i++){
-			// 캘린더 속의 이벤트만큼 for문을 돌리면서, 그 이벤트의 정보 가져오기
-			// _def.title = 일정의 이름
-			// _def.allDay = 종일 일정인지 알려주는 boolean 값 (true / false)
-			// _instance.range.start = 일정의 시작 날짜 및 시간
-			// _instance.range.end = 일정의 끝 날짜 및 시간
-			
-			var obj = new Object(); // json 객체로 전달하기 위해 선언
-			
-			obj.title = allEvent[i]._def.title;
-			obj.allDay = allEvent[i]._def.allDay;
-			obj.start = allEvent[i]._instance.range.start;
-			obj.end = allEvent[i]._instance.range.end;
-			
-			events.push(obj); // 각 일정의 값을 다시 events의 배열에 저장
-		}
-		var jsondata = JSON.stringify(events); // 위에서 생성하고 만든 배열을 JSON 형태로 형변환
-		console.log("jsondata : " + jsondata);
-		
-		//savedata(jsondata); // 함수를 통해 jsondata를 넘겨서 저장하기
-	}
-	
-	function savedata(jsondata){
-		
-		$.ajax({
-			type: 'POST',
-			url: "savedata.cal",
-			data: {"alldata":jsondata},
-			dataType: 'text',
-			async: false // 동기 형식?
-		})
-		.done(function(result){
-			
-		})
-		.fail(function(request, status, error){
-			alert("에러 발생 : " + error);
-		});
-	} 
-*/
-</script>
 
 
 </body>

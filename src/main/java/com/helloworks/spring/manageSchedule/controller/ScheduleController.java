@@ -56,6 +56,13 @@ public class ScheduleController {
 			calType = scheduleService.selectPrivateCal(calType);
 			System.out.println("Private calType ? " + calType);
 			break;
+		case "사내 전체" :
+			System.out.println("schType ? " + schType);
+			schType = "전체";
+			calType.setCal_name(schType);
+			calType = scheduleService.selectCalType(calType);
+			System.out.println("DEPT calType ? " + calType);
+			break;
 		default : 
 			System.out.println("schType ? " + schType);
 			calType.setCal_name(schType);
@@ -102,7 +109,7 @@ public class ScheduleController {
 	}
 	
 	// 일정 불러오기 ( 전체 / 본부별 / 부서별 / 개인 )
-	// 부서별 일정 불러오기
+	// 전체 일정 불러오기
 	@ResponseBody
 	@RequestMapping(value="getAllCalender.cal", produces="application/json; charset=UTF-8")
 	public String getAllCalender(String cal_name, HttpServletRequest request) {

@@ -45,7 +45,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-      <!-- 마이페이지 -->
+      <!-- 마이페이지 : 위치는 사람 아이콘이나 이름! -->
       <li class="nav-item dropdown">
         <a class="nav-link" href="Mypage.mp">
           <i class="far fa-comments"></i>
