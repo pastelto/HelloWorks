@@ -96,6 +96,7 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectApproval", searchMap, rowBounds);
 	}
 
+	//1
 	public ArrayList<Approval> selectDate(SqlSessionTemplate sqlSession, HashMap<String, Object> searchMap) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectDate",searchMap);
