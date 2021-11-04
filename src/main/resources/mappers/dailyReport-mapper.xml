@@ -316,4 +316,14 @@
 		WHERE A.DR_NO = #{drNo}
 		AND A.DR_STATUS = 'SN'
 	</select>
+	
+	<update id="updateConfirm" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_CONFIRM = 'Y'
+		WHERE DR_WRITER_NO = #{drWriterNo}
+		AND (DR_RECEIVER_NO = #{drReceiverNo}
+		OR DR_REF = #{drReceiverNo})
+		AND DR_CONFIRM = 'N'
+		AND DR_CREATE_DATE LIKE #{startDate}
+	</update>
 </mapper>

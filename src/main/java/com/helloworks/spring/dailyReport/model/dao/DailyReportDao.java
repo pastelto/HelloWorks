@@ -132,4 +132,9 @@ public class DailyReportDao {
 		return sqlSession.selectOne("dailyReportMapper.selectDetailSendDailyReport", drNo);
 	}
 
+	public int updateConfirm(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.updateConfirm", dailyReport);
+	}
+
 }

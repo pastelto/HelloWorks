@@ -438,8 +438,11 @@ public class DailyReportController {
 		
 		dailyReport.setDrWriterNo(writer);
 		dailyReport.setStartDate(newDate); //타입 형태때문에 startDate에 담음
+		
 		dailyReport.setDrReceiverNo(loginUserNo);
 		dailyReport.setDrRef(loginUserNo);
+		
+		dailyReportService.updateConfirm(dailyReport); // 읽음 확인 값 변경
 		
 		DailyReport dailyReportResult = dailyReportService.selectDetailDailyReport(dailyReport);
 		

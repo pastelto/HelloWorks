@@ -176,4 +176,14 @@ public class DailyReportServiceImpl implements DailyReportService{
 		return dailyReportDao.selectDetailSendDailyReport(sqlSession, drNo);
 	}
 
+	@Override
+	public void updateConfirm(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.updateConfirm(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("수신확인 변경 실패");
+		}
+	}
+
 }

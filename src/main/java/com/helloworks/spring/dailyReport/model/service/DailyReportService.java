@@ -50,4 +50,6 @@ public interface DailyReportService{
 
 	DailyReport selectDetailSendDailyReport(int drNo);
 
+	void updateConfirm(DailyReport dailyReport);
+
 }
