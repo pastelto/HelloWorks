@@ -21,6 +21,9 @@
       background-color: rgb(244,246,249) !important;
 }
 
+.fc-col-header-cell fc-day fc-day-sat{
+	color: blue !important;
+}
 
 </style>
 </head>
@@ -36,9 +39,8 @@
 	
 	<!--메인 -->
 		<div class="col-7" id="mainApi">
-					<br><br>
 			
-					<div class="card" style="margin-bottom: 0px;">
+				<!-- 	<div class="card" style="margin-bottom: 0px;">
 								<table id="searchEmpTable">
 									<tr>
 										<th height="45px;">검색 조건</th>
@@ -79,7 +81,7 @@
 										</td>
 									</tr>
 								</table>
-							</div>
+							</div> -->
 						
 					
 					<br>
@@ -99,12 +101,12 @@
 							</thead>
 							<tbody>
 								<tr align="center" >
-									<td>${count.empNo }</td>
+									<%-- <td>${count.empNo }</td>
 									<td>${count.working }</td>
 									<td>${count.over }</td>
 									<td>${count.totalT }</td>
 									<td>${count.leaveWT }</td>
-									<td>${count.leaveOT }</td>
+									<td>${count.leaveOT }</td> --%>
 								</tr>
 							</tbody>
 						</table>
@@ -132,21 +134,53 @@
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script src="./resources/plugins/fullcalendar/main.js"></script>
 <!-- 스크립트 모음 -->
-<script>
-function annulSearch(){
-	alert("dd")
-	$('#calendar').fullCalendar('gotoDate', new Date('2021' + '-' + '05' + '-01'));
-}
-</script> 
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-	
-	
-	
-
+		var nowDate = new Date();
+		var month= nowDate.getMonth() + 1;
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+       	  header:{
+       		right: 'today,customPrevButton,customNextButton',
+       		left:'title'
+       	  },
+       	  customButtons:{
+       		customPrevButton:{
+       			text:'prev',
+       			click:function(){
+       				
+       				month=month-1;
+       				console.log("달"+ month)
+       				
+       			 	$.ajax(
+       			    		{
+       			    			url : 'prevnextBtn.ps',
+       			    			type: 'POST',
+       			    			data : month,
+       			    			contentType: 'application/json; charset=utf-8',
+       			    			success:function(list){
+       			    		            
+       			    		            var value="";
+       			    		            
+       			    		            $.each(list, function(i, obj){               
+       			    		               value +=
+       			    		               "<td>" +  obj.empNo + "</td>" + 
+       			    		               "<td>" +  obj.working + "</td>" + 
+       			    		               "<td>" +  obj.over + "</td>" + 
+       			    		               "<td>" +  obj.totalT + "</td>" + 
+       			    		               "<td>" +  obj.leaveWT + "</td>" + 
+       			    		               "<td>" +  obj.leaveOT + "</td>" ;
+       			    		            });
+       			    		            
+       			    		            $("#attendanceList>tbody>tr").html(value);
+       			    						
+       			    			}
+       			    		}); 
+       			}
+       		}  
+       	  },
           initialView: 'dayGridMonth',
           defaultDate: new Date(),
           locale: 'ko', 
@@ -161,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
                      type:'post',
                      success: 
                          function(result) {
-   								console.log("!1"+result)
                              var events = [];
                          
                              if(result!=null){
@@ -291,12 +324,58 @@ document.addEventListener('DOMContentLoaded', function() {
           }, //events:function end
      });//new FullCalendar end
    
-        calendar.render();
-      }); 
-
+        calendar.render();       
+     
    
+       /*  $('.fc-prev-button').click(function(){
+         	  changeMonth(1);
+        	   
+        });
+     
+     
+        $('.fc-next-button').click(function(){
+        	 changeMonth(-1);
+        	}); */
+     
+     
+      });    
 
 </script>
+<!-- <script>
+var nowDate = new Date();
+var month= nowDate.getMonth() + 1;
+
+function changeMonth(num){
+			
+	month=month-num;
+	console.log("달"+ month)
+	
+ 	$.ajax(
+    		{
+    			url : 'attendanceApiView.ps',
+    			type: 'POST',
+    			data : month,
+    			contentType: 'application/json; charset=utf-8',
+    			success:function(list){
+    		            
+    		            var value="";
+    		            
+    		            $.each(list, function(i, obj){               
+    		               value +=
+    		               "<td>" +  obj.empNo + "</td>" + 
+    		               "<td>" +  obj.working + "</td>" + 
+    		               "<td>" +  obj.over + "</td>" + 
+    		               "<td>" +  obj.totalT + "</td>" + 
+    		               "<td>" +  obj.leaveWT + "</td>" + 
+    		               "<td>" +  obj.leaveOT + "</td>" ;
+    		            });
+    		            
+    		            $("#attendanceList>tbody>tr").html(value);
+    						
+    			}
+    		}); 
+}
+</script> -->
 
 </body>
 </html>

@@ -124,11 +124,12 @@ a[name='aTitle']{
 		                  </div>
 		                  <!-- 소정근로시간 -->
 		                  <br>	
-		              	  <div class="workintTitile" style="margin-top:-5px;">◽ 근로시간</div> 
+		              	  <div class="workintTitile" style="margin-top:-5px;">◽ 근로시간 </div> 
 		              	  <br>	
 	                      <div class="progress">
-							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:20%">
-							 	 35시간 0 분
+	                      	  <c:set var="working" value="${statistics.working /60/60*2.5}" />
+							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${working}%">
+							 	 ${statistics.workingS }
 							  </div>
 						  </div> 
 						 
@@ -136,8 +137,9 @@ a[name='aTitle']{
 	                      <div class="workintTitile" style="margin-top:5px;">◽소정외 근로시간</div> 
 		              	  <br>	
 	                      <div class="progress">
-							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-							 	 
+	                     	  <c:set var="over" value="${statistics.over /60/60*8}" />
+							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${over}%">
+							 	  ${statistics.overS }
 							  </div>
 						  </div> 	                
                      </div>
@@ -204,11 +206,21 @@ a[name='aTitle']{
 <script src="./resources/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
 <script>
+$(document).ready(function(){ 
+	var working= "${statistics.working }";
+	 working = working/60/60;
+	 console.log("!!"+working)
+	 var over= "${statistics.over }";
+	 over = over/60/60;
+	 console.log("!!"+over)
+});
 
 function noticeNo(num){
 	location.href = "detail.nt?bno="+ num;
 	
 }
+
+
 </script>
 <script>
 function insertTime(num){	
