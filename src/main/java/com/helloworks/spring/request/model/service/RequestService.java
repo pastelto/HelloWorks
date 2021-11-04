@@ -64,6 +64,8 @@ public interface RequestService {
 	ArrayList<Mtr> timeMtr(Mtr mtr);
 	//회의실 예약정보 삭제
 	void delRsvMtr(int mRNo);
+	//회의실  예약하기
+	void rsvMtr(Mtr mtr);
 
 	
 }

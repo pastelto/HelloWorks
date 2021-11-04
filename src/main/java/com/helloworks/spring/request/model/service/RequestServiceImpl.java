@@ -312,5 +312,19 @@ public class RequestServiceImpl implements RequestService {
 	
 	}
 
+	// 회의실 예약하기
+	@Override
+	public void rsvMtr(Mtr mtr) {
+		// TODO Auto-generated method stub
+		int result = 0;
+
+		result = requestDao.rsvMtr(sqlSession, mtr);
+
+		if (result < 0) {
+			throw new CommException("회의실 예약정보 삭제 실패");
+		}
+		
+	}
+
 
 }

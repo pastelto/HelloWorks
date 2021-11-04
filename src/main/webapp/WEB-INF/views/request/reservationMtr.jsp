@@ -31,8 +31,6 @@
 							onsubmit="return resevationMtrValidate();">
 							<input type="hidden" id="empNo" name="empNo"
 								value="${ loginUser.empNo }">
-							<input type="hidden" id="mMNo" name="mMNo"
-								value="${mtr.mMNo }">
 							<div class="card-header">
 								<h3 class="card-title">회의실 신청</h3>
 							</div>
@@ -255,7 +253,7 @@
 								
 								value += "<tr align='center'>"
 										/* + "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ (i + 1) + "</td>" */
- 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' id='' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
+ 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
 			/* 							+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMName + "</td>"
 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMCapacity + "</td>" */
 										+ "<td>" + obj.mMName + "</td>"
@@ -318,10 +316,6 @@
 								$(iUse).text(obj.mRUsg);
 								$(iCheckbox).attr("disabled", true);
 								$(iButton).attr("style", "display:''");
-								/* $(iButton).attr("onclick", "delRsvMtr("+ obj.mRNo +',"' + obj.rEmpNo+'","' +obj.mRDate +'","' + obj.mRTime + '");'); */
-								/* $(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
-								console.log( obj.mRNo) */
-								//alert(obj.rEmpNo)
 								
 								//예약자 = 작성자 일경우 삭제할 수 있도록
 								 if(obj.rEmpNo == "${loginUser.empNo}"){ 
@@ -427,7 +421,8 @@
 		}
 		
  		function rsvMtr(){
-
+			
+ 			var empNo = ${ loginUser.empNo }
  			var mMNo = $("input:radio[name='mMNo']:checked").val();
  			var mRTime = $("input[name='mRTime']:checked").val();
 	        var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
@@ -444,18 +439,42 @@
 	        	alert("날짜를 선택해 주세요!");
 				return false;	        
 	        }
+			
+	        confirm(getDate + "\n" + mRTime + " 시 부터 한시간동안 \n" + mMNo+ " 번 회의실을  예약하시겠습니까?");        
+	        var mRUsg = window.prompt("회의실 사용용도를 간단하게 작성해 주세요");
+	        
+	        if(mRUsg==""){
+	        	alert("사용용도를 작성해 주세요!");
+				return false;	        
+	        }
+	   
+	        $.ajax({
+				url : "rsv.mtr",
+				type : "post",
+				data : {
+					mMNo : mMNo,
+					mRTime : mRTime,
+					getDate : getDate,
+					mRUsg : mRUsg
+				},
+				success : function(result) {
+					
+					if (result == "successMtr") {
+						alert(mMNo + "회의실에  " + getDate + " 일자로\n" + mRTime +" 시에 예약되었습니다." );
+						location.reload(true);
+						//location.href("/request.menu").reload(true);
+						//history.go(0);
+					}
+				},
+				error : function(error) {   // 오류가 발생했을 때 호출된다. 
+					console.log("회의실 예약 ajax 통신실패")
+				}
 
-	        confirm(getDate + "\n"+mRTime +" 시 부터 한시간동안 \n" + mMNo+ "번 회의실을  예약하시겠습니까?");        
-	        var inputNumber = window.prompt("한 자리 숫자를 적어주세요.");
-	        
-	        
-	        //frmData.action = "rsvMtr.jsp";
-	        //frmData.submit();
-	         
-	    }  
+			})	       
+	      
+ 		}
 		
 	</script>
 
 </body>
-
 </html>

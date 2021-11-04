@@ -176,6 +176,12 @@ public class RequestDao {
 		return sqlSession.delete("requestMapper.delRsvMtr", mRNo);
 	}
 
+	//회의실 예약하기
+	public int rsvMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.rsvMtr", mtr);
+	}
+
 	
 
 }

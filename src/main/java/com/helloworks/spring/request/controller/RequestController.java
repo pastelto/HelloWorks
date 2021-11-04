@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.request.model.service.RequestService;
 import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
@@ -259,7 +259,7 @@ public class RequestController {
 
 	}
 	
-	// 회의실 목록 가져오기
+	//회의실 목록 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/list.mtr",  produces="application/json; charset=UTF-8")
 	public String listMtr(){
@@ -268,7 +268,7 @@ public class RequestController {
 		return new GsonBuilder().create().toJson(listMtr);
 
 	}
-	// 회의실 시간표 가져오기
+	//회의실 시간표 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
 	public String timeMtr(int mMNo, String getDate){
@@ -282,7 +282,7 @@ public class RequestController {
 
 	}
 	
-	// 회의실 예약 삭제
+	//회의실 예약 삭제
 	@ResponseBody
 	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
 	public String delRsvMtr(int mRNo){
@@ -294,24 +294,30 @@ public class RequestController {
 
 	}
 	
-	// 회의실 예약하기-------------------
-	// 회의실 예약 팝업 페이지로
-//	@RequestMapping("openRsv.mtr")
-//	public String openAddMtr() {
-//		// System.out.println("회의실 예약페이지 팝업");
-//		return "request/rsvMtr";
-//	}
-//
-//	// 회의실 예약
-//	//@ResponseBody
-//	@RequestMapping("rsv.mtr")
-//	public String rsvMtr(Mtr mtr, HttpServletRequest request, Model model) {
-//		
-//		int mMMo =mtr.getMMNo();
-//		System.out.println("mMMo -----------" + mMMo);
-//		//requestService.rsvMtr(mtr);
-//		String result = "성공!";
-//		return String.valueOf(result);
-//	}
+	//회의실 예약하기
+	@ResponseBody
+	@RequestMapping(value = "/rsv.mtr",  produces="application/json; charset=UTF-8")
+	public String rsvMtr(HttpServletRequest request, int mMNo, String getDate, String mRTime, String mRUsg){
+		
+		Mtr mtr = new Mtr();
+		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		mtr.setMMNo(mMNo);
+		mtr.setMRDate(getDate);
+		mtr.setMRTime(mRTime);
+		mtr.setREmpNo(rEmpNo);
+		mtr.setMRUsg(mRUsg);
+		
+		System.out.println(mtr.toString());
+		
+		
+		requestService.rsvMtr(mtr);
+
+		String result = "successMtr";
+		System.out.println("rsvMtr000000000000000" + result);
+		
+		return new GsonBuilder().create().toJson(result);
+
+	}
 		
 }

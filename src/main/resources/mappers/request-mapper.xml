@@ -300,6 +300,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE RS_MR_NO = #{mRNo}
 	</delete> 
 	
+	<!-- 회의실 예약 하기 -->
+	<insert id="rsvMtr" parameterType="Mtr">
+		INSERT INTO RS_MEETINGROOM_RESERVATION
+		VALUES
+		(SEQ_RS_MR_NO.NEXTVAL ,#{mMNo} ,#{rEmpNo} ,#{mRDate} ,#{mRTime} ,#{mRUsg} ,DEFAULT )
+	</insert> 
+	
 	
 		
 </mapper>
