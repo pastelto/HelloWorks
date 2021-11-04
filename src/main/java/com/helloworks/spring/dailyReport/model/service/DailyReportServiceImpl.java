@@ -164,4 +164,16 @@ public class DailyReportServiceImpl implements DailyReportService{
 		return result;
 	}
 
+	@Override
+	public ArrayList<DailyReport> selectMyAllDailyReportList(int loginUserNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectMyAllDailyReportList(sqlSession, loginUserNo);
+	}
+
+	@Override
+	public DailyReport selectDetailSendDailyReport(int drNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDetailSendDailyReport(sqlSession, drNo);
+	}
+
 }

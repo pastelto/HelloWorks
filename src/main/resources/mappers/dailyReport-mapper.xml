@@ -293,4 +293,27 @@
 		SET DR_REP_STATUS = 'N'
 		WHERE DR_REF_NO = #{drNo}
 	</select>
+	
+	<select id="selectMyAllDailyReportList" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_WRITER_NO = #{loginUserNo}
+		AND A.DR_RECEIVER_NO = #{loginUserNo}
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<select id="selectDetailSendDailyReport" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_NO = #{drNo}
+		AND A.DR_STATUS = 'SN'
+	</select>
 </mapper>

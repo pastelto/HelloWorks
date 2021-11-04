@@ -122,4 +122,14 @@ public class DailyReportDao {
 		return sqlSession.update("dailyReportMapper.deleteReply", drNo);
 	}
 
+	public ArrayList<DailyReport> selectMyAllDailyReportList(SqlSessionTemplate sqlSession, int loginUserNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectMyAllDailyReportList", loginUserNo);
+	}
+
+	public DailyReport selectDetailSendDailyReport(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDetailSendDailyReport", drNo);
+	}
+
 }

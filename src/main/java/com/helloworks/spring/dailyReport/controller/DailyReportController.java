@@ -255,9 +255,29 @@ public class DailyReportController {
 	}
 	
 	@RequestMapping("sendReport.dr")
-	public String sendReport() {
+	public String sendReport(HttpServletRequest request, Model model) {
+		
+//		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+//		
+//		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
+//		
+//		System.out.println("일일보고: "+dailyReportList);
+//		
+//		model.addAttribute("dailyReportList", dailyReportList);
 		
 		return "dailyReport/dailySendList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAllList.dr", produces = "application/json; charset=utf-8")
+	public String selectAllList(HttpServletRequest request) {
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
+		
+		System.out.println("일일보고: "+dailyReportList);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(dailyReportList);
 	}
 	
 	@RequestMapping("recvReport.dr")
@@ -418,6 +438,8 @@ public class DailyReportController {
 		
 		dailyReport.setDrWriterNo(writer);
 		dailyReport.setStartDate(newDate); //타입 형태때문에 startDate에 담음
+		dailyReport.setDrReceiverNo(loginUserNo);
+		dailyReport.setDrRef(loginUserNo);
 		
 		DailyReport dailyReportResult = dailyReportService.selectDetailDailyReport(dailyReport);
 		
@@ -455,4 +477,24 @@ public class DailyReportController {
 		return String.valueOf(result);
 	}
 	
+	
+	@RequestMapping("detailSendDailyReport.dr")
+	public String detailSendDailyReport(int drNo, HttpServletRequest request, Model model) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		
+		DailyReport dailyReport = new DailyReport();
+		
+		dailyReport.setDrNo(drNo);
+		
+		DailyReport dailyReportResult = dailyReportService.selectDetailSendDailyReport(drNo);
+		
+		System.out.println("선택한 일일보고: "+dailyReportResult);
+		
+		model.addAttribute("dailyReportResult", dailyReportResult);
+		model.addAttribute("loginUserNo", loginUserNo);
+		
+		return "dailyReport/dailyReportDetail";
+	}
 }

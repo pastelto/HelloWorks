@@ -36,7 +36,7 @@
 		text-align: center !important;
 	}
 	#dailyType{
-		background: #DAE1E7;
+		background: #A9E2F3;
 	}
 	#weeklyType{
 		background: #00909E;
@@ -300,9 +300,7 @@
 							</div>
 
 							<div class="card-footer">
-							
 							</div>
-
 					</div>
 				</div>
 			</div>

@@ -46,4 +46,8 @@ public interface DailyReportService{
 
 	int deleteReply(int drNo);
 
+	ArrayList<DailyReport> selectMyAllDailyReportList(int loginUserNo);
+
+	DailyReport selectDetailSendDailyReport(int drNo);
+
 }
