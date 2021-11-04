@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -613,8 +614,11 @@ public class OfficeRoomController {
 	@RequestMapping("deptResourcesListType.or")
 	public String deptResourcesListType(String resourcesType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
-		DeptResources deptResources = new DeptResources();
 		
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		
+		DeptResources deptResources = new DeptResources();
+		deptResources.setDeptCode(loginUser.getDeptCode());
 		deptResources.setDeptrCategory(resourcesType);
 
 		int listCount = officeRoomService.selectDeptResourcesCategoryTypeListCount(deptResources);
@@ -764,5 +768,49 @@ public class OfficeRoomController {
 		}
 
 		return changeName;
+	}
+	
+	@RequestMapping("searchDeptResources.or")
+	public String searchDeptResources(String resourcesType, String optionType, String search,
+			@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		System.out.println("부서별 검색 컨트롤러 option: "+optionType);
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		DeptResources deptResources = new DeptResources();
+		deptResources.setDeptCode(loginUser.getDeptCode());
+		
+		//if(!resourcesType.equals("allType")){
+			deptResources.setDeptrCategory(resourcesType);
+		//}
+		
+		deptResources.setOptionType(optionType);
+		deptResources.setSearch(search);
+		
+		int listCount = officeRoomService.selectDeptResourcesSearchListCount(deptResources);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
+		
+		ArrayList<DeptResources> deptResourcesList = officeRoomService.selectDeptResourcesSearchList(deptResources, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("deptResourcesList", deptResourcesList);
+		model.addAttribute("pageURL", "searchDeptResources.or");
+		
+		if(resourcesType.equals("공유")) {
+			model.addAttribute("checkS", "checked");
+		}else if(resourcesType.equals("문서")){
+			model.addAttribute("checkD", "checked");
+		}else if(resourcesType.equals("기타")) {
+			model.addAttribute("checkE", "checked");
+		}else {
+			model.addAttribute("checkTypeAll", "checked");
+		}
+		
+		model.addAttribute("resourcesType", resourcesType);
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("search", search);
+		
+		return "officeResources/deptResourcesList";
 	}
 }

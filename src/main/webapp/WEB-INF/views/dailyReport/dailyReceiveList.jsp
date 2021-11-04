@@ -361,7 +361,7 @@
 		}
 	</script>
 	
-		<!-- 검색 -->
+	<!-- 검색 -->
 	<script>
 		$(function() {
 			switch ('${ optionType }') {
@@ -390,7 +390,7 @@
 		})
 	</script>
 	
-	<!--  -->
+	<!-- 검색 -->
 	<script>
 		function searchDailyReport() {
 			var type = $("input:radio[name=reportType]:checked").val();
