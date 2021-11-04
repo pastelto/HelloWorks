@@ -38,7 +38,8 @@
 	
 	
 	</div>
-	
+	<!-- 모달들 -->
+	<jsp:include page="./popupAddSchedule.jsp"/>
 	</div>
 	
 <jsp:include page="../common/footer.jsp"/>
@@ -73,15 +74,34 @@
           drop: function(info){ // 일정 내에서 어떤 특정 기능을 수행시, 아래에서 정의한 특정 기능 수행
         	  
           },
-          dateClick: function(info) { // 날짜 클릭시 
-        	    alert('날짜 클릭!');
-          		// addSchedule();
+          dateClick: function(info) { // 날짜 클릭시 스케쥴 추가 
+        	  $('#schedule-add').modal('show');
+          	  $('#startDate').val(info.dateStr);
+          	  $('#endDate').val(info.dateStr);
+          	 
           },
-          eventClick: function(info) { // 일정 클릭시 
-      	    alert('일정 클릭!' + info);
+          eventClick: function(info) { // 일정 클릭시 수정모달
+        	  var modal = $("#schedule-edit");
+        	  console.log(info);
+
+              modal.modal();
           },
-          eventDidMount: function(info) {
-              
+          eventDidMount: function(arg) {
+              var cs = document.querySelectorAll(".filter"); // filter 클래스를 갖고 있는 체크박스
+              cs.forEach(function (v) {
+            	 console.log(arg.event.extendedProps.cid)
+                if (v.checked) {
+                  // console.log("arg.event.extendedProps.cid : ? " + arg.event.extendedProps.cid)
+               	  // console.log("v.value : ? " + v.value)
+                  if (arg.event.extendedProps.cid === v.value) { // 체크박스의 값과 이벤트의 cid가 같으면, 
+                    arg.el.style.display = "block";
+                  }
+                } else {
+                  if (arg.event.extendedProps.cid === v.value) {
+                    arg.el.style.display = "none";
+                  }
+                }
+              });
           },
           eventSources: [ 
         	  		//if()
@@ -110,7 +130,8 @@
            		        			 end: endDate,
            		        			 allDay: obj.sch_allday,
            		        			 color: obj.sch_color,   // a non-ajax option
-           	         		         textColor: 'white'
+           	         		         textColor: 'white',
+           	         		         cid: "01"
            		        		});
            		        	}); 
            		        successCallBack(events);
@@ -144,7 +165,8 @@
          		        			 end: endDate,
          		        			 allDay: obj.sch_allday,
          		        			 color: obj.sch_color,   // a non-ajax option
-         	         		         textColor: 'white'
+         	         		         textColor: 'white',
+         	         		       	 cid: "03"
          		        		});
          		        	}); 
          		        successCallBack(events);
@@ -178,7 +200,8 @@
      		        			 end: endDate,
      		        			 allDay: obj.sch_allday,
      		        			 color: obj.sch_color,   // a non-ajax option
-     	         		         textColor: 'white'
+     	         		         textColor: 'white',
+     	         		         cid: "022"
      		        		});
      		        	}); 
      		        successCallBack(events);
@@ -200,7 +223,7 @@
  		        success: function(dDeptList){
  		        	
  		        	var events = []; 
- 		        	
+ 		        
  		        	 $.each(dDeptList, function(i, obj){	
  		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
  		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
@@ -212,7 +235,8 @@
  		        			 end: endDate,
  		        			 allDay: obj.sch_allday,
  		        			 color: obj.sch_color,   // a non-ajax option
- 	         		         textColor: 'white'
+ 	         		         textColor: 'white',
+ 	         		         cid: "023"	
  		        		});
  		        	}); 
  		        successCallBack(events);
@@ -223,6 +247,13 @@
        	});
         		  
         calendar.render();
+        var csx = document.querySelectorAll(".filter");
+        csx.forEach(function (el) {
+          el.addEventListener("change", function () {
+            calendar.refetchEvents();
+            console.log(el);
+          });
+        });
       });
 
 </script>
@@ -276,8 +307,6 @@
 		});
 	} 
 */
-
-
 </script>
 
 

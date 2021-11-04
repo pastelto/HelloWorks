@@ -40,7 +40,7 @@ public class ScheduleController {
 	// 일정등록하기
 	@RequestMapping("addEvent.sc")
 	public String addEvent(ManageSchedule schedule, HttpServletRequest request, 
-						   @RequestParam(value="setEventTime") String setEventTime, String checked) {
+						   @RequestParam(value="setEventTime") String setEventTime, String checked, String formType) {
 		try {
 		Employee myEmp =  ((Employee)request.getSession().getAttribute("loginUser"));	
 		int myEmpNo = myEmp.getEmpNo();
@@ -64,10 +64,22 @@ public class ScheduleController {
 			break;
 		}
 		
-		// 시작 날짜 및 시간 ~ 끝 날짜 및 시간
-		String[] timeRange = setEventTime.split("-");
-		String startDate = timeRange[0];
-		String endDate = timeRange[1];
+		String startDate = null;
+		String endDate = null;
+		// 일반 일정 등록 / 간편 일정 등록
+		switch(formType) {
+		case "1": 
+			// 시작 날짜 및 시간 ~ 끝 날짜 및 시간
+			String[] timeRange = setEventTime.split("-");
+			startDate = timeRange[0];
+			endDate = timeRange[1];
+			break;
+		case "2":
+			startDate = schedule.getSch_startdate();
+			endDate = schedule.getSch_endate();
+			break;
+		}
+		
 		String writer = myEmp.getEmpName() + " " + myEmp.getJobName();
 		
 		schedule.setSch_startdate(startDate);

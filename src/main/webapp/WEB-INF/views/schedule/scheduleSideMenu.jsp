@@ -7,7 +7,7 @@
 <title>Insert title here</title>
  <!-- fullCalendar -->
 <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
-<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="./resources/plugins/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="./resources/plugins/datepicker/jquery-ui.css">
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
@@ -54,7 +54,7 @@
               <div class="card-header">
               <label class="card-title form-check-label" for="selectAllCB">
               &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input filter" id="selectAllCB" name="selectAllCB" checked>
+              <input type="checkbox" class="form-check-input filter" id="selectAllCB" name="selectAllCB" value="01" checked>
                 	전체 캘린더</label>
        		  </div>
        		</div>
@@ -64,7 +64,7 @@
               <div class="card-header pl-3">
                <label class="card-title form-check-label"> 
                &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="form-check-input filter" id="selectDept" name="selectDept" checked>
+                <input type="checkbox" class="form-check-input filter" id="selectDept" name="selectDept" value="02" checked>
               	사내 캘린더</label>
 
                 <div class="card-tools">
@@ -78,17 +78,17 @@
                 <ul class="nav nav-pills flex-column">
                   <li class="nav-item pl-3">
                     <a class="nav-link">
-                    <input type="checkbox" class="form-check-input filter" id="selectCompanyCal" name="selectCompanyCal" checked> 
+                    <input type="checkbox" class="form-check-input filter" id="selectCompanyCal" name="selectCompanyCal" value="021" checked> 
                     <label class="form-check-label" for="selectCompanyCal">&nbsp;전체 일정</label></a>
                   </li>
                   <li class="nav-item pl-3">
                     <a class="nav-link">
-                    <input type="checkbox" class="form-check-input filter" id="selectDeptUname" name="selectDeptUname" checked> 
+                    <input type="checkbox" class="form-check-input filter" id="selectDeptUname" name="selectDeptUname" value="022" checked> 
                     <label class="form-check-label" for="selectDeptUname">&nbsp;${loginUser.deptUname }</label></a>
                   </li>
                   <li class="nav-item pl-3">
                     <a class="nav-link">
-                    <input type="checkbox" class="form-check-input filter" id="selectDeptDname" name="selectDeptDname" checked> 
+                    <input type="checkbox" class="form-check-input filter" id="selectDeptDname" name="selectDeptDname" value="023" checked> 
                     <label class="form-check-label" for="selectDeptDname">&nbsp;${loginUser.deptDname }</label></a>
                   </li>
 
@@ -102,7 +102,7 @@
               <div class="card-header">
                <label class="card-title form-check-label" for="selectMine">
                &nbsp;&nbsp;&nbsp;
-              <input type="checkbox" class="form-check-input filter" name="selectMine" checked>
+              <input type="checkbox" class="form-check-input filter" id="selectMine" name="selectMine" value="03" checked>
                	내 캘린더</label>
        		  </div>
        		</div>
