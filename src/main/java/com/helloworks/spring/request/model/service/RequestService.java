@@ -62,5 +62,8 @@ public interface RequestService {
 	ArrayList<Mtr> listMtr();
 	//회의실 예약 위한 시간표 가져오기 + 예약리스트 가져오기
 	ArrayList<Mtr> timeMtr(Mtr mtr);
+	//회의실 예약정보 삭제
+	void delRsvMtr(int mRNo);
+
 	
 }

@@ -169,6 +169,13 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.timeMtr", mtr);
 	}
+
+	//회의실 예약정보 삭제
+	public int delRsvMtr(SqlSessionTemplate sqlSession, int mRNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("requestMapper.delRsvMtr", mRNo);
+	}
+
 	
 
 }

@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="mRNo" column="RS_MR_NO" />
 		<result property="mMNo" column="RS_MM_NO" />
 		<result property="empNo" column="RS_MM_EMP_NO" />
+		<result property="rEmpNo" column="RS_MR_EMP_NO" />
 		<result property="empName" column="EMP_NAME" />
 		<result property="mRDate" column="RS_MR_DATE" />
 		<result property="mRTime" column="RS_MR_TIME" />
@@ -284,12 +285,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회의실 예약리스트 가져오기 -->
 	<select id="timeMtr" parameterType="Mtr" resultMap="reservationMtrResultSet">
-	SELECT A.RS_MR_EMP_NO, A.RS_MR_DATE, A.RS_MR_TIME, A.RS_MR_USG,
+	SELECT A.RS_MR_NO, A.RS_MR_EMP_NO, A.RS_MR_DATE, A.RS_MR_TIME, A.RS_MR_USG,
 		B.EMP_NAME, C.RS_MM_NAME
 		FROM RS_MEETINGROOM_RESERVATION A
 		JOIN EMPLOYEE B ON B.EMP_NO = A.RS_MR_EMP_NO
 		JOIN RS_MEETINGROOM_MANAGEMENT C ON C.RS_MM_NO = A.RS_MM_NO
 		WHERE A.RS_MM_NO = #{mMNo} 
 		AND A.RS_MR_DATE = #{mRDate}
-	</select>	
+	</select>
+	
+	<!-- 회의실 예약 삭제 -->
+	<delete id="delRsvMtr" parameterType="_int">
+		DELETE FROM RS_MEETINGROOM_RESERVATION
+		WHERE RS_MR_NO = #{mRNo}
+	</delete> 
+	
+	
+		
 </mapper>

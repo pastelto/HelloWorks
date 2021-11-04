@@ -297,4 +297,20 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.timeMtr(sqlSession, mtr);
 	}
 
+	
+	// 회의실 예약정보 삭제
+	@Override
+	public void delRsvMtr(int mRNo) {
+		
+		int result = 0;
+
+		result = requestDao.delRsvMtr(sqlSession, mRNo);
+
+		if (result < 0) {
+			throw new CommException("회의실 예약정보 삭제 실패");
+		}
+	
+	}
+
+
 }

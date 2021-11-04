@@ -280,6 +280,35 @@ public class RequestController {
 
 	}
 	
+	// 회의실 예약 삭제
+//	@ResponseBody
+//	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+//	public String delRsvMtr(int mRNo, int rEmpNo, String mRDate, String mRTime){
+//		
+//		Mtr mtr = new Mtr();
+//		mtr.setMRNo(mRNo);
+//		mtr.setREmpNo(rEmpNo);
+//		mtr.setMRDate(mRDate);
+//		mtr.setMRTime(mRTime);
+//		
+//		System.out.println(mtr.toString());
+//				
+//		requestService.delRsvMtr(mtr);
+//		
+//		String result = "성공!";
+//		return String.valueOf(result);
+//
+//	}
+	@ResponseBody
+	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+	public String delRsvMtr(int mRNo){
+		
+		requestService.delRsvMtr(mRNo);
+		
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
 	
 		
 }

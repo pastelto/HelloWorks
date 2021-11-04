@@ -54,9 +54,9 @@
 														<!-- 회의실 목록 -->
 														<tr align="center">
 															<!-- <th>No</th> -->
-															<th>관리번호</th>
-															<th>신청자</th>
-															<th>수용인원</th>
+															<th width="20%">관리번호</th>
+															<th width="40%">회의실 명</th>
+															<th width="20%">수용인원</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -309,6 +309,11 @@
 								$(iUse).text(obj.mRUsg);
 								$(iCheckbox).attr("disabled", true);
 								$(iButton).attr("style", "display:''");
+								/* $(iButton).attr("onclick", "delRsvMtr("+ obj.mRNo +',"' + obj.rEmpNo+'","' +obj.mRDate +'","' + obj.mRTime + '");'); */
+								if(){
+								$(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
+								//console.log( obj.mRNo)
+								}
 							}
 														
 						}
@@ -380,27 +385,40 @@
 			});
 		}
 		
-		$("#delMtrBtn").click(function() {
+		/* $("#delMtrBtn").click(function(mRNo) { */
 			
-			console.log(checkArr);
-			$.ajax({
-				url : "delete.Mtr",
-				type : "post",
-				data : {
-					checkArr : checkArr
-				},
-				success : function(result) {
-					if (result == "??!") {
-						alert("회의실 삭제성공!");
-						location.reload(true);//페이지 새로고침
-						//location.href = location.href;
-						//history.go(0);
-					} else {
-						alert("삭제 실패");
+			/* function delRsvMtr(mRNo, rEmpNo, mRDate, mRTime){ */
+			function delRsvMtr(mRNo){
+				
+				var mRNo = mRNo;
+/* 				var rEmpNo = rEmpNo;
+				var mRDate = mRDate;
+				var mRTime = mRTime; */
+			
+				//alert(mRNo +","+ rEmpNo +","+ mRDate +","+ mRTime );
+				alert(mRNo);
+				
+				$.ajax({
+					url : "delRsv.Mtr",
+					type : "post",
+					data : {
+						mRNo : mRNo,
+/* 						rEmpNo : rEmpNo,
+						mRDate : mRDate,
+						mRTime : mRTime */
+					},
+					success : function(result) {
+						if (result == "??!") {
+							alert("회의실 예약 삭제성공!");
+							location.reload(true);//페이지 새로고침
+							//location.href = location.href;
+							//history.go(0);
+						} else {
+							alert("삭제 실패");
+						}
 					}
-				}
-			});
-		});
+				});
+		}
 	</script>
 
 </body>
