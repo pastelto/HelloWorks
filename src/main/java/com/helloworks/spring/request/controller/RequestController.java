@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +50,8 @@ public class RequestController {
 	
 	// 사원증 신청
 	@RequestMapping("request.id")
-	public String requestIdCard(RequestId rId, HttpServletRequest request, @RequestParam(name="orgPicName", required=true) MultipartFile file) {
+	public String requestIdCard(RequestId rId, HttpServletRequest request, 
+			@RequestParam(name="orgPicName", required=true) MultipartFile file) {
 		System.out.println(rId);
 		System.out.println(file);
 		// 첨부파일 등록 		
@@ -281,24 +283,6 @@ public class RequestController {
 	}
 	
 	// 회의실 예약 삭제
-//	@ResponseBody
-//	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
-//	public String delRsvMtr(int mRNo, int rEmpNo, String mRDate, String mRTime){
-//		
-//		Mtr mtr = new Mtr();
-//		mtr.setMRNo(mRNo);
-//		mtr.setREmpNo(rEmpNo);
-//		mtr.setMRDate(mRDate);
-//		mtr.setMRTime(mRTime);
-//		
-//		System.out.println(mtr.toString());
-//				
-//		requestService.delRsvMtr(mtr);
-//		
-//		String result = "성공!";
-//		return String.valueOf(result);
-//
-//	}
 	@ResponseBody
 	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
 	public String delRsvMtr(int mRNo){
@@ -310,5 +294,24 @@ public class RequestController {
 
 	}
 	
+	// 회의실 예약하기-------------------
+	// 회의실 예약 팝업 페이지로
+//	@RequestMapping("openRsv.mtr")
+//	public String openAddMtr() {
+//		// System.out.println("회의실 예약페이지 팝업");
+//		return "request/rsvMtr";
+//	}
+//
+//	// 회의실 예약
+//	//@ResponseBody
+//	@RequestMapping("rsv.mtr")
+//	public String rsvMtr(Mtr mtr, HttpServletRequest request, Model model) {
+//		
+//		int mMMo =mtr.getMMNo();
+//		System.out.println("mMMo -----------" + mMMo);
+//		//requestService.rsvMtr(mtr);
+//		String result = "성공!";
+//		return String.valueOf(result);
+//	}
 		
 }

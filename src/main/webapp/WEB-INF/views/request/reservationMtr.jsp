@@ -18,10 +18,6 @@
 .content-wrapper {
 	overflow: auto;
 }
-
-.ui-datepicker-inline .ui-datepicker .ui-widget .ui-widget-content .ui-helper-clearfix .ui-corner-all{
-	margin-top: 0 !important;
-}
 </style>
 </head>
 <body>
@@ -35,6 +31,8 @@
 							onsubmit="return resevationMtrValidate();">
 							<input type="hidden" id="empNo" name="empNo"
 								value="${ loginUser.empNo }">
+							<input type="hidden" id="mMNo" name="mMNo"
+								value="${mtr.mMNo }">
 							<div class="card-header">
 								<h3 class="card-title">회의실 신청</h3>
 							</div>
@@ -100,7 +98,7 @@
 												<tbody id="timeMtrBody">
 													<!-- 시간표 -->
 													<tr align="center">
-														<td><input type="checkbox" name="mRTime" id="9Checkbox" value="9"> 09:00~10:00</td>
+														<td><input type="checkbox" name="mRTime" id="9Checkbox" value="9" > 09:00~10:00</td>
 														<td id="9Name"></td>
 														<td id="9Use"></td>
 														<td><button type="button" name="delMtrBtn" id="9Button" class="btn btn-default" style="display:none;" >삭제</button></td>
@@ -174,9 +172,13 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="button" id="rsvMtrBtn" class="btn btn-primary">
+										<button type="button" id="rsvMtrBtn" class="btn btn-primary" onclick="rsvMtr();">
 											<i class="fas fa-clipboard-check"></i> 신청하기
-										</button>
+										</button> 
+						<!-- 				<button class="btn btn-primary"
+											onclick="window.open('openRsv.mtr','회의실 예약하기','width=600,height=360,location=no,status=no,scrollbars=no');">
+											<i class="fas fa-clipboard-check"> 신청하기</i>
+										</button> -->
 									</div>
 									<button type="reset" class="btn btn-default">
 										<i class="fas fa-times"></i> 취소하기
@@ -215,8 +217,8 @@
 											"금", "토" ],
 									dayNamesMin : [ "일", "월", "화", "수", "목",
 											"금", "토" ],
-									changeMonth : true, // month 셀렉트박스 사용
-									changeYear : true, // year 셀렉트박스 사용
+									changeMonth : false, // month 셀렉트박스 사용
+									changeYear : false, // year 셀렉트박스 사용
 									weekHeader : "Wk",
 									dateFormat : "yy/mm/dd",
 									firstDay : 0,
@@ -248,18 +250,22 @@
 						dataType : "json",
 						success : function(list) {
 							var value = "";
+							
 							$.each(list, function(i, obj) {
-
+								
 								value += "<tr align='center'>"
 										/* + "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ (i + 1) + "</td>" */
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ obj.mMNo + "</td>"
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>" + obj.mMName + "</td>"
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>" + obj.mMCapacity + "</td>"
+ 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' id='' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
+			/* 							+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMName + "</td>"
+										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMCapacity + "</td>" */
+										+ "<td>" + obj.mMName + "</td>"
+										+ "<td>" + obj.mMCapacity + "</td>" 
 										+ "</tr>";
 
 							});
 
 							$("#mtrList tbody").html(value);
+							
 
 						},
 						error : function() {
@@ -269,8 +275,10 @@
 				});
 	</script>
 	<script>
-		function checkMtr(mMNo) {
+		
+	function checkMtr(mMNo) {
 			
+			//새로운 날짜&회의실 선택할때 값비우기
 			for(var i =9; i <20; i ++){
 				var iName = "#" + i + "Name";
 				var iUse = "#" + i + "Use";
@@ -286,8 +294,7 @@
 			var mMNo = mMNo;
 			var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
 			
-			//alert(${loginUser.empNo});
-			
+			// 예약된 시간표 가져오기
 			$.ajax({
 				url : "time.mtr",
 				data : {
@@ -304,12 +311,8 @@
 							var iUse = "#" + i + "Use";
 							var iCheckbox = "#" +  i + "Checkbox";
 							var iButton = "#" + i + "Button";
-
-/* 							$(iName).text("");			
-							$(iUse).text("");			
-							$(iCheckbox).attr("disabled", false);			
-							$(iButton).attr("style", "display:none"); */
 							
+							// 예약내용이 있으면 시간표에 나타내기
 							if(obj.mRTime==i){							
 								$(iName).text(obj.empName);
 								$(iUse).text(obj.mRUsg);
@@ -320,6 +323,7 @@
 								console.log( obj.mRNo) */
 								//alert(obj.rEmpNo)
 								
+								//예약자 = 작성자 일경우 삭제할 수 있도록
 								 if(obj.rEmpNo == "${loginUser.empNo}"){ 
 									$(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
 								}else if(obj.rEmpNo != "${loginUser.empNo}"){
@@ -397,18 +401,10 @@
 				}
 			});
 		}
-		
-		/* $("#delMtrBtn").click(function(mRNo) { */
-			
-			/* function delRsvMtr(mRNo, rEmpNo, mRDate, mRTime){ */
-			function delRsvMtr(mRNo){
+		// 예약 삭제하기	
+		function delRsvMtr(mRNo){
 				
 				var mRNo = mRNo;
-/* 				var rEmpNo = rEmpNo;
-				var mRDate = mRDate;
-				var mRTime = mRTime; */
-			
-				//alert(mRNo +","+ rEmpNo +","+ mRDate +","+ mRTime );
 				alert(mRNo);
 				
 				$.ajax({
@@ -416,9 +412,6 @@
 					type : "post",
 					data : {
 						mRNo : mRNo,
-/* 						rEmpNo : rEmpNo,
-						mRDate : mRDate,
-						mRTime : mRTime */
 					},
 					success : function(result) {
 						if (result == "??!") {
@@ -432,6 +425,35 @@
 					}
 				});
 		}
+		
+ 		function rsvMtr(){
+
+ 			var mMNo = $("input:radio[name='mMNo']:checked").val();
+ 			var mRTime = $("input[name='mRTime']:checked").val();
+	        var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
+	        
+	        if(mMNo==null){
+	        	alert("회의실을 선택해 주세요!");
+				return false;	        
+	        }
+	        if(mRTime==null){
+	        	alert("시간을 선택해 주세요!");
+				return false;	        
+	        }
+	        if(getDate==null){
+	        	alert("날짜를 선택해 주세요!");
+				return false;	        
+	        }
+
+	        confirm(getDate + "\n"+mRTime +" 시 부터 한시간동안 \n" + mMNo+ "번 회의실을  예약하시겠습니까?");        
+	        var inputNumber = window.prompt("한 자리 숫자를 적어주세요.");
+	        
+	        
+	        //frmData.action = "rsvMtr.jsp";
+	        //frmData.submit();
+	         
+	    }  
+		
 	</script>
 
 </body>
