@@ -62,13 +62,16 @@ public interface AttendanceService {
 	void changeTime(Attendance attendance);
 	
 	//근태 상태별로 조회
-	Statistics selectAtndCount(int empNo);
+	Statistics selectAtndCount(Statistics empNo);
 	
 	//연차 사용일수 
 	Statistics selectThreeCount(int empNo);
 	
 	//API
-	ArrayList<Attendance> selectAPI(int empNo);
+	ArrayList<Attendance> selectAPI(int atdn);
+	
+	//메인 근로시간 조회
+	Statistics wtStatisticsOne(SearchAttendance as);
 	
 	
 	

@@ -149,7 +149,7 @@
 																	<div class="input-group-append">
 																		<button type="button" class="btn btn-default"
 																			style="font-size: 0.8rem" onclick="worker(1);">근무자
-																			등록</button>서비스구현 예정입니다
+																			등록</button>
 																	</div>
 																</div> 
 															</td>
