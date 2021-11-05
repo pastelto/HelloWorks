@@ -87,7 +87,7 @@
           	  $('#endDate').val(info.dateStr);
           	 
           },
-          eventClick: function(info) { // 일정 클릭시 수정모달
+          eventClick: function(info) { // 일정 클릭시 수정모달 // 작업중인 부분!
         	  var modal = $("#schedule-check");
         	  console.log("eventClick : " + info.event.start);
         	  
