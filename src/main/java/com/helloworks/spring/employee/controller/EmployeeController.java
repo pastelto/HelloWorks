@@ -1,6 +1,7 @@
 package com.helloworks.spring.employee.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.helloworks.spring.approval.model.service.ApprovalService;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.employee.model.service.EmployeeService;
@@ -30,6 +33,10 @@ public class EmployeeController {
 	
 	@Autowired 
 	private EmployeeService employeeService;
+
+	//김소원
+	@Autowired 
+	private ApprovalService approvalService;
 	
 	//조아혜
 	@Autowired
@@ -87,10 +94,16 @@ public class EmployeeController {
 	      ArrayList<Notice> noticeList = noticeService. selectTopList();
 	      mv.addObject("noticeList", noticeList);
 	      
-	      
-	      
-	      
-	      
+	      //김소원
+	      ArrayList<ApprovalComment> acList = null;
+	      String status = "Y"; 			
+	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
+	      selectMap.put("loginEmpNo", empNo);
+	      selectMap.put("status", status);			
+	      acList = approvalService.mainMyApproval(selectMap);
+	      mv.addObject("acList", acList);
+	      mv.addObject("commentPageURL", "mainMyApproval.ea");
+	      mv.addObject("commentPage", 1);
 	      
 	      
 	      

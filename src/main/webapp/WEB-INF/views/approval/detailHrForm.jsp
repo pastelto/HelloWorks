@@ -132,7 +132,7 @@
 																	</div>
 																</td>
 																<td class="table emp_name"  colspan="5">
-																	<input type="text" class="emp_name4" id="emp_name1_4" name="jlineNameob" readonly/>
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm4" readonly/>
 																	</div>
@@ -148,7 +148,7 @@
 														<tbody>
 															<tr>
 																<th rowspan="2" colspan="5">협조</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level"colspan="5">
 																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" value="${approval.cooJob}" readonly/>
 																</th>
 																<th class="table coo_level" colspan="5">
@@ -253,12 +253,12 @@
 													<tr>
 														<td colspan="9">															
 															<div class="btn btn-default btn-file btn-xs">
-											                  <a href="resources/approval_files/${ apAttach.newName }"
-											                  	 class="approval-attachment-name"
-											                  	 download="${ apAttach.newName }">
-											                     <i class="fas fa-paperclip"></i> ${ apAttach.originName }
-											                  </a> 
-											                </div> 
+												                  <a href="resources/approval_files/${ apAttach.newName }"
+												                  	 class="approval-attachment-name"
+												                  	 download="${ apAttach.newName }">
+												                     <i class="fas fa-paperclip"></i> ${ apAttach.originName }
+												                  </a> 
+												             </div> 
 														</td>
 													</tr>
 													<tr>

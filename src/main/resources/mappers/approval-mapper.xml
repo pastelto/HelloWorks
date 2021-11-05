@@ -115,6 +115,9 @@
 		<result property="cmJob" column="JOB_NAME"/>
 		<result property="commentDate" column="CREATE_DATE"/>
 		<result property="comment" column="AC_CONTENT"/>
+		<result property="title" column="TITLE"/>
+		<result property="progress" column="PROGRESS"/>
+		<result property="detailClass" column="DETAIL_CLASS"/>
 	</resultMap>
 	
 	
@@ -942,4 +945,33 @@
 	 	WHERE APPROVAL_NO = #{ apNo }
 	 	AND EMP_NO = #{ loginEmpNo }
 	 </update>
+	 
+	 <!-- main  -->
+	 <select id="mainMyApproval" parameterType="HashMap" resultMap="commentResultSet">
+	  <![CDATA[
+	 	SELECT ROWNUM, A.*, B.TITLE, B.PROGRESS, C.EMP_NAME, D.DEPT_DNAME, E.JOB_NAME, B.DETAIL_CLASS
+	 	FROM APPROVAL_COMMENT A
+	 	JOIN APPROVAL B ON A.APPROVAL_NO = B.APPROVAL_NO
+	 	JOIN EMPLOYEE C ON C.EMP_NO = B.WRITER
+	 	JOIN DEPT D ON D.DEPT_CODE = C.DEPT_CODE
+	 	JOIN JOB_LEVEL E ON E.JOB_CODE = C.JOB_CODE
+	 	WHERE ROWNUM <=3
+	 	AND B.STATUS = #{ status }
+	 	AND B.WRITER = #{ loginEmpNo }
+	 	ORDER BY A.CREATE_DATE DESC
+	 ]]>
+	 </select>
+	 <select id="mainPending" parameterType="HashMap" resultMap="approvalResultSet">
+	  <![CDATA[
+	 	SELECT A.APPROVAL_NO, A.TITLE, A.DETAIL_CLASS, A.PROGRESS, A.CREATE_DATE, A.DEPT_DNAME, B.EMP_NAME
+		FROM APPROVAL A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
+		JOIN APPROVAL_LINE C ON C.APPROVAL_NO = A.APPROVAL_NO
+		WHERE A.PROGRESS = '진행중'
+		AND ( C.CONFIRM_STATUS +1 = C.LINE_NO
+		OR C.CONFIRM_STATUS = 0 AND TO_CHAR(A.CREATE_DATE,'YYYY-MM-DD') = TO_CHAR(SYSDATE,'YYYY-MM-DD'))
+		AND C.EMP_NO = #{ loginEmpNo }
+		ORDER BY CREATE_DATE DESC
+	 ]]>
+	 </select>
 </mapper>
