@@ -116,9 +116,9 @@ public class AttendanceDao {
 	}
 	
 	//근태 상태별로 조회
-	public Statistics selectAtndCount(SqlSessionTemplate sqlSession, int empNo) {
+	public Statistics selectAtndCount(SqlSessionTemplate sqlSession, Statistics sta) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("attendanceMapper.selectAtndCount", empNo);
+		return sqlSession.selectOne("attendanceMapper.selectAtndCount", sta);
 	}
 	
 	//출근기록-연차 사용일수
@@ -131,6 +131,12 @@ public class AttendanceDao {
 	public ArrayList<Attendance> selectAPI(SqlSessionTemplate sqlSession, int empNo) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAPI", empNo);
+	}
+	
+	//메인 근로시간 조회
+	public Statistics wtStatisticsOne(SqlSessionTemplate sqlSession, SearchAttendance as) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.wtStatisticsOne", as);
 	}
 
 
