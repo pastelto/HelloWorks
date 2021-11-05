@@ -97,14 +97,13 @@
 												<tr>
 													<th>검색</th>
 													<td>
-													<form id="deptResourcesSearch">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allDeptResources" type="button" class="btn btn-default btn-sm" onclick="location.href='deptResourcesList.or'">전체검색</button>
 														&nbsp;&nbsp;
 														
 														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;"">
-															<option value="allType">전체</option>
+															<option value="allOptionType">전체</option>
 															<option value="writerType">작성자</option>
 															<option value="titleType">제목</option>
 															<option value="contentType">내용</option>
@@ -116,13 +115,12 @@
 																class="form-control form-control-sm"
 																placeholder="검색어를 입력하세요." name="search" value="${ search }">
 															<div class="input-group-append">
-																<button type="submit" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
+																<button onclick="searchDeptReport()" type="button" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
 																	<i class="fa fa-search"></i>
 																</button>
 															</div>
 														</div>
 													</div>
-													</form>
 													</td>
 												</tr>
 										</table>
@@ -189,7 +187,7 @@
 						                <ul class="pagination mb-0">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -199,7 +197,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&optionType=${optionType }&search=${search }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -210,7 +208,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?resourcesType=${ resourcesType }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -267,6 +265,46 @@
 	<script>
 		function insertResource(){
 			location.href="<%=request.getContextPath()%>/deptResourcesEnroll.or";
+		}
+	</script>
+	
+	<!-- 검색 -->
+	<script>
+		$(function() {
+			switch ('${ optionType }') {
+			case "allOptionType":
+				$("#optionType>option").eq(0).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "writerType":
+				$("#optionType>option").eq(1).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "titleType":
+				$("#optionType>option").eq(2).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "contentType":
+				$("#optionType>option").eq(3).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			}
+			
+		})
+	</script>
+	
+	<!-- 검색 -->
+	<script>
+		function searchDeptReport() {
+			var type = $("input:radio[name=resourcesType]:checked").val();
+			var optionType = $("#optionType").val();
+			var searchInput = $("#searchInput").val();
+			
+			location.href="searchDeptResources.or?resourcesType="+type+"&optionType="+optionType+"&search="+searchInput;
 		}
 	</script>
 </body>
