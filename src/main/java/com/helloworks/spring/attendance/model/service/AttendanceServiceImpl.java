@@ -159,9 +159,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	
 	//근태 상태별로 조회
 	@Override
-	public Statistics selectAtndCount(int empNo) {
+	public Statistics selectAtndCount(Statistics sta) {
 		// TODO Auto-generated method stub
-		return attendanceDao.selectAtndCount(sqlSession, empNo);
+		return attendanceDao.selectAtndCount(sqlSession, sta);
 	}
 	
 	//출근기록-연차 사용일수
@@ -176,6 +176,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public ArrayList<Attendance> selectAPI(int empNo) {
 		// TODO Auto-generated method stub
 		return attendanceDao.selectAPI(sqlSession, empNo);
+	}
+	
+	//메인 근로시간 조회
+	@Override
+	public Statistics wtStatisticsOne(SearchAttendance as) {
+		// TODO Auto-generated method stub
+		return attendanceDao.wtStatisticsOne(sqlSession, as);
 	}
 
 	

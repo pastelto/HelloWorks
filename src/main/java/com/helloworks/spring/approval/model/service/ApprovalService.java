@@ -164,6 +164,10 @@ public interface ApprovalService {
 
 	void updateProgressDate(HashMap<String, Object> updateMap);
 
+	ArrayList<ApprovalComment> mainMyApproval(HashMap<String, Object> selectMap);
+
+	ArrayList<Approval> mainPending(HashMap<String, Object> selectMap);
+
 
 
 	

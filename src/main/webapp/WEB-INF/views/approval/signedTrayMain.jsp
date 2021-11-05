@@ -55,11 +55,11 @@
 						
 							<div class="tab-pane fade " id="custom-tabs-normalApproval" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
 									<!-- 일반결재 -->
-									<jsp:include page="./myApprovalNormal.jsp" />
+									<jsp:include page="./signedTrayNormal.jsp" />
 				 			</div>
 				 			<div class="tab-pane fade " id="custom-tabs-expenditureApproval" role="tabpanel" aria-labelledby="custom-tabs-expenditureApproval-tab">
 									<!-- 지출결재 -->
-									<jsp:include page="./myApprovalExpenditure.jsp" />
+									<jsp:include page="./signedTrayExpenditure.jsp" />
 				 			</div>
 				 			<div class="tab-pane fade " id="custom-tabs-attendance" role="tabpanel" aria-labelledby="custom-tabs-attendance-tab">
 									<!-- 근태 -->
