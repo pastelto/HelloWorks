@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND CAL_TYPE = #{cal_type}
 	</select>
 	
-	<!-- 부서별 캘린더 타입 가져오기 -->
+	<!-- 본부/부서별 캘린더 타입 가져오기 -->
 	<select id="selectCalType" resultMap="calendarResultSet">
 		SELECT CAL_NO, CAL_TYPE, CAL_UDEPT, CAL_DEPT_CODE, CAL_COLOR
 		FROM CALENDAR_TYPE
@@ -53,11 +53,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (SEQ_SCH.NEXTVAL, #{sch_empno}, #{sch_type}, #{sch_calNo}, #{sch_title},#{sch_writer},#{sch_content},#{sch_startdate},#{sch_endate},#{sch_allday},#{sch_place},#{sch_color})
 	</insert>
 	
+	<!-- 내 캘린더 일정들 가져오기 -->
 	<select id="getMyCalender" parameterType="HashMap" resultMap="manageScheduleResultSet">
 		SELECT A.*
 		FROM SCHEDULE_TABLE A 
 		JOIN CALENDAR_TYPE B ON B.CAL_NO = A.SCH_CAL_NO
 		WHERE SCH_EMP_NO = #{myEmpNo} 
 		AND A.SCH_CAL_NO = #{cal_no}
+	</select>
+	
+	<!-- 내 캘린더 일정들 가져오기 -->
+	<select id="getDeptSchedule" parameterType="_int" resultMap="manageScheduleResultSet">
+		SELECT A.*
+		FROM SCHEDULE_TABLE A 
+		JOIN CALENDAR_TYPE B ON B.CAL_NO = A.SCH_CAL_NO
+		WHERE A.SCH_CAL_NO = #{cal_no}
 	</select>
 </mapper>

@@ -15,6 +15,8 @@ public interface ScheduleService {
 
 	List<ManageSchedule> getMyCalender(HashMap<String, Object> getMyCalender) throws Exception;
 
+	List<ManageSchedule> getDeptSchedule(int cal_no) throws Exception;
+
 
 
 }

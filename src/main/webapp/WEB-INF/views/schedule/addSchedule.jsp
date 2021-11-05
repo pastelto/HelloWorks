@@ -67,7 +67,7 @@
 						</div>
 
 						<form id="insertNewEvent" method="post" enctype="multipart/form-data">
-
+								<input type="hidden" name="formType" value="1">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -192,7 +192,7 @@
 	<script>
 	  $(function () {
 	    //Date range picker
-	    $('#reservation').daterangepicker()
+	    // $('#reservation').daterangepicker()
 	    //Date range picker with time picker
 	    $('#setEventTime').daterangepicker({
 	      timePicker: true,

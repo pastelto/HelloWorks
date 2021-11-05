@@ -32,6 +32,11 @@ public class ScheduleDao {
 		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getMyCalender", getMyCalender);
 	}
 
+	public List<ManageSchedule> getDeptSchedule(SqlSessionTemplate sqlSession, int cal_no) {
+		
+		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getDeptSchedule", cal_no);
+	}
+
 
 
 }
