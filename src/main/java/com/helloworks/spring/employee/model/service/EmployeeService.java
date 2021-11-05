@@ -6,4 +6,11 @@ public interface EmployeeService {
 
 	Employee loginMember(Employee m) throws Exception;
 
+	Employee updateEmp(Employee m);
+
+	Employee selectEmp(int empNo);
+
+	
+	
+
 }

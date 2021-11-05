@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.dao.EmployeeDao;
 import com.helloworks.spring.employee.model.vo.Employee;
 
@@ -30,4 +31,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return loginUser;
 	}
+
+	//회원수정
+	@Override
+	public Employee updateEmp(Employee m) {
+
+		int result = employeeDao.updateEmp(sqlSession, m);
+		
+		if(result < 0) {
+			throw new CommException("회원 수정에 실패하였습니다");
+		}else {
+			Employee loginUser = employeeDao.loginMember(sqlSession, m);
+			  return loginUser;
+		}
+		
+	}
+
+	@Override
+	public Employee selectEmp(int empNo) {
+		
+		return employeeDao.selectEmp(sqlSession, empNo);
+	}
+
+	
 }

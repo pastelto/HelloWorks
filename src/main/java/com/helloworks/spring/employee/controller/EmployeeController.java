@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,22 +29,7 @@ public class EmployeeController {
 	
 	@Autowired
 	private AttendanceService attendanceService;
-	
-	//마이페이지 전환
-	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage() {
-		System.out.println("마이페이지 전환");
-		return "employee/EmployeeMypage";
-	}
-	
-	//사원등록 페이지 전환
-	@RequestMapping("insert.hr")
-	public String EmployeeEnrollForm() {
-		System.out.println("사원등록 페이지 전환");
-		return "employee/EmployeeEnrollFrom";
-	}
-	
-	
+		
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(Employee m, Model model) {
@@ -82,6 +69,7 @@ public class EmployeeController {
 	      return mv;
 	}
 	
+	
 	//로그아웃
 		@RequestMapping("logout.me")
 		public String logoutMember( SessionStatus status) {
@@ -91,5 +79,38 @@ public class EmployeeController {
 		}	
 		
 		
+	//마이페이지 전환
+	@RequestMapping("Mypage.mp")
+	public String EmployeeMypage(ModelAndView mv, HttpServletRequest request) {
+		System.out.println("마이페이지 전환");
+		
+		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
+		Employee emp = employeeService.selectEmp(empNo);
+		
+		
+		return "employee/EmployeeMypage";
+	}
+	
+	//사원수정
+	@RequestMapping("update.me")
+	public String updateEmp(@ModelAttribute Employee m, @RequestParam("empPhone") String empPhone, Model model) throws Exception {
+		
+		m.setEmpPhone(empPhone);
+		Employee userInfo = employeeService.updateEmp(m);
+		
+		model.addAttribute("loginUser", userInfo);
+		model.addAttribute("msg","정보가 수정되었습니다");
+		
+		return "redirect:Mypage.mp";		
+	}
+
+
+	//사원등록 페이지 전환
+	@RequestMapping("insert.hr")
+	public String EmployeeEnrollForm() {
+		System.out.println("사원등록 페이지 전환");
+		return "employee/EmployeeEnrollFrom";
+	}
+	
 
 }

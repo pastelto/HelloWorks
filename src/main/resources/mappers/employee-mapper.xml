@@ -46,13 +46,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into member
 		values(#{userId}, #{userPwd}, #{userName}, #{email}, #{gender}, #{age}, #{phone}, #{address}, sysdate, sysdate, default)
 	</insert>
+	-->
 	
-	<update id="updateMember" parameterType="Member">
-		update member
-		set email=#{email}, age=#{age}, phone=#{phone}, address=#{address},gender=#{gender}, modify_date=sysdate
-		where user_id=#{userId}
+	<update id="updateEmp" parameterType="Employee" >
+		UPDATE EMPLOYEE
+		SET EMP_PHONE = #{empPhone}
+		WHERE EMP_NO = #{empNo}
 	</update>
 	
+	<select id="selectEmp" parameterType="Employee" resultMap="employeeResultSet">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
+	<!--
 	<delete id="deleteMember" parameterType="string">
 		update member
 		set status='N'
