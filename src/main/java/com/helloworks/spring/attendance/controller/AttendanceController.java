@@ -116,6 +116,7 @@ public class AttendanceController {
 				Vacation vacation = vacationService.sysdateVacation(empNo);
 				if (vacation != null) {
 					attendance.setPsStatus("반차");
+					attendance.setAppliedIN(50400); //2시출근
 				}
 
 			} else {
@@ -155,20 +156,20 @@ public class AttendanceController {
 			int statushour = Integer.parseInt(inOutTime.substring(0, 2));
 			int statusmin = Integer.parseInt(inOutTime.substring(3, 5));
 
-			// 6시 이후 퇴근
+			// 6시 이후 퇴근- 야근
 			if (statushour >= 18) {
 
-				if (statusmin < 10) {// 6시 정시 퇴근
+				/*if (statusmin < 10) {// 6시 정시 퇴근
 					attendance.setAppliedOut(64800); // 6시
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setWorkingTime(attendance.getTotal()); // 일한시간
 					attendance.setOverTime(0);// 야근없음
 				} else {// 야근
-					attendance.setAppliedOut(sec);
+*/					attendance.setAppliedOut(sec);
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setOverTime(attendance.getTotal() - 28800);// 야근시간(총 일한시간 - 8시간)
 					attendance.setWorkingTime(28800); // 일한시간(8시간
-				}
+					/* } */
 
 			} else {// 6시 이전 퇴근
 

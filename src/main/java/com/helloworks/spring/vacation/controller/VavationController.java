@@ -148,9 +148,6 @@ public class VavationController {
 		String documentType = request.getParameter("documentType"); //문서타입 종류(연차,반차,조퇴,결근)
 		String datailType = request.getParameter("datailType"); // 근태구분, 휴가구분/조정신청
 		
-		
-
-		
 		vacation.setApClass("근태");
 		vacation.setDetailClass("근태");
 		vacation.setTitle(title);
@@ -158,28 +155,16 @@ public class VavationController {
 		vacation.setDeptName(deptName);
 		vacation.setContent(content);
 		vacation.setDeptShare(deptShare);	
-		
-		System.out.println("~!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@title !!" + title);
-		System.out.println("writer!! " + writer);
-		System.out.println("deptShare!! " + deptShare);
-		System.out.println("documentType!! " + documentType);
-		System.out.println("content!! " + content);
-		
-		
-		System.out.println("datailType!! " + datailType);
 						
 		// 문서분류에 따른 등록 				
 		switch(datailType) {
 		case "근태구분" : insertAttendance(vacation, apA, request);
-						System.out.println("1111111111111111111111");
 					break;
 		case "휴가구분" : 			
-						insertVacation(vacation, apA, request);	
-						System.out.println("222222222222222222222");
+						insertVacation(vacation, apA, request);
 					break;
 		case "근태조정" :
-						//insertAdjust(vacation, am, request);		
-						System.out.println("3333333333333333333333333");
+						//insertAdjust(vacation, am, request);
 					break;
 		default : model.addAttribute("msg", "등록되지 않았습니다.");
 		}
@@ -214,8 +199,6 @@ public class VavationController {
 				vacationService.insertCcDept(vaCC);
 			}
 		}
-
-		System.out.println("~@@@@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + ccCode);
 								
 		// 결재라인 등록  
 		insertLine(line, request);		
@@ -383,37 +366,46 @@ public class VavationController {
 		
 		//출퇴근 시간변경
 		switch(change.getDocumentType()) {
-		//1) 반차, 연차
-		case"반차": case"연차" :
-			Attendance attendance = new Attendance();
-			attendance.setAppliedIN(32400);//출근시간
-			attendance.setAppliedOut(64800);//퇴근시간
-			if(change.getDocumentType().equals("반차")) {//상태변경
-				attendance.setPsStatus("반차"); 
-			}else {
-				attendance.setPsStatus("연차"); 
-			}
-			attendance.setWorkingTime(28800);//일한시간
-			attendance.setOverTime(0);//야근시간
-			attendance.setTotal(28800);//총시간
-			attendance.setEmpNo(change.getWriter());//사번
-			attendance.setVacation(stdate); //해당날짜
+		//1) 반차
+		case"반차":
+			Attendance half = new Attendance();
+			half.setPsStatus("반차"); 
+			half.setEmpNo(change.getWriter());//사번
+			half.setVacation(stdate); //해당날짜
 			
-			attendanceService.changeTime(attendance); 
+			attendanceService.changeTime(half); 
 			
 			//연차테이블변경
-			LoginUserVacation annual = new LoginUserVacation();
-			annual.setEmpNo(change.getWriter());
+			LoginUserVacation halfannual = new LoginUserVacation();
+			halfannual.setEmpNo(change.getWriter());
+			halfannual.setAnnual(0.5);
+
 			
-			if(change.getDocumentType().equals("반차")) {
-				annual.setAnnual(0.5);
-			}else {
-				annual.setAnnual(1);
-			}
-			
-			vacationService.updateAnnual(annual);
+			vacationService.updateAnnual(halfannual);
 			
 			break;
+		//2)연차
+		 case"연차" :
+				Attendance attendance = new Attendance();
+				attendance.setAppliedIN(32400);//출근시간
+				attendance.setAppliedOut(64800);//퇴근시간
+				attendance.setPsStatus("연차"); 
+				attendance.setWorkingTime(28800);//일한시간
+				attendance.setOverTime(0);//야근시간
+				attendance.setTotal(28800);//총시간
+				attendance.setEmpNo(change.getWriter());//사번
+				attendance.setVacation(stdate); //해당날짜
+				
+				attendanceService.changeTime(attendance); 
+				
+				//연차테이블변경
+				LoginUserVacation annual = new LoginUserVacation();
+				annual.setEmpNo(change.getWriter());
+				annual.setAnnual(1);
+				
+				vacationService.updateAnnual(annual);
+				
+				break;
 		//2) 휴가
 		case "휴가" :
 			LoginUserVacation vacation = new LoginUserVacation();
