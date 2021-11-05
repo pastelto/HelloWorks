@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회의실 신청페이지</title>
+<title>배차 신청페이지</title>
 <!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <!-- <script src="../plugins/jquery/jquery.min.js"></script>
@@ -32,7 +32,7 @@
 							<input type="hidden" id="empNo" name="empNo"
 								value="${ loginUser.empNo }">
 							<div class="card-header">
-								<h3 class="card-title">회의실 신청</h3>
+								<h3 class="card-title">배차 신청</h3>
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
@@ -49,25 +49,17 @@
 												<table class="table table-hover text-nowrap" id="mtrList">
 													<thead>
 														<tr align="center">
-															<th colspan="3" align="center"><h5><b>회의실 목록</b></h5></th>
+															<th colspan="3" align="center"><h5><b>차량 목록</b></h5></th>
 														</tr>
-														<!-- 회의실 목록 -->
 														<tr align="center">
 															<!-- <th>No</th> -->
-															<th width="20%">관리번호</th>
-															<th width="40%">회의실 명</th>
-															<th width="20%">수용인원</th>
+															<th width="35%">차량 번호</th>
+															<th width="30%">제조사</th>
+															<th width="35%">차량 명</th>
 														</tr>
 													</thead>
 													<tbody>
-														<%--<c:forEach items="${ listMtr }" var="mtr"
-															varStatus="status">
-															<tr align="center">
-																<td>${ status.count }</td>
-																<td>${ mtr.mMName }</td>
-																<td>${ mtr.mMCapacity }</td>
-															</tr>
-														</c:forEach> --%>
+													<!-- 차량 목록 -->
 													</tbody>
 												</table>
 											</div>
@@ -80,7 +72,7 @@
 									<div class="container">
 									<div class="col-12">
 										<div class="card">
-											<table class="table table-hover text-nowrap" id="timeMtr">
+											<table class="table table-hover text-nowrap" id="timeCar">
 												<thead>
 													<tr align="center">
 														<th colspan="4" align="center"><h5><b>예약 시간 선택</b></h5></th>

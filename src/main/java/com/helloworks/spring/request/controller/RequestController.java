@@ -325,6 +325,8 @@ public class RequestController {
 	public String listCar(){
 
 		ArrayList<Car> listCar = requestService.listCar();
+		
+		System.out.println(listCar.toString());
 		return new GsonBuilder().create().toJson(listCar);
 
 	}
