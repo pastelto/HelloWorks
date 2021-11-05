@@ -188,4 +188,18 @@ public class OfficeRoomDao {
 		return sqlSession.insert("officeroomMapper.insertDeptResourcesAttach", deptResourcesAttach);
 	}
 
+	public int selectDeptResourcesSearchListCount(SqlSessionTemplate sqlSession, DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDeptResourcesSearchListCount", deptResources);
+	}
+
+	public ArrayList<DeptResources> selectDeptResourcesSearchList(SqlSessionTemplate sqlSession,
+			DeptResources deptResources, PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("officeroomMapper.selectDeptResourcesSearchList", deptResources, rowBounds);
+	}
+
 }

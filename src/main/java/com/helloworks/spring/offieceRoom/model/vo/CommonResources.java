@@ -30,4 +30,8 @@ public class CommonResources {
 	private String writerJobName;		//	CR_WRITER_NO 이름
 	private String writerDeptUName;		//	CR_WRITER_NO 이름
 	private String writerDeptDName;		//	CR_WRITER_NO 이름
+	
+	//search 부분
+	private String optionType;
+	private String Search;
 }

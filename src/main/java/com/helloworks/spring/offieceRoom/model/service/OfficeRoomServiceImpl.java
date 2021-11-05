@@ -294,4 +294,18 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	}
 
 
+	@Override
+	public int selectDeptResourcesSearchListCount(DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesSearchListCount(sqlSession, deptResources);
+	}
+
+
+	@Override
+	public ArrayList<DeptResources> selectDeptResourcesSearchList(DeptResources deptResources, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDeptResourcesSearchList(sqlSession, deptResources, pi);
+	}
+
+
 }

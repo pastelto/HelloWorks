@@ -36,7 +36,7 @@
 		text-align: center !important;
 	}
 	#dailyType{
-		background: #DAE1E7;
+		background: #A9E2F3;
 	}
 	#weeklyType{
 		background: #00909E;
@@ -153,7 +153,7 @@
 														<button id="allDailyReport" type="button" class="btn btn-default btn-sm" onclick="location.href='recvReport.dr'">전체검색</button>
 														&nbsp;&nbsp;
 														
-														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;">
 															<option value="allType">전체</option>
 															<option value="writerType">작성자</option>
 															<option value="titleType">제목</option>
@@ -166,7 +166,7 @@
 																class="form-control form-control-sm"
 																placeholder="검색어를 입력하세요." name="search" value="${ search }">
 															<div class="input-group-append">
-																<button type="submit" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
+																<button onclick="searchDailyReport();" type="button" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
 																	<i class="fa fa-search"></i>
 																</button>
 															</div>
@@ -187,10 +187,10 @@
 								<div class="row">
 									<div class="col-12" style="height: 450px">
 										<table class="table table-sm text-center table-hover">
-											<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">
-													<c:set var="now" value="<%=new java.util.Date()%>" />
+											<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">${ sortOption }
+													<%-- <c:set var="now" value="<%=new java.util.Date()%>" />
 													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd" /></c:set> 
-													<c:out value="${sysdate}" />
+													<c:out value="${sysdate}" /> --%>
 												</span>
 											</caption>
 											<thead>
@@ -265,7 +265,7 @@
 						                <ul class="pagination">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -275,7 +275,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -286,7 +286,7 @@
 						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -300,9 +300,7 @@
 							</div>
 
 							<div class="card-footer">
-							
 							</div>
-
 					</div>
 				</div>
 			</div>
@@ -361,7 +359,46 @@
 			
 			location.href="detailDailyReport.dr?writer="+writer+"&createDate="+createDate;
 		}
+	</script>
 	
+	<!-- 검색 -->
+	<script>
+		$(function() {
+			switch ('${ optionType }') {
+			case "allType":
+				$("#optionType>option").eq(0).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "writerType":
+				$("#optionType>option").eq(1).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "titleType":
+				$("#optionType>option").eq(2).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "contentType":
+				$("#optionType>option").eq(3).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			}
+			
+		})
+	</script>
+	
+	<!-- 검색 -->
+	<script>
+		function searchDailyReport() {
+			var type = $("input:radio[name=reportType]:checked").val();
+			var optiontype = $("#optionType").val();
+			var searchInput = $("#searchInput").val();
+			
+			location.href="searchDailyReport.dr?reportType="+type+"&optionType="+optiontype+"&search="+searchInput;
+		}
 	</script>
 </body>
 </html>

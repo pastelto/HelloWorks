@@ -76,5 +76,9 @@ public interface OfficeRoomService {
 
 	void insertDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList);
 
+	int selectDeptResourcesSearchListCount(DeptResources deptResources);
+
+	ArrayList<DeptResources> selectDeptResourcesSearchList(DeptResources deptResources, PageInfo pi);
+
 
 }
