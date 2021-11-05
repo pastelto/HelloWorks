@@ -80,5 +80,9 @@ public interface OfficeRoomService {
 
 	ArrayList<DeptResources> selectDeptResourcesSearchList(DeptResources deptResources, PageInfo pi);
 
+	int selectCommResourcesSearchListCount(CommonResources commResources);
+
+	ArrayList<CommonResources> selectCommResourcesSearchList(CommonResources commResources, PageInfo pi);
+
 
 }

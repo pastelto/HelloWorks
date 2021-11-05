@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -812,5 +811,47 @@ public class OfficeRoomController {
 		model.addAttribute("search", search);
 		
 		return "officeResources/deptResourcesList";
+	}
+	
+	@RequestMapping("searchCommResources.or")
+	public String searchCommResources(String resourcesType, String optionType, String search,
+			@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
+		
+		System.out.println("공통 자료실 검색 컨트롤러 option: "+optionType);
+		
+		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
+		CommonResources commResources = new CommonResources();
+		
+		commResources.setCrCategory(resourcesType);
+		
+		commResources.setOptionType(optionType);
+		commResources.setSearch(search);
+		
+		int listCount = officeRoomService.selectCommResourcesSearchListCount(commResources);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 13);
+		
+		ArrayList<CommonResources> commResourcesList = officeRoomService.selectCommResourcesSearchList(commResources, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("commResourcesList", commResourcesList);
+		model.addAttribute("pageURL", "searchCommResources.or");
+		
+		if(resourcesType.equals("공유")) {
+			model.addAttribute("checkS", "checked");
+		}else if(resourcesType.equals("문서")){
+			model.addAttribute("checkD", "checked");
+		}else if(resourcesType.equals("기타")) {
+			model.addAttribute("checkE", "checked");
+		}else {
+			model.addAttribute("checkTypeAll", "checked");
+		}
+		
+		model.addAttribute("resourcesType", resourcesType);
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("search", search);
+		
+		return "officeResources/commResourcesList";
 	}
 }
