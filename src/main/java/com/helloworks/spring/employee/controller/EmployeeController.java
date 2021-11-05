@@ -1,6 +1,7 @@
 package com.helloworks.spring.employee.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.helloworks.spring.approval.model.service.ApprovalService;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
@@ -32,6 +35,10 @@ public class EmployeeController {
 	
 	@Autowired 
 	private EmployeeService employeeService;
+
+	//김소원
+	@Autowired 
+	private ApprovalService approvalService;
 	
 	//조아혜
 	@Autowired
@@ -91,13 +98,13 @@ public class EmployeeController {
 		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
 		  
 		  //조아혜
-	      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
-	      mv.addObject("attendance", attendance);
-	      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
-	      mv.addObject("annual", annual);
-	      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
-	      mv.addObject("noticeList", noticeList);
-	      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
+      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
+      mv.addObject("attendance", attendance);
+      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
+      mv.addObject("annual", annual);
+      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
+      mv.addObject("noticeList", noticeList);
+      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
 		  as.setEmpNo(empNo);
 		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
 		  String test = null;
@@ -114,8 +121,16 @@ public class EmployeeController {
 		  mv.addObject("statistics", statistics);
 	      
 	      
-	      
-	      
+	      //김소원
+	      ArrayList<ApprovalComment> acList = null;
+	      String status = "Y"; 			
+	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
+	      selectMap.put("loginEmpNo", empNo);
+	      selectMap.put("status", status);			
+	      acList = approvalService.mainMyApproval(selectMap);
+	      mv.addObject("acList", acList);
+	      mv.addObject("commentPageURL", "mainMyApproval.ea");
+	      mv.addObject("commentPage", 1);
 	      
 	      
 	      

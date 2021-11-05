@@ -28,7 +28,7 @@
 					<div class="col-sm-8">
 
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 일일보고 발신함</b>
+							<i class="nav-icon fas fa-edit"></i><b> 일일보고 발신함 </b>
 						</h4>
 					</div>
 				</div>
@@ -110,22 +110,69 @@
 	
 	<!-- 스크립트 모음 -->
 	<script>
-	
-	      document.addEventListener('DOMContentLoaded', function() {
+ 	      document.addEventListener('DOMContentLoaded', function() {
+	    	
+ 	    	  
 	        var calendarEl = document.getElementById('calendar');
+	        
+        	var events = [];
 	        var calendar = new FullCalendar.Calendar(calendarEl, {
-	          initialView: 'dayGridMonth',
-	          events: [
-	        	  {
-	        		  title:'이벤트',
-	        		  start: '2021-11-02',
-	        		  end: '2021-11-02'
-	        	  }
-	          ]
+	            initialView: 'dayGridMonth',
+	            defaultDate: new Date(),
+	            locale: 'ko', 
+	            eventLimit: true,
+	            contentHeight: 550,
+	            editable: false,
+	            droppable: false,
+	            events:function(info, successCallback, failureCallback){
+	                $.ajax({
+	                       url: 'selectAllList.dr',
+	                       dataType: 'json',
+	                       type:'post',
+	                       success: 
+	                           function(list) {
+	                               var events = [];
+	                               
+	                               if(list != null){
+	                            	   $.each(list, function(i, obj) {
+	                                       var startDate= moment(obj.drCreateDate).format('YYYY-MM-DD');
+	                                       if(obj.drCategory == 'D'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            //textColor: 'black',
+		                                            color: '#A9E2F3'	                                           
+		                                         });
+	                                       }else if(obj.drCategory == 'W'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            color: '#00909E'	                                           
+		                                         });
+	                                       }else if(obj.drCategory == 'M'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            color: '#27496D'	                                           
+		                                         });
+	                                       }
+	                                      
+	                               		})
+	                               }	 
+                            	   successCallback(events); 
+	                       }
+	                });
+	            }
+	          
 	        });
+      		
 	        calendar.render();
 	      });
 	
 	</script>
+	
 </body>
 </html>
