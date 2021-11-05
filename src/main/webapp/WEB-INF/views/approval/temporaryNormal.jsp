@@ -28,6 +28,22 @@
 	#startDate, #endDate, #conditionOption, #conditionInput{
 		width : 25% !important;
 	}
+	#normalBadge{
+		background: #8DEFE6;
+		color: white;
+	}
+	#minutesBadge{
+		background: #8DDCEF;
+		color: white;
+	}
+	#diplomaBadge{
+		background: #8DBAEF;
+		color: white;
+	}
+	#hrBadge{
+		background: #8DA5EF;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -62,9 +78,19 @@
 															&nbsp;&nbsp;
 															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem">
-															&nbsp; ~ &nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem">																														
+															<div class="form-group mb-0">
+																<div class="input-group">
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem">
+																		<div class="input-group-append">
+																			<span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">~</span>
+																		</div>
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem">																														
+																	<div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="searchNormalApproval();" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																	</div>
+																</div>
+															</div>																													
 													</div>													
 												</td>
 											</tr>
@@ -79,9 +105,14 @@
 															<option value="문서번호"> 문서번호 </option>
 														</select>
 														&nbsp;&nbsp;
-														<input type="text" class="form-control" id="conditionInput" name="conditionInput" style="font-size:0.8rem"/>
-														&nbsp;&nbsp;
-														<button type="button" id="searchBtn" class="btn btn-primary btn-xs" onclick="searchNormalApproval();">검색</button>
+														<div class="input-group" style="width: 30%;">
+															<input type="text" class="form-control " id="conditionInput" name="conditionInput" style="font-size:0.8rem" placeholder="검색어를 입력하세요." />
+															<div class="input-group-append">
+																<button type="button" id="searchBtn" class="btn btn-sm btn-default" onclick="searchNormalApproval();" style="width: 30px; font-size: 14px;">
+																	<i class="fa fa-search"></i>
+																</button>
+															</div>
+														</div>
 													</div>
 												</td>
 											</tr>
@@ -143,7 +174,18 @@
 							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }');">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
-							                        <td>${ approvalList.detailClass }</td>
+							                         <c:if test="${ approvalList.detailClass == '기안'}">
+							                        	<td><span class="badge" id="normalBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '회의'}">
+							                       	 <td><span class="badge" id="minutesBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '공문'}">
+							                        	<td><span class="badge" id="diplomaBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '인사'}">
+							                        	<td><span class="badge" id="hrBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
 							                        <td>${ approvalList.apNo }</td>
 							                        <td>${ approvalList.progress }</td>
 							                        <td>${ approvalList.createDate }</td>
@@ -220,9 +262,17 @@
  					$.each(list, function(i, obj){
  						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
                         '<td>'+obj.rownum+'</td>' +
-                        '<td>'+obj.title+'</td>' +
-                        '<td>'+obj.detailClass+'</td>' +
-                        '<td>'+obj.apNo +'</td>' +
+                        '<td>'+obj.title+'</td>';
+                        if(obj.detailClass == '기안'){
+                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '회의'){
+                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '공문'){
+                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '인사'){
+                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+                        }
+                        value += '<td>'+obj.apNo +'</td>' +
                         '<td>'+obj.progress+'</td>' +
                         '<td>'+obj.createDate+'</td>' +
                         '<td>'+obj.deptName+'</td>' +
@@ -267,16 +317,24 @@
 			 				var value = "";
 			 				$.each(list, function(i, obj){			 				
 			 					if(list.length != 0){
-				 					value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+							      
-				                       '<td>'+obj.rownum+'</td>' +
-				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
-				                       '<td>'+obj.apNo +'</td>' +
-				                       '<td>'+obj.progress+'</td>' +
-				                       '<td>'+obj.createDate+'</td>' +
-				                       '<td>'+obj.deptName+'</td>' +
-				                       '<td>'+obj.writerName+'</td>' +							                       
-				                   '</tr>';
+			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
+			                        '<td>'+obj.rownum+'</td>' +
+			                        '<td>'+obj.title+'</td>';
+			                        if(obj.detailClass == '기안'){
+			                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '회의'){
+			                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '공문'){
+			                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '인사'){
+			                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        }
+			                        value += '<td>'+obj.apNo +'</td>' +
+			                        '<td>'+obj.progress+'</td>' +
+			                        '<td>'+obj.createDate+'</td>' +
+			                        '<td>'+obj.deptName+'</td>' +
+			                        '<td>'+obj.writerName+'</td>' +							                       
+			                    '</tr>';
 			 					} else {
 			 						value += '<tr>'+							      
 				                       '<td>검색된 결과가 없습니다.</td>'+
@@ -353,15 +411,23 @@
 			 				$.each(list, function(i, obj){			 				
 			 					if(list.length != 0){
 			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
-				                       '<td>'+obj.rownum+'</td>' +
-				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
-				                       '<td>'+obj.apNo +'</td>' +
-				                       '<td>'+obj.progress+'</td>' +
-				                       '<td>'+obj.createDate+'</td>' +
-				                       '<td>'+obj.deptName+'</td>' +
-				                       '<td>'+obj.writerName+'</td>' +							                       
-				                   '</tr>';
+			                        '<td>'+obj.rownum+'</td>' +
+			                        '<td>'+obj.title+'</td>';
+			                        if(obj.detailClass == '기안'){
+			                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '회의'){
+			                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '공문'){
+			                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '인사'){
+			                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        }
+			                        value += '<td>'+obj.apNo +'</td>' +
+			                        '<td>'+obj.progress+'</td>' +
+			                        '<td>'+obj.createDate+'</td>' +
+			                        '<td>'+obj.deptName+'</td>' +
+			                        '<td>'+obj.writerName+'</td>' +							                       
+			                    '</tr>';
 			 					} else {
 			 						value += '<tr>'+							      
 				                       '<td>검색된 결과가 없습니다.</td>'+
