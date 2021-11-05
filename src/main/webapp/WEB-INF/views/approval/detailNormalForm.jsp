@@ -131,7 +131,7 @@
 																	</div>
 																</td>
 																<td class="table emp_name"  colspan="5">
-																	<input type="text" class="emp_name4" id="emp_name1_4" name="jlineNameob" readonly/>
+																	<input type="text" class="emp_name4" id="emp_name1_4" name="lineName" readonly/>
 																	<div class="confirm" id="divConfirm0">
 																		<input type="text" class="confirm-input" id="confirm4" readonly/>
 																	</div>
@@ -147,7 +147,7 @@
 														<tbody>
 															<tr>
 																<th rowspan="2" colspan="5">협조</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level"colspan="5">
 																	<input type="text" class="coo_level1" id="coo_level1_1" name="cooJob" value="${approval.cooJob}" readonly/>
 																</th>
 																<th class="table coo_level" colspan="5">
@@ -186,7 +186,7 @@
 											</tr>										
 										</tbody>
 									</table>							
-									<table width="100%" style="font-size:0.8rem" vertical-align="middle" >
+									<table width="100%" style="font-size:0.8rem" vertical-align="middle">
 										<tr>
 											<td>
 												<table class="table table-bordered" id="detail_table">
@@ -230,32 +230,34 @@
 															<span>소속</span>
 														</td>
 														<td colspan="6">
-															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptDname}" /> 
+															<input type="text" name="userDept" id="userDept1" class="form-control" value="${approval.deptName}" /> 
 														</td>
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote" name="apContent">${approval.content}</textarea>
+															${approval.content}
 														</td>
+													</tr>
+													<c:choose>	
+													<c:when test="${ not empty apAttach }">		
+													<tr>
+														<td colspan="9">
+															<div class="btn btn-default btn-file btn-xs">
+												                  <a href="resources/approval_files/${ apAttach.newName }"
+												                  	 class="approval-attachment-name"
+												                  	 download="${ apAttach.newName }">
+												                     <i class="fas fa-paperclip"></i> ${ apAttach.originName }
+												                  </a> 
+												             </div> 
+												        </td>
 													</tr>
 													<tr>
-														<td colspan="9">															
-															<div class="btn btn-default btn-file btn-xs">
-											                  <a href="resources/approval_files/${ apAttach.newName }"
-											                  	 class="approval-attachment-name"
-											                  	 download="${ apAttach.newName }">
-											                     <i class="fas fa-paperclip"></i> ${ apAttach.originName }
-											                  </a> 
-											                </div> 
-														</td>
-													</tr>
-													</tbody>
-												</table>
-												<tr>
-														<th colspan="1">
+													 </c:when>
+											         </c:choose>
+														<th colspan="3">
 															<b>결재로그</b>
 														</th>
-														<td colspan="11">
+														<td colspan="6">
 															<span id="approval_log">
 																<strong>[${ approval.createDate }]</strong>
 																&nbsp;${ approval.deptName }&nbsp;${ approval.writerName }&nbsp;${ approval.writerJob }
@@ -263,26 +265,25 @@
 															</span>
 														</td>
 													</tr>
-												
 													<tr>
-														<th colspan="1">
+														<th colspan="3">
 															<b>결재의견</b>
 														</th>
-														<td colspan="11">
+														<td colspan="6">
 															<span id="span_comment">																
 															</span>
 														</td>
 													</tr>												
 													<tr>
-														<th colspan="1">
+														<th colspan="2">
 															<b>의견작성</b>
 															<br>
 															(250자 이내)
 														</th>
-														<td colspan="10">
+														<td colspan="5">
 															<textarea id="approval_comment" style="height:100px; width:100%" class="form form-control" name="commentText"></textarea>
 														</td>
-														<td colspan="1">
+														<td colspan="2">
 															<button type="button" class="btn btn-primary" onclick="writeComment('${approval.apNo}');">등록</button>
 														</td>
 													</tr>

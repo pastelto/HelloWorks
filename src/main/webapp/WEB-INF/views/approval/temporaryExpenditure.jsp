@@ -28,6 +28,10 @@
 	#startDate2, #endDate2, #conditionOption2, #conditionInput2{
 		width : 25% !important;
 	}
+	#exBadge{
+		background: #EFA18D;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -61,9 +65,19 @@
 															&nbsp;&nbsp;
 															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate2" name="startDate" style="font-size:0.8rem">
-															&nbsp; ~ &nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate2" name="endDate" style="font-size:0.8rem">																														
+															<div class="form-group mb-0">
+																<div class="input-group">
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate2" name="startDate" style="font-size:0.8rem">
+																		<div class="input-group-append">
+																			<span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">~</span>
+																		</div>
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate2" name="endDate" style="font-size:0.8rem">																														
+																	<div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="searchExApproval();" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																	</div>
+																</div>
+															</div>																														
 													</div>													
 												</td>
 											</tr>
@@ -78,10 +92,14 @@
 															<option value="문서번호"> 문서번호 </option>
 														</select>
 														&nbsp;&nbsp;
-														<input type="text" class="form-control" id="conditionInput2" name="conditionInput" style="font-size:0.8rem"/>
-														&nbsp;&nbsp;
-														<button type="button" id="searchBtn" class="btn btn-primary btn-xs" onclick="searchExApproval();">검색</button>
-													</div>
+														<div class="input-group" style="width: 30%;">
+															<input type="text" class="form-control " id="conditionInput" name="conditionInput" style="font-size:0.8rem" placeholder="검색어를 입력하세요." />
+															<div class="input-group-append">
+																<button type="button" id="searchBtn" class="btn btn-sm btn-default" onclick="searchExApproval();" style="width: 30px; font-size: 14px;">
+																	<i class="fa fa-search"></i>
+																</button>
+															</div>
+														</div>
 												</td>
 											</tr>				
 											</tbody>
@@ -114,7 +132,7 @@
 							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }');">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
-							                        <td>${ approvalList.detailClass }</td>
+							                        <td><span class="badge" id="exBadge">${ approvalList.detailClass }</span></td>
 							                        <td>${ approvalList.apNo }</td>
 			                   						<td>${ approvalList.progress }</td>							                        
 							                        <td>${ approvalList.createDate }</td>
@@ -190,7 +208,7 @@
  						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
                         '<td>'+obj.rownum+'</td>' +
                         '<td>'+obj.title+'</td>' +
-                        '<td>'+obj.detailClass+'</td>' +
+                        '<td>'+'<span class="badge" id="exBadge">'+obj.detailClass+'</span>'+'</td>'+
                         '<td>'+obj.apNo +'</td>' +
                         '<td>'+obj.progress+'</td>' +
                         '<td>'+obj.createDate+'</td>' +
@@ -239,7 +257,7 @@
 				 					value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+							      
 				                       '<td>'+obj.rownum+'</td>' +
 				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
+				                       '<td>'+'<span class="badge" id="exBadge">'+obj.detailClass+'</span>'+'</td>'+
 				                       '<td>'+obj.apNo +'</td>' +
 				                       '<td>'+obj.progress+'</td>' +
 				                       '<td>'+obj.createDate+'</td>' +
@@ -317,7 +335,7 @@
 			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
 				                       '<td>'+obj.rownum+'</td>' +
 				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
+				                       '<td>'+'<span class="badge" id="exBadge">'+obj.detailClass+'</span>'+'</td>'+
 				                       '<td>'+obj.apNo +'</td>' +
 				                       '<td>'+obj.progress+'</td>' +
 				                       '<td>'+obj.createDate+'</td>' +

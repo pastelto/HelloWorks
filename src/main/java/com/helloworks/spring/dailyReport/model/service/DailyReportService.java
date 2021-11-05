@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
+import com.helloworks.spring.dailyReport.model.vo.SearchDailyReport;
 
 public interface DailyReportService{
 
@@ -45,5 +46,15 @@ public interface DailyReportService{
 	ArrayList<DailyReportReply> selectReplyList(int drNo);
 
 	int deleteReply(int drNo);
+
+	ArrayList<DailyReport> selectMyAllDailyReportList(int loginUserNo);
+
+	DailyReport selectDetailSendDailyReport(int drNo);
+
+	void updateConfirm(DailyReport dailyReport);
+
+	int searchDailyReportListCount(SearchDailyReport sdr);
+
+	ArrayList<DailyReport> searchDailyReportList(DailyReport dailyReport, PageInfo pi);
 
 }

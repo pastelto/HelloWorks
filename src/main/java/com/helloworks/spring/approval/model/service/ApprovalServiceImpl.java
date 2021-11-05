@@ -649,6 +649,20 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 
+	@Override
+	public ArrayList<ApprovalComment> mainMyApproval(HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.mainMyApproval(sqlSession, selectMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> mainPending(HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.mainPending(sqlSession, selectMap);
+	}
+
+
 	
 
 

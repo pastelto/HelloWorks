@@ -83,6 +83,50 @@ public class ApprovalController {
 		return "approval/plusCooForm";
 	}
 	
+	@RequestMapping("mainMyApproval.ea")
+	public String mainMyApproval(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String status = "Y"; 
+		
+		ArrayList<ApprovalComment> acList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		selectMap.put("status", status);
+		
+		acList = approvalService.mainMyApproval(selectMap);
+		
+		model.addAttribute("acList", acList);
+		model.addAttribute("commentPageURL", "mainMyApproval.ea");
+		model.addAttribute("commentPage", 1);
+		
+		
+		return "main";
+	}
+	
+	@RequestMapping("mainPending.ea")
+	public String mainPending(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<Approval> approvalList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		
+		approvalList = approvalService.mainPending(selectMap);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("commentPageURL", "mainPending.ea");
+		model.addAttribute("commentPage", 2);
+		
+		
+		return "main";
+	}
+	
 	
 	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
@@ -1356,7 +1400,7 @@ public class ApprovalController {
 	
 	// 미결재함 - 날짜 버튼 클릭 
 	@ResponseBody
-	@RequestMapping(value="selectDateSortPending.ea", produces= "application/json; charset=utf-8")
+	@RequestMapping(value="pendingSelectDateSort.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortPending(HttpServletRequest request) {
 			
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
@@ -1367,7 +1411,7 @@ public class ApprovalController {
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
 			
-		System.out.println("기간 : " + sdate);
+		System.out.println("기간 확인: " + sdate);
 		int sDate= 0;
 		ArrayList<Approval> list = null;
 		switch(sdate) {
@@ -1545,7 +1589,7 @@ public class ApprovalController {
 			return new GsonBuilder().create().toJson(list);
 		}
 		
-		// 미결재함 - 날짜 버튼 클릭 
+		// 결재완료- 날짜 버튼 클릭 
 		@ResponseBody
 		@RequestMapping(value="selectDateSortSigned.ea", produces= "application/json; charset=utf-8")
 		public String selectDateSortSigned(HttpServletRequest request) {
@@ -1558,7 +1602,7 @@ public class ApprovalController {
 			searchMap.put("loginEmpNo", loginEmpNo);
 			searchMap.put("apClass", apClass);
 				
-			System.out.println("기간 : " + sdate);
+			System.out.println("기간 signed: " + sdate);
 			int sDate= 0;
 			ArrayList<Approval> list = null;
 			switch(sdate) {
@@ -1600,7 +1644,7 @@ public class ApprovalController {
 				
 		}
 		
-		// 미결재함 - 검색 
+		// 결재완료 - 검색 
 			@ResponseBody
 			@RequestMapping(value="selectSearchSortSigned.ea", produces= "application/json; charset=utf-8")
 			public String selectSearchSortSigned(HttpServletRequest request) {
