@@ -14,7 +14,21 @@
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
 <style>
-
+  textarea {
+    width: 100%;
+    height: 3em;
+    border: none;
+    resize: none;
+  }
+  
+  p>#dateStartCheck{
+  	padding: 0;
+  	margin: 0;
+  }
+  
+  #detailPlace, #detailType, #detailTitle{
+  	border : none;
+  }
 </style>
 </head>
 <body>
@@ -88,7 +102,7 @@
     </div>
 </div>
 
-<!-- Edit Modal -->
+<!-- 일정상세확인 Modal -->
 <div class="modal fade" id="schedule-check">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -108,6 +122,8 @@
 
 						<form id="insertNewEvent" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="formType" value="1">
+								<input type="hidden" name="detailEmpNo" id="detailEmpNo" value="">
+								<input type="hidden" name="detailSchNo" id="detailSchNo" value="">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
@@ -117,12 +133,14 @@
 												<th>일자</th>
 												<td colspan="3" >
 												<!-- 날짜 및 시간 선택 -->
-												<div class="col-6">
+												<div class="col-12">
 									                <div class="form-group">
 									                  <div class="input-group">
-									                   	<p id="dateStartCheck"></p> 
-									                   	<p id="dateEndCheck"></p> 
-									                  	<label id="sch_allday">종일</label>
+									                  <div class="col-1"><span class="badge badge-info right" id="detailAllday"></span></div>
+									                   	<div class="col-4"><p id="dateStartCheck"></p></div>
+									                   	<div class="col-5"><p id="dateEndCheck"></p></div>
+									                   	
+									                   	
 									                  </div>
 									                  </div>
 									                 </div>
@@ -131,19 +149,21 @@
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input type="text" id="sch_title" name="sch_title" class="form-control form-control-sm" readonly>
+												<input type="text" id="detailTitle" name="sch_title" readonly>
 												</td>
 											</tr>
 											<tr>
 												<th>캘린더 타입</th>
 												<td style="width: 35%;">
 												<div class="form-group">
-									                  <input type="text" style="width: 50%;" name="sch_type" id="sch_type" readonly>
+									                  <input type="text" name="sch_type" id="detailType" readonly>
 									                </div>
 												</td>
 												<th>장소</th>
 												<td style="width: 35%;">
-													<input class="form-control form-control-sm" type="text" name="sch_place">
+												<div class="form-group">
+													<input type="text" name="sch_place" id="detailPlace" readonly>
+												 </div>
 												 </td>
 											</tr>
 										</table>
@@ -153,19 +173,10 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="addEventNote" name="sch_content"></textarea>
+										<textarea id="detailContent" name="sch_content" placeholder="일정 상세 내용이 없습니다." readonly></textarea>
 									</div>
 								</div>
 
-							</div>
-
-							<div class="card-footer">
-								<div class="float-right">
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertEvent();">저장</button>
-									&nbsp;
-									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="location.href='schMain.sc'">취소</button>
-									&nbsp;
-								</div>
 							</div>
 						</form>
 
@@ -173,14 +184,61 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Save Your Schedule</button>
+                <button type="button" class="btn btn-warning" id="detailEditBtn" style="display: none;">수정</button>
+                <button type="button" class="btn btn-danger" id="detailDeleteBtn" style="display: none;">삭제</button>
+	            <button type="button" class="btn btn-primary" data-dismiss="modal" >닫기</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Edit Modal -->
+<script>
+
+	function showEditBtn(){
+		
+		  //var dEmpNo = $('#detailEmpNo').val();
+		  var dEmpNo = $('#detailEmpNo').val();
+		  var myEmpNo = ${loginUser.empNo};
+		  console.log("작성자 사번 2 ? " + dEmpNo);
+			
+			if(dEmpNo == myEmpNo){
+				console.log("로그인 사번 3 ? " + myEmpNo);
+				$("#detailEditBtn").attr("style", "display:''");
+				$("#detailDeleteBtn").attr("style", "display:''");
+		}
+	}
+
+	// 일정 삭제
+	$('#detailDeleteBtn').click(function(){
+		
+		var yes = confirm("정말 일정을 삭제하시겠습니까?");
+		var schNo = $('#detailSchNo').val();
+		console.log(schNo);
+		
+		if(yes){
+			console.log("delete Yes!");
+			
+		    	$.ajax({
+      		    	url: 'deleteCal.cal',
+       		        type: 'POST',
+       		        data: {
+       		        	schNo:schNo
+       		        },
+       		        success: function(result){
+       		        	console.log(result);
+       		        	alert("일정이 정상적으로 삭제 되었습니다.");
+       		            
+       		        	location.reload(true); // 새로고침
+       		       } 
+      		      });
+		}
+		
+		
+	})
+	
+</script>
+
+<!-- 일정 수정 Modal -->
 <div class="modal fade" id="schedule-edit">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

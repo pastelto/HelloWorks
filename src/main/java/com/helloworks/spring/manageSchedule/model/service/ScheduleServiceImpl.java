@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.manageSchedule.model.dao.ScheduleDao;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
 
@@ -58,6 +59,20 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<ManageSchedule> getDeptSchedule(int cal_no) throws Exception {
 		
 		return scheduleDao.getDeptSchedule(sqlSession, cal_no);
+	}
+	
+	// 일정 삭제
+	@Override
+	public int deleteCal(int schNo) throws Exception {
+		
+		return scheduleDao.deleteCal(sqlSession, schNo);
+	}
+	
+	// 부서 목록 가져오기
+	@Override
+	public List<Dept> getDeptList() throws Exception {
+		
+		return scheduleDao.getDeptList(sqlSession);
 	}
 
 	

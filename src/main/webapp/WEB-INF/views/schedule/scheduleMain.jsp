@@ -94,23 +94,33 @@
         	  var startDate = moment(info.event.start).format('YYYY-MM-DD hh:mm:ss');
         	  var allD = info.event.allDay;
         	  var title = info.event.title;
-        	  
+        	  var contents = info.event.extendedProps.contents;
+        	  var schType = info.event.extendedProps.schType;
+        	  var schPlace = info.event.extendedProps.schPlace;
           	  var allDayBoolean = info.event.allDay == true ? 1 : 0; // true false는 1 / 0으로 구분
-        	 
-        	  $('#sch_allday').text("종일");
-        	  console.log(" true 숫자 ? " + allDayBoolean);
-        	  console.log(" true 여부 ? " + info.event.allDay);
-        	
+          	  var empNo = info.event.extendedProps.empNo; // 작성자 사번
+        	  var id = info.event.id;
+          	  
+          	  console.log("스케쥴 타입 ? " + schType);
+          	  console.log("작성자 사번 1 ? " + empNo);
+        	  $('#detailAllday').text("종일");
+        	  $('#dateEndCheck').text("");
+
         	  if(allDayBoolean == 0){
-        		$('#sch_allday').text("");
-        		$('#dateEndCheck').text("");
 	          	var endDate = moment(info.event.end).format('YYYY-MM-DD hh:mm:ss');
-	          	$('#dateEndCheck').text("　 ~　 " + endDate);
-	          	console.log(allDayBoolean);
+        		$('#detailAllday').text("시간");
+	          	$('#dateEndCheck').text("　 ~　  " + endDate);
         	  }
-        	  $('#sch_type').val();
-			  $('#sch_title').val(title);
+        	  $('#detailSchNo').val(id);
+        	  $('#detailEmpNo').val(empNo);
+        	  $('#detailContent').val(contents);
+        	  $('#detailType').val(schType);
+        	  $('#detailPlace').val(schPlace);
+			  $('#detailTitle').val(title);
 			  $('#dateStartCheck').text(startDate);
+			  
+			  showEditBtn();
+			  
               modal.modal();
           },
           eventDidMount: function(arg) {
@@ -149,11 +159,16 @@
            		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
            		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
+           		        		console.log("내용 : " + obj.sch_content);
            		        		events.push({
            		        			 id: obj.shc_no,
            		        			 title: obj.sch_title,
            		        			 start: startDate,
            		        			 end: endDate,
+           		        			 empNo: obj.sch_empno, 
+           		        			 contents: obj.sch_content,
+           		        			 schType: obj.sch_type,
+           		        			 schPlace: obj.sch_place,
            		        			 displayEventTime : true,
            		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
            		        			 color: obj.sch_color,   // a non-ajax option
@@ -185,11 +200,16 @@
          		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
          		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
+         		        		console.log("내용 : " + obj.sch_content);
          		        		events.push({
          		        			 id: obj.shc_no,
          		        			 title: obj.sch_title,
          		        			 start: startDate,
          		        			 end: endDate,
+         		        			 empNo: obj.sch_empno, 
+         		        			 contents: obj.sch_content,
+         		        			 schType: obj.sch_type,
+         		        			 schPlace: obj.sch_place,
          		        			 displayEventTime : true,
          		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
          		        			 color: obj.sch_color,   // a non-ajax option
@@ -221,11 +241,16 @@
      		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
      		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
+     		        		console.log("내용 : " + obj.sch_content);
      		        		events.push({
      		        			 id: obj.shc_no,
      		        			 title: obj.sch_title,
      		        			 start: startDate,
      		        			 end: endDate,
+     		        			 empNo: obj.sch_empno, 
+     		        			 contents: obj.sch_content,
+     		        			 schType: obj.sch_type,
+     		        			 schPlace: obj.sch_place,
      		        			 displayEventTime : true,
      		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
      		        			 color: obj.sch_color,
@@ -257,11 +282,16 @@
  		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
  		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
+ 		        		console.log("내용 : " + obj.sch_content);
  		        		events.push({
  		        			 id: obj.shc_no,
  		        			 title: obj.sch_title,
  		        			 start: startDate,
  		        			 end: endDate,
+ 		        			 empNo: obj.sch_empno, 
+ 		        			 contents: obj.sch_content,
+ 		        			 schType: obj.sch_type,
+ 		        			 schPlace: obj.sch_place,
  		        			 displayEventTime : true,
  		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
  		        			 color: obj.sch_color,   // a non-ajax option

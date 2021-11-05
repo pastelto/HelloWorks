@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
@@ -32,8 +34,21 @@ public class ScheduleController {
 	
 	// 일정등록하기 - 페이지
 	@RequestMapping("addEventsPage.sc")
-	public String addEvents() {
+	public String addEvents(Model model) {
 		
+		List<Dept> deptList = new ArrayList<Dept>();
+		
+		// 부서목록 구하기
+		try {
+			deptList = scheduleService.getDeptList();
+			System.out.println("deptList" + deptList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("deptList", deptList);
 		return "schedule/addSchedule";
 	}
 	
@@ -235,5 +250,26 @@ public class ScheduleController {
 		return new GsonBuilder().create().toJson(dDeptList);
 	}
 	
+	// 일정 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteCal.cal", produces="application/json; charset=UTF-8")
+	public String deleteCal(int schNo) {
+		
+		int result = 0;
+		System.out.println("일정 삭제 schNo ? " + schNo);
+		
+		try {
+			
+			result = scheduleService.deleteCal(schNo);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println("일정 삭제 result ? " + result);
+		return String.valueOf(result);
+	}
 	
 }

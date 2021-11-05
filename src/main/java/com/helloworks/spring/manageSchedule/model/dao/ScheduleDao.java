@@ -7,6 +7,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
 
 @Repository
@@ -35,6 +36,16 @@ public class ScheduleDao {
 	public List<ManageSchedule> getDeptSchedule(SqlSessionTemplate sqlSession, int cal_no) {
 		
 		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getDeptSchedule", cal_no);
+	}
+
+	public int deleteCal(SqlSessionTemplate sqlSession, int schNo) {
+		
+		return sqlSession.delete("manageScheduleMapper.deleteCal", schNo);
+	}
+
+	public List<Dept> getDeptList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getDeptList");
 	}
 
 
