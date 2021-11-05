@@ -43,4 +43,8 @@ public class DailyReport {
 	private int termType;		//기간 값
 	private String startDate;		//기간 설정 첫번째 값
 	private String endDate; 		//기간 설정 두번째 값
+	
+	// 검색 값
+	private String searchType; 
+	private String search; 
 }

@@ -520,20 +520,6 @@
 		}
 	</script>
 	
-	<!-- 페이징 클릭시 정렬기준 처리 -->
-	<!--  
-	<script>
-		function previousClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-		function pageClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-		function nextClick(){
-			$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-		}
-	</script>
-	-->
 	<!-- 직원 상세 정보 -->
 	<script>
 		function detailEmployee(empNo){

@@ -24,6 +24,7 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.service.DailyReportService;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
+import com.helloworks.spring.dailyReport.model.vo.SearchDailyReport;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 @Controller
@@ -255,9 +256,29 @@ public class DailyReportController {
 	}
 	
 	@RequestMapping("sendReport.dr")
-	public String sendReport() {
+	public String sendReport(HttpServletRequest request, Model model) {
+		
+//		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+//		
+//		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
+//		
+//		System.out.println("일일보고: "+dailyReportList);
+//		
+//		model.addAttribute("dailyReportList", dailyReportList);
 		
 		return "dailyReport/dailySendList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectAllList.dr", produces = "application/json; charset=utf-8")
+	public String selectAllList(HttpServletRequest request) {
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
+		
+		System.out.println("일일보고: "+dailyReportList);
+		
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(dailyReportList);
 	}
 	
 	@RequestMapping("recvReport.dr")
@@ -315,6 +336,7 @@ public class DailyReportController {
 		}
 		
 		model.addAttribute("reportType", reportType);
+		model.addAttribute("sortOption", "당일");
 		return "dailyReport/dailyReceiveList";
 	}
 	
@@ -338,9 +360,11 @@ public class DailyReportController {
 		dailyReport.setTermType(termType);
 		//datePicker 사용시 날짜 변환 후 담기
 		
+		String start="";
+		String end = "";
 		if(termType==5) {
-			String start = startDate.replace("-", "/");
-			String end = endDate.replace("-", "/");
+			start = startDate.replace("-", "/");
+			end = endDate.replace("-", "/");
 			dailyReport.setStartDate(start);
 			dailyReport.setEndDate(end);
 		}
@@ -368,9 +392,24 @@ public class DailyReportController {
 			model.addAttribute("endDate", endDate);
 		}
 		
+		String sortOption = "";
+		
+		if(termType==1) {
+			sortOption = "당일";
+		}else if(termType==2) {
+			sortOption = "1주일";
+		}else if(termType==3) {
+			sortOption = "1개월";
+		}else if(termType==4) {
+			sortOption = "3개월";
+		}else if(termType==5) {
+			sortOption = start+" ~ "+end;
+		}
+		
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
 		model.addAttribute("termType", termType);
+		model.addAttribute("sortOption", sortOption);
 		model.addAttribute("pageURL", "recvReportTermType.dr");
 		model.addAttribute("reportType", reportType);
 		
@@ -378,27 +417,72 @@ public class DailyReportController {
 	}
 	
 	@RequestMapping("searchDailyReport.dr")
-	public String searchDailyReport(String optionType, String search, Model model) {
+	public String searchDailyReport(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, 
+									String reportType, String optionType, String search, HttpServletRequest request, Model model) {
 		
 		
-		switch (optionType) {
-		case "allType":
-			
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		SearchDailyReport sdr = new SearchDailyReport();
+		sdr.setUserNo(loginUserNo);
+		
+		switch (reportType) {
+		case "allReport":
+			sdr.setAllReport(reportType);
+			model.addAttribute("checkTypeAll", "checked");
 			break;
-		case "writerType":
-					
-					break;
-		case "titleType":
-			
+		case "D":
+			sdr.setReportDType(reportType);		
+			model.addAttribute("checkD", "checked");
 			break;
-		case "contentType":
-			
+		case "W":
+			sdr.setReportWType(reportType);	
+			model.addAttribute("checkW", "checked");
+			break;
+		case "M":
+			sdr.setReportMType(reportType);	
+			model.addAttribute("checkM", "checked");
 			break;
 		default:
 			break;
 		}
 		
 		
+		switch (optionType) {
+		case "allType":
+			sdr.setAllType(search);	
+			break;
+		case "writerType":
+			sdr.setWriterType(search);		
+			break;
+		case "titleType":
+			sdr.setTitleType(search);
+			break;
+		case "contentType":
+			sdr.setContentType(search);
+			break;
+		default:
+			break;
+		}
+		
+		DailyReport dailyReport = new DailyReport();
+		dailyReport.setDrWriterNo(loginUserNo);
+		dailyReport.setSearch(search);
+		dailyReport.setDrCategory(reportType);
+		dailyReport.setSearchType(optionType);
+		
+		int listCount = dailyReportService.searchDailyReportListCount(sdr);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<DailyReport> dailyReportList = dailyReportService.searchDailyReportList(dailyReport, pi);
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("reportType", reportType);
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("dailyReportList", dailyReportList);
+		model.addAttribute("search", search);
 		return "dailyReport/dailyReceiveList";
 	}
 	
@@ -418,6 +502,11 @@ public class DailyReportController {
 		
 		dailyReport.setDrWriterNo(writer);
 		dailyReport.setStartDate(newDate); //타입 형태때문에 startDate에 담음
+		
+		dailyReport.setDrReceiverNo(loginUserNo);
+		dailyReport.setDrRef(loginUserNo);
+		
+		dailyReportService.updateConfirm(dailyReport); // 읽음 확인 값 변경
 		
 		DailyReport dailyReportResult = dailyReportService.selectDetailDailyReport(dailyReport);
 		
@@ -455,4 +544,24 @@ public class DailyReportController {
 		return String.valueOf(result);
 	}
 	
+	
+	@RequestMapping("detailSendDailyReport.dr")
+	public String detailSendDailyReport(int drNo, HttpServletRequest request, Model model) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		
+		DailyReport dailyReport = new DailyReport();
+		
+		dailyReport.setDrNo(drNo);
+		
+		DailyReport dailyReportResult = dailyReportService.selectDetailSendDailyReport(drNo);
+		
+		System.out.println("선택한 일일보고: "+dailyReportResult);
+		
+		model.addAttribute("dailyReportResult", dailyReportResult);
+		model.addAttribute("loginUserNo", loginUserNo);
+		
+		return "dailyReport/dailyReportDetail";
+	}
 }

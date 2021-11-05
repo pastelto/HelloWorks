@@ -11,6 +11,7 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.dao.DailyReportDao;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
 import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
+import com.helloworks.spring.dailyReport.model.vo.SearchDailyReport;
 
 @Service
 public class DailyReportServiceImpl implements DailyReportService{
@@ -162,6 +163,40 @@ public class DailyReportServiceImpl implements DailyReportService{
 			throw new CommException("일일보고 임시 저장 업데이트 저장 실패");
 		}
 		return result;
+	}
+
+	@Override
+	public ArrayList<DailyReport> selectMyAllDailyReportList(int loginUserNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectMyAllDailyReportList(sqlSession, loginUserNo);
+	}
+
+	@Override
+	public DailyReport selectDetailSendDailyReport(int drNo) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.selectDetailSendDailyReport(sqlSession, drNo);
+	}
+
+	@Override
+	public void updateConfirm(DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		int result = dailyReportDao.updateConfirm(sqlSession, dailyReport);
+		
+		if(result < 0) {
+			throw new CommException("수신확인 변경 실패");
+		}
+	}
+
+	@Override
+	public int searchDailyReportListCount(SearchDailyReport sdr) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.searchDailyReportListCount(sqlSession, sdr);
+	}
+
+	@Override
+	public ArrayList<DailyReport> searchDailyReportList(DailyReport dailyReport, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return dailyReportDao.searchDailyReportList(sqlSession, dailyReport, pi);
 	}
 
 }

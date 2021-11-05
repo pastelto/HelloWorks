@@ -402,6 +402,7 @@
 		SELECT COUNT(*)
 		FROM DEPT_RESOURCES
 		WHERE DEPTR_STATUS = 'Y'
+		AND DEPT_CODE = #{deptCode}
 		AND DEPTR_CATEGORY = #{ deptrCategory }
 	</select>	
 	
@@ -412,10 +413,11 @@
 		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
 		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
 		WHERE A.DEPTR_STATUS = 'Y'
+		AND A.DEPT_CODE = #{deptCode}
 		AND A.DEPTR_CATEGORY = #{ deptrCategory }
 		ORDER BY 1 DESC
 	</select>
-	<!--  -->
+	
 	<insert id="insertDeptResources" parameterType="DeptResources" >
 		INSERT INTO DEPT_RESOURCES
 		VALUES(SEQ_DEPTR_NO.NEXTVAL, #{deptCode}, #{deptrWriterNo}, #{deptrCategory}, #{deptrTitle}, #{deptrContent}, DEFAULT, DEFAULT, #{deptrAttach}, DEFAULT )
@@ -425,5 +427,69 @@
 		INSERT INTO DEPT_RESOURCES_ATTACHMENT
 		VALUES(SEQ_DEPTR_ATTACH_NO.NEXTVAL, SEQ_DEPTR_NO.CURRVAL, #{deptrAttachOrigin}, #{deptrAttachChange}, DEFAULT )
 	</insert>
+	
+	<select id="selectDeptResourcesSearchListCount" parameterType="DeptResources" resultType="_int">
+		SELECT COUNT(*)
+		FROM DEPT_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DEPTR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.DEPTR_STATUS = 'Y'
+		AND A.DEPT_CODE = #{deptCode}
+		<choose>
+			<when test="deptrCategory != 'allType'">
+				AND DEPTR_CATEGORY = #{deptrCategory}
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="optionType =='allOptionType'">
+				AND (B.EMP_NAME  LIKE '%'||#{search}||'%'
+					OR A.DEPTR_TITLE LIKE '%'||#{search}||'%'
+					OR A.DEPTR_CONTENT LIKE '%'||#{search}||'%')
+			</when>
+			<when test="optionType =='writerType'">
+				AND B.EMP_NAME  LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='titleType'">
+				AND  A.DEPTR_TITLE LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='contentType'">
+				AND A.DEPTR_CONTENT LIKE '%'||#{search}||'%'
+			</when>
+		</choose>
+	</select>
 	 
+	<select id="selectDeptResourcesSearchList" parameterType="DeptResources" resultMap="deptResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM DEPT_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DEPTR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.DEPTR_STATUS = 'Y'
+		AND A.DEPT_CODE = #{deptCode}
+		<choose>
+			<when test="deptrCategory != 'allType'">
+				AND A.DEPTR_CATEGORY = #{deptrCategory}
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="optionType =='allOptionType'">
+				AND (B.EMP_NAME  LIKE '%'||#{search}||'%'
+					OR A.DEPTR_TITLE LIKE '%'||#{search}||'%'
+					OR A.DEPTR_CONTENT LIKE '%'||#{search}||'%')
+			</when>
+			<when test="optionType =='writerType'">
+				AND B.EMP_NAME  LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='titleType'">
+				AND  A.DEPTR_TITLE LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='contentType'">
+				AND A.DEPTR_CONTENT LIKE '%'||#{search}||'%'
+			</when>
+		</choose>
+		ORDER BY 1 DESC
+	</select>
 </mapper>
