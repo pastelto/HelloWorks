@@ -333,5 +333,38 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.listCar(sqlSession);
 	}
 
+	//차량 예약 위한 시간표 가져오기 + 예약리스트 가져오기
+	@Override
+	public ArrayList<Car> timeCar(Car car) {
+		// TODO Auto-generated method stub
+		return requestDao.timeCar(sqlSession, car);
+	}
+
+	//차량 예약 삭제
+	@Override
+	public void delRsvCar(int cRNo) {
+		
+		int result = 0;
+
+		result = requestDao.delRsvCar(sqlSession, cRNo);
+
+		if (result < 0) {
+			throw new CommException("차량 예약정보 삭제 실패");
+		}
+	}
+
+	//차량 예약
+	@Override
+	public void rsvCar(Car car) {
+		int result = 0;
+
+		result = requestDao.rsvCar(sqlSession, car);
+
+		if (result < 0) {
+			throw new CommException("차량 예약정보 삭제 실패");
+		}
+		
+	}
+
 
 }

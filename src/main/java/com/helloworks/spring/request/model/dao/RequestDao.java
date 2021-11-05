@@ -164,7 +164,7 @@ public class RequestDao {
 		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
 	}
 
-	//회의실 예약위한 회의실 리스트 가져오기
+	// 회의실 예약위한 시간표 가져오기
 	public ArrayList<Mtr> timeMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.timeMtr", mtr);
@@ -186,6 +186,24 @@ public class RequestDao {
 	public ArrayList<Car> listCar(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
+	}
+
+	// 차량 예약위한 시간표 가져오기
+	public ArrayList<Car> timeCar(SqlSessionTemplate sqlSession, Car car) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.timeCar", car);
+	}
+
+	// 차량 예약 삭제하기
+	public int delRsvCar(SqlSessionTemplate sqlSession, int cRNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("requestMapper.delRsvCar", cRNo);
+	}
+	
+	// 차량 예약
+	public int rsvCar(SqlSessionTemplate sqlSession, Car car) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.rsvCar", car);
 	}
 
 	

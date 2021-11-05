@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -260,14 +260,24 @@ public class RequestController {
 
 	}
 	
-	//회의실 목록 가져오기
+	//회의실 목록 및 차량 목록 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/list.mtr",  produces="application/json; charset=UTF-8")
 	public String listMtr(){
 
 		ArrayList<Mtr> listMtr = requestService.listMtr();
-		return new GsonBuilder().create().toJson(listMtr);
+		ArrayList<Car> listCar = requestService.listCar();
 
+		System.out.println(listMtr.toString());
+		System.out.println(listCar.toString());
+		
+		HashMap<String, Object> getList = new HashMap<String, Object>();
+		getList.put("listMtr", listMtr);
+		getList.put("listCar", listCar);
+		
+		System.out.println("ajax car랑 mtr ? " + getList);
+
+		return new GsonBuilder().create().toJson(getList);
 	}
 	//회의실 시간표 가져오기
 	@ResponseBody
@@ -285,7 +295,7 @@ public class RequestController {
 	
 	//회의실 예약 삭제
 	@ResponseBody
-	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+	@RequestMapping(value = "/delRsv.mtr", method = RequestMethod.POST)
 	public String delRsvMtr(int mRNo){
 		
 		requestService.delRsvMtr(mRNo);
@@ -319,65 +329,59 @@ public class RequestController {
 
 	}
 	
-	//차량 목록 가져오기
+	//차량 시간표 가져오기
 	@ResponseBody
-	@RequestMapping(value = "/list.car",  produces="application/json; charset=UTF-8")
-	public String listCar(){
-
-		ArrayList<Car> listCar = requestService.listCar();
+	@RequestMapping(value = "/time.car",  produces="application/json; charset=UTF-8")
+	public String timeCar(String cMNo, String getDate){
 		
-		System.out.println(listCar.toString());
-		return new GsonBuilder().create().toJson(listCar);
+		Car car = new Car();
+		car.setCMNo(cMNo);
+		car.setCRDate(getDate);
+		
+		System.out.println("/time.car-----------------: " + car.toString());
+		
+		ArrayList<Car> timeCar = requestService.timeCar(car);
+		
+		System.out.println("ArrayList<Car> timeCar : "+  timeCar);
+		return new GsonBuilder().create().toJson(timeCar);
 
 	}
-	//회의실 시간표 가져오기
-//	@ResponseBody
-//	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
-//	public String timeMtr(int mMNo, String getDate){
-//		
-//		Mtr mtr = new Mtr();
-//		mtr.setMMNo(mMNo);
-//		mtr.setMRDate(getDate);
-//		
-//		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
-//		return new GsonBuilder().create().toJson(timeMtr);
-//
-//	}
-//	
-//	//회의실 예약 삭제
-//	@ResponseBody
-//	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
-//	public String delRsvMtr(int mRNo){
-//		
-//		requestService.delRsvMtr(mRNo);
-//		
-//		String result = "성공!";
-//		return String.valueOf(result);
-//
-//	}
-//	
-//	//회의실 예약하기
-//	@ResponseBody
-//	@RequestMapping(value = "/rsv.mtr",  produces="application/json; charset=UTF-8")
-//	public String rsvMtr(HttpServletRequest request, int mMNo, String getDate, String mRTime, String mRUsg){
-//		
-//		Mtr mtr = new Mtr();
-//		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
-//		
-//		mtr.setMMNo(mMNo);
-//		mtr.setMRDate(getDate);
-//		mtr.setMRTime(mRTime);
-//		mtr.setREmpNo(rEmpNo);
-//		mtr.setMRUsg(mRUsg);
-//		
-//		System.out.println(mtr.toString());
-//		
-//		requestService.rsvMtr(mtr);
-//
-//		String result = "successMtr";
-//		
-//		return new GsonBuilder().create().toJson(result);
-//
-//	}
+	
+	//차량 예약 삭제
+	@ResponseBody
+	@RequestMapping(value = "/delRsv.car", method = RequestMethod.POST)
+	public String delRsvCar(int cRNo){
+		
+		requestService.delRsvCar(cRNo);
+		
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	//차량 예약하기
+	@ResponseBody
+	@RequestMapping(value = "/rsv.car",  produces="application/json; charset=UTF-8")
+	public String rsvCar(HttpServletRequest request, String cMNo, String getDate, 
+										String cRTime, String cRUsg, String cRDest, String cRPsng){
+		
+		Car car = new Car();
+		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		car.setCMNo(cMNo);
+		car.setCRDate(getDate);
+		car.setCRTime(cRTime);
+		car.setEmpNo(rEmpNo);
+		car.setCRUsg(cRUsg);
+		
+		System.out.println(car.toString());
+		
+		requestService.rsvCar(car);
+
+		String result = "successCar";
+		
+		return new GsonBuilder().create().toJson(result);
+
+	}
 		
 }

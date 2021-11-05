@@ -68,6 +68,12 @@ public interface RequestService {
 	void rsvMtr(Mtr mtr);
 	//차량 예약위한 차량 리스트 가져오기
 	ArrayList<Car> listCar();
+	//차량 예약 위한 시간표 가져오기 + 예약리스트 가져오기
+	ArrayList<Car> timeCar(Car car);
+	//차량 예약 삭제
+	void delRsvCar(int cRNo);
+	//차량 예약하기
+	void rsvCar(Car car);
 
 	
 }
