@@ -9,11 +9,11 @@
 <title>회의실 신청페이지</title>
 <!-- <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- <script src="../plugins/jquery/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="./resources/plugins/datepicker/jquery-ui.css">
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
+<link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css"> -->
 <style>
 .content-wrapper {
 	overflow: auto;
@@ -45,7 +45,7 @@
 											</div>
 										</div>
 										<div class="col-6">
-											<div class="card">
+											<div class="card mt-2">
 												<table class="table table-hover text-nowrap" id="mtrList">
 													<thead>
 														<tr align="center">
@@ -54,9 +54,9 @@
 														<!-- 회의실 목록 -->
 														<tr align="center">
 															<!-- <th>No</th> -->
-															<th>관리번호</th>
-															<th>신청자</th>
-															<th>수용인원</th>
+															<th width="20%">관리번호</th>
+															<th width="40%">회의실 명</th>
+															<th width="20%">수용인원</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -96,7 +96,7 @@
 												<tbody id="timeMtrBody">
 													<!-- 시간표 -->
 													<tr align="center">
-														<td><input type="checkbox" name="mRTime" id="9Checkbox" value="9"> 09:00~10:00</td>
+														<td><input type="checkbox" name="mRTime" id="9Checkbox" value="9" > 09:00~10:00</td>
 														<td id="9Name"></td>
 														<td id="9Use"></td>
 														<td><button type="button" name="delMtrBtn" id="9Button" class="btn btn-default" style="display:none;" >삭제</button></td>
@@ -170,9 +170,13 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="submit" id="submitBtn" class="btn btn-primary">
+										<button type="button" id="rsvMtrBtn" class="btn btn-primary" onclick="rsvMtr();">
 											<i class="fas fa-clipboard-check"></i> 신청하기
-										</button>
+										</button> 
+						<!-- 				<button class="btn btn-primary"
+											onclick="window.open('openRsv.mtr','회의실 예약하기','width=600,height=360,location=no,status=no,scrollbars=no');">
+											<i class="fas fa-clipboard-check"> 신청하기</i>
+										</button> -->
 									</div>
 									<button type="reset" class="btn btn-default">
 										<i class="fas fa-times"></i> 취소하기
@@ -211,8 +215,8 @@
 											"금", "토" ],
 									dayNamesMin : [ "일", "월", "화", "수", "목",
 											"금", "토" ],
-									changeMonth : true, // month 셀렉트박스 사용
-									changeYear : true, // year 셀렉트박스 사용
+									changeMonth : false, // month 셀렉트박스 사용
+									changeYear : false, // year 셀렉트박스 사용
 									weekHeader : "Wk",
 									dateFormat : "yy/mm/dd",
 									firstDay : 0,
@@ -244,18 +248,22 @@
 						dataType : "json",
 						success : function(list) {
 							var value = "";
+							
 							$.each(list, function(i, obj) {
-
+								
 								value += "<tr align='center'>"
 										/* + "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ (i + 1) + "</td>" */
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ obj.mMNo + "</td>"
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>" + obj.mMName + "</td>"
-										+ "<td onclick='checkMtr(" + obj.mMNo + ")'>" + obj.mMCapacity + "</td>"
+ 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
+			/* 							+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMName + "</td>"
+										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMCapacity + "</td>" */
+										+ "<td>" + obj.mMName + "</td>"
+										+ "<td>" + obj.mMCapacity + "</td>" 
 										+ "</tr>";
 
 							});
 
 							$("#mtrList tbody").html(value);
+							
 
 						},
 						error : function() {
@@ -265,8 +273,10 @@
 				});
 	</script>
 	<script>
-		function checkMtr(mMNo) {
+		
+	function checkMtr(mMNo) {
 			
+			//새로운 날짜&회의실 선택할때 값비우기
 			for(var i =9; i <20; i ++){
 				var iName = "#" + i + "Name";
 				var iUse = "#" + i + "Use";
@@ -281,7 +291,8 @@
 			
 			var mMNo = mMNo;
 			var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
-
+			
+			// 예약된 시간표 가져오기
 			$.ajax({
 				url : "time.mtr",
 				data : {
@@ -298,17 +309,22 @@
 							var iUse = "#" + i + "Use";
 							var iCheckbox = "#" +  i + "Checkbox";
 							var iButton = "#" + i + "Button";
-
-							$(iName).text("");			
-							$(iUse).text("");			
-							$(iCheckbox).attr("disabled", false);			
-							$(iButton).attr("style", "display:none");
 							
+							// 예약내용이 있으면 시간표에 나타내기
 							if(obj.mRTime==i){							
 								$(iName).text(obj.empName);
 								$(iUse).text(obj.mRUsg);
 								$(iCheckbox).attr("disabled", true);
 								$(iButton).attr("style", "display:''");
+								
+								//예약자 = 작성자 일경우 삭제할 수 있도록
+								 if(obj.rEmpNo == "${loginUser.empNo}"){ 
+									$(iButton).attr("onclick", "delRsvMtr('"+ obj.mRNo +"');");
+								}else if(obj.rEmpNo != "${loginUser.empNo}"){
+									$(iButton).prop("style", "display:none");
+
+								} 
+								
 							}
 														
 						}
@@ -379,30 +395,86 @@
 				}
 			});
 		}
+		// 예약 삭제하기	
+		function delRsvMtr(mRNo){
+				
+				var mRNo = mRNo;
+				alert(mRNo);
+				
+				$.ajax({
+					url : "delRsv.Mtr",
+					type : "post",
+					data : {
+						mRNo : mRNo,
+					},
+					success : function(result) {
+						if (result == "??!") {
+							alert("회의실 예약 삭제성공!");
+							location.reload(true);//페이지 새로고침
+							//location.href = location.href;
+							//history.go(0);
+						} else {
+							alert("삭제 실패");
+						}
+					}
+				});
+		}
 		
-		$("#delMtrBtn").click(function() {
+ 		function rsvMtr(){
 			
-			console.log(checkArr);
-			$.ajax({
-				url : "delete.Mtr",
+ 			var empNo = ${ loginUser.empNo }
+ 			var mMNo = $("input:radio[name='mMNo']:checked").val();
+ 			var mRTime = $("input[name='mRTime']:checked").val();
+	        var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker").datepicker("getDate"));
+	        
+	        if(mMNo==null){
+	        	alert("회의실을 선택해 주세요!");
+				return false;	        
+	        }
+	        if(mRTime==null){
+	        	alert("시간을 선택해 주세요!");
+				return false;	        
+	        }
+	        if(getDate==null){
+	        	alert("날짜를 선택해 주세요!");
+				return false;	        
+	        }
+			
+	        confirm(getDate + "\n" + mRTime + " 시 부터 한시간동안 \n" + mMNo+ " 번 회의실을  예약하시겠습니까?");        
+	        var mRUsg = window.prompt("회의실 사용용도를 간단하게 작성해 주세요");
+	        
+	        if(mRUsg==""){
+	        	alert("사용용도를 작성해 주세요!");
+				return false;	        
+	        }
+	   
+	        $.ajax({
+				url : "rsv.mtr",
 				type : "post",
 				data : {
-					checkArr : checkArr
+					mMNo : mMNo,
+					mRTime : mRTime,
+					getDate : getDate,
+					mRUsg : mRUsg
 				},
 				success : function(result) {
-					if (result == "??!") {
-						alert("회의실 삭제성공!");
-						location.reload(true);//페이지 새로고침
-						//location.href = location.href;
+					
+					if (result == "successMtr") {
+						alert(mMNo + "회의실에  " + getDate + " 일자로\n" + mRTime +" 시에 예약되었습니다." );
+						location.reload(true);
+						//location.href("/request.menu").reload(true);
 						//history.go(0);
-					} else {
-						alert("삭제 실패");
 					}
+				},
+				error : function(error) {   // 오류가 발생했을 때 호출된다. 
+					console.log("회의실 예약 ajax 통신실패")
 				}
-			});
-		});
+
+			})	       
+	      
+ 		}
+		
 	</script>
 
 </body>
-
 </html>

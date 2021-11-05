@@ -8,6 +8,11 @@
 <title>신청하기</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="../plugins/jquery/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="./resources/plugins/datepicker/jquery-ui.css">
+<script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
 <style>
 .content-wrapper {
 	overflow: auto;

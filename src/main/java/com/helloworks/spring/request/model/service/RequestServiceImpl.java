@@ -297,4 +297,41 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.timeMtr(sqlSession, mtr);
 	}
 
+	
+	// 회의실 예약정보 삭제
+	@Override
+	public void delRsvMtr(int mRNo) {
+		
+		int result = 0;
+
+		result = requestDao.delRsvMtr(sqlSession, mRNo);
+
+		if (result < 0) {
+			throw new CommException("회의실 예약정보 삭제 실패");
+		}
+	
+	}
+
+	// 회의실 예약하기
+	@Override
+	public void rsvMtr(Mtr mtr) {
+		// TODO Auto-generated method stub
+		int result = 0;
+
+		result = requestDao.rsvMtr(sqlSession, mtr);
+
+		if (result < 0) {
+			throw new CommException("회의실 예약정보 삭제 실패");
+		}
+		
+	}
+	
+	// 차량예약위한 차량리스트
+	@Override
+	public ArrayList<Car> listCar() {
+		// TODO Auto-generated method stub
+		return requestDao.listCar(sqlSession);
+	}
+
+
 }
