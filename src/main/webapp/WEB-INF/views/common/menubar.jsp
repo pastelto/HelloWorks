@@ -304,11 +304,6 @@
                   <p>발신함</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="tempReport.dr" class="nav-link">
-                  <p>임시저장</p>
-                </a>
-              </li>
             </ul>
           </li>
           
