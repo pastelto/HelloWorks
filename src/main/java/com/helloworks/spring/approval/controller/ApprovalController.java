@@ -1284,6 +1284,7 @@ public class ApprovalController {
 		searchMap.put("endDate", endDate);
 		searchMap.put("startDate", startDate);
 		searchMap.put("detailOption", detailOption);
+		searchMap.put("optionInput", input);
 		searchMap.put("apClass", apClass);
 		searchMap.put("status", status);
 		
