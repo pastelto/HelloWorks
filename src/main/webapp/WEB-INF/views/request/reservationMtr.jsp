@@ -258,8 +258,9 @@
 			$.ajax({
 				url : "time.mtr",
 				data : {
-					mMNo : mMNo,
-					getDate : getDate
+					rNo : mMNo,
+					getDate : getDate,
+					typeNo: 1
 				},
 				dataType : "json",
 				success : function(list) {

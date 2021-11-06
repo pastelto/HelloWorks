@@ -161,10 +161,10 @@
  									console.log("obj listCar?? " + list[key]);
  								$.each(list[key], function(key, obj){
  									console.log('key:' + key + ' / ' + 'value:' + obj);
- 									console.log("cMNo ? " + obj.cMNo);
+ 									console.log("cSNo ? " + obj.cSNo);
 								
 									valueCar += "<tr align='center'>"
-										+ "<td onclick='checkCar(" +'"' + obj.cMNo  + '"' + ")'><input type='radio' name='cMNo' value='"+ obj.cMNo +"' >&nbsp;&nbsp;"+ obj.cMNo + "</td>"
+										+ "<td onclick='checkCar(" + obj.cSNo  + ")'><input type='radio' name='cSNo' value='"+ obj.cSNo +"' >&nbsp;&nbsp;"+ obj.cMNo + "</td>"
 										+ "<td>" + obj.cMMfr + "</td>"
 										+ "<td>" + obj.cMName + "</td>" 
 										+ "</tr>";
@@ -176,7 +176,7 @@
 						} // for-each문 끝!
 						}, // success
 						error : function() {
-							console.log("mtrList ajax 통신 실패");
+							console.log("mtrList/carList ajax 통신 실패");
 						}
 						
 					}); // ajax 끝

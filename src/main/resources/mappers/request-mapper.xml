@@ -31,7 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 차량관리 -->
 	<resultMap id="carResultSet" type="Car">
-		<id property="cMNo" column="RS_CM_NO" />
+		<id property="cSNo" column="RS_CS_NO" />
+		<result property="cMNo" column="RS_CM_NO" />
 		<result property="empNo" column="RS_CM_EMP_NO" />
 		<result property="empName" column="EMP_NAME" />
 		<result property="cMMfr" column="RS_CM_MFR" />
@@ -42,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 차량예약 -->
 	<resultMap id="reservationCarResultSet" type="Car">
 		<id property="cRNo" column="RS_CR_NO" />
+		<result property="cSNo" column="RS_CS_NO" />
 		<result property="cMNo" column="RS_CM_NO" />
 		<result property="cMMfr" column="RS_CM_MFR" />
 		<result property="cMName" column="RS_CM_NAME" />
@@ -121,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addCar" parameterType="Car">
 		INSERT INTO RS_CAR_MANAGEMENT
 		VALUES
-		(#{cMNo}, #{empNo}, #{cMMfr}, #{cMName}, DEFAULT)
+		(SEQ_RS_CS_NO.NEXTVAL, #{cMNo}, #{empNo}, #{cMMfr}, #{cMName}, DEFAULT)
 	</insert>
 
 	<!-- 차량 목록 -->
@@ -325,12 +327,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 차량 예약리스트 가져오기 -->
 	<select id="timeCar" parameterType="Car" resultMap="reservationCarResultSet">
-		SELECT B.EMP_NAME, A.RS_CR_DEST, A.RS_CR_USG, A.RS_CR_PSNGR
+		SELECT C.RS_CM_NO, A.RS_CR_TIME, B.EMP_NAME, A.RS_CR_DEST, A.RS_CR_USG, A.RS_CR_PSNGR
 		FROM RS_CAR_RESERVATION A
 		JOIN EMPLOYEE B ON B.EMP_NO = A.RS_CR_EMP_NO
-		JOIN RS_CAR_MANAGEMENT C ON C.RS_CM_NO = A.RS_CM_NO
-		WHERE A.RS_CM_NO = #{cMNo} 
-		AND A.RS_CR_DATE = #{cRDate}
+		JOIN RS_CAR_MANAGEMENT C ON C.RS_CS_NO = A.RS_CS_NO
+		WHERE A.RS_CS_NO = #{cSNo}  
+		AND A.RS_CR_DATE = #{cRDate}		
 	</select>
 	
 	<!-- 차량 예약 삭제 -->
@@ -343,7 +345,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<insert id="rsvCar" parameterType="Car">
 		INSERT INTO RS_CAR_RESERVATION
 		VALUES
-		(SEQ_RS_CR_NO.NEXTVAL ,#{cMNo} ,#{rEmpNo} ,#{cRDate} ,#{cRTime} ,#{cRDest} ,#{cRUsg} ,#{cRPsng}, DEFAULT )
+		(SEQ_RS_CR_NO.NEXTVAL ,#{cSNo} ,#{rEmpNo} ,#{cRDate} ,#{cRTime} ,#{cRDest} ,#{cRUsg} ,#{cRPsng}, DEFAULT )
 	</insert> 
 		
 </mapper>

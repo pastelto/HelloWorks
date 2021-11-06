@@ -282,15 +282,35 @@ public class RequestController {
 	//회의실 시간표 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
-	public String timeMtr(int mMNo, String getDate){
+	public String timeMtr(int rNo, String getDate, int typeNo){
 		
-		Mtr mtr = new Mtr();
-		mtr.setMMNo(mMNo);
-		mtr.setMRDate(getDate);
+		System.out.println("rNo ? " + rNo);
+		System.out.println("getDate ? " + getDate);
+		System.out.println("typeNo ? " + typeNo);
 		
-		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
-		return new GsonBuilder().create().toJson(timeMtr);
-
+		ArrayList<Mtr> timeMtr = new ArrayList<Mtr>();
+		ArrayList<Car> timeCar = new ArrayList<Car>();
+		
+		if(typeNo == 1) {
+			
+			Mtr mtr = new Mtr();
+			mtr.setMMNo(rNo);
+			mtr.setMRDate(getDate);
+			
+			timeMtr = requestService.timeMtr(mtr);
+			System.out.println("ArrayList<Mtr> timeMtr : "+  timeMtr);
+			return new GsonBuilder().create().toJson(timeMtr);
+		} else{
+			
+			Car car = new Car();
+			car.setCSNo(rNo);
+			car.setCRDate(getDate);
+			
+			timeCar = requestService.timeCar(car);
+			System.out.println("ArrayList<Car> timeCar : "+  timeCar);
+			return new GsonBuilder().create().toJson(timeCar);
+		}
+		
 	}
 	
 	//회의실 예약 삭제
@@ -330,22 +350,22 @@ public class RequestController {
 	}
 	
 	//차량 시간표 가져오기
-	@ResponseBody
-	@RequestMapping(value = "/time.car",  produces="application/json; charset=UTF-8")
-	public String timeCar(String cMNo, String getDate){
-		
-		Car car = new Car();
-		car.setCMNo(cMNo);
-		car.setCRDate(getDate);
-		
-		System.out.println("/time.car-----------------: " + car.toString());
-		
-		ArrayList<Car> timeCar = requestService.timeCar(car);
-		
-		System.out.println("ArrayList<Car> timeCar : "+  timeCar);
-		return new GsonBuilder().create().toJson(timeCar);
-
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/time.car", produces="application/json; charset=UTF-8")
+//	public String timeCar(int cSNo, String getDate){
+//		
+//		Car car = new Car();
+//		car.setCSNo(cSNo);
+//		car.setCRDate(getDate);
+//		
+//		System.out.println("/time.car-----------------: " + car.toString());
+//		
+//		ArrayList<Car> timeCar = requestService.timeCar(car);
+//		
+//		System.out.println("ArrayList<Car> timeCar : "+  timeCar);
+//		return new GsonBuilder().create().toJson(timeCar);
+//
+//	}
 	
 	//차량 예약 삭제
 	@ResponseBody

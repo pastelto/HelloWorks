@@ -82,91 +82,91 @@
 													<!-- 시간표 -->
 													<tr align="center">
 														<td><input type="checkbox" name="cRTime" id="9Checkbox" value="9" > 09:00~10:00</td>
-														<td id="9Name"></td>
-														<td id="9Dest"></td>
-														<td id="9Use"></td>
-														<td id="9Psng"></td>
-														<td><button type="button" name="delCarBtn" id="9Button" class="btn btn-default" style="display:none;" >삭제</button></td>
+														<td id="9CName"></td>
+														<td id="9CDest"></td>
+														<td id="9CUse"></td>
+														<td id="9CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="9CButton" class="btn btn-default" style="display:none;" >삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="10Checkbox" value="10"> 10:00~11:00</td>
-														<td id="10Name"></td>
-														<td id="10Dest"></td>
-														<td id="10Use"></td>
-														<td id="10Psng"></td>
-														<td><button type="button" name="delCarBtn" id="10Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="10CCheckbox" value="10"> 10:00~11:00</td>
+														<td id="10CName"></td>
+														<td id="10CDest"></td>
+														<td id="10CUse"></td>
+														<td id="10CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="10CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="11Checkbox" value="11"> 11:00~12:00</td>
-														<td id="11Name"></td>
-														<td id="11Dest"></td>
-														<td id="11Use"></td>
-														<td id="11Psng"></td>
-														<td><button type="button" name="delCarBtn" id="11Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="11CCheckbox" value="11"> 11:00~12:00</td>
+														<td id="11CName"></td>
+														<td id="11CDest"></td>
+														<td id="11CUse"></td>
+														<td id="11CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="11CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="12Checkbox" value="12"> 12:00~13:00</td>
-														<td id="12Name"></td>
-														<td id="12Dest"></td>
-														<td id="12Use"></td>
-														<td id="12Psng"></td>
-														<td><button type="button" name="delCarBtn" id="12Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="12CCheckbox" value="12"> 12:00~13:00</td>
+														<td id="12CName"></td>
+														<td id="12CDest"></td>
+														<td id="12CUse"></td>
+														<td id="12CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="12CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="13Checkbox"  value="13"> 13:00~14:00</td>
-														<td id="13Name"></td>
-														<td id="13Dest"></td>
-														<td id="13Use"></td>
-														<td id="13Psng"></td>
-														<td><button type="button" name="delCarBtn" id="13Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="13CCheckbox"  value="13"> 13:00~14:00</td>
+														<td id="13CName"></td>
+														<td id="13CDest"></td>
+														<td id="13CUse"></td>
+														<td id="13CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="13CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="14Checkbox" value="14"> 14:00~15:00</td>
-														<td id="14Name"></td>
-														<td id="14Dest"></td>
-														<td id="14Use"></td>
-														<td id="14Psng"></td>
-														<td><button type="button" name="delCarBtn" id="14Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="14CCheckbox" value="14"> 14:00~15:00</td>
+														<td id="14CName"></td>
+														<td id="14CDest"></td>
+														<td id="14CUse"></td>
+														<td id="14CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="14CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="15Checkbox" value="15"> 15:00~16:00</td>
-														<td id="15Name"></td>
-														<td id="15Dest"></td>
-														<td id="15Use"></td>
-														<td id="15Psng"></td>
-														<td><button type="button" name="delCarBtn" id="15Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="15CCheckbox" value="15"> 15:00~16:00</td>
+														<td id="15CName"></td>
+														<td id="15CDest"></td>
+														<td id="15CUse"></td>
+														<td id="15CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="15CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="16Checkbox" value="16"> 16:00~17:00</td>
-														<td id="16Name"></td>
-														<td id="16Dest"></td>
-														<td id="16Use"></td>
-														<td id="16Psng"></td>
-														<td><button type="button" name="delCarBtn" id="16Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="16CCheckbox" value="16"> 16:00~17:00</td>
+														<td id="16CName"></td>
+														<td id="16CDest"></td>
+														<td id="16CUse"></td>
+														<td id="16CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="16CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="17Checkbox" value="17"> 17:00~18:00</td>
-														<td id="17Name"></td>
-														<td id="17Dest"></td>
-														<td id="17Use"></td>
-														<td id="17Psng"></td>
-														<td><button type="button" name="delCarBtn" id="17Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="17CCheckbox" value="17"> 17:00~18:00</td>
+														<td id="17CName"></td>
+														<td id="17CDest"></td>
+														<td id="17CUse"></td>
+														<td id="17CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="17CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="18Checkbox" value="18"> 18:00~19:00</td>
-														<td id="18Name"></td>
-														<td id="18Dest"></td>
-														<td id="18Use"></td>
-														<td id="18Psng"></td>
-														<td><button type="button" name="delCarBtn" id="18Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="18CCheckbox" value="18"> 18:00~19:00</td>
+														<td id="18CName"></td>
+														<td id="18CDest"></td>
+														<td id="18CUse"></td>
+														<td id="18CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="18CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 													<tr align="center">
-														<td><input type="checkbox" name="cRTime" id="19Checkbox" value="19"> 19:00~20:00</td>
-														<td id="19Name"></td>
-														<td id="19Dest"></td>
-														<td id="19Use"></td>
-														<td id="19Psng"></td>
-														<td><button type="button" name="delCarBtn" id="19Button" class="btn btn-default" style="display:none;">삭제</button></td>
+														<td><input type="checkbox" name="cRTime" id="19CCheckbox" value="19"> 19:00~20:00</td>
+														<td id="19CName"></td>
+														<td id="19CDest"></td>
+														<td id="19CUse"></td>
+														<td id="19CPsng"></td>
+														<td><button type="button" name="delCarBtn" id="19CButton" class="btn btn-default" style="display:none;">삭제</button></td>
 													</tr>
 												</tbody>
 											</table>
@@ -246,64 +246,82 @@
 
 	<script>
 		
-	function checkCar(cMNo) {
+	function checkCar(cSNo) {
 			
-			alert("checkCar!!" + cMNo);
+			alert("checkCar!!" + cSNo);
 			//새로운 날짜&회의실 선택할때 값비우기
 			for(var i =9; i <20; i ++){
-				var iName = "#" + i + "Name";
-				var iUse = "#" + i + "Use";
-				var iDest = "#" + i + "Dest";
-				var iPsng = "#" + i + "Psng";
-				var iCheckbox = "#" +  i + "Checkbox";
-				var iButton = "#" + i + "Button";
+				var iCName = "#" + i + "CName";
+				var iCUse = "#" + i + "CUse";
+				var iCDest = "#" + i + "CDest";
+				var iCPsng = "#" + i + "CPsng";
+				var iCCheckbox = "#" +  i + "CCheckbox";
+				var iCButton = "#" + i + "CButton";
 
-				$(iName).text("");			
-				$(iUse).text("");			
-				$(iDest).text("");			
-				$(iPsng).text("");			
-				$(iCheckbox).attr("disabled", false);			
-				$(iButton).attr("style", "display:none");		
+				$(iCName).text("");			
+				$(iCUse).text("");			
+				$(iCDest).text("");			
+				$(iCPsng).text("");			
+				$(iCCheckbox).attr("disabled", false);			
+				$(iCButton).attr("style", "display:none");		
 				
 			}
 			
-			var cMNo = cMNo;
+			var cSNo = cSNo;
+			console.log("checkCar!! cSNo=" + cSNo)
 			var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker2").datepicker("getDate"));
+			console.log("checkCar!! getDate=" + getDate)
 			
 			// 예약된 시간표 가져오기
 			$.ajax({
-				url : "time.car",
+				
+				url : "time.mtr",
 				data : {
-					cMNo : cMNo,
-					getDate : getDate
+					rNo : cSNo,
+					getDate : getDate,
+					typeNo: 2
 				},
 				dataType : "json",
 				success : function(list) {
-
+					alert("checkCar!!ajax success" + cSNo);
+					console.log("checkCar!!ajax success list" + list)
+					
 					$.each(list, function(i, obj) {
-
+						console.log("checkCar!!ajax success list" +list)
+						console.log("checkCar!!ajax success i" +i)
+						console.log("checkCar!!ajax success obj" +obj)
 						for(var i =9; i <20; i ++){
-							var iName = "#" + i + "Name";
-							var iUse = "#" + i + "Use";
-							var iDest = "#" + i + "Dest";
-							var iPsng = "#" + i + "Psng";
-							var iCheckbox = "#" +  i + "Checkbox";
-							var iButton = "#" + i + "Button";
+							var iCName = "#" + i + "CName";
+							var iCUse = "#" + i + "CUse";
+							var iCDest = "#" + i + "CDest";
+							var iCPsng = "#" + i + "CPsng";
+							var iCCheckbox = "#" +  i + "CCheckbox";
+							var iCButton = "#" + i + "CButton";
 							
 							// 예약내용이 있으면 시간표에 나타내기
-							if(obj.cRTime==i){							
-								$(iName).text("");			
-								$(iUse).text("");			
-								$(iDest).text("");			
-								$(iPsng).text("");			
-								$(iCheckbox).attr("disabled", false);			
-								$(iButton).attr("style", "display:none");	
+							if(obj.cRTime==i){			
+								console.log("if문 안!")
+								console.log("obj.empName : " +obj.empName)
+								console.log("obj.cRUsg : " +obj.cRUsg)
+								console.log("obj.cRDest : " +obj.cRDest)
+								console.log("obj.cRPsng : " +obj.cRPsng)
+								
+								
+								
+								$(iCName).text(obj.empName);
+								$(iCUse).text(obj.cRUsg);
+								$(iCDest).text(obj.cRDest);			
+								$(iCPsng).text(obj.cRPsng);	
+								$(iCCheckbox).attr("disabled", true);
+								$(iCButton).attr("style", "display:''");
 								
 								//예약자 = 작성자 일경우 삭제할 수 있도록
 								 if(obj.rEmpNo == "${loginUser.empNo}"){ 
-									$(iButton).attr("onclick", "delRsvCar('"+ obj.cRNo +"');");
+									 console.log("if의 if문 안! + empNo 같을 때")
+									$(iCButton).attr("onclick", "delRsvCar('"+ obj.cRNo +"');");
 								}else if(obj.rEmpNo != "${loginUser.empNo}"){
-									$(iButton).prop("style", "display:none");
+									console.log("if의 if문 안! + empNo 다를 때")
+									$(iCButton).prop("style", "display:none");
 
 								} 
 								
@@ -347,12 +365,15 @@
  		function rsvCar(){
 			
  			var empNo = ${ loginUser.empNo }
- 			var cMNo = $("input:radio[name='cMNo']:checked").val();
+ 			var cSNo = $("input:radio[name='cSNo']:checked").val();
  			var cRTime = $("input[name='cRTime']:checked").val();
 	        var getDate = $.datepicker.formatDate("yy/mm/dd", $("#datepicker2").datepicker("getDate"));
 	        
-	        if(cMNo==null){
-	        	alert("회의실을 선택해 주세요!");
+	        
+	        
+	        
+	        if(cSNo==null){
+	        	alert("차량을 선택해 주세요!");
 				return false;	        
 	        }
 	        if(cRTime==null){
@@ -364,7 +385,7 @@
 				return false;	        
 	        }
 			
-	        confirm(getDate + "\n" + cRTime + " 시 부터  \n" + cMNo+ " 번 차량을  예약하시겠습니까?");        
+	        confirm(getDate + "\n" + cRTime + " 시 부터  \n" + cSNo+ " 번 차량을  예약하시겠습니까?");        
 	        var cRDest = window.prompt("목적지를 작성해 주세요", "예시: OO시 OO구");
 	        
 	        if(cRDest==""){
@@ -380,18 +401,12 @@
 	        }
 
 			var cRPsng = window.prompt("동승자 이름을 간단하게 작성해 주세요");
-	        
-	        if(cRPsng==""){
-	        	alert("동승자 이름을 작성해 주세요!");
-				return false;	        
-	        }
-
 	   
 	        $.ajax({
 				url : "rsv.car",
 				type : "post",
 				data : {
-					cMNo : cMNo,
+					cSNo : cSNo,
 					cRTime : cRTime,
 					getDate : getDate,
 					cRDest : cRDest,
@@ -401,7 +416,7 @@
 				success : function(result) {
 					
 					if (result == "successCar") {
-						alert(cMNo + "차량에  " + getDate + " 일자로\n" + cRTime +" 시에 예약되었습니다." );
+						alert(cSNo + "차량에  " + getDate + " 일자로\n" + cRTime +" 시에 예약되었습니다." );
 						location.reload(true);
 						//location.href("/request.menu").reload(true);
 						//history.go(0);

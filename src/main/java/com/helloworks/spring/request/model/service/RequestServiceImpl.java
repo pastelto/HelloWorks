@@ -70,7 +70,7 @@ public class RequestServiceImpl implements RequestService {
 
 	// 차량 목록
 	@Override
-	public ArrayList<Mtr> manageCar() {
+	public ArrayList<Car> manageCar() {
 
 		return requestDao.manageCar(sqlSession);
 	}

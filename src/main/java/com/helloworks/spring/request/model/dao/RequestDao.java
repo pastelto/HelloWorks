@@ -39,7 +39,7 @@ public class RequestDao {
 	}
 
 	//차량 목록
-	public ArrayList<Mtr> manageCar(SqlSessionTemplate sqlSession) {
+	public ArrayList<Car> manageCar(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
 	}

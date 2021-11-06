@@ -19,7 +19,7 @@ public interface RequestService {
 	//차량 등록
 	void addCar(Car car);
 	//차량 목록
-	ArrayList<Mtr> manageCar();
+	ArrayList<Car> manageCar();
 	//차량 삭제
 	void deleteCar(List<String> checkArr);
 	//비품 신청
