@@ -43,10 +43,10 @@
 							id="custom-tabs-five-meetingRoom-tab" data-toggle="pill"
 							href="#custom-tabs-five-meetingRoom" role="tab"
 							aria-controls="custom-tabs-five-meetingRoom" aria-selected="true">회의실신청</a></li>
-						<li class="nav-item"><a class="nav-link"
+<!-- 						<li class="nav-item"><a class="nav-link"
 							id="custom-tabs-five-car-tab" data-toggle="pill"
 							href="#custom-tabs-five-car" role="tab"
-							aria-controls="custom-tabs-five-car" aria-selected="false">배차신청</a></li>
+							aria-controls="custom-tabs-five-car" aria-selected="false">배차신청</a></li> -->
 						<li class="nav-item"><a class="nav-link"
 							id="custom-tabs-five-equipment-tab" data-toggle="pill"
 							href="#custom-tabs-five-equipment" role="tab"

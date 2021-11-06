@@ -30,6 +30,8 @@ public interface RequestService {
 	ArrayList<RequestEq> selectEqList();
 	//사원증 신청 목록
 	ArrayList<RequestId> selectIdList();
+	//회의실 신청 목록
+	ArrayList<Mtr> selectMtrList();
 	//비품 신청 승인완료
 	void confirmEq(List<String> checkArr);
 	//사원증 신청 승인완료
@@ -74,6 +76,7 @@ public interface RequestService {
 	void delRsvCar(int cRNo);
 	//차량 예약하기
 	void rsvCar(Car car);
+
 
 	
 }

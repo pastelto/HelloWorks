@@ -18,6 +18,8 @@ public class Mtr {
 	private String mRTime; //회의실 예약 시간
 	private String mRUsg; //회의실 사용 용도
 	private String mRStatus; //회의실 예약 상태값
+	private String deptDname; // 비품 신청인 부서
+	private String jobName; // 비품 신청인 직급
 	
 	private int mMNo; //회의실 관리 번호
 	private int empNo; //회의실 담당자 사번

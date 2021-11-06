@@ -74,6 +74,12 @@ public class RequestDao {
 		return (ArrayList)sqlSession.selectList("requestMapper.selectIdList");
 	}
 	
+	//회의실 신청 리스트
+	public ArrayList<Mtr> selectMtrList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectMtrList");
+	}
+	
 	//비품 승인완료
 	public int confirmEq(SqlSessionTemplate sqlSession, List<String> checkArr) {
 		// TODO Auto-generated method stub
@@ -205,6 +211,7 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("requestMapper.rsvCar", car);
 	}
+
 
 	
 

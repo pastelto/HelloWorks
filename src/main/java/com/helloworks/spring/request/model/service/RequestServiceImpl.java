@@ -122,6 +122,13 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.selectIdList(sqlSession);
 	}
 	
+	// 회의실 신청 리스트
+	@Override
+	public ArrayList<Mtr> selectMtrList() {
+		// TODO Auto-generated method stub
+		return requestDao.selectMtrList(sqlSession);
+	}
+
 	// 비품 체크박스 제출 -> 승인완료
 	@Override
 	public void confirmEq(List<String> checkArr) {

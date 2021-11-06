@@ -24,7 +24,7 @@
 			<h3 class="card-title">회의실 등록</h3>
 		</div>
 		<!-- /.card-header -->
-		<form method="post" id="addMtr" enctype="multipart/form-data">
+		<form method="post" id="addMtrForm" enctype="multipart/form-data" >
 			<input type="hidden" id="empNo" name="empNo"
 				value="${ loginUser.empNo }">
 			<div class="card-body">
@@ -55,25 +55,26 @@
 		</form>
 	</div>
 	<script>
-		function addMtr() {
-			var params = $("#addMtr").serialize();
-			$.ajax({
-				url : 'add.mtr?mMStatus=Y',
-				data : params,
-				success : function(result) {
-					if(result == "??!") {
-						alert("회의실 등록성공!");
-						opener.parent.location='manage.mtr'; //페이지 새로고침
-						window.close();
-					}else{
-						alert("회의실 등록실패");
-					}						
-				},
-				error : function() {
-					console.log("회의실 등록 ajax 통신 실패");
-				}
-			});
-		}
+	
+	function addMtr() {
+		var params = $("#addMtrForm").serialize();
+		$.ajax({
+			url : 'add.mtr?mMStatus=Y',
+			data : params,
+			success : function(result) {
+				if(result == "??!") {
+					alert("회의실 등록성공!");
+					opener.parent.location='manage.mtr'; //페이지 새로고침
+					window.close();
+				}else{
+					alert("회의실 등록실패");
+				}						
+			},
+			error : function() {
+				console.log("회의실 등록 ajax 통신 실패");
+			}
+		});
+	}
 	</script>
 	<!-- 스크립트 모음 -->
 	<!-- jQuery -->

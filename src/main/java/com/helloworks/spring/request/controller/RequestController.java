@@ -111,6 +111,16 @@ public class RequestController {
 		
 	}
 	
+	//회의실리스트
+	@ResponseBody
+	@RequestMapping(value="rlist.mtr", produces="application/json; charset=UTF-8")
+	public String selectMtrList() {
+
+		ArrayList<Mtr> list = requestService.selectMtrList();
+		return new GsonBuilder().create().toJson(list);
+		
+	}
+	
 	// 목록-비품 체크박스 제출-> 승인완료로
 	@ResponseBody
 	@RequestMapping(value = "/confirm.eq", method = RequestMethod.POST)
