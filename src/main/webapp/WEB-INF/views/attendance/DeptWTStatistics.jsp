@@ -217,7 +217,7 @@
 									</c:if>
 									<c:if test="${ empty statistics }">
 		                              <tr>
-		                                 <td colspan="7">게시글이  없습니다</td>      
+		                                 <td colspan="7">통계가  없습니다</td>      
 		                              </tr>
 		                           </c:if> 
 									
