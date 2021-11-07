@@ -132,7 +132,6 @@ public class WorkShareController {
 		ArrayList<Integer> totalCount = new ArrayList<>(); // 총 수신인 수 
 		
 		ArrayList<Integer> refRead = new ArrayList<>(); 
-		ArrayList<Integer> refCount = new ArrayList<>(); // 총 수신인 수 
 		try {
 			
 			Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");

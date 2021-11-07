@@ -12,7 +12,7 @@
 	padding-top:20px;
 	margin-left:20px;
 }
-.approval{
+.approval, .request, .workShare{
 	padding-top:20px;
 	margin-left:20px;
 }
@@ -44,13 +44,21 @@ body{
 				<div class="approval" id="approval">
 		   	 		<jsp:include page="./approval/mainApproval.jsp" />
 		   		</div>
+		   		<div class="workShare" id="workShare">
+		   	 		<jsp:include page="./workShare/mainWorkShare.jsp" />
+		   		</div>
+		   		<div class="request" id="request">
+		   	 		<jsp:include page="./request/mainRequest.jsp" />
+		   		</div>
 			</div>
-			
+
 			
 			
 			<!-- 오른쪽-->
 			<div style="width:23%;" >
-				오른쪽
+				<div class="mySchedule" id="mySchedule">
+		   	 		<jsp:include page="./schedule/mainMySchedule.jsp" />
+		   		</div>
 			</div>
 			
 			

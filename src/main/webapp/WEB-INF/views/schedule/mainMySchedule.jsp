@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 <!-- <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css"> -->
 <!-- <script src="./resources/plugins/jquery/jquery.min.js"></script> -->
-<!-- <link rel="stylesheet" href="./resources/plugins/datepicker/jquery-ui.css"> -->
-<!-- <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script> -->
+<link rel="stylesheet" href="./resources/plugins/datepicker/jquery-ui.css">
+<script src="./resources/plugins/datepicker/jquery-ui.min.js"></script> 
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
 <style>
@@ -35,20 +35,20 @@
 </head>
 <body>
 
-	<!-- 캘린더 좌측메뉴 부분 
-	<div style="margin-top: 3%; margin-left: 20px; position: fixed;">-->
+	<!-- 캘린더 좌측메뉴 부분 -->
+	<div style="margin-top: 1%; margin-left: 5%; position: fixed;">
 		<!-- 사이드바 캘린더 -->
 		<div class="calendar col-12" style="padding: 0;">
 			<div id="datepicker"></div>
 		</div>
 		&nbsp;
-		
+	</div>
 
 
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script>
 	$(function(){
-		
+	//$.datepicker.setDefaults($.datepicker.regional["ko"]);
     $( "#datepicker" ).datepicker();
 		 
     $.datepicker.regional["ko"] = {
@@ -70,7 +70,7 @@
         showMonthAfterYear: true,
         yearSuffix: ""
     };
-	$.datepicker.setDefaults($.datepicker.regional["ko"]);
+	
 	
 	// Today 버튼 코드 추가
 	$.datepicker._gotoToday = function(id) { 
