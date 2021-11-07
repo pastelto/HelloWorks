@@ -262,6 +262,7 @@ public class WorkShareController {
 		ArrayList<WorkShare> wsRecvEmpName = new ArrayList<>();
 		
 		// 참조인들 목록 가져오기
+		String[] wsRefList = null;
 		ArrayList<WorkShare> wsRefEmpName = new ArrayList<>();
 		int myEmpNo = 0;
 		
@@ -290,7 +291,21 @@ public class WorkShareController {
 				wsRecvEmpName.add(workShareService.selectRecvEmpName(recvEmpNo));
 			}
 			System.out.println("wsRecvEmpName ? " + wsRecvEmpName);
-					
+			
+      		// 참조인 조회
+			String refEmp = ws.getWs_ref();
+			System.out.println("refEmp ? " + refEmp);
+			wsRefList = refEmp.split(",");
+
+			// 참조인들을 이름으로 가져오기!
+			for(int i = 0; i < wsRefList.length; i++) {
+				int refEmpNo = Integer.parseInt(wsRefList[i]);
+
+				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
+			}
+			System.out.println("wsRefEmpName ? " + wsRefEmpName);
+
+			
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String rList= ws.getWs_recv_status();
 			Boolean contain = contains(empNo, rList);

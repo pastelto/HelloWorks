@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.addressBook.model.vo.PersonalAddressBook;
+import com.helloworks.spring.addressBook.model.vo.SearchPerson;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
@@ -80,6 +82,47 @@ public class AddressBookDao {
 		
 		return (ArrayList)sqlSession.selectList("addressBookMapper.popUpSearchOfficeAddressBookEmployee", se, rowBounds);
 	}
+
+	public int selectListPerCount(SqlSessionTemplate sqlSession, int loginEmpNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.selectListPerCount", loginEmpNo);
+	}
+
+	public ArrayList<PersonalAddressBook> selectPerAddressBook(SqlSessionTemplate sqlSession, int loginEmpNo,
+			PageInfo piR) {
+		// TODO Auto-generated method stub
+		int offset = (piR.getCurrentPage()-1)*piR.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, piR.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectPerAddressBook", loginEmpNo, rowBounds);
+	}
+
+	public int insertPersonalAddress(SqlSessionTemplate sqlSession, PersonalAddressBook personalAddressBook) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("addressBookMapper.insertPersonalAddress", personalAddressBook);
+	}
+
+	public int deletePerosonAddressBook(SqlSessionTemplate sqlSession, PersonalAddressBook personalAddressBook) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.deletePerosonAddressBook", personalAddressBook);
+	}
+
+	public int selectSearchPersonalAddressBookListCount(SqlSessionTemplate sqlSession, SearchPerson sp) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.selectSearchPersonalAddressBookListCount", sp);
+	}
+
+	public ArrayList<PersonalAddressBook> searchPersonalAddressBook(SqlSessionTemplate sqlSession, SearchPerson sp,
+			PageInfo piR) {
+		// TODO Auto-generated method stub
+		int offset = (piR.getCurrentPage()-1)*piR.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, piR.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("addressBookMapper.searchPersonalAddressBook", sp, rowBounds);
+	}
+
 
 
 }

@@ -203,7 +203,7 @@
 			}else if($("#summernote").val()==""){
 				alert("내용을 입력해주세요.")
 			}else{
-				if(confirm("저장 후 수정이 불가합니다. 제출하시겠습니까?") == true){
+				if(confirm("제출하시겠습니까?") == true){
 					
 					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/deptResourcesInsert.or");
 					$("#enrollForm").submit();

@@ -102,7 +102,7 @@
 									<i class="far fa-square"></i>
 								</button>
 								<div class="btn-group">
-									<button type="button" class="btn btn-default btn-sm">
+									<button type="button" class="btn btn-default btn-sm" onclick="delMail(${ sMail.mailNo });">
 										<i class="far fa-trash-alt"></i>
 									</button>
 									<button type="button" class="btn btn-default btn-sm">
@@ -204,5 +204,11 @@
 			});
 		});
 	</script>
+<script>
+	//삭제하기
+	function delMail(mailNo){
+		location.href = "del.ml?mailNo=" + mailNo;
+	}
+</script>
 </body>
 </html>

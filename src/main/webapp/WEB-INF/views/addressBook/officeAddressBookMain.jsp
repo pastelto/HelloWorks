@@ -82,7 +82,7 @@
 		                    <a class="nav-link active" id="custom-tabs-officeAddressBook-tab" data-toggle="pill" href="#custom-tabs-officeAddressBook" role="tab" aria-controls="custom-tabs-officeAddressBook" aria-selected="true">사내 주소록</a>
 		                  </li>
 		                  <li class="nav-item">
-		                    <a class="nav-link" id="custom-tabs-personalAddressBook-tab" data-toggle="pill" href="#custom-tabs-personalAddressBook" role="tab" aria-controls="custom-tabs-personalAddressBook" aria-selected="false">외부주소록</a>
+		                    <a class="nav-link"  href="personalAddressBook.adb" role="tab" aria-selected="false">외부주소록</a>
 		                  </li>
 		                </ul>
 		              </div>
@@ -151,7 +151,7 @@
 									<!-- 주소록 리스트 -->
 									<div class="col-12" >
 									<div>
-									<div style="height: 450px; overflow:auto;">
+									<div style="height: 470px; overflow:auto;">
 									<table id="officeAddressBookTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
@@ -181,8 +181,8 @@
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEphone }</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEmail }</td>
 							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
+							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs' onclick="location.href='compose.ml'">메일발송</button>&nbsp;
+							                        	<button id='workShare' type='button' class='btn btn-default btn-xs' onclick="location.href='sendFormView.ws'">업무공유</button>
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
@@ -191,7 +191,6 @@
 									</div>
 									</div>
 									
-									<br>
 									
 									<div id="pagingArea">
 						                <ul class="pagination">
@@ -215,7 +214,6 @@
 							                	</c:choose>
 						                    </c:forEach>
 						                    
-						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
 						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -226,7 +224,6 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
-								</div>
 								<!-- /.col -->
 								
 								<!-- 직원 선택 시 뜨는 모달  -->
@@ -299,77 +296,8 @@
 									</div>
 								</div>
 		                  	</div>
-		                  
-		                  	<!-- 외부 주소록 탭 -->
-		                  	<div class="tab-pane fade" id="custom-tabs-personalAddressBook" role="tabpanel" aria-labelledby="custom-tabs-personalAddressBook-tab">
-
-								<div class="card" style="margin-bottom: 0px;">
-										
-										<table id="searchPersonalAddressBookTable">
-										 <thead>
-											<tr>
-												<th>추가</th>
-												<td>
-													<form action="#">
-														<div class="input-group mt-1 mb-1">
-															&nbsp;&nbsp;
-													  		<div class="input-group-prepend">
-															    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-															      	부서 선택
-															    </button>
-															    <div class="dropdown-menu">
-															      <a class="dropdown-item" href="#">Link 1</a>
-															      <a class="dropdown-item" href="#">Link 2</a>
-															      <a class="dropdown-item" href="#">Link 3</a>
-															    </div>
-															  </div>
-														  <input type="text" class="form-control form-control-sm" placeholder="Username">
-														</div>
-													</form>
-												</td>
-											</tr>
-											</thead>
-										<tbody>
-											<tr>
-												<th>검색</th>
-												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
-												<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														&nbsp;&nbsp;
-														<button id="allPersonSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllPeronalAddressBookEmployee();">전체검색</button>
-														&nbsp;&nbsp;
-														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-																<option value="allType">전체</option>
-																<option value="deptType" >부서</option>
-																<option value="empNoType">사번</option>
-																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
-																<option value="emailType">이메일</option>
-															</select>
-															
-															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
-																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchPerson" value="${ search }">
-																<div class="input-group-append">
-																	<button type="submit" class="btn btn-sm btn-default">
-																		<i class="fa fa-search"></i>
-																	</button>
-																</div>
-															</div>
-														</div>
-													</form>
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-
-
-
-		                  	</div>
+		                  </div>
+	                  
 		                </div>
 		              </div>
 		              <!-- /.card -->
@@ -551,7 +479,7 @@
 		}
 	</script>
 	
-	<!-- footer 사내 주소록 삭제 버튼 -->
+	<!--  사내 주소록 삭제 버튼 -->
 	<script>
 		function deleteOfficeAddressBookBtn(){
 			const checkList = [];
