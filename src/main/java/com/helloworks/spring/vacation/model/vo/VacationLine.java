@@ -18,7 +18,8 @@ public class VacationLine extends Vacation{
 	private String empName;
 	private String jobName;
 	
-	private int confirmStatus; 
+	private int confirmStatus;
+	private String progressDate; 
 	
 	
 	

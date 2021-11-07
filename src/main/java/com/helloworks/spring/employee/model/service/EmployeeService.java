@@ -1,5 +1,8 @@
 package com.helloworks.spring.employee.model.service;
 
+import java.util.List;
+
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 
 public interface EmployeeService {
@@ -11,6 +14,10 @@ public interface EmployeeService {
 	Employee selectEmp(int empNo);
 
 	void insertEmp(Employee m);
+
+	List<Dept> getDeptList();
+
+	List<Dept> getDeptUList();
 
 	
 	
