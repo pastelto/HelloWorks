@@ -129,16 +129,40 @@
 														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
 							                        	<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttach.crAttachChange}" download="${commonResourcesAttach.crAttachOrigin}">${ commonResourcesAttach.crAttachOrigin }</a>
 							                        	</br>
-							                        </c:if>
-													<c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
-														
-							                        </c:if>
-							                    </c:forEach>
-													<span id="resourcesAttachName"></span>
+							                        	<span id="resourcesAttachName"></span>
 								                  	<div class="btn btn-default btn-file btn-xs">
 								                   		<i class="fas fa-paperclip"></i> 첨부파일
 								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple"> 
-								               	  	</div> 
+								               	  	</div>
+							                        </c:if>
+													<c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
+														<span id="resourcesAttachName"></span>
+								                  	<div class="btn btn-default btn-file btn-xs">
+								                   		<i class="fas fa-paperclip"></i> 첨부파일
+								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple"> 
+								               	  	</div>
+							                        </c:if>
+							                    </c:forEach>
+													 
+													 <c:if test="${ !empty dailyReport.drAttachOrigin }">
+							                            <span class="badge badge-info" id="reportAttachName">${ dailyReport.drAttachOrigin }</span>
+							                           <%--  <input type="hidden" name="changeName" value="${ b.drAttachChange }"> --%>
+							                            <input type="hidden" name="changeName" value="${ dailyReport.drAttachChange }">
+							                            <input type="hidden" name="originName" value="${ dailyReport.drAttachOrigin }">
+							                            <div class="btn btn-default btn-file btn-xs">
+									                    	<i class="fas fa-paperclip"></i> 첨부파일
+									                    	<input type="file" name="uploadFile" id="reportAttach">
+									                  </div> 
+						                            </c:if>
+						                            <c:if test="${ empty dailyReport.drAttachOrigin }">
+							                            <span class="badge badge-info" id="reportAttachName"></span>
+							                            <div class="btn btn-default btn-file btn-xs">
+										                    <i class="fas fa-paperclip"></i> 첨부파일
+										                    <input type="file" name="uploadFile" id="reportAttach">
+									                    </div> 
+						                            </c:if>
+													 
+													 
 												</td>
 											</tr>
 										</table>
@@ -260,6 +284,6 @@
 			location.href="<%=request.getContextPath()%>/commResourcesList.or";
 		}
 	</script>
-	
+
 </body>
 </html>
