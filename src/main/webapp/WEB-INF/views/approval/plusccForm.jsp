@@ -198,7 +198,7 @@
 																</li>
 																<li>
 																	<a href="#" onclick="selectDept('C3','IT개발팀')">IT개발팀</a>
-																	<button type='button' class='btn btn-primary btn-xs' onclick='plus("C3", "개발팀");'>+</button>
+																	<button type='button' class='btn btn-primary btn-xs' onclick='plus("C3", "IT개발팀");'>+</button>
 																</li>
 															</ul>
 														</div>

@@ -37,8 +37,8 @@
 		pointer-events: none;
 	}
 	input[id^="ccName"]{
-		background-color: white;
-		pointer-events: none;
+		background-color: white !important;
+		pointer-events: none !important;
 	}
 	input[id^="fieldWriter"], input[id^="userDept"]{
 		border : none;
@@ -440,19 +440,55 @@
 		function insertApp(){		
 			
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=Y");
-				$("#normalApprovalForm").submit();
-				
-				alert("결재 작성이 완료되었습니다.");
+			
+					if($("#summernote2").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote2").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#email").val == ""){
+						alert("이메일주소를 입력해주세요.")
+					} else if($("#phone")){
+						alert("연락가능한 전화번호를 입력해주세요.")
+					} else if($("#officeAddress")){
+						alert("주소를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
 			});		
 		}
 		
 		function insertTemp(){
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=N");
-				$("#normalApprovalForm").submit();
 				
-				alert("임시저장되었습니다.");
+					if($("#summernote2").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote2").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#email").val == ""){
+						alert("이메일주소를 입력해주세요.")
+					} else if($("#phone")){
+						alert("연락가능한 전화번호를 입력해주세요.")
+					} else if($("#officeAddress")){
+						alert("주소를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
 			});		
 		}
 	</script>

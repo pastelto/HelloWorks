@@ -438,6 +438,26 @@
 			n++;
 		}
 		
+	var value ="";
+			
+		for(var i=0; i < arr.length; i++){
+			if(arr[i].proDate != ""){		
+				console.log("proDate : " + arr[i].proDate)
+				value += '<strong>['+arr[i].proDate+']</strong>'+
+				'&nbsp;'+arr[i].dept+'&nbsp;'+arr[i].name+'&nbsp;'+arr[i].job+
+				'<b>' + progress + '</b>'+'<br>' 
+			} else {
+				value += '[0000-00-00 00:00:00]'+
+				'&nbsp;'+arr[i].dept+'&nbsp;'+arr[i].name+'&nbsp;'+arr[i].job+
+				'<b>' + progress + '</b>'+'<br>'
+			}
+		}
+		
+		$("#approval_log").after(value);
+		
+		
+		// 결재/반려 버튼 
+		
 		for(var i=0;i<arr.length;i++){
 			if(user == arr[i].number && progress == '진행중'){
 				console.log("progress:" + progress);
