@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.approval.model.dao.ApprovalDao;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
 import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
@@ -506,6 +507,165 @@ public class ApprovalServiceImpl implements ApprovalService {
 		// TODO Auto-generated method stub
 		return approvalDao.selectDatePending(sqlSession, searchMap);
 	}
+
+
+	@Override
+	public void insertComment(HashMap<String, Object> insertMap) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.insertComment(sqlSession, insertMap);
+		
+		if(result < 0) {
+			throw new CommException("의견 등록 실패");
+		}
+	}
+
+
+	@Override
+	public ArrayList<ApprovalComment> selectComment(int apNo) {
+		// TODO Auto-generated method stub
+		
+		return approvalDao.selectComment(sqlSession, apNo);
+	}
+
+
+	@Override
+	public void updateLineStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.updateLineStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+	}
+
+
+	@Override
+	public void completeStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.completeStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+		
+	}
+
+	
+	@Override
+	public void returnStatus(int apNo) {
+		// TODO Auto-generated method stub
+		int result = approvalDao.returnStatus(sqlSession, apNo);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+	}
+	
+	@Override
+	public void updateProgressDate(HashMap<String, Object> updateMap) {
+		int result = approvalDao.updateProgressDate(sqlSession, updateMap);
+		
+		if(result < 0) {
+			throw new CommException("결재 상태 update 실패");
+		}
+		
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSignedList(HashMap<String, Object> searchMap, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSignedList(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectAllSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectAllSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectSearchTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectSearchTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDetailTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDetailTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDeteDetailApNoSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDeteDetailApNoSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> selectDateDetailTitleSigned(HashMap<String, Object> searchMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.selectDateDetailTitleSigned(sqlSession, searchMap);
+	}
+
+
+	@Override
+	public ArrayList<ApprovalComment> mainMyApproval(HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.mainMyApproval(sqlSession, selectMap);
+	}
+
+
+	@Override
+	public ArrayList<Approval> mainPending(HashMap<String, Object> selectMap) {
+		// TODO Auto-generated method stub
+		return approvalDao.mainPending(sqlSession, selectMap);
+	}
+
+
+	
+
+
 
 
 	

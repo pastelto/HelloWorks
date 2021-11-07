@@ -137,5 +137,12 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return noticeDao.searchNoticeTlist(sqlSession, sc, piT);
 	}
+	
+	//공지사항 탑리스트
+	@Override
+	public ArrayList<Notice> selectTopList() {
+		// TODO Auto-generated method stub
+		return noticeDao.selectTopList(sqlSession);
+	}
 
 }

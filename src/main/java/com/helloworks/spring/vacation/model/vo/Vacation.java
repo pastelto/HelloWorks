@@ -33,11 +33,13 @@ public class Vacation  {
 	private String newName;
 	private String originName;
 	
-	
-	private String startDate;
-	private String endDate;
-	private String documentType;
-	private String vcType;
+	private int psrNo; //휴가신청문서번호
+	private String startDate; //요청시작날짜
+	private String endDate; //요청 종료날짜
+	private String documentType; //근태부분 문서종류
+	private String vcType; //휴가종류
+	private String halfday; //오전오후
+	private String alternative;//대체근무자
 	
 	
 	

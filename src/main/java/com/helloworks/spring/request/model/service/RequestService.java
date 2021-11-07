@@ -58,5 +58,16 @@ public interface RequestService {
 	void confirmOneId(int requestIdNo);
 	//사원증 상세 페이지에서 승인취소
 	void cancelOneId(int requestIdNo);
+	//회의실 예약 위한 회의실 리스트 가져오기
+	ArrayList<Mtr> listMtr();
+	//회의실 예약 위한 시간표 가져오기 + 예약리스트 가져오기
+	ArrayList<Mtr> timeMtr(Mtr mtr);
+	//회의실 예약정보 삭제
+	void delRsvMtr(int mRNo);
+	//회의실  예약하기
+	void rsvMtr(Mtr mtr);
+	//차량 예약위한 차량 리스트 가져오기
+	ArrayList<Car> listCar();
+
 	
 }

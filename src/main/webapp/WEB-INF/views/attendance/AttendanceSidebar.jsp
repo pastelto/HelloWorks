@@ -107,7 +107,7 @@
 					                  <li class="nav-item">
 					               
 					                    <a class="nav-link" href="hrOnlyPage.ps"><i class="far fa-circle text-info"></i> 결재 문서함
-					                    <span class="badge bg-primary float-right">12</span></a>
+					                    <span class="badge bg-primary float-right">${ listCount } </span></a>
 					         			
 					                  </li>
 				                  </c:if>

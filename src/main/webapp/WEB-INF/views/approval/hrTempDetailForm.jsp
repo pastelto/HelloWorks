@@ -83,51 +83,43 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-															<colgroup>
-																<col width="15%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-																<col width="17%" />
-															</colgroup>
 														<tbody>
 															<tr>															
-																<th rowspan="2"  scope="col">결재</th>
-																<th class="table emp_level" scope="col">
+																<th rowspan="2"  colspan="5">결재</th>
+																<th class="table emp_level" colspan="5">
 																	<input type="text" class="border_none" id="emp_level0" value="${loginUser.jobName}" name="writerJob" readonly/>
 																</th>
-																<th class="table emp_level" scope="col">
+																<th class="table emp_level" colspan="5">
 																	<input type="text" class="border_none" id="emp_level4_1" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >
+																<th class="table emp_level" colspan="5" >
 																	<input type="text" class="border_none" id="emp_level4_2" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >
+																<th class="table emp_level" colspan="5" >
 																	<input type="text" class="border_none" id="emp_level4_3" name="job" readonly/>
 																</th>
-																<th class="table emp_level" scope="col" >
+																<th class="table emp_level" colspan="5" >
 																	<input type="text" class="border_none" id="emp_level4_4" name="job" readonly/>
 																</th>															
 															</tr>
 															<tr>
-																<td class="table emp_name" scope="col" >
+																<td class="table emp_name" colspan="5" >
 																	<input type="text" class="border_none" id="emp_name0" value="${loginUser.empName}" disabled/>
 																	<input type="hidden" id="writer" name="writer" value="${loginUser.empNo}">
 																</td>
-																<td class="table emp_name" scope="col" >
+																<td class="table emp_name" colspan="5" >
 																	<input type="text" class="border_none" id="emp_name4_1" name="lineName" readonly/>
 																	<input type="hidden" id="line4_1" name="line" >
 																</td>
-																<td class="table emp_name" scope="col" >
+																<td class="table emp_name" colspan="5" >
 																	<input type="text" class="border_none" id="emp_name4_2" name="lineName" readonly/>
 																	<input type="hidden" id="line4_2" name="line" >
 																</td>
-																<td class="table emp_name" scope="col" >
+																<td class="table emp_name" colspan="5">
 																	<input type="text" class="border_none" id="emp_name4_3" name="lineName" readonly/>
 																	<input type="hidden" id="line4_3" name="line" >
 																</td>
-																<td class="table emp_name"scope="col" >
+																<td class="table emp_name" colspan="5">
 																	<input type="text" class="border_none" id="emp_name4_4" name="lineName" readonly/>
 																	<input type="hidden" id="line4_4" name="line" >
 																</td>											
@@ -139,45 +131,45 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-														<colgroup>
-																<col width="15%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-															</colgroup>
 														<tbody>
 															<tr>
-																<th rowspan="2"  scop="col">협조</th>
-																<th class="table coo_level" scop="col">
-																	<input type="text" class="coo_level4_1" id="coo_level4_1"  value="${approval.cooJob}" readonly/>
+																<th rowspan="2" colspan="5">협조</th>
+																<th class="table coo_level" colspan="5">
+																	<input type="text" class="coo_level4_1" id="coo_level4_1"  name="cooJob" readonly/>
 																</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level" colspan="5">
 																	<input type="text" class="coo_level4_2" id="coo_level4_2" disabled/>
 																</th>
-																<th class="table coo_level"  scop="col">
+																<th class="table coo_level" colspan="5">
 																	<input type="text" class="coo_level4_3" id="coo_level4_3" disabled/>
 																</th>
-																<th class="table coo_level" scop="col">
+																<th class="table coo_level" colspan="5">
 																	<input type="text" class="coo_level4_4" id="coo_level4_4" disabled/>
+																</th>
+																<th class="table coo_level" colspan="5">
+																	<input type="text" class="coo_level4_5" id="coo_level4_5" disabled/>
 																</th>											
 															</tr>
 															<tr>
-																<td class="table coo_name"  scop="col">
-																	<input type="text" class="coo_name4_1" id="coo_name4_1"  value ="${approval.cooName}" readonly/>
-																	<input type="hidden" id="cooperator4_1" name="cooperator0" value="${approval.cooper}">
+																<td class="table coo_name" colspan="5">
+																	<input type="text" class="coo_name4_1" id="coo_name4_1" name="cooName" readonly/>
+																	<input type="hidden" id="cooperator4_1" name="cooperator0">
 																</td>
-																<td class="table coo_name"  scop="col">
+																<td class="table coo_name" colspan="5">
 																	<input type="text" class="coo_name4_2" id="coo_name4_2" disabled/>
 																	<input type="hidden" id="cooperator4_2" name="cooperator1" >
 																</td>
-																<td class="table coo_name" scop="col">
+																<td class="table coo_name" colspan="5">
 																	<input type="text" class="coo_name4_3" id="coo_name4_3" disabled/>
 																	<input type="hidden" id="cooperator4_3" name="cooperator2" >
 																</td>
-																<td class="table coo_name" scop="col">
+																<td class="table coo_name" colspan="5">
 																	<input type="text" class="coo_name4_4" id="coo_name4_4" disabled/>
 																	<input type="hidden" id="cooperator4_4" name="cooperator3" >
+																</td>
+																<td class="table coo_name" colspan="5">
+																	<input type="text" class="coo_name4_5" id="coo_name4_5" disabled/>
+																	<input type="hidden" id="cooperator4_5" name="cooperator4" >
 																</td>										
 															</tr>
 														</tbody>

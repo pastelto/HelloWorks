@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,18 @@
  <!-- css attendance  -->
 <link href="resources/css/attendance/AttendanceApiView.css" rel="stylesheet" type="text/css">
 <style>
+/*일~월 타이틀 색 바꾸기  */
+.fc .fc-col-header-cell-cushion, .fc .fc-daygrid-day-number{
+	color:black !important;
+}
+/*노란색배경*/
+.fc .fc-daygrid-day.fc-day-today {
+      background-color: rgb(244,246,249) !important;
+}
 
+.fc-col-header-cell fc-day fc-day-sat{
+	color: blue !important;
+}
 
 </style>
 </head>
@@ -28,9 +39,8 @@
 	
 	<!--메인 -->
 		<div class="col-7" id="mainApi">
-					<br><br>
 			
-					<div class="card" style="margin-bottom: 0px;">
+				<!-- 	<div class="card" style="margin-bottom: 0px;">
 								<table id="searchEmpTable">
 									<tr>
 										<th height="45px;">검색 조건</th>
@@ -62,7 +72,7 @@
 													</select>
 													
 														&nbsp;&nbsp;
-												<button id="atSearchBtn" type="button" class="btn btn-default btn-sm" onclick="#">전체검색</button>
+												<button id="atSearchBtn" type="button" class="btn btn-default btn-sm" onclick="annulSearch();">전체검색</button>
 												&nbsp;&nbsp;
 												
 										
@@ -71,7 +81,7 @@
 										</td>
 									</tr>
 								</table>
-							</div>
+							</div> -->
 						
 					
 					<br>
@@ -91,12 +101,12 @@
 							</thead>
 							<tbody>
 								<tr align="center" >
-									<td>1</td>
-									<td>2</td>
-									<td>3</td>
-									<td>4</td>
-									<td>5</td>
-									<td>6</td>
+									<%-- <td>${count.empNo }</td>
+									<td>${count.working }</td>
+									<td>${count.over }</td>
+									<td>${count.totalT }</td>
+									<td>${count.leaveWT }</td>
+									<td>${count.leaveOT }</td> --%>
 								</tr>
 							</tbody>
 						</table>
@@ -123,121 +133,249 @@
 <!-- fullCalendar 2.2.5 -->
 <script src="./resources/plugins/moment/moment.min.js"></script>
 <script src="./resources/plugins/fullcalendar/main.js"></script>
-<!-- 스크립트 모음 --> 
+<!-- 스크립트 모음 -->
+
 <script>
 
-      document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+		var nowDate = new Date();
+		var month= nowDate.getMonth() + 1;
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+       	  header:{
+       		right: 'today,customPrevButton,customNextButton',
+       		left:'title'
+       	  },
+       	  customButtons:{
+       		customPrevButton:{
+       			text:'prev',
+       			click:function(){
+       				
+       				month=month-1;
+       				console.log("달"+ month)
+       				
+       			 	$.ajax(
+       			    		{
+       			    			url : 'prevnextBtn.ps',
+       			    			type: 'POST',
+       			    			data : month,
+       			    			contentType: 'application/json; charset=utf-8',
+       			    			success:function(list){
+       			    		            
+       			    		            var value="";
+       			    		            
+       			    		            $.each(list, function(i, obj){               
+       			    		               value +=
+       			    		               "<td>" +  obj.empNo + "</td>" + 
+       			    		               "<td>" +  obj.working + "</td>" + 
+       			    		               "<td>" +  obj.over + "</td>" + 
+       			    		               "<td>" +  obj.totalT + "</td>" + 
+       			    		               "<td>" +  obj.leaveWT + "</td>" + 
+       			    		               "<td>" +  obj.leaveOT + "</td>" ;
+       			    		            });
+       			    		            
+       			    		            $("#attendanceList>tbody>tr").html(value);
+       			    						
+       			    			}
+       			    		}); 
+       			}
+       		}  
+       	  },
           initialView: 'dayGridMonth',
           defaultDate: new Date(),
+          locale: 'ko', 
           eventLimit: true,
+          contentHeight: 550,
           editable: false,
           droppable: false,
-          dayPopoverFormat: { year: 'numeric', month: 'long', day: 'numeric' },
           events:function(info, successCallback, failureCallback){
               $.ajax({
                      url: '${pageContext.request.contextPath}/selectAttendanceList.ps',
                      dataType: 'json',
+                     type:'post',
                      success: 
                          function(result) {
-   
                              var events = [];
-                            
+                         
                              if(result!=null){
-                                 
+                            	
                                      $.each(result, function(index, element) {
-                                     var enddate=element.enddate;
-                                      if(enddate==null){
-                                          enddate=element.startdate;
-                                      }
-                                      
-                                      var startdate=moment(element.startdate).format('YY/MM/DD');
-                                      var enddate=moment(enddate).format('YY/MM/DD');
+                                     var enddate=element.psCreateDate;
+                                    
+                                     
+                                      var startdate=moment(element.psCreateDate).format('YYYY-MM-DD');
                                       var psStatus = element.psStatus;
-                                      
-                                      // realmname (분야) 분야별로 color 설정
-                                      if (psStatus == "정상출근"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    color:"#6937a1"                                                   
-                                              }); //.push()
-                                      }
-                                                                          
-                                      else if (psStatus == "지각"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                    color:"#f7e600"                                                   
-                                              }); //.push()
-                                      }
-                                      
-                                      else if (psStatus == "반차"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                    color:"#2a67b7"                                                   
-                                              }); //.push()
-                                      }
-                                      
-                                      else if (psStatus == "조퇴"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                    color:"#008d62"                                                   
-                                              }); 
-                                      }
-                                      
-                                      else if (psStatus == "출근전"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                    color:"#6937a1"                                                   
-                                              }); //.push()
-                                      }
-                                      
-                                      else if (psStatus == "휴가"){
-                                          events.push({
-                                                 title: element.title,
-                                                 start: startdate,
-                                                 end: enddate,
-                                                    url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                    color:"#ff3399"                                                   
-                                              }); //.push()
-                                      }else{//결근
-                                          events.push({
-                                              title: element.title,
+                                     
+                                    
+                                      if (psStatus == "A"){
+	                                    	  events.push({
+	                                              title: "정상출근",
+	                                              start: startdate,
+	                                              textColor: 'black',
+	                                              color:'rgb(244,246,249)'
+	                                           }); 
+                                              events.push({
+                                                  title: " "+element.inTime+" - "+element.outTime,
+                                                  start: startdate,
+                                                  textColor: 'black',
+                                                  color:'rgb(244,246,249)'
+                                               }); 
+                                              
+                                      } else if (psStatus == "B"){
+                                    	  events.push({
+                                              title: "지각",
                                               start: startdate,
-                                              end: enddate,
-                                                 url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
-                                                 color:"#ff3399"                                                   
-                                           }); //.push()
-                                   }
+                                              textColor: 'red',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }else if (psStatus == "C"){
+                                    	  events.push({
+                                              title: "결근",
+                                              start: startdate,
+                                              textColor: 'red',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }else if (psStatus == "D"){
+                                    	  events.push({
+                                              title: "반차",
+                                              start: startdate,
+                                              textColor: 'blue',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }else if (psStatus == "E"){
+                                    	  events.push({
+                                              title: "연차",
+                                              start: startdate,
+                                              textColor: 'blue',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }else if (psStatus == "F"){
+                                    	  events.push({
+                                              title: "휴가",
+                                              start: startdate,
+                                              textColor: 'blue',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }else if (psStatus == "G"){
+                                    	  events.push({
+                                    		  id:1,
+                                              title: "출근전",
+                                              start: startdate,
+                                              textColor: 'blue',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          events.push({
+                                        	  id:2,
+                                              title: " "+element.inTime+" - "+element.outTime,
+                                              start: startdate,
+                                              textColor: 'black',
+                                              color:'rgb(244,246,249)'
+                                           }); 
+                                          
+                                      }
+                                      
                                       
                                  }); //.each()
                                  
                                  console.log(events);
                                  
                              }//if end                           
-                             successCallback(events);                               
+                             successCallback(events);   
+                             
+                      
+                             
                          }//success: function end                          
               }); //ajax end
           }, //events:function end
      });//new FullCalendar end
    
-        calendar.render();
-      });
+        calendar.render();       
+     
+   
+       /*  $('.fc-prev-button').click(function(){
+         	  changeMonth(1);
+        	   
+        });
+     
+     
+        $('.fc-next-button').click(function(){
+        	 changeMonth(-1);
+        	}); */
+     
+     
+      });    
 
 </script>
+<!-- <script>
+var nowDate = new Date();
+var month= nowDate.getMonth() + 1;
+
+function changeMonth(num){
+			
+	month=month-num;
+	console.log("달"+ month)
+	
+ 	$.ajax(
+    		{
+    			url : 'attendanceApiView.ps',
+    			type: 'POST',
+    			data : month,
+    			contentType: 'application/json; charset=utf-8',
+    			success:function(list){
+    		            
+    		            var value="";
+    		            
+    		            $.each(list, function(i, obj){               
+    		               value +=
+    		               "<td>" +  obj.empNo + "</td>" + 
+    		               "<td>" +  obj.working + "</td>" + 
+    		               "<td>" +  obj.over + "</td>" + 
+    		               "<td>" +  obj.totalT + "</td>" + 
+    		               "<td>" +  obj.leaveWT + "</td>" + 
+    		               "<td>" +  obj.leaveOT + "</td>" ;
+    		            });
+    		            
+    		            $("#attendanceList>tbody>tr").html(value);
+    						
+    			}
+    		}); 
+}
+</script> -->
+
 </body>
 </html>

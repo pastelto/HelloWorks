@@ -54,13 +54,13 @@
 						<table id="eqListTable" class="table table-bordered table-striped">
 							<thead>
 								<tr align="center">
-									<th>신청번호</th>
-									<th>비품신청인(사번)</th>
-									<th>부서</th>
-									<th>직급</th>
-									<th>접수일</th>
-									<th>처리상태</th>
-									<th><input type='checkbox' name='updateEqAll'
+									<th width="10%">신청번호</th>
+									<th width="30%">비품신청인(사번)</th>
+									<th width="10%">부서</th>
+									<th width="10%">직급</th>
+									<th width="25%">접수일</th>
+									<th width="10%">처리상태</th>
+									<th width="5%"><input type='checkbox' name='updateEqAll'
 										value='selectEqall'></th>
 								</tr>
 							</thead>
@@ -72,13 +72,13 @@
 						<table id="idListTable" class="table table-bordered table-striped">
 							<thead>
 								<tr align="center">
-									<th>신청번호</th>
-									<th>사원증신청인(사번)</th>
-									<th>부서</th>
-									<th>직급</th>
-									<th>접수일</th>
-									<th>처리상태</th>
-									<th><input type='checkbox' name='updateIdAll' value='selectIdall'></th>
+									<th width="10%">신청번호</th>
+									<th width="30%">사원증신청인(사번)</th>
+									<th width="10%">부서</th>
+									<th width="10%">직급</th>
+									<th width="25%">접수일</th>
+									<th width="10%">처리상태</th>
+									<th width="5%"><input type='checkbox' name='updateIdAll' value='selectIdall'></th>
 								</tr>
 							</thead>
 							<tbody>

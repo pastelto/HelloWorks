@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalCC;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.approval.model.vo.ApprovalDiploma;
 import com.helloworks.spring.approval.model.vo.ApprovalExDetails;
 import com.helloworks.spring.approval.model.vo.ApprovalExpenditure;
@@ -80,6 +81,50 @@ public class ApprovalController {
 	public String plusCooForm() {
 		
 		return "approval/plusCooForm";
+	}
+	
+	@RequestMapping("mainMyApproval.ea")
+	public String mainMyApproval(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String status = "Y"; 
+		
+		ArrayList<ApprovalComment> acList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		selectMap.put("status", status);
+		
+		acList = approvalService.mainMyApproval(selectMap);
+		
+		model.addAttribute("acList", acList);
+		model.addAttribute("commentPageURL", "mainMyApproval.ea");
+		model.addAttribute("commentPage", 1);
+		
+		
+		return "main";
+	}
+	
+	@RequestMapping("mainPending.ea")
+	public String mainPending(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<Approval> approvalList = null;
+		
+		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		
+		selectMap.put("loginEmpNo", loginEmpNo);
+		
+		approvalList = approvalService.mainPending(selectMap);
+		
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("commentPageURL", "mainPending.ea");
+		model.addAttribute("commentPage", 2);
+		
+		
+		return "main";
 	}
 	
 	
@@ -183,7 +228,7 @@ public class ApprovalController {
 		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
 		
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
+			System.out.println("approval :" + approval);
 			 model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
@@ -269,8 +314,8 @@ public class ApprovalController {
 		ArrayList<ApprovalExDetails> chlist = approvalService.selectExNumch();
 		ArrayList<ApprovalExDetails> colist = approvalService.selectExNumco();
 		
-		model.addAttribute("chlist",chlist);
-		model.addAttribute("colist",colist);
+		model.addAttribute("chList", chlist);
+		model.addAttribute("coList", colist);
 		
 		if(approval != null) {
 			System.out.println("approval ; " + approval);
@@ -475,7 +520,7 @@ public class ApprovalController {
 				
 		int listCount = approvalService.selectListCount(searchMap);
 				
-		System.out.println("임시저장 결재 수 : " + listCount);
+		System.out.println("미결재함 지출 수 : " + listCount);
 				
 		int pageLimit = 10;
 		int boardLimit = 10; 
@@ -491,6 +536,284 @@ public class ApprovalController {
 			
 		return "approval/pendingTrayMain";
 	}	
+	
+	// 결재완료 - 일반결재
+	@RequestMapping("signedNormal.ea")
+	public String signedNormal(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+				
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "일반";			
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+				
+		int listCount = approvalService.selectListCount(searchMap);
+		
+		System.out.println("결재완료 일반 수 : " + listCount);
+				
+		int pageLimit = 10;
+		int boardLimit = 10; 
+			
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+				
+		ArrayList<Approval> approvalList = approvalService.selectSignedList(searchMap, pi);
+				
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "signedNormal.ea");
+		model.addAttribute("page", 1);
+			
+		return "approval/signedTrayMain";
+	}
+	
+	// 결재완료 - 지출결재
+	@RequestMapping("signedExpenditure.ea")
+	public String signedExpenditure(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String apClass = "지출";	
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+		searchMap.put("loginEmpNo", loginEmpNo);
+		searchMap.put("apClass", apClass);
+			
+		int listCount = approvalService.selectListCount(searchMap);
+					
+		System.out.println("결재완료 지출 수 : " + listCount);
+					
+		int pageLimit = 10;
+		int boardLimit = 10; 
+				
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+					
+		ArrayList<Approval> approvalList = approvalService.selectSignedList(searchMap, pi);
+					
+		model.addAttribute("approvalList", approvalList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "pendingExpenditure.ea");
+		model.addAttribute("page", 2);
+			
+		return "approval/signedTrayMain";
+	}		
+	
+	//전자결재 -기안 detail 
+	@RequestMapping("normalDetail.ea")
+	public String normalDetail(HttpServletRequest request, Model model) {
+		 
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "기안";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		
+		System.out.println("return line :" + lineList);
+		
+		return "approval/detailNormalForm";
+	}
+	
+	//전자결재 -공문서 detail 
+	@RequestMapping("diplomaDetail.ea")
+	public String diplomaDetail(HttpServletRequest request, Model model) {
+			
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "공문";
+				
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalDiploma ad = approvalService.selectApprovalDiploma(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			 model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			 model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			 model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			 model.addAttribute("apAttach",apAttach);
+		}
+		if(ad != null) {
+			System.out.println("ad ; " + ad);
+			 model.addAttribute("ad", ad);
+		}
+		
+		
+		return "approval/detailDiplomaForm";
+	}
+	
+	// 전자결재 detail - 인사 
+	@RequestMapping("hrDetail.ea")
+	public String hrDetail(HttpServletRequest request, Model model) {
+		
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "인사";
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+		
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalHr ah = approvalService.selectApprovalHr(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+			
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			model.addAttribute("apAttach",apAttach);
+		}
+		if(ah != null) {
+			System.out.println("ah ; " + ah);
+			model.addAttribute("ah", ah);
+		}
+	 	
+		return "approval/detailHrForm";
+	 }
+	
+	// 전자결재 detail - 회의록
+	@RequestMapping("minutesDetail.ea")
+	public String minutesDetail(HttpServletRequest request, Model model) {
+	 		
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "회의";
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+			
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalMinutes am = approvalService.selectApprovalMinutes(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+			
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			model.addAttribute("apAttach",apAttach);
+		}
+		if(am != null) {
+			System.out.println("am ; " + am);
+			model.addAttribute("am", am);
+		}
+	 		
+		return "approval/detailMinutesForm";
+	}
+	  	
+	// 전자결재 detail - 지출
+	@RequestMapping("expenditureDetail.ea")
+	public String expenditureDetail(HttpServletRequest request, Model model) {
+		
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		String detailClass = "지출";
+		
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+			
+		searchMap.put("apNo", apNo);
+		searchMap.put("detailClass", detailClass);
+			
+		Approval approval = approvalService.selectApprovalDetail(searchMap);
+		Approval apAttach = approvalService.selectAttachDetail(searchMap);
+		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
+		ApprovalExpenditure ae = approvalService.selectApprovalExpenditure(searchMap);
+		ArrayList<ApprovalExDetails> adList = approvalService.selectApprovalExDetails(searchMap);
+		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalComment> cmList = approvalService.selectComment(apNo);
+			
+		model.addAttribute("cmList", cmList);
+			
+		if(approval != null) {
+			System.out.println("approval ; " + approval);
+			model.addAttribute("approval",approval);
+		}
+		if(apCC != null) {
+			System.out.println("apCC ; " + apCC);
+			model.addAttribute("apCC",apCC);
+		}
+		if(lineList != null) {
+			System.out.println("line ; " + lineList);
+			model.addAttribute("lineList",lineList);
+		}
+		if(apAttach != null) {
+			System.out.println("apAttach ; " + apAttach);
+			model.addAttribute("apAttach",apAttach);
+		}
+		if(ae != null) {
+			System.out.println("ae ; " + ae);
+			model.addAttribute("ae", ae);
+		}
+		if(adList != null) {
+			System.out.println("ad ; " + adList);
+			model.addAttribute("adList", adList);
+		}
+		
+		return "approval/detailExpenditureForm";
+	}
+	  	
+	
 	// 전자결재  Insert
 	@RequestMapping("insertApproval.ea")
 	public String insertApproval(Approval ap, ApprovalCC ac, ApprovalDiploma ad, ApprovalHr ah, ApprovalLine line, ApprovalMinutes am,
@@ -566,22 +889,7 @@ public class ApprovalController {
 		}
 				
 		// 수신참조 등록 
-						
-		/*Object ccCode = request.getParameter("ccCode");
-				
-		if(ccCode instanceof Integer) {
-			System.out.println("이것은 숫자입니다.");
-			int ccMember  = (int) ccCode;
-			ac.setCcMember(ccMember);
-			approvalService.insertCcEmpl(ac);
-	
-		} else {
-			System.out.println("이것은 문자입니다.");
-				String ccMember = (String) ccCode;
-				ac.setCcDept(ccMember);
-				approvalService.insertCcDept(ac);
-		}		*/
-		
+					
 		String ccName = request.getParameter("ccName");
 		System.out.println("ccName : " + ccName);
 		String ccCode = request.getParameter("ccCode");
@@ -600,20 +908,20 @@ public class ApprovalController {
 				approvalService.insertCcDept(ac);
 			}
 		}
-			
-		
-								
+											
 		// 결재라인 등록 
 		insertLine(line, request);		
 		
 		// 결재 등록 알림창 
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
+			return "redirect:myNormal.ea";
 		}else if(status.equals("N")) {
 			model.addAttribute("msg", "결재가 임시저장되었습니다.");
-		}
+			return "redirect:tempNormal.ea";
+		}	
 		
-		return "main";
+		return "redirect:myNormal.ea";
 	}
 	
 	// 결재 수신참조 부서/직원 구분을 위한 메소드
@@ -764,14 +1072,16 @@ public class ApprovalController {
 		// 결재라인 등록 
 		insertLine(line, request);		
 		
-		//수신참조 부서, 직원 구분
+		// 결재 등록 알림창 
 		if(status.equals("Y")) {
 			model.addAttribute("msg", "결재가 등록되었습니다.");
+			return "redirect:myExpenditure.ea";
 		}else if(status.equals("N")) {
 			model.addAttribute("msg", "결재가 임시저장되었습니다.");
-		}
-	
-		return "main";		
+			return "redirect:tempExpenditure.ea";
+		}	
+			
+		return "redirect:myExpenditure.ea";
 	}
 	
 	
@@ -1090,7 +1400,7 @@ public class ApprovalController {
 	
 	// 미결재함 - 날짜 버튼 클릭 
 	@ResponseBody
-	@RequestMapping(value="selectDateSortPending.ea", produces= "application/json; charset=utf-8")
+	@RequestMapping(value="pendingSelectDateSort.ea", produces= "application/json; charset=utf-8")
 	public String selectDateSortPending(HttpServletRequest request) {
 			
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
@@ -1101,7 +1411,7 @@ public class ApprovalController {
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
 			
-		System.out.println("기간 : " + sdate);
+		System.out.println("기간 확인: " + sdate);
 		int sDate= 0;
 		ArrayList<Approval> list = null;
 		switch(sdate) {
@@ -1262,7 +1572,197 @@ public class ApprovalController {
 		
 			return new GsonBuilder().create().toJson(list);
 		}
+
+		//결재완료 전체보기
+		@ResponseBody
+		@RequestMapping(value="selectAllSigned.ea", produces= "application/json; charset=utf-8")
+		public String selectAllSignedApproval(HttpServletRequest request) {
+			int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();					
+			String option = request.getParameter("cOption");
+			
+			HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+			searchMap.put("loginEmpNo", loginEmpNo);
+			searchMap.put("option", option);
+			
+			ArrayList<Approval> list = approvalService.selectAllSigned(searchMap);
+			
+			return new GsonBuilder().create().toJson(list);
+		}
 		
+		// 결재완료- 날짜 버튼 클릭 
+		@ResponseBody
+		@RequestMapping(value="selectDateSortSigned.ea", produces= "application/json; charset=utf-8")
+		public String selectDateSortSigned(HttpServletRequest request) {
+				
+			int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();		
+			String sdate = request.getParameter("sdate");
+			String apClass = request.getParameter("apClass");
+
+			HashMap<String, Object> searchMap = new HashMap<String, Object>();
+			searchMap.put("loginEmpNo", loginEmpNo);
+			searchMap.put("apClass", apClass);
+				
+			System.out.println("기간 signed: " + sdate);
+			int sDate= 0;
+			ArrayList<Approval> list = null;
+			switch(sdate) {
+				case "당일" : 
+					sDate = 0;
+					searchMap.put("sDate", sDate);				
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1주일" : 
+					sDate = 7;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1개월" :
+					sDate = 30;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "3개월" :
+					sDate = 90;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "6개월" :
+					sDate = 180;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				case "1년" :
+					sDate = 365;
+					searchMap.put("sDate", sDate);	
+					list = approvalService.selectDateSigned(searchMap);
+					break;
+				default : 
+					break;
+			}
+				
+			return new GsonBuilder().create().toJson(list);
+				
+		}
+		
+		// 결재완료 - 검색 
+			@ResponseBody
+			@RequestMapping(value="selectSearchSortSigned.ea", produces= "application/json; charset=utf-8")
+			public String selectSearchSortSigned(HttpServletRequest request) {
+				
+				int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
+				String optionType = request.getParameter("optionType"); // 제목 , 문서번호 
+				String endDate = request.getParameter("endDate");
+				String startDate = request.getParameter("startDate");
+				String detailOption = request.getParameter("detailOption"); // 기안, 공문, 인사, 회의록 
+				String input = request.getParameter("optionInput"); // 입력한 값 
+				String apClass = request.getParameter("apClass");	// 일반 , 지출 ,...
+				int intInput = 0;
+				String stringInput = null;	
+				
+				System.out.println("detailOption : " + detailOption);
+				
+				HashMap<String, Object> searchMap = new HashMap<String, Object>();	
+				searchMap.put("optionType", optionType);
+				searchMap.put("loginEmpNo", loginEmpNo);
+				searchMap.put("endDate", endDate);
+				searchMap.put("startDate", startDate);
+				searchMap.put("detailOption", detailOption);
+				searchMap.put("apClass", apClass);
+				
+				ArrayList<Approval> list = null;
+				
+				// 날짜구간 미입력
+				if(endDate.equals("") || startDate.equals("")) {		
+					// 세부 항목 미선택
+					if(detailOption.equals("")) {
+						switch(optionType) {
+							case "문서번호" : 
+								intInput = Integer.parseInt(request.getParameter("optionInput"));							
+								searchMap.put("optionInput", intInput);		
+								System.out.println("optionInput : " + intInput);
+								list = approvalService.selectSearchApNoSigned(searchMap);				
+								break;
+							case "제목" : 
+								stringInput = request.getParameter("optionInput");							
+								searchMap.put("optionInput", stringInput);		
+								System.out.println("optionInput : " + stringInput);
+								list = approvalService.selectSearchTitleSigned(searchMap);				
+								break;
+							default :
+								break;			
+						}
+					// 세부항목 선택
+					} else {
+						switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectDetailApNoSigned(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectDetailTitleSigned(searchMap);				
+							break;
+						default :
+							break;			
+						}
+					}
+				// 날짜 구간 입력
+				} else {
+					// 세부항목 미선택
+					if(detailOption.equals("")) {
+						// 검색어 입력
+						if(!input.equals("")) {
+							switch(optionType) {
+								case "문서번호" : 
+									intInput = Integer.parseInt(request.getParameter("optionInput"));							
+									searchMap.put("optionInput", intInput);		
+									System.out.println("optionInput : " + intInput);
+									list = approvalService.selectDateApNoSigned(searchMap);				
+									break;
+								case "제목" : 
+									stringInput = request.getParameter("optionInput");							
+									searchMap.put("optionInput", stringInput);		
+									System.out.println("optionInput : " + stringInput);
+									list = approvalService.selectDateTitleSigned(searchMap);				
+									break;
+								default :
+									break;			
+							}
+						// 검색어 미입력 
+						} else {
+							list = approvalService.selectOnlyDateSort(searchMap);
+						}
+					// 세부항목 선택	
+					} else {
+						switch(optionType) {
+						case "문서번호" : 
+							intInput = Integer.parseInt(request.getParameter("optionInput"));							
+							searchMap.put("optionInput", intInput);		
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + intInput);
+							list = approvalService.selectDeteDetailApNoSigned(searchMap);				
+							break;
+						case "제목" : 
+							stringInput = request.getParameter("optionInput");							
+							searchMap.put("optionInput", stringInput);	
+							searchMap.put("detailOption", detailOption);
+							System.out.println("optionInput : " + stringInput);
+							list = approvalService.selectDateDetailTitleSigned(searchMap);				
+							break;
+						default :
+							break;			
+						}
+					}
+				}
+			
+				return new GsonBuilder().create().toJson(list);
+			}		
 	
 	// 전자결재  update
 		@RequestMapping("updateApproval.ea")
@@ -1372,11 +1872,13 @@ public class ApprovalController {
 			// 결재 등록 알림창 
 			if(status.equals("Y")) {
 				model.addAttribute("msg", "결재가 등록되었습니다.");
+				return "approval/myApprovalNormal";
 			}else if(status.equals("N")) {
 				model.addAttribute("msg", "결재가 임시저장되었습니다.");
-			}
+				return "approval/temporaryNormal";
+			}	
 			
-			return "main";
+			return "redirect:tempNormal.ea";
 		}
 
 		private void updateHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
@@ -1563,14 +2065,16 @@ public class ApprovalController {
 			// 결재라인 등록 
 			insertLine(line, request);		
 			
-			//수신참조 부서, 직원 구분
+			// 결재 등록 알림창 
 			if(status.equals("Y")) {
 				model.addAttribute("msg", "결재가 등록되었습니다.");
+				return "approval/myApprovalNormal";
 			}else if(status.equals("N")) {
 				model.addAttribute("msg", "결재가 임시저장되었습니다.");
-			}
-		
-			return "main";		
+				return "approval/temporaryNormal";
+			}	
+			
+			return "redirect:tempExpenditure.ea";		
 		}
 		
 		
@@ -1608,5 +2112,66 @@ public class ApprovalController {
 				}
 			}	
 		}
+	
+	@ResponseBody
+	@RequestMapping(value="insertComment.ea", produces= "application/json; charset=utf-8")	
+	public String insertComment (HttpServletRequest request) {
 		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		String comment = request.getParameter("comment");
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		
+		System.out.println("comment : " + comment);
+		
+		HashMap<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("loginEmpNo", loginEmpNo);
+		insertMap.put("comment", comment);
+		insertMap.put("apNo", apNo);
+		
+		approvalService.insertComment(insertMap);
+		
+		ArrayList<ApprovalComment> list = approvalService.selectComment(apNo);
+		
+		return new GsonBuilder().create().toJson(list);
+	}
+	
+	@RequestMapping("confirmApproavl.ea")
+	public String confirmApproval(HttpServletRequest request) {
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		int apNo = Integer.parseInt(request.getParameter("apNo"));
+		int flag = Integer.parseInt(request.getParameter("flag"));
+		
+		HashMap<String, Object> updateMap = new HashMap<String, Object>();
+		
+		updateMap.put("loginEmpNo", loginEmpNo);
+		updateMap.put("apNo", apNo);
+		
+		approvalService.updateLineStatus(apNo);
+		
+		if (flag == 1){
+			approvalService.completeStatus(apNo);
+		}
+				
+		approvalService.updateProgressDate(updateMap);
+		
+		return "redirect:pendingNormal.ea";
+	}
+	
+	@RequestMapping("returnApproavl.ea")
+	public String returnApproavl(HttpServletRequest request) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		int apNo = Integer.parseInt(request.getParameter("apNo"));	
+		
+		HashMap<String, Object> updateMap = new HashMap<String, Object>();
+		
+		updateMap.put("loginEmpNo", loginEmpNo);
+		updateMap.put("apNo", apNo);
+		
+		approvalService.returnStatus(apNo);	
+		approvalService.updateProgressDate(updateMap);
+				
+		return "redirect:pendingNormal.ea";
+	}
+	
 }
