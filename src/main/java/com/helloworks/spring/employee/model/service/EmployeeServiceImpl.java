@@ -1,6 +1,7 @@
 package com.helloworks.spring.employee.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.dao.EmployeeDao;
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
@@ -62,7 +64,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		int result = employeeDao.insertEmp(sqlSession, m);
 		
-		
+		if(result < 0) {
+			throw new CommException("사원등록에 실패하였습니다.");
+		}
 		
 	}
 

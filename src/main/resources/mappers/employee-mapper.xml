@@ -18,13 +18,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobCode" column="JOB_CODE"/>
 		<result property="empSalary" column="EMP_SALARY"/>
 		<result property="empHire" column="EMP_HIRE"/>
-		<result property="empFire" column="EMP_FIRE"/>
+		<result property="empFire" column="EMP_FIRE"/>	
+		<result property="empOrgPic" column="EMP_ORG_PIC"/>
+		<result property="empChgpic" column="EMP_CHG_PIC"/>
+		<result property="empOrgSign" column="EMP_CHG_SIGN"/>
+		<result property="empChgSign" column="EMP_CHG_SIGN"/>		
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
+	
+	<!-- Dept -->
+   <resultMap id="deptResultSet" type="Dept">
+      <id property="deptCode" column="DEPT_CODE"/>
+      <result property="deptUName" column="DEPT_UNAME"/>
+      <result property="deptDName" column="DEPT_DNAME"/>
+   </resultMap>
 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
 		<!-- 암호화 전 -->
@@ -43,9 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사원등록 -->
 	<insert id="insertEmp" parameterType="Employee">
-		insert into employee
-		values(#{empNo}, #{empPwd}, #{empName}, #{empEn}, #{empEmail}, #{empPid}, #{empHire}, #{empFire}, 
-				#{empSalary}, sysdate, sysdate, #{jobName}, default, #{empPhone}, #{empEphone}, #{empAddress}, #{empNote})
+		INSERT INTO EMPLOYEE
+		VALUES(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_HR_NO.NEXTVAL, 5, '0'), #{empPwd}, #{empName}, #{empEn}, #{empPid}, #{empEmail}, #{empPhone}, #{empEphone},  #{empAddress},
+				#{deptCode}, #{jobCode}, #{empSalary}, SYSDATE, null, null, null, null, null, null, DEFAULT)
 	</insert>
 	
 	<!-- 수정 -->
@@ -60,6 +71,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM EMPLOYEE
 		WHERE EMP_NO = #{empNo}
 	</select>
+	
+	<select id="getDeptList" resultMap="deptResultSet">
+      SELECT *
+      FROM DEPT
+   </select>
+   
+   <select id="getDeptUList" resultMap="deptResultSet">
+      SELECT DISTINCT DEPT_UNAME
+		FROM DEPT
+   </select>
 	
 	<!--
 	<delete id="deleteMember" parameterType="string">

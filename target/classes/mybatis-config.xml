@@ -51,6 +51,7 @@
 		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.SearchDailyReport" alias="SearchDailyReport"/>
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.PersonalAddressBook" alias="PersonalAddressBook"/>
 		<typeAlias type="com.helloworks.spring.addressBook.model.vo.SearchPerson" alias="SearchPerson"/>
+		<typeAlias type="com.helloworks.spring.employee.model.vo.Dept" alias="Dept"/>
 	</typeAliases>
 
 

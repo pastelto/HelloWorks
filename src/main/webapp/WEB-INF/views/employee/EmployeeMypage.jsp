@@ -21,11 +21,25 @@
 	}
 	
 	table{
-		width: 95%;
+		width: 90%;
 		margin: auto;
 		text-align: center;
+		vertical-align: middle;
 	}
 	
+	
+	
+	/*파일선택시 선택된 파일명이 붙는것을 가려준다*/
+	.fileRegiBtn input[type="file"] {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
 
 
 </style>
@@ -66,7 +80,7 @@
 					</div><br>
 				
 						<form id="updateForm" action="update.me" method="post" onsubmit="">			
-								<table border=1>
+								<table  class="table table-bordered">
 									<colgroup>
 										<col width="140">
 									</colgroup>										
@@ -77,8 +91,30 @@
 													<div id="user_pic2">
 														<img id="photo_src" src="" onerror=""> 
 													</div>
-												</td>	
-																	
+													
+														<div>
+															<!-- 이미지파일 등록 -->
+															<div class="col-3">
+																<!-- 이미지 들어오는 부분 -->
+																<div class="selectCover">
+																	<img id="cover" src="resources/empImg/defaultImg.jpg"
+																		style="width: 160px; height: 200px;" />
+																</div>
+															</div>
+															<div class="col-9">
+																
+																<div class="fileRegiBtn">
+																	<label for="myFileUp"> 
+																		<button>사진변경</button>
+																		<i class="fas fa-cloud-upload-alt">사진변경</i>
+																		
+																	</label> <input type="file" name="orgPicName" id="myFileUp">
+																</div>
+															</div>
+														</div>
+													
+												</td>
+														
 												<th>사번</th>
 												<td><input type="text" class="form-control" name="empNo" value="${ loginUser.empNo }" readonly></td>
 										
@@ -109,12 +145,33 @@
 										</tbody>
 												
 										<tfoot>
-											<td rowspan="6" valign="top" class="img">
-												<div id="user_pic2">
-													<img id="photo_src" src="" onerror=""> 
-												</div>
-											</td>	
-											
+											<tr>
+												<td rowspan="6" valign="top" class="img">
+													<div id="user_pic2">
+														<img id="photo_src" src="" onerror=""> 
+													</div>
+													
+													<div>
+															<!-- 이미지파일 등록 -->
+															<div class="col-3">
+																<!-- 이미지 들어오는 부분 -->
+																<div class="selectCover">
+																	<img id="cover" src="resources/empImg/defaultImg.jpg"
+																		style="width: 160px; height: 200px;" />
+																</div>
+															</div>
+															<div class="col-9">
+																
+																<div class="fileRegiBtn">
+																	<label for="myFileUp">
+																	 <i	class="fas fa-cloud-upload-alt">사인변경</i>
+																	</label> <input type="file" name="orgPicName" id="myFileUp">
+																</div>
+															</div>
+														</div>
+													
+												</td>	
+											</tr>
 											<tr>
 												<th>소속</th>
 												<td><input type="text" class="form-control" id="deptUname" name="deptUname" value="${ loginUser.deptUname }" readonly></td>
@@ -142,6 +199,35 @@
 		
 			
 			<jsp:include page="../common/footer.jsp" />
+			
+			<script>
+				// 파일 URL 띄우기
+				function readURL(input) {
+					//console.log("버튼클릭");
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+						reader.onload = function(e) {
+							$('#cover').attr('src', e.target.result); //cover src로 붙여지고
+							$('#fileName').val(input.files[0].name); //파일선택 form으로 파일명이 들어온다
+						}
+						reader.readAsDataURL(input.files[0]);
+					}
+				}
+				// 이미지 바꾸기
+				$("#myFileUp").change(function() {
+					readURL(this);
+					//console.log("이미지 바뀜");
+				});
+				
+				// 사진파일 없을때 알림
+				function imgValidate() {
+					if (($('#myFileUp').val() == "")) {
+						alert("사진파일을 등록해 주세요")
+						return false;
+					}
+					return true;
+				}
+			</script>
 
 </body>
 </html>

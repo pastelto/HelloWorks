@@ -119,7 +119,7 @@
 														<tr>
 															<td colspan="3"><span>제목</span></td>
 															<td colspan="6"><input type="text"
-																class="form-control"  id="ap_title" name="ap_title">
+																class="form-control"  id="ap_title2" name="ap_title">
 															</td>
 														</tr>
 														<tr>
@@ -128,13 +128,13 @@
 																<div class="container-fluid">
 																	시작일자 <input type="date"
 																		class="form-control datetimepicker-input col-2"
-																		data-target="#startDate" name="startDate"
+																		data-target="#startDate" id="startDate2" name="startDate"
 																		style="font-size: 0.8rem">
 																</div> <br>
 																<div class="container-fluid">
 																	종료일자 <input type="date"
 																		class="form-control datetimepicker-input col-2"
-																		data-target="#endDate" name="endDate"
+																		data-target="#endDate" id="endDate2" name="endDate"
 																		style="font-size: 0.8rem">
 																</div>
 															</td>
@@ -234,10 +234,10 @@
 			$('#submitBT').click(function(){
 				
 				var line = $('#emp_level2_1').val();
-				var ap_title = $('#ap_title').val();
+				var ap_title = $('#ap_title2').val();
 				var summernote = $('#summernote2').val();
-				var startDate = $('input[name=startDate]').val();
-				var endDate = $('input[name=endDate]').val();
+				var startDate = $('#startDate2').val();
+				var endDate = $('#endDate2').val();
 							
 				if(line == ""){
 					alert("결재라인을 추가해주세요")
