@@ -58,5 +58,19 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectHrTypeEmployee", hrType, rowBounds);
 	}
 
+	public int searchEmployeeListCount(SqlSessionTemplate sqlSession, SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("employeeMapper.searchEmployeeListCount", se);
+	}
+
+	public ArrayList<Employee> searchEmployee(SqlSessionTemplate sqlSession, SearchEmployee se, PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("employeeMapper.searchEmployee", se, rowBounds);
+	}
+
 
 }

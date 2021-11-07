@@ -75,9 +75,11 @@
 
 							<div class="card">
 								<div class="card-body">
-
+									<form action="searchEmployee.hr">
 									<div class="card" style="margin-bottom: 0px;">
-										<table id="searchEmpTable">
+									
+										<table id="searchEmpTable" style="100%">
+										
 											<thead>
 											<tr>
 												<th>재직유형</th>
@@ -96,7 +98,7 @@
 											<tr>
 												<th>검색 조건</th>
 												<td>
-												<form action="searchEmployee.hr">
+												
 												<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="location.href='empManageMain.hr'">전체검색</button>
@@ -136,11 +138,14 @@
 																</div>
 															</div>
 														</div>
-													</form>
+													
 												</td>
 											</tr>
+											
 										</table>
+										
 									</div>
+									</form>
 								</div>
 							</div>
 

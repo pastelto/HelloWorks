@@ -94,13 +94,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int searchEmployeeListCount(SearchEmployee se) {
 		// TODO Auto-generated method stub
-		return 0;
+		return employeeDao.searchEmployeeListCount(sqlSession, se);
 	}
 
 	@Override
 	public ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return null;
+		return employeeDao.searchEmployee(sqlSession, se, pi);
 	}
 
 

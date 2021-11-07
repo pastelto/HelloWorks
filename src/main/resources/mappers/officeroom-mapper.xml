@@ -245,7 +245,7 @@
 				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
 			</when>
 		</choose>
-		ORDER BY A.EMP_NO
+		ORDER BY A.EMP_NO DESC
 	</select>
 	
 	<select id="selectCommResourcesListCount"  resultType="_int">

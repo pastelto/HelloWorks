@@ -246,7 +246,6 @@ public class EmployeeController {
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("pageURL", "empManageHrType.hr");
-		model.addAttribute("checkWork", "checked");
 		
 		if(hrType.equals("Y")) {
 			model.addAttribute("checkY", "checked");
@@ -264,12 +263,18 @@ public class EmployeeController {
 	public String searchEmployee(String hrType, String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
 
 		System.out.println("optionType: "+optionType);
+		System.out.println("hrType: "+hrType);
 		System.out.println("deptTypeOption: "+deptTypeOption);
 		System.out.println("searchEmployee: "+searchEmployee);
 		
 		SearchEmployee se = new SearchEmployee();
 		
-		se.setHrType(hrType);
+		if(hrType.equals("null")) {
+			se.setHrType("Y");
+		}else {
+			se.setHrType(hrType);
+		}
+		
 		
 		switch(optionType) {
 		case "allType":
@@ -298,6 +303,15 @@ public class EmployeeController {
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
 		
 		ArrayList<Employee> list = employeeService.searchEmployee(se, pi);
+		
+		
+		if(hrType.equals("Y")) {
+			model.addAttribute("checkY", "checked");
+		}else if(hrType.equals("V")){
+			model.addAttribute("checkV", "checked");
+		}else if(hrType.equals("N")) {
+			model.addAttribute("checkN", "checked");
+		}
 		
 		model.addAttribute("optionType", optionType);
 		model.addAttribute("hrType", hrType);
