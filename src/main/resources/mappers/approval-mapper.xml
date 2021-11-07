@@ -39,6 +39,7 @@
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="confirmStatus" column="CONFIRM_STATUS"/>
 		<result property="progressDate" column="PROGRESS_DATE"/>
+		<result property="deptName" column="DEPT_DNAME"/>
 	</resultMap>
 	
 	<!-- Approval CC -->
@@ -545,7 +546,7 @@
  		FROM APPROVAL A
  		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE WRITER = #{ loginEmpNo }
- 		AND STATUS = #{ status }'
+ 		AND STATUS = #{ status }
  		AND APPROVAL_CLASS = #{ apClass }
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
  		AND CREATE_DATE BETWEEN #{ startDate } AND #{ endDate }
@@ -720,7 +721,7 @@
  	<select id="selectApprovalDetail" parameterType="HashMap" resultMap="approvalResultSet">
  		SELECT A.*, B.EMP_NAME
  		FROM APPROVAL A
- 		JOIN EMPLOYEE B ON EMP_NO = WRITER
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.WRITER
  		WHERE APPROVAL_NO = #{ apNo }
  		AND DETAIL_CLASS = #{ detailClass }
  	</select>
@@ -734,8 +735,10 @@
  	
  	<!-- select ApprovalLine -->
  	<select id="selectApprovalLine" parameterType="HashMap" resultMap="approvalLineResultSet">
- 		SELECT *
- 		FROM APPROVAL_LINE
+ 		SELECT A.*, C.DEPT_DNAME
+ 		FROM APPROVAL_LINE A
+ 		JOIN EMPLOYEE B ON B.EMP_NO = A.EMP_NO
+ 		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
  		WHERE APPROVAL_NO = #{ apNo }
  	</select>
  	
@@ -869,7 +872,7 @@
  	</delete>
  	<insert id="updateLine" parameterType="ApprovalLine">
  		INSERT INTO APPROVAL_LINE
- 		VALUES(	#{apNo}, #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
+ 		VALUES(	#{apNo}, #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT, NULL)
  	</insert>
  	
  	<!-- update hr -->
