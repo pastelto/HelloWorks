@@ -38,19 +38,14 @@
         <a href="index3.html" class="nav-link">사람 아이콘</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
+        <a class="nav-link" href="Mypage.mp">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-      <!-- 마이페이지 : 위치는 사람 아이콘이나 이름! -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" href="Mypage.mp">
-          <i class="far fa-comments"></i>
-        </a>
-      </li>
+
       
       <!-- 근태관리 -->
       <li class="nav-item">
@@ -98,7 +93,7 @@
 	      <div class="input-group">
 	      	<input type="hidden" name="optionType" value="allType">
 	      	<input type="hidden" name="deptTypeOption" value="A">
-	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" value="${ search }">
+	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" >
 	        <div class="input-group-append">
 	          <button class="btn btn-navbar" type="submit">
 	            <i class="fas fa-search"></i>
@@ -304,11 +299,6 @@
                   <p>발신함</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="tempReport.dr" class="nav-link">
-                  <p>임시저장</p>
-                </a>
-              </li>
             </ul>
           </li>
           
@@ -349,7 +339,8 @@
           <li class="nav-header">인사관리</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
+              <!-- <i class="nav-icon far fa-envelope"></i> -->
+              <i class="nav-icon far fa-address-card"></i> 
               <p>
                 	인사관리
                 <i class="fas fa-angle-left right"></i>

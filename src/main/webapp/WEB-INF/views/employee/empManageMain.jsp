@@ -1,43 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주소록</title>
+<title>사원 관리</title>
 <style>
+	#searchEmpTable>thead {
+		border-bottom: 1px solid #DAE1E7;
+	}
+	#searchEmpTable>thead>tr>th	{
+		background-color: #DAE1E7;
+		width: 10%;
+		text-align: center !important;
+	}
+	#searchEmpTable>tbody>tr>th	{
+		background-color: #DAE1E7;
+		width: 10%;
+		text-align: center !important;
+	}
 	.content-wrapper {
 		overflow: auto;
 	}
-	#searchOfficeAddressBookTable>thead{
-		border-bottom: 1px solid #DAE1E7;
-	}
-	#searchOfficeAddressBookTable>thead>tr>th	{
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	}
-	#searchOfficeAddressBookTable>tbody>tr>th	{
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	}
-	#searchPersonalAddressBookTable>thead{
-		border-bottom: 1px solid #DAE1E7;
-	}
-	#searchPersonalAddressBookTable>thead>tr>th	{
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	}
-	#searchPersonalAddressBookTable>tbody>tr>th	{
-		background-color: #DAE1E7;
-		width: 10%;
-		text-align: center !important;
-	}
-	#officeAddressBookTable {
-		text-align: center !important;
+	#accordion>.card{
+		margin-bottom: 0px;
 	}
 	#employeeTable {
 		text-align: center;
@@ -52,8 +40,8 @@
 </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp"/>
-	
+	<jsp:include page="../common/menubar.jsp" />
+
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
@@ -63,7 +51,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-table"></i><b> 주소록</b>
+							<i class="nav-icon fas fa-table"></i><b> 사원 관리</b>
 						</h4>
 					</div>
 				</div>
@@ -75,34 +63,45 @@
 			<div class="row">
 				<div class="col-12">
 				
-		            <div class="card card-info card-outline card-outline-tabs">
-		              <div class="card-header p-0 border-bottom-0">
-		                <ul class="nav nav-tabs" id="custom-tabs-addressBook-tab" role="tablist">
-		                  <li class="nav-item">
-		                    <a class="nav-link active" id="custom-tabs-officeAddressBook-tab" data-toggle="pill" href="#custom-tabs-officeAddressBook" role="tab" aria-controls="custom-tabs-officeAddressBook" aria-selected="true">사내 주소록</a>
-		                  </li>
-		                  <li class="nav-item">
-		                    <a class="nav-link"  href="personalAddressBook.adb" role="tab" aria-selected="false">외부주소록</a>
-		                  </li>
-		                </ul>
-		              </div>
-		              
-		              <div class="card-body">
-						<div class="tab-content" id="custom-tabs-four-tabContent">
-						
-							<!-- 사내 주소록 탭 -->
-							<div class="tab-pane fade show active" id="custom-tabs-officeAddressBook" role="tabpanel" aria-labelledby="custom-tabs-officeAddressBook-tab">
-								<div class="card" style="margin-bottom: 0px;">
+					<div class="card card-outline card-info">
+
+						<div class="card-header text-center">
+							<h6 style="margin-bottom: 0px">
+								<b>사원 관리</b>
+							</h6>
+						</div>
+
+						<div class="card-body">
+
+							<div class="card">
+								<div class="card-body">
+									<form action="searchEmployee.hr">
+									<div class="card" style="margin-bottom: 0px;">
+									
+										<table id="searchEmpTable" style="100%">
 										
-										<table id="searchOfficeAddressBookTable">
-										<tbody>
+											<thead>
 											<tr>
-												<th>검색</th>
+												<th>재직유형</th>
 												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
+												<div class="mt-1 mb-1" style="margin-left: 0px;">
+													&nbsp;
+													<input type="radio" name="hrType" value="Y" ${ checkY }> 재직
+													&nbsp;
+													<input type="radio" name="hrType" value="V" ${ checkV }> 휴직
+													&nbsp;
+													<input type="radio" name="hrType" value="N" ${ checkN }> 퇴사
+												</div>
+												</td>
+											</tr>
+											</thead>
+											<tr>
+												<th>검색 조건</th>
+												<td>
+												
 												<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
-														<a id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" href="officeAddressBook.adb">전체검색</a>
+														<button id="allEmployeeSearchBtn" type="button" class="btn btn-default btn-sm" onclick="location.href='empManageMain.hr'">전체검색</button>
 														&nbsp;&nbsp;
 														
 															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
@@ -129,9 +128,9 @@
 															</select>
 															&nbsp;&nbsp;
 															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
+																<input type="search" id="searchEmployee"
 																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ searchEmployee }">
+																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
 																<div class="input-group-append">
 																	<button type="submit" class="btn btn-sm btn-default">
 																		<i class="fa fa-search"></i>
@@ -139,64 +138,71 @@
 																</div>
 															</div>
 														</div>
-													</form>
+													
 												</td>
 											</tr>
-											</tbody>
+											
 										</table>
+										
 									</div>
-									
-									<hr>
-									
-									<!-- 주소록 리스트 -->
-									<div class="col-12" >
-									<div>
-									<div style="height: 470px; overflow:auto;">
-									<table id="officeAddressBookTable" class="table table-sm" >
+									</form>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<!-- /.col -->
+								<div class="col-12" style="overflow:auto; height: 470px">
+									<table id="employeeTable" class="table table-sm">
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
-												<th style="width: 5%"><input type='checkbox' name='checkAll' id='checkAll' onclick="checkAll();"></th>
 												<th style="width: 10%">사번</th>
-												<th style="width: 20%">이름</th>
-												<th style="width: 10%">직급</th>
-												<th style="width: 10%">부서</th>
+												<th style="width: 7%">이름</th>
+												<th style="width: 10%">영문 이름</th>
+												<th style="width: 8%">직급</th>
+												<th style="width: 10%">소속</th>
+												<th style="width: 10%">팀</th>
 												<th style="width: 10%">내선번호</th>
-												<th style="width: 20%">이메일</th>
-												<th style="width: 15%"></th>
+												<th style="width: 10%">이메일</th>
+												<th style="width: 10%">입사일</th>
+												<th style="width: 10%">퇴사일</th>
+												<th style="width: 5%">수정</th>
 											</tr>
 										</thead>
 										<tbody>
 										
-											<c:forEach items="${ officeAddresslist }" var="officeAddresslist" varStatus="status">
+											<c:forEach items="${ list }" var="employee">
 							                    <tr>
-							                    	
-							                    	<th>
-							                    	<input type='checkbox' name='deleteAddressBook' id='deleteAddressBook' value="${ officeAddresslist.oabEnrollNo }">
-							                    	</th>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.oabEnrollNo }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empName} ( ${officeAddresslist.empEn} )</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.jobName }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.deptDname }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEphone }</td>
-							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEmail }</td>
+							                        <td>${ employee.empNo }</td>
+							                        <td>${ employee.empName}</td>
+							                        <td>${employee.empEn}</td>
+							                        <td>${ employee.jobName }</td>
+							                        <td>${ employee.deptUname }</td>
+							                        <td>${ employee.deptDname }</td>
+							                        <td>${ employee.empEphone }</td>
+							                        <td>${ employee.empEmail }</td>
+							                        <td>${ employee.empHire }</td>
+							                        <td>${ employee.empFire }</td>
 							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs' onclick="location.href='compose.ml'">메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs' onclick="location.href='sendFormView.ws'">업무공유</button>
+							                        	<button id='updateEmp' type='button' class='btn btn-danger btn-xs'>수정하기</button>&nbsp;
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
+										
 										</tbody>
 									</table>
-									</div>
-									</div>
-									
-									
-									<div id="pagingArea">
+								</div>
+								<!-- /.col -->
+							</div>
+							<!-- /.row -->
+
+
+							<div id="pagingArea">
 						                <ul class="pagination">
 						                	<c:choose>
 						                		<c:when test="${ pi.currentPage ne 1 }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?hrType=${ hrType }&optionType=${optionType }&deptTypeOption=${deptTypeOption}&search=${search }&currentPage=${ pi.currentPage-1 }">Previous</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -206,7 +212,7 @@
 						                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						                    	<c:choose>
 							                		<c:when test="${ pi.currentPage ne p }">
-						                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ p }">${ p }</a></li>
+						                    			<li class="page-item"><a class="page-link" href="${pageURL}?hrType=${ hrType }&optionType=${optionType }&deptTypeOption=${deptTypeOption}&search=${search }&currentPage=${ p }">${ p }</a></li>
 							                		</c:when>
 							                		<c:otherwise>
 							                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -214,9 +220,10 @@
 							                	</c:choose>
 						                    </c:forEach>
 						                    
+						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
+						                			<li class="page-item"><a class="page-link" href="${pageURL}?hrType=${ hrType }&optionType=${optionType }&deptTypeOption=${deptTypeOption}&search=${search }&currentPage=${ pi.currentPage+1 }">Next</a></li>
 						                		</c:when>
 						                		<c:otherwise>
 						                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -224,100 +231,22 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
-								<!-- /.col -->
-								
-								<!-- 직원 선택 시 뜨는 모달  -->
-							    <div class="modal fade" id="detailEmployeeModal">
-									<div class="modal-dialog modal-dialog-centered modal-lg">
-										<div class="modal-content">
-											<!-- Modal Header -->
-											<div class="modal-header" id="modalTitleDiv">
-												<img src="./resources/common/icon_gray.png">
-												<img src="./resources/common/logoLetter_gray.png" style="margin: 2px; margin-left: 10px;">
-												<button type="button" class="close" data-dismiss="modal">&times;</button>
-											</div>
-							
-											<form action="deleteOfficeAddressBook.adb" method="post">
-												<!-- Modal Body -->
-												<div class="modal-body">
-													<div class="card bg-light d-flex flex-fill mb-0">
-														<div class="card-body">
-															<div class="row">
-																<div class="col-2 text-center">
-																	<div>
-																		<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
-																			class="img-fluid" style="width: 90px; height: 120px;">
-																	</div>
-																	<div class="mt-3">
-																		<input type="hidden" id="deleteEmpNo" name="deleteEmpNo"/>
-																		<button type="submit" class="btn btn-danger btn-sm">주소록 삭제</button>
-																	</div>
-																</div>
-																<div class="col-10">
-																	<table id="detailEmployeeTable" class="table table-sm"
-																		style="margin: 0px">
-																		<tr>
-																			<th>사번</th>
-																			<td id="empNoCol" style="width: 35%"></td>
-																			<th>이름</th>
-																			<td id="empNameCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>직급</th>
-																			<td id="empJobCol" style="width: 35%"></td>
-																			<th>영문이름</th>
-																			<td id="empEngNameCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>소속</th>
-																			<td id="empUDeptCol" style="width: 35%"></td>
-																			<th>부서</th>
-																			<td id="empDDeptCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>내선번호</th>
-																			<td id="empEphoneCol" style="width: 35%"></td>
-																			<th>상태</th>
-																			<td id="empStatusCol" style="width: 35%"></td>
-																		</tr>
-																		<tr>
-																			<th>이메일</th>
-																			<td colspan="3" id="empEmailCol" style="width: 70%"></td>
-																		</tr>
-																	</table>
-																</div>
-							
-															</div>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-		                  	</div>
-		                  </div>
-	                  
-		                </div>
-		              </div>
-		              <!-- /.card -->
-		              
-		              
-		              <!-- card-footer -->
+
+
+
+						</div>
+
+					<!-- card-footer -->
 					<div class="card-footer">
 						<div class="float-right">
-							<button id="deleteOfficeAddressBookBtn" type="button" class="btn btn-danger btn-sm" onclick="deleteOfficeAddressBookBtn();">주소록 삭제</button>
 						</div>
 					</div>
-		              
-		              
-		              
-		            </div>
-		          </div>
-			
+				</div>
+				</div>
 			</div>
 		</section>
 	</div>
+	
 	
 	<jsp:include page="../common/footer.jsp" />
 	
@@ -470,7 +399,7 @@
 					$("#empEphoneCol").text(emp.empEphone)
 					$("#empEmailCol").text(emp.empEmail)
 					
-					$("#deleteEmpNo").val(emp.empNo)
+					$("#addEmpNo").val(emp.empNo)
 				},
 				error:function(){
 					console.log("직원 부서별 검색 ajax 통신 실패")
@@ -479,30 +408,33 @@
 		}
 	</script>
 	
-	<!--  사내 주소록 삭제 버튼 -->
+	<!-- footer 사내 주소록 추가 버튼 -->
 	<script>
-		function deleteOfficeAddressBookBtn(){
+		function addOfficeAddressBookBtn(){
 			const checkList = [];
 			
-			$("input[name='deleteAddressBook']:checked").each(function(){
+			$("input[name='plusAddressBook']:checked").each(function(){
 				const checkEmpNo = $(this).val();
 				checkList.push(checkEmpNo);
 			});
 
-			location.href="deleteOfficeAddrressBookArr.adb?checkList="+checkList;
+			location.href="addOfficeAddressBookArr.adb?checkList="+checkList;
 			
 		}
 	</script>
 	
-	<!-- 전체 제크 -->
+	<!-- 유형 선택 검사 -->
 	<script>
-		function checkAll(){
-			if($("input[name='checkAll']").prop("checked")){
-				$("input[name='deleteAddressBook']").prop("checked", true)
-			}else{
-				$("input[name='deleteAddressBook']").prop("checked", false)
-			}
-		}
+		$("input:radio[name='hrType']").click(function(){
+	        
+			var type = $("input:radio[name=hrType]:checked").val();
+			
+		    if(type=="Y"){
+		    	location.href="<%=request.getContextPath()%>/empManageMain.hr";
+		    }else{
+		    	location.href="<%=request.getContextPath()%>/empManageHrType.hr?hrType="+type;
+		    }
+		});
 	</script>
 </body>
 </html>

@@ -156,7 +156,7 @@
 															<div class="input-group" style="width: 30%;">
 																<input type="search" id="searchInput"
 																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchEmployee" value="${ search }">
+																	placeholder="검색어를 입력하세요." name="searchEmployee">
 																<div class="input-group-append">
 																	<button type="submit" class="btn btn-sm btn-default">
 																		<i class="fa fa-search"></i>
@@ -256,8 +256,8 @@
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEphone }</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ employee.empNo }");'>${ employee.empEmail }</td>
 							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
+							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs' onclick="location.href='compose.ml'">메일발송</button>&nbsp;
+							                        	<button id='workShare' type='button' class='btn btn-default btn-xs' onclick="location.href='sendFormView.ws'">업무공유</button>
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
@@ -505,6 +505,8 @@
 						},
 						success:function(list){
 							var value="";
+							var mailLocation = "onclick='location.href="+'"compose.ml"'+"'";
+							var workLocation = "onclick='location.href="+'"sendFormView.ws"'+"'";
 							$.each(list, function(i, obj){
 								value +="<tr>"+
 								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
@@ -514,7 +516,7 @@
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'"+mailLocation+">메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'"+workLocation +">업무공유</button></th>"+
 								"</tr>";
 							});
 	
@@ -535,7 +537,8 @@
 						success : function(list) {
 
 							var value = "";
-
+							var mailLocation = "onclick='location.href="+'"compose.ml"'+"'";
+							var workLocation = "onclick='location.href="+'"sendFormView.ws"'+"'";
 							$.each(list, function(i, obj) {
 								value +="<tr>"+
 								"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
@@ -545,7 +548,7 @@
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
 								"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+								"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'"+mailLocation+">메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'"+workLocation +">업무공유</button></th>"+
 								"</tr>";
 							});
 
@@ -574,7 +577,8 @@
 				success:function(list){
 					
 					var value="";
-					
+					var mailLocation = "onclick='location.href="+'"compose.ml"'+"'";
+					var workLocation = "onclick='location.href="+'"sendFormView.ws"'+"'";
 					$.each(list, function(i, obj){
 						
 						value +="<tr>"+
@@ -585,7 +589,7 @@
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'"+mailLocation+">메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'"+workLocation +">업무공유</button></th>"+
 						"</tr>";
 					});
 					
@@ -613,6 +617,8 @@
 				},
 				success:function(list){
 					var value="";
+					var mailLocation = "onclick='location.href="+'"compose.ml"'+"'";
+					var workLocation = "onclick='location.href="+'"sendFormView.ws"'+"'";
 					$.each(list, function(i, obj){
 						value +="<tr>"+
 						"<th><input type='checkbox' name='plusAddressBook' id='plusAddressBook' value="+obj.empNo+"></th>" +
@@ -622,7 +628,7 @@
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.deptDname + "</td>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEphone + "</td>" +
 						"<td data-toggle='modal' data-target='#detailEmployeeModal' onclick='detailEmployee("+obj.empNo+");'>" + obj.empEmail + "</td>" +
-						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button></th>"+
+						"<th><button id='sendMail' type='button' class='btn btn-default btn-xs'"+mailLocation+">메일발송</button>&nbsp;&nbsp;<button id='workShare' type='button' class='btn btn-default btn-xs'"+workLocation +">업무공유</button></th>"+
 						"</tr>";
 					});
 					$("#employeeTable>tbody").html(value);

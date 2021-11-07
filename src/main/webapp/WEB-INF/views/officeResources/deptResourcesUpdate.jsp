@@ -66,6 +66,7 @@
 												&nbsp;
 												<b>${ loginUser.empName }</b>
 												<input type="hidden" name="deptrWriterNo" id="deptrWriterNo" value="${ loginUser.empNo }">
+												<input type="hidden" name="deptrWriterNo" id="deptrWriterNo" value="${ loginUser.empNo }">
 												<input type="hidden" name="deptCode" id="deptCode" value="${ loginUser.deptCode }">
 												</td>
 												<th>작성일</th>

@@ -130,7 +130,8 @@
 												<td colspan="3">
 													<c:if test="${ !empty dailyReport.drAttachOrigin }">
 							                            <span class="badge badge-info" id="reportAttachName">${ dailyReport.drAttachOrigin }</span>
-							                            <input type="hidden" name="changeName" value="${ b.drAttachChange }">
+							                           <%--  <input type="hidden" name="changeName" value="${ b.drAttachChange }"> --%>
+							                            <input type="hidden" name="changeName" value="${ dailyReport.drAttachChange }">
 							                            <input type="hidden" name="originName" value="${ dailyReport.drAttachOrigin }">
 							                            <div class="btn btn-default btn-file btn-xs">
 									                    	<i class="fas fa-paperclip"></i> 첨부파일

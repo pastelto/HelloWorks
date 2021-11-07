@@ -17,8 +17,5 @@ public class VacationComment extends Vacation{
 	private int writer; 		// 작성자
 	private String createDate;	// 작성일자
 	private String acContent;	// 작성내용 
-	
 
-	
-	
 }

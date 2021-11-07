@@ -245,7 +245,7 @@
 				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
 			</when>
 		</choose>
-		ORDER BY A.EMP_NO
+		ORDER BY A.EMP_NO DESC
 	</select>
 	
 	<select id="selectCommResourcesListCount"  resultType="_int">
@@ -491,5 +491,68 @@
 			</when>
 		</choose>
 		ORDER BY 1 DESC
+	</select>
+	
+	<select id="selectCommResourcesSearchListCount" parameterType="CommonResources" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMON_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_STATUS = 'Y'
+		<choose>
+			<when test="crCategory != 'allType'">
+				AND A.CR_CATEGORY = #{ crCategory }
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="optionType =='allOptionType'">
+				AND (B.EMP_NAME  LIKE '%'||#{search}||'%'
+					OR A.CR_TITLE LIKE '%'||#{search}||'%'
+					OR A.CR_CONTENT LIKE '%'||#{search}||'%')
+			</when>
+			<when test="optionType =='writerType'">
+				AND B.EMP_NAME  LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='titleType'">
+				AND  A.CR_TITLE LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='contentType'">
+				AND A.CR_CONTENT LIKE '%'||#{search}||'%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectCommResourcesSearchList" parameterType="CommonResources" resultMap="commonResourcesResultSet">
+		SELECT A.*, B.EMP_NAME, C.JOB_NAME,	D.DEPT_UNAME, D.DEPT_DNAME 
+		FROM COMMON_RESOURCES A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.CR_WRITER_NO
+		JOIN JOB_LEVEL C ON C.JOB_CODE = B.JOB_CODE
+		JOIN DEPT D ON D.DEPT_CODE = B.DEPT_CODE
+		WHERE A.CR_STATUS = 'Y'
+		<choose>
+			<when test="crCategory != 'allType'">
+				AND A.CR_CATEGORY = #{ crCategory }
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="optionType =='allOptionType'">
+				AND (B.EMP_NAME  LIKE '%'||#{search}||'%'
+					OR A.CR_TITLE LIKE '%'||#{search}||'%'
+					OR A.CR_CONTENT LIKE '%'||#{search}||'%')
+			</when>
+			<when test="optionType =='writerType'">
+				AND B.EMP_NAME  LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='titleType'">
+				AND  A.CR_TITLE LIKE '%'||#{search}||'%'
+			</when>
+			<when test="optionType =='contentType'">
+				AND A.CR_CONTENT LIKE '%'||#{search}||'%'
+			</when>
+		</choose>
+		ORDER BY 1
 	</select>
 </mapper>

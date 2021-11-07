@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공유 자료실</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
 <style>
@@ -98,14 +98,13 @@
 												<tr>
 													<th>검색</th>
 													<td>
-													<form id="commResourcesSearch">
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														&nbsp;&nbsp;
 														<button id="allDailyReport" type="button" class="btn btn-default btn-sm" onclick="location.href='commResourcesList.or'">전체검색</button>
 														&nbsp;&nbsp;
 														
 														<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-															<option value="allType">전체</option>
+															<option value="allOptionType">전체</option>
 															<option value="writerType">작성자</option>
 															<option value="titleType">제목</option>
 															<option value="contentType">내용</option>
@@ -117,13 +116,12 @@
 																class="form-control form-control-sm"
 																placeholder="검색어를 입력하세요." name="search" value="${ search }">
 															<div class="input-group-append">
-																<button type="submit" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
+																<button onclick="searchCommResources()" type="button" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
 																	<i class="fa fa-search"></i>
 																</button>
 															</div>
 														</div>
 													</div>
-													</form>
 													</td>
 												</tr>
 										</table>
@@ -271,6 +269,46 @@
 	<script>
 		function insertResource(){
 			location.href="<%=request.getContextPath()%>/commResourcesEnroll.or";
+		}
+	</script>
+	
+	<!-- 검색 -->
+	<script>
+		$(function() {
+			switch ('${ optionType }') {
+			case "allOptionType":
+				$("#optionType>option").eq(0).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "writerType":
+				$("#optionType>option").eq(1).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "titleType":
+				$("#optionType>option").eq(2).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			case "contentType":
+				$("#optionType>option").eq(3).attr("selected", true);
+				$("#searchInput").val("${ search }");
+				$("#sortOption").text("검색어 ( "+'${search}'+" )");
+				break;
+			}
+			
+		})
+	</script>	
+	
+	<!-- 검색 -->
+	<script>
+		function searchCommResources() {
+			var type = $("input:radio[name=resourcesType]:checked").val();
+			var optionType = $("#optionType").val();
+			var searchInput = $("#searchInput").val();
+			
+			location.href="searchCommResources.or?resourcesType="+type+"&optionType="+optionType+"&search="+searchInput;
 		}
 	</script>
 </body>
