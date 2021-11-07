@@ -435,19 +435,49 @@
 		function insertApp(){		
 			
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=Y");
-				$("#normalApprovalForm").submit();
-				
-				alert("결재 작성이 완료되었습니다.");
+				if($("summernote4").length > 1300){
+					alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+				} else if ($("input[name='lineName']").val() == ""){
+					alert("결재라인을 추가해주세요.")
+				} else if ($("input[name='title']").val() == ""){
+					alert("제목을 입력해주세요.")
+				} else if( $("#summernote4").val() == "" ){
+					alert("결재내용을 입력해주세요.")
+				} else if($("input[id='hr_type']:checked").length == 0){
+					alert("세부항목을 선택해주세요.")
+				} else if($("input[name='dueDate'").val() == 'none'){
+					alert("처리시한을 입력해주세요.")
+				} else {
+					
+					$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+					$("#normalApprovalForm").submit();
+									
+					alert("결재 작성이 완료되었습니다.");
+				}		
 			});		
 		}
 		
 		function insertTemp(){
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/updateApproval.ea?status=N");
-				$("#normalApprovalForm").submit();
-				
-				alert("임시저장되었습니다.");
+				if($("summernote4").length > 1300){
+					alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+				} else if ($("input[name='lineName']").val() == ""){
+					alert("결재라인을 추가해주세요.")
+				} else if ($("input[name='title']").val() == ""){
+					alert("제목을 입력해주세요.")
+				} else if( $("#summernote4").val() == "" ){
+					alert("결재내용을 입력해주세요.")
+				} else if($("input[id='hr_type']:checked").length == 0){
+					alert("세부항목을 선택해주세요.")
+				} else if($("input[name='dueDate'").val() == 'none'){
+					alert("처리시한을 입력해주세요.")
+				} else {
+					
+					$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+					$("#normalApprovalForm").submit();
+									
+					alert("결재 작성이 완료되었습니다.");
+				}		
 			});		
 		}
 	</script>

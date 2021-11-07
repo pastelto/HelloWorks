@@ -23,9 +23,7 @@
  }
  .div_comment{
  	background-color:#FCF8F7;
- }
-
-	
+ }	
 </style>
 </head>
 <body>
