@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 일정등록</title>
+<title>HelloWorks - 일정수정</title>
 <!-- summernote -->
 <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 <!-- daterange picker -->
@@ -27,7 +27,7 @@
 		background-color: #FFFFFF;
 	} 
 	
-	#addEventNote{
+	#updateEventNote{
 		width: 100%;
 		height:100%;
 		resize: none;
@@ -50,7 +50,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-calendar-check"></i><b> &nbsp; 일정등록</b>
+							<i class="nav-icon fas fa-calendar-check"></i><b> &nbsp; 일정 수정</b>
 						</h4>
 					</div>
 				</div>
@@ -64,16 +64,16 @@
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>일정등록</b>
+								<b>일정수정</b>
 							</h6>
 						</div>
 
 						<form id="insertNewEvent" method="post" enctype="multipart/form-data">
-								<input type="hidden" name="formType" value="1">
+								<input type="hidden" name="sch_no" value="${sch.sch_no}">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-12">
-
+										
 										<table class="table table-bordered table-sm">
 											<tr>
 												<th>일자</th>
@@ -97,7 +97,7 @@
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input type="text" name="sch_title" class="form-control form-control-sm">
+												<input type="text" name="sch_title" class="form-control form-control-sm" value="${sch.sch_title} ">
 												</td>
 											</tr>
 											<tr>
@@ -105,7 +105,7 @@
 												<td style="width: 35%;">
 												<div class="form-group">
 									                  <select class="form-control select2" style="width: 50%;" name="sch_type">
-									                    <option selected="selected">선택하세요</option>
+									                    <option>선택하세요</option>
 									                    <!-- 조건 (전체 / 본부별) : 운영지원팀은 모두 작성가능 -->
 									                    <c:if test="${loginUser.deptCode eq 'B2'}">
 									                    	<option>사내 전체</option>									                    
@@ -168,7 +168,7 @@
 												</td>
 												<th>장소</th>
 												<td style="width: 35%;">
-													<input class="form-control form-control-sm" type="text" name="sch_place">
+													<input class="form-control form-control-sm" type="text" name="sch_place" value="${sch.sch_place}">
 												 </td>
 											</tr>
 										</table>
@@ -178,7 +178,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="addEventNote" name="sch_content"></textarea>
+										<textarea id="updateEventNote" name="sch_content">${sch.sch_content}</textarea>
 									</div>
 								</div>
 
@@ -186,7 +186,7 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="insertEvent();">저장</button>
+									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="updateEvent();">저장</button>
 									&nbsp;
 									<button id="resetBtn" type="button" class="btn btn-danger btn-sm" onclick="location.href='schMain.sc'">취소</button>
 									&nbsp;
@@ -212,17 +212,19 @@
     	  
     	  $( "#datepicker" ).datepicker();
     	});
+    
     </script>
 
 	<script>
 	
-	function insertEvent(){
+	function updateEvent(){
 		
 		var checked = false;
 
 		if($('input[name=sch_allday]').prop("checked")){
 			checked = true;
 		}
+		
 		
 		if($("input[name=setEventTime]").val() == ""){
 			alert("일정 날짜 및 시간을 입력해주세요.")
@@ -233,12 +235,11 @@
 		}else if($("input[name=sch_type]").val() == ""){
 			alert("캘린더 타입을 선택해주세요.")
 		}else{
-			if(confirm("일정을 등록하시겠습니까?") == true){
+			if(confirm("일정을 변경하시겠습니까?") == true){
 				console.log(checked);
 				console.log($('input[name=setEventTime]').val());
-			    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
+			    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/updateEvent.sc?checked=" +checked);
 				$("#insertNewEvent").submit();
-				alert("일정이 등록되었습니다.")
 				
 			}else{   
 			   //취소 버튼 눌렀을 때 실행 할 코드
@@ -246,15 +247,14 @@
 			}
 		}
 		
+		
 	}
 	
 	</script>
 
 	<script>
 	  $(function () {
-	    //Date range picker
-	    // $('#reservation').daterangepicker()
-	    //Date range picker with time picker
+
 	    $('#setEventTime').daterangepicker({
 	      timePicker: true,
 	      timePickerIncrement: 10,
@@ -263,18 +263,41 @@
 	      }
 	    })
 	    
-	    //Colorpicker
-	    $('.my-colorpicker1').colorpicker()
-	    //color picker with addon
-	    $('.my-colorpicker2').colorpicker()
-	
-	    $('.my-colorpicker2').on('colorpickerChange', function(event) {
-	      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-	    })
-	
-	    $("input[data-bootstrap-switch]").each(function(){
-	      $(this).bootstrapSwitch('state', $(this).prop('checked'));
-	    })
+			switch ('${ sch_type }') {
+					case "A" :
+						$("#deptTypeOption>option").eq(0).attr("selected", true);
+						break;
+					case "A1" :
+						$("#deptTypeOption>option").eq(1).attr("selected", true);
+						break;
+					case "A2" :
+						$("#deptTypeOption>option").eq(2).attr("selected", true);
+						break;
+					case "A3" :
+						$("#deptTypeOption>option").eq(3).attr("selected", true);
+						break;
+					case "B" :
+						$("#deptTypeOption>option").eq(4).attr("selected", true);
+						break;
+					case "B1" :
+						$("#deptTypeOption>option").eq(5).attr("selected", true);
+						break;
+					case "B2" :
+						$("#deptTypeOption>option").eq(6).attr("selected", true);
+						break;
+					case "C" :
+						$("#deptTypeOption>option").eq(7).attr("selected", true);
+						break;
+					case "C1" :
+						$("#deptTypeOption>option").eq(8).attr("selected", true);
+						break;
+					case "C2" :
+						$("#deptTypeOption>option").eq(9).attr("selected", true);
+						break;
+					case "C3" :
+						$("#deptTypeOption>option").eq(10).attr("selected", true);
+						break;
+				}
 	
 	  })
 	</script>

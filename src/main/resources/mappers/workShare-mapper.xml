@@ -185,6 +185,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND WSA_WSNO = #{wsno}
 	</select>
 	
+	<!-- 업무공유 상세 조회 -->
+	<select id="savedDetailWS" parameterType="WorkShare" resultMap="workShareResultSet">
+		SELECT A.*, B.EMP_NAME, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{ws_empno}
+		AND WS_STATUS = 'S'
+		AND WS_NO = #{ws_no}
+		ORDER BY A.WS_NO DESC
+	</select>
+	
 	<!-- 업무공유 수신처리 -->
 	<update id="readStatusWS" parameterType="WorkShare">
 		UPDATE WORKSHARE

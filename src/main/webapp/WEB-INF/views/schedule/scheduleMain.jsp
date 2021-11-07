@@ -161,7 +161,7 @@
 
            		        		console.log("내용 : " + obj.sch_content);
            		        		events.push({
-           		        			 id: obj.shc_no,
+           		        			 id: obj.sch_no,
            		        			 title: obj.sch_title,
            		        			 start: startDate,
            		        			 end: endDate,
@@ -202,7 +202,7 @@
 
          		        		console.log("내용 : " + obj.sch_content);
          		        		events.push({
-         		        			 id: obj.shc_no,
+         		        			 id: obj.sch_no,
          		        			 title: obj.sch_title,
          		        			 start: startDate,
          		        			 end: endDate,
@@ -243,7 +243,7 @@
 
      		        		console.log("내용 : " + obj.sch_content);
      		        		events.push({
-     		        			 id: obj.shc_no,
+     		        			 id: obj.sch_no,
      		        			 title: obj.sch_title,
      		        			 start: startDate,
      		        			 end: endDate,
@@ -284,7 +284,7 @@
 
  		        		console.log("내용 : " + obj.sch_content);
  		        		events.push({
- 		        			 id: obj.shc_no,
+ 		        			 id: obj.sch_no,
  		        			 title: obj.sch_title,
  		        			 start: startDate,
  		        			 end: endDate,

@@ -357,7 +357,7 @@ public class WorkShareController {
 
 		try {
 			// 상세 조회 - 업무공유
-			ws = workShareService.detailWS(wno);
+			ws = workShareService.savedDetailWS(wno);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);		
 			
 			// 상세 조회 - 첨부파일
@@ -393,8 +393,10 @@ public class WorkShareController {
 	// 작성 기능 (업무공유 새로 작성, 수정, 임시저장 -> 발송)
 	// 업무공유 작성 페이지 이동
 	@RequestMapping("sendFormView.ws")
-	public String sendFormView() {
+	public String sendFormView(HttpSession session) {
 		System.out.println("업무공유 작성화면으로 이동");
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
 		return "workShare/sendWSForm";
 	}
 
@@ -422,7 +424,7 @@ public class WorkShareController {
 		ws.setWs_recv((String) multiRequest.getParameter("drReceiverList"));
 		ws.setWs_ref((String) multiRequest.getParameter("drRefList"));
 		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
-		ws.setWs_status("Y");
+		ws.setWs_status(ws_status);
 		
 		// 업무공유 먼저 추가하기
 		workShareService.insertWorkShare(ws);
@@ -447,6 +449,10 @@ public class WorkShareController {
 			 wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
 			 wsa.setWsa_change(changeName);
 			 wsa.setWsa_size(fileList.get(i).getSize());
+			 
+			 if(ws_status.equals("S")) {
+				 ws_status = "Y";
+			 }
 			 wsa.setWsa_status(ws_status);
 			 
 			 wsaList.add(wsa);
@@ -604,6 +610,64 @@ public class WorkShareController {
 		session.removeAttribute("receiveListSession");
 		session.removeAttribute("refListSession");
 		 return "redirect:detail.ws?wno="+wno;
+	}
+	
+	// 업무공유 임시저장 수정
+	@RequestMapping("updateSavedWS.ws")
+	public String updateSavedWS(MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model, HttpSession session) throws Exception {
+		
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		int myEmpNo = myEmp.getEmpNo();
+		
+		System.out.println("fileList ? " + fileList.size());
+		int wno = Integer.parseInt(multiRequest.getParameter("workShareNo"));
+		System.out.println("wno ? " + wno);
+		
+		WorkShare ws = new WorkShare();
+		
+		ArrayList<WSAttachment> wsaList = new ArrayList<WSAttachment>();
+		ws.setWs_no(wno);
+		ws.setWs_title((String) multiRequest.getParameter("ws_title"));
+		ws.setWs_recv((String) multiRequest.getParameter("ws_recv")); 
+		ws.setWs_ref((String) multiRequest.getParameter("ws_ref"));
+		ws.setWs_content((String) multiRequest.getParameter("ws_content"));
+		
+		// 업무공유 먼저 수정하기
+		workShareService.updateSavedWorkShare(ws);
+		
+		// 첨부파일이 있으면 리스트로 값 추가하기 
+		if(fileList.get(0).getSize() != 0) {
+			
+			for(int i = 0; i < fileList.size(); i++) {
+				WSAttachment wsa = new WSAttachment();
+				String changeName = saveFile(fileList.get(i), request, i);
+				
+				System.out.println("==================== file start ====================");
+				System.out.println("파일 이름 : " + changeName); 
+				System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+				System.out.println("파일 크기 : " + fileList.get(i).getSize()); 
+				System.out.println("content type : " + fileList.get(i).getContentType());
+				System.out.println("==================== file end ====================="); 			 
+				
+				wsa.setWsa_no(wno);
+				wsa.setWsa_empNo(myEmpNo); 
+				wsa.setWsa_wsNo(ws.getWs_no());
+				wsa.setWsa_origin(fileList.get(i).getOriginalFilename()); 
+				wsa.setWsa_change(changeName);
+				wsa.setWsa_size(fileList.get(i).getSize());
+				wsa.setWsa_status("Y");
+				
+				wsaList.add(wsa);
+			}
+			
+			System.out.println("wsaList ? " + wsaList);
+			workShareService.updateWSAttachment(wsaList);
+		}
+		
+		session.removeAttribute("receiveListSession");
+		session.removeAttribute("refListSession");
+		return "redirect:savedListWS.ws";
 	}
 	
 	// 업무공유 삭제

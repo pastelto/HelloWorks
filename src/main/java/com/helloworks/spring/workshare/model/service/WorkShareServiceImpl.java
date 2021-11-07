@@ -116,9 +116,9 @@ public class WorkShareServiceImpl implements WorkShareService {
 	
 	// 업무공유 상세조회
 	@Override
-	public WorkShare detailAllWS(WorkShare updateWS) throws Exception {
+	public WorkShare detailAllWS(WorkShare ws) throws Exception {
 	
-		return workShareDao.detailAllWS(sqlSession, updateWS);
+		return workShareDao.detailAllWS(sqlSession, ws);
 	}
 
 	
@@ -140,6 +140,13 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 수신처리 실패"); 
 		 }
 		
+	}
+	
+	// 업무공유 임시저장 조회
+	@Override
+	public WorkShare savedDetailWS(int wno) {
+		
+		return workShareDao.savedDetailWS(sqlSession, wno);
 	}
 	
 	// 댓글 조회
@@ -250,6 +257,8 @@ public class WorkShareServiceImpl implements WorkShareService {
 		
 		return workShareDao.selectRecvEmpName(sqlSession, recvEmpNo);
 	}
+
+
 
 
 

@@ -47,6 +47,16 @@ public class ScheduleDao {
 		
 		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getDeptList");
 	}
+	
+	public ManageSchedule getUpdateCal(SqlSessionTemplate sqlSession, int schNo) {
+		
+		return sqlSession.selectOne("manageScheduleMapper.getUpdateCal", schNo);
+	}
+
+	public int updateEvent(SqlSessionTemplate sqlSession, ManageSchedule schedule) {
+		
+		return sqlSession.update("manageScheduleMapper.updateEvent", schedule);
+	}
 
 
 

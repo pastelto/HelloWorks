@@ -51,8 +51,7 @@ public class ScheduleController {
 	@RequestMapping("addEventsPage.sc")
 	public String addEvents(Model model) {
 		
-		List<Dept> deptList = new ArrayList<Dept>();
-		
+		List<Dept> deptList = getDeptList();
 		// 부서목록 구하기
 		try {
 			deptList = scheduleService.getDeptList();
@@ -67,6 +66,23 @@ public class ScheduleController {
 		return "schedule/addSchedule";
 	}
 	
+	// 부서 구하는 메소드
+	private List<Dept> getDeptList() {
+	
+		List<Dept> deptList = new ArrayList<Dept>();
+		
+		// 부서목록 구하기
+				try {
+					deptList = scheduleService.getDeptList();
+					System.out.println("deptList" + deptList);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+		return deptList;
+	}
+
 	// 일정등록하기
 	@RequestMapping("addEvent.sc")
 	public String addEvent(ManageSchedule schedule, HttpServletRequest request, 
@@ -286,5 +302,89 @@ public class ScheduleController {
 		System.out.println("일정 삭제 result ? " + result);
 		return String.valueOf(result);
 	}
+	
+	// 수정 - 일정 내용 가져오기
+	@RequestMapping("getUpdateCal.sc")
+	public String getUpdateCal(int schNo, Model model) {
+		
+		System.out.println("수정 캘린더 schNo : " + schNo);
+		ManageSchedule sch = new ManageSchedule();
+		List<Dept> deptList = getDeptList();
+		try {
+			
+			sch = scheduleService.getUpdateCal(schNo);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("sch", sch);
+		model.addAttribute("deptList", deptList);
+		return "schedule/updateSchedule";
+	}
+	
+	@RequestMapping("updateEvent.sc")
+	public String updateEvent(ManageSchedule schedule, HttpServletRequest request, 
+			   @RequestParam(value="setEventTime") String setEventTime, String checked) {
+		try {
+		Employee myEmp =  ((Employee)request.getSession().getAttribute("loginUser"));	
+		int myEmpNo = myEmp.getEmpNo();
+		
+		ManageSchedule calType = new ManageSchedule();
+		String schType = schedule.getSch_type(); // 캘린더타입
+		
+		// 캘린더 번호와 캘린더 색상 받아오기
+		switch(schType) {
+		case "PRIVATE" :
+			calType.setCal_maker(myEmpNo);
+			calType.setCal_type(schType);
+			calType = scheduleService.selectPrivateCal(calType);
+			System.out.println("Private calType ? " + calType);
+			break;
+		case "사내 전체" :
+			System.out.println("schType ? " + schType);
+			schType = "전체";
+			calType.setCal_name(schType);
+			calType = scheduleService.selectCalType(calType);
+			System.out.println("DEPT calType ? " + calType);
+			break;
+		default : 
+			System.out.println("schType ? " + schType);
+			calType.setCal_name(schType);
+			calType = scheduleService.selectCalType(calType);
+			System.out.println("DEPT calType ? " + calType);
+			break;
+		}
+		
+		String startDate = null;
+		String endDate = null;
+		
+		String[] timeRange = setEventTime.split("-");
+		startDate = timeRange[0];
+		endDate = timeRange[1];
+
+		String writer = myEmp.getEmpName() + " " + myEmp.getJobName();
+		
+		schedule.setSch_startdate(startDate);
+		schedule.setSch_endate(endDate);
+		schedule.setSch_writer(writer);
+		schedule.setSch_empno(myEmpNo);
+		schedule.setSch_allday(checked);
+		schedule.setSch_color(calType.getCal_color());
+		schedule.setSch_calNo(calType.getCalNo());
+		
+		System.out.println("수정 schedule ? " + schedule);
+		
+		scheduleService.updateEvent(schedule);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:schMain.sc";
+		
+	}
+	
 	
 }

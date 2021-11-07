@@ -194,12 +194,12 @@
 							<div class="card-footer">
 								<div class="float-right" id="editPlace">	
 									&nbsp;						
-									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
-									<button type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>
+									<c:if test="${ ws.ws_status eq 'S' }">
+									<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="saveBtn();">임시저장</button>
+									</c:if>
+									<button type="button" class="btn btn-info btn-sm" onclick="updateBtn()">수정완료</button>
 									&nbsp;&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList()">취소</button>
-									</c:if>
-									
 								</div>
 							</div>
 						</form>
@@ -294,11 +294,45 @@
 	<!-- 버튼 이동 -->
 	<script>
  	// 업무공유 수정 완료 및 저장
+	function updateBtn() {
+ 		
+		if($("input[name=ws_title]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("내용을 입력해주세요.")
+		}else{
+			if(confirm("업무공유를 수정하시겠습니까?") == true){
+			  	alert("업무공유가 수정되었습니다.");
+				$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
+				$("#workShareForm").submit();
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
+	};
+	
+	// 업무공유 임시저장 
 	function saveBtn() {
-	  	alert("업무공유가 수정되었습니다.");
-		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
-		$("#workShareForm").submit();
-
+ 		
+		if($("input[name=ws_title]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("내용을 입력해주세요.")
+		}else{
+			if(confirm("업무공유를 임시저장 하시겠습니까?") == true){
+			  	alert("업무공유가 수정되었습니다.");
+				$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateSavedWS.ws");
+				$("#workShareForm").submit();
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
 	};
 	
 	// 취소버튼 - 뒤로가기
@@ -322,7 +356,7 @@
 	</script>
 	
 	<!-- 직원 검색  -->
-	<script>
+	<script>	
 		function popupSearchEmp(){
 			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
 		}

@@ -22,6 +22,10 @@ public interface ScheduleService {
 
 	List<Dept> getDeptList() throws Exception;
 
+	ManageSchedule getUpdateCal(int schNo) throws Exception;
+
+	void updateEvent(ManageSchedule schedule) throws Exception;
+
 
 
 }

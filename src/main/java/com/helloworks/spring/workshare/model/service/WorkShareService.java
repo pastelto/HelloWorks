@@ -37,7 +37,7 @@ public interface WorkShareService {
 
 	void readStatusWS(WorkShare updateWS) throws Exception;
 
-	WorkShare detailAllWS(WorkShare updateWS) throws Exception;
+	WorkShare detailAllWS(WorkShare ws) throws Exception;
 	
 	void deleteWS(int wno) throws Exception;
 
@@ -53,12 +53,15 @@ public interface WorkShareService {
 
 	WorkShare selectRecvEmpName(int recvEmpNo) throws Exception;
 
+	WorkShare savedDetailWS(int wno);
+
 	// Reply
 	ArrayList<WSReply> selectReplyList(int wno) throws Exception;
 
 	int insertReply(WSReply wsr) throws Exception;
 
 	int deleteReply(int wsr_no) throws Exception;
+
 
 
 

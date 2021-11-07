@@ -74,6 +74,25 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		return scheduleDao.getDeptList(sqlSession);
 	}
+	
+	// 수정용 일정 내용 가져오기
+	@Override
+	public ManageSchedule getUpdateCal(int schNo) throws Exception {
+	
+		return scheduleDao.getUpdateCal(sqlSession, schNo);
+	}
+	
+	// 일정 수정하기
+	@Override
+	public void updateEvent(ManageSchedule schedule) throws Exception {
+		
+		int result = scheduleDao.updateEvent(sqlSession, schedule);
+		 System.out.println("일정 수정 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("일정수정 실패"); 
+		 }
+	}
 
 	
 	
