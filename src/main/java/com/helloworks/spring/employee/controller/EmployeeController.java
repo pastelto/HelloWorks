@@ -67,19 +67,6 @@ public class EmployeeController {
 	@Autowired
 	private RequestService requestService;
 	
-	//마이페이지 전환
-	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage() {
-		System.out.println("마이페이지 전환");
-		return "employee/EmployeeMypage";
-	}
-	
-	//사원등록 페이지 전환
-	@RequestMapping("insert.hr")
-	public String EmployeeEnrollForm() {
-		System.out.println("사원등록 페이지 전환");
-		return "employee/EmployeeEnrollFrom";
-	}
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
