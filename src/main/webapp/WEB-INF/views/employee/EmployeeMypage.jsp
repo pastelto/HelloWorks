@@ -8,28 +8,31 @@
 <title>EmployeeMypage</title>
 <style>
 
-	#section{
-		position: relative;
-		clear: both;
+	#updateForm{				
 		overflow: hidden;
 		padding: 13px 30px;
 		width: 100%;
-		box-sizing: border-box;
 	}
-	#btn{
+	
+	.selectBtn{
+		margin: 10px;
+		text-align: center;
 		
-		align-content: center;
 	}
 	
 	table{
-		align-content: center;
+		width: 95%;
+		margin: auto;
+		text-align: center;
 	}
+	
+
 
 </style>
 </head>
 <body>
 
-	<c:if test="${ !empty msg }">
+	<c:if test="${ msg }">
 		<script>
 			alert("${msg}");
 		</script>
@@ -62,22 +65,20 @@
 						</h6>
 					</div><br>
 				
-						<form action="update.me" method="post" >
-							
-								<table border=1 style="width: 95%">
+						<form id="updateForm" action="update.me" method="post" onsubmit="">			
+								<table border=1>
 									<colgroup>
 										<col width="140">
-									</colgroup>
-										
+									</colgroup>										
 										<tbody>
 											<tr>
 												<!-- 유저이미지 -->
-												<td rowspan="6" valign="top" class="img">
+												<td rowspan="6" class="img">
 													<div id="user_pic2">
 														<img id="photo_src" src="" onerror=""> 
 													</div>
 												</td>	
-																		
+																	
 												<th>사번</th>
 												<td><input type="text" class="form-control" name="empNo" value="${ loginUser.empNo }" readonly></td>
 										
@@ -88,7 +89,7 @@
 											<tr>
 												<th>성명</th>
 												<td><input type="text" class="form-control" id="empName" name="empName" value="${ loginUser.empName }" readonly> </td>
-												<th >영문이름</th>
+												<th>영문이름</th>
 												<td> <input type="text" class="form-control" id="empEn" name="empEn" value="${ loginUser.empEn }" readonly> </td>
 											</tr>
 											
@@ -105,7 +106,8 @@
 												<th>내선번호</th>
 												<td><input type="text" class="form-control" id="empEphone" name="empEphone" value="${ loginUser.empEphone }" readonly> </td>
 											</tr>														
-										</tbody>									
+										</tbody>
+												
 										<tfoot>
 											<td rowspan="6" valign="top" class="img">
 												<div id="user_pic2">
@@ -120,18 +122,17 @@
 												<td> <input type="text" class="form-control" id="deptDname" name="deptDname" value="${ loginUser.deptDname }" readonly> </td>
 											</tr>
 											<tr>
-												<th>직위</th>
+												<th>직급</th>
 												<td><input type="text" class="form-control" id="jobName" name="jobName" value="${ loginUser.jobName }" readonly> </td>
 												<th >입사일</th>
 												<td> <input type="text" class="form-control" id="empHire" name="empHire" value="${ loginUser.empHire }" readonly> </td>
 											</tr>											
-		
 										</tfoot>																					
 									</table>									
-								
+									
 								<!-- 수정버튼 -->		
-								<div class="btn">									
-									<button type="submit" class="btn btn-primary">수정하기</button>									
+								<div class="selectBtn">									
+									<button type="submit" class="btn btn-primary">수정</button>									
 								</div><br>	
 		
 							</form>						

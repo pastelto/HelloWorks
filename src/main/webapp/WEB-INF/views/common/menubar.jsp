@@ -357,7 +357,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="insert.hr" class="nav-link">
+                <a href="insertForm.hr" class="nav-link">
                   <p>사원 등록</p>
                 </a>
               </li>

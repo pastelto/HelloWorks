@@ -10,6 +10,8 @@ public interface EmployeeService {
 
 	Employee selectEmp(int empNo);
 
+	void insertEmp(Employee m);
+
 	
 	
 

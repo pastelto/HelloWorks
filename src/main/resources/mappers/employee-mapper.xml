@@ -41,13 +41,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 -->
 	</select>
 	
-	<!-- 회원가입 
-	<insert id="insertMember" parameterType="Member">
-		insert into member
-		values(#{userId}, #{userPwd}, #{userName}, #{email}, #{gender}, #{age}, #{phone}, #{address}, sysdate, sysdate, default)
+	<!-- 사원등록 -->
+	<insert id="insertEmp" parameterType="Employee">
+		insert into employee
+		values(#{empNo}, #{empPwd}, #{empName}, #{empEn}, #{empEmail}, #{empPid}, #{empHire}, #{empFire}, 
+				#{empSalary}, sysdate, sysdate, #{jobName}, default, #{empPhone}, #{empEphone}, #{empAddress}, #{empNote})
 	</insert>
-	-->
 	
+	<!-- 수정 -->
 	<update id="updateEmp" parameterType="Employee" >
 		UPDATE EMPLOYEE
 		SET EMP_PHONE = #{empPhone}

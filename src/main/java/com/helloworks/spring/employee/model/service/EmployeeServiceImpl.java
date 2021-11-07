@@ -53,5 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.selectEmp(sqlSession, empNo);
 	}
 
+	@Override
+	public void insertEmp(Employee m) {
+		
+		int result = employeeDao.insertEmp(sqlSession, m);
+		
+		
+		
+	}
+
 	
 }

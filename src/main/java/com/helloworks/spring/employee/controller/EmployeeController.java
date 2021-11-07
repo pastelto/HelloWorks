@@ -1,6 +1,9 @@
 package com.helloworks.spring.employee.controller;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,7 +96,7 @@ public class EmployeeController {
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, @RequestParam("empPhone") String empPhone, Model model) throws Exception {
+	public String updateEmp(@ModelAttribute Employee m, @RequestParam("empPhone") String empPhone, Model model) {
 		
 		m.setEmpPhone(empPhone);
 		Employee userInfo = employeeService.updateEmp(m);
@@ -106,11 +109,46 @@ public class EmployeeController {
 
 
 	//사원등록 페이지 전환
-	@RequestMapping("insert.hr")
+	@RequestMapping("insertForm.hr")
 	public String EmployeeEnrollForm() {
 		System.out.println("사원등록 페이지 전환");
 		return "employee/EmployeeEnrollFrom";
 	}
+	
+	@RequestMapping("insert.hr")
+	public String insertEmp(@ModelAttribute Employee m, @RequestParam("empNo") int empNo,
+														@RequestParam("empPwd") String empPwd,
+														@RequestParam("empName") String empName,
+														@RequestParam("empEn") String empEn,
+														@RequestParam("empEmail") String empEmail,
+														@RequestParam("empPid") String empPid,											
+														@RequestParam("empHire") Date empHire,
+														@RequestParam("empFire") Date empFire,
+														@RequestParam("empSalary") int empSalary,
+														@RequestParam("deptUname") String deptUname,														
+														@RequestParam("deptDname") String deptDname,
+														@RequestParam("jobName") String jobName,
+														@RequestParam("empStatus") String empStatus,
+														@RequestParam("empPhone") String empPhone,
+														@RequestParam("empEphone") String empEphone,
+														@RequestParam("empAddress") String empAddress,
+														@RequestParam("empNote") String empNote, HttpSession session) {
+		
+		m.setEmpAddress(empNo+"/"+empPwd+"/"+empName+"/"+empEn+"/"+empEmail+"/"+empPid+"/"+empHire+"/"+empFire+"/"
+						+empSalary+"/"+deptUname+"/"+deptDname+"/"+jobName+"/"+empStatus+"/"+empPhone+"/"+empEphone+"/"
+						+empAddress+"/"+empNote+"/");	
+		System.out.println("m.setEmpNo"+ m);
+		
+		System.out.println("암호화 전: "+ m.getEmpNo());
+		
+		employeeService.insertEmp(m);
+		session.setAttribute("msg", "사원등록성공");
+		return "redirect:/";
+		
+		
+	}
+	
+	
 	
 
 }

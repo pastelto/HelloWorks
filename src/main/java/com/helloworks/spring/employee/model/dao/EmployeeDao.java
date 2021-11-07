@@ -20,4 +20,9 @@ public class EmployeeDao {
 		return sqlSession.selectOne("employeeMapper.selectEmp", empNo);
 	}
 
+	public int insertEmp(SqlSessionTemplate sqlSession, Employee m) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("employeeMapper.insertEmp", m);
+	}
+
 }
