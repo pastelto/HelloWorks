@@ -18,8 +18,4 @@ public class VacationComment extends Vacation{
 	private String createDate;	// 작성일자
 	private String acContent;	// 작성내용 
 	
-	/*public ApprovalComment() {
-		// TODO Auto-generated constructor stub
-	}*/
-	
 }
