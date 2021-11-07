@@ -65,10 +65,10 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<b>${ loginUser.empName }</b>
+												<b>${ commonResources.writerName }</b>
 												<input type="hidden" name="crWriterNo" id="crWriterNo" value="${ loginUser.empNo }">
 												</td>
-												<th>작성일</th>
+												<th>변경일</th>
 												<td style="width: 35%;">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
@@ -80,31 +80,60 @@
 											<tr>
 												<th>보고유형</th>
 												<td colspan="3">
-													&nbsp;
-													<input type="radio" value="공유" name="crCategory" checked> 공유
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="문서" name="crCategory"> 문서
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="기타" name="crCategory"> 기타
+													<c:if test="${ commonResources.crCategory == '공유'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" checked> 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory"> 기타
+													</c:if>
+													<c:if test="${ commonResources.crCategory == '문서'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory" checked> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory"> 기타
+													</c:if>
+													<c:if test="${ commonResources.crCategory == '기타'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory" checked> 기타
+													</c:if>
+													
 												</td>
 											</tr>
 											<tr>
 												<th>비밀번호</th>
 												<td colspan="3">
 												<div class="row m-0">
-													<input type="text" class="form-control form-control-sm" id="crCode" name="crCode" style="width: 250px;" placeholder="최대 15자까지만 적어주세요."> 
+													<input type="text" class="form-control form-control-sm" id="crCode" name="crCode" style="width: 250px;" placeholder="최대 15자까지만 적어주세요." value="${ commonResources.crCode} ">
 												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input id="crTitle" name="crTitle" type="text" class="form-control form-control-sm">
+												<input id="crTitle" name="crTitle" type="text" class="form-control form-control-sm" value="${ commonResources.crTitle}">
 												</td>
 											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
+													<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
+													<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
+														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
+							                        	<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttach.crAttachChange}" download="${commonResourcesAttach.crAttachOrigin}">${ commonResourcesAttach.crAttachOrigin }</a>
+							                        	</br>
+							                        </c:if>
+													<c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
+														
+							                        </c:if>
+							                    </c:forEach>
 													<span id="resourcesAttachName"></span>
 								                  	<div class="btn btn-default btn-file btn-xs">
 								                   		<i class="fas fa-paperclip"></i> 첨부파일
@@ -119,7 +148,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote" name="crContent"></textarea>
+										<textarea id="summernote" name="crContent">${ commonResources.crContent}</textarea>
 									</div>
 								</div>
 

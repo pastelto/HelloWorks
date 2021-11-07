@@ -202,7 +202,7 @@
 									<button onclick="location.href='deptResourcesList.or'" class="btn btn-sm btn-primary" type="button">돌아가기</button>&nbsp;
 									
 									<c:if test="${loginUser.empNo == deptResources.deptrWriterNo or loginUser.jobCode == 'J1' or loginUser.jobCode == 'J2' or loginUser.jobCode == 'J3'}">
-										<button onclick="updateDeptResource();" class="btn btn-sm btn-danger" type="button">수정하기</button>&nbsp;
+										<button onclick="updateDeptResource(${deptResources.deptrNo});" class="btn btn-sm btn-danger" type="button">수정하기</button>&nbsp;
 									</c:if>
 								</div>
 							</div>
@@ -324,6 +324,13 @@
 				}
 			});
 			
+		}
+	</script>
+	
+		<!-- 업데이트 -->
+	<script>
+		function updateDeptResource(deptrNo){
+			location.href="<%=request.getContextPath()%>/updateDeptResourceForm.or?deptrNo="+deptrNo;
 		}
 	</script>
 </body>

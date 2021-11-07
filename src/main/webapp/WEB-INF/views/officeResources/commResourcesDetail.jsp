@@ -201,7 +201,7 @@
 								<div class="col-12"  align='right'>
 									<button onclick="location.href='commResourcesList.or'" class="btn btn-sm btn-primary" type="button">돌아가기</button>&nbsp;
 										<c:if test="${ loginUser.deptCode == 'A1' or loginUser.deptCode == 'A2' or loginUser.deptCode == 'A3' or loginUser.jobCode == 'J1' or loginUser.jobCode == 'J2' or loginUser.jobCode == 'J3'}">
-											<button onclick="updateCommResource();" class="btn btn-sm btn-danger" type="button">수정하기</button>&nbsp;
+											<button onclick="updateCommResource(${commonResources.crNo});" class="btn btn-sm btn-danger" type="button">수정하기</button>&nbsp;
 										</c:if>
 								</div>
 							</div>
@@ -322,6 +322,22 @@
 					console.log("댓글 삭제 ajax 통신 실패");
 				}
 			});
+			
+		}
+	</script>
+	
+	<!-- 업데이트 -->
+	<script>
+		function updateCommResource(crNo){
+			
+			var passwordConfirm = prompt('비밀번호를 입력하세요');
+			
+			if(passwordConfirm == ${commonResources.crCode}){
+				location.href="<%=request.getContextPath()%>/updateCommResourceForm.or?crNo="+crNo;
+			}else{
+				return false;
+			}
+			
 			
 		}
 	</script>

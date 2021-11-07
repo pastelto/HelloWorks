@@ -856,4 +856,36 @@ public class OfficeRoomController {
 		
 		return "officeResources/commResourcesList";
 	}
+	
+	@RequestMapping("updateCommResourceForm.or")
+	public String updateCommResourceForm(int crNo, Model model, HttpServletRequest request) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
+		
+		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
+		
+		model.addAttribute("commonResources", commonResources);
+		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
+		model.addAttribute("loginUserNo", loginUserNo);
+		model.addAttribute("crNo", crNo);
+		
+		return "officeResources/commResourcesUpdate";
+	}
+	
+	@RequestMapping("updateDeptResourceForm.or")
+	public String updateDeptResourceForm(int deptrNo, Model model, HttpServletRequest request) {
+		
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		DeptResources deptResources = officeRoomService.selectDeptResources(deptrNo);
+		
+		ArrayList<DeptResourcesAttachment> deptResourcesAttach = officeRoomService.selectDeptResourcesAttachMent(deptrNo); 
+		
+		model.addAttribute("deptResources", deptResources);
+		model.addAttribute("deptResourcesAttach", deptResourcesAttach);
+		model.addAttribute("loginUserNo", loginUserNo);
+		model.addAttribute("deptrNo", deptrNo);
+		
+		return "officeResources/deptResourcesUpdate";
+	}
 }
