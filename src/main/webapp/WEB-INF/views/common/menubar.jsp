@@ -38,19 +38,14 @@
         <a href="index3.html" class="nav-link">사람 아이콘</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
+        <a class="nav-link" href="Mypage.mp">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-      <!-- 마이페이지 : 위치는 사람 아이콘이나 이름! -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" href="Mypage.mp">
-          <i class="far fa-comments"></i>
-        </a>
-      </li>
+
       
       <!-- 근태관리 -->
       <li class="nav-item">
@@ -358,7 +353,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="insert.hr" class="nav-link">
+                <a href="insertForm.hr" class="nav-link">
                   <p>사원 등록</p>
                 </a>
               </li>

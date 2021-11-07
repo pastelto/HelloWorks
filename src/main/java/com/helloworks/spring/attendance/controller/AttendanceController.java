@@ -64,7 +64,6 @@ public class AttendanceController {
 			sta.setStart(months);// 넘어온 달
 			Statistics count = attendanceService.selectAtndCount(sta);
 			
-			System.out.println("이야 테스트다!!"+sta);
 	  
 	  return new GsonBuilder().create().toJson(count);
 	  }
@@ -108,14 +107,16 @@ public class AttendanceController {
 
 			// 상태set
 			int statushour = Integer.parseInt(inOutTime.substring(0, 2));
-			if (statushour > 9) {
+			if (statushour >= 9) {
 				attendance.setAppliedIN(sec);
 				attendance.setPsStatus("지각");
 
 				// 오전반차결재서류 있다면
 				Vacation vacation = vacationService.sysdateVacation(empNo);
+				
 				if (vacation != null) {
 					attendance.setPsStatus("반차");
+					attendance.setAppliedIN(32400); //2시출근 이지만 9시 출근시간 적용
 				}
 
 			} else {
@@ -135,7 +136,6 @@ public class AttendanceController {
 	// 퇴근시간 등록
 	@RequestMapping("outTime.ps")
 	public String updateOutTime(String inOutTime, HttpServletRequest request) {
-		System.out.println("퇴근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + inOutTime);
 
 		int empNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
 		Attendance attendance = attendanceService.selectAttendance(empNo);
@@ -155,20 +155,20 @@ public class AttendanceController {
 			int statushour = Integer.parseInt(inOutTime.substring(0, 2));
 			int statusmin = Integer.parseInt(inOutTime.substring(3, 5));
 
-			// 6시 이후 퇴근
+			// 6시 이후 퇴근- 야근
 			if (statushour >= 18) {
 
-				if (statusmin < 10) {// 6시 정시 퇴근
+				/*if (statusmin < 10) {// 6시 정시 퇴근
 					attendance.setAppliedOut(64800); // 6시
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setWorkingTime(attendance.getTotal()); // 일한시간
 					attendance.setOverTime(0);// 야근없음
 				} else {// 야근
-					attendance.setAppliedOut(sec);
+*/					attendance.setAppliedOut(sec);
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setOverTime(attendance.getTotal() - 28800);// 야근시간(총 일한시간 - 8시간)
 					attendance.setWorkingTime(28800); // 일한시간(8시간
-				}
+					/* } */
 
 			} else {// 6시 이전 퇴근
 
@@ -184,8 +184,6 @@ public class AttendanceController {
 
 			}
 
-			// 테스트 어떻게 찍힐까
-			System.out.println(attendance);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -390,6 +388,27 @@ public class AttendanceController {
 		search.setDept(dept); // 부서
 
 		ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
+		System.out.println("통계 검색조건::::::::::"+ statistics);
+		// 초를 시간과 분으로 변환
+		String test = null;
+		for (int i = 0; i < statistics.size(); i++) {
+
+			// 일한시간
+			test = changeTime(statistics.get(i).getWorking());
+			statistics.get(i).setWorkingS(test);
+			// 야근시간
+			test = changeTime(statistics.get(i).getOver());
+			statistics.get(i).setOverS(test);
+			// 총시간
+			test = changeTime(statistics.get(i).getTotalT());
+			statistics.get(i).setTotalTS(test);
+			// 잔여일한시간
+			test = changeTime(statistics.get(i).getLeaveWT());
+			statistics.get(i).setLeaveWTS(test);
+			// 잔여야근시간
+			test = changeTime(statistics.get(i).getLeaveOT());
+			statistics.get(i).setLeaveOTS(test);
+		}
 
 		model.addAttribute("statistics", statistics);
 

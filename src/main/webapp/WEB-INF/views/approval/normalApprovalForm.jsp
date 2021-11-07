@@ -36,8 +36,8 @@
 		pointer-events: none;
 	}
 	input[id^="ccName"]{
-		background-color: white;
-		pointer-events: none;
+		background-color: white !important;
+		pointer-events: none !important;
 	}
 	input[id^="fieldWriter"], input[id^="userDept"]{
 		border : none;
@@ -77,7 +77,7 @@
 											</td>
 											<td style="font-size:0.8em;" colspan="5">
 												<label style="display: inline-block" class="bottom-margin0" >
-													<input type="radio" name="doc_type"  value = "기안" id="normal_radio" >
+													<input type="radio" name="doc_type"  value = "기안" id="normal_radio" checked="checked" >
 													<span class="co_docu_cd_old" docu_cd="기안" style="cursor: pointer;">기안서</span>											
 												</label>
 												&nbsp;
@@ -312,7 +312,7 @@
 													</tr>
 													<tr>
 														<td colspan="9">
-															<textarea id="summernote" name="apContent"></textarea>
+															<textarea id="summernote" name="apContent" onkeyup="chkByte(this)"></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -780,8 +780,7 @@
 															<span>참석자 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>	
-															<input type="text" id="attendees" name="attendees"/>																				
+															<input type="text" class="form-control" id="attendees" name="attendees"/>																				
 														</td>
 													</tr>
 													<tr>
@@ -980,7 +979,7 @@
 														<td colspan="2">
 															<span>기안일자</span>
 														</td>
-														<td colspan="4">
+														<td colspan="4"  style="font-size:0.8rem">
 															<c:set var="now" value="<%=new java.util.Date()%>" />
 															<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
 															<c:out value="${sysdate}" />
@@ -989,7 +988,7 @@
 															<span>처리시한</span>
 														</td>
 														<td colspan="4">
-															<select name="dueDate" class="form-control" >
+															<select name="dueDate" class="form-control" style="font-size:0.8rem">
 																<option value="none"> === 선택 ==== </option>
 																<option value="5일 이내"> 5일 이내 </option>
 																<option value="10일 이내"> 10일 이내 </option>
@@ -1067,7 +1066,7 @@
 						</div>
 					</div>
 				</div>
-							<div class="card-footer">
+							<div class="card-footer" id="btnDiv">
 								<div class="float-right">
 									<button id="tempSaveBtn" type="button" class="btn btn-secondary btn-sm" onclick="insertTemp();">임시저장</button>
 									&nbsp;
@@ -1120,16 +1119,17 @@
     	  });
     	});
     </script>
+
     
 <!-- div 전환 , disabled 주기-->	
 	<script>
 		$(function(){
-			$("#normal_div").attr("style", "display:none")		
+			
 			$("#dipl_div").attr("style", "display:none")
 			$("#minut_div").attr("style", "display:none")
 			$("#humanr_div").attr("style", "display:none")
 			$("#hr_detail").attr("style", "display:none")
-			$("#hr_detail").attr("style", "display:none")
+			
 						
 			$('#normal_radio').click(function(){
 				$("#normal_div").css("display",'')
@@ -1185,6 +1185,8 @@
 
 		});
 	</script>
+
+	
 	
 <!-- 첨부파일 추가 / 삭제 -->
 	<script>
@@ -1230,21 +1232,177 @@
 	</script>
 	
 	<script>
+	
+	
 		function insertApp(){
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
-				$("#normalApprovalForm").submit();
 				
-				alert("결재 작성이 완료되었습니다.");
+				if($("input[id='normal_radio']:checked").length > 0) {
+					if($("#summernote").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+					
+				} else if($("input[id='dipl_radio']:checked").length > 0){
+					if($("#summernote2").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote2").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#email").val == ""){
+						alert("이메일주소를 입력해주세요.")
+					} else if($("#phone")){
+						alert("연락가능한 전화번호를 입력해주세요.")
+					} else if($("#officeAddress")){
+						alert("주소를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+				} else if($("input[id='minut_radio']:checked").length > 0){
+					if($("summernote3").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote3").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#mm_title").val == ""){
+						alert("회의 이름을 입력해주세요.")
+					} else if($("#attendees")){
+						alert("회의 참석자를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+				} else if($("input[id='humanr_radio']:checked").length > 0){
+					if($("summernote4").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote4").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("input[id='hr_type']:checked").length == 0){
+						alert("세부항목을 선택해주세요.")
+					} else if($("input[name='dueDate'").val() == 'none'){
+						alert("처리시한을 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}		
+				} 
+				
 			});		
 		}
 		
 		function insertTemp(){
 			$("#normalApprovalForm").each(function(){
-				$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
-				$("#normalApprovalForm").submit();
-				
-				alert("임시저장되었습니다.");
+				if($("input[id='normal_radio']:checked").length > 0) {
+					if($("#summernote").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']:enabled").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']:enabled").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+					
+				} else if($("input[id='dipl_radio']:checked").length > 0){
+					if($("#summernote2").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']:enabled").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']:enabled").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote2").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#email").val == ""){
+						alert("이메일주소를 입력해주세요.")
+					} else if($("#phone").val == ""){
+						alert("연락가능한 전화번호를 입력해주세요.")
+					} else if($("#officeAddress")){
+						alert("주소를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+				} else if($("input[id='minut_radio']:checked").length > 0){
+					if($("summernote3").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']:enabled").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']:enabled").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote3").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("#mm_title").val == ""){
+						alert("회의 이름을 입력해주세요.")
+					} else if($("#attendees")){
+						alert("회의 참석자를 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}					
+				} else if($("input[id='humanr_radio']:checked").length > 0){
+					if($("summernote4").length > 1300){
+						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
+					} else if ($("input[name='lineName']:enabled").val() == ""){
+						alert("결재라인을 추가해주세요.")
+					} else if ($("input[name='title']:enabled").val() == ""){
+						alert("제목을 입력해주세요.")
+					} else if( $("#summernote4").val() == "" ){
+						alert("결재내용을 입력해주세요.")
+					} else if($("input[id='hr_type']:checked").length == 0){
+						alert("세부항목을 선택해주세요.")
+					} else if($("input[name='dueDate'").val() == 'none'){
+						alert("처리시한을 입력해주세요.")
+					} else {
+						
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").submit();
+										
+						alert("결재 작성이 완료되었습니다.");
+					}		
+				} 
 			});		
 		}
 	</script>

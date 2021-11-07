@@ -28,6 +28,10 @@ public class Employee {
 	private int empSalary;			//연봉
 	private Date empHire;			//입사일
 	private Date empFire;			//퇴사일
+	private String empOrgPic;
+	private String empChgpic;
+	private String empOrgSign;
+	private String empChgSign;
 	private String empNote;			//비고
 	private String empStatus;		//재직여부
 	private String jobName; 		//직급명
