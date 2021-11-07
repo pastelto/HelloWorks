@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
 import com.helloworks.spring.addressBook.model.vo.PersonalAddressBook;
+import com.helloworks.spring.addressBook.model.vo.SearchPerson;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
@@ -33,6 +34,14 @@ public interface AddressBookService {
 	int selectListPerCount(int loginEmpNo);
 
 	ArrayList<PersonalAddressBook> selectPerAddressBook(int loginEmpNo, PageInfo piR);
+
+	void insertPersonalAddress(PersonalAddressBook personalAddressBook);
+
+	void deletePerosonAddressBook(PersonalAddressBook personalAddressBook);
+
+	int selectSearchPersonalAddressBookListCount(SearchPerson sp);
+
+	ArrayList<PersonalAddressBook> searchPersonalAddressBook(SearchPerson sp, PageInfo piR);
 
 	
 

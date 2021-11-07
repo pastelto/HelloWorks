@@ -23,6 +23,9 @@
 		width: 10%;
 		text-align: center !important;
 	}
+	#personalAddressBookTable{
+		text-align: center !important;
+	}
 </style>
 </head>
 <body>
@@ -76,7 +79,7 @@
 											<tr>
 												<th>추가</th>
 												<td>
-													<form action="#">
+													<form id="enrollForm">
 														<div class="input-group mt-1 mb-1">
 															&nbsp;&nbsp;
 															  
@@ -84,32 +87,28 @@
 																<div class="input-group-prepend">
 																      <span class="input-group-text input-group-xs form-control-sm badge-light">이름</span>
 																   </div>
-															 	<input type="text" id="pabName" class="form-control form-control-sm">
+															 	<input type="text" id="pabName" name="pabName" class="form-control form-control-sm">
 															 	
 															 	<div class="input-group-append">
 																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">회사명</span>
 																</div>
-																<input type="text" id="pabEname" class="form-control form-control-sm">
+																<input type="text" id="pabEname" name="pabEname" class="form-control form-control-sm">
 															
 																<div class="input-group-append">
 																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">직급</span>
 																</div>
-																<input type="text" id="pabJob" class="form-control form-control-sm">
+																<input type="text" id="pabJob" name="pabJob" class="form-control form-control-sm">
 																
 																<div class="input-group-append">
 																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">전화번호</span>
 																</div>
-																<input type="text" id="pabPhone" class="form-control form-control-sm">
+																<input type="text" id="pabPhone" name="pabPhone" class="form-control form-control-sm">
 															 	<div class="input-group-append">
 																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">메일주소</span>
 																</div>
-																<input type="text" id="pabEmail" class="form-control form-control-sm">
-																<!-- <div class="input-group-append">
-																    <button class="btn btn-xs btn-default" type="button" onclick="addPersonalAddress();" style="width: 30px; font-size: 14px; important">
-																	<i class="fa fa-search"></i></button>
-																</div> -->
+																<input type="text" id="pabEmail" name="pabEmail" class="form-control form-control-sm">
 															  </div>
-															  &nbsp;<button class="btn btn-xs btn-primary" type="button" onclick="addPersonalAddress();" >추가하기</button>
+															  &nbsp;<button class="btn btn-xs btn-primary" type="button" onclick="addPersonalAddress();">추가하기</button>
 														</div>
 													</form>
 												</td>
@@ -162,10 +161,10 @@
 									<caption style="caption-side:top">* 정렬 기준 : <span id="perSortOption">전체</span></caption>
 										<thead>
 											<tr>
-												<th style="width: 10%"><input type='checkbox' name='checkPerAll' id='checkPerAll' onclick="checkPerAll();"></th>
-												<th style="width: 20%">이름</th>
-												<th style="width: 20%">회사</th>
-												<th style="width: 20%">직급</th>
+												<th style="width: 5%"><input type='checkbox' name='checkPerAll' id='checkPerAll' onclick="checkPerAll();"></th>
+												<th style="width: 15%">이름</th>
+												<th style="width: 15%">회사</th>
+												<th style="width: 15%">직급</th>
 												<th style="width: 20%">전화번호</th>
 												<th style="width: 20%">이메일</th>
 												<th style="width: 10%"></th>
@@ -185,7 +184,7 @@
 							                        <td>${ personalAddresslist.pabPhone }</td>
 							                        <td>${ personalAddresslist.pabEmail }</td>
 							                        <th>
-							                        	<button id='deletePersonalAddressBook' type='button' class='btn btn-default btn-xs'>삭제하기</button>&nbsp;
+							                        	<button onclick="deletePerson(${ personalAddresslist.pabNo })" id='deletePersonalAddressBook' type='button' class='btn btn-default btn-xs'>삭제하기</button>&nbsp;
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
@@ -199,7 +198,7 @@
 								                <ul class="pagination">
 								                	<c:choose>
 								                		<c:when test="${ piR.currentPage ne 1 }">
-								                			<li class="page-item"><a class="page-link" href="${pagePerURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ piR.currentPage-1 }">Previous</a></li>
+								                			<li class="page-item"><a class="page-link" href="${pageURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ piR.currentPage-1 }">Previous</a></li>
 								                		</c:when>
 								                		<c:otherwise>
 								                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -209,7 +208,7 @@
 								                    <c:forEach begin="${ piR.startPage }" end="${ piR.endPage }" var="p">
 								                    	<c:choose>
 									                		<c:when test="${ piR.currentPage ne p }">
-								                    			<li class="page-item"><a class="page-link" href="${pagePerURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ p }">${ p }</a></li>
+								                    			<li class="page-item"><a class="page-link" href="${pageURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ p }">${ p }</a></li>
 									                		</c:when>
 									                		<c:otherwise>
 									                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -219,10 +218,10 @@
 								                    
 								                    <c:choose>
 								                		<c:when test="${ piR.currentPage ne piR.maxPage }">
-								                			<li class="page-item"><a class="page-link" href="${pagePerURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ piR.currentPage+1 }">Next</a></li>
+								                			<li class="page-item"><a class="page-link" href="${pageURL}?optionTypePer=${ optionTypePer }&searchPerson=${ searchPerson }&currentPage=${ piR.currentPage+1 }">Next</a></li>
 								                		</c:when>
 								                		<c:otherwise>
-								                			<li class="page-item disabled"><a class="page-link" href="${pagePerURL}?currentPage=${ piR.currentPage+1 }">Next</a></li>
+								                			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ piR.currentPage+1 }">Next</a></li>
 								                		</c:otherwise>
 								                	</c:choose>
 								                </ul>
@@ -254,175 +253,26 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 	
-	<!-- 검색 -->
-	<script>
-		$(function() {
-			switch ('${ optionType }') {
-			case "allType":
-				$("#optionType>option").eq(0).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "deptType":
-				$("#deptTypeBlank").show();
-				$("#deptTypeOption").show();
-				$("#optionType>option").eq(1).attr("selected", true);
-				
-				switch ('${ deptTypeOption }') {
-					case "A" :
-						$("#deptTypeOption>option").eq(0).attr("selected", true);
-						break;
-					case "A1" :
-						$("#deptTypeOption>option").eq(1).attr("selected", true);
-						break;
-					case "A2" :
-						$("#deptTypeOption>option").eq(2).attr("selected", true);
-						break;
-					case "A3" :
-						$("#deptTypeOption>option").eq(3).attr("selected", true);
-						break;
-					case "B" :
-						$("#deptTypeOption>option").eq(4).attr("selected", true);
-						break;
-					case "B1" :
-						$("#deptTypeOption>option").eq(5).attr("selected", true);
-						break;
-					case "B2" :
-						$("#deptTypeOption>option").eq(6).attr("selected", true);
-						break;
-					case "C" :
-						$("#deptTypeOption>option").eq(7).attr("selected", true);
-						break;
-					case "C1" :
-						$("#deptTypeOption>option").eq(8).attr("selected", true);
-						break;
-					case "C2" :
-						$("#deptTypeOption>option").eq(9).attr("selected", true);
-						break;
-					case "C3" :
-						$("#deptTypeOption>option").eq(10).attr("selected", true);
-						break;
-				}
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "empNoType":
-				$("#optionType>option").eq(2).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "empNameType":
-				$("#optionType>option").eq(3).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "ePhoneType":
-				$("#optionType>option").eq(4).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			case "emailType":
-				$("#optionType>option").eq(5).attr("selected", true);
-				$("#searchInput").val("${ searchEmployee }");
-				$("#sortOption").text("검색어 ( "+'${searchEmployee}'+" )");
-				break;
-			}
-			
-		})
-	</script>
 	
-	<!-- select option 부서 선택시 -->
+	
+	<!-- 개별 삭제 -->
 	<script>
-		function deptSelect(selectOption){
-			$("#searchInput").val("");
-			
-			switch (selectOption) {
-			case "allType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","검색어를 입력하세요.");
-				break;
-			case "deptType":
-				$("#deptTypeBlank").show();
-				$("#deptTypeOption").show();
-				$("#searchInput").attr("placeholder","이름을 입력하세요.");
-				break;
-			case "empNoType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","사번을 입력하세요.");
-				break;
-			case "empNameType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","이름을 입력하세요.");
-				break;
-			case "ePhoneType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","내선번호를 입력하세요.");
-				break;
-			case "emailType":
-				$("#deptTypeBlank").hide();
-				$("#deptTypeOption").hide();
-				$("#searchInput").attr("placeholder","이메일을 입력하세요.");
-				break;
-			}
+		function deletePerson(pabNo) {
+			location.href="deletePerson.adb?pabNo="+pabNo;
 		}
 	</script>
 	
-	<!-- 검색창 reset -->
+	<!-- 사내 주소록 전체 삭제 버튼 -->
 	<script>
-		function resetSearch(){
-			$("#optionType>option").eq(0).attr("selected", true);
-			$("#deptTypeBlank").hide();
-			$("#deptTypeOption").hide();
-			$("#searchInput").val("");
-		}
-	</script>
-	
-	<!-- 직원 상세 정보 -->
-	<script>
-		function detailEmployee(empNo){
-			
-			$.ajax({
-				url:"searchEmployeeDetail.or",
-				data:{empNo:empNo},
-				type:"post",
-				dataType:"json",
-				success:function(emp){
-					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
-					
-					$("#empNoCol").text(emp.empNo)
-					$("#empNameCol").text(emp.empName)
-					$("#empEngNameCol").text(emp.empEn)
-					$("#empUDeptCol").text(emp.deptUname)
-					$("#empDDeptCol").text(emp.deptDname)
-					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
-					$("#empEphoneCol").text(emp.empEphone)
-					$("#empEmailCol").text(emp.empEmail)
-					
-					$("#deleteEmpNo").val(emp.empNo)
-				},
-				error:function(){
-					console.log("직원 부서별 검색 ajax 통신 실패")
-				}
-			})
-		}
-	</script>
-	
-	<!--  사내 주소록 삭제 버튼 -->
-	<script>
-		function deleteOfficeAddressBookBtn(){
+		function deletePerAddressBookBtn(){
 			const checkList = [];
 			
-			$("input[name='deleteAddressBook']:checked").each(function(){
+			$("input[name='deletePerAddressBook']:checked").each(function(){
 				const checkEmpNo = $(this).val();
 				checkList.push(checkEmpNo);
 			});
 
-			location.href="deleteOfficeAddrressBookArr.adb?checkList="+checkList;
+			location.href="deletePerAddrressBookArr.adb?checkList="+checkList;
 			
 		}
 	</script>
@@ -431,9 +281,9 @@
 	<script>
 		function checkAll(){
 			if($("input[name='checkAll']").prop("checked")){
-				$("input[name='deleteAddressBook']").prop("checked", true)
+				$("input[name='deletePerAddressBook']").prop("checked", true)
 			}else{
-				$("input[name='deleteAddressBook']").prop("checked", false)
+				$("input[name='deletePerAddressBook']").prop("checked", false)
 			}
 		}
 	</script>
@@ -481,6 +331,36 @@
 			}else{
 				$("input[name='deletePerAddressBook']").prop("checked", false)
 			}
+		}
+	</script>
+	
+	<script>
+		function addPersonalAddress(){
+			var pabName =  $("input[name='pabName']").val()
+			var pabEname = $("input[name=pabEname]").val()
+			var pabJob = $("input[name=pabJob]").val()
+			var pabPhone = $("input[name=pabPhone]").val()
+			var pabEmail = $("input[name=pabEmail]").val()
+
+			if(pabName == ""){
+				alert("이름을 입력해주세요.")
+				return false;
+			}else if(pabEname == ""){
+				alert("회사명을 입력해주세요.")
+				return false;
+			}else if(pabJob == ""){
+				alert("직급을 입력해주세요.")
+				return false;
+			}else if(pabPhone == ""){
+				alert("전화번호를 입력해주세요.")
+				return false;
+			}else if(pabEmail == ""){
+				alert("이메일을 입력해주세요.")
+				return false;
+			}
+			
+			$("#enrollForm").attr("action", "<%=request.getContextPath()%>/insertPersonalAddress.adb");
+			$("#enrollForm").submit();
 		}
 	</script>
 </body>

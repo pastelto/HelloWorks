@@ -263,6 +263,75 @@
 		FROM PERSONAL_ADDRESS_BOOK
 		WHERE PAB_USER_NO = #{loginEmpNo}
 		AND PAB_STATUS = 'Y'
+		ORDER BY 1 DESC
 	</select>
 
+	<insert id="insertPersonalAddress">
+		INSERT INTO PERSONAL_ADDRESS_BOOK
+		VALUES(SEQ_PAB_NO.NEXTVAL, #{pabUserNo},#{pabName},#{pabEname},#{pabJob},#{pabPhone},#{pabEmail}, DEFAULT)
+	</insert>
+	
+	<update id="deletePerosonAddressBook" parameterType="PersonalAddressBook">
+		UPDATE PERSONAL_ADDRESS_BOOK
+		SET PAB_STATUS = 'N'
+		WHERE PAB_USER_NO = #{pabUserNo}
+		AND PAB_NO = #{pabNo}
+	</update>
+	
+	<select id="selectSearchPersonalAddressBookListCount" parameterType="SearchPerson" resultType="_int">
+		SELECT COUNT(*)
+		FROM PERSONAL_ADDRESS_BOOK
+		WHERE PAB_USER_NO = #{ loginUserEmpNo }
+		AND PAB_STATUS = 'Y'
+		<choose>
+			<when test="allPabType != null">
+				AND (PAB_NAME LIKE '%'||#{allPabType}||'%'
+					OR PAB_ENAME LIKE '%'||#{allPabType}||'%'
+					OR PAB_JOB LIKE '%'||#{allPabType}||'%'
+					OR PAB_PHONE LIKE '%'||#{allPabType}||'%'
+					OR PAB_EMAIL LIKE '%'||#{allPabType}||'%' )
+			</when>
+			<when test="pabNameType != null">
+				AND PAB_NAME LIKE '%'||#{pabNameType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND PAB_ENAME LIKE '%'||#{empNameType}||'%'
+			</when>
+			<when test="ePhoneType != null">
+				AND PAB_PHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND PAB_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="searchPersonalAddressBook" parameterType="SearchPerson" resultMap="personalAddressBookResultSet">
+		SELECT *
+		FROM PERSONAL_ADDRESS_BOOK
+		WHERE PAB_USER_NO = #{ loginUserEmpNo }
+		AND PAB_STATUS = 'Y'
+		<choose>
+			<when test="allPabType != null">
+				AND (PAB_NAME LIKE '%'||#{allPabType}||'%'
+					OR PAB_ENAME LIKE '%'||#{allPabType}||'%'
+					OR PAB_JOB LIKE '%'||#{allPabType}||'%'
+					OR PAB_PHONE LIKE '%'||#{allPabType}||'%'
+					OR PAB_EMAIL LIKE '%'||#{allPabType}||'%' )
+			</when>
+			<when test="pabNameType != null">
+				AND PAB_NAME LIKE '%'||#{pabNameType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND PAB_ENAME LIKE '%'||#{empNameType}||'%'
+			</when>
+			<when test="ePhoneType != null">
+				AND PAB_PHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND PAB_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+		ORDER BY 1 DESC
+	</select>
 </mapper>

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.helloworks.spring.addressBook.model.service.AddressBookService;
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
 import com.helloworks.spring.addressBook.model.vo.PersonalAddressBook;
+import com.helloworks.spring.addressBook.model.vo.SearchPerson;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -55,7 +55,6 @@ public class AddressBookController {
 		
 		
 		model.addAttribute("officeAddresslist", officeAddresslist);
-		model.addAttribute("firstTab", "active");
 		model.addAttribute("pi", pi);
 		model.addAttribute("pageURL", "officeAddressBook.adb");
 		
@@ -151,7 +150,7 @@ public class AddressBookController {
 		int listCount = addressBookService.selectSearchOfficeAddressBookEmployeeListCount(se);
 		
 		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
-		int pageLimit = 10;
+		int pageLimit = 5;
 		int boardLimit = 10;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
@@ -581,9 +580,109 @@ public class AddressBookController {
 		
 		model.addAttribute("personalAddresslist", personalAddresslist);
 		model.addAttribute("piR", piR);
-		model.addAttribute("secondTab", "active");
 		
-		model.addAttribute("pagePerURL", "personalAddressBook.adb");
+		model.addAttribute("pageURL", "personalAddressBook.adb");
+		
+		return "addressBook/personalAddressBookMain";
+	}
+	
+	@RequestMapping("insertPersonalAddress.adb")
+	public String addPersonalAddress(PersonalAddressBook personalAddressBook, HttpServletRequest request) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		System.out.println("개인 주소록 전달 값: "+personalAddressBook);
+		
+		personalAddressBook.setPabUserNo(loginEmpNo);
+		
+		addressBookService.insertPersonalAddress(personalAddressBook);
+		
+		return "redirect:personalAddressBook.adb";
+	}
+	
+	@RequestMapping("deletePerson.adb")
+	public String deletePerson(int pabNo, HttpServletRequest request, HttpSession session) {
+		
+		System.out.println("직원 삭제 컨트롤러");
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		PersonalAddressBook personalAddressBook = new PersonalAddressBook();
+		
+		personalAddressBook.setPabUserNo(loginEmpNo);
+		personalAddressBook.setPabNo(pabNo);
+		
+		addressBookService.deletePerosonAddressBook(personalAddressBook);
+		
+		session.setAttribute("msg", "외부 주소록 삭제 완료");
+		
+		
+		return "redirect:personalAddressBook.adb";
+	}
+	
+	@RequestMapping("deletePerAddrressBookArr.adb")
+	public String deletePerAddrressBookArr(HttpServletRequest request, HttpSession session) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		String checkList = request.getParameter("checkList");
+		
+		PersonalAddressBook personalAddressBook = new PersonalAddressBook();
+		
+		StringTokenizer token = new StringTokenizer(checkList, ",");
+		
+		while(token.hasMoreTokens()) {
+			personalAddressBook.setPabUserNo(loginEmpNo);
+			personalAddressBook.setPabNo(Integer.parseInt(token.nextToken()));
+			addressBookService.deletePerosonAddressBook(personalAddressBook);
+		}
+		
+		session.setAttribute("msg", "외부 주소록 삭제 완료");
+		
+		
+		return "redirect:personalAddressBook.adb";
+	}
+	
+	@RequestMapping("searcPerAddressBookEmployee.adb")
+	public String searcPerAddressBookEmployee(String optionTypePer, String searchPerson, @RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		SearchPerson sp = new SearchPerson();
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		sp.setLoginUserEmpNo(loginEmpNo);
+		
+		switch(optionTypePer) {
+		case "allPabType":
+			sp.setAllPabType(searchPerson);
+			break;
+		case "pabNameType":
+			sp.setPabNameType(searchPerson);
+			break;
+		case "empNameType":
+			sp.setEmpNameType(searchPerson);
+			break;
+		case "ePhoneType":
+			sp.setEPhoneType(searchPerson);
+			break;
+		case "emailType":
+			sp.setEmailType(searchPerson);
+			break;
+		}
+		
+		int listCount = addressBookService.selectSearchPersonalAddressBookListCount(sp);
+		
+		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo piR = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<PersonalAddressBook> personalAddresslist = addressBookService.searchPersonalAddressBook(sp, piR);
+		
+		model.addAttribute("optionTypePer", optionTypePer);
+		model.addAttribute("searchPerson", searchPerson);
+		model.addAttribute("personalAddresslist", personalAddresslist);
+		model.addAttribute("piR", piR);
+		model.addAttribute("pageURL", "searcPerAddressBookEmployee.adb");
 		
 		return "addressBook/personalAddressBookMain";
 	}
