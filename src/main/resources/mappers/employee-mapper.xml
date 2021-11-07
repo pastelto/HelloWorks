@@ -96,4 +96,116 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 -->
 
+	<!-- 인사관리 -->
+	<select id="selectAllEmployeeListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = 'Y'
+	</select>
+	
+	<!-- 인사관리 -->
+  	<select id="selectAllEmployee" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployeeListCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = #{hrType}
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployee" parameterType="String" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="searchEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		<choose>
+			<when test="allType != null">
+				AND (A.EMP_NO LIKE '%'||#{allType}||'%'
+					OR A.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR A.EMP_EN LIKE '%'||#{allType}||'%'
+					OR A.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR A.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR C.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND A.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (A.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR A.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.EMP_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (A.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR A.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND A.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+	</select>
+	
+		<!-- 인사관리 -->
+	<select id="searchEmployee" parameterType="SearchEmployee" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		<choose>
+			<when test="allType != null">
+				AND (A.EMP_NO LIKE '%'||#{allType}||'%'
+					OR A.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR A.EMP_EN LIKE '%'||#{allType}||'%'
+					OR A.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR A.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR C.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND A.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (A.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR A.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.EMP_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (A.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR A.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND A.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+		ORDER BY A.EMP_NO DESC
+	</select>
 </mapper>

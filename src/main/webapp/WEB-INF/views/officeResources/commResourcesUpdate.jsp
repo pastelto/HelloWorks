@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서별 자료실 등록</title>
+<title>공통 자료실 등록</title>
+
 <!-- summernote -->
 <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 
@@ -33,7 +34,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 부서별 자료실 등록</b>
+							<i class="nav-icon fas fa-edit"></i><b> 공통 자료실 등록</b>
 						</h4>
 					</div>
 				</div>
@@ -48,7 +49,7 @@
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>부서별 자료실 등록</b>
+								<b>공통자료실 등록</b>
 							</h6>
 						</div>
 
@@ -64,11 +65,10 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<b>${ loginUser.empName }</b>
-												<input type="hidden" name="deptrWriterNo" id="deptrWriterNo" value="${ loginUser.empNo }">
-												<input type="hidden" name="deptCode" id="deptCode" value="${ loginUser.deptCode }">
+												<b>${ commonResources.writerName }</b>
+												<input type="hidden" name="crWriterNo" id="crWriterNo" value="${ loginUser.empNo }">
 												</td>
-												<th>작성일</th>
+												<th>변경일</th>
 												<td style="width: 35%;">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
@@ -77,27 +77,63 @@
 													<span id="nowTimes"></span>
 												 </td>
 											</tr>
-											
 											<tr>
 												<th>보고유형</th>
 												<td colspan="3">
-													&nbsp;
-													<input type="radio" value="공유" name="deptrCategory" checked> 공유
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="문서" name="deptrCategory"> 문서
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="기타" name="deptrCategory"> 기타
+													<c:if test="${ commonResources.crCategory == '공유'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" checked> 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory"> 기타
+													</c:if>
+													<c:if test="${ commonResources.crCategory == '문서'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory" checked> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory"> 기타
+													</c:if>
+													<c:if test="${ commonResources.crCategory == '기타'}">
+														&nbsp;
+														<input type="radio" value="공유" name="crCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="crCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="crCategory" checked> 기타
+													</c:if>
+													
+												</td>
+											</tr>
+											<tr>
+												<th>비밀번호</th>
+												<td colspan="3">
+												<div class="row m-0">
+													<input type="text" class="form-control form-control-sm" id="crCode" name="crCode" style="width: 250px;" placeholder="최대 15자까지만 적어주세요." value="${ commonResources.crCode} ">
+												</div>
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input id="deptrTitle" name="deptrTitle" type="text" class="form-control form-control-sm">
+												<input id="crTitle" name="crTitle" type="text" class="form-control form-control-sm" value="${ commonResources.crTitle}">
 												</td>
 											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
+													<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
+													<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
+														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
+							                        	<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttach.crAttachChange}" download="${commonResourcesAttach.crAttachOrigin}">${ commonResourcesAttach.crAttachOrigin }</a>
+							                        	</br>
+							                        </c:if>
+													<c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
+														
+							                        </c:if>
+							                    </c:forEach>
 													<span id="resourcesAttachName"></span>
 								                  	<div class="btn btn-default btn-file btn-xs">
 								                   		<i class="fas fa-paperclip"></i> 첨부파일
@@ -112,7 +148,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote" name="deptrContent"></textarea>
+										<textarea id="summernote" name="crContent">${ commonResources.crContent}</textarea>
 									</div>
 								</div>
 
@@ -135,7 +171,6 @@
 		</section>
 	</div>
 	
-	<jsp:include page="../common/footer.jsp" />	
 	<jsp:include page="../common/footer.jsp" />	
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
@@ -198,14 +233,18 @@
 	<script>
 		function submitFunc(){
 			
-			if($("input[name=deptrTitle]").val()==""){
+			if($("input[name=crCode]").val() == ""){
+				alert("비밀번호를 입력해주세요.")
+			}else if($("input[name=crTitle]").val()==""){
 				alert("제목을 입력해주세요.")
 			}else if($("#summernote").val()==""){
 				alert("내용을 입력해주세요.")
+			}else if($("input[name=crCode]").val().length > 15){
+				alert("비밀번호는 15자리까지 등록가능합니다.")
 			}else{
 				if(confirm("제출하시겠습니까?") == true){
 					
-					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/deptResourcesInsert.or");
+					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesInsert.or");
 					$("#enrollForm").submit();
 				}else{   
 				   //취소 버튼 눌렀을 때 실행 할 코드
@@ -218,8 +257,9 @@
 	<!-- 자료실 취소 버튼 -->
 	<script>
 		function cancelFunc(){
-			location.href="<%=request.getContextPath()%>/deptResourcesList.or";
+			location.href="<%=request.getContextPath()%>/commResourcesList.or";
 		}
 	</script>
+	
 </body>
 </html>

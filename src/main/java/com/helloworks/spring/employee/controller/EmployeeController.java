@@ -24,12 +24,15 @@ import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.attendance.model.vo.Statistics;
+import com.helloworks.spring.common.Pagination;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 import com.helloworks.spring.request.model.service.RequestService;
 import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
@@ -211,32 +214,8 @@ public class EmployeeController {
 	public String EmployeeEnrollForm(Model model) {
 		System.out.println("사원등록 페이지 전환");
 		
-		List<Dept> deptList = getDeptList();
-		
-		List<Dept> deptUList = employeeService.getDeptUList();
-	    
-	            
-	       model.addAttribute("deptList", deptList);
-	       
-	       model.addAttribute("deptUList", deptUList);
-		
 		return "employee/EmployeeEnrollForm";
 	}
-	 private List<Dept> getDeptList() {
-		   
-	      List<Dept> deptList = new ArrayList<Dept>();
-	      
-	      // 부서목록 구하기
-	            try {
-	               deptList = employeeService.getDeptList();
-	               System.out.println("deptList" + deptList);
-	            } catch (Exception e) {
-	               // TODO Auto-generated catch block
-	               e.printStackTrace();
-	            }
-	            
-	      return deptList;
-	   }
 	
 	
 	@RequestMapping("insert.hr")
@@ -256,7 +235,112 @@ public class EmployeeController {
 		
 	}
 	
+	// 인사팀 - 하연
+	@RequestMapping("empManageMain.hr")
+	public String empManageMain(@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
+		
+		
+		int listCount = employeeService.selectAllEmployeeListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<Employee> list = employeeService.selectAllEmployee(pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "empManageMain.hr");
+		model.addAttribute("checkY", "checked");
+		
+		return "employee/empManageMain";
+	}
 	
+	// 인사팀 - 하연
+	@RequestMapping("empManageHrType.hr")
+	public String empManageLeave(String hrType, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
+		
+		int listCount = employeeService.selectHrTypeEmployeeListCount(hrType);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<Employee> list = employeeService.selectHrTypeEmployee(hrType, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("pageURL", "empManageHrType.hr");
+		
+		if(hrType.equals("Y")) {
+			model.addAttribute("checkY", "checked");
+		}else if(hrType.equals("V")){
+			model.addAttribute("checkV", "checked");
+		}else if(hrType.equals("N")) {
+			model.addAttribute("checkN", "checked");
+		}
+		
+		return "employee/empManageMain";
+	}
 	
+	// 인사팀 - 하연
+	@RequestMapping("searchEmployee.hr")
+	public String searchEmployee(String hrType, String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
+
+		System.out.println("optionType: "+optionType);
+		System.out.println("hrType: "+hrType);
+		System.out.println("deptTypeOption: "+deptTypeOption);
+		System.out.println("searchEmployee: "+searchEmployee);
+		
+		SearchEmployee se = new SearchEmployee();
+		
+		if(hrType.equals("null")) {
+			se.setHrType("Y");
+		}else {
+			se.setHrType(hrType);
+		}
+		
+		
+		switch(optionType) {
+		case "allType":
+			se.setAllType(searchEmployee);
+			break;
+		case "deptType":
+			se.setDeptType(searchEmployee);
+			se.setDeptTypeOption(deptTypeOption);
+			break;
+		case "empNoType":
+			se.setEmpNoType(searchEmployee);
+			break;
+		case "empNameType":
+			se.setEmpNameType(searchEmployee);
+			break;
+		case "ePhoneType":
+			se.setePhoneType(searchEmployee);
+			break;
+		case "emailType":
+			se.setEmailType(searchEmployee);
+			break;
+		}
+		
+		int listCount = employeeService.searchEmployeeListCount(se);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 10);
+		
+		ArrayList<Employee> list = employeeService.searchEmployee(se, pi);
+		
+		
+		if(hrType.equals("Y")) {
+			model.addAttribute("checkY", "checked");
+		}else if(hrType.equals("V")){
+			model.addAttribute("checkV", "checked");
+		}else if(hrType.equals("N")) {
+			model.addAttribute("checkN", "checked");
+		}
+		
+		model.addAttribute("optionType", optionType);
+		model.addAttribute("hrType", hrType);
+		model.addAttribute("deptTypeOption", deptTypeOption);
+		model.addAttribute("searchEmployee", searchEmployee);
+		model.addAttribute("list", list);
+		
+		return "employee/empManageMain";
+	}
 
 }

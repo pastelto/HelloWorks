@@ -213,7 +213,7 @@
 			}else if($("input[name=crCode]").val().length > 15){
 				alert("비밀번호는 15자리까지 등록가능합니다.")
 			}else{
-				if(confirm("저장 후 수정이 불가합니다. 제출하시겠습니까?") == true){
+				if(confirm("제출하시겠습니까?") == true){
 					
 					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesInsert.or");
 					$("#enrollForm").submit();

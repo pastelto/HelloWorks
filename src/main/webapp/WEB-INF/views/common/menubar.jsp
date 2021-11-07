@@ -93,7 +93,7 @@
 	      <div class="input-group">
 	      	<input type="hidden" name="optionType" value="allType">
 	      	<input type="hidden" name="deptTypeOption" value="A">
-	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" value="${ search }">
+	        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="searchEmployee" >
 	        <div class="input-group-append">
 	          <button class="btn btn-navbar" type="submit">
 	            <i class="fas fa-search"></i>
@@ -297,11 +297,6 @@
               <li class="nav-item">
                 <a href="sendReport.dr" class="nav-link">
                   <p>발신함</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="tempReport.dr" class="nav-link">
-                  <p>임시저장</p>
                 </a>
               </li>
             </ul>

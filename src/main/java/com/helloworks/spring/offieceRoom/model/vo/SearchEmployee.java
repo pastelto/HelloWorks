@@ -11,6 +11,7 @@ public class SearchEmployee {
 	private String deptTypeOption;
 	
 	private int loginUserEmpNo;
+	private String hrType;
 	
 	public SearchEmployee() {
 		// TODO Auto-generated constructor stub
@@ -79,6 +80,13 @@ public class SearchEmployee {
 	public void setLoginUserEmpNo(int loginUserEmpNo) {
 		this.loginUserEmpNo = loginUserEmpNo;
 	}
-	
+
+	public String getHrType() {
+		return hrType;
+	}
+
+	public void setHrType(String hrType) {
+		this.hrType = hrType;
+	}
 	
 }
