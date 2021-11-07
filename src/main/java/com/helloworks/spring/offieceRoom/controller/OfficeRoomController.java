@@ -511,6 +511,7 @@ public class OfficeRoomController {
 		model.addAttribute("commonResources", commonResources);
 		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
 		model.addAttribute("loginUserNo", loginUserNo);
+		model.addAttribute("crNo", crNo);
 		
 		return "officeResources/commResourcesDetail";
 	}	
@@ -660,6 +661,7 @@ public class OfficeRoomController {
 		model.addAttribute("deptResources", deptResources);
 		model.addAttribute("deptResourcesAttach", deptResourcesAttach);
 		model.addAttribute("loginUserNo", loginUserNo);
+		model.addAttribute("deptrNo", deptrNo);
 		
 		return "officeResources/deptResourcesDetail";
 	}
