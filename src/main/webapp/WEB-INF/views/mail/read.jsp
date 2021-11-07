@@ -124,13 +124,13 @@
 							<!-- /.card-footer -->
 							<div class="card-footer">
 								<div class="float-right">
-									<button type="button" class="btn btn-default">
+									<button type="button" class="btn btn-default" onclick="writeMail();">
 										<i class="fas fa-reply"></i> 답장쓰기
 									</button>
 								</div>
-								<button type="button" class="btn btn-default">
+<%-- 								<button type="button" class="btn btn-default" onclick="delMail(${ inbox.mailNo });">
 									<i class="far fa-trash-alt"></i> 삭제하기
-								</button>
+								</button> --%>
 							</div>
 							<!-- /.card-footer -->
 						</div>
@@ -170,5 +170,12 @@
 					})
 		})
 	</script>
+	<script>
+		//답장쓰기
+		function writeMail(){
+			location.href = "compose.ml";
+		}
+	</script>
+
 </body>
 </html>

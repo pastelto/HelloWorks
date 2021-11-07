@@ -43,10 +43,10 @@
 							id="custom-tabs-five-meetingRoom-tab" data-toggle="pill"
 							href="#custom-tabs-five-meetingRoom" role="tab"
 							aria-controls="custom-tabs-five-meetingRoom" aria-selected="true">회의실신청</a></li>
-						<li class="nav-item"><a class="nav-link"
+<!-- 						<li class="nav-item"><a class="nav-link"
 							id="custom-tabs-five-car-tab" data-toggle="pill"
 							href="#custom-tabs-five-car" role="tab"
-							aria-controls="custom-tabs-five-car" aria-selected="false">배차신청</a></li>
+							aria-controls="custom-tabs-five-car" aria-selected="false">배차신청</a></li> -->
 						<li class="nav-item"><a class="nav-link"
 							id="custom-tabs-five-equipment-tab" data-toggle="pill"
 							href="#custom-tabs-five-equipment" role="tab"
@@ -123,6 +123,65 @@
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 	<script>		
+	</script>
+		
+		<!-- 미팅룸 예약 -->
+		<script>
+		$(document).ready(
+				
+				function() {
+					$.ajax({
+						url : "list.mtr",
+						dataType : "json",
+						success : function(list) {
+							var valueMtr = ""; // 회의실신청 
+							var valueCar = ""; // 차 신청
+							
+							for (var key in  list) { // HashMap에서 key 값을 뽑아옴!
+							
+							// key값이 listMtr일 때	
+							if(key == "listMtr"){
+									console.log("listMTR 탔음!");
+ 									console.log("obj listMTR?? " + list[key]);
+ 								$.each(list[key], function(key, obj){
+ 									console.log('key:' + key + ' / ' + 'value:' + obj);
+ 									console.log("mMno ? " + obj.mMNo);
+
+ 									valueMtr += "<tr align='center'>"
+ 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
+										+ "<td>" + obj.mMName + "</td>"
+										+ "<td>" + obj.mMCapacity + "</td>" 
+										+ "</tr>"; 
+										
+ 									});
+
+							
+							} else if (key == "listCar"){ // key값이 listCar일 때
+ 									console.log("listCar 탔음!");
+ 									console.log("obj listCar?? " + list[key]);
+ 								$.each(list[key], function(key, obj){
+ 									console.log('key:' + key + ' / ' + 'value:' + obj);
+ 									console.log("cSNo ? " + obj.cSNo);
+								
+									valueCar += "<tr align='center'>"
+										+ "<td onclick='checkCar(" + obj.cSNo  + ")'><input type='radio' name='cSNo' value='"+ obj.cSNo +"' >&nbsp;&nbsp;"+ obj.cMNo + "</td>"
+										+ "<td>" + obj.cMMfr + "</td>"
+										+ "<td>" + obj.cMName + "</td>" 
+										+ "</tr>";
+									});
+							} // else if 끝
+							
+							$("#mtrList tbody").html(valueMtr); // 회의실 테이블 태그
+							$("#carList tbody").html(valueCar); // 배차 테이블 태그
+						} // for-each문 끝!
+						}, // success
+						error : function() {
+							console.log("mtrList/carList ajax 통신 실패");
+						}
+						
+					}); // ajax 끝
+				} // function() 끝
+		);
 	</script>
 </body>
 </html>

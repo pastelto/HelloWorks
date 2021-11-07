@@ -198,4 +198,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND MAIL_NO = #{mailNo}
 	</insert>
 	
+	<!--inbox 메일삭제 -->
+	<insert id="delMail" parameterType="_int">
+		UPDATE MAIL
+		SET MAIL_STATUS ='N'
+		WHERE MAIL_NO = #{mailNo}
+	</insert>
+	
+	
 </mapper>

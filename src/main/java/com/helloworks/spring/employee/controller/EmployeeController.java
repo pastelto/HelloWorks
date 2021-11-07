@@ -33,6 +33,9 @@ import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
+import com.helloworks.spring.request.model.service.RequestService;
+import com.helloworks.spring.request.model.vo.Mtr;
+import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 
@@ -59,7 +62,24 @@ public class EmployeeController {
 	private VacationService vacationService;
 	@Autowired
 	private NoticeService noticeService;
-		
+	
+	//왕다영
+	@Autowired
+	private RequestService requestService;
+	
+	//마이페이지 전환
+	@RequestMapping("Mypage.mp")
+	public String EmployeeMypage() {
+		System.out.println("마이페이지 전환");
+		return "employee/EmployeeMypage";
+	}
+	
+	//사원등록 페이지 전환
+	@RequestMapping("insert.hr")
+	public String EmployeeEnrollForm() {
+		System.out.println("사원등록 페이지 전환");
+		return "employee/EmployeeEnrollFrom";
+	}
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
@@ -117,9 +137,8 @@ public class EmployeeController {
 		  statistics.setLeaveWTS(test);
 		  test = changeTime(statistics.getLeaveOT()); 
 		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);
-	     
-	      
+		  mv.addObject("statistics", statistics);	      
+
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
 	      String status = "Y"; 			
@@ -133,8 +152,22 @@ public class EmployeeController {
 	      
 	      
 	      
+	      //왕다영
+	      ArrayList<Mtr> mtrRList = null;		
+	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", empNo);		
+	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
+	      mv.addObject("mtrRList", mtrRList);
+	      mv.addObject("mainPageURL", "mainRequest.mtr");
+	      mv.addObject("mainPage", 1); 	      
 	      
-	      
+	      ArrayList<RequestEq> eqRList = null;		
+	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", empNo);		
+	      eqRList = requestService.mainRequestEq(selectEqList);
+	      mv.addObject("eqRList", eqRList);
+	      mv.addObject("mainPageURL", "mainRequest.eq");
+	      mv.addObject("mainPage", 2); 
 	      
 	      
 	      

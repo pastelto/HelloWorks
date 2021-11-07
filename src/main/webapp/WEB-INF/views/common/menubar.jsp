@@ -339,7 +339,8 @@
           <li class="nav-header">인사관리</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
+              <!-- <i class="nav-icon far fa-envelope"></i> -->
+              <i class="nav-icon far fa-address-card"></i> 
               <p>
                 	인사관리
                 <i class="fas fa-angle-left right"></i>

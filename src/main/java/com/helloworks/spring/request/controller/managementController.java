@@ -67,7 +67,7 @@ public class managementController {
 	// 차량 관리 페이지로 전환
 	@RequestMapping("manage.car")
 	public String manageCar(Model m) {
-		ArrayList<Mtr> list = requestService.manageCar();
+		ArrayList<Car> list = requestService.manageCar();
 		m.addAttribute("list", list);
 		return "request/manageCar";
 	}

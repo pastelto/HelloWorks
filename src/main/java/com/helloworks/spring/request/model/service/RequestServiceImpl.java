@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -70,7 +71,7 @@ public class RequestServiceImpl implements RequestService {
 
 	// 차량 목록
 	@Override
-	public ArrayList<Mtr> manageCar() {
+	public ArrayList<Car> manageCar() {
 
 		return requestDao.manageCar(sqlSession);
 	}
@@ -122,6 +123,13 @@ public class RequestServiceImpl implements RequestService {
 		return requestDao.selectIdList(sqlSession);
 	}
 	
+	// 회의실 신청 리스트
+	@Override
+	public ArrayList<Mtr> selectMtrList() {
+		// TODO Auto-generated method stub
+		return requestDao.selectMtrList(sqlSession);
+	}
+
 	// 비품 체크박스 제출 -> 승인완료
 	@Override
 	public void confirmEq(List<String> checkArr) {
@@ -331,6 +339,53 @@ public class RequestServiceImpl implements RequestService {
 	public ArrayList<Car> listCar() {
 		// TODO Auto-generated method stub
 		return requestDao.listCar(sqlSession);
+	}
+
+	//차량 예약 위한 시간표 가져오기 + 예약리스트 가져오기
+	@Override
+	public ArrayList<Car> timeCar(Car car) {
+		// TODO Auto-generated method stub
+		return requestDao.timeCar(sqlSession, car);
+	}
+
+	//차량 예약 삭제
+	@Override
+	public void delRsvCar(int cRNo) {
+		
+		int result = 0;
+
+		result = requestDao.delRsvCar(sqlSession, cRNo);
+
+		if (result < 0) {
+			throw new CommException("차량 예약정보 삭제 실패");
+		}
+	}
+
+	//차량 예약
+	@Override
+	public void rsvCar(Car car) {
+		int result = 0;
+
+		result = requestDao.rsvCar(sqlSession, car);
+
+		if (result < 0) {
+			throw new CommException("차량 예약정보 삭제 실패");
+		}
+		
+	}
+	
+	//메인-mtr
+	@Override
+	public ArrayList<Mtr> mainRequestMtr(HashMap<String, Object> selectrMtrList) {
+		// TODO Auto-generated method stub
+		return requestDao.mainRequestMtr(sqlSession, selectrMtrList);
+	}
+	
+	//메인-eq
+	@Override
+	public ArrayList<RequestEq> mainRequestEq(HashMap<String, Object> selectEqList) {
+		// TODO Auto-generated method stub
+		return requestDao.mainRequestEq(sqlSession, selectEqList);
 	}
 
 
