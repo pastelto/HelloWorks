@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -39,7 +40,7 @@ public class RequestDao {
 	}
 
 	//차량 목록
-	public ArrayList<Mtr> manageCar(SqlSessionTemplate sqlSession) {
+	public ArrayList<Car> manageCar(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
 	}
@@ -72,6 +73,12 @@ public class RequestDao {
 	public ArrayList<RequestId> selectIdList(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.selectIdList");
+	}
+	
+	//회의실 신청 리스트
+	public ArrayList<Mtr> selectMtrList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.selectMtrList");
 	}
 	
 	//비품 승인완료
@@ -164,7 +171,7 @@ public class RequestDao {
 		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
 	}
 
-	//회의실 예약위한 회의실 리스트 가져오기
+	// 회의실 예약위한 시간표 가져오기
 	public ArrayList<Mtr> timeMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.timeMtr", mtr);
@@ -187,6 +194,37 @@ public class RequestDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
 	}
+
+	// 차량 예약위한 시간표 가져오기
+	public ArrayList<Car> timeCar(SqlSessionTemplate sqlSession, Car car) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.timeCar", car);
+	}
+
+	// 차량 예약 삭제하기
+	public int delRsvCar(SqlSessionTemplate sqlSession, int cRNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("requestMapper.delRsvCar", cRNo);
+	}
+	
+	// 차량 예약
+	public int rsvCar(SqlSessionTemplate sqlSession, Car car) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.rsvCar", car);
+	}
+	
+	// 메인-mtr
+	public ArrayList<Mtr> mainRequestMtr(SqlSessionTemplate sqlSession, HashMap<String, Object> selectrMtrList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.mainRequestMtr", selectrMtrList);
+	}
+	
+	// 메인-eq
+	public ArrayList<RequestEq> mainRequestEq(SqlSessionTemplate sqlSession, HashMap<String, Object> selectEqList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.mainRequestEq", selectEqList);
+	}
+
 
 	
 

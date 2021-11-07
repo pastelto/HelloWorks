@@ -53,6 +53,9 @@ public interface MailService {
 	
 	//임시보관 메일 첨부파일
 	void insertDMailAttach(ArrayList<MailAttachment> mailAttachmentList);
-
-
+	
+	//inbox 메일 삭제
+	void delMail(int mailNo);
+	
+	
 }

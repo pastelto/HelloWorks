@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.approval.model.vo.Approval;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.request.model.service.RequestService;
@@ -107,6 +110,16 @@ public class RequestController {
 	public String selectIdList() {
 
 		ArrayList<RequestId> list = requestService.selectIdList();
+		return new GsonBuilder().create().toJson(list);
+		
+	}
+	
+	//회의실리스트
+	@ResponseBody
+	@RequestMapping(value="rlist.mtr", produces="application/json; charset=UTF-8")
+	public String selectMtrList() {
+
+		ArrayList<Mtr> list = requestService.selectMtrList();
 		return new GsonBuilder().create().toJson(list);
 		
 	}
@@ -260,32 +273,62 @@ public class RequestController {
 
 	}
 	
-	//회의실 목록 가져오기
+	//회의실 목록 및 차량 목록 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/list.mtr",  produces="application/json; charset=UTF-8")
 	public String listMtr(){
 
 		ArrayList<Mtr> listMtr = requestService.listMtr();
-		return new GsonBuilder().create().toJson(listMtr);
+		ArrayList<Car> listCar = requestService.listCar();
 
+		System.out.println(listMtr.toString());
+		System.out.println(listCar.toString());
+		
+		HashMap<String, Object> getList = new HashMap<String, Object>();
+		getList.put("listMtr", listMtr);
+		getList.put("listCar", listCar);
+		
+		System.out.println("ajax car랑 mtr ? " + getList);
+
+		return new GsonBuilder().create().toJson(getList);
 	}
 	//회의실 시간표 가져오기
 	@ResponseBody
 	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
-	public String timeMtr(int mMNo, String getDate){
+	public String timeMtr(int rNo, String getDate, int typeNo){
 		
-		Mtr mtr = new Mtr();
-		mtr.setMMNo(mMNo);
-		mtr.setMRDate(getDate);
+		System.out.println("rNo ? " + rNo);
+		System.out.println("getDate ? " + getDate);
+		System.out.println("typeNo ? " + typeNo);
 		
-		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
-		return new GsonBuilder().create().toJson(timeMtr);
-
+		ArrayList<Mtr> timeMtr = new ArrayList<Mtr>();
+		ArrayList<Car> timeCar = new ArrayList<Car>();
+		
+		if(typeNo == 1) {
+			
+			Mtr mtr = new Mtr();
+			mtr.setMMNo(rNo);
+			mtr.setMRDate(getDate);
+			
+			timeMtr = requestService.timeMtr(mtr);
+			System.out.println("ArrayList<Mtr> timeMtr : "+  timeMtr);
+			return new GsonBuilder().create().toJson(timeMtr);
+		} else{
+			
+			Car car = new Car();
+			car.setCSNo(rNo);
+			car.setCRDate(getDate);
+			
+			timeCar = requestService.timeCar(car);
+			System.out.println("ArrayList<Car> timeCar : "+  timeCar);
+			return new GsonBuilder().create().toJson(timeCar);
+		}
+		
 	}
 	
 	//회의실 예약 삭제
 	@ResponseBody
-	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+	@RequestMapping(value = "/delRsv.mtr", method = RequestMethod.POST)
 	public String delRsvMtr(int mRNo){
 		
 		requestService.delRsvMtr(mRNo);
@@ -319,65 +362,103 @@ public class RequestController {
 
 	}
 	
-	//차량 목록 가져오기
+	//차량 시간표 가져오기
+//	@ResponseBody
+//	@RequestMapping(value = "/time.car", produces="application/json; charset=UTF-8")
+//	public String timeCar(int cSNo, String getDate){
+//		
+//		Car car = new Car();
+//		car.setCSNo(cSNo);
+//		car.setCRDate(getDate);
+//		
+//		System.out.println("/time.car-----------------: " + car.toString());
+//		
+//		ArrayList<Car> timeCar = requestService.timeCar(car);
+//		
+//		System.out.println("ArrayList<Car> timeCar : "+  timeCar);
+//		return new GsonBuilder().create().toJson(timeCar);
+//
+//	}
+	
+	//차량 예약 삭제
 	@ResponseBody
-	@RequestMapping(value = "/list.car",  produces="application/json; charset=UTF-8")
-	public String listCar(){
-
-		ArrayList<Car> listCar = requestService.listCar();
+	@RequestMapping(value = "/delRsv.car", method = RequestMethod.POST)
+	public String delRsvCar(int cRNo){
 		
-		System.out.println(listCar.toString());
-		return new GsonBuilder().create().toJson(listCar);
+		requestService.delRsvCar(cRNo);
+		
+		String result = "성공!";
+		return String.valueOf(result);
 
 	}
-	//회의실 시간표 가져오기
-//	@ResponseBody
-//	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
-//	public String timeMtr(int mMNo, String getDate){
-//		
-//		Mtr mtr = new Mtr();
-//		mtr.setMMNo(mMNo);
-//		mtr.setMRDate(getDate);
-//		
-//		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
-//		return new GsonBuilder().create().toJson(timeMtr);
-//
-//	}
-//	
-//	//회의실 예약 삭제
-//	@ResponseBody
-//	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
-//	public String delRsvMtr(int mRNo){
-//		
-//		requestService.delRsvMtr(mRNo);
-//		
-//		String result = "성공!";
-//		return String.valueOf(result);
-//
-//	}
-//	
-//	//회의실 예약하기
-//	@ResponseBody
-//	@RequestMapping(value = "/rsv.mtr",  produces="application/json; charset=UTF-8")
-//	public String rsvMtr(HttpServletRequest request, int mMNo, String getDate, String mRTime, String mRUsg){
-//		
-//		Mtr mtr = new Mtr();
-//		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
-//		
-//		mtr.setMMNo(mMNo);
-//		mtr.setMRDate(getDate);
-//		mtr.setMRTime(mRTime);
-//		mtr.setREmpNo(rEmpNo);
-//		mtr.setMRUsg(mRUsg);
-//		
-//		System.out.println(mtr.toString());
-//		
-//		requestService.rsvMtr(mtr);
-//
-//		String result = "successMtr";
-//		
-//		return new GsonBuilder().create().toJson(result);
-//
-//	}
+	
+	//차량 예약하기
+	@ResponseBody
+	@RequestMapping(value = "/rsv.car",  produces="application/json; charset=UTF-8")
+	public String rsvCar(HttpServletRequest request, String cMNo, String getDate, 
+										String cRTime, String cRUsg, String cRDest, String cRPsng){
+		
+		Car car = new Car();
+		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		car.setCMNo(cMNo);
+		car.setCRDate(getDate);
+		car.setCRTime(cRTime);
+		car.setEmpNo(rEmpNo);
+		car.setCRUsg(cRUsg);
+		
+		System.out.println(car.toString());
+		
+		requestService.rsvCar(car);
+
+		String result = "successCar";
+		
+		return new GsonBuilder().create().toJson(result);
+
+	}
+	
+	@RequestMapping("mainRequest.mtr")
+	public String mainRequestMtr(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<Mtr> mtrRList = null;
+		
+		HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();
+		
+		selectrMtrList.put("loginEmpNo", loginEmpNo);
+		
+		mtrRList = requestService.mainRequestMtr(selectrMtrList);
+		
+		model.addAttribute("mtrRList", mtrRList);
+		System.out.println("메인 ----------mtrRList : " + mtrRList);
+		model.addAttribute("mainPageURL", "mainReqeust.mtr");
+		model.addAttribute("mainPage", 1);
+		
+		
+		return "main";
+	}
+	
+	@RequestMapping("mainRequest.eq")
+	public String  mainRequestEq(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<RequestEq> eqRList = null;
+		
+		HashMap<String, Object> selectEqList = new HashMap<String, Object>();
+		
+		selectEqList.put("loginEmpNo", loginEmpNo);
+		
+		eqRList = requestService.mainRequestEq(selectEqList);
+		
+		model.addAttribute("eqRList", eqRList);
+		System.out.println("메인 ----------eqRList : " + eqRList);
+		model.addAttribute("mainPageURL", "mainRequest.eq");
+		model.addAttribute("mainPage", 2);
+		
+		
+		return "main";
+	}
 		
 }
