@@ -108,7 +108,6 @@
         
         <script>
         $('#updateBtn').click(function(){
-        	// var params = $("#updateForm").serialize();
     		var psaNo = $('#psaNo').val();
     		var changeIntime = $('#changeIntime').val();
     		var changeOuttime = $('#changeOuttime').val();
