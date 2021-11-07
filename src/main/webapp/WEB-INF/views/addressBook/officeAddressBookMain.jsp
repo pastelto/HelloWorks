@@ -313,17 +313,37 @@
 													<form action="#">
 														<div class="input-group mt-1 mb-1">
 															&nbsp;&nbsp;
-													  		<div class="input-group-prepend">
-															    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-															      	부서 선택
-															    </button>
-															    <div class="dropdown-menu">
-															      <a class="dropdown-item" href="#">Link 1</a>
-															      <a class="dropdown-item" href="#">Link 2</a>
-															      <a class="dropdown-item" href="#">Link 3</a>
-															    </div>
+															  
+															  <div class="input-group" style="width: 90%">
+																<div class="input-group-prepend">
+																      <span class="input-group-text input-group-xs form-control-sm badge-light">이름</span>
+																   </div>
+															 	<input type="text" id="pabName" class="form-control form-control-sm">
+															 	
+															 	<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">회사명</span>
+																</div>
+																<input type="text" id="pabEname" class="form-control form-control-sm">
+															
+																<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">직급</span>
+																</div>
+																<input type="text" id="pabJob" class="form-control form-control-sm">
+																
+																<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">전화번호</span>
+																</div>
+																<input type="text" id="pabPhone" class="form-control form-control-sm">
+															 	<div class="input-group-append">
+																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">메일주소</span>
+																</div>
+																<input type="text" id="pabEmail" class="form-control form-control-sm">
+																<!-- <div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="addPersonalAddress();" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																</div> -->
 															  </div>
-														  <input type="text" class="form-control form-control-sm" placeholder="Username">
+															  &nbsp;<button class="btn btn-xs btn-primary" type="button" onclick="addPersonalAddress();" >추가하기</button>
 														</div>
 													</form>
 												</td>
@@ -339,12 +359,11 @@
 														<button id="allPersonSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllPeronalAddressBookEmployee();">전체검색</button>
 														&nbsp;&nbsp;
 														
-															<select id="optionType" name="optionType" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
+															<select id="optionTypePer" name="optionTypePer" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
 																<option value="allType">전체</option>
-																<option value="deptType" >부서</option>
-																<option value="empNoType">사번</option>
 																<option value="empNameType">이름</option>
-																<option value="ePhoneType">내선번호</option>
+																<option value="empNameType">회사</option>
+																<option value="ePhoneType">전화번호</option>
 																<option value="emailType">이메일</option>
 															</select>
 															
@@ -366,9 +385,49 @@
 											</tbody>
 										</table>
 									</div>
-
-
-
+									
+									
+									<hr>
+									<!-- 개인 주소록 리스트 -->
+									<div class="col-12" >
+									<div>
+									<div style="height: 450px; overflow:auto;">
+									<table id="personalAddressBookTable" class="table table-sm" >
+									<caption style="caption-side:top">* 정렬 기준 : <span id="PerSortOption">전체</span></caption>
+										<thead>
+											<tr>
+												<th style="width: 10%"><input type='checkbox' name='checkPerAll' id='checkAll' onclick="checkAll();"></th>
+												<th style="width: 20%">이름</th>
+												<th style="width: 20%">회사</th>
+												<th style="width: 20%">직급</th>
+												<th style="width: 20%">전화번호</th>
+												<th style="width: 20%">이메일</th>
+												<th style="width: 10%"></th>
+											</tr>
+										</thead>
+										<tbody>
+										
+											<c:forEach items="${ personalAddresslist }" var="personalAddresslist" varStatus="status">
+							                    <tr>
+							                    	
+							                    	<th>
+							                    	<input type='checkbox' name='deletePerAddressBook' id='deletePerAddressBook' value="${ personalAddresslist.oabEnrollNo }">
+							                    	</th>
+							                        <td>${ officeAddresslist.pabName }</td>
+							                        <td>${ officeAddresslist.pabEname}</td>
+							                        <td>${ officeAddresslist.pabJob}</td>
+							                        <td>${ officeAddresslist.pabPhone }</td>
+							                        <td>${ officeAddresslist.pabEmail }</td>
+							                        <th>
+							                        	<button id='deletePersonalAddressBook' type='button' class='btn btn-default btn-xs'>삭제하기</button>&nbsp;
+							                        </th>
+							                    </tr>
+						                    </c:forEach>
+										</tbody>
+									</table>
+									</div>
+									</div>
+								</div>
 		                  	</div>
 		                </div>
 		              </div>
@@ -576,5 +635,7 @@
 			}
 		}
 	</script>
+	
+	<script type="text/javascript"></script>
 </body>
 </html>
