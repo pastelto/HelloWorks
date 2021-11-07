@@ -33,10 +33,9 @@ li[class*="searchUl"] {
 
 /*~~~~~~~~~~~~~작성 폼~~~~~~~~~~~~*/
 .writeBtn{
-	width : 100px;
 	display:inline-block;
 	float :right;
-	margin-left : 15px;
+	margin-left : 5px;
 }
 
 table td{

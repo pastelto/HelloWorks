@@ -167,7 +167,7 @@ input[id*="radio"], input[id*="vacation"] {
                            <caption style=" caption-side: top ">
                               * 정렬 기준 : <span class="container-fluid" id="sortOption">날짜</span>
                               <c:if test="${ loginUser.deptCode eq 'A1' }">
-                              <span class="float-right"><button id="updatebtn" class="btn btn-block btn-outline-warning" >상태 수정</button></span>
+                              <span class="float-right"><button id="updatebtn" class="btn btn-warning btn-sm" >상태 수정</button></span>
                               </c:if>
                            </caption>
                            <thead>

@@ -20,7 +20,7 @@
 
 
 /*ajax 테이블*/
-#employeeStatistics{
+#employeeStatistics, #divCF{
 	font-size : small;
 }
 
@@ -180,38 +180,7 @@
 												<td>${ st.overS }</td>  
 												<td>${ st.totalTS }</td>  
 												<td>${ st.leaveWTS }</td>  
-												<td>${ st.leaveOTS }</td>  
-												    
-											<%--     <c:set var="hour1" value="${ st.working/(60*60)}"/>
-											    <c:set var="minute1" value="${st.working/60-(hour1*60)}"/>
-											    <fmt:parseNumber var="H1" value="${ hour1 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M1" value="${ minute1 }" integerOnly="true"/>
-												<td> ${ H1 }시간&nbsp; ${ M1 } 분</td>
-												
-												<c:set var="hour2" value="${ st.over/(60*60)}"/>
-											    <c:set var="minute2" value="${st.over/60-(hour2*60)}"/>
-											    <fmt:parseNumber var="H2" value="${ hour2 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M2" value="${ minute2 }" integerOnly="true"/>
-												<td> ${ H2 }시간&nbsp; ${ M2 } 분</td>
-												
-												<c:set var="hour3" value="${ st.totalT/(60*60)}"/>
-											    <c:set var="minute3" value="${st.totalT/60-(hour3*60)}"/>
-											    <fmt:parseNumber var="H3" value="${ hour3 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M3" value="${ minute3 }" integerOnly="true"/>
-												<td> ${ H3 }시간&nbsp; ${ M3 } 분</td>
-												
-												<c:set var="hour4" value="${ st.leaveWT/(60*60)}"/>
-											    <c:set var="minute4" value="${st.leaveWT/60-(hour4*60)}"/>
-											    <fmt:parseNumber var="H4" value="${ hour4 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M4" value="${ minute4 }" integerOnly="true"/>
-												<td> ${ H4 }시간&nbsp; ${ M4 } 분</td>
-												
-												<c:set var="hour5" value="${ st.leaveOT/(60*60)}"/>
-											    <c:set var="minute5" value="${st.leaveOT/60-(hour5*60)}"/>
-											    <fmt:parseNumber var="H5" value="${ hour5 }" integerOnly="true"/>
-											    <fmt:parseNumber var="M5" value="${ minute5 }" integerOnly="true"/>
-												<td> ${ H5 }시간&nbsp; ${ M5 } 분</td> --%>
-											
+												<td>${ st.leaveOTS }</td>  							
 										</tr>
 									</c:forEach>
 									</c:if>
@@ -225,7 +194,26 @@
 				                </table>
 				            </div>
 		            		<!-- 조회테이블 -->
-			             
+		            		
+		            		<ber><br>
+		            		
+		            		<!-- 참고 -->
+		            		<div class="col-12">
+                                <div class="alert alert-light" id="divCF" role="alert">
+                                   <label> 
+                                   [참조]
+                                 	 <br>- 52시간(주당 최대 근로시간) 기준, 해당 주 월요일부터 일요일까지의 근로시간이 표시됩니다.
+									 <br>- 소정근로시간: ‘(1일 출퇴근시간-점심시간) x 출근일수’를 나타냅니다(1일 평균 8시간, 1주 기준 최대 40시간)
+									 <br>- 소정외근로시간: ‘소정근로시간 외의 근로시간’을 나타냅니다.(1주 기준 최대 12시간)
+									 <br>- 총근로시간: ‘소정근로시간 + 소정외근로시간’을 나타냅니다.
+									 <br>- 잔여근로시간: 근로기준법 기준 최대 소정근로시간(40시간)/소정외근로시간(12시간)에서 남은 근로시간이 표시됩니다.
+                                   </label>
+                                </div>
+                            </div>
+		            		<!-- 참고 -->
+		            		
+		            		
+		            		
 		                </div>
 		            	<!-- /.card -->
 						
