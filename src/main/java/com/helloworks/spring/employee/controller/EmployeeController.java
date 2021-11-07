@@ -3,10 +3,9 @@ package com.helloworks.spring.employee.controller;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,25 +16,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
-import com.helloworks.spring.attendance.model.vo.Attendance;
-import com.helloworks.spring.attendance.model.vo.SearchAttendance;
-import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.employee.model.service.EmployeeService;
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
-import com.helloworks.spring.notice.model.vo.Notice;
 import com.helloworks.spring.vacation.model.service.VacationService;
-import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
+import oracle.net.aso.n;
 
 
 @SessionAttributes("loginUser")
 @Controller
 public class EmployeeController {
 	
+   @Autowired
+   private ScheduleService scheduleService;
 	
 	@Autowired 
 	private EmployeeService employeeService;
@@ -47,11 +45,12 @@ public class EmployeeController {
 	//조아혜
 	@Autowired
 	private AttendanceService attendanceService;
-	
+
 	@Autowired
 	private VacationService vacationService;
 	@Autowired
 	private NoticeService noticeService;
+		
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
@@ -89,13 +88,13 @@ public class EmployeeController {
 		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
 		  
 		  //조아혜
-      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
-      mv.addObject("attendance", attendance);
-      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
-      mv.addObject("annual", annual);
-      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
-      mv.addObject("noticeList", noticeList);
-      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
+		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
+		  mv.addObject("attendance", attendance);
+		  LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
+		  mv.addObject("annual", annual);
+		  ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
+		  mv.addObject("noticeList", noticeList);
+		  SearchAttendance as = attendanceService.sysdateWeek(); //이번주
 		  as.setEmpNo(empNo);
 		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
 		  String test = null;
@@ -110,7 +109,7 @@ public class EmployeeController {
 		  test = changeTime(statistics.getLeaveOT()); 
 		  statistics.setLeaveOTS(test);
 		  mv.addObject("statistics", statistics);
-	      
+	     
 	      
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
@@ -143,7 +142,6 @@ public class EmployeeController {
 			return "redirect:index.jsp";
 		}	
 		
-		
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
 	public String EmployeeMypage(ModelAndView mv, HttpServletRequest request) {
@@ -168,44 +166,53 @@ public class EmployeeController {
 		
 		return "redirect:Mypage.mp";		
 	}
-
-
+	
 	//사원등록 페이지 전환
 	@RequestMapping("insertForm.hr")
-	public String EmployeeEnrollForm() {
+	public String EmployeeEnrollForm(Model model) {
 		System.out.println("사원등록 페이지 전환");
-		return "employee/EmployeeEnrollFrom";
+		
+		List<Dept> deptList = getDeptList();
+		
+		List<Dept> deptUList = employeeService.getDeptUList();
+	    
+	            
+	       model.addAttribute("deptList", deptList);
+	       
+	       model.addAttribute("deptUList", deptUList);
+		
+		return "employee/EmployeeEnrollForm";
 	}
+	 private List<Dept> getDeptList() {
+		   
+	      List<Dept> deptList = new ArrayList<Dept>();
+	      
+	      // 부서목록 구하기
+	            try {
+	               deptList = employeeService.getDeptList();
+	               System.out.println("deptList" + deptList);
+	            } catch (Exception e) {
+	               // TODO Auto-generated catch block
+	               e.printStackTrace();
+	            }
+	            
+	      return deptList;
+	   }
+	
 	
 	@RequestMapping("insert.hr")
-	public String insertEmp(@ModelAttribute Employee m, @RequestParam("empNo") int empNo,
-														@RequestParam("empPwd") String empPwd,
-														@RequestParam("empName") String empName,
-														@RequestParam("empEn") String empEn,
-														@RequestParam("empEmail") String empEmail,
-														@RequestParam("empPid") String empPid,											
-														@RequestParam("empHire") Date empHire,
-														@RequestParam("empFire") Date empFire,
-														@RequestParam("empSalary") int empSalary,
-														@RequestParam("deptUname") String deptUname,														
-														@RequestParam("deptDname") String deptDname,
-														@RequestParam("jobName") String jobName,
-														@RequestParam("empStatus") String empStatus,
-														@RequestParam("empPhone") String empPhone,
-														@RequestParam("empEphone") String empEphone,
-														@RequestParam("empAddress") String empAddress,
-														@RequestParam("empNote") String empNote, HttpSession session) {
+	public String insertEmp(Employee m, HttpSession session) {
 		
-		m.setEmpAddress(empNo+"/"+empPwd+"/"+empName+"/"+empEn+"/"+empEmail+"/"+empPid+"/"+empHire+"/"+empFire+"/"
-						+empSalary+"/"+deptUname+"/"+deptDname+"/"+jobName+"/"+empStatus+"/"+empPhone+"/"+empEphone+"/"
-						+empAddress+"/"+empNote+"/");	
-		System.out.println("m.setEmpNo"+ m);
 		
-		System.out.println("암호화 전: "+ m.getEmpNo());
+		System.out.println("m.getDeptCode@@@@@@@@@@@@@@@@"+ m.getDeptCode());
+		
+		System.out.println("m.setEmpAddress"+ m);
+		
+		System.out.println("암호화 전: "+ m.getEmpPwd());
 		
 		employeeService.insertEmp(m);
 		session.setAttribute("msg", "사원등록성공");
-		return "redirect:/";
+		return "redirect:main.mi";
 		
 		
 	}

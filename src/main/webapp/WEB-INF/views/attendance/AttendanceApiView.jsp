@@ -101,12 +101,12 @@
 							</thead>
 							<tbody>
 								<tr align="center" >
-									<%-- <td>${count.empNo }</td>
+									<td>${count.empNo }</td>
 									<td>${count.working }</td>
 									<td>${count.over }</td>
 									<td>${count.totalT }</td>
 									<td>${count.leaveWT }</td>
-									<td>${count.leaveOT }</td> --%>
+									<td>${count.leaveOT }</td>
 								</tr>
 							</tbody>
 						</table>
