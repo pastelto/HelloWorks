@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
+		<result property="rowNum" column="ROWNUM"/>
 	</resultMap>
 	
 	<!-- Dept -->
@@ -207,5 +208,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</when>
 		</choose>
 		ORDER BY A.EMP_NO DESC
+	</select>
+	
+	<!-- 등록된 직원 사번 가져오기 -->
+	<select id="getLastEmpNo" resultMap="employeeResultSet">
+	<![CDATA[
+		SELECT ROWNUM, EMP_NO
+		FROM (SELECT *
+               FROM EMPLOYEE
+               ORDER BY EMP_NO DESC)
+        WHERE ROWNUM = 1
+	]]>
 	</select>
 </mapper>

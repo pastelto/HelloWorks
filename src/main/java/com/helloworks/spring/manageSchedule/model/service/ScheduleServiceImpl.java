@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.manageSchedule.model.dao.ScheduleDao;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
 
@@ -58,6 +59,51 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<ManageSchedule> getDeptSchedule(int cal_no) throws Exception {
 		
 		return scheduleDao.getDeptSchedule(sqlSession, cal_no);
+	}
+	
+	// 일정 삭제
+	@Override
+	public int deleteCal(int schNo) throws Exception {
+		
+		return scheduleDao.deleteCal(sqlSession, schNo);
+	}
+	
+	// 부서 목록 가져오기
+	@Override
+	public List<Dept> getDeptList() throws Exception {
+		
+		return scheduleDao.getDeptList(sqlSession);
+	}
+	
+	// 수정용 일정 내용 가져오기
+	@Override
+	public ManageSchedule getUpdateCal(int schNo) throws Exception {
+	
+		return scheduleDao.getUpdateCal(sqlSession, schNo);
+	}
+	
+	// 일정 수정하기
+	@Override
+	public void updateEvent(ManageSchedule schedule) throws Exception {
+		
+		int result = scheduleDao.updateEvent(sqlSession, schedule);
+		 System.out.println("일정 수정 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("일정수정 실패"); 
+		 }
+	}
+	
+	// 사원 등록하면서 캘린더 등록하기
+	@Override
+	public void insertCal(int empNo) {
+		
+		int result = scheduleDao.insertCal(sqlSession, empNo);
+		 System.out.println("캘린더 추가 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("캘린더 추가 실패"); 
+		 }
 	}
 
 	

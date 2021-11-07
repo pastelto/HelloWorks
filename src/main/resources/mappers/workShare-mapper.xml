@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 발신 업무공유 목록 -->
 	<select id="selectSendList" resultMap="workShareResultSet">
-		SELECT A.WS_NO, A.WS_FAVB, B.EMP_NAME, A.WS_RECV, A.WS_RECV_STATUS, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		SELECT A.WS_NO, A.WS_FAVB, B.EMP_NAME, A.WS_RECV, A.WS_RECV_STATUS, A.WS_TITLE, A.WS_REPLY, A.WS_CREATEDATE, D.JOB_NAME
 		FROM WORKSHARE A
 		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
 		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
@@ -185,11 +185,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND WSA_WSNO = #{wsno}
 	</select>
 	
+	<!-- 임시저장 업무공유 상세 조회 -->
+	<select id="savedDetailWS" parameterType="HashMap" resultMap="workShareResultSet">
+		SELECT A.*, B.EMP_NAME, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'S'
+		AND WS_NO = #{wno}
+		ORDER BY A.WS_NO DESC
+	</select>
+	
 	<!-- 업무공유 수신처리 -->
 	<update id="readStatusWS" parameterType="WorkShare">
 		UPDATE WORKSHARE
 		SET WS_RECV_STATUS = #{ws_recv_status}
 		WHERE WS_NO = #{ws_no}
+	</update>
+	
+	<!-- 업무공유 회신처리 -->
+	<update id="updateReplyList" parameterType="map">
+		UPDATE WORKSHARE
+		SET WS_REPLY = #{uList}
+		WHERE WS_NO = #{wno}
 	</update>
 	
 	<!-- 업무공유 삭제 -->
@@ -258,4 +278,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL B ON B.JOB_CODE = A.JOB_CODE
 		AND EMP_NO = #{recvEmpNo}
 	</select>
+	
+	<!-- 임시저장 업무공유 다시 임시저장 -->
+	<update id="updateSavedWorkShare" parameterType="WorkShare">
+		UPDATE WORKSHARE
+		SET WS_TITLE = #{ws_title}, WS_CONTENT = #{ws_content}, WS_EDITDATE = TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS') 
+		WHERE WS_NO = #{ws_no} AND WS_STATUS = 'S'
+	</update>
 </mapper>

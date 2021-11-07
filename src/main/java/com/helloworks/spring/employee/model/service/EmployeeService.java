@@ -27,4 +27,7 @@ public interface EmployeeService {
 	int searchEmployeeListCount(SearchEmployee se); //인사관리
 
 	ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi); //인사관리;
+	
+	Employee getLastEmpNo(); // 일정관리
+
 }
