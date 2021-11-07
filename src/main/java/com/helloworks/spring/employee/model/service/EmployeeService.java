@@ -19,7 +19,6 @@ public interface EmployeeService {
 
 	List<Dept> getDeptUList();
 
-	void imgEmp(Employee m);
 
 	
 	

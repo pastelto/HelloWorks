@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empHire" column="EMP_HIRE"/>
 		<result property="empFire" column="EMP_FIRE"/>	
 		<result property="empOrgPic" column="EMP_ORG_PIC"/>
-		<result property="empChgpic" column="EMP_CHG_PIC"/>
+		<result property="empChgPic" column="EMP_CHG_PIC"/>
 		<result property="empOrgSign" column="EMP_CHG_SIGN"/>
 		<result property="empChgSign" column="EMP_CHG_SIGN"/>		
 		<result property="empNote" column="EMP_NOTE"/>
@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 수정 -->
 	<update id="updateEmp" parameterType="Employee" >
 		UPDATE EMPLOYEE
-		SET EMP_PHONE = #{empPhone}
+		SET EMP_PHONE = #{empPhone}, EMP_ORG_PIC = #{empOrgPic}, EMP_CHG_PIC = #{empChgPic}, EMP_ORG_SIGN = #{empOrgSign}, EMP_CHG_SIGN = #{empChgSign}
 		WHERE EMP_NO = #{empNo}
 	</update>
 	
@@ -81,19 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       SELECT DISTINCT DEPT_UNAME
 		FROM DEPT
    </select>
-	
-	<!--
-	<delete id="deleteMember" parameterType="string">
-		update member
-		set status='N'
-		where user_id=#{userId}
-	</delete>
-	
-	<update id="updatePwd" parameterType="Member">
-		update member
-		set user_pwd = #{userPwd}
-		where user_id = #{userId}
-	</update>
--->
+   
+ 
 
 </mapper>
