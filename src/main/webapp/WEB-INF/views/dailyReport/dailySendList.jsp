@@ -13,6 +13,23 @@
 	.content-wrapper{
 		overflow:auto;
 	}
+	#dailyType{
+		background: #A9E2F3;
+		width: 100px;
+	}
+	#weeklyType{
+		background: #00909E;
+		color: white;
+		width: 100px;
+	}
+	#monthlyType{
+		background: #27496D;
+		color: white;
+		width: 100px;
+	}
+	#reportTypeTable>tbody>tr>td{
+		text-align: center !important;
+	}
 </style>
 </head>
 <body>
@@ -44,49 +61,30 @@
 				<div style="margin-top: 3%; margin-left: 20px;">
 					<!-- 일정 등록하기 버튼 -->
 					<div class="row">
-					<div id="insertCal" class="col-12">
+					<div class="col-12">
 						<button type="button" class="btn btn-info" style="width: 80%;" onclick="location.href='enrollReportForm.dr'">일일보고 작성하기</button>
 					</div>
+					</div>
 					&nbsp;
+					<div class="row">
 					<div class="col-12">
-					<div role="button" id="deptCal" style="width: 80%;">
-					 	<!-- 사내 -->
-			            <div class="card card-info card-outline">
-			              <div class="card-header pl-3">
-			               <h3 class="card-title"> 
-			               &nbsp;&nbsp;&nbsp;&nbsp;
-			                <input type="checkbox" class="form-check-input" name="selectDept" checked>
-			              	전체</h3>
-			
-			                <div class="card-tools">
-			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-			                    <i class="fas fa-minus"></i>
-			                  </button>
-			                </div>
-			              </div>
-			              <!-- /.card-header -->
-			              <div class="card-body p-0">
-			                <ul class="nav nav-pills flex-column">
-			                  <li class="nav-item pl-3">
-			                    <a class="nav-link" href="#">
-			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
-			                    <label class="form-check-label" for="selectDeptUname">&nbsp;일일보고</label></a>
-			                  </li>
-			                  <li class="nav-item pl-3">
-			                    <a class="nav-link" href="#">
-			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
-			                    <label class="form-check-label" for="selectDeptDname">&nbsp;주간보고</label></a>
-			                  </li>
-			                  <li class="nav-item pl-3">
-			                    <a class="nav-link" href="#">
-			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
-			                    <label class="form-check-label" for="selectDeptDname">&nbsp;월간보고</label></a>
-			                  </li>
-			
-			                </ul>
-			              </div>
-           				 </div>
-            			</div>
+					<div class="card card-outline card-info"  style="width: 80%;">
+						<div class="card-header text-center">
+							<h6 style="margin-bottom: 0px">
+								<b>보고 유형</b>
+							</h6>
+						</div>
+					
+						<div class="card-body">
+							<table id="reportTypeTable" class="table table-borderless table-sm">
+								<tr><td>일일보고</td><th><span class="badge" id="dailyType">일일보고</span></th></tr>
+								<tr><td>주간보고</td><th><span class="badge" id="weeklyType">주간보고</span></th></tr>
+								<tr><td>월간보고</td><th><span class="badge" id="monthlyType">월간보고</span></th></tr>
+							</table>
+						</div>
+					</div>
+					
+            			
             			</div>
 					</div>
 				</div>

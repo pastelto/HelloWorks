@@ -7,13 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>회의실 신청페이지</title>
-<!-- <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<!-- <script src="../plugins/jquery/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="./resources/plugins/datepicker/jquery-ui.css">
-<script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css"> -->
 <style>
 .content-wrapper {
 	overflow: auto;
@@ -54,9 +47,9 @@
 														<!-- 회의실 목록 -->
 														<tr align="center">
 															<!-- <th>No</th> -->
-															<th width="20%">관리번호</th>
-															<th width="40%">회의실 명</th>
-															<th width="20%">수용인원</th>
+															<th width="35%">관리번호</th>
+															<th width="30%">회의실 명</th>
+															<th width="35%">수용인원</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -240,38 +233,7 @@
 							$("#datepicker").datepicker();
 						});
 	</script>
-	<script>
-		$(document).ready(
-				function() {
-					$.ajax({
-						url : "list.mtr",
-						dataType : "json",
-						success : function(list) {
-							var value = "";
-							
-							$.each(list, function(i, obj) {
-								
-								value += "<tr align='center'>"
-										/* + "<td onclick='checkMtr(" + obj.mMNo + ")'>"+ (i + 1) + "</td>" */
- 										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'><input type='radio' name='mMNo' value='"+ obj.mMNo +"' >&nbsp;&nbsp;"+ obj.mMNo + "</td>"
-			/* 							+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMName + "</td>"
-										+ "<td onclick='checkMtr(" + obj.mMNo  + ")'>" + obj.mMCapacity + "</td>" */
-										+ "<td>" + obj.mMName + "</td>"
-										+ "<td>" + obj.mMCapacity + "</td>" 
-										+ "</tr>";
 
-							});
-
-							$("#mtrList tbody").html(value);
-							
-
-						},
-						error : function() {
-							console.log("mtrList ajax 통신 실패");
-						}
-					});
-				});
-	</script>
 	<script>
 		
 	function checkMtr(mMNo) {
@@ -296,8 +258,9 @@
 			$.ajax({
 				url : "time.mtr",
 				data : {
-					mMNo : mMNo,
-					getDate : getDate
+					rNo : mMNo,
+					getDate : getDate,
+					typeNo: 1
 				},
 				dataType : "json",
 				success : function(list) {
@@ -402,7 +365,7 @@
 				alert(mRNo);
 				
 				$.ajax({
-					url : "delRsv.Mtr",
+					url : "delRsv.mtr",
 					type : "post",
 					data : {
 						mRNo : mRNo,

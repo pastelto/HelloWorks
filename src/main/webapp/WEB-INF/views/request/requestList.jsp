@@ -43,6 +43,7 @@
 						<select class="custom-select form-control-border"
 							id="exampleSelectBorder" name="selectedList">
 							<option >선택하세요</option>
+							<option value="m">회의실 신청 목록</option>
 							<option value="e">비품 신청 목록</option>
 							<option value="i">사원증 신청 목록</option>
 						</select>
@@ -50,7 +51,24 @@
 				</div>
 				<!-- /.card-header -->
 				<div class="card-body">
-					<!-- 비품 신청 목록 -->
+						<!-- 회의실 신청 목록 -->
+						<table id="mtrListTable" class="table table-bordered table-striped">
+							<thead>
+								<tr align="center">
+									<th width="10%">신청번호</th>
+									<th width="30%">회의실신청인(사번)</th>
+									<th width="10%">부서</th>
+									<th width="10%">직급</th>
+									<th width="20%">접수일시</th>
+									<th width="10%">회의실명</th>
+									<th width="10%">용도</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 회의실 신청 목록 띄우기 -->								
+							</tbody>
+						</table>
+						<!-- 비품 신청 목록 -->
 						<table id="eqListTable" class="table table-bordered table-striped">
 							<thead>
 								<tr align="center">
@@ -280,6 +298,7 @@
 			// 테이블 모두 숨기기
 			$("#eqListTable").attr("style", "display:none");
 			$("#idListTable").attr("style", "display:none");
+			$("#mtrListTable").attr("style", "display:none");
 		
 			// 선택한 테이블만 보이게
 			$("select[name=selectedList]").change(function() {
@@ -291,6 +310,7 @@
 				// 비품신청목록만 보이게하고
 				$("#eqListTable").css("display", '');
 				$("#idListTable").attr("style", "display:none");
+				$("#mtrListTable").attr("style", "display:none");
 			
 			// 컨트롤러에서 비품신청목록 가져오기
 			$.ajax({
@@ -330,6 +350,7 @@
 					// 사원증 신청목록만 보이게 하고
 					$("#idListTable").css("display", '');
 					$("#eqListTable").attr("style", "display:none");
+					$("#mtrListTable").attr("style", "display:none");
 					
 					// 컨트롤러에서 사원증신청목록 가져오기
 					$.ajax({
@@ -355,7 +376,37 @@
 							console.log("사원증리스트 ajax 통신 실패");
 						}
 				});
-			}
+			}else if (($(this).val()) == "m") {
+				// 회의실 신청목록만 보이게 하고
+				$("#mtrListTable").css("display", '');
+				$("#eqListTable").attr("style", "display:none");
+				$("#idListTable").attr("style", "display:none");
+				
+				// 컨트롤러에서 회의실신청리스트 가져오기
+				$.ajax({
+					url:"rlist.mtr",
+					success:function(list){					
+						var value="";
+						$.each(list, function(i, obj){
+							
+							if(obj.empNo == ${loginUser.empNo} || '${loginUser.deptDname }' == '총무팀'){
+							value += "<tr align='center'>" + 
+										"<td>" +  obj.mRNo + "</td>" + 
+										"<td>" +  obj.empName + "(" +  obj.rEmpNo+ ")" + "</td>" + 
+										"<td>" +  obj.deptDname + "</td>" + 
+										"<td>" +  obj.jobName + "</td>" + 
+										"<td>" +  obj.mRDate +"/ " + obj.mRTime +"시" + "</td>" +  
+										"<td>" +  obj.mMName + "</td>" + 
+										"<td>" +  obj.mRUsg +"</td>"
+						        + "</tr>";
+							}
+						});
+						$("#mtrListTable tbody").html(value);
+					},error:function(){
+						console.log("회의실 신청리스트 ajax 통신 실패");
+					}
+			});
+		}
 		});
 	})
 	function detailEq(requestEqNo){

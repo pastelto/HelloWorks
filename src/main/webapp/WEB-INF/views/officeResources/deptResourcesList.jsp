@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서별 자료실</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 <style>
 	.content-wrapper{
@@ -115,7 +115,7 @@
 																class="form-control form-control-sm"
 																placeholder="검색어를 입력하세요." name="search" value="${ search }">
 															<div class="input-group-append">
-																<button onclick="searchDeptReport()" type="button" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
+																<button onclick="searchDeptResources()" type="button" class="btn btn-sm btn-default" style="width: 30px; font-size: 14px; important">
 																	<i class="fa fa-search"></i>
 																</button>
 															</div>
@@ -299,7 +299,7 @@
 	
 	<!-- 검색 -->
 	<script>
-		function searchDeptReport() {
+		function searchDeptResources() {
 			var type = $("input:radio[name=resourcesType]:checked").val();
 			var optionType = $("#optionType").val();
 			var searchInput = $("#searchInput").val();

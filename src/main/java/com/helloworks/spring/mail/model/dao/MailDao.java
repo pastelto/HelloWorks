@@ -101,5 +101,11 @@ public class MailDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("mailMapper.insertDMailAttach", mailAttachment);
 	}
+	
+	//inbox 메일삭제
+	public int delMail(SqlSessionTemplate sqlSession, int mailNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mailMapper.delMail", mailNo);
+	}
 
 }

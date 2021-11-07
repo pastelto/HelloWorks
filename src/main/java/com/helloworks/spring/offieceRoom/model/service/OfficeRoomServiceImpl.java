@@ -308,4 +308,18 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	}
 
 
+	@Override
+	public int selectCommResourcesSearchListCount(CommonResources commResources) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommResourcesSearchListCount(sqlSession, commResources);
+	}
+
+
+	@Override
+	public ArrayList<CommonResources> selectCommResourcesSearchList(CommonResources commResources, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectCommResourcesSearchList(sqlSession, commResources, pi);
+	}
+
+
 }

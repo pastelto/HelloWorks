@@ -1,9 +1,10 @@
 package com.helloworks.spring.employee.model.service;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import com.helloworks.spring.employee.model.vo.Dept;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 public interface EmployeeService {
 
@@ -15,12 +16,16 @@ public interface EmployeeService {
 
 	void insertEmp(Employee m);
 
-	List<Dept> getDeptList();
+	int selectAllEmployeeListCount(); //인사관리
 
-	List<Dept> getDeptUList();
+	ArrayList<Employee> selectAllEmployee(PageInfo pi); //인사관리
+
+	int selectHrTypeEmployeeListCount(String hrType); //인사관리
 
 
-	
-	
+	ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi); //인사관리
 
+	int searchEmployeeListCount(SearchEmployee se); //인사관리
+
+	ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi); //인사관리;
 }
