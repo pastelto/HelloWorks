@@ -437,15 +437,22 @@
 			 					
 			 				console.log("ajax 통신 성공")
 			 				console.log(list)
+			 							 					
+			 				$("#tempApprovalTable>tbody").html(value);
 			 				
 			 				
-		 					$("input[name='doc_type']").prop('checked', false);
+			 				if($("#startDate").val() != "" && optionInput == "" ) {
+			 					$("#sortOption").text('날짜');
+			 				} else if (optionInput != "" && $("#startDate").val() == ""){
+			 					$("#sortOption").text('검색어');
+			 				} else if ($("#startDate").val() != "" && optionInput != "" ){
+			 					$("#sortOption").text('날짜 검색어');
+			 				} 
+			 					
+			 				$("input[name='doc_type']").prop('checked', false);
 		 					$("#conditionInput").val("");
 		 					$("#endDate").val("");
-		 					$("#startDate").val(""); 
-			 					
-			 				$("#tempApprovalTable>tbody").html(value);
-			 				$("#sortOption").text(sdate);
+		 					$("#startDate").val("");
 			 			},
 			 			error:function(){
 			 				console.log("기간별 임시저장 결재 검색 ajax 통신 실패")
