@@ -113,14 +113,14 @@ public class EmployeeController {
 
 		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
 		  
-		  //조아혜	
-	      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
-	      mv.addObject("attendance", attendance);
-	      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
-	      mv.addObject("annual", annual);
-	      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
-	      mv.addObject("noticeList", noticeList);
-	      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
+		  //조아혜
+		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
+		  mv.addObject("attendance", attendance);
+		  LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
+		  mv.addObject("annual", annual);
+		  ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
+		  mv.addObject("noticeList", noticeList);
+		  SearchAttendance as = attendanceService.sysdateWeek(); //이번주
 		  as.setEmpNo(empNo);
 		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
 		  String test = null;
@@ -134,8 +134,7 @@ public class EmployeeController {
 		  statistics.setLeaveWTS(test);
 		  test = changeTime(statistics.getLeaveOT()); 
 		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);
-	      
+		  mv.addObject("statistics", statistics);	      
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
