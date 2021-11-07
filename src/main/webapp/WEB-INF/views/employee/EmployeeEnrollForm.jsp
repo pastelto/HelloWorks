@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>EmployeeEnrollFrom</title>
+<title>EmployeeEnrollForm</title>
 <style>
 	#insertForm{
 		overflow: hidden;
