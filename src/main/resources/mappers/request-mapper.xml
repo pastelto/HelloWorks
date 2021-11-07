@@ -14,6 +14,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="mMStatus" column="RS_MM_STATUS" />
 	</resultMap>
 	
+	<!-- 회의실예약 -->
+	<resultMap id="reservationMtrResultSet" type="Mtr">
+		<id property="mRNo" column="RS_MR_NO" />
+		<result property="mMNo" column="RS_MM_NO" />
+		<result property="empNo" column="RS_MM_EMP_NO" />
+		<result property="rEmpNo" column="RS_MR_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="mRDate" column="RS_MR_DATE" />
+		<result property="mRTime" column="RS_MR_TIME" />
+		<result property="mRUsg" column="RS_MR_USG" />
+		<result property="mMName" column="RS_MM_NAME" />
+		<result property="mMCapacity" column="RS_MM_CAPACITY" />
+		<result property="mRStatus" column="RS_MR_STATUS" />
+	</resultMap>
+	
 	<!-- 차량관리 -->
 	<resultMap id="carResultSet" type="Car">
 		<id property="cMNo" column="RS_CM_NO" />
@@ -22,6 +37,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cMMfr" column="RS_CM_MFR" />
 		<result property="cMName" column="RS_CM_NAME" />
 		<result property="cMStatus" column="RS_CM_STATUS" />
+	</resultMap>
+	
+	<!-- 차량예약 -->
+	<resultMap id="reservationCarResultSet" type="Car">
+		<id property="cRNo" column="RS_CR_NO" />
+		<result property="cMNo" column="RS_CM_NO" />
+		<result property="cMMfr" column="RS_CM_MFR" />
+		<result property="cMName" column="RS_CM_NAME" />
+		<result property="rEmpNo" column="RS_CR_EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="cRDate" column="RS_CR_DATE" />
+		<result property="cRTime" column="RS_CR_TIME" />
+		<result property="cRDest" column="RS_CR_DEST" />
+		<result property="cRUsg" column="RS_CR_USG" />
+		<result property="cRPsng" column="RS_CR_PSNGR" />
+		<result property="cRStatus" column="RS_CR_STATUS" />
 	</resultMap>
 
 	<!-- 비품 -->
@@ -58,7 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="irStatus" column="ES_IR_STATUS" />
 	</resultMap>	
 	
-
 	<!-- 회의실 등록 -->
 	<insert id="addMtr" parameterType="Mtr">
 		INSERT INTO
@@ -269,4 +299,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE ES_IR_NO IN #{requestEqNo}
 	</update>	
 	
+	<!-- 회의실 예약리스트 가져오기 -->
+	<select id="timeMtr" parameterType="Mtr" resultMap="reservationMtrResultSet">
+	SELECT A.RS_MR_NO, A.RS_MR_EMP_NO, A.RS_MR_DATE, A.RS_MR_TIME, A.RS_MR_USG,
+		B.EMP_NAME, C.RS_MM_NAME
+		FROM RS_MEETINGROOM_RESERVATION A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.RS_MR_EMP_NO
+		JOIN RS_MEETINGROOM_MANAGEMENT C ON C.RS_MM_NO = A.RS_MM_NO
+		WHERE A.RS_MM_NO = #{mMNo} 
+		AND A.RS_MR_DATE = #{mRDate}
+	</select>
+	
+	<!-- 회의실 예약 삭제 -->
+	<delete id="delRsvMtr" parameterType="_int">
+		DELETE FROM RS_MEETINGROOM_RESERVATION
+		WHERE RS_MR_NO = #{mRNo}
+	</delete> 
+	
+	<!-- 회의실 예약 하기 -->
+	<insert id="rsvMtr" parameterType="Mtr">
+		INSERT INTO RS_MEETINGROOM_RESERVATION
+		VALUES
+		(SEQ_RS_MR_NO.NEXTVAL ,#{mMNo} ,#{rEmpNo} ,#{mRDate} ,#{mRTime} ,#{mRUsg} ,DEFAULT )
+	</insert> 
+	
+	<!-- 차량 예약리스트 가져오기 -->
+	<select id="timeCar" parameterType="Car" resultMap="reservationCarResultSet">
+	SELECT A.RS_MR_NO, A.RS_MR_EMP_NO, A.RS_MR_DATE, A.RS_MR_TIME, A.RS_MR_USG,
+		B.EMP_NAME, C.RS_MM_NAME
+		FROM RS_MEETINGROOM_RESERVATION A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.RS_MR_EMP_NO
+		JOIN RS_MEETINGROOM_MANAGEMENT C ON C.RS_MM_NO = A.RS_MM_NO
+		WHERE A.RS_MM_NO = #{mMNo} 
+		AND A.RS_MR_DATE = #{mRDate}
+	</select>
+	
+	<!-- 차량 예약 삭제 -->
+<!-- 	<delete id="delRsvMtr" parameterType="_int">
+		DELETE FROM RS_MEETINGROOM_RESERVATION
+		WHERE RS_MR_NO = #{mRNo}
+	</delete>  -->
+	
+	<!-- 차량 예약 하기 -->
+<!-- 	<insert id="rsvMtr" parameterType="Mtr">
+		INSERT INTO RS_MEETINGROOM_RESERVATION
+		VALUES
+		(SEQ_RS_MR_NO.NEXTVAL ,#{mMNo} ,#{rEmpNo} ,#{mRDate} ,#{mRTime} ,#{mRUsg} ,DEFAULT )
+	</insert> --> 
+	
+	
+	
+	
+		
 </mapper>

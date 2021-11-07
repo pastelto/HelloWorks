@@ -86,9 +86,15 @@ public class AttendanceDao {
 	}
 	
 	//통계 전체조회
-	public ArrayList<Statistics> wtStatisticsAll(SqlSessionTemplate sqlSession, String dept) {
+	public ArrayList<Statistics> wtStatisticsAll(SqlSessionTemplate sqlSession, SearchAttendance as) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("attendanceMapper.wtStatisticsAll", dept);
+		return (ArrayList)sqlSession.selectList("attendanceMapper.wtStatisticsAll", as);
+	}
+	
+	//sysdateWeek
+	public SearchAttendance sysdateWeek(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.sysdateWeek");
 	}
 
 	//통계 검색조회
@@ -108,5 +114,31 @@ public class AttendanceDao {
 		
 		return sqlSession.update("attendanceMapper.changeTime", attendance);
 	}
+	
+	//근태 상태별로 조회
+	public Statistics selectAtndCount(SqlSessionTemplate sqlSession, Statistics sta) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectAtndCount", sta);
+	}
+	
+	//출근기록-연차 사용일수
+	public Statistics selectThreeCount(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.selectThreeCount", empNo);
+	}
+	
+	//API
+	public ArrayList<Attendance> selectAPI(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("attendanceMapper.selectAPI", empNo);
+	}
+	
+	//메인 근로시간 조회
+	public Statistics wtStatisticsOne(SqlSessionTemplate sqlSession, SearchAttendance as) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("attendanceMapper.wtStatisticsOne", as);
+	}
+
+
 
 }

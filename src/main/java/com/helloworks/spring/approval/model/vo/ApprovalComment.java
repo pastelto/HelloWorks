@@ -14,20 +14,28 @@ import lombok.ToString;
 public class ApprovalComment extends Approval{
 
 	private int coNo;			// 결재의견번호
-	private int writer; 		// 작성자
-	private String createDate;	// 작성일자
-	private String acContent;	// 작성내용 
+	private int cmWriter; 		// 작성자
+	private String cmName;
+	private String cmDept;
+	private String cmJob;
+	private String commentDate;	// 작성일자
+	private String comment;	// 작성내용 
 	
 	/*public ApprovalComment() {
 		// TODO Auto-generated constructor stub
 	}*/
 
-	public ApprovalComment(int apNo, int coNo, int writer, String createDate, String acContent) {
+
+	public ApprovalComment(int apNo, int coNo, int cmWriter, String cmName, String cmDept, String cmJob,
+			String commentDate, String comment) {
 		super(apNo);
 		this.coNo = coNo;
-		this.writer = writer;
-		this.createDate = createDate;
-		this.acContent = acContent;
+		this.cmWriter = cmWriter;
+		this.cmName = cmName;
+		this.cmDept = cmDept;
+		this.cmJob = cmJob;
+		this.commentDate = commentDate;
+		this.comment = comment;
 	}
 
 	/*public int getCoNo() {

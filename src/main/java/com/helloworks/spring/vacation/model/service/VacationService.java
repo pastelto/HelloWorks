@@ -44,6 +44,17 @@ public interface VacationService {
 	
 	//출근등록시 결재서류가있다면
 	Vacation sysdateVacation(int empNo);
+	
+	//휴가 사용일수
+	LoginUserVacation selectVacation(int empNo);
+	
+	//제출한 휴가문서
+	ArrayList<Vacation> selectAPapproval(int empNo);
+	
+	//결재할 문서 갯수
+	int selectListCount();
+	
+	
 
 	
 

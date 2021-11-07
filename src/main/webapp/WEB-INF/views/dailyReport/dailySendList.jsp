@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +24,11 @@
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-6">
+				
+					<div class="col-sm-8">
 
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 일일보고 발신함</b>
+							<i class="nav-icon fas fa-edit"></i><b> 일일보고 발신함 </b>
 						</h4>
 					</div>
 				</div>
@@ -38,14 +41,60 @@
 	
 			<!-- 캘린더 메뉴 -->
 			<div class="col-3">
+				<div style="margin-top: 3%; margin-left: 20px;">
+					<!-- 일정 등록하기 버튼 -->
+					<div class="row">
+					<div id="insertCal" class="col-12">
+						<button type="button" class="btn btn-info" style="width: 80%;" onclick="location.href='enrollReportForm.dr'">일일보고 작성하기</button>
+					</div>
+					&nbsp;
+					<div class="col-12">
+					<div role="button" id="deptCal" style="width: 80%;">
+					 	<!-- 사내 -->
+			            <div class="card card-info card-outline">
+			              <div class="card-header pl-3">
+			               <h3 class="card-title"> 
+			               &nbsp;&nbsp;&nbsp;&nbsp;
+			                <input type="checkbox" class="form-check-input" name="selectDept" checked>
+			              	전체</h3>
 			
+			                <div class="card-tools">
+			                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			                    <i class="fas fa-minus"></i>
+			                  </button>
+			                </div>
+			              </div>
+			              <!-- /.card-header -->
+			              <div class="card-body p-0">
+			                <ul class="nav nav-pills flex-column">
+			                  <li class="nav-item pl-3">
+			                    <a class="nav-link" href="#">
+			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
+			                    <label class="form-check-label" for="selectDeptUname">&nbsp;일일보고</label></a>
+			                  </li>
+			                  <li class="nav-item pl-3">
+			                    <a class="nav-link" href="#">
+			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
+			                    <label class="form-check-label" for="selectDeptDname">&nbsp;주간보고</label></a>
+			                  </li>
+			                  <li class="nav-item pl-3">
+			                    <a class="nav-link" href="#">
+			                    <input type="checkbox" class="form-check-input" name="selectReportType" checked> 
+			                    <label class="form-check-label" for="selectDeptDname">&nbsp;월간보고</label></a>
+			                  </li>
+			
+			                </ul>
+			              </div>
+           				 </div>
+            			</div>
+            			</div>
+					</div>
+				</div>
 			</div>
-			
-			<div id="calendar-container" class="col-6" >
+			<div id="calendar-container" class="col-7" >
 			<!-- 캘린더 -->
 			<div id='calendar'></div>
 			</div>
-			
 			
 			</div>
 			<br>
@@ -61,15 +110,69 @@
 	
 	<!-- 스크립트 모음 -->
 	<script>
-	
-	      document.addEventListener('DOMContentLoaded', function() {
+ 	      document.addEventListener('DOMContentLoaded', function() {
+	    	
+ 	    	  
 	        var calendarEl = document.getElementById('calendar');
+	        
+        	var events = [];
 	        var calendar = new FullCalendar.Calendar(calendarEl, {
-	          initialView: 'dayGridMonth'
+	            initialView: 'dayGridMonth',
+	            defaultDate: new Date(),
+	            locale: 'ko', 
+	            eventLimit: true,
+	            contentHeight: 550,
+	            editable: false,
+	            droppable: false,
+	            events:function(info, successCallback, failureCallback){
+	                $.ajax({
+	                       url: 'selectAllList.dr',
+	                       dataType: 'json',
+	                       type:'post',
+	                       success: 
+	                           function(list) {
+	                               var events = [];
+	                               
+	                               if(list != null){
+	                            	   $.each(list, function(i, obj) {
+	                                       var startDate= moment(obj.drCreateDate).format('YYYY-MM-DD');
+	                                       if(obj.drCategory == 'D'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            //textColor: 'black',
+		                                            color: '#A9E2F3'	                                           
+		                                         });
+	                                       }else if(obj.drCategory == 'W'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            color: '#00909E'	                                           
+		                                         });
+	                                       }else if(obj.drCategory == 'M'){
+	                                    	   events.push({
+		                                            title: obj.drTitle,
+		                                            start: startDate,
+		                                            url: 'detailSendDailyReport.dr?drNo='+obj.drNo,
+		                                            color: '#27496D'	                                           
+		                                         });
+	                                       }
+	                                      
+	                               		})
+	                               }	 
+                            	   successCallback(events); 
+	                       }
+	                });
+	            }
+	          
 	        });
+      		
 	        calendar.render();
 	      });
 	
 	</script>
+	
 </body>
 </html>

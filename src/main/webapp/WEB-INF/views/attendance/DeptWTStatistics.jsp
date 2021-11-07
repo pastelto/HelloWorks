@@ -174,9 +174,15 @@
 										<tr align="center">
 																																	
 												<td>${ st.name }&nbsp;&nbsp;(${ st.empNo })</td>                     
-                                   			    <td>${ st.jobName }</td>     
+                                   			    <td>${ st.jobName }</td>  
+                                   			    
+                                   			    <td>${ st.workingS }</td>     
+												<td>${ st.overS }</td>  
+												<td>${ st.totalTS }</td>  
+												<td>${ st.leaveWTS }</td>  
+												<td>${ st.leaveOTS }</td>  
 												    
-											    <c:set var="hour1" value="${ st.working/(60*60)}"/>
+											<%--     <c:set var="hour1" value="${ st.working/(60*60)}"/>
 											    <c:set var="minute1" value="${st.working/60-(hour1*60)}"/>
 											    <fmt:parseNumber var="H1" value="${ hour1 }" integerOnly="true"/>
 											    <fmt:parseNumber var="M1" value="${ minute1 }" integerOnly="true"/>
@@ -204,7 +210,7 @@
 											    <c:set var="minute5" value="${st.leaveOT/60-(hour5*60)}"/>
 											    <fmt:parseNumber var="H5" value="${ hour5 }" integerOnly="true"/>
 											    <fmt:parseNumber var="M5" value="${ minute5 }" integerOnly="true"/>
-												<td> ${ H5 }시간&nbsp; ${ M5 } 분</td>
+												<td> ${ H5 }시간&nbsp; ${ M5 } 분</td> --%>
 											
 										</tr>
 									</c:forEach>

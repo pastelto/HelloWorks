@@ -15,6 +15,7 @@
 		<typeAlias type="com.helloworks.spring.workshare.model.vo.WSAttachment" alias="WSAttachment"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.Approval" alias="Approval"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalCC" alias="ApprovalCC"/>
+		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalComment" alias="ApprovalComment"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalDiploma" alias="ApprovalDiploma"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalHr" alias="ApprovalHr"/>
 		<typeAlias type="com.helloworks.spring.approval.model.vo.ApprovalLine" alias="ApprovalLine"/>
@@ -39,6 +40,15 @@
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.VacationLine" alias="VacationLine"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.ApprovalAttendance" alias="ApprovalAttendance"/>
 		<typeAlias type="com.helloworks.spring.vacation.model.vo.LoginUserVacation" alias="LoginUserVacation"/>
+		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.DailyReportReply" alias="DailyReportReply"/>
+		<typeAlias type="com.helloworks.spring.manageSchedule.model.vo.ManageSchedule" alias="ManageSchedule"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResources" alias="CommonResources"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesAttachment" alias="CommonResourcesAttachment"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.CommonResourcesReply" alias="CommonResourcesReply"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResources" alias="DeptResources"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment" alias="DeptResourcesAttachment"/>
+		<typeAlias type="com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply" alias="DeptResourcesReply"/>
+		<typeAlias type="com.helloworks.spring.dailyReport.model.vo.SearchDailyReport" alias="SearchDailyReport"/>
 	</typeAliases>
 
 
@@ -54,6 +64,7 @@
 		<mapper resource="/mappers/mail-mapper.xml"/>
 		<mapper resource="/mappers/dailyReport-mapper.xml"/>
 		<mapper resource="/mappers/vacation-mapper.xml"/>
+		<mapper resource="/mappers/manageSchedule-mapper.xml"/>
 	</mappers>
 
 

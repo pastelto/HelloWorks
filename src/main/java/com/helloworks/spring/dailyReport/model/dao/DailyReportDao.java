@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.dailyReport.model.vo.DailyReport;
+import com.helloworks.spring.dailyReport.model.vo.DailyReportReply;
+import com.helloworks.spring.dailyReport.model.vo.SearchDailyReport;
 
 @Repository
 public class DailyReportDao {
@@ -99,6 +101,56 @@ public class DailyReportDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectDailyReportTermTypeList", dailyReport, rowBounds);
+	}
+
+	public DailyReport selectDetailDailyReport(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDetailDailyReport", dailyReport);
+	}
+
+	public int addReply(SqlSessionTemplate sqlSession, DailyReportReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("dailyReportMapper.addReply", r);
+	}
+
+	public ArrayList<DailyReportReply> selectReplyList(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectReplyList", drNo);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.deleteReply", drNo);
+	}
+
+	public ArrayList<DailyReport> selectMyAllDailyReportList(SqlSessionTemplate sqlSession, int loginUserNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.selectMyAllDailyReportList", loginUserNo);
+	}
+
+	public DailyReport selectDetailSendDailyReport(SqlSessionTemplate sqlSession, int drNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("dailyReportMapper.selectDetailSendDailyReport", drNo);
+	}
+
+	public int updateConfirm(SqlSessionTemplate sqlSession, DailyReport dailyReport) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.updateConfirm", dailyReport);
+	}
+
+	public int searchDailyReportListCount(SqlSessionTemplate sqlSession, SearchDailyReport sdr) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("dailyReportMapper.searchDailyReportListCount", sdr);
+	}
+
+	public ArrayList<DailyReport> searchDailyReportList(SqlSessionTemplate sqlSession, DailyReport dailyReport,
+			PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("dailyReportMapper.searchDailyReportList", dailyReport, rowBounds);
 	}
 
 }

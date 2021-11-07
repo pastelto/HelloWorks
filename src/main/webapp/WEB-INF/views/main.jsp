@@ -10,7 +10,14 @@
 <style>
 .attendance{
 	padding-top:20px;
-	margin-left:10px;
+	margin-left:20px;
+}
+.approval{
+	padding-top:20px;
+	margin-left:20px;
+}
+body{
+	overflow-x:hidden;
 }
 </style>
 </head>
@@ -18,10 +25,36 @@
 
 
   <jsp:include page="./common/menubar.jsp" />
-   <div class="content-wrapper">
-
-   		<div class="attendance" id="attendance">
-   	 		<jsp:include page="./attendance/mainAttendance.jsp" />
+   <div class="content-wrapper" >
+   		
+   		<div class="row">
+   		
+   		
+   			<!-- 왼쪽 -->
+			<div style="width:23%;" >
+				<div class="attendance" id="attendance">
+		   	 		<jsp:include page="./attendance/mainAttendance.jsp" />
+		   		</div>
+			</div>
+			
+			
+			
+			<!-- 중간-->
+			<div style="width:54%;">
+				<div class="approval" id="approval">
+		   	 		<jsp:include page="./approval/mainApproval.jsp" />
+		   		</div>
+			</div>
+			
+			
+			
+			<!-- 오른쪽-->
+			<div style="width:23%;" >
+				오른쪽
+			</div>
+			
+			
+			
    		</div>
   
    </div>

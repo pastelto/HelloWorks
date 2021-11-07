@@ -89,5 +89,17 @@ public class MailDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mailMapper.getRcvrInfo", rEmp);
 	}
+	
+	//임시보관 메일보내기
+	public int dsendMail(SqlSessionTemplate sqlSession, Mail m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mailMapper.dsendMail", m);
+	}
+	
+	//임시보관 메일 첨부파일
+	public int insertDMailAttach(SqlSessionTemplate sqlSession, MailAttachment mailAttachment) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("mailMapper.insertDMailAttach", mailAttachment);
+	}
 
 }

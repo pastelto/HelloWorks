@@ -28,6 +28,23 @@
 	#startDate, #endDate, #conditionOption, #conditionInput{
 		width : 25% !important;
 	}
+	#normalBadge{
+		background: #8DEFE6;
+		color: white;
+	}
+	#minutesBadge{
+		background: #8DDCEF;
+		color: white;
+	}
+	#diplomaBadge{
+		background: #8DBAEF;
+		color: white;
+	}
+	#hrBadge{
+		background: #8DA5EF;
+		color: white;
+	}
+	
 </style>
 </head>
 <body>
@@ -62,9 +79,19 @@
 															&nbsp;&nbsp;
 															<button id="btnoneYbtn" type="button" class="btn btn-default btn-xs" name="startDate" style="font-size:0.7rem" value="1년">1년</button>
 															&nbsp;&nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem">
-															&nbsp; ~ &nbsp;
-															<input type="date" class="form-control datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem">																														
+															<div class="form-group mb-0">
+																<div class="input-group">
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="startDate" name="startDate" style="font-size:0.8rem">
+																		<div class="input-group-append">
+																			<span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">~</span>
+																		</div>
+																	<input type="date" class="form-control form-control-sm datetimepicker-input datepicker" id="endDate" name="endDate" style="font-size:0.8rem">																														
+																	<div class="input-group-append">
+																    <button class="btn btn-xs btn-default" type="button" onclick="searchNormalApproval();" style="width: 30px; font-size: 14px; important">
+																	<i class="fa fa-search"></i></button>
+																	</div>
+																</div>
+															</div>
 													</div>													
 												</td>
 											</tr>
@@ -74,21 +101,26 @@
 													<div class="row mt-1 mb-1" style="margin-left: 0px;">
 														<button id="allSelect" type="button" class="btn btn-default btn-xs" name="selectAll" style='margin-left:3px' onclick="selectAllNormalTemp('일반');">전체보기</button>
 														&nbsp;&nbsp;
-														<select	id="conditionOption" name="conditionOption" class="form-control" style="font-size:0.8rem">
-															<option value="제목"> 제목 </option>
-															<option value="문서번호"> 문서번호 </option>
-														</select>
-														&nbsp;&nbsp;
-														<input type="text" class="form-control" id="conditionInput" name="conditionInput" style="font-size:0.8rem"/>
-														&nbsp;&nbsp;
-														<button type="button" id="searchBtn" class="btn btn-primary btn-xs" onclick="searchNormalApproval();">검색</button>
+															<select	id="conditionOption" name="conditionOption" class="form-control" style="font-size:0.8rem">
+																<option value="제목"> 제목 </option>
+																<option value="문서번호"> 문서번호 </option>
+															</select>
+															&nbsp;&nbsp;
+														<div class="input-group" style="width: 30%;">
+															<input type="text" class="form-control " id="conditionInput" name="conditionInput" style="font-size:0.8rem" placeholder="검색어를 입력하세요." />
+															<div class="input-group-append">
+																<button type="button" id="searchBtn" class="btn btn-sm btn-default" onclick="searchNormalApproval();" style="width: 30px; font-size: 14px;">
+																	<i class="fa fa-search"></i>
+																</button>
+															</div>
+														</div>
 													</div>
 												</td>
 											</tr>
 											<tr>
 												<th colspan="4">일반 결재 문서</th>
 												<td style="font-size:0.7rem;" colspan="8">
-													<div class="row mt-1 mb-1" style="margin-left: 0px;">
+													<div  class="mt-1 mb-1" style="margin-left: 0px;">
 														<label style="display: inline-block" class="bottom-margin0" >
 															<input type="radio" name="doc_type"  value = "기안" id="normal_radio" style='margin-left:3px'>
 															<span class="co_docu_cd_old" docu_cd="기안" style="cursor: pointer;">기안서</span>											
@@ -119,11 +151,11 @@
 									
 									<hr>
 									
-									<!-- 임시저장된 결재 list -->
+									<!-- 내결재함 결재 list -->
 									<div class="col-12" >
 									<div>
 									<div style="height: 450px; overflow:auto;">
-									<table id="tempApprovalTable" class="table table-sm" >
+									<table id="myApprovalTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -143,7 +175,18 @@
 							                    <tr onclick="detailApproval(${ approvalList.apNo },'${ approvalList.detailClass }');">							      
 							                        <td>${ approvalList.rownum }</td>
 							                        <td>${ approvalList.title}</td>
-							                        <td>${ approvalList.detailClass }</td>
+							                        <c:if test="${ approvalList.detailClass == '기안'}">
+							                        	<td><span class="badge" id="normalBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '회의'}">
+							                       	 <td><span class="badge" id="minutesBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '공문'}">
+							                        	<td><span class="badge" id="diplomaBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
+							                        <c:if test="${ approvalList.detailClass == '인사'}">
+							                        	<td><span class="badge" id="hrBadge">${ approvalList.detailClass }</span></td>
+							                        </c:if>
 							                        <td>${ approvalList.apNo }</td>
 							                        <td>${ approvalList.progress }</td>
 							                        <td>${ approvalList.createDate }</td>
@@ -220,9 +263,17 @@
  					$.each(list, function(i, obj){
  						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
                         '<td>'+obj.rownum+'</td>' +
-                        '<td>'+obj.title+'</td>' +
-                        '<td>'+obj.detailClass+'</td>' +
-                        '<td>'+obj.apNo +'</td>' +
+                        '<td>'+obj.title+'</td>';
+                        if(obj.detailClass == '기안'){
+                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '회의'){
+                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '공문'){
+                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+                        } else if(obj.detailClass == '인사'){
+                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+                        }
+                        value += '<td>'+obj.apNo +'</td>' +
                         '<td>'+obj.progress+'</td>' +
                         '<td>'+obj.createDate+'</td>' +
                         '<td>'+obj.deptName+'</td>' +
@@ -233,7 +284,7 @@
  					console.log("ajax 통신 성공")
  					console.log(list)
  					
- 					$("#tempApprovalTable>tbody").html(value);
+ 					$("#myApprovalTable>tbody").html(value);
  					$("#sortOption").text("전체");
  				},
  				error:function(){
@@ -251,7 +302,8 @@
 	 				
 		 		function(){		 		
 		 			var sdate = $(this).val();
-		 			var apClass = '일반'
+		 			var apClass = '일반';
+		 			var status = 'Y';
 		 			console.log(sdate)
 			 			
 			 		$.ajax({
@@ -259,22 +311,31 @@
 			 			type: "post",
 			 			data : {
 			 				sdate:sdate,
-			 				apClass : apClass
+			 				apClass : apClass,
+			 				status : status
 			 			},
 			 			success: function(list){
 			 				var value = "";
 			 				$.each(list, function(i, obj){			 				
 			 					if(list.length != 0){
-				 					value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+							      
-				                       '<td>'+obj.rownum+'</td>' +
-				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
-				                       '<td>'+obj.apNo +'</td>' +
-				                       '<td>'+obj.progress+'</td>' +
-				                       '<td>'+obj.createDate+'</td>' +
-				                       '<td>'+obj.deptName+'</td>' +
-				                       '<td>'+obj.writerName+'</td>' +							                       
-				                   '</tr>';
+			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
+			                        '<td>'+obj.rownum+'</td>' +
+			                        '<td>'+obj.title+'</td>';
+			                        if(obj.detailClass == '기안'){
+			                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '회의'){
+			                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '공문'){
+			                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '인사'){
+			                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        }
+			                        value += '<td>'+obj.apNo +'</td>' +
+			                        '<td>'+obj.progress+'</td>' +
+			                        '<td>'+obj.createDate+'</td>' +
+			                        '<td>'+obj.deptName+'</td>' +
+			                        '<td>'+obj.writerName+'</td>' +							                       
+			                    '</tr>';
 			 					} else {
 			 						value += '<tr>'+							      
 				                       '<td>검색된 결과가 없습니다.</td>'+
@@ -291,7 +352,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#tempApprovalTable>tbody").html(value);
+			 				$("#myApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){
@@ -312,7 +373,8 @@
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
 			var detailOption = null
-			var apClass = '일반'
+			var apClass = '일반';
+			var status = 'Y';
 			if($("input[name='doc_type']").checked){
 				detailOption = $("input[name='doc_type']:checked").val();
 			}		
@@ -341,7 +403,8 @@
 		 					startDate : startDate,
 		 					endDate : endDate,
 		 					detailOption : detailOption,
-		 					apClass : apClass
+		 					apClass : apClass,
+		 					status : status
 		 					
 		 				},
 		 				success: function(list){
@@ -349,15 +412,23 @@
 			 				$.each(list, function(i, obj){			 				
 			 					if(list.length != 0){
 			 						value += '<tr onclick="detailApproval(' + obj.apNo + ",'" + obj.detailClass + "'" + ');">'+								      
-				                       '<td>'+obj.rownum+'</td>' +
-				                       '<td>'+obj.title+'</td>' +
-				                       '<td>'+obj.detailClass+'</td>' +
-				                       '<td>'+obj.apNo +'</td>' +
-				                       '<td>'+obj.progress+'</td>' +
-				                       '<td>'+obj.createDate+'</td>' +
-				                       '<td>'+obj.deptName+'</td>' +
-				                       '<td>'+obj.writerName+'</td>' +							                       
-				                   '</tr>';
+			                        '<td>'+obj.rownum+'</td>' +
+			                        '<td>'+obj.title+'</td>';
+			                        if(obj.detailClass == '기안'){
+			                        	value += '<td>'+'<span class="badge" id="normalBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '회의'){
+			                        	value += '<td>'+'<span class="badge" id="minutesBadge">'+ obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '공문'){
+			                        	value += '<td>'+'<span class="badge" id="diplomaBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        } else if(obj.detailClass == '인사'){
+			                        	value += '<td>'+'<span class="badge" id="hrBadge">'+obj.detailClass+'</span>'+'</td>'
+			                        }
+			                        value += '<td>'+obj.apNo +'</td>' +
+			                        '<td>'+obj.progress+'</td>' +
+			                        '<td>'+obj.createDate+'</td>' +
+			                        '<td>'+obj.deptName+'</td>' +
+			                        '<td>'+obj.writerName+'</td>' +							                       
+			                    '</tr>';
 			 					} else {
 			 						value += '<tr>'+							      
 				                       '<td>검색된 결과가 없습니다.</td>'+
@@ -374,7 +445,7 @@
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
 			 					
-			 				$("#tempApprovalTable>tbody").html(value);
+			 				$("#myApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
 			 			error:function(){

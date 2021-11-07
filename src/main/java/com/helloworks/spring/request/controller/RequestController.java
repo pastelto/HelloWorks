@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.request.model.service.RequestService;
+import com.helloworks.spring.request.model.vo.Car;
+import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.request.model.vo.RequestId;
 
@@ -47,7 +51,8 @@ public class RequestController {
 	
 	// 사원증 신청
 	@RequestMapping("request.id")
-	public String requestIdCard(RequestId rId, HttpServletRequest request, @RequestParam(name="orgPicName", required=true) MultipartFile file) {
+	public String requestIdCard(RequestId rId, HttpServletRequest request, 
+			@RequestParam(name="orgPicName", required=true) MultipartFile file) {
 		System.out.println(rId);
 		System.out.println(file);
 		// 첨부파일 등록 		
@@ -255,6 +260,124 @@ public class RequestController {
 
 	}
 	
+	//회의실 목록 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/list.mtr",  produces="application/json; charset=UTF-8")
+	public String listMtr(){
+
+		ArrayList<Mtr> listMtr = requestService.listMtr();
+		return new GsonBuilder().create().toJson(listMtr);
+
+	}
+	//회의실 시간표 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
+	public String timeMtr(int mMNo, String getDate){
+		
+		Mtr mtr = new Mtr();
+		mtr.setMMNo(mMNo);
+		mtr.setMRDate(getDate);
+		
+		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
+		return new GsonBuilder().create().toJson(timeMtr);
+
+	}
 	
+	//회의실 예약 삭제
+	@ResponseBody
+	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+	public String delRsvMtr(int mRNo){
+		
+		requestService.delRsvMtr(mRNo);
+		
+		String result = "성공!";
+		return String.valueOf(result);
+
+	}
+	
+	//회의실 예약하기
+	@ResponseBody
+	@RequestMapping(value = "/rsv.mtr",  produces="application/json; charset=UTF-8")
+	public String rsvMtr(HttpServletRequest request, int mMNo, String getDate, String mRTime, String mRUsg){
+		
+		Mtr mtr = new Mtr();
+		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+		
+		mtr.setMMNo(mMNo);
+		mtr.setMRDate(getDate);
+		mtr.setMRTime(mRTime);
+		mtr.setREmpNo(rEmpNo);
+		mtr.setMRUsg(mRUsg);
+		
+		System.out.println(mtr.toString());
+		
+		requestService.rsvMtr(mtr);
+
+		String result = "successMtr";
+		
+		return new GsonBuilder().create().toJson(result);
+
+	}
+	
+	//차량 목록 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/list.car",  produces="application/json; charset=UTF-8")
+	public String listCar(){
+
+		ArrayList<Car> listCar = requestService.listCar();
+		
+		System.out.println(listCar.toString());
+		return new GsonBuilder().create().toJson(listCar);
+
+	}
+	//회의실 시간표 가져오기
+//	@ResponseBody
+//	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
+//	public String timeMtr(int mMNo, String getDate){
+//		
+//		Mtr mtr = new Mtr();
+//		mtr.setMMNo(mMNo);
+//		mtr.setMRDate(getDate);
+//		
+//		ArrayList<Mtr> timeMtr = requestService.timeMtr(mtr);
+//		return new GsonBuilder().create().toJson(timeMtr);
+//
+//	}
+//	
+//	//회의실 예약 삭제
+//	@ResponseBody
+//	@RequestMapping(value = "/delRsv.Mtr", method = RequestMethod.POST)
+//	public String delRsvMtr(int mRNo){
+//		
+//		requestService.delRsvMtr(mRNo);
+//		
+//		String result = "성공!";
+//		return String.valueOf(result);
+//
+//	}
+//	
+//	//회의실 예약하기
+//	@ResponseBody
+//	@RequestMapping(value = "/rsv.mtr",  produces="application/json; charset=UTF-8")
+//	public String rsvMtr(HttpServletRequest request, int mMNo, String getDate, String mRTime, String mRUsg){
+//		
+//		Mtr mtr = new Mtr();
+//		int rEmpNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+//		
+//		mtr.setMMNo(mMNo);
+//		mtr.setMRDate(getDate);
+//		mtr.setMRTime(mRTime);
+//		mtr.setREmpNo(rEmpNo);
+//		mtr.setMRUsg(mRUsg);
+//		
+//		System.out.println(mtr.toString());
+//		
+//		requestService.rsvMtr(mtr);
+//
+//		String result = "successMtr";
+//		
+//		return new GsonBuilder().create().toJson(result);
+//
+//	}
 		
 }

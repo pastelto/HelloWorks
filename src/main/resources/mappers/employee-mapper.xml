@@ -35,8 +35,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO=#{empNo} AND EMP_PWD=#{empPwd} AND EMP_STATUS='Y'
 		
 
-
-		
 		<!-- 암호화 후
 		select * from EMPLOYEE
 		where EMP_NO=#{empNo} and EMP_STATUS='Y'

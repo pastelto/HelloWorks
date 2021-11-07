@@ -38,12 +38,6 @@ input:focus {outline:none;}
 	height : 15px;
 }
 
-.irs--flat .irs-bar	{
-	background-color : lightpink !important;
-}
-.irs-min , .irs-max{
-	visibility: hidden !important;
-} 
 
 .workintTitile{
 	font-size : 12px;
@@ -52,14 +46,28 @@ input:focus {outline:none;}
 
 .progress-bar{
 	height : 15px;
-	background-color : lightpink !important;
+	background-color : lightblue !important;
 	border-radius: 5px;
+	color : gray !important;
 }
 
 .progress{
 border-radius: 5px;
 }
- 
+
+#headerTitle, #noticeTable{
+	font-size:small;
+}
+a[name='aTitle']{
+	font-size:small;
+}
+#annual{
+	font-size:small;
+	background:#DAE1E7;
+	padding : 5px;
+}
+
+
 </style>
   
 </head>
@@ -67,9 +75,12 @@ border-radius: 5px;
 
 
 	<div id="cardAttendance">
+	
+	
+		<!-- 내정보 -->
       <div class="card card-info card-outline" style="width: 300px;">
              <div class="card-header" >            
-               <div class="float-left">내 정보</div>
+               <div class="float-left" id="headerTitle">내 정보</div>
              </div>
 			  
 			  <!-- 개인정보 -->
@@ -82,14 +93,14 @@ border-radius: 5px;
               </div>    
         	
         	  <!-- 탭 -->	
-	  		  <div class="card  card-outline card-outline-tabs" style="margin-top: -15px;">
+	  		  <div class="card  card-outline card-outline-tabs" style="margin-top: -28px;">
 	              <div class="card-header p-0 border-bottom-0">
 	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true">근태정보</a>
+	                    <a class="nav-link active" id="custom-tabs-four-unchecked-tab" data-toggle="pill" href="#custom-tabs-four-unchecked" role="tab" aria-controls="custom-tabs-four-unchecked" aria-selected="true" name="aTitle">근태정보</a>
 	                  </li>
 	                  <li class="nav-item col-sm-6 text-center">
-	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false">휴가정보</a>
+	                    <a class="nav-link" id="custom-tabs-four-recv-tab" data-toggle="pill" href="#custom-tabs-four-recv" role="tab" aria-controls="custom-tabs-four-recv" aria-selected="false" name="aTitle">휴가정보</a>
 	                  </li>
 	                </ul>
 	              </div>
@@ -97,13 +108,13 @@ border-radius: 5px;
 	           <!--탭 -->
 	           
               <!-- card body -->
-              <div class="card-body">
+              <div class="card-body" id="noticeCardBody">
 	              <div class="tab-content" id="custom-tabs-four-tabContent">
 		              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 		                  <!-- 근태정보 -->
-	                      <div class="container-fluid text-center" style="margin-top:-7px; "> 
+	                      <div class="container-fluid text-center" style="margin-top:-10px; "> 
 	                      	          
-		                     <h5><span id="nowTimes"></span></h5>                 
+		                     <h5><i class="far fa-clock fa-sm"></i>&nbsp;<span id="nowTimes" ></span></<h5>                
 		                  </div>
 		                  <div class="container-fluid text-center">
 							  <button  class="btn btn-outline-secondary  btn-sm" onclick="insertTime(1);" >출근</button>						                  
@@ -111,22 +122,43 @@ border-radius: 5px;
 			                  <button  class="btn btn-outline-secondary  btn-sm "onclick="insertTime(2);" >퇴근</button>
 			                  <input type=text class="workingtime" id="outTime" value="${attendance.outTime}" readonly>
 		                  </div>
-		                  <br>
-		                 <div class="irs-wrapper complete">
-		                  	<div class="workintTitile">소정근로시간</div> 
-	                        <input id="range_1" type="text" name="range_1" value="9" disabled>
-	                      </div>
+		                  <!-- 소정근로시간 -->
+		                  <br>	
+		              	  <div class="workintTitile" style="margin-top:-5px;">◽ 근로시간 </div> 
+		              	  <br>	
 	                      <div class="progress">
-							  <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-							  70%</div>
-							</div> 
-	                      <br>	                
+	                      	  <c:set var="working" value="${statistics.working /60/60*2.5}" />
+							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${working}%">
+							 	 ${statistics.workingS }
+							  </div>
+						  </div> 
+						 
+						  <!-- 소정외근로시간 -->
+	                      <div class="workintTitile" style="margin-top:5px;">◽소정외 근로시간</div> 
+		              	  <br>	
+	                      <div class="progress">
+	                     	  <c:set var="over" value="${statistics.over /60/60*8}" />
+							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${over}%">
+							 	  ${statistics.overS }
+							  </div>
+						  </div> 	                
                      </div>
 		                  
 		              
-		              <div class="tab-pane fade" id="custom-tabs-four-recv" role="tabpanel" aria-labelledby="custom-tabs-four-recv-tab">
+		              <div class="tab-pane fade" id="custom-tabs-four-recv"  role="tabpanel" aria-labelledby="custom-tabs-four-recv-tab">
 		                  <!-- 휴가정보 -->
-		                  	휴가정보 나와라 얍
+		                  	<div class="card text-center" id="annual">
+		                  		<span><b class="spanTag">입사일</b>&nbsp;&nbsp;${loginUser.empHire}</span>
+		                  	</div>
+		                  	<div class="card text-center" id="annual">
+		                  		<span><b class="spanTag">지급연차</b>&nbsp;&nbsp;${annual.annual}일</span>
+		                  	</div>
+		                  	<div class="card text-center" id="annual">
+		                  	    <span><b class="spanTag">사용연차</b>&nbsp;&nbsp;${annual.useAnnual}일</span>
+		                  	</div>
+		                  	<div class="card text-center" id="annual">
+		                  		<span><b class="spanTag">잔여연차</b>&nbsp;&nbsp;${annual.leftAnnual}일</span>
+		                  	</div>
 		              </div>		         
 	              </div>
              </div>
@@ -135,6 +167,31 @@ border-radius: 5px;
               				
                           
         </div>
+        
+        
+        
+		        <!-- 공지사항 -->
+		          <div class="card card-info card-outline" style="width: 300px;">
+		             <div class="card-header" >            
+		               <div class="float-left" id="headerTitle">공지사항</div>
+		             </div>
+		              <div class="card-body" style="padding-top:5px;">
+		                <table class="table table-hover" id="noticeTable" style="marign-top:-20px;">	
+		                	<tbody>	                	
+							<c:forEach items="${ noticeList }" var="n">
+								<tr onclick="noticeNo(${ n.noticeNo });">
+									<td style="border-top:none !important">◾ ${ n.noticeTitle }</td>
+								</tr>
+							</c:forEach>
+							</tbody>	
+		                </table>
+		              </div>
+				</div>
+             
+             
+             
+             
+          
 
   
   </div>
@@ -148,6 +205,23 @@ border-radius: 5px;
 <!-- Bootstrap slider -->
 <script src="./resources/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="./resources/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
+<script>
+$(document).ready(function(){ 
+	var working= "${statistics.working }";
+	 working = working/60/60;
+	 console.log("!!"+working)
+	 var over= "${statistics.over }";
+	 over = over/60/60;
+	 console.log("!!"+over)
+});
+
+function noticeNo(num){
+	location.href = "detail.nt?bno="+ num;
+	
+}
+
+
+</script>
 <script>
 function insertTime(num){	
 	var nowDate = new Date();
@@ -164,46 +238,43 @@ function insertTime(num){
     var outTime = document.getElementById('outTime').value;
     
 	if(num == 1){		
-		if(inTime == "00:00:00"){
-			alert("출근시간이 등록되었습니다")
-			location.href="intime.ps?inOutTime=" + inOutTime;		
+		
+		if( hour > 15 || hour < 08 ){ //오후 3시부터 오전 7시까지는 출근등록을 할 수 없음			
+			alert("지금은 출근시간을 등록할 수 없습니다")		
 		}else{
-			alert("출근시간이 등록되어있습니다")
-		}	
+			if(inTime == "00:00:00"){
+				alert("출근시간이 등록되었습니다")
+				 location.href="intime.ps?inOutTime=" + inOutTime; 		
+			}else{
+				alert("출근시간이 등록되어있습니다") //출근등록을 두번눌렀을때 방지
+			}	
+		}
+		
 	}else{
-		if(outTime == "00:00:00"){
-			alert("퇴근시간이 등록되었습니다")
-			location.href="outTime.ps?inOutTime=" + inOutTime;		
+		
+		if(inTime == "00:00:00"){ //출근등록을 안했을 때
+			alert("출근시간을 먼저 등록해 주세요")
+			
+		}else if(hour > 23 || hour < 10 ){ //오전 12시부터 오전 9시까지는 퇴근등록을 할 수 없음		
+			alert("지금은 퇴근시간을 등록할 수 없습니다")		
 		}else{
-			alert("퇴근시간이 등록되어있습니다")
-		}			
+			
+			if(outTime == "00:00:00"){
+				alert("퇴근시간이 등록되었습니다")
+				 location.href="outTime.ps?inOutTime=" + inOutTime;	 
+			}else{
+				alert("퇴근시간이 등록되어있습니다")//퇴근등록을 두번눌렀을때 방지
+			}
+			
+			
+		}	
+			
 	}
 	
 }
 </script>
 
-<script>
-  $(function () {
-    $('#range_1').ionRangeSlider({
-       min: 0,
-       max: 10,
-       postfix   : '시간'
 
-    })
-
-  })
-    $(function () {
-    $('#range_2').ionRangeSlider({
-      type      : 'single',
-      step      : 100,
-      postfix   : '시간',
-      from      : 55000,
-      hideMinMax: true,
-      hideFromTo: false
-    })
-
-  })
-</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // 시간을 딜레이 없이 나타내기위한 선 실행

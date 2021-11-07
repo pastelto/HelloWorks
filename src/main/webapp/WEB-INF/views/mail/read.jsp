@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,29 +92,32 @@
 							<div class="card-body p-0">
 								<div class="mailbox-read-info">
 									<h5>${ inbox.mailTitle }</h5>
-									<br><br>
+									<br> <br>
 									<h6>
-										From: ${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName } 
+										발신자 : ${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName }
 										<span class="mailbox-read-time float-right">${ inbox.mailDate }</span>
 									</h6>
 								</div>
-								<div class="mailbox-read-message">
-									${ inbox.mailContent }
-								</div>
+								<div class="mailbox-read-message">${ inbox.mailContent }</div>
 								<!-- /.mailbox-read-message -->
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer bg-white">
-								<ul class="mailbox-attachments d-flex align-items-stretch clearfix">
-								<c:forEach items="${ mailAttachment }" var="mailAttachment">
-									<li><span class="mailbox-attachment-icon">
-									<i class="far fa-file-pdf"></i>											
+								<ul
+									class="mailbox-attachments d-flex align-items-stretch clearfix">
+									<c:forEach items="${ mailAttachment }" var="mailAttachment">
+										<li><span class="mailbox-attachment-icon"> <i
+												class="far fa-file-pdf"></i>
 										</span>
-										<div class="mailbox-attachment-info" style="width:198px; height:120px;">
-											<a href="resources/mail_Attachment/${mailAttachment.mailAtChg}" class="mailbox-attachment-name" download="${ mailAttachment.mailAtChg }"><i
-												class="fas fa-paperclip"></i>${ mailAttachment.mailAtOrg } </a> 
-										</div>
-									</li>
+											<div class="mailbox-attachment-info"
+												style="width: 198px; height: 120px;">
+												<a
+													href="resources/mail_Attachment/${mailAttachment.mailAtChg}"
+													class="mailbox-attachment-name"
+													download="${ mailAttachment.mailAtChg }"><i
+													class="fas fa-paperclip"></i>${ mailAttachment.mailAtOrg }
+												</a>
+											</div></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -142,30 +145,30 @@
 		<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
-<jsp:include page="../common/footer.jsp" />
-<script>
-	$(function() {
-		//Enable check and uncheck all functionality
-		$('.checkbox-toggle').click(
-				function() {
-					var clicks = $(this).data('clicks')
-					if (clicks) {
-						//Uncheck all checkboxes
-						$('.mailbox-messages input[type=\'checkbox\']')
-								.prop('checked', false)
-						$('.checkbox-toggle .far.fa-check-square')
-								.removeClass('fa-check-square').addClass(
-										'fa-square')
-					} else {
-						//Check all checkboxes
-						$('.mailbox-messages input[type=\'checkbox\']')
-								.prop('checked', true)
-						$('.checkbox-toggle .far.fa-square').removeClass(
-								'fa-square').addClass('fa-check-square')
-					}
-					$(this).data('clicks', !clicks)
-				})
+	<jsp:include page="../common/footer.jsp" />
+	<script>
+		$(function() {
+			//Enable check and uncheck all functionality
+			$('.checkbox-toggle').click(
+					function() {
+						var clicks = $(this).data('clicks')
+						if (clicks) {
+							//Uncheck all checkboxes
+							$('.mailbox-messages input[type=\'checkbox\']')
+									.prop('checked', false)
+							$('.checkbox-toggle .far.fa-check-square')
+									.removeClass('fa-check-square').addClass(
+											'fa-square')
+						} else {
+							//Check all checkboxes
+							$('.mailbox-messages input[type=\'checkbox\']')
+									.prop('checked', true)
+							$('.checkbox-toggle .far.fa-square').removeClass(
+									'fa-square').addClass('fa-check-square')
+						}
+						$(this).data('clicks', !clicks)
+					})
 		})
-</script>
+	</script>
 </body>
 </html>

@@ -120,9 +120,16 @@ public class AttendanceServiceImpl implements AttendanceService {
 	
 	//통계 전체조회
 	@Override
-	public ArrayList<Statistics> wtStatisticsAll(String dept) {
+	public ArrayList<Statistics> wtStatisticsAll(SearchAttendance as) {
 		// TODO Auto-generated method stub
-		return attendanceDao.wtStatisticsAll(sqlSession, dept);
+		return attendanceDao.wtStatisticsAll(sqlSession, as);
+	}
+	
+	//sysdateWeek
+	@Override
+	public SearchAttendance sysdateWeek() {
+		// TODO Auto-generated method stub
+		return attendanceDao.sysdateWeek(sqlSession);
 	}
 	
 	//통계 검색조회
@@ -149,4 +156,34 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 		
 	}
+	
+	//근태 상태별로 조회
+	@Override
+	public Statistics selectAtndCount(Statistics sta) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectAtndCount(sqlSession, sta);
+	}
+	
+	//출근기록-연차 사용일수
+	@Override
+	public Statistics selectThreeCount(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectThreeCount(sqlSession, empNo);
+	}
+	
+	//API
+	@Override
+	public ArrayList<Attendance> selectAPI(int empNo) {
+		// TODO Auto-generated method stub
+		return attendanceDao.selectAPI(sqlSession, empNo);
+	}
+	
+	//메인 근로시간 조회
+	@Override
+	public Statistics wtStatisticsOne(SearchAttendance as) {
+		// TODO Auto-generated method stub
+		return attendanceDao.wtStatisticsOne(sqlSession, as);
+	}
+
+	
 }

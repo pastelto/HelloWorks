@@ -5,7 +5,9 @@
 .fc-not-allowed .fc-event { /* override events' custom cursors */
   cursor: not-allowed;
 }
-
+.fc-event-title.fc-sticky{
+    white-space: normal;
+}
 .fc-unselectable {
   -webkit-user-select: none;
      -moz-user-select: none;

@@ -23,6 +23,21 @@
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
+	
+	<resultMap type="DailyReportReply" id="dailyReportReplyResultSet">
+		<id property="drRefNo" column="DR_REF_NO"/>
+		<result property="drRepRefNo" column="DR_REP_REF_NO"/>
+		<result property="drRepCode" column="DR_REP_CODE"/>
+		<result property="drRepReRefNo" column="DR_REP_RE_REF_NO"/>
+		<result property="drRepWriterNo" column="DR_REP_WRITER_NO"/>
+		<result property="drRepReceiverNo" column="DR_REP_RECEIVER_NO"/>
+		<result property="drRepContent" column="DR_REP_CONTENT"/>
+		<result property="drRepCreateDate" column="DR_REP_CREATE_DATE"/>
+		<result property="drRepStatus" column="DR_REP_STATUS"/>
+		<result property="drRepWriterName" column="EMP_NAME"/>
+		<result property="drRepWriterJobName" column="JOB_NAME"/>
+		<result property="drRepWriterDeptDName" column="DEPT_DNAME"/>
+	</resultMap>
 
 	<select id="tempDailyReportCount" parameterType="DailyReport" resultType="_int">
 		SELECT COUNT(*)
@@ -113,7 +128,7 @@
 		AND A.DR_WRITER_NO != #{loginUserNo}
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
 	<select id="receiveCheck" parameterType="DailyReport" resultType="_int">
@@ -158,7 +173,7 @@
 		AND DR_CATEGORY = #{drCategory}
 		AND A.DR_CREATE_DATE LIKE SYSDATE
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
 	<select id="selectDailyReportTermTypeListCount" parameterType="DailyReport" resultType="_int">
@@ -168,7 +183,7 @@
 			OR DR_REF = #{drWriterNo})
 		AND DR_WRITER_NO != #{drWriterNo}
 		<choose>
-			<when test="drCategory neq 'allType'">
+			<when test="drCategory != 'allReport'">
 				AND DR_CATEGORY = #{drCategory}
 			</when>
 		</choose>
@@ -178,28 +193,29 @@
 			</when>
 			<when test="termType == 2">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < SYSDATE + 7
+				AND DR_CREATE_DATE >= SYSDATE - 7 AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test=" termType == 3">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +1) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -1) AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 4">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +3) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -3)  AND DR_CREATE_DATE <= SYSDATE
 				]]>
 			</when>
 			<when test="termType == 5">
-				AND DR_CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+			<![CDATA[
+				AND TRUNC(DR_CREATE_DATE) BETWEEN #{startDate} AND #{endDate}
+				]]>
 			</when>
 		</choose>
 		AND DR_STATUS = 'SN'
 	</select>
 	
 	<select id="selectDailyReportTermTypeList" parameterType="DailyReport" resultMap="dailyReportResultSet">
-		
 		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
 		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
 		FROM DAILY_REPORT A
@@ -221,25 +237,169 @@
 			</when>
 			<when test="termType == 2">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < SYSDATE + 7
+				AND DR_CREATE_DATE >= SYSDATE - 7 AND DR_CREATE_DATE <= SYSDATE
 				]]>
 			</when>
 			<when test="termType == 3">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +1) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -1) AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 4">
 			<![CDATA[
-				AND DR_CREATE_DATE > TRUNC(SYSDATE) AND DR_CREATE_DATE < ADD_MONTHS(SYSDATE, +3) 
+				AND DR_CREATE_DATE >= ADD_MONTHS(SYSDATE, -3)  AND DR_CREATE_DATE <= SYSDATE 
 				]]>
 			</when>
 			<when test="termType == 5">
-				AND DR_CREATE_DATE BETWEEN #{startDate} AND #{endDate}
+			<![CDATA[
+				AND TRUNC(DR_CREATE_DATE) BETWEEN #{startDate} AND #{endDate}
+				]]>
 			</when>
 		</choose>
 		AND A.DR_STATUS = 'SN'
-		ORDER BY DR_RECEIVER_NO DESC
+		ORDER BY DR_NO DESC
 	</select>
 	
+	<select id="selectDetailDailyReport" parameterType="DailyReport" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_WRITER_NO = #{drWriterNo}
+		AND A.DR_RECEIVER_NO = #{drWriterNo}
+		AND A.DR_CREATE_DATE LIKE #{startDate}
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<insert id="addReply" parameterType="DailyReportReply">
+		INSERT INTO DAILY_REPORT_REPLY
+		VALUES(SEQ_DR_REF_NO.NEXTVAL, #{drRepRefNo}, DEFAULT, NULL, #{drRepWriterNo}, NULL, #{drRepContent}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="dailyReportReplyResultSet">
+		SELECT A.*, B.EMP_NAME, D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT_REPLY A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_REP_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE DR_REP_REF_NO = #{drRefNo}
+		ORDER BY 1
+	</select>
+	
+	<select id="deleteReply" parameterType="_int">
+		UPDATE DAILY_REPORT_REPLY
+		SET DR_REP_STATUS = 'N'
+		WHERE DR_REF_NO = #{drNo}
+	</select>
+	
+	<select id="selectMyAllDailyReportList" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_WRITER_NO = #{loginUserNo}
+		AND A.DR_RECEIVER_NO = #{loginUserNo}
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<select id="selectDetailSendDailyReport" parameterType="_int" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.DR_NO = #{drNo}
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<update id="updateConfirm" parameterType="DailyReport">
+		UPDATE DAILY_REPORT
+		SET DR_CONFIRM = 'Y'
+		WHERE DR_WRITER_NO = #{drWriterNo}
+		AND (DR_RECEIVER_NO = #{drReceiverNo}
+		OR DR_REF = #{drReceiverNo})
+		AND DR_CONFIRM = 'N'
+		AND DR_CREATE_DATE LIKE #{startDate}
+	</update>
+	
+	<select id="searchDailyReportListCount" parameterType="SearchDailyReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (A.DR_RECEIVER_NO = #{userNo}
+			OR A.DR_REF = #{userNo})
+		AND A.DR_WRITER_NO != #{userNo}
+		<choose>
+			<when test="allReport != 'null'">
+			</when>
+			<when test="reportDType != 'null'">
+				AND A.DR_CATEGORY = #{reportDType}
+			</when>
+			<when test="reportWType != 'null'">
+				AND A.DR_CATEGORY = #{reportWType}
+			</when>
+			<when test="reportMType != 'null'">
+				AND A.DR_CATEGORY = #{reportMType}
+			</when>
+		</choose>
+		<choose>
+			<when test=" allType != 'null'">
+				AND (B.EMP_NAME  LIKE '%'||#{allType}||'%'
+					OR A.DR_TITLE LIKE '%'||#{allType}||'%'
+					OR A.DR_CONTENT LIKE '%'||#{allType}||'%')
+			</when>
+			<when test="writerType == 'null'">
+				AND B.EMP_NAME  LIKE '%'||#{writerType}||'%'
+			</when>
+			<when test=" titleType == 'null'">
+				AND A.DR_TITLE LIKE '%'||#{titleType}||'%'
+			</when>
+			<when test="contentType == 'null'">
+				AND A.DR_CONTENT LIKE '%'||#{contentType}||'%'
+			</when>
+		</choose>
+		AND A.DR_STATUS = 'SN'
+	</select>
+	
+	<select id="searchDailyReportList" parameterType="DailyReport" resultMap="dailyReportResultSet">
+		SELECT A.*, B.EMP_NAME, B.DEPT_CODE, B.JOB_CODE,
+		         D.JOB_NAME, C.DEPT_UNAME, C.DEPT_DNAME
+		FROM DAILY_REPORT A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.DR_WRITER_NO
+		JOIN DEPT C ON C.DEPT_CODE = B.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (A.DR_RECEIVER_NO = #{drWriterNo}
+		    OR A.DR_REF = #{drWriterNo})
+		AND A.DR_WRITER_NO != #{drWriterNo}
+		<choose>
+			<when test="drCategory != 'allReport'">
+				AND DR_CATEGORY = #{drCategory}
+			</when>
+		</choose>
+		
+		<choose>
+			<when test=" searchType == 'allType'">
+				AND (B.EMP_NAME  LIKE '%'||#{search}||'%'
+					OR A.DR_TITLE LIKE '%'||#{search}||'%'
+					OR A.DR_CONTENT LIKE '%'||#{search}||'%')
+			</when>
+			<when test=" searchType == 'writerType'">
+				AND B.EMP_NAME  LIKE '%'||#{search}||'%'
+			</when>
+			<when test=" searchType == 'titleType'">
+				AND A.DR_TITLE LIKE '%'||#{search}||'%'
+			</when>
+			<when test=" searchType == 'contentType'">
+				AND A.DR_CONTENT LIKE '%'||#{search}||'%'
+			</when>
+		</choose>
+		AND A.DR_STATUS = 'SN'
+	</select>
 </mapper>

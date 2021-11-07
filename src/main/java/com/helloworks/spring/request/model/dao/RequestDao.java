@@ -158,5 +158,36 @@ public class RequestDao {
 		return sqlSession.update("requestMapper.cancelOneId", requestIdNo);
 	}
 	
+	//회의실 예약위한 회의실 리스트 가져오기
+	public ArrayList<Mtr> listMtr(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.manageMtr");
+	}
+
+	//회의실 예약위한 회의실 리스트 가져오기
+	public ArrayList<Mtr> timeMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.timeMtr", mtr);
+	}
+
+	//회의실 예약정보 삭제
+	public int delRsvMtr(SqlSessionTemplate sqlSession, int mRNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("requestMapper.delRsvMtr", mRNo);
+	}
+
+	//회의실 예약하기
+	public int rsvMtr(SqlSessionTemplate sqlSession, Mtr mtr) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("requestMapper.rsvMtr", mtr);
+	}
+	
+	//차량 예약위한 차량 리스트
+	public ArrayList<Car> listCar(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.manageCar");
+	}
+
+	
 
 }
