@@ -40,6 +40,17 @@
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
 	
+	<resultMap type="PersonalAddressBook" id="personalAddressBookResultSet">
+		<id property="pabNo" column="PAB_NO"/>
+		<result property="pabUserNo" column="PAB_USER_NO"/>
+		<result property="pabName" column="PAB_NAME"/>
+		<result property="pabEname" column="PAB_ENAME"/>
+		<result property="pabJob" column="PAB_JOB"/>
+		<result property="pabPhone" column="PAB_PHONE"/>
+		<result property="pabEmail" column="PAB_EMAIL"/>
+		<result property="pabStatus" column="PAB_STATUS"/>
+	</resultMap>
+	
 	<select id="selectListCount" parameterType="_int" resultType="_int">
  		SELECT COUNT(*)
  		FROM OFFICE_ADDRESS_BOOK
@@ -238,6 +249,20 @@
 			</when>
 		</choose>
 		ORDER BY A.OAB_NO DESC
+	</select>
+
+	<select id="selectListPerCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PERSONAL_ADDRESS_BOOK
+		WHERE PAB_USER_NO = #{loginEmpNo}
+		AND PAB_STATUS = 'Y'
+	</select>
+	
+	<select id="selectPerAddressBook" parameterType="_int" resultMap="personalAddressBookResultSet">
+		SELECT *
+		FROM PERSONAL_ADDRESS_BOOK
+		WHERE PAB_USER_NO = #{loginEmpNo}
+		AND PAB_STATUS = 'Y'
 	</select>
 
 </mapper>

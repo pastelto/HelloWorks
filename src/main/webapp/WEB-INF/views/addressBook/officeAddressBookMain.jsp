@@ -82,7 +82,7 @@
 		                    <a class="nav-link active" id="custom-tabs-officeAddressBook-tab" data-toggle="pill" href="#custom-tabs-officeAddressBook" role="tab" aria-controls="custom-tabs-officeAddressBook" aria-selected="true">사내 주소록</a>
 		                  </li>
 		                  <li class="nav-item">
-		                    <a class="nav-link" id="custom-tabs-personalAddressBook-tab" data-toggle="pill" href="#custom-tabs-personalAddressBook" role="tab" aria-controls="custom-tabs-personalAddressBook" aria-selected="false">외부주소록</a>
+		                    <a class="nav-link"  href="personalAddressBook.adb" role="tab" aria-selected="false">외부주소록</a>
 		                  </li>
 		                </ul>
 		              </div>
@@ -151,7 +151,7 @@
 									<!-- 주소록 리스트 -->
 									<div class="col-12" >
 									<div>
-									<div style="height: 450px; overflow:auto;">
+									<div style="height: 470px; overflow:auto;">
 									<table id="officeAddressBookTable" class="table table-sm" >
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
@@ -191,7 +191,6 @@
 									</div>
 									</div>
 									
-									<br>
 									
 									<div id="pagingArea">
 						                <ul class="pagination">
@@ -215,7 +214,6 @@
 							                	</c:choose>
 						                    </c:forEach>
 						                    
-						                    
 						                    <c:choose>
 						                		<c:when test="${ pi.currentPage ne pi.maxPage }">
 						                			<li class="page-item"><a class="page-link" href="${pageURL}?optionType=${ optionType }&deptTypeOption=${ deptTypeOption }&searchEmployee=${ searchEmployee }&currentPage=${ pi.currentPage+1 }">Next</a></li>
@@ -226,7 +224,6 @@
 						                	</c:choose>
 						                </ul>
 						            </div>
-								</div>
 								<!-- /.col -->
 								
 								<!-- 직원 선택 시 뜨는 모달  -->
@@ -299,136 +296,8 @@
 									</div>
 								</div>
 		                  	</div>
-		                  
-		                  	<!-- 외부 주소록 탭 -->
-		                  	<div class="tab-pane fade" id="custom-tabs-personalAddressBook" role="tabpanel" aria-labelledby="custom-tabs-personalAddressBook-tab">
-
-								<div class="card" style="margin-bottom: 0px;">
-										
-										<table id="searchPersonalAddressBookTable">
-										 <thead>
-											<tr>
-												<th>추가</th>
-												<td>
-													<form action="#">
-														<div class="input-group mt-1 mb-1">
-															&nbsp;&nbsp;
-															  
-															  <div class="input-group" style="width: 90%">
-																<div class="input-group-prepend">
-																      <span class="input-group-text input-group-xs form-control-sm badge-light">이름</span>
-																   </div>
-															 	<input type="text" id="pabName" class="form-control form-control-sm">
-															 	
-															 	<div class="input-group-append">
-																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">회사명</span>
-																</div>
-																<input type="text" id="pabEname" class="form-control form-control-sm">
-															
-																<div class="input-group-append">
-																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">직급</span>
-																</div>
-																<input type="text" id="pabJob" class="form-control form-control-sm">
-																
-																<div class="input-group-append">
-																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">전화번호</span>
-																</div>
-																<input type="text" id="pabPhone" class="form-control form-control-sm">
-															 	<div class="input-group-append">
-																    <span class="input-group-text input-group-xs form-control-sm badge-light" style="border-right: 0px;">메일주소</span>
-																</div>
-																<input type="text" id="pabEmail" class="form-control form-control-sm">
-																<!-- <div class="input-group-append">
-																    <button class="btn btn-xs btn-default" type="button" onclick="addPersonalAddress();" style="width: 30px; font-size: 14px; important">
-																	<i class="fa fa-search"></i></button>
-																</div> -->
-															  </div>
-															  &nbsp;<button class="btn btn-xs btn-primary" type="button" onclick="addPersonalAddress();" >추가하기</button>
-														</div>
-													</form>
-												</td>
-											</tr>
-											</thead>
-										<tbody>
-											<tr>
-												<th>검색</th>
-												<td>
-												<form action="searchOfficeAddressBookEmployee.adb">
-												<div class="row mt-1 mb-1" style="margin-left: 0px;">
-														&nbsp;&nbsp;
-														<button id="allPersonSearchBtn" type="button" class="btn btn-default btn-sm" onclick="selectAllPeronalAddressBookEmployee();">전체검색</button>
-														&nbsp;&nbsp;
-														
-															<select id="optionTypePer" name="optionTypePer" class="custom-select custom-select-sm" style="width: 10%;" onchange="deptSelect(this.value);">
-																<option value="allType">전체</option>
-																<option value="empNameType">이름</option>
-																<option value="empNameType">회사</option>
-																<option value="ePhoneType">전화번호</option>
-																<option value="emailType">이메일</option>
-															</select>
-															
-															&nbsp;&nbsp;
-															<div class="input-group" style="width: 30%;">
-																<input type="search" id="searchInput"
-																	class="form-control form-control-sm"
-																	placeholder="검색어를 입력하세요." name="searchPerson" value="${ search }">
-																<div class="input-group-append">
-																	<button type="submit" class="btn btn-sm btn-default">
-																		<i class="fa fa-search"></i>
-																	</button>
-																</div>
-															</div>
-														</div>
-													</form>
-												</td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-									
-									
-									<hr>
-									<!-- 개인 주소록 리스트 -->
-									<div class="col-12" >
-									<div>
-									<div style="height: 450px; overflow:auto;">
-									<table id="personalAddressBookTable" class="table table-sm" >
-									<caption style="caption-side:top">* 정렬 기준 : <span id="PerSortOption">전체</span></caption>
-										<thead>
-											<tr>
-												<th style="width: 10%"><input type='checkbox' name='checkPerAll' id='checkAll' onclick="checkAll();"></th>
-												<th style="width: 20%">이름</th>
-												<th style="width: 20%">회사</th>
-												<th style="width: 20%">직급</th>
-												<th style="width: 20%">전화번호</th>
-												<th style="width: 20%">이메일</th>
-												<th style="width: 10%"></th>
-											</tr>
-										</thead>
-										<tbody>
-										
-											<c:forEach items="${ personalAddresslist }" var="personalAddresslist" varStatus="status">
-							                    <tr>
-							                    	
-							                    	<th>
-							                    	<input type='checkbox' name='deletePerAddressBook' id='deletePerAddressBook' value="${ personalAddresslist.oabEnrollNo }">
-							                    	</th>
-							                        <td>${ officeAddresslist.pabName }</td>
-							                        <td>${ officeAddresslist.pabEname}</td>
-							                        <td>${ officeAddresslist.pabJob}</td>
-							                        <td>${ officeAddresslist.pabPhone }</td>
-							                        <td>${ officeAddresslist.pabEmail }</td>
-							                        <th>
-							                        	<button id='deletePersonalAddressBook' type='button' class='btn btn-default btn-xs'>삭제하기</button>&nbsp;
-							                        </th>
-							                    </tr>
-						                    </c:forEach>
-										</tbody>
-									</table>
-									</div>
-									</div>
-								</div>
-		                  	</div>
+		                  </div>
+	                  
 		                </div>
 		              </div>
 		              <!-- /.card -->
@@ -610,7 +479,7 @@
 		}
 	</script>
 	
-	<!-- footer 사내 주소록 삭제 버튼 -->
+	<!--  사내 주소록 삭제 버튼 -->
 	<script>
 		function deleteOfficeAddressBookBtn(){
 			const checkList = [];
@@ -635,7 +504,5 @@
 			}
 		}
 	</script>
-	
-	<script type="text/javascript"></script>
 </body>
 </html>

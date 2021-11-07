@@ -51,7 +51,7 @@
 		              <div class="card-body">
 						<div class="tab-content" id="custom-tabs-four-tabContent">
 						
-							<jsp:include page="../addressBook/addressBook.jsp"/>
+							<jsp:include page="../addressBook/officeAddressBookMain.jsp"/>
 						</div>
 					
 		                  

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.addressBook.model.vo.PersonalAddressBook;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
@@ -79,6 +80,21 @@ public class AddressBookDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("addressBookMapper.popUpSearchOfficeAddressBookEmployee", se, rowBounds);
+	}
+
+	public int selectListPerCount(SqlSessionTemplate sqlSession, int loginEmpNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("addressBookMapper.selectListPerCount", loginEmpNo);
+	}
+
+	public ArrayList<PersonalAddressBook> selectPerAddressBook(SqlSessionTemplate sqlSession, int loginEmpNo,
+			PageInfo piR) {
+		// TODO Auto-generated method stub
+		int offset = (piR.getCurrentPage()-1)*piR.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, piR.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("addressBookMapper.selectPerAddressBook", loginEmpNo, rowBounds);
 	}
 
 

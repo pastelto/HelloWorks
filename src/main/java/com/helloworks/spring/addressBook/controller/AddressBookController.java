@@ -17,6 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.helloworks.spring.addressBook.model.service.AddressBookService;
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.addressBook.model.vo.PersonalAddressBook;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -37,10 +38,11 @@ public class AddressBookController {
 	
 	@RequestMapping("officeAddressBook.adb")
 	public String officeAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
-		System.out.println("공유 주소록 전환");
+		System.out.println("주소록 전환");
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
+		// 공유 주소록 전환
 		int listCount = addressBookService.selectListCount(loginEmpNo);
 		
 		System.out.println("공유 주소록 등록 인원: "+listCount);
@@ -53,8 +55,11 @@ public class AddressBookController {
 		
 		
 		model.addAttribute("officeAddresslist", officeAddresslist);
+		model.addAttribute("firstTab", "active");
 		model.addAttribute("pi", pi);
 		model.addAttribute("pageURL", "officeAddressBook.adb");
+		
+		
 		return "addressBook/officeAddressBookMain";
 	}
 	
@@ -557,5 +562,29 @@ public class AddressBookController {
 		session.setAttribute("refListSession", refList);
 		
 		return "redirect:popupOfficeAddressBook.adb";
+	}
+	
+	@RequestMapping("personalAddressBook.adb")
+	public String personalAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		// 개인 주소록 전환
+		int listPerCount = addressBookService.selectListPerCount(loginEmpNo);
+		
+		System.out.println("사내 주소록 등록 인원: "+listPerCount);
+		
+		PageInfo piR = Pagination.getPageInfo(listPerCount, currentPage, 5, 10);
+		
+		ArrayList<PersonalAddressBook> personalAddresslist = addressBookService.selectPerAddressBook(loginEmpNo, piR);
+		
+		
+		model.addAttribute("personalAddresslist", personalAddresslist);
+		model.addAttribute("piR", piR);
+		model.addAttribute("secondTab", "active");
+		
+		model.addAttribute("pagePerURL", "personalAddressBook.adb");
+		
+		return "addressBook/personalAddressBookMain";
 	}
 }
