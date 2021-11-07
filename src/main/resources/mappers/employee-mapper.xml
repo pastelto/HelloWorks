@@ -75,4 +75,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 -->
 
+	<!-- 인사관리 -->
+	<select id="selectAllEmployeeListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = 'Y'
+	</select>
+	
+	<!-- 인사관리 -->
+  	<select id="selectAllEmployee" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployeeListCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = #{hrType}
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployee" parameterType="String" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		ORDER BY A.EMP_NO
+	</select>
+	
 </mapper>

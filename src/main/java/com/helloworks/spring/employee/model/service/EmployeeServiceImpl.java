@@ -1,12 +1,16 @@
 package com.helloworks.spring.employee.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
+import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.dao.EmployeeDao;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -61,6 +65,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		
 	}
+
+	// 인사관리 - 하연
+	@Override
+	public int selectAllEmployeeListCount() {
+		// TODO Auto-generated method stub
+		return employeeDao.selectAllEmployeeListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Employee> selectAllEmployee(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return employeeDao.selectAllEmployee(sqlSession, pi);
+	}
+
+	@Override
+	public int selectHrTypeEmployeeListCount(String hrType) {
+		// TODO Auto-generated method stub
+		return employeeDao.selectHrTypeEmployeeListCount(sqlSession, hrType);
+	}
+
+	@Override
+	public ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return employeeDao.selectHrTypeEmployee(sqlSession, hrType, pi);
+	}
+
+	@Override
+	public int searchEmployeeListCount(SearchEmployee se) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }
