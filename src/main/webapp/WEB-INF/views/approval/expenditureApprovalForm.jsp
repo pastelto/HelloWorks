@@ -32,8 +32,8 @@
 		pointer-events: none;
 	}
 	input[id^="ccName"]{
-		background-color: white;
-		pointer-events: none;
+		background-color: white !important;
+		pointer-events: none !important;
 	}
 	input[id^="fieldWriter"], input[id^="userDept"], #sumTd{
 		border : none;
@@ -756,22 +756,43 @@
 	</script>
 	
 	<script>
+		
+		var num = $("tr[name='exRow']").length;
+	
 		function insertApp(){	
 			
 			$("#expenditureApprovalForm").each(function(){
-				$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
-				$("#expenditureApprovalForm").submit();
 				
-				alert("결재 작성이 완료되었습니다.");
+				if($("input[type=text]:enabled").val() == ""){
+					alert("지출내역을 모두 입력해주세요.")
+				} else if($("#corpor_select").val() == "" && $("#remitt_select").val()== ""){
+					alert("지급 유형을 선택해주세요.")
+				} else if($("#card_select1").val()=="" && $("#card_select").val()==""){
+					alert("지급 계좌를 선택해주세요.")
+				} else {
+					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+					$("#expenditureApprovalForm").submit();
+					
+					alert("결재 작성이 완료되었습니다.");
+				}
+					
 			});		
 		}
 		
 		function insertTemp(){
 			$("#expenditureApprovalForm").each(function(){
-				$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=N");
-				$("#expenditureApprovalForm").submit();
-				
-				alert("임시저장되었습니다.");
+				if($("input[type=text]:enabled").val() == ""){
+					alert("지출내역을 모두 입력해주세요.")
+				} else if($("#corpor_select").val() == "" && $("#remitt_select").val()== ""){
+					alert("지급 유형을 선택해주세요.")
+				} else if($("#card_select1").val()=="" && $("#card_select").val()==""){
+					alert("지급 계좌를 선택해주세요.")
+				} else {
+					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+					$("#expenditureApprovalForm").submit();
+					
+					alert("결재 작성이 완료되었습니다.");
+				}
 			});		
 		}
 	</script>

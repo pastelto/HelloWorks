@@ -261,7 +261,7 @@
 															<span id="approval_log">
 																<strong>[${ approval.createDate }]</strong>
 																&nbsp;${ approval.deptName }&nbsp;${ approval.writerName }&nbsp;${ approval.writerJob }
-																<b>제출</b> 
+																<b>제출</b><br>
 															</span>
 														</td>
 													</tr>
@@ -320,8 +320,8 @@
 	<script>		
 		var arr = new Array();
 		<c:forEach items="${ lineList }" var="line">
-			arr.push({job:"${line.jobName}", name:"${line.empName}", number:"${line.empNo}", lineNo:"${line.lineNo}",
-					  status:"${line.confirmStatus}"});
+			arr.push({job:"${line.jobName}", name:"${line.empName}", number:"${line.empNo}",dept:"${line.deptName}",
+				lineNo:"${line.lineNo}", status:"${line.confirmStatus}", proDate:"${line.progressDate}"});
 		</c:forEach>
 		
 		$("#confirm0").append("${approval.writerName}");
@@ -340,6 +340,25 @@
 			n++;
 		}
 		
+		var value ="";
+		
+		for(var i=0; i < arr.length; i++){
+			if(arr[i].proDate != ""){		
+				console.log("proDate : " + arr[i].proDate)
+				value += '<strong>['+arr[i].proDate+']</strong>'+
+				'&nbsp;'+arr[i].dept+'&nbsp;'+arr[i].name+'&nbsp;'+arr[i].job+
+				'<b>' + progress + '</b>'+'<br>' 
+			} else {
+				value += '[0000-00-00 00:00:00]'+
+				'&nbsp;'+arr[i].dept+'&nbsp;'+arr[i].name+'&nbsp;'+arr[i].job+
+				'<b>' + progress + '</b>'+'<br>'
+			}
+		}
+		
+		$("#approval_log").after(value);
+		
+		
+		// 결재/반려 버튼 
 		for(var i=0;i<arr.length;i++){
 			if(user == arr[i].number && progress == '진행중'){				
 				$("#confirmBtn").show();
