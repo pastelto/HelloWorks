@@ -27,7 +27,22 @@ public class ScheduleController {
 	
 	// 메뉴바 -> 일정관리 메인화면
 	@RequestMapping("schMain.sc")
-	public String scheduleMain() {
+	public String scheduleMain(Model model) {
+		
+		List<Dept> deptList = new ArrayList<Dept>();
+		
+		// 부서목록 구하기
+		try {
+			deptList = scheduleService.getDeptList();
+			System.out.println("deptList" + deptList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("deptList", deptList);
+		
 		System.out.println("일정관리 메인화면으로 이동");
 		return "schedule/scheduleMain";
 	}

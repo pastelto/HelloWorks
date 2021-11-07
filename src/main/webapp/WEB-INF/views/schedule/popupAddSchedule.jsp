@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,19 +57,62 @@
                         <label>캘린더타입 :</label>
 		                  <select class="form-control form-control-sm select2" style="width: 200px;" name="sch_type">
 		                    <option selected="selected">선택하세요</option>
-		                    <!-- 조건 (전체 / 본부별) -> 로그인 계정의 DeptCode(A/B/C)에 따라, 직급(J)에 따라! -->
-		                    <option>사내 전체</option>
-		                    <option>경영지원본부</option>
-		                    <option>영업지원본부</option>
-		                    <option>사업본부</option>
-		                    <option>인사팀</option>
-		                    <option>총무팀</option>
-		                    <option>재무회계팀</option>
-		                    <option>영업팀</option>
-		                    <option>운영지원팀</option>
-		                    <option>마케팅팀</option>
-		                    <option>디자인팀</option>
-		                    <option>IT개발팀</option>
+ 								<!-- 조건 (전체 / 본부별) : 운영지원팀은 모두 작성가능 -->
+			                    <c:if test="${loginUser.deptCode eq 'B2'}">
+			                    	<option>사내 전체</option>									                    
+			                    <c:set var="loop_flag1" value="false" />
+			                    <c:set var="loop_flag2" value="false" />
+			                    <c:set var="loop_flag3" value="false" />
+			                    <c:forEach items="${ deptList }" var="dl" varStatus="status">
+			                    
+			                    <c:if test="${not loop_flag1 }">
+			                    <c:if test = "${fn:contains(dl.deptCode, 'A')}">
+				                    <option>${dl.deptUName}</option>
+				                 <c:set var="loop_flag1" value="true" />
+			                    </c:if>
+			                    </c:if>
+			                    
+			                    <c:if test="${not loop_flag2 }">
+			                    <c:if test = "${fn:contains(dl.deptCode, 'B')}">
+				                    <option>${dl.deptUName}</option>
+				                 <c:set var="loop_flag2" value="true" />
+			                    </c:if>
+			                    </c:if>
+			                    
+			                    <c:if test="${not loop_flag3 }">
+			                    <c:if test = "${fn:contains(dl.deptCode, 'C')}">
+				                    <option>${dl.deptUName}</option>
+				                 <c:set var="loop_flag3" value="true" />
+			                    </c:if>
+			                    </c:if>
+			                    
+			                     <option>${dl.deptDName}</option>
+			                    </c:forEach>
+			                    </c:if>
+
+			                    <!-- 조건 (전체 / 본부별) -> 로그인 계정의 DeptCode(A/B/C)에 따라, 직급(J)에 따라! -->
+			                    <c:forEach items="${ deptList }" var="dl" varStatus="status">
+			                     <c:if test = "${fn:contains(dl.deptCode, 'A')}">
+				                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+				                    <option>${dl.deptUName}</option> <!--  -->
+				                    <option>${dl.deptDName}</option>
+				                    </c:if>
+			                    </c:if>
+			                     <c:if test = "${fn:contains(loginUser.deptCode,'B') && loginUser.deptCode ne 'B2'}">
+				                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+				                    <option>${dl.deptUName}</option>
+				                    <option>${dl.deptDName}</option>
+			                    	</c:if>
+			                    	
+			                    </c:if>
+			                    <c:if test = "${fn:contains(loginUser.deptCode, 'C')}">
+				                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+				                    <option>${dl.deptUName}</option>
+				                    <option>${dl.deptDName}</option>
+			                    	</c:if>
+			                    </c:if>
+									
+			                    </c:forEach>
 		                    <option value="PRIVATE">내 캘린더</option>
 		                  </select>
 		                 </div>
@@ -231,10 +276,16 @@
        		        	location.reload(true); // 새로고침
        		       } 
       		      });
-		}
-		
-		
+		}	
 	})
+	
+	
+	$('#detailEditBtn').click(function(){
+		
+		
+		
+	});
+	
 	
 </script>
 
