@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class Car {
 	
+	private int cSNo; //차량 번호시퀀스
 	private String cMNo; //차량번호
 	private int empNo; //차량 담당자 사번
 	private String empName; //차량 담당자 이름
