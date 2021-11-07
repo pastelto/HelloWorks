@@ -30,10 +30,11 @@
 </head>
 <body>
 	<!--  -->
-	<c:if test="${ msg }">
+	<c:if test="${ !empty msg }">
 		<script>
 			alert("${msg}");
 		</script>
+		<c:remove var="msg" scope="session"/>
 	</c:if>
 	<!--  -->
 	<jsp:include page="../common/menubar.jsp" />
@@ -63,30 +64,27 @@
 						</h6>
 					</div><br>
 							
-					<!-- 기본정보 -->		
-					<h5>
-						<b>기본정보</b>
-					</h5>
 						
-					<form id="insertForm" action="insert.hr" method="post" onsubmit="">
-						<table border=1>
+					<form id="insertForm" action="insert.hr" method="post" >
+						<!-- 기본정보 -->		
+						<h5>
+							<b>기본정보</b>
+						</h5>
+							
+						<table id="table1" class="table table-bordered">
 							
 								<tbody>
 						
-									<tr>
-										<th>사번</th>
-										<td colspan="3"><input type="number" class="form-control" name="empNo" placeholder="사번" required></td>						
-									</tr>	
-									<tr>
-										<th>비밀번호</th>
-										<td colspan="3"><input type="password" class="form-control" name="empPwd" placeholder="비밀번호" required></td>						
-									</tr>	
 									<tr>
 										<th>성명</th>
 										<td><input type="text" class="form-control" name="empName" placeholder="성명" required></td>	
 										<th>영문이름</th>
 										<td><input type="text" class="form-control" name="empEn" placeholder="영문이름" required></td>					
 									</tr>	
+									<tr>
+										<th>비밀번호</th>
+										<td colspan="3"><input type="password" class="form-control" name="empPwd" placeholder="비밀번호" required></td>						
+									</tr>									
 									<tr>
 										<th>이메일</th>
 										<td colspan="3"><input type="email" class="form-control" name="empEmail" placeholder="@helloworks.com" required></td>						
@@ -97,14 +95,11 @@
 									</tr>								
 									<tr>
 										<th>입사일</th>
-										<td><input type="date" class="form-control" name="empHire" placeholder="입사일" required></td>
-										<th>퇴사일</th>
-										<td><input type="date" class="form-control" name="empFire" placeholder="퇴사일"></td>						
-									</tr>	
-									<tr>
+										<td><input type="date" class="form-control" name="empHire" placeholder="입사일" required></td>	
 										<th>연봉</th>
-										<td colspan="3"><input type="text" class="form-control" name="empSalary" placeholder="연봉" required></td>						
+										<td colspan="3"><input type="text" class="form-control" name="empSalary" placeholder="연봉" required></td>				
 									</tr>	
+									
 								</tbody>	
 						</table>
 			
@@ -115,59 +110,49 @@
 							<b>상세정보</b>
 						</h5>						
 											
-						<table border=1>
+						<table id="table2" class="table table-bordered">
 
 							<colgroup>
 								<col width="140">
 							</colgroup>
 								<tbody>
-								<td rowspan="6" class="img">
-									<div id="user_pic2">
-										<img id="photo_src" src="" onerror=""> 
-									</div>
-								</td>	
-								<!--  
+								
 									<tr>
-										<th>소속</th>
-										<td colspan="3">
-											<select name="deptUname" required>
-												<option>경영지원본부</option>
-												<option>영업지원본부</option>
-												<option>사업본부</option>
-											</select>
-										</td>						
-									</tr>	
-									<tr>
+										
 										<th>소속팀</th>
-										<td colspan="3">
-											<select name="deptDname" required>
-												<option>인사팀</option>
-												<option>총무팀</option>
-												<option>재무회계팀</option>
-												<option>영업팀</option>
-												<option>운영지원팀</option>
-												<option>마케팅팀</option>
-												<option>디자인팀</option>
-												<option>IT개발팀</option>
+										<td colspan="1">
+											
+										<div id="test1">
+											<select name="deptCode" id="deptDnameA" class="custom-select custom-select-sm">
+												
+												<option value="A1">인사팀</option>
+												<option value="A2">총무팀</option>
+												<option value="A3">재무회계팀</option>						
+												<option value="B1">영업팀</option>
+												<option value="B2">운영지원팀</option>																						
+												<option value="C1">디자인팀</option>
+												<option value="C2">마케팅팀</option>
+												<option value="C3">IT개발팀</option>
 											</select>
-										</td>						
-									</tr>
-									-->
-									<tr>
-										<th>소속</th>
-										<td><input type="text" class="form-control" name="deptUname" placeholder="소속" required></td>						
-										<th>소속팀</th>
-										<td><input type="text" class="form-control" name="deptDname" placeholder="소속팀" required></td>
+										</div>	
+										</td>		
+										
 										<th>직급</th>
-										<td><input type="text" class="form-control" name="jobName" placeholder="직급" required></td>																				
+										<td colspan="2">
+											<select name="jobCode" id="jobCode" class="custom-select custom-select-sm">
+												<option value="J2">본부장</option>
+												<option value="J3">팀장</option>
+												<option value="J4">팀원</option>
+											</select>										
+										</td>			
 									</tr>	
-									<tr>
-										<th>재직여부</th>
-										<td><input type="text" class="form-control" name="empStatus" placeholder="재직여부" required></td>		
+							
+									<tr>							
+										<th >내선번호</th>
+										<td colspan="3"><input type="text" class="form-control" name="empEphone" placeholder="02-" required></td>					
 										<th>핸드폰</th>
-										<td><input type="text" class="form-control" name="empPhone" placeholder="핸드폰" required></td>	
-										<th>내선번호</th>
-										<td><input type="text" class="form-control" name="empEphone" placeholder="02-" required></td>					
+										<td ><input type="text" class="form-control" name="empPhone" placeholder="핸드폰" required></td>	
+													
 									</tr>
 									<tr>
 										<th>주소</th>
@@ -176,12 +161,14 @@
 									<tr>
 										<th>상세내용</th>
 										<td colspan="5" ><input type="text" class="form-control" name="empNote" placeholder="상세내용 작성"></td>
-									</tr>		
+									</tr>
+											
 								</tbody>
 							</table>
 							
 							<div class="insertBtn">
-								<button type="submit" class="btn btn-primary">제출</button>
+								<!--  <button type="submit" class="btn btn-primary">제출</button>-->
+								<button type="button" class="btn btn-primary" onclick="submitBtn();">제출</button>
 							</div>		
 											
 					</form>
@@ -191,5 +178,54 @@
 		
 	
 	 <jsp:include page="../common/footer.jsp" />
+	 
+	 
+	 <!-- select option 부서 선택시 -->
+	 <script>
+	 	function submitBtn() {
+				 		
+	 		$('#insertForm').attr("action", "<%=request.getContextPath()%>/insert.hr");
+			$('#insertForm').submit();
+
+	 		
+		}
+	 </script>
+	 
+	<script>
+		function deptSelect(selectOption){			
+			
+			switch (selectOption) {
+			case "경영지원본부":
+				
+				$("#deptDnameA").show();
+				$("#test1 *").attr("disabled", false)
+				$("#deptDnameB").hide();
+				$("#test2 *").attr("disabled", true)
+				$("#deptDnameC").hide();
+				$("#test3 *").attr("disabled", true)
+				break;
+			case "영업지원본부":
+				
+				$("#deptDnameA").hide();
+				$("#test1 *").attr("disabled", true)
+				$("#deptDnameB").show();
+				$("#test2 *").attr("disabled", false)
+				$("#deptDnameC").hide();
+				$("#test3 *").attr("disabled", true)
+				
+				break;
+			case "사업본부":
+				
+				$("#deptDnameA").hide();
+				$("#test1 *").attr("disabled", true)
+				$("#deptDnameB").hide();
+				$("#test2 *").attr("disabled", true)
+				$("#deptDnameC").show();
+				$("#test3 *").attr("disabled", false)
+				break;		
+			}
+		}
+	</script>
+	 
 </body>
 </html>
