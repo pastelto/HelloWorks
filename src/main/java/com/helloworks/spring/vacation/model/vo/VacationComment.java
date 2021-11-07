@@ -21,15 +21,5 @@ public class VacationComment extends Vacation{
 	/*public ApprovalComment() {
 		// TODO Auto-generated constructor stub
 	}*/
-
-	public VacationComment(int apNo, int coNo, int writer, String createDate, String acContent) {
-		super(apNo);
-		this.coNo = coNo;
-		this.writer = writer;
-		this.createDate = createDate;
-		this.acContent = acContent;
-	}
-
-	
 	
 }
