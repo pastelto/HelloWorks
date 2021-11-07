@@ -40,4 +40,9 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.getDeptUList");
 	}
 
+	public Employee getLastEmpNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("employeeMapper.getLastEmpNo");
+	}
+
 }

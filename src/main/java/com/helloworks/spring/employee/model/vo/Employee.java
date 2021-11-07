@@ -37,5 +37,5 @@ public class Employee {
 	private String jobName; 		//직급명
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름
-	
+	private int rowNum;             // rownum
 }

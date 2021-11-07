@@ -110,4 +110,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SCH_COLOR = #{sch_color}
 		WHERE SCH_NO = #{sch_no}
 	</update>
+	
+	<!-- 일정 추가하기 -->
+	<insert id="insertCal" parameterType="_int">
+		INSERT INTO CALENDAR_TYPE
+		VALUES (SEQ_CAL.NEXTVAL, 'PRIVATE', NULL, NULL, #{empNo}, '내 캘린더', SYSDATE, 'THISTLE')
+	</insert>
 </mapper>

@@ -58,6 +58,11 @@ public class ScheduleDao {
 		return sqlSession.update("manageScheduleMapper.updateEvent", schedule);
 	}
 
+	public int insertCal(SqlSessionTemplate sqlSession, int empNo) {
+		
+		return sqlSession.insert("manageScheduleMapper.insertCal", empNo);
+	}
+
 
 
 }

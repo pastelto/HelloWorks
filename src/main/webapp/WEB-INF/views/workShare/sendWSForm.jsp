@@ -250,7 +250,7 @@
 	
 	</script>
 	
-		<!-- 시간 출력 -->
+	<!-- 시간 출력 -->
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 		    // 시간을 딜레이 없이 나타내기위한 선 실행

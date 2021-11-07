@@ -93,6 +93,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 			 throw new CommException("일정수정 실패"); 
 		 }
 	}
+	
+	// 사원 등록하면서 캘린더 등록하기
+	@Override
+	public void insertCal(int empNo) {
+		
+		int result = scheduleDao.insertCal(sqlSession, empNo);
+		 System.out.println("캘린더 추가 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("캘린더 추가 실패"); 
+		 }
+	}
 
 	
 	

@@ -1,6 +1,7 @@
 package com.helloworks.spring.workshare.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,9 +145,9 @@ public class WorkShareServiceImpl implements WorkShareService {
 	
 	// 업무공유 임시저장 조회
 	@Override
-	public WorkShare savedDetailWS(int wno) {
+	public WorkShare savedDetailWS(HashMap<String, Object> map) {
 		
-		return workShareDao.savedDetailWS(sqlSession, wno);
+		return workShareDao.savedDetailWS(sqlSession, map);
 	}
 	
 	// 댓글 조회
@@ -256,6 +257,30 @@ public class WorkShareServiceImpl implements WorkShareService {
 	public WorkShare selectRecvEmpName(int recvEmpNo) throws Exception {
 		
 		return workShareDao.selectRecvEmpName(sqlSession, recvEmpNo);
+	}
+	
+	// 수정된 임시저장 다시 임시저장하기
+	@Override
+	public void updateSavedWorkShare(WorkShare ws) throws Exception {
+	
+		 int result = workShareDao.updateSavedWorkShare(sqlSession, ws);
+		 System.out.println("WS update result ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("임시저장 업무공유 임시저장 실패"); 
+		 }
+	}
+
+	// 미회신 업무 회신처리
+	@Override
+	public void updateReplyList(HashMap<String, Object> map) throws Exception {
+		
+		int result = workShareDao.updateReplyList(sqlSession, map);
+		System.out.println("WS 회신 result ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 회신처리 실패"); 
+		 }
 	}
 
 

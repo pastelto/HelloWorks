@@ -1,6 +1,7 @@
 package com.helloworks.spring.workshare.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -53,7 +54,7 @@ public interface WorkShareService {
 
 	WorkShare selectRecvEmpName(int recvEmpNo) throws Exception;
 
-	WorkShare savedDetailWS(int wno);
+	WorkShare savedDetailWS(HashMap<String, Object> map) throws Exception;
 
 	// Reply
 	ArrayList<WSReply> selectReplyList(int wno) throws Exception;
@@ -61,6 +62,10 @@ public interface WorkShareService {
 	int insertReply(WSReply wsr) throws Exception;
 
 	int deleteReply(int wsr_no) throws Exception;
+
+	void updateSavedWorkShare(WorkShare ws) throws Exception;
+
+	void updateReplyList(HashMap<String, Object> map) throws Exception;
 
 
 

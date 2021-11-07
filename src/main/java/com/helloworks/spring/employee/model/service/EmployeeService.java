@@ -19,6 +19,8 @@ public interface EmployeeService {
 
 	List<Dept> getDeptUList();
 
+	Employee getLastEmpNo();
+
 	
 	
 

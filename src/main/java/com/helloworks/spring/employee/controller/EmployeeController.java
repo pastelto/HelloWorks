@@ -38,8 +38,9 @@ import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 @Controller
 public class EmployeeController {
 	
-   @Autowired
-   private ScheduleService scheduleService;
+	// 김다혜
+	@Autowired
+   	private ScheduleService scheduleService;
 	
 	@Autowired 
 	private EmployeeService employeeService;
@@ -101,7 +102,6 @@ public class EmployeeController {
 		  ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
 		  mv.addObject("noticeList", noticeList);
 		  SearchAttendance as = attendanceService.sysdateWeek(); //이번주
-
 		  as.setEmpNo(empNo);
 		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
 		  String test = null;
@@ -216,11 +216,15 @@ public class EmployeeController {
 		
 		System.out.println("암호화 전: "+ m.getEmpPwd());
 		
+		
+		
 		employeeService.insertEmp(m);
+		
+		Employee emp = employeeService.getLastEmpNo();
+		scheduleService.insertCal(emp.getEmpNo());
 		session.setAttribute("msg", "사원등록성공");
 		return "redirect:main.mi";
-		
-		
+
 	}
 	
 	

@@ -26,6 +26,8 @@ public interface ScheduleService {
 
 	void updateEvent(ManageSchedule schedule) throws Exception;
 
+	void insertCal(int empNo);
+
 
 
 }

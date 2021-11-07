@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -127,8 +127,12 @@ public class WorkShareController {
 		ArrayList<WorkShare> list = new ArrayList<>();
 		PageInfo pi = new PageInfo();
 		int countRead = 0; // 읽은 사람 수 
+		int countReply = 0; // 회신 사람 수 
 		ArrayList<Integer> cRead = new ArrayList<>(); 
 		ArrayList<Integer> totalCount = new ArrayList<>(); // 총 수신인 수 
+		
+		ArrayList<Integer> refRead = new ArrayList<>(); 
+		ArrayList<Integer> refCount = new ArrayList<>(); // 총 수신인 수 
 		try {
 			
 			Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
@@ -157,12 +161,23 @@ public class WorkShareController {
 				cRead.add(countRead);
 			}
 			
+			// 회신인 수
+			for(int i = 0; i < list.size(); i++) {
+				String replyList = list.get(i).getWs_reply();
+				System.out.println("발신인 회신인 수 ? " + replyList);
+				String[] strList = replyList.split(",");
+				countReply = countRead(strList);
+				refRead.add(countReply);
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		model.addAttribute("cRead", cRead); // 읽은 사람 수 
+		model.addAttribute("refRead", refRead); // 읽은 사람 수 
 		model.addAttribute("totalCount", totalCount); // 전체 발송인 수
 		model.addAttribute("page", 3);
 		model.addAttribute("list", list);
@@ -240,7 +255,7 @@ public class WorkShareController {
 		WorkShare ws = new WorkShare(); // 업무공유 조회
 		ArrayList<WSAttachment> wsa = new ArrayList<>(); // 업무공유 첨부파일 조회
 		// 업무공유 수신인 수신처리 후 값 (updateList)
-		String uList = ""; 
+		String uList = "";  
 		String[] rEach;
 		
 		// 수신인들 목록 가져오기
@@ -248,7 +263,6 @@ public class WorkShareController {
 		ArrayList<WorkShare> wsRecvEmpName = new ArrayList<>();
 		
 		// 참조인들 목록 가져오기
-		String[] wsRefList = null; 
 		ArrayList<WorkShare> wsRefEmpName = new ArrayList<>();
 		int myEmpNo = 0;
 		
@@ -277,21 +291,7 @@ public class WorkShareController {
 				wsRecvEmpName.add(workShareService.selectRecvEmpName(recvEmpNo));
 			}
 			System.out.println("wsRecvEmpName ? " + wsRecvEmpName);
-			
-      		// 참조인 조회
-			String refEmp = ws.getWs_ref();
-			System.out.println("refEmp ? " + refEmp);
-			wsRefList = refEmp.split(",");
-			
-			// 참조인들을 이름으로 가져오기!
-			for(int i = 0; i < wsRefList.length; i++) {
-				int refEmpNo = Integer.parseInt(wsRefList[i]);
-				
-				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
-			}
-			System.out.println("wsRefEmpName ? " + wsRefEmpName);
-
-			
+					
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String rList= ws.getWs_recv_status();
 			Boolean contain = contains(empNo, rList);
@@ -309,6 +309,7 @@ public class WorkShareController {
 			
 				uList += rEach[i] + ",";
 			}
+			
 			// update시 여러개의 파라미터를 넘길 수 없음 -> HashMap을 사용하거나 Object를 사용해야함
 			WorkShare updateWS = new WorkShare();
 			updateWS.setWs_no(wno);
@@ -345,7 +346,7 @@ public class WorkShareController {
 	
 	// 임시저장 업무공유 상세 조회
 	@RequestMapping("sDetail.ws")
-	public String savedDetailWS(int wno, Model model, HttpServletRequest request) {
+	public String savedDetailWS(int wno, Model model, HttpServletRequest request, HttpSession session) {
 		
 		logger.info("임시저장 업무공유 상세 조회 페이지로 이동");
 		
@@ -354,10 +355,13 @@ public class WorkShareController {
 		
 		WorkShare ws = new WorkShare(); // 업무공유 조회
 		ArrayList<WSAttachment> wsa = new ArrayList<>(); // 업무공유 첨부파일 조회
-
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("wno", wno);
+		map.put("empNo", empNo);
 		try {
 			// 상세 조회 - 업무공유
-			ws = workShareService.savedDetailWS(wno);
+			ws = workShareService.savedDetailWS(map);
 			System.out.println("WS 상세 조회 [ws_no : " + ws.getWs_no() + " ] : " + ws);		
 			
 			// 상세 조회 - 첨부파일
@@ -370,10 +374,11 @@ public class WorkShareController {
 			e.printStackTrace();
 		}
 
-		model.addAttribute("wsa", wsa);
-		model.addAttribute("ws", ws);
-		 
-		 return "workShare/workShareDetail";
+		 session.removeAttribute("receiveListSession");
+		 session.removeAttribute("refListSession");
+		 model.addAttribute("wsa", wsa);
+		 model.addAttribute("ws", ws);
+		 return "workShare/updateWSForm";
 	}
 	
 	// 포함여부 메소드
@@ -797,13 +802,48 @@ public class WorkShareController {
 		
 		int result = 0;
 		Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		String empNo = String.valueOf(myEmp.getEmpNo());
+		
 		System.out.println("wsr ? " + wsr);
 		System.out.println("wno ? " + wno);
+		
+		WorkShare ws = new WorkShare(); // 업무공유 조회 
+		// 업무공유 수신인 수신처리 후 값 (updateList)
+		String uList = "";  
+		String[] rEach;
+ 
 		try {
+
 			wsr.setWsr_wsNo(wno); // 업무번호
 			wsr.setWsr_empName(myEmp.getEmpName());
 			wsr.setWsr_empJobName(myEmp.getJobName());
 			result = workShareService.insertReply(wsr);
+			
+			ws = workShareService.detailWS(wno);
+			
+			// 회신여부에서 이미 회신처리가 되어 있는지 확인
+			String rList= ws.getWs_reply();
+			Boolean contain = contains(empNo, rList);
+			
+			// 회신처리가 안되어있으면 (contain == true 일 때)
+			if(contain) {
+			
+			rEach = rList.split(",");
+			System.out.println("rEach ? " + rEach);
+			
+			for(int i = 0; i < rEach.length; i++) {
+				if( rEach[i].equals(empNo) ) {	
+					rEach[i] = "0"; // 회신 상태에서 로그인한 사번값을 찾아 0으로 변환 -> 읽음 처리
+				}
+			
+				uList += rEach[i] + ",";
+			}
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("wno", wno);
+			map.put("uList", uList);
+			workShareService.updateReplyList(map);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
