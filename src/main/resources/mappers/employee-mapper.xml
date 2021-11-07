@@ -18,13 +18,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobCode" column="JOB_CODE"/>
 		<result property="empSalary" column="EMP_SALARY"/>
 		<result property="empHire" column="EMP_HIRE"/>
-		<result property="empFire" column="EMP_FIRE"/>
+		<result property="empFire" column="EMP_FIRE"/>	
+		<result property="empOrgPic" column="EMP_ORG_PIC"/>
+		<result property="empChgpic" column="EMP_CHG_PIC"/>
+		<result property="empOrgSign" column="EMP_CHG_SIGN"/>
+		<result property="empChgSign" column="EMP_CHG_SIGN"/>		
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 	</resultMap>
+	
+	<!-- Dept -->
+   <resultMap id="deptResultSet" type="Dept">
+      <id property="deptCode" column="DEPT_CODE"/>
+      <result property="deptUName" column="DEPT_UNAME"/>
+      <result property="deptDName" column="DEPT_DNAME"/>
+   </resultMap>
 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
 		<!-- 암호화 전 -->
@@ -43,9 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사원등록 -->
 	<insert id="insertEmp" parameterType="Employee">
-		insert into employee
-		values(#{empNo}, #{empPwd}, #{empName}, #{empEn}, #{empEmail}, #{empPid}, #{empHire}, #{empFire}, 
-				#{empSalary}, sysdate, sysdate, #{jobName}, default, #{empPhone}, #{empEphone}, #{empAddress}, #{empNote})
+		INSERT INTO EMPLOYEE
+		VALUES(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_HR_NO.NEXTVAL, 5, '0'), #{empPwd}, #{empName}, #{empEn}, #{empPid}, #{empEmail}, #{empPhone}, #{empEphone},  #{empAddress},
+				#{deptCode}, #{jobCode}, #{empSalary}, SYSDATE, null, null, null, null, null, null, DEFAULT)
 	</insert>
 	
 	<!-- 수정 -->
@@ -61,6 +72,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO = #{empNo}
 	</select>
 	
+	<select id="getDeptList" resultMap="deptResultSet">
+      SELECT *
+      FROM DEPT
+   </select>
+   
+   <select id="getDeptUList" resultMap="deptResultSet">
+      SELECT DISTINCT DEPT_UNAME
+		FROM DEPT
+   </select>
+	
 	<!--
 	<delete id="deleteMember" parameterType="string">
 		update member
@@ -75,4 +96,116 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 -->
 
+	<!-- 인사관리 -->
+	<select id="selectAllEmployeeListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = 'Y'
+	</select>
+	
+	<!-- 인사관리 -->
+  	<select id="selectAllEmployee" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = 'Y'
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployeeListCount" parameterType="String" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_STATUS = #{hrType}
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="selectHrTypeEmployee" parameterType="String" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		ORDER BY A.EMP_NO
+	</select>
+	
+	<!-- 인사관리 -->
+	<select id="searchEmployeeListCount" parameterType="SearchEmployee" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		<choose>
+			<when test="allType != null">
+				AND (A.EMP_NO LIKE '%'||#{allType}||'%'
+					OR A.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR A.EMP_EN LIKE '%'||#{allType}||'%'
+					OR A.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR A.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR C.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND A.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (A.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR A.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.EMP_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (A.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR A.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND A.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+	</select>
+	
+		<!-- 인사관리 -->
+	<select id="searchEmployee" parameterType="SearchEmployee" resultMap="employeeResultSet">
+		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
+		FROM EMPLOYEE A
+		JOIN DEPT B ON B.DEPT_CODE = A.DEPT_CODE
+		JOIN JOB_LEVEL C ON C.JOB_CODE = A.JOB_CODE
+		WHERE A.EMP_STATUS = #{hrType}
+		<choose>
+			<when test="allType != null">
+				AND (A.EMP_NO LIKE '%'||#{allType}||'%'
+					OR A.EMP_NAME LIKE '%'||#{allType}||'%'
+					OR A.EMP_EN LIKE '%'||#{allType}||'%'
+					OR A.EMP_EMAIL LIKE '%'||#{allType}||'%'
+					OR A.EMP_EPHONE LIKE '%'||#{allType}||'%'
+					OR C.JOB_NAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_UNAME LIKE '%'||#{allType}||'%'
+					OR B.DEPT_DNAME LIKE '%'||#{allType}||'%' )
+			</when>
+			<when test="deptType != null">
+				AND A.DEPT_CODE LIKE '%'||#{deptTypeOption}||'%'
+				AND (A.EMP_NAME LIKE '%'||#{deptType}||'%'
+					OR A.EMP_EN LIKE '%'||#{deptType}||'%' )
+			</when>
+			<when test="empNoType != null">
+				AND A.EMP_NO LIKE '%'||#{empNoType}||'%'
+			</when>
+			<when test="empNameType != null">
+				AND (A.EMP_NAME LIKE '%'||#{empNameType}||'%'
+					OR A.EMP_EN LIKE '%'||#{empNameType}||'%' )
+			</when>
+			<when test="ePhoneType != null">
+				AND A.EMP_EPHONE LIKE '%'||#{ePhoneType}||'%'
+			</when>
+			<when test="emailType != null">
+				AND A.EMP_EMAIL LIKE '%'||#{emailType}||'%'
+			</when>
+		</choose>
+		ORDER BY A.EMP_NO DESC
+	</select>
 </mapper>

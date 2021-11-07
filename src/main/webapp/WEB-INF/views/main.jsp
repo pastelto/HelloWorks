@@ -44,8 +44,11 @@ body{
 				<div class="approval" id="approval">
 		   	 		<jsp:include page="./approval/mainApproval.jsp" />
 		   		</div>
+		   		<div class="request" id="request">
+		   	 		<jsp:include page="./request/mainRequest.jsp" />
+		   		</div>
 			</div>
-			
+
 			
 			
 			<!-- 오른쪽-->

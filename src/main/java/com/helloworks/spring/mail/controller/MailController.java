@@ -433,6 +433,13 @@ public class MailController {
 
 	}
 
+	// 삭제하기
+	@RequestMapping("del.ml")
+	public String delMail(HttpServletRequest request, int mailNo) {	
+		int myEmp = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
+		mailService.delMail(mailNo);
+		return "mail/inbox";
+	}
 	// 휴지통
 	@RequestMapping("trash.ml")
 	public String trashMailList(HttpServletRequest request, Model model) {
