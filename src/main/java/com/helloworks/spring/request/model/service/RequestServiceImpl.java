@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -371,6 +372,20 @@ public class RequestServiceImpl implements RequestService {
 			throw new CommException("차량 예약정보 삭제 실패");
 		}
 		
+	}
+	
+	//메인-mtr
+	@Override
+	public ArrayList<Mtr> mainRequestMtr(HashMap<String, Object> selectrMtrList) {
+		// TODO Auto-generated method stub
+		return requestDao.mainRequestMtr(sqlSession, selectrMtrList);
+	}
+	
+	//메인-eq
+	@Override
+	public ArrayList<RequestEq> mainRequestEq(HashMap<String, Object> selectEqList) {
+		// TODO Auto-generated method stub
+		return requestDao.mainRequestEq(sqlSession, selectEqList);
 	}
 
 

@@ -164,4 +164,15 @@ public class MailServiceImpl implements MailService {
 			throw new CommException("임시메일 첨부파일 삽입 실패");
 		}
 	}
+	
+	//inbox 메일삭제
+	@Override
+	public void delMail(int mailNo) {
+		int result = mailDao.delMail(sqlSession, mailNo);
+		System.out.println("dsendMail result ? " + result);
+
+		if (result < 0) {
+			throw new CommException("inbox 메일삭제 실패");
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -210,6 +211,18 @@ public class RequestDao {
 	public int rsvCar(SqlSessionTemplate sqlSession, Car car) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("requestMapper.rsvCar", car);
+	}
+	
+	// 메인-mtr
+	public ArrayList<Mtr> mainRequestMtr(SqlSessionTemplate sqlSession, HashMap<String, Object> selectrMtrList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.mainRequestMtr", selectrMtrList);
+	}
+	
+	// 메인-eq
+	public ArrayList<RequestEq> mainRequestEq(SqlSessionTemplate sqlSession, HashMap<String, Object> selectEqList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("requestMapper.mainRequestEq", selectEqList);
 	}
 
 

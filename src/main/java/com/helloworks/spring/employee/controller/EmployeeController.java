@@ -17,15 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
-import com.helloworks.spring.attendance.model.vo.Attendance;
-import com.helloworks.spring.attendance.model.vo.SearchAttendance;
-import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.notice.model.service.NoticeService;
-import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.request.model.service.RequestService;
+import com.helloworks.spring.request.model.vo.Mtr;
+import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.vacation.model.service.VacationService;
-import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 
 
 @SessionAttributes("loginUser")
@@ -47,6 +45,10 @@ public class EmployeeController {
 	private VacationService vacationService;
 	@Autowired
 	private NoticeService noticeService;
+	
+	//왕다영
+	@Autowired
+	private RequestService requestService;
 	
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
@@ -98,27 +100,27 @@ public class EmployeeController {
 		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
 		  
 		  //조아혜
-      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
-      mv.addObject("attendance", attendance);
-      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
-      mv.addObject("annual", annual);
-      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
-      mv.addObject("noticeList", noticeList);
-      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
-		  as.setEmpNo(empNo);
-		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
-		  String test = null;
-		  test = changeTime(statistics.getWorking()); 
-		  statistics.setWorkingS(test);
-		  test = changeTime(statistics.getOver()); 
-		  statistics.setOverS(test);
-		  test = changeTime(statistics.getTotalT()); 
-		  statistics.setTotalTS(test);
-		  test = changeTime(statistics.getLeaveWT()); 
-		  statistics.setLeaveWTS(test);
-		  test = changeTime(statistics.getLeaveOT()); 
-		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);
+//      Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
+//      mv.addObject("attendance", attendance);
+//      LoginUserVacation annual = vacationService.selectAnnual(empNo); //연차정보	 
+//      mv.addObject("annual", annual);
+//      ArrayList<Notice> noticeList = noticeService. selectTopList(); //공지사항
+//      mv.addObject("noticeList", noticeList);
+//      SearchAttendance as = attendanceService.sysdateWeek(); //이번주
+//		  as.setEmpNo(empNo);
+//		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
+//		  String test = null;
+//		  test = changeTime(statistics.getWorking()); 
+//		  statistics.setWorkingS(test);
+//		  test = changeTime(statistics.getOver()); 
+//		  statistics.setOverS(test);
+//		  test = changeTime(statistics.getTotalT()); 
+//		  statistics.setTotalTS(test);
+//		  test = changeTime(statistics.getLeaveWT()); 
+//		  statistics.setLeaveWTS(test);
+//		  test = changeTime(statistics.getLeaveOT()); 
+//		  statistics.setLeaveOTS(test);
+//		  mv.addObject("statistics", statistics);
 	      
 	      
 	      //김소원
@@ -134,8 +136,22 @@ public class EmployeeController {
 	      
 	      
 	      
+	      //왕다영
+	      ArrayList<Mtr> mtrRList = null;		
+	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", empNo);		
+	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
+	      mv.addObject("mtrRList", mtrRList);
+	      mv.addObject("mainPageURL", "mainRequest.mtr");
+	      mv.addObject("mainPage", 1); 	      
 	      
-	      
+	      ArrayList<RequestEq> eqRList = null;		
+	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", empNo);		
+	      eqRList = requestService.mainRequestEq(selectEqList);
+	      mv.addObject("eqRList", eqRList);
+	      mv.addObject("mainPageURL", "mainRequest.eq");
+	      mv.addObject("mainPage", 2); 
 	      
 	      
 	      

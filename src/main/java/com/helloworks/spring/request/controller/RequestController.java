@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.approval.model.vo.Approval;
+import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.request.model.service.RequestService;
@@ -412,6 +415,50 @@ public class RequestController {
 		
 		return new GsonBuilder().create().toJson(result);
 
+	}
+	
+	@RequestMapping("mainRequest.mtr")
+	public String mainRequestMtr(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<Mtr> mtrRList = null;
+		
+		HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();
+		
+		selectrMtrList.put("loginEmpNo", loginEmpNo);
+		
+		mtrRList = requestService.mainRequestMtr(selectrMtrList);
+		
+		model.addAttribute("mtrRList", mtrRList);
+		System.out.println("메인 ----------mtrRList : " + mtrRList);
+		model.addAttribute("mainPageURL", "mainReqeust.mtr");
+		model.addAttribute("mainPage", 1);
+		
+		
+		return "main";
+	}
+	
+	@RequestMapping("mainRequest.eq")
+	public String  mainRequestEq(HttpServletRequest request, Model model) {
+		
+		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
+		
+		ArrayList<RequestEq> eqRList = null;
+		
+		HashMap<String, Object> selectEqList = new HashMap<String, Object>();
+		
+		selectEqList.put("loginEmpNo", loginEmpNo);
+		
+		eqRList = requestService.mainRequestEq(selectEqList);
+		
+		model.addAttribute("eqRList", eqRList);
+		System.out.println("메인 ----------eqRList : " + eqRList);
+		model.addAttribute("mainPageURL", "mainRequest.eq");
+		model.addAttribute("mainPage", 2);
+		
+		
+		return "main";
 	}
 		
 }

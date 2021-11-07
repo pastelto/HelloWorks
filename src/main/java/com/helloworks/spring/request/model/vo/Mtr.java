@@ -21,6 +21,7 @@ public class Mtr {
 	private String deptDname; // 비품 신청인 부서
 	private String jobName; // 비품 신청인 직급
 	
+	private int rownum; //rownum
 	private int mMNo; //회의실 관리 번호
 	private int empNo; //회의실 담당자 사번
 	private int rEmpNo; //회의실 예약자 사번

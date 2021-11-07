@@ -1,6 +1,7 @@
 package com.helloworks.spring.request.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.helloworks.spring.request.model.vo.Car;
@@ -76,6 +77,10 @@ public interface RequestService {
 	void delRsvCar(int cRNo);
 	//차량 예약하기
 	void rsvCar(Car car);
+	//메인화면 -mtr
+	ArrayList<Mtr> mainRequestMtr(HashMap<String, Object> selectrMtrList);
+	//메인화면 -eq
+	ArrayList<RequestEq> mainRequestEq(HashMap<String, Object> selectEqList);
 
 
 	

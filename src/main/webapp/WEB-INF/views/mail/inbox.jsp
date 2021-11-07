@@ -134,12 +134,12 @@
 									<tbody>
 									    <c:forEach items="${ list }" var="inbox">
 										<tr>
-											<th>
-												<div class="icheck-primary">
+											<td onclick="event.cancelBubble=true;">
+												<div class="icheck-primary" >
 													<input type="checkbox" value="${ inbox.mailNo }" id="check1"> <label
 														for="check1"></label>
 												</div>
-											</th>
+											</td>
 											<td>${ inbox.mailNo }</td>
 											<td class="mailbox-name">${ inbox.mailSndrDept } ${ inbox.mailSndrName } ${ inbox.mailSndrJobName }</td>
 											<td class="mailbox-subject">${ inbox.mailTitle }</td>
@@ -195,6 +195,12 @@
 				});
 	}); 
 
+</script>
+<script>
+	//삭제하기
+	function delMail(mailNo){
+		location.href = "del.ml?mailNo=" + mailNo;
+	}
 </script>
 
 </body>

@@ -15,6 +15,7 @@ import lombok.ToString;
 @ToString
 public class RequestEq {
 	private int requestEqNo; //비품 신청 번호
+	private int rownum; //rownum
 	private int empNo; // 비품 신청인 사원번호
 	private String empName; // 비품 신청인 이름
 	private String deptDname; // 비품 신청인 부서
