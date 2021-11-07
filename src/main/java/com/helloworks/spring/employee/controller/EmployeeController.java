@@ -1,13 +1,11 @@
 package com.helloworks.spring.employee.controller;
 
-
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
@@ -28,7 +25,6 @@ import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.vacation.model.service.VacationService;
-
 import oracle.net.aso.n;
 
 

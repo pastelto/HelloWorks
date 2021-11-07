@@ -16,6 +16,7 @@
 		<result property="deptName" column="DEPT_DNAME"/>
 		<result property="content" column="AP_CONTENT"/>
 		<result property="cooper" column="COOPERATION"/>
+		<result property="cooName" column="COO_NAME"/>	
 		<result property="cooJob" column="COO_JOB"/>
 		<result property="deptShare" column="DEPT_SHARE"/>
 		<result property="progress" column="PROGRESS"/>	
@@ -46,11 +47,13 @@
 		<result property="empName" column="EMP_NAME"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="confirmStatus" column="CONFIRM_STATUS"/>
+		<result property="progressDate" column="PROGRESS_DATE"/>
 	</resultMap>
 	
 	<!-- Approval CC -->
 	<resultMap id="vacationCCResultSet" type="VacationCC">
 		<id property="apNo" column="APPROVAL_NO"/>
+		<result property="ccName" column = "CC_NAME"/>
 		<result property="ccDept" column="CC_DEPT"/>
 		<result property="ccMember" column="CC_MEMBER"/>
 		<result property="ckCount" column="CHECK_COUNT"/>
@@ -90,7 +93,7 @@
 	<insert id="insertLine" parameterType="VacationLine">
 		INSERT INTO APPROVAL_LINE
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT)
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{lineNo}, #{empNo}, #{empName}, #{jobName}, DEFAULT, NULL)
 	</insert>
 	
 		<!-- 첨부파일 insert -->
@@ -100,28 +103,28 @@
 		(SEQ_EA_AT_NO.NEXTVAL, #{newName}, #{originName}, TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'))
 	</insert>
 	
-	<!-- CC insert -->
-	<insert id="insertCcEmpl" parameterType="VacationCC">
+		<!-- CC insert -->
+	<insert id="insertCcEmpl" parameterType="ApprovalCC">
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'),#{ccName} ,NULL, #{ccMember}, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE EMP_NO = #{ccMember}))
 	]]>
 	</insert>
-	<insert id="insertCcDept" parameterType="VacationCC">
+	<insert id="insertCcDept" parameterType="ApprovalCC">
 	<![CDATA[
 		INSERT INTO APPROVAL_CC
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'),#{ccName}, #{ccDept} ,NULL, DEFAULT, (SELECT COUNT(*) FROM EMPLOYEE WHERE DEPT_CODE = #{ccDept}))
 	]]>
 	</insert>
 	
-	<!-- 기안 insert -->
+	<!-- 근태결재 insert -->
 	<insert id="insertVacation" parameterType="Vacation">
 		INSERT INTO APPROVAL
 		VALUES
 		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0'), #{apClass}, #{detailClass}, #{title}, #{writer}, #{writerJob}, SYSDATE, #{deptName}, #{content}, 
-		#{cooper}, #{cooJob}, #{deptShare}, #{progress}, #{status})
+		#{cooper},#{cooName}, #{cooJob}, #{deptShare}, #{progress}, #{status})
 	</insert>
 	
 	<!-- 공문서 insert -->

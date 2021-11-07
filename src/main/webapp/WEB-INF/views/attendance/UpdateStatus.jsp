@@ -45,8 +45,8 @@
 		            </div>
 		            <form action="changeStatus.ps"  id="updateForm" > 
 		            <div class="text-center">
-		            	<input type="hidden" name="psaNo" value="${update.psaNo}">
-		            	<input type="hidden" name="empNo" value="${update.empNo}">
+		            	<input type="hidden" id="psaNo" name="psaNo" value="${update.psaNo}">
+		            	<input type="hidden" id="empNo" name="empNo" value="${update.empNo}">
 		            	<div>
 		            	  변경할 상태 :
 		            	 <select id="changeStatus" name="changeStatus" class="custom-select custom-select-sm" style="width: 30%;" >                               
@@ -89,7 +89,7 @@
                           </div>  
                          <br>
                          <div class="text-center" id="btnDiv">
-                           <button type="button" id="updateBtn" class="btn  btn-outline-warning" style="width : 30%" onclick="updateStatus();" >상태 수정</button>              
+                           <button type="button" id="updateBtn" class="btn  btn-outline-warning" style="width : 30%"  >상태 수정</button>              
 		            	 </div>
 		            </div>
 		            </form>
@@ -107,28 +107,35 @@
         </div>
         
         <script>
-        function updateStatus(){
+        $('#updateBtn').click(function(){
+    		var psaNo = $('#psaNo').val();
+    		var changeIntime = $('#changeIntime').val();
+    		var changeOuttime = $('#changeOuttime').val();
+    		var changeStatus = $('#changeStatus').val();
+    		var empNo = $('#empNo').val();
+		
+    		 $.ajax({
+    			url:'changeStatus.ps',
+    			type:'POST',
+    			data:{
+    				changeIntime: changeIntime, 
+    				changeOuttime: changeOuttime,
+    				changeStatus: changeStatus,
+    				psaNo: psaNo, 
+    				empNo: empNo
+    			},
+    			success : function(result) {			
+    						if(result){
+    							alert("성공적으로 수정하였습니다.");
+    							opener.parent.location='checkDeptTimeAll.ps'; //페이지 새로고침
+        						window.close();
+    							
+    						}	
+    			}
+    		})
+        })
+        
 
-        		var params = $("#updateForm").serialize();
-        		$.ajax(
-        		{
-        			url : 'changeStatus.ps',
-        			type: 'POST',
-        			data : params,
-        			contentType: 'application/json; charset=utf-8',
-        			success : function(result)
-        					{			
-        						if(result){
-        							alert("성공적으로 수정하였습니다.");
-        							opener.parent.location='checkDeptTimeAll.ps'; //페이지 새로고침
-            						window.close();
-        							
-        						}
-        						
-        					}
-        		});
-
-        }
 
         
         </script>
