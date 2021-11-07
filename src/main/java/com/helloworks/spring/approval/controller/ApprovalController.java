@@ -1091,6 +1091,9 @@ public class ApprovalController {
 		// 결재권자 파라미터로 받기 
 		String[] temp = request.getParameterValues("line");
 		System.out.println("temp:" + temp[0]);
+		String[] empName = request.getParameterValues("lineName");	
+		String[] jobName = request.getParameterValues("job");
+		
 		int[] empNo = new int[temp.length];
 		
 		System.out.println("temp length " + temp.length);
@@ -1101,9 +1104,21 @@ public class ApprovalController {
 				System.out.println("lineNo=" + empNo[i]);
 			}
 		}
+
+		int k=0;
 		
-		String[] empName = request.getParameterValues("lineName");	
-		String[] jobName = request.getParameterValues("job");
+//		for(int i=empNo.length-1; i >= 0; i--) {
+//			if(empNo[i] != 0) {
+//				System.out.println("line insert 중");
+//				line.setLineNo(k+1);
+//				line.setEmpNo(empNo[i]);
+//				line.setEmpName(empName[i]);
+//				line.setJobName(jobName[i]);			
+//				approvalService.insertLine(line);	
+//				k++;
+//			}
+//			
+//		}	
 		
 		for(int i=0; i<empNo.length; i++) {
 			if(empNo[i] != 0) {
@@ -1872,10 +1887,10 @@ public class ApprovalController {
 			// 결재 등록 알림창 
 			if(status.equals("Y")) {
 				model.addAttribute("msg", "결재가 등록되었습니다.");
-				return "approval/myApprovalNormal";
+				return "redirect:myNormal.ea";
 			}else if(status.equals("N")) {
 				model.addAttribute("msg", "결재가 임시저장되었습니다.");
-				return "approval/temporaryNormal";
+				return "redirect:tempNormal.ea";
 			}	
 			
 			return "redirect:tempNormal.ea";
@@ -2068,10 +2083,10 @@ public class ApprovalController {
 			// 결재 등록 알림창 
 			if(status.equals("Y")) {
 				model.addAttribute("msg", "결재가 등록되었습니다.");
-				return "approval/myApprovalNormal";
+				return "redirect:myExpenditure.ea";
 			}else if(status.equals("N")) {
 				model.addAttribute("msg", "결재가 임시저장되었습니다.");
-				return "approval/temporaryNormal";
+				return "redirect:tempExpenditure.ea";
 			}	
 			
 			return "redirect:tempExpenditure.ea";		
@@ -2102,17 +2117,24 @@ public class ApprovalController {
 			//결재라인 삭제 후 재등록
 			approvalService.deleteLine(apNo);
 			
-			for(int i=0; i<empNo.length; i++) {
+			int k = 0;
+			
+			for(int i=empNo.length-1; i >= 0; i--) {
 				if(empNo[i] != 0) {
-					line.setLineNo(i+1);
+					System.out.println("line insert 중");
+					line.setLineNo(k+1);
 					line.setEmpNo(empNo[i]);
 					line.setEmpName(empName[i]);
 					line.setJobName(jobName[i]);			
-					approvalService.updateLine(line);		
+					approvalService.updateLine(line);	
+					k++;
 				}
+				
 			}	
+						
 		}
 	
+	// 결재의견 insert 
 	@ResponseBody
 	@RequestMapping(value="insertComment.ea", produces= "application/json; charset=utf-8")	
 	public String insertComment (HttpServletRequest request) {
@@ -2135,6 +2157,7 @@ public class ApprovalController {
 		return new GsonBuilder().create().toJson(list);
 	}
 	
+	//전자결재 승인
 	@RequestMapping("confirmApproavl.ea")
 	public String confirmApproval(HttpServletRequest request) {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
@@ -2157,6 +2180,7 @@ public class ApprovalController {
 		return "redirect:pendingNormal.ea";
 	}
 	
+	//전자결재 반려
 	@RequestMapping("returnApproavl.ea")
 	public String returnApproavl(HttpServletRequest request) {
 		
