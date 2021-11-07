@@ -1,11 +1,8 @@
 package com.helloworks.spring.employee.controller;
 
-<<<<<<< HEAD
 import java.sql.Date;
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
->>>>>>> refs/heads/Master
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -50,29 +47,12 @@ public class EmployeeController {
 	//조아혜
 	@Autowired
 	private AttendanceService attendanceService;
-<<<<<<< HEAD
-		
-=======
+	
 	@Autowired
 	private VacationService vacationService;
 	@Autowired
 	private NoticeService noticeService;
 	
-	//마이페이지 전환
-	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage() {
-		System.out.println("마이페이지 전환");
-		return "employee/EmployeeMypage";
-	}
-	
-	//사원등록 페이지 전환
-	@RequestMapping("insert.hr")
-	public String EmployeeEnrollForm() {
-		System.out.println("사원등록 페이지 전환");
-		return "employee/EmployeeEnrollFrom";
-	}
-	
->>>>>>> refs/heads/Master
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(Employee m, Model model) {
