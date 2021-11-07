@@ -185,7 +185,7 @@ input[id*="radio"], input[id*="vacation"] {
                                  <th style="width: 12%;">퇴근시간</th>
                               </tr>
                            </thead>
-                           <tbody>
+                           <tbody >
                            <c:if test="${ !empty searchlist }">
                            	  <c:forEach items="${ searchlist }" var="search">
 	                              <tr>
