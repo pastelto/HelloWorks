@@ -105,7 +105,7 @@
 																
 																<div class="fileRegiBtn">
 																	<label for="myFileUp"> 
-																		<button>사진변경</button>
+																		
 																		<i class="fas fa-cloud-upload-alt">사진변경</i>
 																		
 																	</label> <input type="file" name="orgPicName" id="myFileUp">
@@ -157,7 +157,7 @@
 																<!-- 이미지 들어오는 부분 -->
 																<div class="selectCover">
 																	<img id="cover" src="resources/empImg/defaultImg.jpg"
-																		style="width: 160px; height: 200px;" />
+																		style="width: 160px; height: 45px;" />
 																</div>
 															</div>
 															<div class="col-9">

@@ -80,5 +80,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.getDeptUList(sqlSession);
 	}
 
+	@Override
+	public void imgEmp(Employee m) {
+		int result = employeeDao.imgEmp(sqlSession, m);
+		
+		if(result < 0) {
+			throw new CommException("사진등록에 실패하였습니다.");
+		}
+		
+	}
+
+
 	
 }

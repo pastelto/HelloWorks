@@ -40,4 +40,9 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.getDeptUList");
 	}
 
+	public int imgEmp(SqlSessionTemplate sqlSession, Employee m) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("employeeMapper.imgEmp", m);
+	}
+
 }

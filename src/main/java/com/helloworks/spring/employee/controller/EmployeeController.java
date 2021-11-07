@@ -1,11 +1,15 @@
 package com.helloworks.spring.employee.controller;
 
-import java.sql.Date;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
+import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.vacation.model.service.VacationService;
-import oracle.net.aso.n;
 
 
 @SessionAttributes("loginUser")
@@ -216,6 +222,48 @@ public class EmployeeController {
 		
 		
 	}
+	
+	// 사원증 신청
+		@RequestMapping("empImg.ei")
+		public String imgEmp(Employee m, HttpServletRequest request, 
+				@RequestParam(name="empOrgPic", required=true) MultipartFile file) {
+			System.out.println(m);
+			System.out.println(file);
+			// 첨부파일 등록 		
+			if(!file.getOriginalFilename().equals("")) {
+				String empChgpic = empSaveFile(file, request);
+				System.out.println("imgEmp : " + empChgpic);
+				if(empChgpic!=null) {
+						m.setEmpOrgPic(file.getOriginalFilename());
+						m.setEmpChgpic(empChgpic);
+						employeeService.imgEmp(m);
+					}
+				}		
+			return "request/mypage";
+		}
+		
+		// 파일 저장
+		public String empSaveFile(MultipartFile file, HttpServletRequest request) {
+			String resources = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = resources + "\\upload_files\\"; //저장경로
+			
+			System.out.println("savePath : "+ savePath);		
+			String EmpOrgPic = file.getOriginalFilename(); //원본파일명		
+			String ext = EmpOrgPic.substring(EmpOrgPic.lastIndexOf("."));		
+			String empChgpic = ext;
+				try {
+					file.transferTo(new File(savePath + empChgpic));
+				} catch (IllegalStateException e ) {
+					empChgpic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				} catch (IOException e) {
+					empChgpic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				}		
+			return empChgpic;
+		}
 	
 	
 	
