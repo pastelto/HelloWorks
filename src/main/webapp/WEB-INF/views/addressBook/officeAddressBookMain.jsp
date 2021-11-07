@@ -181,8 +181,8 @@
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEphone }</td>
 							                        <td data-toggle='modal' data-target='#detailEmployeeModal'onclick='detailEmployee("${ officeAddresslist.oabEnrollNo }");'>${ officeAddresslist.empEmail }</td>
 							                        <th>
-							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs'>메일발송</button>&nbsp;
-							                        	<button id='workShare' type='button' class='btn btn-default btn-xs'>업무공유</button>
+							                        	<button id='sendMail' type='button' class='btn btn-default btn-xs' onclick="location.href='compose.ml'">메일발송</button>&nbsp;
+							                        	<button id='workShare' type='button' class='btn btn-default btn-xs' onclick="location.href='sendFormView.ws'">업무공유</button>
 							                        </th>
 							                    </tr>
 						                    </c:forEach>

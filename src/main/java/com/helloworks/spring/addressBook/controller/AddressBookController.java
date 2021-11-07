@@ -31,11 +31,6 @@ public class AddressBookController {
 	
 	/* 주소록 */
 	
-	@RequestMapping("addressBookMain.adb")
-	public String addressBookMain(HttpServletRequest request, Model model) {
-		return "addressBook/addressBookMain";
-	}
-	
 	@RequestMapping("officeAddressBook.adb")
 	public String officeAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
 		System.out.println("주소록 전환");

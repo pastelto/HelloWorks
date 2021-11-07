@@ -158,9 +158,9 @@
 										<thead>
 											<tr>
 												<th style="width: 10%">사번</th>
-												<th style="width: 10%">이름</th>
+												<th style="width: 7%">이름</th>
 												<th style="width: 10%">영문 이름</th>
-												<th style="width: 5%">직급</th>
+												<th style="width: 8%">직급</th>
 												<th style="width: 10%">소속</th>
 												<th style="width: 10%">팀</th>
 												<th style="width: 10%">내선번호</th>
