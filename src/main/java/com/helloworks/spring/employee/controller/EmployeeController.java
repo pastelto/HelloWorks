@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.approval.model.service.ApprovalService;
 import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
@@ -475,6 +477,35 @@ public class EmployeeController {
 		model.addAttribute("employee", employee);
 		
 		return "employee/detailEmployee";
+	}
+	
+	// 메인 미확인업무
+	@ResponseBody
+	@RequestMapping(value="mainAll.mi", produces="application/json; charset=UTF-8")
+	public String mainAll(HttpServletRequest request, Model model) {
+		 
+		  // 업무공유 
+		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+	      // 업무공유 - 미확인
+		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
+	      // 업무공유 - 발신
+	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
+		  sendList = workShareService.mainSendList(myEmp);
+
+		  // 메일
+		  
+		  
+		  
+		  // 해쉬맵 
+		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
+		  // 다혜
+		  mainAll.put("unCheckedList", unCheckedList);
+		  mainAll.put("sendList", sendList);
+	      // 다영
+		  
+		  
+	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(mainAll);
 	}
 
 }

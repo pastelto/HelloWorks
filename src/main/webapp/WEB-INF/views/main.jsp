@@ -82,17 +82,17 @@ body{
   	
   		
   		$.ajax({
-			url:"mainWorkShare.ws",
+			url:"mainAll.mi",
 			type:"post",
-			success:function(workShareMap){
+			success:function(mainAll){
 				
-				var valueUnchecked = "";
-				var valueSend = "";
+				var valueUnchecked = ""; // 업무공유 미확인
+				var valueSend = ""; // 업무공유 발신
 				
-				for(var key in workShareMap){
+				for(var key in mainAll){
 					
 					if(key == "unCheckedList"){
-						$.each(workShareMap[key], function(key, obj){
+						$.each(mainAll[key], function(key, obj){
 							valueUnchecked += "<tr>" +
 											  "<td>" + obj.ws_no + "</td>" + 
 											  "<td>" + obj.ws_title + "</td>" +
@@ -103,7 +103,7 @@ body{
 						});
 					} else if(key == "sendList"){
 						
-						$.each(workShareMap[key], function(key, obj){
+						$.each(mainAll[key], function(key, obj){
 							valueSend += "<tr>" +
 										 "<td>" + obj.ws_no + "</td>" + 
 										 "<td>" + obj.ws_title + "</td>" +
@@ -114,9 +114,9 @@ body{
 						
 					}
 					
-					console.log("ajax 성공!! -- 업무공유");
-					$("#unCheckedListTable tbody").html(valueUnchecked); 
-					$("#sendListTable tbody").html(valueSend); 
+					console.log("ajax 성공!! -- mainAll");
+					$("#unCheckedListTable tbody").html(valueUnchecked); // 업무공유 미확인
+					$("#sendListTable tbody").html(valueSend); // 업무공유 발신
 					
 					
 				}
