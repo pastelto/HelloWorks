@@ -2,7 +2,6 @@ package com.helloworks.spring.employee.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,8 +26,9 @@ import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
-import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.mail.model.service.MailService;
+import com.helloworks.spring.mail.model.vo.Mail;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
@@ -66,7 +66,7 @@ public class EmployeeController {
 	//왕다영
 	@Autowired
 	private RequestService requestService;
-	
+	private MailService mailService;
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
@@ -100,8 +100,9 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-
-		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
+			
+		  Employee employee =(Employee)request.getSession().getAttribute("loginUser");
+		  int empNo =  employee.getEmpNo();	
 		  
 		  //조아혜
 		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
@@ -156,7 +157,11 @@ public class EmployeeController {
 	      mv.addObject("mainPageURL", "mainRequest.eq");
 	      mv.addObject("mainPage", 2); 
 	      
-	      
+	      System.out.println(employee);
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(employee);
+		  mv.addObject("mailList", mailList);
+
 	      
 	      mv.setViewName("main");
 	      return mv;

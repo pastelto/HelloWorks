@@ -44,9 +44,15 @@ body{
 				<div class="approval" id="approval">
 		   	 		<jsp:include page="./approval/mainApproval.jsp" />
 		   		</div>
-		   		<div class="request" id="request">
-		   	 		<jsp:include page="./request/mainRequest.jsp" />
+		   		<div class="row">
+					<div class="request col-6" id="request">
+		   	 			<jsp:include page="./request/mainRequest.jsp" />
+		   			</div>		
+		   			<div class="request col-6" id="mailMain">
+		   	 			<jsp:include page="./request/mainRequest.jsp" />
+		   			</div>	   		
 		   		</div>
+		   		
 			</div>
 
 			
