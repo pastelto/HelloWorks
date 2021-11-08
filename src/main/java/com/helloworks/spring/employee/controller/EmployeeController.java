@@ -443,5 +443,15 @@ public class EmployeeController {
 		
 		return "redirect:empManageMain.hr";
 	}
+	
+	//인사팀 - 하연
+	@RequestMapping("detailEmployee.hr")
+	public String detailEmployee(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		
+		return "employee/detailEmployee";
+	}
 
 }
