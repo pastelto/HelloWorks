@@ -112,5 +112,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.searchEmployee(sqlSession, se, pi);
 	}
 
+
+	@Override
+	public void updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		int result = employeeDao.updateEmployee(sqlSession, employee);
+		
+		if(result < 0) {
+			throw new CommException("사원 정보 수정 실패");
+		}
+	}
+
 	
 }

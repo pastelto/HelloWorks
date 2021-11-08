@@ -153,7 +153,7 @@
 							<div class="row">
 								<!-- /.col -->
 								<div class="col-12" style="overflow:auto; height: 470px">
-									<table id="employeeTable" class="table table-sm">
+									<table id="employeeTable" class="table table-sm table-hover">
 									<caption style="caption-side:top">* 정렬 기준 : <span id="sortOption">전체</span></caption>
 										<thead>
 											<tr>
@@ -173,7 +173,7 @@
 										<tbody>
 										
 											<c:forEach items="${ list }" var="employee">
-							                    <tr>
+							                    <tr onclick="detailEmployee(${ employee.empNo })">
 							                        <td>${ employee.empNo }</td>
 							                        <td>${ employee.empName}</td>
 							                        <td>${employee.empEn}</td>
@@ -184,8 +184,8 @@
 							                        <td>${ employee.empEmail }</td>
 							                        <td>${ employee.empHire }</td>
 							                        <td>${ employee.empFire }</td>
-							                        <th>
-							                        	<button id='updateEmp' type='button' class='btn btn-danger btn-xs'>수정하기</button>&nbsp;
+							                        <th onclick="event.cancelBubble=true;">
+							                        	<button id='updateEmp' type='button' class='btn btn-danger btn-xs' onclick="updateEmployee(${ employee.empNo })">수정하기</button>&nbsp;
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
@@ -435,6 +435,20 @@
 		    	location.href="<%=request.getContextPath()%>/empManageHrType.hr?hrType="+type;
 		    }
 		});
+	</script>
+	
+	<!-- 수정하기 버튼 -->
+	<script>
+		function updateEmployee(empNo){
+			location.href="<%=request.getContextPath()%>/updateEmployeeForm.hr?empNo="+empNo;
+		}
+	</script>
+	
+	<!-- detail -->
+	<script>
+		function detailEmployee(empNo){
+			location.href="<%=request.getContextPath()%>/detailEmployee.hr?empNo="+empNo;
+		}
 	</script>
 </body>
 </html>
