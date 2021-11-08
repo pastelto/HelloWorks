@@ -216,4 +216,30 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectCommResourcesSearchList", commResources, rowBounds);
 	}
 
+	public CommonResourcesAttachment selectDelCommonResourcesAttachment(SqlSessionTemplate sqlSession, int crAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDelCommonResourcesAttachment", crAttachNo);
+	}
+
+	public int deleteCommonResourcesAttachment(SqlSessionTemplate sqlSession, int crAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("officeroomMapper.deleteCommonResourcesAttachment", crAttachNo);
+	}
+
+	public ArrayList<CommonResourcesAttachment> commAttachList(SqlSessionTemplate sqlSession, int crNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.commAttachList", crNo);
+	}
+
+	public int updateCommResources(SqlSessionTemplate sqlSession, CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.updateCommResources", commonResources);
+	}
+
+	public int insertUpdateCommResourcesAttach(SqlSessionTemplate sqlSession,
+			CommonResourcesAttachment commonResourcesAttach) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertUpdateCommResourcesAttach", commonResourcesAttach);
+	}
+
 }

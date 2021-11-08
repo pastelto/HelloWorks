@@ -84,5 +84,15 @@ public interface OfficeRoomService {
 
 	ArrayList<CommonResources> selectCommResourcesSearchList(CommonResources commResources, PageInfo pi);
 
+	CommonResourcesAttachment selectDelCommonResourcesAttachment(int crAttachNo);
+
+	int deleteCommonResourcesAttachment(int crAttachNo);
+
+	ArrayList<CommonResourcesAttachment> commAttachList(int crNo);
+
+	void updateCommResources(CommonResources commonResources);
+
+	void insertUpdateCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
+
 
 }
