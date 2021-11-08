@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.helloworks.spring.approval.model.service.ApprovalService;
+import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
@@ -140,14 +141,33 @@ public class EmployeeController {
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
+	      ArrayList<Approval> approvalList = null;
 	      String status = "Y"; 			
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
-	      selectMap.put("status", status);			
-	      acList = approvalService.mainMyApproval(selectMap);
-	      mv.addObject("acList", acList);
-	      mv.addObject("commentPageURL", "mainMyApproval.ea");
-	      mv.addObject("commentPage", 1);
+	      selectMap.put("status", status);	
+	      int flag = 0;
+	      
+	      if(request.getParameter("flag") != null) {
+	    	  flag = Integer.parseInt(request.getParameter("flag"));
+	    	  
+		      if(flag == 0) {
+			      acList = approvalService.mainMyApproval(selectMap);
+			      mv.addObject("acList", acList);
+			      mv.addObject("commentPageURL", "mainMyApproval.ea");
+			      mv.addObject("commentPage", 1);
+		      } else if(flag == 1) {		    	  
+		    	  approvalList = approvalService.mainPending(selectMap);
+			      mv.addObject("approvalList", approvalList);
+			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
+			      mv.addObject("commentPage", 2);
+		      }
+		  } else {
+			  acList = approvalService.mainMyApproval(selectMap);
+		      mv.addObject("acList", acList);
+		      mv.addObject("commentPageURL", "mainMyApproval.ea");
+		      mv.addObject("commentPage", 1);
+		  }
 	      
 	      //왕다영
 	      ArrayList<Mtr> mtrRList = null;		

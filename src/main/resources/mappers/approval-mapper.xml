@@ -779,7 +779,7 @@
  	
  	<!-- select exDetail -->
  	<select id="selectApprovalExDetails" parameterType="HashMap" resultMap="exDetailResultSet">
- 		SELECT A.*,TO_CHAR(B.EX_DATE,'YYYY-MM-DD') EX_DATE2
+ 		SELECT DISTINCT A.*,TO_CHAR(B.EX_DATE,'YYYY-MM-DD') EX_DATE2
  		FROM APPROVAL_EX_DETAILS A,
  		APPROVAL_EX_DETAILS B
  		WHERE A.APPROVAL_NO = #{ apNo }

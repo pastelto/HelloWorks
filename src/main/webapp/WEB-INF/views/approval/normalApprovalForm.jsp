@@ -1334,7 +1334,7 @@
 						alert("결재내용을 입력해주세요.")
 					} else {
 						
-						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
 						$("#normalApprovalForm").submit();
 										
 						alert("결재 작성이 완료되었습니다.");
@@ -1357,7 +1357,7 @@
 						alert("주소를 입력해주세요.")
 					} else {
 						
-						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
 						$("#normalApprovalForm").submit();
 										
 						alert("결재 작성이 완료되었습니다.");
@@ -1377,7 +1377,7 @@
 						alert("회의 참석자를 입력해주세요.")
 					} else {
 						
-						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
 						$("#normalApprovalForm").submit();
 										
 						alert("결재 작성이 완료되었습니다.");
@@ -1397,7 +1397,7 @@
 						alert("처리시한을 입력해주세요.")
 					} else {
 						
-						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=Y");
+						$("#normalApprovalForm").attr("action", "<%=request.getContextPath()%>/insertApproval.ea?status=N");
 						$("#normalApprovalForm").submit();
 										
 						alert("결재 작성이 완료되었습니다.");
