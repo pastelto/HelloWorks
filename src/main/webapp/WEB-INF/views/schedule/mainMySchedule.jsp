@@ -31,18 +31,32 @@
   		left: 30px; 
   	} 	
  */
+ 
+ 	#mySchedule{
+ 	 background: lightblue;
+ 	 height: 100%;
+ 	}
+ 	
+ 	#datepicker{
+ 		padding-bottom: 100px;
+ 	}
+ 	
 </style>
 </head>
 <body>
 
 	<!-- 캘린더 좌측메뉴 부분 -->
+	
 	<div style="margin-top: 1%; margin-left: 5%; position: fixed;">
 		<!-- 사이드바 캘린더 -->
 		<div class="calendar col-12" style="padding: 0;">
 			<div id="datepicker"></div>
 		</div>
-		&nbsp;
+		<div>
+			
+		</div>
 	</div>
+
 
 
 <script src="./resources/plugins/moment/moment.min.js"></script>
@@ -69,7 +83,8 @@
         isRTL: false,
         showMonthAfterYear: true,
         yearSuffix: ""
-    };
+        }
+        
 	
 	
 	// Today 버튼 코드 추가

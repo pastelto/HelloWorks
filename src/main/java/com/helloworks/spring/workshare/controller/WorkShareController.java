@@ -346,8 +346,8 @@ public class WorkShareController {
 			System.out.println("wsa : " + wsa);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		} 
 		
 		model.addAttribute("wsRefEmpName", wsRefEmpName);
 		model.addAttribute("wsRecvEmpName", wsRecvEmpName);
@@ -882,6 +882,27 @@ public class WorkShareController {
 		}
 		
 		return String.valueOf(result);
+	}
+	
+	// 메인 미확인업무
+	@ResponseBody
+	@RequestMapping(value="mainWorkShare.ws", produces="application/json; charset=UTF-8")
+	public String mainWorkShare(HttpServletRequest request, Model model) {
+		 
+		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
+	      
+	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
+		  sendList = workShareService.mainSendList(myEmp);
+
+		  model.addAttribute("sendList", sendList);
+
+		  HashMap<String, Object> workShareMap = new HashMap<String, Object>();
+		  workShareMap.put("unCheckedList", unCheckedList);
+		  workShareMap.put("sendList", sendList);
+	      
+	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(workShareMap);
 	}
 	
 }

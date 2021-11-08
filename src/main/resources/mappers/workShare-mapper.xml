@@ -285,4 +285,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET WS_TITLE = #{ws_title}, WS_CONTENT = #{ws_content}, WS_EDITDATE = TO_CHAR(SYSDATE, 'YY/MM/DD HH24:MI:SS') 
 		WHERE WS_NO = #{ws_no} AND WS_STATUS = 'S'
 	</update>
+	
+	<!-- 메인 미확인 업무공유 목록 -->
+	<select id="mainUnCheckedList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, B.EMP_NAME, A.WS_EMP_NO, A.WS_TITLE, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE (WS_RECV LIKE '%'||#{empNo}||'%' OR WS_RECV LIKE '%'||#{deptCode}||'%' OR WS_REF LIKE '%'||#{empNo}||'%')
+		AND WS_STATUS = 'Y'
+		AND WS_RECV_STATUS LIKE '%'||#{empNo}||'%'
+		ORDER BY A.WS_NO DESC
+	</select>
+
+	<!-- 발신 업무공유 목록 -->
+	<select id="mainSendList" resultMap="workShareResultSet">
+		SELECT A.WS_NO, A.WS_FAVB, B.EMP_NAME, A.WS_RECV, A.WS_RECV_STATUS, A.WS_TITLE, A.WS_REPLY, A.WS_CREATEDATE, D.JOB_NAME
+		FROM WORKSHARE A
+		JOIN EMPLOYEE B ON B.EMP_NO = A.WS_EMP_NO
+		JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
+		JOIN JOB_LEVEL D ON D.JOB_CODE = B.JOB_CODE
+		WHERE A.WS_EMP_NO = #{empNo}
+		AND WS_STATUS = 'Y'
+		ORDER BY A.WS_NO DESC
+	</select>
 </mapper>
