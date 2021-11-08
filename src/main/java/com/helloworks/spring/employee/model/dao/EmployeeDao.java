@@ -44,6 +44,7 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectAllEmployee", null, rowBounds);
 	}
 
+
 	public int selectHrTypeEmployeeListCount(SqlSessionTemplate sqlSession, String hrType) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("employeeMapper.selectHrTypeEmployeeListCount", hrType);

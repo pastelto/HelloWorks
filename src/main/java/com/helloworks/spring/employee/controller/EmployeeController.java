@@ -1,6 +1,11 @@
 package com.helloworks.spring.employee.controller;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.helloworks.spring.approval.model.service.ApprovalService;
@@ -24,6 +30,7 @@ import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.Pagination;
+import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -38,6 +45,7 @@ import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.workshare.model.service.WorkShareService;
 import com.helloworks.spring.workshare.model.vo.WorkShare;
+
 
 
 @SessionAttributes("loginUser")
@@ -207,16 +215,61 @@ public class EmployeeController {
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, @RequestParam("empPhone") String empPhone, Model model) {
+	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request,  @RequestParam("empPhone") String empPhone, Model model,
+															@RequestParam(name="empOrgPicName", required=true) MultipartFile file,
+															@RequestParam(name="empOrgSignName", required=true) MultipartFile file1) {
 		
 		m.setEmpPhone(empPhone);
+		
+		if(!file.getOriginalFilename().equals("")) {
+			String chgPic = saveFile(file, request);
+			String chgSign = saveFile(file1, request);
+			System.out.println("chgPic : " + chgPic);
+			System.out.println("chgSign : " + chgSign);
+			if(chgPic!=null) {
+					m.setEmpOrgPic(file.getOriginalFilename());
+					m.setEmpChgPic(chgPic);				
+				
+				}
+			if(chgSign != null) {
+					m.setEmpOrgSign(file1.getOriginalFilename());
+					m.setEmpChgSign(chgSign);
+				}
+			}		
+		
 		Employee userInfo = employeeService.updateEmp(m);
+		
 		
 		model.addAttribute("loginUser", userInfo);
 		model.addAttribute("msg","정보가 수정되었습니다");
 		
 		return "redirect:Mypage.mp";		
 	}
+	
+	// 파일 저장
+		public String saveFile(MultipartFile file, HttpServletRequest request) {
+			String resources = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = resources + "\\idPhoto_files\\"; //저장경로
+			
+			System.out.println("savePath : "+ savePath);		
+			String orgPic = file.getOriginalFilename(); //원본파일명		
+			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간		
+			String ext = orgPic.substring(orgPic.lastIndexOf("."));		
+			String chgPic = cuurentTime + ext;
+				try {
+					file.transferTo(new File(savePath + chgPic));
+				} catch (IllegalStateException e ) {
+					chgPic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				} catch (IOException e) {
+					chgPic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				}		
+			return chgPic;
+		}
+	
 	
 	//사원등록 페이지 전환
 	@RequestMapping("insertForm.hr")
@@ -292,6 +345,7 @@ public class EmployeeController {
 		return "employee/empManageMain";
 	}
 	
+
 	// 인사팀 - 하연
 	@RequestMapping("searchEmployee.hr")
 	public String searchEmployee(String hrType, String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
@@ -355,5 +409,6 @@ public class EmployeeController {
 		
 		return "employee/empManageMain";
 	}
+
 
 }
