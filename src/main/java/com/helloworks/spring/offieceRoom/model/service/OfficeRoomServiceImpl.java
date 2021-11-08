@@ -348,4 +348,30 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	}
 
 
+	@Override
+	public void updateCommResources(CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.updateCommResources(sqlSession, commonResources);
+		 
+		 if(result < 0) { 
+			 throw new CommException("수정 실패"); 
+		 }
+	}
+
+
+	@Override
+	public void insertUpdateCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		 for(CommonResourcesAttachment commonResourcesAttach : commonResourcesAttachList) { 
+			 result = officeRoomDao.insertUpdateCommResourcesAttach(sqlSession, commonResourcesAttach);
+		 }
+		 
+		 if(result < 0) { 
+			 throw new CommException("공통 자료실 첨부파일 추가 삽입 실패"); 
+		 }
+	}
+
+
 }

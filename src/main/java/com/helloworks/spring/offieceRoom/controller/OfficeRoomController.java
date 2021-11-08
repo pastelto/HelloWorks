@@ -946,17 +946,67 @@ public class OfficeRoomController {
 	}
 	
 	@RequestMapping("commResourcesUpdate.or")
-	public String commResourcesUpdate(HttpServletRequest request, Model model) {
-		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
-		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
+	public String commResourcesUpdate(CommonResources commonResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
 		
-		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
 		
-		model.addAttribute("commonResources", commonResources);
-		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
-		model.addAttribute("loginUserNo", loginUserNo);
-		model.addAttribute("crNo", crNo);
 		
-		return "officeResources/commResourcesDetail";
+//		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+//		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
+//		
+//		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
+//		
+//		model.addAttribute("commonResources", commonResources);
+//		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
+//		model.addAttribute("loginUserNo", loginUserNo);
+//		model.addAttribute("crNo", crNo);
+//		
+//		return "officeResources/commResourcesDetail";
+		
+		
+		ArrayList<CommonResourcesAttachment> originAttachlist = new ArrayList<CommonResourcesAttachment>();
+		originAttachlist = officeRoomService.commAttachList(commonResources.getCrNo());
+		
+		
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		System.out.println("fileList ? " + fileList.size());
+		
+		if(fileList.get(0).getSize() == 0 && originAttachlist.size() == 0) {
+			commonResources.setCrAttach("N");
+		}else {
+			commonResources.setCrAttach("Y");
+		}
+		
+		
+		System.out.println("업데이트 전달 값: "+commonResources);
+		System.out.println(" originAttachlist.size(): "+ originAttachlist.size());
+		System.out.println(" fileList.get(0).getSize(): "+ fileList.get(0).getSize());
+		
+		officeRoomService.updateCommResources(commonResources);
+		
+		
+		System.out.println("업데이트 값: "+commonResources);
+		
+		
+		
+		
+		
+		ArrayList<CommonResourcesAttachment> commonResourcesAttachList = new ArrayList<CommonResourcesAttachment>();
+		
+		if(fileList.get(0).getSize() != 0) {
+			  
+			 for(int i = 0; i < fileList.size(); i++) {
+				 CommonResourcesAttachment commonResourcesAttach = new CommonResourcesAttachment();
+				 String changeName = saveFile(fileList.get(i), request, i, "common");
+				 
+				 commonResourcesAttach.setCrNo(commonResources.getCrNo());
+				 commonResourcesAttach.setCrAttachOrigin(fileList.get(i).getOriginalFilename());
+				 commonResourcesAttach.setCrAttachChange(changeName);
+				 
+				 commonResourcesAttachList.add(commonResourcesAttach);
+			 }
+			 officeRoomService.insertUpdateCommResourcesAttach(commonResourcesAttachList);
+		}
+		
+		return "redirect:commResourcesList.or";
 	}
 }

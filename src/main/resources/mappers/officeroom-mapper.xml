@@ -574,4 +574,18 @@
 		WHERE CR_ATTACH_STATUS = 'Y'
 		AND CR_NO = #{crNo}
 	</select>
+	
+	<update id="updateCommResources" parameterType="CommonResources">
+		UPDATE COMMON_RESOURCES
+		SET CR_CODE = #{crCode}, CR_WRITER_NO = #{crWriterNo}, 
+			CR_CATEGORY = #{crCategory}, CR_TITLE = #{crTitle},
+			CR_CONTENT = #{crContent}, CR_CREATE_DATE = #{crCreateDate},
+			CR_ATTACH = #{crAttach}
+		WHERE CR_NO = #{crNo}
+	</update>
+	
+	<insert id="insertUpdateCommResourcesAttach" parameterType="CommonResourcesAttachment">
+		INSERT INTO COMMON_RESOURCES_ATTACHMENT
+		VALUES(SEQ_CR_ATTACH_NO.NEXTVAL, #{crNo}, #{crAttachOrigin}, #{crAttachChange}, DEFAULT )
+	</insert>
 </mapper>

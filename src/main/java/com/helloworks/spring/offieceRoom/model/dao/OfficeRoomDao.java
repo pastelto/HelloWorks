@@ -231,4 +231,15 @@ public class OfficeRoomDao {
 		return (ArrayList)sqlSession.selectList("officeroomMapper.commAttachList", crNo);
 	}
 
+	public int updateCommResources(SqlSessionTemplate sqlSession, CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.updateCommResources", commonResources);
+	}
+
+	public int insertUpdateCommResourcesAttach(SqlSessionTemplate sqlSession,
+			CommonResourcesAttachment commonResourcesAttach) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertUpdateCommResourcesAttach", commonResourcesAttach);
+	}
+
 }

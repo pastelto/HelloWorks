@@ -90,5 +90,9 @@ public interface OfficeRoomService {
 
 	ArrayList<CommonResourcesAttachment> commAttachList(int crNo);
 
+	void updateCommResources(CommonResources commonResources);
+
+	void insertUpdateCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
+
 
 }

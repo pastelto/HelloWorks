@@ -66,6 +66,7 @@
 												<td style="width: 35%;">
 												&nbsp;
 												<b>${ commonResources.writerName }</b>
+												<input type="hidden" name="crNo" id="crNo" value="${ commonResources.crNo }">
 												<input type="hidden" name="crWriterNo" id="crWriterNo" value="${ loginUser.empNo }">
 												</td>
 												<th>변경일</th>
@@ -124,7 +125,7 @@
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
-													<div id="originDiv">
+													<%-- <div id="originDiv">
 													<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
 														<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
 															
@@ -138,12 +139,22 @@
 														
 							                     	   	</c:if>
 							                   		 </c:forEach>
-							                   		</div>
+							                   		</div> --%>
+													<div id="originDiv">
+														<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
+															<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
+																
+																	<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
+										                        	<span class='badge badge-info'>${ commonResourcesAttach.crAttachOrigin }</span>&nbsp;&nbsp;
+										                        	</br>
+									                        	
+									                        </c:if>
+							                   		 	</c:forEach>
+													</div>
 													<span id="resourcesAttachName"></span>
-								                  	<div class="btn btn-default btn-file btn-xs">
-								                   		<i class="fas fa-paperclip"></i> 첨부파일
+								                  	<div class="btn btn-default btn-file btn-xs" >
+								                   		<i class="fas fa-paperclip" ></i> 첨부파일
 								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple">
-								                    	 
 								               	  	</div> 
 												</td>
 											</tr>
@@ -162,7 +173,7 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="updateBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">수정하기</button>
+									<button id="updateBtn" type="button" class="btn btn-primary btn-sm" onclick="updateFunc()">수정하기</button>
 									&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="cancelFunc()">돌아가기</button>
 									&nbsp;
@@ -237,8 +248,11 @@
 	
 	<!-- 자료실 등록 버튼 -->
 	<script>
-		function updateBtn(){
+		function updateFunc(){
 			
+			//var crNo = ${commonResources.crNo}
+			
+			//alert(crNo)
 			if($("input[name=crCode]").val() == ""){
 				alert("비밀번호를 입력해주세요.")
 			}else if($("input[name=crTitle]").val()==""){
@@ -305,9 +319,8 @@
 					var value="";
 					if(list != 0){
 					$.each(list, function(i, obj){
-	
 						if(list != ""){
-						value += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none' onclick='deleteFile("+obj.crAttachNo+"')></i>" + 
+						value += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none' onclick='deleteFile("+obj.crAttachNo+")'></i>" + 
 								 "<span class='badge badge-info'>"+obj.crAttachOrigin+"</span>&nbsp;&nbsp;" + 
 							     "</br>"
 						} else{
@@ -315,7 +328,7 @@
 						}
 					});
 					}
-					$("#resourcesAttachName").html(value);
+					$("#originDiv").html(value);
 				},error:function(){
 					console.log("ajax 통신 실패");
 				}
