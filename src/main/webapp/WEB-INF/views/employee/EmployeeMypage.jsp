@@ -32,13 +32,17 @@
 	/*파일선택시 선택된 파일명이 붙는것을 가려준다*/
 	.fileRegiBtn input[type="file"] , .fileRegiBtn1 input[type="file"] {
 		position: absolute;
-		width: 1px;
-		height: 1px;
+		width: 100%;
+		height: 60%;
 		padding: 0;
 		margin: -1px;
 		overflow: hidden;
 		clip: rect(0, 0, 0, 0);
 		border: 0;
+	}
+	
+	#fileName, #fileName1{
+		width: 100%;
 	}
 
 
@@ -90,15 +94,15 @@
 												<td rowspan="6" >
 																																
 														<!-- 이미지파일 등록 -->
-														<div class="col-3">
+														<div>
 															<!-- 이미지 들어오는 부분 -->
-															<c:if test="${not empty loginUser.empOrgPic}">
+															<c:if test="${not empty emp.empOrgPic}">
 															<div class="selectCover">
-																<img id="uploadImg" src="resources/idPhoto_files/${loginUser.empChgPic}"
+																<img id="uploadImg" src="resources/idPhoto_files/${emp.empChgPic}"
 																	style="width: 160px; height: 200px;" />
 															</div>
 															</c:if>
-															<c:if test="${loginUser.empOrgPic eq 'OP'}">
+															<c:if test="${empty emp.empOrgPic}">
 															
 															
 															<div class="selectCover">
@@ -106,14 +110,16 @@
 																	style="width: 160px; height: 200px;" />
 															</div>
 															</c:if>
-														<div class="col-9">
+														<div >
+														<!--
 															<div class="form-group">
 																<input id="fileName" name="fileName" class="form-control"
 																	value="jpg, jpeg, png" readonly>
 															</div>
+														-->	
 															<div class="fileRegiBtn">
-																<label for="myFileUp"> <i
-																	class="fas fa-cloud-upload-alt"> 사진 변경</i>
+																<label for="myFileUp"> 
+																	<i class="fas fa-cloud-upload-alt"> 사진 변경</i>
 																</label> <input type="file" name="empOrgPicName" id="myFileUp">
 															</div>
 													
@@ -140,7 +146,7 @@
 												<th>주민번호</th>
 												<td><input type="text" class="form-control" id="empPid" name="empPid" maxlength="6" value="${ loginUser.empPid }" readonly> </td>
 												<th>핸드폰</th>
-												<td><input type="text" class="form-control" id="empPhone" name="empPhone" value="${ loginUser.empPhone }"></td>
+												<td><input type="text" class="form-control" id="empPhone" name="empPhone" value="${ emp.empPhone }"></td>
 											</tr>	
 														
 											<tr>
@@ -153,38 +159,40 @@
 												
 										<tfoot>
 											<tr>
-												<td rowspan="6">													>			
+												<td rowspan="6">															
 													
 														<!-- 이미지파일 등록 -->
-														<div class="col-3">
-														<c:if test="${not empty loginUser.empOrgSign}">
+														<div >
+															<!-- 이미지 들어오는 부분 -->
+															<c:if test="${not empty emp.empOrgSign}">
 															<div class="selectCover">
-																<img id="uploadImg" src="resources/idPhoto_files/${loginUser.empChgSign}"
-																	style="width: 160px; height: 200px;" />
+																<img id="uploadImg1" src="resources/idSign_files/${emp.empChgSign}"
+																	style="width: 160px; height: 80px;" />
 															</div>
 															</c:if>
-															<c:if test="${loginUser.empOrgSign eq 'OS'}">
+															<c:if test="${empty emp.empOrgSign}">
 															
 															
 															<div class="selectCover">
-																<img id="cover" src="resources/empImg/defaultImg.jpg"
-																	style="width: 160px; height: 200px;" />
+																<img id="cover1" src="resources/empImg/defaultImg.jpg"
+																	style="width: 160px; height: 80px;" />
 															</div>
 															</c:if>
-									
-														
-														<div class="col-9">
+														<div >
+															<!--  
 															<div class="form-group">
-																<input id="fileName1" name="fileName1" class="form-control"
+																<input id="fileName1" name="fileName1" class="form-control form-control-sm " 
 																	value="jpg, jpeg, png" readonly>
 															</div>
+															-->
 															<div class="fileRegiBtn1">
 																<label for="myFileUp1"> <i
 																	class="fas fa-cloud-upload-alt"> 사인 변경</i>
 																</label> <input type="file" name="empOrgSignName" id="myFileUp1">
 															</div>
+													
 														</div>
-													</div>
+													</div>		
 														
 														
 												</td>	
