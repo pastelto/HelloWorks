@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -372,6 +373,66 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 			 throw new CommException("공통 자료실 첨부파일 추가 삽입 실패"); 
 		 }
 	}
+
+
+	@Override
+	public DeptResourcesAttachment selectDelDeptResourcesAttachment(int deptrAttachNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDelDeptResourcesAttachment(sqlSession, deptrAttachNo);
+	}
+
+
+	@Override
+	public int deleteDeptResourcesAttachment(int deptrAttachNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.deleteDeptResourcesAttachment(sqlSession, deptrAttachNo);
+		 
+		 if(result < 0) { 
+			 throw new CommException("첨부파일 삭제 실패"); 
+		 }
+		 return result;
+	}
+
+
+	@Override
+	public ArrayList<DeptResourcesAttachment> deptrAttachList(int deptrNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.deptrAttachList(sqlSession, deptrNo);
+	}
+
+
+	@Override
+	public void updateDeptResources(DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.updateDeptResources(sqlSession, deptResources);
+		 
+		 if(result < 0) { 
+			 throw new CommException("수정 실패"); 
+		 }
+	}
+
+
+	@Override
+	public void insertUpdateDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		 for(DeptResourcesAttachment deptResourcesAttachment : deptResourcesAttachList) { 
+			 result = officeRoomDao.insertUpdateDeptResourcesAttach(sqlSession, deptResourcesAttachment);
+		 }
+		 
+		 if(result < 0) { 
+			 throw new CommException("공통 자료실 첨부파일 추가 삽입 실패"); 
+		 }
+	}
+
+
+	@Override
+	public Attendance attendanceEmployee(int empNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.attendanceEmployee(sqlSession, empNo);
+	}
+
 
 
 }

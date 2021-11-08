@@ -25,10 +25,12 @@ public interface EmployeeService {
 
 	ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi); //인사관리
 
-	int searchEmployeeListCount(SearchEmployee se); //인사관리
+	int searchEmployeeListCount(SearchEmployee se);
 
 	ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi); //인사관리;
 	
 	Employee getLastEmpNo(); // 일정관리
+
+	void updateEmployee(Employee employee);  //인사관리
 
 }

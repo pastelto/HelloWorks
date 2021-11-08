@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -90,12 +91,16 @@ public class OfficeRoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="searchEmployeeDetail.or", produces = "application/json; charset=utf-8")
-	public String searchEmployeeDetail(int empNo) {
+	public String searchEmployeeDetail(int empNo, Model model) {
 		
 		Employee emp = officeRoomService.searchEmployeeDetail(empNo);
 		
 		System.out.println("직원상세조회 Controller: "+ emp);
 		
+		//출퇴근 상태값 불러오기
+		Attendance attendance = officeRoomService.attendanceEmployee(empNo);
+		
+		emp.setPsStatus(attendance.getPsStatus());
 		return new GsonBuilder().create().toJson(emp); 
 	}
 	
@@ -898,7 +903,7 @@ public class OfficeRoomController {
 		try {
 			CommonResourcesAttachment commonResourcesAttachment = officeRoomService.selectDelCommonResourcesAttachment(crAttachNo);
 			result = officeRoomService.deleteCommonResourcesAttachment(crAttachNo);
-			deleteFile(commonResourcesAttachment, request);
+			deleteCommFile(commonResourcesAttachment, request);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -910,7 +915,7 @@ public class OfficeRoomController {
 	}
 	
 	// 공통 첨부파일 삭제
-	private void deleteFile(CommonResourcesAttachment file, HttpServletRequest request) {
+	private void deleteCommFile(CommonResourcesAttachment file, HttpServletRequest request) {
 		
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\commonResources_files\\";
@@ -949,20 +954,6 @@ public class OfficeRoomController {
 	public String commResourcesUpdate(CommonResources commonResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
 		
 		
-		
-//		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
-//		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
-//		
-//		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
-//		
-//		model.addAttribute("commonResources", commonResources);
-//		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
-//		model.addAttribute("loginUserNo", loginUserNo);
-//		model.addAttribute("crNo", crNo);
-//		
-//		return "officeResources/commResourcesDetail";
-		
-		
 		ArrayList<CommonResourcesAttachment> originAttachlist = new ArrayList<CommonResourcesAttachment>();
 		originAttachlist = officeRoomService.commAttachList(commonResources.getCrNo());
 		
@@ -976,7 +967,6 @@ public class OfficeRoomController {
 			commonResources.setCrAttach("Y");
 		}
 		
-		
 		System.out.println("업데이트 전달 값: "+commonResources);
 		System.out.println(" originAttachlist.size(): "+ originAttachlist.size());
 		System.out.println(" fileList.get(0).getSize(): "+ fileList.get(0).getSize());
@@ -985,10 +975,6 @@ public class OfficeRoomController {
 		
 		
 		System.out.println("업데이트 값: "+commonResources);
-		
-		
-		
-		
 		
 		ArrayList<CommonResourcesAttachment> commonResourcesAttachList = new ArrayList<CommonResourcesAttachment>();
 		
@@ -1008,5 +994,107 @@ public class OfficeRoomController {
 		}
 		
 		return "redirect:commResourcesList.or";
+	}
+	
+	// 부서별 자료실 update
+	@ResponseBody
+	@RequestMapping("deleteDeptrAttach.or")
+	public String deleteDeptrAttach(int deptrAttachNo, HttpServletRequest request) {
+		int result = 0;
+		try {
+			DeptResourcesAttachment deptResourcesAttachment = officeRoomService.selectDelDeptResourcesAttachment(deptrAttachNo);
+			result = officeRoomService.deleteDeptResourcesAttachment(deptrAttachNo);
+			deleteDeptFile(deptResourcesAttachment, request);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return String.valueOf(result);
+		
+	}
+	
+	// 부서별 첨부파일 삭제
+	private void deleteDeptFile(DeptResourcesAttachment file, HttpServletRequest request) {
+		
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = resources + "\\deptResources_files\\";
+		
+		System.out.println("savePath : " + savePath);
+		
+		String fileName = file.getDeptrAttachChange();
+		System.out.println("삭제할 파일 명 : " + fileName);
+		
+		File deleteFile = new File(savePath + fileName);
+		deleteFile.delete();
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deptrAttachList.or", produces = "application/json; charset=utf-8")
+	public String deptrAttachList(int deptrNo) {
+		ArrayList<DeptResourcesAttachment> list = new ArrayList<DeptResourcesAttachment>();
+		try {
+			list = officeRoomService.deptrAttachList(deptrNo);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("부서별 자료실 list: "+list);
+		if(!list.isEmpty()) {
+			return new GsonBuilder().create().toJson(list); 
+		} else {
+			int result = 0;
+			return String.valueOf(result);
+		}
+	}
+	
+	@RequestMapping("deptResourcesUpdate.or")
+	public String deptResourcesUpdate(DeptResources deptResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
+		
+		
+		ArrayList<DeptResourcesAttachment> originAttachlist = new ArrayList<DeptResourcesAttachment>();
+		originAttachlist = officeRoomService.deptrAttachList(deptResources.getDeptrNo());
+		
+		
+		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
+		System.out.println("fileList ? " + fileList.size());
+		
+		if(fileList.get(0).getSize() == 0 && originAttachlist.size() == 0) {
+			deptResources.setDeptrAttach("N");
+		}else {
+			deptResources.setDeptrAttach("Y");
+		}
+		
+		
+		System.out.println("업데이트 전달 값: "+deptResources);
+		System.out.println(" originAttachlist.size(): "+ originAttachlist.size());
+		System.out.println(" fileList.get(0).getSize(): "+ fileList.get(0).getSize());
+		
+		officeRoomService.updateDeptResources(deptResources);
+		
+		
+		System.out.println("업데이트 값: "+deptResources);
+		
+		ArrayList<DeptResourcesAttachment> deptResourcesAttachList = new ArrayList<DeptResourcesAttachment>();
+		
+		if(fileList.get(0).getSize() != 0) {
+			  
+			 for(int i = 0; i < fileList.size(); i++) {
+				 DeptResourcesAttachment deptResourcesAttach = new DeptResourcesAttachment();
+				 String changeName = saveFile(fileList.get(i), request, i, "common");
+				 
+				 deptResourcesAttach.setDeptrNo(deptResources.getDeptrNo());
+				 deptResourcesAttach.setDeptrAttachOrigin(fileList.get(i).getOriginalFilename());
+				 deptResourcesAttach.setDeptrAttachChange(changeName);
+				 
+				 deptResourcesAttachList.add(deptResourcesAttach);
+			 }
+			 officeRoomService.insertUpdateDeptResourcesAttach(deptResourcesAttachList);
+		}
+		
+		return "redirect:deptResourcesList.or";
 	}
 }
