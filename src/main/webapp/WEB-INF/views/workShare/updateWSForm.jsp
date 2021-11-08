@@ -98,46 +98,41 @@
 											</tr>
 											<tr>
 												<th>수신직원</th>
-												<td colspan="3">
-												&nbsp;&nbsp;
+												<td colspan="3" id="editRecvList">
 												<c:forEach items="${ wsRecvEmpName }" var="sren">
-													<c:if test="${ !empty sren.ws_empno }">
+													<c:if test="${ !empty sren.ws_empno && ws.ws_status ne 'S'}">
 													<span class="badge badge-info">
 							                        	${sren.ws_senderName} ${sren.ws_senderJobName}(${sren.ws_empno})
 							                        </span>
 							                        </c:if>
 							                     </c:forEach>
-												</td>
-												<td colspan="3" id="editRecvList" style="display:none;">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_recv">
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
+							                     <c:if test="${ ws.ws_status eq 'S' }">
+												<div class="row m-0">
+													<button id="addressBook" type="button" class="btn btn-default btn-xs" onclick="popupAddressBook();">주소록</button>
+													&nbsp;
+													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원 검색</button>
 													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
+													<div id="receiveListDiv">
+													<input type="hidden" id="checking" name="checking">
+													</div>
 												</div>
+												</c:if>
 												</td>
+												
 											</tr>
 											<tr>
 												<th>참조</th>
 												<td colspan="3">
-												&nbsp;&nbsp;
-												<c:forEach items="${ wsRefEmpName }" var="srefn">
-													<c:if test="${ !empty srefn.ws_empno }">
+												<c:forEach items="${ wsRefEmpName}" var="srefn">
+													<c:if test="${ !empty srefn.ws_empno  && ws.ws_status ne 'S' }">
 													<span class="badge badge-warning">
 							                        	${srefn.ws_senderName} ${srefn.ws_senderJobName}(${srefn.ws_empno})
 							                        </span>
 							                        </c:if>
 							                     </c:forEach>
-												</td>
-												<td colspan="3" id="editRefRecv" style="display:none;">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_ref">
-												<div class="float-right">
-													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
-													&nbsp;&nbsp;
-													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
-												</div>
+							                     <c:if test="${ ws.ws_status eq 'S' }">
+							                     <div id="refListDiv"></div>
+							                     </c:if>
 												</td>
 											</tr>
 											<tr>
@@ -150,8 +145,9 @@
 												<td style="width: 35%;" id="editDate">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
-													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd HH:mm:ss" /></c:set> 
+													<c:set var="sysdate"><fmt:formatDate value="${now}" pattern="yyyy/MM/dd " /></c:set> 
 													<c:out value="${sysdate}" />
+													<span id="nowTimes"></span>
 												 </td>
 											</tr>
 											<tr id="editAttachment">
@@ -194,12 +190,12 @@
 							<div class="card-footer">
 								<div class="float-right" id="editPlace">	
 									&nbsp;						
-									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
-									<button type="button" class="btn btn-info btn-sm" onclick="saveBtn()">저장하기</button>
+									<c:if test="${ ws.ws_status eq 'S' }">
+									<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="saveBtn();">임시저장</button>
+									</c:if>
+									<button type="button" class="btn btn-info btn-sm" onclick="updateBtn()">수정완료</button>
 									&nbsp;&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="backToList()">취소</button>
-									</c:if>
-									
 								</div>
 							</div>
 						</form>
@@ -243,14 +239,16 @@
 	function deleteFile(num){
 		console.log(num)
 			
-			if(num != ""){
+			var yes = confirm("파일을 삭제하시겠습니까?");
+		
+			if(yes){
 				$.ajax({
 					url:"deleteWsa.ws",
 					type:"post",
 					data:{wsaNo:num},
 					success:function(result){
 						if(result > 0){
-							//selectReplyList();
+							//selectWSAList();
 							alert("첨부파일이 삭제되었습니다.");
 						}else{
 							console.log("첨부파일 삭제 실패");
@@ -262,6 +260,7 @@
 				
 			};
 	}
+	
 	// 첨부파일 리스트 불러오기
  	function selectWSAList(){
 		var wno = ${ws.ws_no};
@@ -294,11 +293,45 @@
 	<!-- 버튼 이동 -->
 	<script>
  	// 업무공유 수정 완료 및 저장
+	function updateBtn() {
+ 		
+		if($("input[name=ws_title]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("내용을 입력해주세요.")
+		}else{
+			if(confirm("업무공유를 수정하시겠습니까?") == true){
+			  	alert("업무공유가 수정되었습니다.");
+				$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
+				$("#workShareForm").submit();
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
+	};
+	
+	// 업무공유 임시저장 
 	function saveBtn() {
-	  	alert("업무공유가 수정되었습니다.");
-		$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateWS.ws");
-		$("#workShareForm").submit();
-
+ 		
+		if($("input[name=ws_title]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("내용을 입력해주세요.")
+		}else{
+			if(confirm("업무공유를 임시저장 하시겠습니까?") == true){
+			  	alert("업무공유가 수정되었습니다.");
+				$("#workShareForm").attr("action", "<%=request.getContextPath()%>/updateSavedWS.ws");
+				$("#workShareForm").submit();
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
 	};
 	
 	// 취소버튼 - 뒤로가기
@@ -314,6 +347,37 @@
 	} 
 	</script>
 	
+	<!-- 시간 출력 -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    // 시간을 딜레이 없이 나타내기위한 선 실행
+		    realTimer();
+		    // 이후 0.5초에 한번씩 시간을 갱신한다.
+		    setInterval(realTimer, 100);
+		});
+		
+		// 시간을 출력
+		function realTimer() {
+		
+		   const nowDate = new Date();
+		   const year = nowDate.getFullYear();
+		   const month= nowDate.getMonth() + 1;
+		   const date = nowDate.getDate();
+		   const hour = nowDate.getHours();
+		   const min = nowDate.getMinutes();
+		   const sec = nowDate.getSeconds();
+		   document.getElementById("nowTimes").innerHTML = 
+		              hour + ": " + addzero(min) + ": " + addzero(sec);
+		}
+		
+		// 1자리수의 숫자인 경우 앞에 0을 붙여준다.
+		function addzero(num) {
+		   if(num < 10) { num = "0" + num; }
+		   return num;
+		
+		}
+	</script>
+	
 	<!-- 주소록 -->
 	<script>
 		function popupAddressBook(){
@@ -322,7 +386,7 @@
 	</script>
 	
 	<!-- 직원 검색  -->
-	<script>
+	<script>	
 		function popupSearchEmp(){
 			var addressBookPopUp = window.open("popupSearchEmp.or", "직원검색", "width=1300,height=800");
 		}

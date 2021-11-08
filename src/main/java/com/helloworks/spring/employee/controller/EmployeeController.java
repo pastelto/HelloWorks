@@ -43,6 +43,8 @@ import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
+import com.helloworks.spring.workshare.model.service.WorkShareService;
+import com.helloworks.spring.workshare.model.vo.WorkShare;
 
 
 
@@ -50,8 +52,10 @@ import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 @Controller
 public class EmployeeController {
 	
-   @Autowired
-   private ScheduleService scheduleService;
+	// 김다혜
+	@Autowired
+   	private ScheduleService scheduleService;
+	private WorkShareService workShareService;
 	
 	@Autowired 
 	private EmployeeService employeeService;
@@ -106,8 +110,9 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-
-		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();	
+		  
+		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		  int empNo =  myEmp.getEmpNo();	
 		  
 		  //조아혜
 		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
@@ -130,7 +135,7 @@ public class EmployeeController {
 		  statistics.setLeaveWTS(test);
 		  test = changeTime(statistics.getLeaveOT()); 
 		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);	      
+		  mv.addObject("statistics", statistics);
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
@@ -142,8 +147,6 @@ public class EmployeeController {
 	      mv.addObject("acList", acList);
 	      mv.addObject("commentPageURL", "mainMyApproval.ea");
 	      mv.addObject("commentPage", 1);
-	      
-	      
 	      
 	      //왕다영
 	      ArrayList<Mtr> mtrRList = null;		
@@ -161,6 +164,27 @@ public class EmployeeController {
 	      mv.addObject("eqRList", eqRList);
 	      mv.addObject("mainPageURL", "mainRequest.eq");
 	      mv.addObject("mainPage", 2); 
+	      
+	      //김다혜
+	      // 미확인 업무 개수 
+	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      int listCount = 0;
+		try {
+			listCount = workShareService.selectUncheckedWSListCount(myEmp);
+			int currentPage = 1;
+		    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		    // 미확인 업무 목록 
+		    unCheckedList = workShareService.selectUnCheckedList(myEmp, pi);
+		    
+		    
+		    mv.addObject("mainWSpage", 1);
+		    mv.addObject("unCheckedList", unCheckedList);
+		    mv.addObject("mainWSURL", "mainWorkShare.ws");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      
 	      
 	      
 	      
@@ -266,11 +290,15 @@ public class EmployeeController {
 		
 		System.out.println("암호화 전: "+ m.getEmpPwd());
 		
+		
+		
 		employeeService.insertEmp(m);
+		
+		Employee emp = employeeService.getLastEmpNo();
+		scheduleService.insertCal(emp.getEmpNo());
 		session.setAttribute("msg", "사원등록성공");
 		return "redirect:main.mi";
-		
-		
+
 	}
 	
 	// 인사팀 - 하연

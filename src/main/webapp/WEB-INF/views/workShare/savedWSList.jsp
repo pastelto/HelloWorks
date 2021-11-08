@@ -97,7 +97,42 @@
             </div>
              <!-- /.card-body -->
             <div class="card-footer">
-             	<button id="sendBtn" type="button" class="btn btn-primary btn-sm" onClick="location.href='sendFormView.ws'">보내기</button>
+             				<button id="sendBtn" type="button" class="btn btn-primary btn-sm float-right" onClick="location.href='sendFormView.ws'">보내기</button>
+
+     		<div id="pagingArea">
+               <ul class="pagination pagination-sm m-0 justify-content-center">
+               	<c:choose>
+               		<c:when test="${ pi.currentPage ne 1 }">
+               			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage-1 }"><i class="fas fa-chevron-left"></i></a></li>
+               		</c:when>
+               		<c:otherwise>
+               			<li class="page-item disabled"><a class="page-link" href=""><i class="fas fa-chevron-left"></i></a></li>
+               		</c:otherwise>
+               	</c:choose>
+               	
+                   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                   	<c:choose>
+                		<c:when test="${ pi.currentPage ne p }">
+                   			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ p }">${ p }</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                   </c:forEach>
+                   
+                   
+                   <c:choose>
+               		<c:when test="${ pi.currentPage ne pi.maxPage }">
+               			<li class="page-item"><a class="page-link" href="${pageURL}?reportType=${ reportType }&termType=${ termType }&startDate=${startDate }&endDate=${ endDate }&optionType=${optionType }&search=${search }&currentPage=${ pi.currentPage+1 }"><i class="fas fa-chevron-right"></i></a></li>
+               		</c:when>
+               		<c:otherwise>
+               			<li class="page-item disabled"><a class="page-link" href="${pageURL}?currentPage=${ pi.currentPage+1 }"><i class="fas fa-chevron-right"></i></a></li>
+               		</c:otherwise>
+               	</c:choose>
+               </ul>
+               
+           </div>
             </div>
           </div>
         </div>
