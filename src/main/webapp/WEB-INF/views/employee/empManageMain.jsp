@@ -185,7 +185,7 @@
 							                        <td>${ employee.empHire }</td>
 							                        <td>${ employee.empFire }</td>
 							                        <th>
-							                        	<button id='updateEmp' type='button' class='btn btn-danger btn-xs'>수정하기</button>&nbsp;
+							                        	<button id='updateEmp' type='button' class='btn btn-danger btn-xs' onclick="updateEmployee(${ employee.empNo })">수정하기</button>&nbsp;
 							                        </th>
 							                    </tr>
 						                    </c:forEach>
@@ -435,6 +435,13 @@
 		    	location.href="<%=request.getContextPath()%>/empManageHrType.hr?hrType="+type;
 		    }
 		});
+	</script>
+	
+	<!-- 수정하기 버튼 -->
+	<script>
+		function updateEmployee(empNo){
+			location.href="<%=request.getContextPath()%>/updateEmployeeForm.hr?empNo="+empNo;
+		}
 	</script>
 </body>
 </html>

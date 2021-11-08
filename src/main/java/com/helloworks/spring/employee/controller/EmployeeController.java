@@ -418,5 +418,30 @@ public class EmployeeController {
 		return "employee/empManageMain";
 	}
 
+	//인사팀 - 하연
+	@RequestMapping("updateEmployeeForm.hr")
+	public String updateEmployeeForm(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		return "employee/employeeUpdate";
+	}
+	
+	//인사팀 - 하연
+	@RequestMapping("updateEmployee.hr")
+	public String updateEmployee(String fireDate, Employee employee) {
+		
+		System.out.println("전달 값: "+employee);
+		
+		if(fireDate.equals("")) {
+			System.out.println("날짜 비었다.");
+		}else {
+			System.out.println("날짜 안빔");
+		}
+		
+		employeeService.updateEmployee(employee);
+		
+		return "redirect:empManageMain.hr";
+	}
 
 }

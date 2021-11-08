@@ -77,4 +77,10 @@ public class EmployeeDao {
 		
 		return sqlSession.selectOne("employeeMapper.getLastEmpNo");
 	}
+
+	public int updateEmployee(SqlSessionTemplate sqlSession, Employee employee) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("employeeMapper.updateEmployee", employee);
+	}
+
 }

@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
 		<result property="rowNum" column="ROWNUM"/>
+		<result property="empFireString" column="EMP_FIRE"/>
 	</resultMap>
 	
 	<!-- Dept -->
@@ -158,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 	</select>
 	
-		<!-- 인사관리 -->
+	<!-- 인사관리 -->
 	<select id="searchEmployee" parameterType="SearchEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -208,4 +209,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE ROWNUM = 1
 	]]>
 	</select>
+	
+	<!-- 인사관리 -->
+	<update id="updateEmployee" parameterType="Employee">
+		UPDATE EMPLOYEE
+		SET EMP_PWD = #{empPwd}, EMP_NAME = #{empName}, EMP_EN = #{empEn},
+			EMP_PID = #{empPid}, EMP_EMAIL = #{empEmail}, EMP_PHONE = #{empPhone},
+			EMP_EPHONE = #{empEphone}, EMP_ADDRESS = #{empAddress}, DEPT_CODE=#{deptCode},
+			JOB_CODE = #{jobCode}, EMP_SALARY = #{empSalary}, EMP_HIRE = #{empHire},
+			EMP_FIRE = #{empFireString}, EMP_NOTE = #{empNote}, EMP_STATUS = #{empStatus}
+		WHERE EMP_NO = #{empNo}
+	</update>
 </mapper>
