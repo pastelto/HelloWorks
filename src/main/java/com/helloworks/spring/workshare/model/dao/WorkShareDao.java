@@ -1,6 +1,7 @@
 package com.helloworks.spring.workshare.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -82,9 +83,9 @@ public class WorkShareDao {
 		return sqlSession.selectOne("workShareMapper.detailWS", wno);
 	}
 	
-	public WorkShare detailAllWS(SqlSessionTemplate sqlSession, WorkShare updateWS) {
+	public WorkShare detailAllWS(SqlSessionTemplate sqlSession, WorkShare ws) {
 	
-		return sqlSession.selectOne("workShareMapper.detailAllWS", updateWS);
+		return sqlSession.selectOne("workShareMapper.detailAllWS", ws);
 	}
 
 	public ArrayList<WSAttachment> detailWSAttachment(SqlSessionTemplate sqlSession, int wsno) throws Exception {
@@ -145,6 +146,21 @@ public class WorkShareDao {
 	public WorkShare selectRecvEmpName(SqlSessionTemplate sqlSession, int recvEmpNo) {
 		
 		return sqlSession.selectOne("workShareMapper.selectRecvEmpName", recvEmpNo);
+	}
+
+	public WorkShare savedDetailWS(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.selectOne("workShareMapper.savedDetailWS", map);
+	}
+
+	public int updateSavedWorkShare(SqlSessionTemplate sqlSession, WorkShare ws) {
+		
+		return sqlSession.update("workShareMapper.updateSavedWorkShare", ws);
+	}
+
+	public int updateReplyList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.update("workShareMapper.updateReplyList", map);
 	}
 
 

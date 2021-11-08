@@ -80,6 +80,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// TODO Auto-generated method stub
 		return employeeDao.selectAllEmployee(sqlSession, pi);
 	}
+	
+	// 가장 최신 등록된 직원 가져오기
+	@Override
+	public Employee getLastEmpNo() {
+		
+		return employeeDao.getLastEmpNo(sqlSession);
+	}
 
 	@Override
 	public int selectHrTypeEmployeeListCount(String hrType) {

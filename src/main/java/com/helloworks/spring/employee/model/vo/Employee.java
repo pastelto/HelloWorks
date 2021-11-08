@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Employee {
-	private int empNo;				//사원번호
+	private int empNo;			//사원번호
 	private String empPwd;			//비밀번호
 	private String empName;			//사원이름
 	private String empEn;			//영문이름
@@ -37,5 +37,6 @@ public class Employee {
 	private String jobName; 		//직급명
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름
+	private int rowNum;         // rownum
 
 }
