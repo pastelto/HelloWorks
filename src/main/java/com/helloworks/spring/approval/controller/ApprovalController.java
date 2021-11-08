@@ -103,7 +103,7 @@ public class ApprovalController {
 		model.addAttribute("commentPage", 1);
 		
 		
-		return "main";
+		return "redirect:main.mi";
 	}
 	
 	@RequestMapping("mainPending.ea")
@@ -124,7 +124,7 @@ public class ApprovalController {
 		model.addAttribute("commentPage", 2);
 		
 		
-		return "main";
+		return "redirect:main.mi";
 	}
 	
 	
