@@ -51,7 +51,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-table"></i><b> 사원 관리</b>
+							<i class="nav-icon far fa-address-card"></i><b> 사원 관리</b>
 						</h4>
 					</div>
 				</div>

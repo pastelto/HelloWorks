@@ -322,4 +322,30 @@ public class OfficeRoomServiceImpl implements OfficeRoomService {
 	}
 
 
+	@Override
+	public CommonResourcesAttachment selectDelCommonResourcesAttachment(int crAttachNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.selectDelCommonResourcesAttachment(sqlSession, crAttachNo);
+	}
+
+
+	@Override
+	public int deleteCommonResourcesAttachment(int crAttachNo) {
+		// TODO Auto-generated method stub
+		int result = officeRoomDao.deleteCommonResourcesAttachment(sqlSession, crAttachNo);
+		 
+		 if(result < 0) { 
+			 throw new CommException("첨부파일 삭제 실패"); 
+		 }
+		 return result;
+	}
+
+
+	@Override
+	public ArrayList<CommonResourcesAttachment> commAttachList(int crNo) {
+		// TODO Auto-generated method stub
+		return officeRoomDao.commAttachList(sqlSession, crNo);
+	}
+
+
 }

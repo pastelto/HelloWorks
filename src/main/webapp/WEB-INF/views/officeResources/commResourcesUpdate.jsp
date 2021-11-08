@@ -124,45 +124,27 @@
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
+													<div id="originDiv">
 													<c:forEach items="${ commonResourcesAttach }" var="commonResourcesAttach">
-													<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
-														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
-							                        	<a href="${ pageContext.servletContext.contextPath }/resources/commonResources_files/${commonResourcesAttach.crAttachChange}" download="${commonResourcesAttach.crAttachOrigin}">${ commonResourcesAttach.crAttachOrigin }</a>
-							                        	</br>
-							                        	<span id="resourcesAttachName"></span>
+														<c:if test="${ !empty commonResourcesAttach.crAttachOrigin }">
+															
+																<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${commonResourcesAttach.crAttachNo})"></i>
+									                        	<span class='badge badge-info'>${ commonResourcesAttach.crAttachOrigin }</span>&nbsp;&nbsp;
+									                        	</br>
+								                        	
+								                        </c:if>
+								                        
+								                        <c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
+														
+							                     	   	</c:if>
+							                   		 </c:forEach>
+							                   		</div>
+													<span id="resourcesAttachName"></span>
 								                  	<div class="btn btn-default btn-file btn-xs">
 								                   		<i class="fas fa-paperclip"></i> 첨부파일
-								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple"> 
-								               	  	</div>
-							                        </c:if>
-													<c:if test="${ empty commonResourcesAttach.crAttachOrigin }">
-														<span id="resourcesAttachName"></span>
-								                  	<div class="btn btn-default btn-file btn-xs">
-								                   		<i class="fas fa-paperclip"></i> 첨부파일
-								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple"> 
-								               	  	</div>
-							                        </c:if>
-							                    </c:forEach>
-													 
-													 <c:if test="${ !empty dailyReport.drAttachOrigin }">
-							                            <span class="badge badge-info" id="reportAttachName">${ dailyReport.drAttachOrigin }</span>
-							                           <%--  <input type="hidden" name="changeName" value="${ b.drAttachChange }"> --%>
-							                            <input type="hidden" name="changeName" value="${ dailyReport.drAttachChange }">
-							                            <input type="hidden" name="originName" value="${ dailyReport.drAttachOrigin }">
-							                            <div class="btn btn-default btn-file btn-xs">
-									                    	<i class="fas fa-paperclip"></i> 첨부파일
-									                    	<input type="file" name="uploadFile" id="reportAttach">
-									                  </div> 
-						                            </c:if>
-						                            <c:if test="${ empty dailyReport.drAttachOrigin }">
-							                            <span class="badge badge-info" id="reportAttachName"></span>
-							                            <div class="btn btn-default btn-file btn-xs">
-										                    <i class="fas fa-paperclip"></i> 첨부파일
-										                    <input type="file" name="uploadFile" id="reportAttach">
-									                    </div> 
-						                            </c:if>
-													 
-													 
+								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple">
+								                    	 
+								               	  	</div> 
 												</td>
 											</tr>
 										</table>
@@ -180,7 +162,7 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">등록하기</button>
+									<button id="updateBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">수정하기</button>
 									&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="cancelFunc()">돌아가기</button>
 									&nbsp;
@@ -255,7 +237,7 @@
 	
 	<!-- 자료실 등록 버튼 -->
 	<script>
-		function submitFunc(){
+		function updateBtn(){
 			
 			if($("input[name=crCode]").val() == ""){
 				alert("비밀번호를 입력해주세요.")
@@ -266,9 +248,9 @@
 			}else if($("input[name=crCode]").val().length > 15){
 				alert("비밀번호는 15자리까지 등록가능합니다.")
 			}else{
-				if(confirm("제출하시겠습니까?") == true){
+				if(confirm("수정하시겠습니까?") == true){
 					
-					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesInsert.or");
+					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesUpdate.or");
 					$("#enrollForm").submit();
 				}else{   
 				   //취소 버튼 눌렀을 때 실행 할 코드
@@ -284,6 +266,66 @@
 			location.href="<%=request.getContextPath()%>/commResourcesList.or";
 		}
 	</script>
+	
+	<!-- 파일 삭제 -->
+	<script>
+		function deleteFile(num){
+			console.log(num)
+				
+				if(num != ""){
+					$.ajax({
+						url:"deleteCommAttach.or",
+						type:"post",
+						data:{crAttachNo:num},
+						success:function(result){
+							if(result > 0){
+								alert("첨부파일이 삭제되었습니다.");
+								selectCommList();
+								$('#originDiv').html("")
+							}else{
+								console.log("첨부파일 삭제 실패");
+							}	
+						},error:function(){
+							console.log("첨부파일 ajax 통신 실패");
+						}
+					});
+					
+				};
+		}
+	</script>
+	
+	<script>
+	 	function selectCommList(){
+	 		var crNo = ${commonResources.crNo};
+	 		$.ajax({
+				url:"commAttachList.or",
+				data:{crNo:crNo},
+				type:"post",
+				success:function(list){
+					var value="";
+					if(list != 0){
+					$.each(list, function(i, obj){
+	
+						if(list != ""){
+						value += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none' onclick='deleteFile("+obj.crAttachNo+"')></i>" + 
+								 "<span class='badge badge-info'>"+obj.crAttachOrigin+"</span>&nbsp;&nbsp;" + 
+							     "</br>"
+						} else{
+							value += "첨부파일이 없습니다.";
+						}
+					});
+					}
+					$("#resourcesAttachName").html(value);
+				},error:function(){
+					console.log("ajax 통신 실패");
+				}
+			});
+		}; 
+	</script>
 
+	<!-- 수정하기 버튼 -->
+	<script>
+		
+	</script>
 </body>
 </html>

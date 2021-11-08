@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import com.helloworks.spring.offieceRoom.model.vo.DeptResources;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesAttachment;
 import com.helloworks.spring.offieceRoom.model.vo.DeptResourcesReply;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
+import com.helloworks.spring.workshare.model.vo.WSAttachment;
 
 @Controller
 public class OfficeRoomController {
@@ -887,5 +889,74 @@ public class OfficeRoomController {
 		model.addAttribute("deptrNo", deptrNo);
 		
 		return "officeResources/deptResourcesUpdate";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteCommAttach.or")
+	public String deleteCommAttach(int crAttachNo, HttpServletRequest request) {
+		int result = 0;
+		try {
+			CommonResourcesAttachment commonResourcesAttachment = officeRoomService.selectDelCommonResourcesAttachment(crAttachNo);
+			result = officeRoomService.deleteCommonResourcesAttachment(crAttachNo);
+			deleteFile(commonResourcesAttachment, request);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return String.valueOf(result);
+		
+	}
+	
+	// 공통 첨부파일 삭제
+	private void deleteFile(CommonResourcesAttachment file, HttpServletRequest request) {
+		
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = resources + "\\commonResources_files\\";
+		
+		System.out.println("savePath : " + savePath);
+		
+		String fileName = file.getCrAttachChange();
+		System.out.println("삭제할 파일 명 : " + fileName);
+		
+		File deleteFile = new File(savePath + fileName);
+		deleteFile.delete();
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="commAttachList.or", produces = "application/json; charset=utf-8")
+	public String commAttachList(int crNo) {
+		ArrayList<CommonResourcesAttachment> list = new ArrayList<CommonResourcesAttachment>();
+		try {
+			list = officeRoomService.commAttachList(crNo);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(!list.isEmpty()) {
+			return new GsonBuilder().create().toJson(list); 
+		} else {
+			int result = 0;
+			return String.valueOf(result);
+		}
+	}
+	
+	@RequestMapping("commResourcesUpdate.or")
+	public String commResourcesUpdate(HttpServletRequest request, Model model) {
+		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		CommonResources commonResources = officeRoomService.selectCommonResources(crNo);
+		
+		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
+		
+		model.addAttribute("commonResources", commonResources);
+		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
+		model.addAttribute("loginUserNo", loginUserNo);
+		model.addAttribute("crNo", crNo);
+		
+		return "officeResources/commResourcesDetail";
 	}
 }

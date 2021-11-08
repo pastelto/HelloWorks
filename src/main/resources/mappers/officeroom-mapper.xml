@@ -555,4 +555,23 @@
 		</choose>
 		ORDER BY 1
 	</select>
+	
+	<select id="selectDelCommonResourcesAttachment" parameterType="_int" resultMap="commonResourcesAttachResultSet">
+		SELECT *
+		FROM COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_STATUS = 'Y'
+		AND CR_ATTACH_NO = #{crAttachNo}
+	</select>
+	
+	<delete id="deleteCommonResourcesAttachment" parameterType="_int">
+		DELETE COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_NO = #{crAttachNo}
+	</delete>
+	
+	<select id="commAttachList" parameterType="_int" resultMap="commonResourcesAttachResultSet">
+		SELECT *
+		FROM COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_STATUS = 'Y'
+		AND CR_NO = #{crNo}
+	</select>
 </mapper>
