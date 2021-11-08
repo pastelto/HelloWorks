@@ -113,15 +113,9 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-<<<<<<< HEAD
-			
-		  Employee employee =(Employee)request.getSession().getAttribute("loginUser");
-		  int empNo =  employee.getEmpNo();	
-=======
-		  
+
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
 		  int empNo =  myEmp.getEmpNo();	
->>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
 		  
 		  //조아혜
 		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
