@@ -72,5 +72,8 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.searchEmployee", se, rowBounds);
 	}
 
-
+	public Employee getLastEmpNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("employeeMapper.getLastEmpNo");
+	}
 }

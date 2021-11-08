@@ -99,6 +99,7 @@
 													<button id="searchEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원 검색</button>
 													&nbsp;&nbsp;
 													<div id="receiveListDiv">
+													<input type="hidden" id="checking" name="checking">
 													</div>
 												</div>
 												</td>
@@ -191,18 +192,49 @@
  	function insertWorkShare(){
 		$('#insertWSForm').each(function(){	
 			
-		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
-			$("#insertWSForm").submit();
-			alert("업무공유가 발송되었습니다.");
+			if($("input[name=ws_title]").val() == ""){
+				alert("제목을 입력해주세요.")
+			}else if($("input[name=checking]").val()==""){
+				alert("수신직원을 입력해주세요.")
+			}else if($("#summernote").val()==""){
+				alert("내용을 입력해주세요.")
+			}else{
+				if(confirm("업무공유를 등록하시겠습니까?") == true){
+					 $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=Y");
+						$("#insertWSForm").submit();
+						alert("업무공유가 발송되었습니다.");
+				}else{   
+				   //취소 버튼 눌렀을 때 실행 할 코드
+				   return false;
+				}
+			}
 		});
 	}
 	// 업무공유 임시저장하기
  	function saveWorkShare(){
 		$('#insertWSForm').each(function(){	
 
-		    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
-			$("#insertWSForm").submit();
-			alert("업무공유가 임시저장 되었습니다.");
+			if($("input[name=setEventTime]").val() == ""){
+				alert("일정 날짜 및 시간을 입력해주세요.")
+			}else if($("input[name=sch_title]").val()==""){
+				alert("제목을 입력해주세요.")
+			}else if($("#summernote").val()==""){
+				alert("내용을 입력해주세요.")
+			}else if($("input[name=sch_type]").val() == ""){
+				alert("캘린더 타입을 선택해주세요.")
+			}else{
+				if(confirm("업무공유를 임시저장하시겠습니까?") == true){
+					
+				    $("#insertWSForm").attr("action", "<%=request.getContextPath()%>/insert.ws?ws_status=S");
+					$("#insertWSForm").submit();
+					alert("업무공유가 임시저장 되었습니다.");
+					
+				}else{   
+				   //취소 버튼 눌렀을 때 실행 할 코드
+				   return false;
+				}
+			}
+
 		});
 	} 
 	
@@ -218,7 +250,7 @@
 	
 	</script>
 	
-		<!-- 시간 출력 -->
+	<!-- 시간 출력 -->
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 		    // 시간을 딜레이 없이 나타내기위한 선 실행
