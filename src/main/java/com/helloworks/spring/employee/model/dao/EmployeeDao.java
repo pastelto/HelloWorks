@@ -44,6 +44,7 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.selectAllEmployee", null, rowBounds);
 	}
 
+
 	public int selectHrTypeEmployeeListCount(SqlSessionTemplate sqlSession, String hrType) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("employeeMapper.selectHrTypeEmployeeListCount", hrType);
@@ -72,5 +73,14 @@ public class EmployeeDao {
 		return (ArrayList)sqlSession.selectList("employeeMapper.searchEmployee", se, rowBounds);
 	}
 
+	public Employee getLastEmpNo(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("employeeMapper.getLastEmpNo");
+	}
+
+	public int updateEmployee(SqlSessionTemplate sqlSession, Employee employee) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("employeeMapper.updateEmployee", employee);
+	}
 
 }

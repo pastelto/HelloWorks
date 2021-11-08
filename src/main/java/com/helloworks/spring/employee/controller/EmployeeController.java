@@ -1,6 +1,11 @@
 package com.helloworks.spring.employee.controller;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +20,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.helloworks.spring.approval.model.service.ApprovalService;
+import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.attendance.model.vo.SearchAttendance;
 import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.Pagination;
+import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -38,14 +46,19 @@ import com.helloworks.spring.request.model.vo.Mtr;
 import com.helloworks.spring.request.model.vo.RequestEq;
 import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
+import com.helloworks.spring.workshare.model.service.WorkShareService;
+import com.helloworks.spring.workshare.model.vo.WorkShare;
+
 
 
 @SessionAttributes("loginUser")
 @Controller
 public class EmployeeController {
 	
-   @Autowired
-   private ScheduleService scheduleService;
+	// 김다혜
+	@Autowired
+   	private ScheduleService scheduleService;
+	private WorkShareService workShareService;
 	
 	@Autowired 
 	private EmployeeService employeeService;
@@ -100,9 +113,15 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
+<<<<<<< HEAD
 			
 		  Employee employee =(Employee)request.getSession().getAttribute("loginUser");
 		  int empNo =  employee.getEmpNo();	
+=======
+		  
+		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		  int empNo =  myEmp.getEmpNo();	
+>>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
 		  
 		  //조아혜
 		  Attendance attendance = attendanceService.selectAttendance(empNo); //출퇴근시간
@@ -125,20 +144,37 @@ public class EmployeeController {
 		  statistics.setLeaveWTS(test);
 		  test = changeTime(statistics.getLeaveOT()); 
 		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);	      
+		  mv.addObject("statistics", statistics);
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
+	      ArrayList<Approval> approvalList = null;
 	      String status = "Y"; 			
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
-	      selectMap.put("status", status);			
-	      acList = approvalService.mainMyApproval(selectMap);
-	      mv.addObject("acList", acList);
-	      mv.addObject("commentPageURL", "mainMyApproval.ea");
-	      mv.addObject("commentPage", 1);
+	      selectMap.put("status", status);	
+	      int flag = 0;
 	      
-	      
+	      if(request.getParameter("flag") != null) {
+	    	  flag = Integer.parseInt(request.getParameter("flag"));
+	    	  
+		      if(flag == 0) {
+			      acList = approvalService.mainMyApproval(selectMap);
+			      mv.addObject("acList", acList);
+			      mv.addObject("commentPageURL", "mainMyApproval.ea");
+			      mv.addObject("commentPage", 1);
+		      } else if(flag == 1) {		    	  
+		    	  approvalList = approvalService.mainPending(selectMap);
+			      mv.addObject("approvalList", approvalList);
+			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
+			      mv.addObject("commentPage", 2);
+		      }
+		  } else {
+			  acList = approvalService.mainMyApproval(selectMap);
+		      mv.addObject("acList", acList);
+		      mv.addObject("commentPageURL", "mainMyApproval.ea");
+		      mv.addObject("commentPage", 1);
+		  }
 	      
 	      //왕다영
 	      ArrayList<Mtr> mtrRList = null;		
@@ -157,11 +193,36 @@ public class EmployeeController {
 	      mv.addObject("mainPageURL", "mainRequest.eq");
 	      mv.addObject("mainPage", 2); 
 	      
+<<<<<<< HEAD
 	      System.out.println(employee);
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(employee);
 		  mv.addObject("mailList", mailList);
 
+=======
+	      //김다혜
+	      // 미확인 업무 개수 
+	    /* ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      int listCount = 0;
+		try {
+			listCount = workShareService.selectUncheckedWSListCount(myEmp);
+			int currentPage = 1;
+		    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
+		    // 미확인 업무 목록 
+		    unCheckedList = workShareService.selectUnCheckedList(myEmp, pi);
+		    
+		    
+		    mv.addObject("mainWSpage", 1);
+		    mv.addObject("unCheckedList", unCheckedList);
+		    mv.addObject("mainWSURL", "mainWorkShare.ws");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      */
+	      
+	      
+>>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
 	      
 	      mv.setViewName("main");
 	      return mv;
@@ -178,28 +239,81 @@ public class EmployeeController {
 		
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage(ModelAndView mv, HttpServletRequest request) {
+	public String EmployeeMypage(Model model, HttpServletRequest request) {
 		System.out.println("마이페이지 전환");
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
 		Employee emp = employeeService.selectEmp(empNo);
-		
+		model.addAttribute("emp",emp );
 		
 		return "employee/EmployeeMypage";
 	}
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, @RequestParam("empPhone") String empPhone, Model model) {
+	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request,  @RequestParam("empPhone") String empPhone, Model model,
+															@RequestParam(name="empOrgPicName", required=true) MultipartFile file,
+															@RequestParam(name="empOrgSignName", required=true) MultipartFile file1) {
 		
 		m.setEmpPhone(empPhone);
+		
+		if(!file.getOriginalFilename().equals("")) {
+			String chgPic = saveFile(file, request,"pic");
+			
+			String chgSign = saveFile(file1, request, "sign");
+			
+			System.out.println("chgPic : " + chgPic);
+			System.out.println("chgSign : " + chgSign);
+			if(chgPic!=null) {
+					m.setEmpOrgPic(file.getOriginalFilename());
+					m.setEmpChgPic(chgPic);				
+				
+				}
+			if(chgSign != null) {
+					m.setEmpOrgSign(file1.getOriginalFilename());
+					m.setEmpChgSign(chgSign);
+				}
+			}		
+		
 		Employee userInfo = employeeService.updateEmp(m);
+		
 		
 		model.addAttribute("loginUser", userInfo);
 		model.addAttribute("msg","정보가 수정되었습니다");
 		
 		return "redirect:Mypage.mp";		
 	}
+	
+	// 파일 저장
+		public String saveFile(MultipartFile file, HttpServletRequest request, String type) {
+			String resources = request.getSession().getServletContext().getRealPath("resources");
+			
+			String savePath = "";
+			if(type.equals("pic")) {
+				savePath = resources + "\\idPhoto_files\\";
+			}else if(type.equals("sign")) {
+				savePath = resources + "\\idSign_files\\";
+			}
+						
+		System.out.println("savePath : "+ savePath);		
+			String orgPic = file.getOriginalFilename(); //원본파일명		
+			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간		
+			String ext = orgPic.substring(orgPic.lastIndexOf("."));		
+			String chgPic = cuurentTime + ext;
+				try {
+					file.transferTo(new File(savePath + chgPic));
+				} catch (IllegalStateException e ) {
+					chgPic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				} catch (IOException e) {
+					chgPic="";
+					e.printStackTrace();
+					throw new CommException("사진파일 등록 실패");
+				}		
+			return chgPic;
+		}
+	
 	
 	//사원등록 페이지 전환
 	@RequestMapping("insertForm.hr")
@@ -220,11 +334,15 @@ public class EmployeeController {
 		
 		System.out.println("암호화 전: "+ m.getEmpPwd());
 		
+		
+		
 		employeeService.insertEmp(m);
+		
+		Employee emp = employeeService.getLastEmpNo();
+		scheduleService.insertCal(emp.getEmpNo());
 		session.setAttribute("msg", "사원등록성공");
 		return "redirect:main.mi";
-		
-		
+
 	}
 	
 	// 인사팀 - 하연
@@ -271,6 +389,7 @@ public class EmployeeController {
 		return "employee/empManageMain";
 	}
 	
+
 	// 인사팀 - 하연
 	@RequestMapping("searchEmployee.hr")
 	public String searchEmployee(String hrType, String optionType, String deptTypeOption, String searchEmployee, @RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, Model model) {
@@ -333,6 +452,42 @@ public class EmployeeController {
 		model.addAttribute("list", list);
 		
 		return "employee/empManageMain";
+	}
+
+	//인사팀 - 하연
+	@RequestMapping("updateEmployeeForm.hr")
+	public String updateEmployeeForm(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		return "employee/employeeUpdate";
+	}
+	
+	//인사팀 - 하연
+	@RequestMapping("updateEmployee.hr")
+	public String updateEmployee(String fireDate, Employee employee) {
+		
+		System.out.println("전달 값: "+employee);
+		
+		if(fireDate.equals("")) {
+			System.out.println("날짜 비었다.");
+		}else {
+			System.out.println("날짜 안빔");
+		}
+		
+		employeeService.updateEmployee(employee);
+		
+		return "redirect:empManageMain.hr";
+	}
+	
+	//인사팀 - 하연
+	@RequestMapping("detailEmployee.hr")
+	public String detailEmployee(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		
+		return "employee/detailEmployee";
 	}
 
 }

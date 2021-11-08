@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,19 +106,62 @@
 												<div class="form-group">
 									                  <select class="form-control select2" style="width: 50%;" name="sch_type">
 									                    <option selected="selected">선택하세요</option>
+									                    <!-- 조건 (전체 / 본부별) : 운영지원팀은 모두 작성가능 -->
+									                    <c:if test="${loginUser.deptCode eq 'B2'}">
+									                    	<option>사내 전체</option>									                    
+									                    <c:set var="loop_flag1" value="false" />
+									                    <c:set var="loop_flag2" value="false" />
+									                    <c:set var="loop_flag3" value="false" />
+									                    <c:forEach items="${ deptList }" var="dl" varStatus="status">
+									                    
+									                    <c:if test="${not loop_flag1 }">
+									                    <c:if test = "${fn:contains(dl.deptCode, 'A')}">
+										                    <option>${dl.deptUName}</option>
+										                 <c:set var="loop_flag1" value="true" />
+									                    </c:if>
+									                    </c:if>
+									                    
+									                    <c:if test="${not loop_flag2 }">
+									                    <c:if test = "${fn:contains(dl.deptCode, 'B')}">
+										                    <option>${dl.deptUName}</option>
+										                 <c:set var="loop_flag2" value="true" />
+									                    </c:if>
+									                    </c:if>
+									                    
+									                    <c:if test="${not loop_flag3 }">
+									                    <c:if test = "${fn:contains(dl.deptCode, 'C')}">
+										                    <option>${dl.deptUName}</option>
+										                 <c:set var="loop_flag3" value="true" />
+									                    </c:if>
+									                    </c:if>
+									                    
+									                     <option>${dl.deptDName}</option>
+									                    </c:forEach>
+									                    </c:if>
+									                   
 									                    <!-- 조건 (전체 / 본부별) -> 로그인 계정의 DeptCode(A/B/C)에 따라, 직급(J)에 따라! -->
-									                    <option>사내 전체</option>
-									                    <option>경영지원본부</option>
-									                    <option>영업지원본부</option>
-									                    <option>사업본부</option>
-									                    <option>인사팀</option>
-									                    <option>총무팀</option>
-									                    <option>재무회계팀</option>
-									                    <option>영업팀</option>
-									                    <option>운영지원팀</option>
-									                    <option>마케팅팀</option>
-									                    <option>디자인팀</option>
-									                    <option>IT개발팀</option>
+									                    <c:forEach items="${ deptList }" var="dl" varStatus="status">
+									                     <c:if test = "${fn:contains(dl.deptCode, 'A')}">
+										                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+										                    <option>${dl.deptUName}</option> <!--  -->
+										                    <option>${dl.deptDName}</option>
+										                    </c:if>
+									                    </c:if>
+									                     <c:if test = "${fn:contains(loginUser.deptCode,'B') && loginUser.deptCode ne 'B2'}">
+										                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+										                    <option>${dl.deptUName}</option>
+										                    <option>${dl.deptDName}</option>
+									                    	</c:if>
+									                    	
+									                    </c:if>
+									                    <c:if test = "${fn:contains(loginUser.deptCode, 'C')}">
+										                    <c:if test="${dl.deptCode eq loginUser.deptCode }">
+										                    <option>${dl.deptUName}</option>
+										                    <option>${dl.deptDName}</option>
+									                    	</c:if>
+									                    </c:if>
+															
+									                    </c:forEach>
 									                    <option value="PRIVATE">내 캘린더</option>
 									                  </select>
 									                </div>
@@ -179,11 +224,27 @@
 			checked = true;
 		}
 		
-		console.log(checked);
-		console.log($('input[name=setEventTime]').val());
-	    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
-		$("#insertNewEvent").submit(); <%----%>
-		// alert("일정이 등록되었습니다.");
+		if($("input[name=setEventTime]").val() == ""){
+			alert("일정 날짜 및 시간을 입력해주세요.")
+		}else if($("input[name=sch_title]").val()==""){
+			alert("제목을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("내용을 입력해주세요.")
+		}else if($("input[name=sch_type]").val() == ""){
+			alert("캘린더 타입을 선택해주세요.")
+		}else{
+			if(confirm("일정을 등록하시겠습니까?") == true){
+				console.log(checked);
+				console.log($('input[name=setEventTime]').val());
+			    $("#insertNewEvent").attr("action", "<%=request.getContextPath()%>/addEvent.sc?checked=" +checked);
+				$("#insertNewEvent").submit();
+				alert("일정이 등록되었습니다.")
+				
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
 		
 	}
 	
@@ -196,7 +257,7 @@
 	    //Date range picker with time picker
 	    $('#setEventTime').daterangepicker({
 	      timePicker: true,
-	      timePickerIncrement: 30,
+	      timePickerIncrement: 10,
 	      locale: {
 	        format: 'YYYY/MM/DD hh:mm:ss'
 	      }

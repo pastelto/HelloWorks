@@ -20,14 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empHire" column="EMP_HIRE"/>
 		<result property="empFire" column="EMP_FIRE"/>	
 		<result property="empOrgPic" column="EMP_ORG_PIC"/>
-		<result property="empChgpic" column="EMP_CHG_PIC"/>
-		<result property="empOrgSign" column="EMP_CHG_SIGN"/>
+		<result property="empChgPic" column="EMP_CHG_PIC"/>
+		<result property="empOrgSign" column="EMP_ORG_SIGN"/>
 		<result property="empChgSign" column="EMP_CHG_SIGN"/>		
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
+		<result property="rowNum" column="ROWNUM"/>
+		<result property="empFireString" column="EMP_FIRE"/>
 	</resultMap>
 	
 	<!-- Dept -->
@@ -59,10 +61,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{deptCode}, #{jobCode}, #{empSalary}, SYSDATE, null, null, null, null, null, null, DEFAULT)
 	</insert>
 	
-	<!-- 수정 -->
+	<!--수정 -->
 	<update id="updateEmp" parameterType="Employee" >
 		UPDATE EMPLOYEE
-		SET EMP_PHONE = #{empPhone}
+		SET EMP_PHONE = #{empPhone}, EMP_ORG_PIC = #{empOrgPic}, EMP_CHG_PIC = #{empChgPic}, EMP_ORG_SIGN = #{empOrgSign}, EMP_CHG_SIGN = #{empChgSign}
 		WHERE EMP_NO = #{empNo}
 	</update>
 	
@@ -81,20 +83,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       SELECT DISTINCT DEPT_UNAME
 		FROM DEPT
    </select>
-	
-	<!--
-	<delete id="deleteMember" parameterType="string">
-		update member
-		set status='N'
-		where user_id=#{userId}
-	</delete>
-	
-	<update id="updatePwd" parameterType="Member">
-		update member
-		set user_pwd = #{userPwd}
-		where user_id = #{userId}
-	</update>
--->
+   
+ 
 
 	<!-- 인사관리 -->
 	<select id="selectAllEmployeeListCount" resultType="_int">
@@ -169,7 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 	</select>
 	
-		<!-- 인사관리 -->
+	<!-- 인사관리 -->
 	<select id="searchEmployee" parameterType="SearchEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -208,4 +198,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 		ORDER BY A.EMP_NO DESC
 	</select>
+	
+	<!-- 등록된 직원 사번 가져오기 -->
+	<select id="getLastEmpNo" resultMap="employeeResultSet">
+	<![CDATA[
+		SELECT ROWNUM, EMP_NO
+		FROM (SELECT *
+               FROM EMPLOYEE
+               ORDER BY EMP_NO DESC)
+        WHERE ROWNUM = 1
+	]]>
+	</select>
+	
+	<!-- 인사관리 -->
+	<update id="updateEmployee" parameterType="Employee">
+		UPDATE EMPLOYEE
+		SET EMP_PWD = #{empPwd}, EMP_NAME = #{empName}, EMP_EN = #{empEn},
+			EMP_PID = #{empPid}, EMP_EMAIL = #{empEmail}, EMP_PHONE = #{empPhone},
+			EMP_EPHONE = #{empEphone}, EMP_ADDRESS = #{empAddress}, DEPT_CODE=#{deptCode},
+			JOB_CODE = #{jobCode}, EMP_SALARY = #{empSalary}, EMP_HIRE = #{empHire},
+			EMP_FIRE = #{empFireString}, EMP_NOTE = #{empNote}, EMP_STATUS = #{empStatus}
+		WHERE EMP_NO = #{empNo}
+	</update>
 </mapper>

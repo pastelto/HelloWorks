@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Employee {
-	private int empNo;				//사원번호
+	private int empNo;			//사원번호
 	private String empPwd;			//비밀번호
 	private String empName;			//사원이름
 	private String empEn;			//영문이름
@@ -28,14 +28,18 @@ public class Employee {
 	private int empSalary;			//연봉
 	private Date empHire;			//입사일
 	private Date empFire;			//퇴사일
-	private String empOrgPic;
-	private String empChgpic;
-	private String empOrgSign;
-	private String empChgSign;
+	private String empOrgPic;		//사진 등록 첨부파일명
+	private String empChgPic;		//사진 변경 첨부파일명
+	private String empOrgSign;		//사인 등록 첨부파일명
+	private String empChgSign;		//사인 변경 첨부파일명
 	private String empNote;			//비고
 	private String empStatus;		//재직여부
 	private String jobName; 		//직급명
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름
+	private int rowNum;         // rownum
 	
+	private String empFireString; //퇴사일 설정 값
+	private String psStatus; //출근 상태
+
 }

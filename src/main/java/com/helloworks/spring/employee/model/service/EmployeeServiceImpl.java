@@ -1,7 +1,6 @@
 package com.helloworks.spring.employee.model.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.dao.EmployeeDao;
-import com.helloworks.spring.employee.model.vo.Dept;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
@@ -82,6 +80,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// TODO Auto-generated method stub
 		return employeeDao.selectAllEmployee(sqlSession, pi);
 	}
+	
+	// 가장 최신 등록된 직원 가져오기
+	@Override
+	public Employee getLastEmpNo() {
+		
+		return employeeDao.getLastEmpNo(sqlSession);
+	}
 
 	@Override
 	public int selectHrTypeEmployeeListCount(String hrType) {
@@ -107,6 +112,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.searchEmployee(sqlSession, se, pi);
 	}
 
+
+	@Override
+	public void updateEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		int result = employeeDao.updateEmployee(sqlSession, employee);
+		
+		if(result < 0) {
+			throw new CommException("사원 정보 수정 실패");
+		}
+	}
 
 	
 }

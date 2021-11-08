@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.helloworks.spring.approval.model.service.ApprovalService;
@@ -84,7 +85,7 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("mainMyApproval.ea")
-	public String mainMyApproval(HttpServletRequest request, Model model) {
+	public ArrayList<ApprovalComment> mainMyApproval(HttpServletRequest request, Model model) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String status = "Y"; 
@@ -98,17 +99,13 @@ public class ApprovalController {
 		
 		acList = approvalService.mainMyApproval(selectMap);
 		
-		model.addAttribute("acList", acList);
-		model.addAttribute("commentPageURL", "mainMyApproval.ea");
-		model.addAttribute("commentPage", 1);
 		
-		
-		return "main";
+		return acList;
 	}
 	
 	@RequestMapping("mainPending.ea")
-	public String mainPending(HttpServletRequest request, Model model) {
-		
+	public ArrayList<Approval> mainPending(HttpServletRequest request, Model model) {
+					
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		ArrayList<Approval> approvalList = null;
@@ -119,12 +116,7 @@ public class ApprovalController {
 		
 		approvalList = approvalService.mainPending(selectMap);
 		
-		model.addAttribute("approvalList", approvalList);
-		model.addAttribute("commentPageURL", "mainPending.ea");
-		model.addAttribute("commentPage", 2);
-		
-		
-		return "main";
+		return approvalList;
 	}
 	
 	

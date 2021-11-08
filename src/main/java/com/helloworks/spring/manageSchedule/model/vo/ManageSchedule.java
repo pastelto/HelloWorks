@@ -24,7 +24,7 @@ public class ManageSchedule {
 	private String cal_color; // 캘린더 색상
 	
 	// 일정 기본
-	private int shc_no; // 일정 번호
+	private int sch_no; // 일정 번호
 	private int sch_empno; // 일정 만드는 사원 정보 번호
 	private String sch_type; // 캘린더 타입
 	private int sch_calNo; // 캘린더 번호
