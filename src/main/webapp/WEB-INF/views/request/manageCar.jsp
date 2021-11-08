@@ -46,10 +46,10 @@
 					<div class="float-right">
 						<button class="btn btn-primary"
 							onclick="window.open('openAdd.car','차량 등록','width=600,height=360,location=no,status=no,scrollbars=yes');">
-							<i class="fas fa-clipboard-check"> 차량 등록</i> 
+							차량 등록 
 						</button>
-						<button class="btn btn-default" id="deleteBtn">	
-							<i class="far fa-trash-alt">  삭제</i>
+						<button class="btn btn-danger" id="deleteBtn">	
+							 삭제
 						</button>
 					</div>
 				</div>

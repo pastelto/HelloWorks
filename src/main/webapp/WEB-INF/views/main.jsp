@@ -51,7 +51,7 @@ body{
 		   	 		<jsp:include page="./workShare/mainWorkShare.jsp" />
 		   		</div>	
 	   			<div class="mailMain"  id="mailMain" >
-	   	 			<jsp:include page="./request/mainRequest.jsp" />
+	   	 			<jsp:include page="./request/mainMtrEq.jsp" />
 	   			</div> 				   		
 			</div>
 
@@ -62,9 +62,9 @@ body{
 				<div class="mySchedule" id="mySchedule">
 		   	 		<jsp:include page="./schedule/mainMySchedule.jsp" />
 		   		</div>
-		   		<div class="request" id="request" style="margin-left: 20px;">
+<%-- 		   		<div class="request" id="request" style="margin-left: 20px;">
 		   	 			<jsp:include page="./request/mainRequest.jsp" />
-		   		</div>	
+		   		</div>	 --%>
 			</div>
 			
 			
@@ -88,6 +88,9 @@ body{
 				
 				var valueUnchecked = ""; // 업무공유 미확인
 				var valueSend = ""; // 업무공유 발신
+				var valueMtr = ""; // 회의실 목록
+				var valueEq = ""; // 비품 목록
+				var valueMail = ""; // 메일 inbox
 				
 				for(var key in mainAll){
 					
@@ -112,11 +115,47 @@ body{
 						
 						});
 						
+					} else if(key == "mtrRList"){
+						
+						$.each(mainAll[key], function(key, obj){
+							valueMtr += "<tr>" +
+										 "<td 20%>[" + obj.mRDate + "/</td>" + 
+										 "<td 20%>" + obj.mRTime + " 시 ]</td>" +
+										 "<td 30%>회의실 명: " + obj.mMName + "/</td>" +
+										 "<td 30%>용도 : " + obj.mRUsg + "</td>" +
+										 "</tr>";
+						
+						});
+					} else if(key == "eqRList"){
+						
+						$.each(mainAll[key], function(key, obj){
+							valueEq += "<tr>" +
+										 "<td 30%>[처리상태: " + obj.erCondition + "]</td>" + 
+										 "<td 30%>" + obj.eqName + " /</td>" +
+									     "<td 20%>" + obj.sDate + " 부터 </td>" +
+									     "<td 20%>" + obj.eDate + " 까지 </td>" +
+										 "</tr>";
+						
+						});
+						
+					} else if(key == "mailList"){
+						
+						$.each(mainAll[key], function(key, obj){
+							valueMail += "<tr>" +
+										 "<td>[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]</td>" + 
+										 "<td>" + obj.mailTitle + "</td>" +
+									     "<td>" + obj.mailDate + "</td>" +
+										 "</tr>";
+						
+						});
 					}
 					
 					console.log("ajax 성공!! -- mainAll");
 					$("#unCheckedListTable tbody").html(valueUnchecked); // 업무공유 미확인
 					$("#sendListTable tbody").html(valueSend); // 업무공유 발신
+					$("#mainRequestMtrTable tbody").html(valueMtr); // 회의실 신청
+					$("#mainRequestEqTable tbody").html(valueEq); // 비품 신청
+					//$("#sendListTable tbody").html(valueMail); // 메일 inbox
 					
 					
 				}

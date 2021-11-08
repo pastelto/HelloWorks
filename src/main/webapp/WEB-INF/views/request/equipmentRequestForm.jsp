@@ -110,8 +110,7 @@
 										<div class="col-3">
 											<!-- 시작일시 -->
 											<div class="form-group">
-												<input type="date" name="sDate" class="form-control"
-													id="sDate">
+												<input type="date" name="sDate" class="form-control" id="sDate" required pattern="\d{4}-\d{2}-\d{2}">
 											</div>
 										</div>
 										<div class="col-1">
@@ -120,8 +119,7 @@
 										<div class="col-3">
 											<!-- 종료일시 -->
 											<div class="form-group">
-												<input type="date" name="eDate" class="form-control"
-													id="eDate">
+												<input type="date" name="eDate" class="form-control" id="eDate" required pattern="\d{4}-\d{2}-\d{2}">
 											</div>
 										</div>
 										<div class="col-1">
@@ -181,11 +179,11 @@
 								<div class="card-footer">
 									<div class="float-right">
 										<button type="submit" id="submitBtn" class="btn btn-primary">
-											<i class="fas fa-clipboard-check"></i> 신청하기
+											신청하기
 										</button>
 									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
+									<button type="reset" class="btn btn-danger">
+										취소하기
 									</button>
 								</div>
 							</div>

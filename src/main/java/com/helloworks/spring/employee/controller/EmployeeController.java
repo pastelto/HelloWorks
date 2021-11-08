@@ -175,26 +175,24 @@ public class EmployeeController {
 		  }
 	      
 	      //왕다영
+		  // 회의실
 	      ArrayList<Mtr> mtrRList = null;		
 	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
 	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
-	      mv.addObject("mtrRList", mtrRList);
-	      mv.addObject("mainPageURL", "mainRequest.mtr");
-	      mv.addObject("mainPage", 1); 	      
-	      
+	      // 비품
 	      ArrayList<RequestEq> eqRList = null;		
 	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
 	      eqRList = requestService.mainRequestEq(selectEqList);
-	      mv.addObject("eqRList", eqRList);
-	      mv.addObject("mainPageURL", "mainRequest.eq");
-	      mv.addObject("mainPage", 2); 
-
-	      System.out.println(myEmp);
+	      // 메일
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
+		  
+		  mv.addObject("mtrRList", mtrRList);
+		  mv.addObject("eqRList", eqRList);
 		  mv.addObject("mailList", mailList);
+		  
 
 	      System.out.println("------업무공유 시작-------");
 
@@ -486,6 +484,7 @@ public class EmployeeController {
 		 
 		  // 업무공유 
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		 
 	      // 업무공유 - 미확인
 		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
 	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
@@ -493,19 +492,33 @@ public class EmployeeController {
 	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
 		  sendList = workShareService.mainSendList(myEmp);
 
-		  // 메일
-		  
-		  
+		  // 회의실
+	      ArrayList<Mtr> mtrRList = null;		
+	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
+	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
+	      // 비품
+	      ArrayList<RequestEq> eqRList = null;		
+	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
+	      eqRList = requestService.mainRequestEq(selectEqList);
+	      // 메일
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(myEmp);
 		  
 		  // 해쉬맵 
 		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
 		  // 다혜
 		  mainAll.put("unCheckedList", unCheckedList);
 		  mainAll.put("sendList", sendList);
+
 	      // 다영
+		  mainAll.put("mtrRList", mtrRList);
+		  mainAll.put("eqRList", eqRList);
+		  mainAll.put("mailList", mailList);
+
 		  
-		  
-	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(mainAll);
+	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
 	}
 
 }
