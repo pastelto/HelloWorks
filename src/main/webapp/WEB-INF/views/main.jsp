@@ -12,8 +12,11 @@
 	padding-top:20px;
 	margin-left:20px;
 }
-.approval, .request, .workShare{
+.approval, .workShare, .mailMain{
 	padding-top:20px;
+	margin-left:20px;
+}
+.request{
 	margin-left:20px;
 }
 body{
@@ -44,23 +47,12 @@ body{
 				<div class="approval" id="approval">
 		   	 		<jsp:include page="./approval/mainApproval.jsp" />
 		   		</div>
-<<<<<<< HEAD
-		   		<div class="row">
-					<div class="request col-6" id="request">
-		   	 			<jsp:include page="./request/mainRequest.jsp" />
-		   			</div>		
-		   			<div class="request col-6" id="mailMain">
-		   	 			<jsp:include page="./request/mainRequest.jsp" />
-		   			</div>	   		
-=======
 		   		<div class="workShare" id="workShare">
 		   	 		<jsp:include page="./workShare/mainWorkShare.jsp" />
-		   		</div>
-		   		<div class="request" id="request">
-		   	 		<jsp:include page="./request/mainRequest.jsp" />
->>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
-		   		</div>
-		   		
+		   		</div>	
+	   			<div class="mailMain"  id="mailMain" >
+	   	 			<jsp:include page="./request/mainRequest.jsp" />
+	   			</div> 				   		
 			</div>
 
 			
@@ -70,6 +62,9 @@ body{
 				<div class="mySchedule" id="mySchedule">
 		   	 		<jsp:include page="./schedule/mainMySchedule.jsp" />
 		   		</div>
+		   		<div class="request" id="request" style="margin-left: 20px;">
+		   	 			<jsp:include page="./request/mainRequest.jsp" />
+		   		</div>	
 			</div>
 			
 			

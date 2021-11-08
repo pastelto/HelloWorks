@@ -80,6 +80,7 @@ public class EmployeeController {
 	//왕다영
 	@Autowired
 	private RequestService requestService;
+	@Autowired
 	private MailService mailService;
 	
 	//로그인
@@ -187,18 +188,14 @@ public class EmployeeController {
 	      mv.addObject("eqRList", eqRList);
 	      mv.addObject("mainPageURL", "mainRequest.eq");
 	      mv.addObject("mainPage", 2); 
-	      
-<<<<<<< HEAD
-<<<<<<< HEAD
-	      System.out.println(employee);
+
+	      System.out.println(myEmp);
 		  ArrayList<Mail> mailList = new ArrayList<>();
-		  mailList = mailService.inboxMailList(employee);
+		  mailList = mailService.inboxMailList(myEmp);
 		  mv.addObject("mailList", mailList);
 
-=======
-=======
 	      System.out.println("------업무공유 시작-------");
->>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
+
 	      //김다혜
 	      // 미확인 업무 개수 
 	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
@@ -213,8 +210,7 @@ public class EmployeeController {
 	    
 	      
 	      
->>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
-	      
+
 	      mv.setViewName("main");
 	      return mv;
 	}
