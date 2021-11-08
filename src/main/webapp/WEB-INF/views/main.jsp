@@ -62,9 +62,9 @@ body{
 				<div class="mySchedule" id="mySchedule">
 		   	 		<jsp:include page="./schedule/mainMySchedule.jsp" />
 		   		</div>
-<%-- 		   		<div class="request" id="request" style="margin-left: 20px;">
-		   	 			<jsp:include page="./request/mainRequest.jsp" />
-		   		</div>	 --%>
+ 		   		<div class="mail" id="mail" style="margin-left: 20px;">
+		   	 			<jsp:include page="./mail/mainMail.jsp" />
+		   		</div>	 
 			</div>
 			
 			
@@ -155,7 +155,7 @@ body{
 					$("#sendListTable tbody").html(valueSend); // 업무공유 발신
 					$("#mainRequestMtrTable tbody").html(valueMtr); // 회의실 신청
 					$("#mainRequestEqTable tbody").html(valueEq); // 비품 신청
-					//$("#sendListTable tbody").html(valueMail); // 메일 inbox
+					$("#mailListTable tbody").html(valueMail); // 메일 inbox
 					
 					
 				}

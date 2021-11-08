@@ -193,6 +193,7 @@ public class EmployeeController {
 		  mv.addObject("eqRList", eqRList);
 		  mv.addObject("mailList", mailList);
 		  
+		  System.out.println("mailList--------------"+ mailList);
 
 	      System.out.println("------업무공유 시작-------");
 
