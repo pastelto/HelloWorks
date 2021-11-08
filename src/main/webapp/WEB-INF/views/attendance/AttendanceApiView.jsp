@@ -21,9 +21,6 @@
       background-color: rgb(244,246,249) !important;
 }
 
-.fc-col-header-cell fc-day fc-day-sat{
-	color: blue !important;
-}
 
 </style>
 </head>

@@ -129,12 +129,6 @@ public class EmployeeController {
 		  statistics.setWorkingS(test);
 		  test = changeTime(statistics.getOver()); 
 		  statistics.setOverS(test);
-		  test = changeTime(statistics.getTotalT()); 
-		  statistics.setTotalTS(test);
-		  test = changeTime(statistics.getLeaveWT()); 
-		  statistics.setLeaveWTS(test);
-		  test = changeTime(statistics.getLeaveOT()); 
-		  statistics.setLeaveOTS(test);
 		  mv.addObject("statistics", statistics);
 
 	      //김소원

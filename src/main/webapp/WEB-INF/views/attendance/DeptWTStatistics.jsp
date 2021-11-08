@@ -8,50 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-
-.content-wrapper {
-	overflow: auto;
-}
-
-#statisticsContent{
-	margin-left : 4% !important;
-}
-
-
-/*ajax 테이블*/
-#employeeStatistics, #divCF{
-	font-size : small;
-}
-
-#employeeStatistics>thead{
-	height : 40px;
-}
-#employeeStatistics>thead>tr>th{
-	padding : 7px !important;
-	vertical-align: middle !important;
-	background-color: #DAE1E7;
-	border : 1px solid rgb(192,192,192) !important;
-	
-	
-}
-#employeeStatistics>tbody>tr>td{
-	padding : 11px !important;
-	
-}
-
-#rowspan{
-	padding-bottom : auto !important;
-	
-}
-/*검색부분*/
-#searchEmpTable>tbody>tr>th{
-	background-color: #DAE1E7 !important;
-	text-align:center;
-	font-size : small;
-}
-
-</style>
+ <!-- css attendance  -->
+<link href="resources/css/attendance/CheckDeptEmp.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />

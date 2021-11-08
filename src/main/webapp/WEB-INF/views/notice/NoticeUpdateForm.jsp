@@ -88,7 +88,7 @@
 							<!-- 임시저장된글만 공지등록 버튼이 보이게 -->
 							<c:if test="${ n.NStatus == 'T' }">
 								<div class="writeBtn">
-									<button  type="submit" class="btn btn-danger btn-sm" onclick = "updateStatus();">공지등록</button>
+									<button  type="submit" class="btn btn-primary btn-sm" onclick = "updateStatus();">공지등록</button>
 								</div>
 							</c:if>
 							<div class="writeBtn">
