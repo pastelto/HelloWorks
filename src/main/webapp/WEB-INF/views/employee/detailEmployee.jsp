@@ -113,8 +113,7 @@
 										<th><p class="mt-1 mb-0">퇴사일</p></th>
 										<td>
 											<c:if test="${ empty employee.empFire}">
-												<input type="date" class="form-control form-control-sm" name="empFireString" placeholder="퇴사일" value="${employee.empFire }" disabled="disabled">
-												<!-- <input type="hidden" class="form-control form-control-sm" name="empFire" placeholder="퇴사일" value="1111-11-11"> -->
+											
 											</c:if>
 											<c:if test="${ !empty employee.empFire}">
 												<input type="date" class="form-control form-control-sm" name="empFireString" placeholder="퇴사일" value="${employee.empFire}" disabled="disabled">

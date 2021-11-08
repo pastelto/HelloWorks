@@ -277,6 +277,11 @@
 				return false;
 			}
 			
+			if($("input[name=empHire]").val() > $("input[name=empFireString]").val()){
+				alert("퇴사일은 입사일 이후로 등록하세요.")
+				return false;
+			}
+			
 			var fireDate = ""
 			
 			if($("input:radio[name=empStatus]:checked").val() == 'N' && $("input[name=empFireString]").val() != ""){
