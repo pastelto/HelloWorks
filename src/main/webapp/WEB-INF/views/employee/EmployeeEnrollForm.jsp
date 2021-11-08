@@ -120,7 +120,7 @@
 									<tr>
 										
 										<th>소속팀</th>
-										<td colspan="1">
+										<td colspan="3">
 											
 										<div id="test1">
 											<select name="deptCode" id="deptDnameA" class="custom-select custom-select-sm">
@@ -138,7 +138,7 @@
 										</td>		
 										
 										<th>직급</th>
-										<td colspan="2">
+										<td colspan="3">
 											<select name="jobCode" id="jobCode" class="custom-select custom-select-sm">
 												<option value="J2">본부장</option>
 												<option value="J3">팀장</option>
@@ -146,10 +146,9 @@
 											</select>										
 										</td>			
 									</tr>	
-							
 									<tr>							
 										<th >내선번호</th>
-										<td colspan="3"><input type="text" class="form-control" name="empEphone" placeholder="02-" required></td>					
+										<td colspan="3"><input type="text" class="form-control" name="empEphone" placeholder="02-413" required></td>					
 										<th>핸드폰</th>
 										<td ><input type="text" class="form-control" name="empPhone" placeholder="핸드폰" required></td>	
 													

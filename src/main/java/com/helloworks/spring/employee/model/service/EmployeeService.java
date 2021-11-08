@@ -22,6 +22,7 @@ public interface EmployeeService {
 
 	int selectHrTypeEmployeeListCount(String hrType); //인사관리
 
+
 	ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi); //인사관리
 
 	int searchEmployeeListCount(SearchEmployee se); //인사관리
