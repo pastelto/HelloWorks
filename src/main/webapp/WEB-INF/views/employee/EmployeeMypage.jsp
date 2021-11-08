@@ -87,12 +87,8 @@
 										<tbody>
 											<tr>
 												<!-- 유저이미지 -->
-												<td rowspan="6" class="img">
-													<div id="user_pic2">
-														<img id="photo_src" src="" onerror=""> 
-													</div>
-													
-													
+												<td rowspan="6" >
+																																
 														<!-- 이미지파일 등록 -->
 														<div class="col-3">
 															<!-- 이미지 들어오는 부분 -->
@@ -157,11 +153,7 @@
 												
 										<tfoot>
 											<tr>
-												<td rowspan="6" valign="top" class="img">
-													<div id="user_pic2">
-														<img id="photo_src" src="" onerror=""> 
-													</div>
-													
+												<td rowspan="6">													>			
 													
 														<!-- 이미지파일 등록 -->
 														<div class="col-3">
