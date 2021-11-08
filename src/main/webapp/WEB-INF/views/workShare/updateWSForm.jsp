@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유</title>
+<title>HelloWorks - 업무수정</title>
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 <!-- include libraries(jQuery, bootstrap) -->

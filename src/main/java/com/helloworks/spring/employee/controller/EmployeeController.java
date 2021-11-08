@@ -58,6 +58,7 @@ public class EmployeeController {
 	// 김다혜
 	@Autowired
    	private ScheduleService scheduleService;
+	@Autowired
 	private WorkShareService workShareService;
 	
 	@Autowired 
@@ -194,32 +195,28 @@ public class EmployeeController {
 	      mv.addObject("mainPage", 2); 
 	      
 <<<<<<< HEAD
+<<<<<<< HEAD
 	      System.out.println(employee);
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(employee);
 		  mv.addObject("mailList", mailList);
 
 =======
+=======
+	      System.out.println("------업무공유 시작-------");
+>>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
 	      //김다혜
 	      // 미확인 업무 개수 
-	    /* ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
-	      int listCount = 0;
-		try {
-			listCount = workShareService.selectUncheckedWSListCount(myEmp);
-			int currentPage = 1;
-		    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		    // 미확인 업무 목록 
-		    unCheckedList = workShareService.selectUnCheckedList(myEmp, pi);
-		    
-		    
-		    mv.addObject("mainWSpage", 1);
-		    mv.addObject("unCheckedList", unCheckedList);
-		    mv.addObject("mainWSURL", "mainWorkShare.ws");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	      */
+	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
+	      // 미확인 업무 목록 
+	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
+	      sendList = workShareService.mainSendList(myEmp);
+	      mv.addObject("unCheckedList", unCheckedList);
+	      mv.addObject("sendList", sendList);
+
+
+	    
 	      
 	      
 >>>>>>> branch 'Master' of https://github.com/pastelto/HelloWorks.git
