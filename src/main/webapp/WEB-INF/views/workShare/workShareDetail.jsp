@@ -255,6 +255,7 @@
 							<div class="card-footer">
 								<div class="float-right" id="editPlace">	
 									&nbsp;						
+									<!-- 작성자 == 로그인사번이면 수정 및 삭제 가능 -->
 									<c:if test="${ ws.ws_empno eq loginUser.empNo }">
 									<button id="editBtn" type="button" class="btn btn-warning btn-sm" onclick="editWS();">수정하기</button>
 									&nbsp;
