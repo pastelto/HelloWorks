@@ -167,7 +167,7 @@ public class EmployeeController {
 	      
 	      //김다혜
 	      // 미확인 업무 개수 
-	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	    /* ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
 	      int listCount = 0;
 		try {
 			listCount = workShareService.selectUncheckedWSListCount(myEmp);
@@ -184,7 +184,7 @@ public class EmployeeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	      
+	      */
 	      
 	      
 	      
@@ -203,12 +203,12 @@ public class EmployeeController {
 		
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage(ModelAndView mv, HttpServletRequest request) {
+	public String EmployeeMypage(Model model, HttpServletRequest request) {
 		System.out.println("마이페이지 전환");
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
 		Employee emp = employeeService.selectEmp(empNo);
-		
+		model.addAttribute("emp",emp );
 		
 		return "employee/EmployeeMypage";
 	}
@@ -222,8 +222,10 @@ public class EmployeeController {
 		m.setEmpPhone(empPhone);
 		
 		if(!file.getOriginalFilename().equals("")) {
-			String chgPic = saveFile(file, request);
-			String chgSign = saveFile(file1, request);
+			String chgPic = saveFile(file, request,"pic");
+			
+			String chgSign = saveFile(file1, request, "sign");
+			
 			System.out.println("chgPic : " + chgPic);
 			System.out.println("chgSign : " + chgSign);
 			if(chgPic!=null) {
@@ -247,11 +249,17 @@ public class EmployeeController {
 	}
 	
 	// 파일 저장
-		public String saveFile(MultipartFile file, HttpServletRequest request) {
+		public String saveFile(MultipartFile file, HttpServletRequest request, String type) {
 			String resources = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = resources + "\\idPhoto_files\\"; //저장경로
 			
-			System.out.println("savePath : "+ savePath);		
+			String savePath = "";
+			if(type.equals("pic")) {
+				savePath = resources + "\\idPhoto_files\\";
+			}else if(type.equals("sign")) {
+				savePath = resources + "\\idSign_files\\";
+			}
+						
+		System.out.println("savePath : "+ savePath);		
 			String orgPic = file.getOriginalFilename(); //원본파일명		
 			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간		
 			String ext = orgPic.substring(orgPic.lastIndexOf("."));		
