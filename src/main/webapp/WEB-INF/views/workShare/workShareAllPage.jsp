@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
 <title>HelloWorks - 업무공유</title>
 </head>
+<style>
+	#WorkShareTable, #savedWSTable{
+	height:450px;
+	}
+</style>
 <body>
 
 	<jsp:include page="../common/menubar.jsp" />

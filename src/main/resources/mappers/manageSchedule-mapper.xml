@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- ManageSchedule -->
     <resultMap id="manageScheduleResultSet" type="ManageSchedule">
-       <id property="shc_no" column="SCH_NO"/>
+       <id property="sch_no" column="SCH_NO"/>
        <result property="sch_empno" column="SCH_EMP_NO"/>
        <result property="sch_type" column="SCH_TYPE"/>
        <result property="sch_calNo" column="SCH_CAL_NO"/>
@@ -30,6 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="cal_name" column="CAL_NAME"/>
 		<result property="cal_makeDay" column="CAL_MAKEDAY"/>
 		<result property="cal_color" column="CAL_COLOR"/>
+	</resultMap>
+	
+	<!-- Dept -->
+	<resultMap id="deptResultSet" type="Dept">
+		<id property="deptCode" column="DEPT_CODE"/>
+		<result property="deptUName" column="DEPT_UNAME"/>
+		<result property="deptDName" column="DEPT_DNAME"/>
 	</resultMap>
 
 	<!-- 개인 캘린더 타입 가져오기 -->
@@ -69,4 +76,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN CALENDAR_TYPE B ON B.CAL_NO = A.SCH_CAL_NO
 		WHERE A.SCH_CAL_NO = #{cal_no}
 	</select>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteCal" parameterType="_int">
+		DELETE FROM SCHEDULE_TABLE
+		WHERE SCH_NO = #{schNo}
+	</delete>
+	
+	<!-- 부서 가져오기 -->
+	<select id="getDeptList" resultMap="deptResultSet">
+		SELECT *
+		FROM DEPT
+	</select>
+	
+	<!-- 수정용 일정가져오기 -->
+	<select id="getUpdateCal" parameterType="_int" resultMap="manageScheduleResultSet">
+		SELECT *
+		FROM SCHEDULE_TABLE
+		WHERE SCH_NO = #{schNo}
+	</select>
+	
+	<!-- 일정 수정하기 -->
+	<update id="updateEvent" parameterType="ManageSchedule">
+		UPDATE SCHEDULE_TABLE
+		SET SCH_TYPE = #{sch_type}, 
+			SCH_CAL_NO = #{sch_calNo},
+			SCH_TITLE = #{sch_title},
+			SCH_CONTENT = #{sch_content},
+			SCH_STARTDATE = #{sch_startdate},
+			SCH_ENDDATE = #{sch_endate},
+			SCH_ALLDAY = #{sch_allday},
+			SCH_PLACE = #{sch_place},
+			SCH_COLOR = #{sch_color}
+		WHERE SCH_NO = #{sch_no}
+	</update>
+	
+	<!-- 일정 추가하기 -->
+	<insert id="insertCal" parameterType="_int">
+		INSERT INTO CALENDAR_TYPE
+		VALUES (SEQ_CAL.NEXTVAL, 'PRIVATE', NULL, NULL, #{empNo}, '내 캘린더', SYSDATE, 'THISTLE')
+	</insert>
 </mapper>
