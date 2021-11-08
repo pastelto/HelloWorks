@@ -70,6 +70,68 @@ body{
 
    <jsp:include page="./common/footer.jsp" />
   
+  <!-- 김다혜 - 업무공유 -->
+  <script>
+  	$(function(){
+  	
+  		
+  		$.ajax({
+			url:"mainWorkShare.ws",
+			type:"post",
+			success:function(workShareMap){
+				
+				var valueUnchecked = "";
+				var valueSend = "";
+				
+				for(var key in workShareMap){
+					
+					if(key == "unCheckedList"){
+						$.each(workShareMap[key], function(key, obj){
+							valueUnchecked += "<tr>" +
+											  "<td>" + obj.ws_no + "</td>" + 
+											  "<td>" + obj.ws_title + "</td>" +
+										      "<td>" + obj.ws_senderName + "&nbsp;" + obj.ws_senderJobName + "</td>" +
+										      "<td>" + obj.createDate + "</td>" +
+										      "</tr>";
+						
+						});
+					} else if(key == "sendList"){
+						
+						$.each(workShareMap[key], function(key, obj){
+							valueSend += "<tr>" +
+										 "<td>" + obj.ws_no + "</td>" + 
+										 "<td>" + obj.ws_title + "</td>" +
+									     "<td>" + obj.createDate + "</td>" +
+										 "</tr>";
+						
+						});
+						
+					}
+					
+					console.log("ajax 성공!! -- 업무공유");
+					$("#unCheckedListTable tbody").html(valueUnchecked); 
+					$("#sendListTable tbody").html(valueSend); 
+					
+					
+				}
+				
+				
+				
+			},error:function(){
+				console.log("댓글 삭제 ajax 통신 실패");
+			}
+		});
+  		
+  		
+  		
+  		
+  		
+  	})
+  	
+  	
+  
+  
+  </script>
 
 </body>
 </html>
