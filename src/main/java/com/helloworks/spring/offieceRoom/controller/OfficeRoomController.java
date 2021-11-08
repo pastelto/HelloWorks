@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.GsonBuilder;
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
@@ -90,12 +91,16 @@ public class OfficeRoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="searchEmployeeDetail.or", produces = "application/json; charset=utf-8")
-	public String searchEmployeeDetail(int empNo) {
+	public String searchEmployeeDetail(int empNo, Model model) {
 		
 		Employee emp = officeRoomService.searchEmployeeDetail(empNo);
 		
 		System.out.println("직원상세조회 Controller: "+ emp);
 		
+		//출퇴근 상태값 불러오기
+		Attendance attendance = officeRoomService.attendanceEmployee(empNo);
+		
+		emp.setPsStatus(attendance.getPsStatus());
 		return new GsonBuilder().create().toJson(emp); 
 	}
 	

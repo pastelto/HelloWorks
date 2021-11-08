@@ -668,7 +668,7 @@
 					$("#empUDeptCol").text(emp.deptUname)
 					$("#empDDeptCol").text(emp.deptDname)
 					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
+					$("#empStatusCol").text(emp.psStatus)
 					$("#empEphoneCol").text(emp.empEphone)
 					$("#empEmailCol").text(emp.empEmail)
 					

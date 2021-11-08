@@ -108,6 +108,25 @@
 		<result property="deptrAttachStatus" column="DEPT_ATTACH_STATUS"/>
 	</resultMap>
 	
+	<resultMap id="attendanceResultSet" type="Attendance">
+		<id property="psaNo" column="PSA_NO"/>
+		<result property="psCreateDate" column="PSA_CREATEDATE"/>
+		<result property="inTime" column="PSA_IN"/>
+		<result property="outTime" column="PSA_OUT"/>
+		<result property="psStatus" column="PSA_STATUS"/>
+		<result property="empNo" column="PSA_EMP_NO"/>
+		<result property="workingTime" column="PSA_WORKINGTIME"/>
+		<result property="overTime" column="PSA_OVERTIME"/>
+		<result property="total" column="PSA_TOTAL"/>
+		<result property="appliedIN" column="PSA_APPLIED_IN"/>
+		<result property="appliedOut" column="PSA_APPLIED_OUT"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPT_DNAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>	
+		<result property="name" column="EMP_NAME"/>	
+		<result property="vacation" column="PSA_VACATION"/>	
+	</resultMap>
+	
   	<select id="selectAllEmployee" resultMap="employeeResultSet">
 		SELECT A.*, B.DEPT_UNAME, B.DEPT_DNAME, C.JOB_NAME
 		FROM EMPLOYEE A
@@ -628,4 +647,11 @@
 		INSERT INTO DEPT_RESOURCES_ATTACHMENT
 		VALUES(SEQ_DEPTR_ATTACH_NO.NEXTVAL, #{deptrNo}, #{deptrAttachOrigin}, #{deptrAttachChange}, DEFAULT )
 	</insert>
+	
+	<select id="attendanceEmployee" parameterType="_int" resultMap="attendanceResultSet">
+		SELECT *
+		FROM PS_ATTENDANCE
+		WHERE PSA_EMP_NO = #{empNo}
+		AND PSA_CREATEDATE LIKE SYSDATE
+	</select>
 </mapper>

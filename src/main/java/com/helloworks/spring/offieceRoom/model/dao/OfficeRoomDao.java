@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
@@ -267,5 +268,11 @@ public class OfficeRoomDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("officeroomMapper.insertUpdateDeptResourcesAttach", deptResourcesAttachment);
 	}
+
+	public Attendance attendanceEmployee(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.attendanceEmployee", empNo);
+	}
+
 
 }
