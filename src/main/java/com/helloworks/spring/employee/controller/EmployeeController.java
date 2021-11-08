@@ -216,7 +216,6 @@ public class EmployeeController {
 		Employee userInfo = employeeService.updateEmp(m);
 		
 		
-		
 		model.addAttribute("loginUser", userInfo);
 		model.addAttribute("msg","정보가 수정되었습니다");
 		

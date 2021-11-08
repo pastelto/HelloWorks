@@ -146,7 +146,6 @@
 											</select>										
 										</td>			
 									</tr>	
-							
 									<tr>							
 										<th >내선번호</th>
 										<td colspan="3"><input type="text" class="form-control" name="empEphone" placeholder="02-413" required></td>					

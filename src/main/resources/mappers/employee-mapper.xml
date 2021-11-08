@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{deptCode}, #{jobCode}, #{empSalary}, SYSDATE, null, null, null, null, null, null, DEFAULT)
 	</insert>
 	
-	<!-- 수정 -->
+	<!--수정 -->
 	<update id="updateEmp" parameterType="Employee" >
 		UPDATE EMPLOYEE
 		SET EMP_PHONE = #{empPhone}, EMP_ORG_PIC = #{empOrgPic}, EMP_CHG_PIC = #{empChgPic}, EMP_ORG_SIGN = #{empOrgSign}, EMP_CHG_SIGN = #{empChgSign}

@@ -132,8 +132,7 @@
 										
 												<th>이메일</th>								
 												<td><input type="text" class="form-control" id="empEmail" name="empEmail" value="${ loginUser.empEmail }" readonly></td>
-											</tr>
-											
+											</tr>											
 											<tr>
 												<th>성명</th>
 												<td><input type="text" class="form-control" id="empName" name="empName" value="${ loginUser.empName }" readonly> </td>
