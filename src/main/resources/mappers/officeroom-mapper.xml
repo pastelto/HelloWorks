@@ -579,7 +579,7 @@
 		UPDATE COMMON_RESOURCES
 		SET CR_CODE = #{crCode}, CR_WRITER_NO = #{crWriterNo}, 
 			CR_CATEGORY = #{crCategory}, CR_TITLE = #{crTitle},
-			CR_CONTENT = #{crContent}, CR_CREATE_DATE = #{crCreateDate},
+			CR_CONTENT = #{crContent}, CR_CREATE_DATE = SYSDATE,
 			CR_ATTACH = #{crAttach}
 		WHERE CR_NO = #{crNo}
 	</update>
@@ -587,5 +587,39 @@
 	<insert id="insertUpdateCommResourcesAttach" parameterType="CommonResourcesAttachment">
 		INSERT INTO COMMON_RESOURCES_ATTACHMENT
 		VALUES(SEQ_CR_ATTACH_NO.NEXTVAL, #{crNo}, #{crAttachOrigin}, #{crAttachChange}, DEFAULT )
+	</insert>
+	
+	<!--  -->
+	<select id="selectDelDeptResourcesAttachment" parameterType="_int" resultMap="deptResourcesAttachResultSet">
+		SELECT *
+		FROM DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPT_ATTACH_STATUS = 'Y'
+		AND DEPTR_ATTACH_NO = #{deptrAttachNo}
+	</select>
+	
+	<delete id="deleteDeptResourcesAttachment" parameterType="_int">
+		DELETE DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPTR_ATTACH_NO = #{deptrAttachNo}
+	</delete>
+	
+	<select id="deptrAttachList" parameterType="_int" resultMap="deptResourcesAttachResultSet">
+		SELECT *
+		FROM DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPT_ATTACH_STATUS = 'Y'
+		AND DEPTR_NO = #{deptrNo}
+	</select>
+	
+	<update id="updateDeptResources" parameterType="DeptResources">
+		UPDATE DEPT_RESOURCES
+		SET DEPTR_WRITER_NO = #{deptrWriterNo}, 
+			DEPTR_CATEGORY = #{deptrCategory}, DEPTR_TITLE = #{deptrTitle},
+			DEPTR_CONTENT = #{deptrContent}, DEPTR_CREATE_DATE = SYSDATE,
+			DEPTR_ATTACH = #{deptrAttach}
+		WHERE DEPTR_NO = #{deptrNo}
+	</update>
+	
+	<insert id="insertUpdateDeptResourcesAttach" parameterType="DeptResourcesAttachment">
+		INSERT INTO DEPT_RESOURCES_ATTACHMENT
+		VALUES(SEQ_DEPTR_ATTACH_NO.NEXTVAL, #{deptrNo}, #{deptrAttachOrigin}, #{deptrAttachChange}, DEFAULT )
 	</insert>
 </mapper>

@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서별 자료실 등록</title>
+<title>공통 자료실 등록</title>
+
 <!-- summernote -->
 <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 
@@ -33,7 +34,7 @@
 					<div class="col-sm-6">
 
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 부서별 자료실 등록</b>
+							<i class="nav-icon fas fa-edit"></i><b> 공통 자료실 등록</b>
 						</h4>
 					</div>
 				</div>
@@ -48,7 +49,7 @@
 
 						<div class="card-header text-center">
 							<h6 style="margin-bottom: 0px">
-								<b>부서별 자료실 등록</b>
+								<b>공통자료실 등록</b>
 							</h6>
 						</div>
 
@@ -64,12 +65,11 @@
 												<th>작성자</th>
 												<td style="width: 35%;">
 												&nbsp;
-												<b>${ loginUser.empName }</b>
+												<b>${ deptResources.writerName }</b>
+												<input type="hidden" name="deptrNo" id="deptrNo" value="${ deptResources.deptrNo }">
 												<input type="hidden" name="deptrWriterNo" id="deptrWriterNo" value="${ loginUser.empNo }">
-												<input type="hidden" name="deptrWriterNo" id="deptrWriterNo" value="${ loginUser.empNo }">
-												<input type="hidden" name="deptCode" id="deptCode" value="${ loginUser.deptCode }">
 												</td>
-												<th>작성일</th>
+												<th>변경일</th>
 												<td style="width: 35%;">
 													&nbsp;
 													<c:set var="now" value="<%=new java.util.Date()%>" />
@@ -78,31 +78,60 @@
 													<span id="nowTimes"></span>
 												 </td>
 											</tr>
-											
 											<tr>
 												<th>보고유형</th>
 												<td colspan="3">
-													&nbsp;
-													<input type="radio" value="공유" name="deptrCategory" checked> 공유
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="문서" name="deptrCategory"> 문서
-													&nbsp;&nbsp;&nbsp;
-													<input type="radio" value="기타" name="deptrCategory"> 기타
+													<c:if test="${ deptResources.deptrCategory == '공유'}">
+														&nbsp;
+														<input type="radio" value="공유" name="deptrCategory" checked> 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="deptrCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="deptrCategory"> 기타
+													</c:if>
+													<c:if test="${ deptResources.deptrCategory == '문서'}">
+														&nbsp;
+														<input type="radio" value="공유" name="deptrCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="deptrCategory" checked> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="deptrCategory"> 기타
+													</c:if>
+													<c:if test="${ deptResources.deptrCategory == '기타'}">
+														&nbsp;
+														<input type="radio" value="공유" name="deptrCategory" > 공유
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="문서" name="deptrCategory"> 문서
+														&nbsp;&nbsp;&nbsp;
+														<input type="radio" value="기타" name="deptrCategory" checked> 기타
+													</c:if>
+													
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
 												<td colspan="3">
-												<input id="deptrTitle" name="deptrTitle" type="text" class="form-control form-control-sm">
+												<input id="deptrTitle" name="deptrTitle" type="text" class="form-control form-control-sm" value="${ deptResources.deptrTitle}">
 												</td>
 											</tr>
 											<tr>
 												<th>파일첨부</th>
 												<td colspan="3">
+													<div id="originDiv">
+														<c:forEach items="${ deptResourcesAttach }" var="deptResourcesAttach">
+															<c:if test="${ !empty deptResourcesAttach.deptrAttachOrigin }">
+																
+																	<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${deptResourcesAttach.deptrAttachNo})"></i>
+										                        	<span class='badge badge-info'>${ deptResourcesAttach.deptrAttachOrigin }</span>&nbsp;&nbsp;
+										                        	</br>
+									                        	
+									                        </c:if>
+							                   		 	</c:forEach>
+													</div>
 													<span id="resourcesAttachName"></span>
-								                  	<div class="btn btn-default btn-file btn-xs">
-								                   		<i class="fas fa-paperclip"></i> 첨부파일
-								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple"> 
+								                  	<div class="btn btn-default btn-file btn-xs" >
+								                   		<i class="fas fa-paperclip" ></i> 첨부파일
+								                    	<input type="file" name="uploadFile" id="resourcesAttach" multiple="multiple">
 								               	  	</div> 
 												</td>
 											</tr>
@@ -113,7 +142,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<textarea id="summernote" name="deptrContent"></textarea>
+										<textarea id="summernote" name="deptrContent">${ deptResources.deptrContent}</textarea>
 									</div>
 								</div>
 
@@ -121,7 +150,7 @@
 
 							<div class="card-footer">
 								<div class="float-right">
-									<button id="submitBtn" type="button" class="btn btn-primary btn-sm" onclick="submitFunc()">등록하기</button>
+									<button id="updateBtn" type="button" class="btn btn-primary btn-sm" onclick="updateFunc()">수정하기</button>
 									&nbsp;
 									<button id="cancelBtn" type="button" class="btn btn-danger btn-sm" onclick="cancelFunc()">돌아가기</button>
 									&nbsp;
@@ -136,7 +165,6 @@
 		</section>
 	</div>
 	
-	<jsp:include page="../common/footer.jsp" />	
 	<jsp:include page="../common/footer.jsp" />	
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
@@ -197,7 +225,7 @@
 	
 	<!-- 자료실 등록 버튼 -->
 	<script>
-		function submitFunc(){
+		function updateFunc(){
 			
 			if($("input[name=deptrTitle]").val()==""){
 				alert("제목을 입력해주세요.")
@@ -206,7 +234,7 @@
 			}else{
 				if(confirm("제출하시겠습니까?") == true){
 					
-					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/deptResourcesInsert.or");
+					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/deptResourcesUpdate.or");
 					$("#enrollForm").submit();
 				}else{   
 				   //취소 버튼 눌렀을 때 실행 할 코드
@@ -222,5 +250,65 @@
 			location.href="<%=request.getContextPath()%>/deptResourcesList.or";
 		}
 	</script>
+	
+	<!-- 파일 삭제 -->
+	<script>
+		function deleteFile(num){
+			console.log(num)
+			
+			if(confirm("첨부파일 삭제시 복구가 불가능합니다. 삭제하시겠습니까?") == false){
+				return false;
+			}
+			
+			if(num != ""){
+				$.ajax({
+					url:"deleteDeptrAttach.or",
+					type:"post",
+					data:{deptrAttachNo:num},
+					success:function(result){
+						if(result > 0){
+							alert("첨부파일이 삭제되었습니다.");
+							selectDeptList();
+							$('#originDiv').html("")
+						}else{
+							console.log("첨부파일 삭제 실패");
+						}	
+					},error:function(){
+						console.log("첨부파일 ajax 통신 실패");
+					}
+				});
+				
+			};
+		}
+	</script>
+	
+	<script>
+	 	function selectDeptList(){
+	 		var deptrNo = ${deptResources.deptrNo};
+	 		$.ajax({
+				url:"deptrAttachList.or",
+				data:{deptrNo:deptrNo},
+				type:"post",
+				success:function(list){
+					var value="";
+					if(list != 0){
+					$.each(list, function(i, obj){
+						if(list != ""){
+						value += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none' onclick='deleteFile("+obj.deptrAttachNo+")'></i>" + 
+								 "<span class='badge badge-info'>"+obj.deptrAttachOrigin+"</span>&nbsp;&nbsp;" + 
+							     "</br>"
+						} else{
+							value += "첨부파일이 없습니다.";
+						}
+					});
+					}
+					$("#originDiv").html(value);
+				},error:function(){
+					console.log("ajax 통신 실패");
+				}
+			});
+		}; 
+	</script>
+
 </body>
 </html>

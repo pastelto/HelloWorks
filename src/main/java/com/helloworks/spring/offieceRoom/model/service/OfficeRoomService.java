@@ -94,5 +94,15 @@ public interface OfficeRoomService {
 
 	void insertUpdateCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
 
+	DeptResourcesAttachment selectDelDeptResourcesAttachment(int deptrAttachNo);
+
+	int deleteDeptResourcesAttachment(int deptrAttachNo);
+
+	ArrayList<DeptResourcesAttachment> deptrAttachList(int deptrNo);
+
+	void updateDeptResources(DeptResources deptResources);
+
+	void insertUpdateDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList);
+
 
 }

@@ -250,9 +250,6 @@
 	<script>
 		function updateFunc(){
 			
-			//var crNo = ${commonResources.crNo}
-			
-			//alert(crNo)
 			if($("input[name=crCode]").val() == ""){
 				alert("비밀번호를 입력해주세요.")
 			}else if($("input[name=crTitle]").val()==""){
@@ -285,26 +282,30 @@
 	<script>
 		function deleteFile(num){
 			console.log(num)
+			
+			if(confirm("첨부파일 삭제시 복구가 불가능합니다. 삭제하시겠습니까?") == false){
+				return false;
+			}
+			
+			if(num != ""){
+				$.ajax({
+					url:"deleteCommAttach.or",
+					type:"post",
+					data:{crAttachNo:num},
+					success:function(result){
+						if(result > 0){
+							alert("첨부파일이 삭제되었습니다.");
+							selectCommList();
+							$('#originDiv').html("")
+						}else{
+							console.log("첨부파일 삭제 실패");
+						}	
+					},error:function(){
+						console.log("첨부파일 ajax 통신 실패");
+					}
+				});
 				
-				if(num != ""){
-					$.ajax({
-						url:"deleteCommAttach.or",
-						type:"post",
-						data:{crAttachNo:num},
-						success:function(result){
-							if(result > 0){
-								alert("첨부파일이 삭제되었습니다.");
-								selectCommList();
-								$('#originDiv').html("")
-							}else{
-								console.log("첨부파일 삭제 실패");
-							}	
-						},error:function(){
-							console.log("첨부파일 ajax 통신 실패");
-						}
-					});
-					
-				};
+			};
 		}
 	</script>
 	
@@ -336,9 +337,5 @@
 		}; 
 	</script>
 
-	<!-- 수정하기 버튼 -->
-	<script>
-		
-	</script>
 </body>
 </html>
