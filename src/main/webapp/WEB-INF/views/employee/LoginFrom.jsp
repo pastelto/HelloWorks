@@ -7,22 +7,35 @@
 <meta charset="UTF-8">
 <title>login</title>
     <style>
-        .center{
-            width: 70%;
-            height: 70%;
-            margin: 0 auto;
-            margin-top: 10%;
-            text-align: center;
-        }
-        .login{  
-            margin-top: 15px;
-        }
-        #userId{
-            
-        }
-        #userPwd{
-           
-        }
+    	.loginDiv{
+    		width: 40%;
+    		height:300px;
+    		margin: auto;
+            margin-top: 10%;    
+    		border: 1px solid black;
+    		text-align: center;
+    	}
+    	.loginDiv , .login_logo{
+    		display: inline-block;
+    		
+    	}
+    	.login_logo{
+    		width: 50%;
+    		height: 230px; 		
+    		margin-top: 4%;
+    		padding-right: 15%;
+    		
+    	}
+    	
+    	.loginDiv, .loginForm{    		
+    		display: inline-block;
+    	}
+    	.loginForm{
+    		padding-right: 5%;
+    	}
+     
+     
+      
     </style>
 </head>
 <body>
@@ -33,11 +46,11 @@
 		<c:remove var="msg" scope="session"/>
 	</c:if>
 
-    <div class="center">
+    <div class="loginDiv">
     	<!-- logoImage -->
-        <img src="resources/common/loginLogo.png" alt="login logo"  style="width: 22%; height: 22%;">
+        <img class="login_logo" src="resources/common/loginLogo.png" alt="login logo">
       	
-        <form action="login.me" method="post">
+        <form action="login.me" method="post" class="loginForm">
 	        <div class="login">
 	        	<label for="empNo"></label>
 	            <input type="text" id="empNo" name="empNo" placeholder="사번" >
@@ -47,8 +60,7 @@
 	            <br>	       
 	        </div>
 	        <div>
-	        	<button type="submit" class="btn btn-primary">로그인</button>
-	            <br>
+	        	<button type="submit" class="btn btn-primary">로그인</button>	            
 	        </div>
         </form>
     </div>
