@@ -346,8 +346,8 @@ public class WorkShareController {
 			System.out.println("wsa : " + wsa);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		} 
 		
 		model.addAttribute("wsRefEmpName", wsRefEmpName);
 		model.addAttribute("wsRecvEmpName", wsRecvEmpName);
@@ -883,5 +883,6 @@ public class WorkShareController {
 		
 		return String.valueOf(result);
 	}
+	
 	
 }

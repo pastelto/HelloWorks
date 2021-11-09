@@ -16,12 +16,18 @@
 		<result property="jobCode" column="JOB_CODE"/>
 		<result property="empSalary" column="EMP_SALARY"/>
 		<result property="empHire" column="EMP_HIRE"/>
-		<result property="empFire" column="EMP_FIRE"/>
+		<result property="empFire" column="EMP_FIRE"/>	
+		<result property="empOrgPic" column="EMP_ORG_PIC"/>
+		<result property="empChgPic" column="EMP_CHG_PIC"/>
+		<result property="empOrgSign" column="EMP_ORG_SIGN"/>
+		<result property="empChgSign" column="EMP_CHG_SIGN"/>		
 		<result property="empNote" column="EMP_NOTE"/>
 		<result property="empStatus" column="EMP_STATUS"/>
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="deptUname" column="DEPT_UNAME"/>
 		<result property="deptDname" column="DEPT_DNAME"/>
+		<result property="rowNum" column="ROWNUM"/>
+		<result property="empFireString" column="EMP_FIRE"/>
 	</resultMap>
 	
 	<resultMap id="commonResourcesResultSet" type="CommonResources">
@@ -100,6 +106,25 @@
 		<result property="deptrAttachOrigin" column="DEPTR_ATTACH_ORIGIN"/>
 		<result property="deptrAttachChange" column="DEPTR_ATTACH_CHANGE"/>
 		<result property="deptrAttachStatus" column="DEPT_ATTACH_STATUS"/>
+	</resultMap>
+	
+	<resultMap id="attendanceResultSet" type="Attendance">
+		<id property="psaNo" column="PSA_NO"/>
+		<result property="psCreateDate" column="PSA_CREATEDATE"/>
+		<result property="inTime" column="PSA_IN"/>
+		<result property="outTime" column="PSA_OUT"/>
+		<result property="psStatus" column="PSA_STATUS"/>
+		<result property="empNo" column="PSA_EMP_NO"/>
+		<result property="workingTime" column="PSA_WORKINGTIME"/>
+		<result property="overTime" column="PSA_OVERTIME"/>
+		<result property="total" column="PSA_TOTAL"/>
+		<result property="appliedIN" column="PSA_APPLIED_IN"/>
+		<result property="appliedOut" column="PSA_APPLIED_OUT"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPT_DNAME"/>
+		<result property="deptUname" column="DEPT_UNAME"/>	
+		<result property="name" column="EMP_NAME"/>	
+		<result property="vacation" column="PSA_VACATION"/>	
 	</resultMap>
 	
   	<select id="selectAllEmployee" resultMap="employeeResultSet">
@@ -554,5 +579,79 @@
 			</when>
 		</choose>
 		ORDER BY 1
+	</select>
+	
+	<select id="selectDelCommonResourcesAttachment" parameterType="_int" resultMap="commonResourcesAttachResultSet">
+		SELECT *
+		FROM COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_STATUS = 'Y'
+		AND CR_ATTACH_NO = #{crAttachNo}
+	</select>
+	
+	<delete id="deleteCommonResourcesAttachment" parameterType="_int">
+		DELETE COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_NO = #{crAttachNo}
+	</delete>
+	
+	<select id="commAttachList" parameterType="_int" resultMap="commonResourcesAttachResultSet">
+		SELECT *
+		FROM COMMON_RESOURCES_ATTACHMENT
+		WHERE CR_ATTACH_STATUS = 'Y'
+		AND CR_NO = #{crNo}
+	</select>
+	
+	<update id="updateCommResources" parameterType="CommonResources">
+		UPDATE COMMON_RESOURCES
+		SET CR_CODE = #{crCode}, CR_WRITER_NO = #{crWriterNo}, 
+			CR_CATEGORY = #{crCategory}, CR_TITLE = #{crTitle},
+			CR_CONTENT = #{crContent}, CR_CREATE_DATE = SYSDATE,
+			CR_ATTACH = #{crAttach}
+		WHERE CR_NO = #{crNo}
+	</update>
+	
+	<insert id="insertUpdateCommResourcesAttach" parameterType="CommonResourcesAttachment">
+		INSERT INTO COMMON_RESOURCES_ATTACHMENT
+		VALUES(SEQ_CR_ATTACH_NO.NEXTVAL, #{crNo}, #{crAttachOrigin}, #{crAttachChange}, DEFAULT )
+	</insert>
+	
+	<!--  -->
+	<select id="selectDelDeptResourcesAttachment" parameterType="_int" resultMap="deptResourcesAttachResultSet">
+		SELECT *
+		FROM DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPT_ATTACH_STATUS = 'Y'
+		AND DEPTR_ATTACH_NO = #{deptrAttachNo}
+	</select>
+	
+	<delete id="deleteDeptResourcesAttachment" parameterType="_int">
+		DELETE DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPTR_ATTACH_NO = #{deptrAttachNo}
+	</delete>
+	
+	<select id="deptrAttachList" parameterType="_int" resultMap="deptResourcesAttachResultSet">
+		SELECT *
+		FROM DEPT_RESOURCES_ATTACHMENT
+		WHERE DEPT_ATTACH_STATUS = 'Y'
+		AND DEPTR_NO = #{deptrNo}
+	</select>
+	
+	<update id="updateDeptResources" parameterType="DeptResources">
+		UPDATE DEPT_RESOURCES
+		SET DEPTR_WRITER_NO = #{deptrWriterNo}, 
+			DEPTR_CATEGORY = #{deptrCategory}, DEPTR_TITLE = #{deptrTitle},
+			DEPTR_CONTENT = #{deptrContent}, DEPTR_CREATE_DATE = SYSDATE,
+			DEPTR_ATTACH = #{deptrAttach}
+		WHERE DEPTR_NO = #{deptrNo}
+	</update>
+	
+	<insert id="insertUpdateDeptResourcesAttach" parameterType="DeptResourcesAttachment">
+		INSERT INTO DEPT_RESOURCES_ATTACHMENT
+		VALUES(SEQ_DEPTR_ATTACH_NO.NEXTVAL, #{deptrNo}, #{deptrAttachOrigin}, #{deptrAttachChange}, DEFAULT )
+	</insert>
+	
+	<select id="attendanceEmployee" parameterType="_int" resultMap="attendanceResultSet">
+		SELECT *
+		FROM PS_ATTENDANCE
+		WHERE PSA_EMP_NO = #{empNo}
+		AND PSA_CREATEDATE LIKE SYSDATE
 	</select>
 </mapper>

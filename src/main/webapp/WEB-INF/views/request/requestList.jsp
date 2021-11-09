@@ -25,13 +25,13 @@
 							<c:if test="${ loginUser.deptCode eq 'A2'}">
 							<div class="float-right">
 								<button class="btn btn-primary" id="confirmListBtn">	
-									<i class="far fa-circle"> 승인완료</i>
+									승인완료
 								</button>
-								<button class="btn btn-default" id="cancelListBtn">	
-									<i class="fas fa-times"> 승인취소</i>
+								<button class="btn btn-warning" id="cancelListBtn">	
+									승인취소
 								</button>
-								<button class="btn btn-default" id="deleteListBtn">	
-									<i class="far fa-trash-alt"> 삭제</i>
+								<button class="btn btn-danger" id="deleteListBtn">	
+									삭제
 								</button>
 							</div>
 							</c:if>

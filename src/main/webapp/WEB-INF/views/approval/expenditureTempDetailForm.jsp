@@ -753,7 +753,8 @@
 					  accNum:"${ad.accNum}", holder:"${ad.accHolder}", dept:"${ad.exDept}", note:"${ad.note}"});
 		</c:forEach>
 		
-		console.log(arr);
+		console.log("${ adList }");
+		console.log(arr.length);
 		
 		var n=1;
 		var addRow = null;

@@ -67,8 +67,10 @@ public interface WorkShareService {
 
 	void updateReplyList(HashMap<String, Object> map) throws Exception;
 
-	
-	
-	
+	ArrayList<WorkShare> mainUnCheckedList(Employee myEmp);
+
+	ArrayList<WorkShare> mainSendList(Employee myEmp);
+
+
 	
 }
