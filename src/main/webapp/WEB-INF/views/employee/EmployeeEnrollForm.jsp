@@ -49,7 +49,7 @@
 				<div class="row mb-2">
 					<div class="col-sm-6">
 						<h4>
-							<i class=""></i><b>사원등록</b>
+							<i class="nav-icon far fa-address-card"></i> <b>사원등록</b>
 						</h4>
 					</div>
 				</div>				
@@ -68,7 +68,7 @@
 					<form id="insertForm" action="insert.hr" method="post" >
 						<!-- 기본정보 -->		
 						<h5>
-							<b>기본정보</b>
+							<i class="fas fa-archive"></i> <b>기본정보</b>
 						</h5>
 							
 						<table id="table1" class="table table-bordered">
@@ -107,7 +107,7 @@
 
 						<!-- 상세정보 -->
 						<h5>
-							<b>상세정보</b>
+							<i class="fas fa-archive"></i> <b>상세정보</b>
 						</h5>						
 											
 						<table id="table2" class="table table-bordered">
