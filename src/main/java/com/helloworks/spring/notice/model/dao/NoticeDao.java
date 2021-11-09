@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.notice.model.vo.NoticeReply;
 
 @Repository
 public class NoticeDao {
@@ -110,6 +111,18 @@ public class NoticeDao {
 	public ArrayList<Notice> selectTopList(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("noticeMapper.selectTopList");
+	}
+	
+	//댓글추가
+	public int insertReply(SqlSessionTemplate sqlSession, NoticeReply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("noticeMapper.insertReply", r);
+	}
+	
+	//댓글조회
+	public ArrayList<NoticeReply> selectReplyList(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", bno);
 	}
 
 }
