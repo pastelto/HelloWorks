@@ -517,7 +517,7 @@ public class EmployeeController {
 		  mainAll.put("mailList", mailList);
 
 		  
-	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
+	      return new GsonBuilder().setDateFormat("yy년 MM월 dd일").create().toJson(mainAll);
 	}
 
 }
