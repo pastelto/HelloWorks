@@ -30,12 +30,12 @@
   		top: 20px;
   		left: 30px; 
   	} 	
- */
+
  
  	#mySchedule{
  	 background: lightblue;
  	 height: 80%;
- 	}
+ 	} */
  	
  	#datepicker{
  		padding-bottom: 100px;
@@ -44,10 +44,10 @@
 </style>
 </head>
 <body>
-
+	
 	<!-- 캘린더 좌측메뉴 부분 -->
 	
-	<div style="margin-top: 1%; margin-left: 5%; position: fixed;">
+	<div class="mainCalendar" style="position: fixed;">
 		<!-- 사이드바 캘린더 -->
 		<div class="calendar col-12" style="padding: 0;">
 			<div id="datepicker"></div>

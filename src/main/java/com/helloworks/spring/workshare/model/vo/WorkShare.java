@@ -37,4 +37,6 @@ public class WorkShare {
 	// private String wsa_origin; // 첨부파일 기존이름
 	// private String wsa_change; // 첨부파일 변경이름
 	// private String wsa_status; // 첨부파일 상태
+	
+	
 }
