@@ -99,7 +99,7 @@ public class EmployeeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			model.addAttribute("msg","사번 및 비번이 틀렸습니다");
-			return "employee/LoginFrom";
+			return "employee/LoginForm";
 		}
 		
 	}
