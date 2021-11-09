@@ -238,7 +238,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
       SELECT NTR_NO, NTR_CONTENT, NTR_EMP_NO, NTR_CREATEDATE
       FROM NOTICE_REPLY
-      WHERE NTR_REF_NO=#{bno} AND STATUS = 'Y'
+      WHERE NTR_REF_NO= #{bno} AND NTR_STATUS = 'N'
       ORDER BY NTR_NO DESC
    </select>
    

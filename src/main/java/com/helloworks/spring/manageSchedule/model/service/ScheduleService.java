@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.helloworks.spring.employee.model.vo.Dept;
+import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
 
 public interface ScheduleService {
@@ -27,6 +28,8 @@ public interface ScheduleService {
 	void updateEvent(ManageSchedule schedule) throws Exception;
 
 	void insertCal(int empNo);
+
+	List<ManageSchedule> getEventList(HashMap<String, Object> map) throws Exception;
 
 
 
