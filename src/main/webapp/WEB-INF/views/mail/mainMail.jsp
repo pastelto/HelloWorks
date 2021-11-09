@@ -13,7 +13,8 @@
 </head>
 <body>
 	<div id="cardMail" onclick="moveInbox();">
-		<div class="card card-info card-outline" style="width: 95%; height: 355px;">
+		<div class="card card-info card-outline"
+			style="width: 95%; height: 355px;">
 			<div class="card-header">
 				<div class="float-left" id="headerTitle">받은메일</div>
 			</div>
@@ -25,9 +26,20 @@
 						</div>
 					</c:when>
 					<c:when test="${ not empty mailList }">
-						<div style="text-align: center" style="font-size: small;">
-							<table id="mailListTable">
+						<div class="table-responsive p-0"
+							style="height: 250px; text-align: center"
+							style="font-size: small;">
+							<table class="table table-head-fixed text-nowrap"
+								id="mailListTable">
+								<thead>
+									<tr>
+										<th width='40%'>보낸사람</th>
+										<th width='30%'>제목</th>
+										<th width='30%'>일시</th>
+									</tr>
+								</thead>
 								<tbody>
+									<!-- 테이블 -->
 								</tbody>
 							</table>
 						</div>
@@ -36,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-<script>
+	<script>
 function moveInbox(){
 	location.href = "inbox.ml";
 }

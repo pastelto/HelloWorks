@@ -137,8 +137,9 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMtr += "<tr>" +
-										 "<td width='40%'>" +"<strong style='color:gray;'>"+ "[" + obj.mRDate + "/" +  obj.mRTime + " 시 ]" + "</strong>"+"</td>" +
-										 "<td width='60%'>회의실 명 : " + obj.mMName + "/ 용도 :" + obj.mRUsg + "</td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.mRDate + "]" + "&nbsp;" +  obj.mRTime + " 시 " + "</strong>"+"</td>" +
+										 "<td>" + obj.mMName + "</td>" +
+										 "<td>" + obj.mRUsg + "</td>" +
 										 "</tr>";
 						
 						});
@@ -146,10 +147,9 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueEq += "<tr>" +
-										 "<td width='30%'>" +"<strong style='color:gray;'>"+ "[처리상태: " + obj.erCondition + "]" + "</strong>"+ "</td>" +
-										 
-										 "<td width='20%'> " + obj.eqName + " /</td>" +
-									     "<td width='50%'> " + obj.sDate + "~" + obj.eDate + "</td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+										 "<td> " + obj.eqName + "</td>" +
+									     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
 										 "</tr>";
 							
 						
@@ -159,9 +159,9 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMail += "<tr>" +
-										 "<td width='40%'>"+"<strong style='color:gray;'>"+"[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]"+"</strong>"+ " </td>" + 
-										 "<td width='30%'> 제목: " + obj.mailTitle + "/ 날짜: </td>" +
-									     "<td width='30%'>" + obj.mailDate + "</td>" +
+										 "<td>"+"<strong style='color:gray;'>"+"[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]"+"</strong>"+ " </td>" + 
+										 "<td>" + obj.mailTitle + "</td>" +
+									     "<td>" + obj.mailDate + "</td>" +
 										 "</tr>";
 						
 						});
