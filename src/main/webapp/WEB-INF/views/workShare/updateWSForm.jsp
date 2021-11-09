@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유</title>
+<title>HelloWorks - 업무수정</title>
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 <!-- include libraries(jQuery, bootstrap) -->
@@ -39,6 +39,10 @@
 	overflow:auto;
 	height: 300px;
 	border: solid 1px #DAE1E7; 
+	}
+	
+	a:link, a:hover{
+		color: white;
 	}
 
 </style>
@@ -153,16 +157,18 @@
 											<tr id="editAttachment">
 												<th>파일첨부</th>
 												<td colspan="3">
+												<div id="originDiv">
 												<c:forEach items="${ wsa }" var="wsa">
 													<c:if test="${ !empty wsa.wsa_origin }">
-														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${wsa.wsa_no})"></i>
-							                        	<a href="${ pageContext.servletContext.contextPath }/resources/workshare_files/${wsa.wsa_change}" download="${wsa.wsa_origin}">${ wsa.wsa_origin }</a>
+														<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none;' onclick="deleteFile(${wsa.wsa_no})"></i> 
+							                        	<span class='badge badge-info'><a href="${ pageContext.servletContext.contextPath }/resources/workshare_files/${wsa.wsa_change}" download="${wsa.wsa_origin}">${ wsa.wsa_origin }</a></span>&nbsp;&nbsp;
 							                        	</br>
 							                        </c:if>
 													<c:if test="${ empty wsa.wsa_origin }">
 														
 							                        </c:if>
 							                    </c:forEach>
+							                    </div>
 													<span id="workShareAttachName"></span>
 									                  <div class="btn btn-default btn-file btn-xs">
 									                    <i class="fas fa-paperclip"></i> 첨부파일
@@ -227,9 +233,11 @@
 		var filename = "";
 		for(var i = 0; i < $(this)[0].files.length; i++){
 			
-			filename += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none')></i>";
+			filename += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none')></i>&nbsp;&nbsp;";
+			filename += "<span class='badge badge-info'>";
 			filename += $(this)[0].files[i].name + "&nbsp;&nbsp;";
-			filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;
+			filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;	
+			filename += "</span>&nbsp;&nbsp;";
 			filename += "<br>";
 		}
 		// console.log("filename : " + filename)
@@ -248,8 +256,9 @@
 					data:{wsaNo:num},
 					success:function(result){
 						if(result > 0){
-							//selectWSAList();
 							alert("첨부파일이 삭제되었습니다.");
+							selectWSAList();
+							$('#originDiv').html("")
 						}else{
 							console.log("첨부파일 삭제 실패");
 						}	
@@ -275,14 +284,16 @@
 
 					if(list != ""){
 					value += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none' onclick='deleteFile("+obj.wsa_no+"')></i>" + 
+							 "<span class='badge badge-info'>" + 
 							 "<a href='${ pageContext.servletContext.contextPath }/resources/workshare_files/"+obj.wsa_change+"' download='"+obj.wsa_origin+"'>"+obj.wsa_origin+"</a>" + 
+							 "</span>&nbsp;&nbsp;" + 
 						     "</br>"
 					} else{
 						value += "첨부파일이 없습니다.";
 					}
 				});
 				}
-				$("#workShareAttachName").html(value);
+				$("#originDiv").html(value);
 			},error:function(){
 				console.log("댓글 리스트조회용 ajax 통신 실패");
 			}

@@ -163,6 +163,18 @@ public class WorkShareDao {
 		return sqlSession.update("workShareMapper.updateReplyList", map);
 	}
 
+	public ArrayList<WorkShare> mainUnCheckedList(SqlSessionTemplate sqlSession, Employee myEmp) {
+		
+		System.out.println("mainUnCheckedList DAO 입니다.");
+		return (ArrayList)sqlSession.selectList("workShareMapper.mainUnCheckedList", myEmp);
+	}
+
+	public ArrayList<WorkShare> mainSendList(SqlSessionTemplate sqlSession, Employee myEmp) {
+		
+		System.out.println("mainSendList DAO 입니다.");
+		return (ArrayList)sqlSession.selectList("workShareMapper.mainSendList", myEmp);
+	}
+
 
 
 

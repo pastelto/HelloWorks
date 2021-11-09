@@ -303,9 +303,8 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="col-2 text-center">
-										<div>
-											<img src="./resources/empImg/defaultImg.jpg" alt="user-avatar"
-												class="img-fluid" style="width: 90px; height: 120px;">
+										<div id="employeePicDiv">
+											
 										</div>
 										<div class="mt-3">
 											<input type="hidden" id="addEmpNo" name="addEmpNo"/>
@@ -654,13 +653,22 @@
 				success:function(emp){
 					console.log(emp.empName+" 사원 직원정보 ajax 통신 성공")
 					
+					var value=""
+					
+					if(emp.empOrgPic==null){
+						value = '<img src="./resources/empImg/defaultImg.jpg" alt="등록된 사진이 없습니다." class="img-fluid" style="width: 90px; height: 120px;">'
+					}else{
+						value= '<img src="./resources/idPhoto_files/'+emp.empChgPic+'" class="img-fluid" style="width: 90px; height: 120px;">'
+					}
+					
+					$("#employeePicDiv").html(value)
 					$("#empNoCol").text(emp.empNo)
 					$("#empNameCol").text(emp.empName)
 					$("#empEngNameCol").text(emp.empEn)
 					$("#empUDeptCol").text(emp.deptUname)
 					$("#empDDeptCol").text(emp.deptDname)
 					$("#empJobCol").text(emp.jobName)
-					$("#empStatusCol").text("출퇴근상태값")
+					$("#empStatusCol").text(emp.psStatus)
 					$("#empEphoneCol").text(emp.empEphone)
 					$("#empEmailCol").text(emp.empEmail)
 					

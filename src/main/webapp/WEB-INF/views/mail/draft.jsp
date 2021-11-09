@@ -57,8 +57,7 @@
 						<div class="card-body p-0">
 							<ul class="nav nav-pills flex-column">
 								<li class="nav-item active"><a href="inbox.ml"
-									class="nav-link"> <i class="fas fa-inbox"></i> 받은 메일함 <span
-										class="badge bg-primary float-right">12</span>
+									class="nav-link"> <i class="fas fa-inbox"></i> 받은 메일함 
 								</a></li>
 								<li class="nav-item"><a href="sent.ml" class="nav-link">
 										<i class="far fa-envelope"></i> 보낸 메일함

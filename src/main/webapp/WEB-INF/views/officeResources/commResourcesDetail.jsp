@@ -335,6 +335,7 @@
 			if(passwordConfirm == ${commonResources.crCode}){
 				location.href="<%=request.getContextPath()%>/updateCommResourceForm.or?crNo="+crNo;
 			}else{
+				alert("비밀번호가 틀렸습니다.")
 				return false;
 			}
 			

@@ -788,7 +788,7 @@
 				} else if($("#card_select1").val()=="" && $("#card_select").val()==""){
 					alert("지급 계좌를 선택해주세요.")
 				} else {
-					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=N");
 					$("#expenditureApprovalForm").submit();
 					
 					alert("결재 작성이 완료되었습니다.");

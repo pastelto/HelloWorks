@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.approval.model.service.ApprovalService;
+import com.helloworks.spring.approval.model.vo.Approval;
 import com.helloworks.spring.approval.model.vo.ApprovalComment;
 import com.helloworks.spring.attendance.model.service.AttendanceService;
 import com.helloworks.spring.attendance.model.vo.Attendance;
@@ -34,6 +37,8 @@ import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.mail.model.service.MailService;
+import com.helloworks.spring.mail.model.vo.Mail;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
@@ -55,6 +60,7 @@ public class EmployeeController {
 	// 김다혜
 	@Autowired
    	private ScheduleService scheduleService;
+	@Autowired
 	private WorkShareService workShareService;
 	
 	@Autowired 
@@ -76,7 +82,8 @@ public class EmployeeController {
 	//왕다영
 	@Autowired
 	private RequestService requestService;
-	
+	@Autowired
+	private MailService mailService;
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
@@ -110,7 +117,7 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-		  
+
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
 		  int empNo =  myEmp.getEmpNo();	
 		  
@@ -139,55 +146,72 @@ public class EmployeeController {
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;
+	      ArrayList<Approval> approvalList = null;
 	      String status = "Y"; 			
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
-	      selectMap.put("status", status);			
-	      acList = approvalService.mainMyApproval(selectMap);
-	      mv.addObject("acList", acList);
-	      mv.addObject("commentPageURL", "mainMyApproval.ea");
-	      mv.addObject("commentPage", 1);
+	      selectMap.put("status", status);	
+	      int flag = 0;
+	      
+	      if(request.getParameter("flag") != null) {
+	    	  flag = Integer.parseInt(request.getParameter("flag"));
+	    	  
+		      if(flag == 0) {
+			      acList = approvalService.mainMyApproval(selectMap);
+			      mv.addObject("acList", acList);
+			      mv.addObject("commentPageURL", "mainMyApproval.ea");
+			      mv.addObject("commentPage", 1);
+		      } else if(flag == 1) {		    	  
+		    	  approvalList = approvalService.mainPending(selectMap);
+			      mv.addObject("approvalList", approvalList);
+			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
+			      mv.addObject("commentPage", 2);
+		      }
+		  } else {
+			  acList = approvalService.mainMyApproval(selectMap);
+		      mv.addObject("acList", acList);
+		      mv.addObject("commentPageURL", "mainMyApproval.ea");
+		      mv.addObject("commentPage", 1);
+		  }
 	      
 	      //왕다영
+		  // 회의실
 	      ArrayList<Mtr> mtrRList = null;		
 	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
 	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
-	      mv.addObject("mtrRList", mtrRList);
-	      mv.addObject("mainPageURL", "mainRequest.mtr");
-	      mv.addObject("mainPage", 1); 	      
-	      
+	      // 비품
 	      ArrayList<RequestEq> eqRList = null;		
 	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
 	      eqRList = requestService.mainRequestEq(selectEqList);
-	      mv.addObject("eqRList", eqRList);
-	      mv.addObject("mainPageURL", "mainRequest.eq");
-	      mv.addObject("mainPage", 2); 
-	      
+	      // 메일
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(myEmp);
+		  
+		  mv.addObject("mtrRList", mtrRList);
+		  mv.addObject("eqRList", eqRList);
+		  mv.addObject("mailList", mailList);
+		  
+		  System.out.println("mailList--------------"+ mailList);
+
+	      System.out.println("------업무공유 시작-------");
+
 	      //김다혜
 	      // 미확인 업무 개수 
 	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
-	      int listCount = 0;
-		try {
-			listCount = workShareService.selectUncheckedWSListCount(myEmp);
-			int currentPage = 1;
-		    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		    // 미확인 업무 목록 
-		    unCheckedList = workShareService.selectUnCheckedList(myEmp, pi);
-		    
-		    
-		    mv.addObject("mainWSpage", 1);
-		    mv.addObject("unCheckedList", unCheckedList);
-		    mv.addObject("mainWSURL", "mainWorkShare.ws");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
+	      // 미확인 업무 목록 
+	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
+	      sendList = workShareService.mainSendList(myEmp);
+	      mv.addObject("unCheckedList", unCheckedList);
+	      mv.addObject("sendList", sendList);
+
+
+	    
 	      
 	      
-	      
-	      
+
 	      mv.setViewName("main");
 	      return mv;
 	}
@@ -203,12 +227,12 @@ public class EmployeeController {
 		
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
-	public String EmployeeMypage(ModelAndView mv, HttpServletRequest request) {
+	public String EmployeeMypage(Model model, HttpServletRequest request) {
 		System.out.println("마이페이지 전환");
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
 		Employee emp = employeeService.selectEmp(empNo);
-		
+		model.addAttribute("emp",emp );
 		
 		return "employee/EmployeeMypage";
 	}
@@ -222,8 +246,10 @@ public class EmployeeController {
 		m.setEmpPhone(empPhone);
 		
 		if(!file.getOriginalFilename().equals("")) {
-			String chgPic = saveFile(file, request);
-			String chgSign = saveFile(file1, request);
+			String chgPic = saveFile(file, request,"pic");
+			
+			String chgSign = saveFile(file1, request, "sign");
+			
 			System.out.println("chgPic : " + chgPic);
 			System.out.println("chgSign : " + chgSign);
 			if(chgPic!=null) {
@@ -247,11 +273,17 @@ public class EmployeeController {
 	}
 	
 	// 파일 저장
-		public String saveFile(MultipartFile file, HttpServletRequest request) {
+		public String saveFile(MultipartFile file, HttpServletRequest request, String type) {
 			String resources = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = resources + "\\idPhoto_files\\"; //저장경로
 			
-			System.out.println("savePath : "+ savePath);		
+			String savePath = "";
+			if(type.equals("pic")) {
+				savePath = resources + "\\idPhoto_files\\";
+			}else if(type.equals("sign")) {
+				savePath = resources + "\\idSign_files\\";
+			}
+						
+		System.out.println("savePath : "+ savePath);		
 			String orgPic = file.getOriginalFilename(); //원본파일명		
 			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간		
 			String ext = orgPic.substring(orgPic.lastIndexOf("."));		
@@ -410,5 +442,84 @@ public class EmployeeController {
 		return "employee/empManageMain";
 	}
 
+	//인사팀 - 하연
+	@RequestMapping("updateEmployeeForm.hr")
+	public String updateEmployeeForm(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		return "employee/employeeUpdate";
+	}
+	
+	//인사팀 - 하연
+	@RequestMapping("updateEmployee.hr")
+	public String updateEmployee(String fireDate, Employee employee) {
+		
+		System.out.println("전달 값: "+employee);
+		
+		if(fireDate.equals("")) {
+			System.out.println("날짜 비었다.");
+		}else {
+			System.out.println("날짜 안빔");
+		}
+		
+		employeeService.updateEmployee(employee);
+		
+		return "redirect:empManageMain.hr";
+	}
+	
+	//인사팀 - 하연
+	@RequestMapping("detailEmployee.hr")
+	public String detailEmployee(int empNo, Model model) {
+		
+		Employee employee = employeeService.selectEmp(empNo);
+		model.addAttribute("employee", employee);
+		
+		return "employee/detailEmployee";
+	}
+	
+	// 메인 미확인업무
+	@ResponseBody
+	@RequestMapping(value="mainAll.mi", produces="application/json; charset=UTF-8")
+	public String mainAll(HttpServletRequest request, Model model) {
+		 
+		  // 업무공유 
+		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		 
+	      // 업무공유 - 미확인
+		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
+	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
+	      // 업무공유 - 발신
+	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
+		  sendList = workShareService.mainSendList(myEmp);
+
+		  // 회의실
+	      ArrayList<Mtr> mtrRList = null;		
+	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
+	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
+	      // 비품
+	      ArrayList<RequestEq> eqRList = null;		
+	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
+	      eqRList = requestService.mainRequestEq(selectEqList);
+	      // 메일
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(myEmp);
+		  
+		  // 해쉬맵 
+		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
+		  // 다혜
+		  mainAll.put("unCheckedList", unCheckedList);
+		  mainAll.put("sendList", sendList);
+
+	      // 다영
+		  mainAll.put("mtrRList", mtrRList);
+		  mainAll.put("eqRList", eqRList);
+		  mainAll.put("mailList", mailList);
+
+		  
+	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
+	}
 
 }

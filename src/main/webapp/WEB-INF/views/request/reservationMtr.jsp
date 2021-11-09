@@ -164,15 +164,15 @@
 								<div class="card-footer">
 									<div class="float-right">
 										<button type="button" id="rsvMtrBtn" class="btn btn-primary" onclick="rsvMtr();">
-											<i class="fas fa-clipboard-check"></i> 신청하기
+											신청하기
 										</button> 
 						<!-- 				<button class="btn btn-primary"
 											onclick="window.open('openRsv.mtr','회의실 예약하기','width=600,height=360,location=no,status=no,scrollbars=no');">
 											<i class="fas fa-clipboard-check"> 신청하기</i>
 										</button> -->
 									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
+									<button type="reset" class="btn btn-danger">
+										취소하기
 									</button>
 								</div>
 							</div>

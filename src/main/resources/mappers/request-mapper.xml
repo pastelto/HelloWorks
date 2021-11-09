@@ -380,7 +380,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ORDER BY 7 ASC
 	 	]]>
 	 </select>
-	 <!-- mtr -->
+	 <!-- eq -->
 	 <select id="mainRequestEq" parameterType="HashMap" resultMap="requestEqResultSet">
 	  	<![CDATA[
 			SELECT ROWNUM, A.*, B.EMP_NAME, C.DEPT_DNAME, D.JOB_NAME
@@ -389,6 +389,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        JOIN DEPT C ON B.DEPT_CODE = C.DEPT_CODE
 	        JOIN JOB_LEVEL D ON B.JOB_CODE = D.JOB_CODE
 	        WHERE ROWNUM <=5
+	        AND A.ES_ER_STATUS = 'Y'
 	        AND A.ES_ER_EMP_NO = #{ loginEmpNo }
 			ORDER BY A.ES_ER_DATE DESC
 	 	]]>
