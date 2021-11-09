@@ -338,41 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });    
 
 </script>
-<!-- <script>
-var nowDate = new Date();
-var month= nowDate.getMonth() + 1;
-
-function changeMonth(num){
-			
-	month=month-num;
-	console.log("달"+ month)
-	
- 	$.ajax(
-    		{
-    			url : 'attendanceApiView.ps',
-    			type: 'POST',
-    			data : month,
-    			contentType: 'application/json; charset=utf-8',
-    			success:function(list){
-    		            
-    		            var value="";
-    		            
-    		            $.each(list, function(i, obj){               
-    		               value +=
-    		               "<td>" +  obj.empNo + "</td>" + 
-    		               "<td>" +  obj.working + "</td>" + 
-    		               "<td>" +  obj.over + "</td>" + 
-    		               "<td>" +  obj.totalT + "</td>" + 
-    		               "<td>" +  obj.leaveWT + "</td>" + 
-    		               "<td>" +  obj.leaveOT + "</td>" ;
-    		            });
-    		            
-    		            $("#attendanceList>tbody>tr").html(value);
-    						
-    			}
-    		}); 
-}
-</script> -->
 
 </body>
 </html>
