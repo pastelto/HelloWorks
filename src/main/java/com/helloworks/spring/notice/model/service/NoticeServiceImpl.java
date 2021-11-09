@@ -11,6 +11,7 @@ import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.dao.NoticeDao;
 import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.notice.model.vo.NoticeReply;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -144,5 +145,24 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return noticeDao.selectTopList(sqlSession);
 	}
+	
+	 // 댓글 추가
+    @Override
+    public int insertReply(NoticeReply r) {
+      int result = noticeDao.insertReply(sqlSession, r);
+      
+      if(result < 0) {
+         throw new CommException("insertReply 실패"); 
+      }
+      return result;
+   }
+    
+    // 댓글 리스트 조회
+	   @Override
+	   public ArrayList<NoticeReply> selectReplyList(int bno) {
+	      
+	      return noticeDao.selectReplyList(sqlSession, bno);
+	   }
+	   
 
 }

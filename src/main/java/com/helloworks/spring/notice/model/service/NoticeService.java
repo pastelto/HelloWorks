@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.notice.model.vo.NoticeReply;
 
 public interface NoticeService {
 	
@@ -53,5 +54,11 @@ public interface NoticeService {
 	
 	//공지사항 탑리스트
 	ArrayList<Notice> selectTopList();
+	
+	//공지사항 댓글등록
+	int insertReply(NoticeReply r);
+	
+	//댓글조회
+	ArrayList<NoticeReply> selectReplyList(int bno);
 
 }
