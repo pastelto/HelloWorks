@@ -114,7 +114,6 @@
 									<i class="fas fa-sync-alt"></i>
 								</button>
 								<div class="float-right">
-									1-50/200
 									<div class="btn-group">
 										<button type="button" class="btn btn-default btn-sm">
 											<i class="fas fa-chevron-left"></i>
@@ -127,7 +126,7 @@
 								</div>
 								<!-- /.float-right -->
 							</div>
-							<div class="table-responsive mailbox-messages">
+							<div class="table-responsive mailbox-messages" style="height : 600px">
 								<table class="table table-hover table-striped" id="trashList">
 									<tbody>
 										<c:forEach items="${ list }" var="trash">

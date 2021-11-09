@@ -28,7 +28,7 @@
 		                </ul>
 		              </div>
 		              
-		              <div class="card-body">
+		              <div class="card-body" >
 						<div class="tab-content" id="custom-tabs-mainRequest-tabContent">
 						
 							<div class="tab-pane fade show active" id="custom-tabs-mainRequestMtr" role="tabpanel" aria-labelledby="custom-tabs-mainRequestMtr-tab">
@@ -109,6 +109,9 @@
 			$('#custom-tabs-mainRequestMtr-tab').attr('aria-selected', 'false');
 			$('#custom-tabs-mainRequestEq-tab').attr('aria-selected', 'true');		
 		})
-	</script>	
+		
+		
+	</script>
+
 </body>
 </html>

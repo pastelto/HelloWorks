@@ -12,7 +12,7 @@
 </style>
 </head>
 <body>
-	<div id="cardMail">
+	<div id="cardMail" onclick="moveInbox();">
 		<div class="card card-info card-outline" style="width: 95%; height: 355px;">
 			<div class="card-header">
 				<div class="float-left" id="headerTitle">받은메일</div>
@@ -37,7 +37,9 @@
 		</div>
 	</div>
 <script>
-
+function moveInbox(){
+	location.href = "inbox.ml";
+}
 	
 </script>
 </body>

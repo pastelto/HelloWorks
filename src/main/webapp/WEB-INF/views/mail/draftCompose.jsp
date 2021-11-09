@@ -170,11 +170,11 @@
 									<div class="card-footer">
 										<div class="float-right">
 											<button type="submit" class="btn btn-primary">
-												<i class="far fa-envelope"></i> 보내기
+												보내기
 											</button>
 										</div>
-										<button type="button" class="btn btn-default">
-											<i class="far fa-trash-alt"></i> 삭제하기
+										<button type="button" class="btn btn-danger">
+											삭제하기
 										</button>
 									</div>
 									<!-- /.card-footer -->

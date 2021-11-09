@@ -76,7 +76,7 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-md-9">
-						<div class="card card-outline card-info">
+						<div class="card card-outline card-info" >
 							<div class="card-header">
 								<h3 class="card-title">메일 읽기</h3>
 
@@ -97,7 +97,7 @@
 										<span class="mailbox-read-time float-right">${ inbox.mailDate }</span>
 									</h6>
 								</div>
-								<div class="mailbox-read-message">${ inbox.mailContent }</div>
+								<div class="mailbox-read-message" style="height : 400px">${ inbox.mailContent }</div>
 								<!-- /.mailbox-read-message -->
 							</div>
 							<!-- /.card-body -->
@@ -123,13 +123,13 @@
 							<!-- /.card-footer -->
 							<div class="card-footer">
 								<div class="float-right">
-									<button type="button" class="btn btn-default" onclick="writeMail();">
-										<i class="fas fa-reply"></i> 답장쓰기
+									<button type="button" class="btn btn-primary" onclick="writeMail();">
+									답장쓰기
 									</button>
 								</div>
-<%-- 								<button type="button" class="btn btn-default" onclick="delMail(${ inbox.mailNo });">
-									<i class="far fa-trash-alt"></i> 삭제하기
-								</button> --%>
+ 								<button type="button" class="btn btn-danger" onclick="delMail(${ inbox.mailNo });">
+									삭제하기
+								</button>
 							</div>
 							<!-- /.card-footer -->
 						</div>
