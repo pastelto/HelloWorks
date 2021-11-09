@@ -14,13 +14,13 @@
 }
 .approval, .workShare, .mailMain{
 	padding-top:20px;
-	margin-left:20px;
 }
 .request{
 	margin-left:20px;
 }
 body{
-	overflow-x:hidden;
+	overflow-x:hidden !important;
+	overflow-y:hidden !important;
 }
 </style>
 </head>

@@ -130,19 +130,17 @@ public class EmployeeController {
 		  mv.addObject("noticeList", noticeList);
 		  SearchAttendance as = attendanceService.sysdateWeek(); //이번주
 		  as.setEmpNo(empNo);
-		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간			
-		  String test = null;
-		  test = changeTime(statistics.getWorking()); 
-		  statistics.setWorkingS(test);
-		  test = changeTime(statistics.getOver()); 
-		  statistics.setOverS(test);
-		  test = changeTime(statistics.getTotalT()); 
-		  statistics.setTotalTS(test);
-		  test = changeTime(statistics.getLeaveWT()); 
-		  statistics.setLeaveWTS(test);
-		  test = changeTime(statistics.getLeaveOT()); 
-		  statistics.setLeaveOTS(test);
-		  mv.addObject("statistics", statistics);
+		  Statistics statistics = attendanceService.wtStatisticsOne(as); //소정근로시간				  
+		  try {
+			  String test = "";
+			  test = changeTime(statistics.getWorking()); 
+			  statistics.setWorkingS(test);
+			  test = changeTime(statistics.getOver()); 
+			  statistics.setOverS(test);
+			  mv.addObject("statistics", statistics);
+		  }catch (NullPointerException e) {
+		  }
+		
 
 	      //김소원
 	      ArrayList<ApprovalComment> acList = null;

@@ -47,6 +47,7 @@ input[id*="radio"], input[id*="vacation"] {
 }
 
 #updatebtn{
+	margin-right : 5px;
 }
 
 
@@ -146,8 +147,8 @@ input[id*="radio"], input[id*="vacation"] {
                            <caption style=" caption-side: top " >
                               * 정렬 기준 : <span class="container-fluid" id="sortOption">날짜</span>
                             
-                               <span class="float-right"><button id="marginBtn" class="btn btn-block btn-outline-danger" >반려</button></span>
-                               <span class="float-right"><button id="updatebtn"  class="btn btn-block btn-outline-warning" >승인</button></span>
+                               <span class="float-right"><button id="marginBtn" class="btn btn-danger btn-sm" >반려</button></span>
+                               <span class="float-right"><button id="updatebtn"  class="btn btn-primary btn-sm" >승인</button></span>
                            </caption>
                            <thead>
                               <tr aling="center">

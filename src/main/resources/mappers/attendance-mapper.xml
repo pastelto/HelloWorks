@@ -102,7 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
 	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'     
 		  AND B.EMP_STATUS='Y'
-		  ORDER BY A.PSA_CREATEDATE ASC                          
+		   ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                          
      </select>
      
      <!--  모든 팀검색 휴가구분 -->
@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
 	      AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
 		  AND B.EMP_STATUS='Y'
-		  ORDER BY A.PSA_CREATEDATE ASC                          
+		  ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                          
      </select>
      
      <!--모든팀 출결조회 전체 -->
@@ -134,7 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE      
 		AND B.EMP_STATUS='Y'
 		AND D.DEPT_DNAME LIKE '%'||#{dept}||'%'
-		ORDER BY A.PSA_CREATEDATE ASC                          
+		ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                          
      </select>
  
 	 <!--  모든 팀 검색 근태구분 ~~~~인사팀 -->
@@ -156,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	</if>	          
 	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'     
 		  AND B.EMP_STATUS='Y'
-		  ORDER BY A.PSA_CREATEDATE ASC                          
+		 ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                         
      </select>
      
      <!--  모든 팀검색 휴가구분  ~~~~인사팀 -->
@@ -178,7 +178,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	</if>
 	      AND A.PSA_CREATEDATE LIKE '%'||#{attendanceYM}||'%'
 		  AND B.EMP_STATUS='Y'
-		  ORDER BY A.PSA_CREATEDATE ASC                          
+		 ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                          
      </select>
  
   <!--모든팀 출결조회 전체  ~~~~인사팀-->
@@ -189,7 +189,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
 		JOIN DEPT D ON B.DEPT_CODE = D.DEPT_CODE      
 		AND B.EMP_STATUS='Y'
-		ORDER BY A.PSA_CREATEDATE ASC                          
+		ORDER BY A.PSA_CREATEDATE DESC, A.PSA_EMP_NO ASC                          
      </select>
      
      <!--새창으로 띄우기 위한 상태 변경 행 정보 가져오기 -->

@@ -12,63 +12,7 @@
 <link rel="stylesheet" href="./resources/plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
 <!-- bootstrap slider -->
 <link rel="stylesheet" href="./resources/plugins/bootstrap-slider/css/bootstrap-slider.min.css">
-<style>
-
-
-div[class*="workingBtn"] {
-   display: inline-block;
-}
-.workingtime{
-   width : 70px;
-   text-align:center;
-   margin-top: 5px;
-   
-   /*input 테두리 없애기*/
-   	border:none;
-	border-right:0px; 
-	border-top:0px; 
-	boder-left:0px; 
-	boder-bottom:0px;
-	border-color : white;
-} 
-
-input:focus {outline:none;}
-
-#progressbar{
-	height : 15px;
-}
-
-
-.workintTitile{
-	font-size : 12px;
-	margin-bottom : -20px !important;
-}
-
-.progress-bar{
-	height : 15px;
-	background-color : lightblue !important;
-	border-radius: 5px;
-	color : gray !important;
-}
-
-.progress{
-border-radius: 5px;
-}
-
-#headerTitle, #noticeTable{
-	font-size:small;
-}
-a[name='aTitle']{
-	font-size:small;
-}
-#annual{
-	font-size:small;
-	background:#DAE1E7;
-	padding : 5px;
-}
-
-
-</style>
+<link href="resources/css/attendance/CheckDeptEmp.css" rel="stylesheet" type="text/css">
   
 </head>
 <body >
@@ -78,13 +22,13 @@ a[name='aTitle']{
 	
 	
 		<!-- 내정보 -->
-      <div class="card card-info card-outline" style="width: 300px;">
+      <div class="card card-info card-outline" style="width: 300px; height: 440px;">
              <div class="card-header" >            
                <div class="float-left" id="headerTitle">내 정보</div>
              </div>
 			  
 			  <!-- 개인정보 -->
-              <div class="card-body box-profile">
+              <div class="card-body box-profile" style="margin-bottom:-60px;">
                  <div class="text-center" style="margin-top:-5px; padding-bottom:15px;">
                     <i class="far fa-user-circle fa-2x"></i>
                  </div>
@@ -93,7 +37,7 @@ a[name='aTitle']{
               </div>    
         	
         	  <!-- 탭 -->	
-	  		  <div class="card  card-outline card-outline-tabs" style="margin-top: -28px;">
+	  		  <div class="card  card-outline card-outline-tabs" >
 	              <div class="card-header p-0 border-bottom-0">
 	                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
 	                  <li class="nav-item col-sm-6 text-center">
@@ -108,7 +52,7 @@ a[name='aTitle']{
 	           <!--탭 -->
 	           
               <!-- card body -->
-              <div class="card-body" id="noticeCardBody">
+              <div class="card-body" id="noticeCardBody" style="width: 300px; height:180px;">
 	              <div class="tab-content" id="custom-tabs-four-tabContent">
 		              <div class="tab-pane fade show active" id="custom-tabs-four-unchecked" role="tabpanel" aria-labelledby="custom-tabs-four-unchecked-tab">
 		                  <!-- 근태정보 -->
@@ -123,23 +67,27 @@ a[name='aTitle']{
 			                  <input type=text class="workingtime" id="outTime" value="${attendance.outTime}" readonly>
 		                  </div>
 		                  <!-- 소정근로시간 -->
-		                  <br>	
-		              	  <div class="workintTitile" style="margin-top:-5px;">◽ 근로시간 </div> 
+		                  <br>
+		                  <div class="container-fluid col-12">
+		              	  	<div class="workintTitile" style="margin-top:-7px;">◽ 근로시간 </div> <div class="float-right" id="floatTime">(${statistics.workingS })</div> 
+		              	  </div>
 		              	  <br>	
 	                      <div class="progress">
 	                      	  <c:set var="working" value="${statistics.working /60/60*2.5}" />
 							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${working}%">
-							 	 ${statistics.workingS }
+							 	 ${working}%
 							  </div>
 						  </div> 
 						 
 						  <!-- 소정외근로시간 -->
-	                      <div class="workintTitile" style="margin-top:5px;">◽소정외 근로시간</div> 
+						  <div class="container-fluid col-12">
+		              	 	<div class="workintTitile" style="margin-top:15px;">◽ 소정외 근로시간 </div> <div class="float-right" id="floatTime">(${statistics.overS })</div> 		              	 
+		              	  </div>
 		              	  <br>	
 	                      <div class="progress">
 	                     	  <c:set var="over" value="${statistics.over /60/60*8}" />
 							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${over}%">
-							 	  ${statistics.overS }
+							 	  ${over}%
 							  </div>
 						  </div> 	                
                      </div>
@@ -147,16 +95,16 @@ a[name='aTitle']{
 		              
 		              <div class="tab-pane fade" id="custom-tabs-four-recv"  role="tabpanel" aria-labelledby="custom-tabs-four-recv-tab">
 		                  <!-- 휴가정보 -->
-		                  	<div class="card text-center" id="annual">
+		                  	<div class="card text-center col-12" id="annual">
 		                  		<span><b class="spanTag">입사일</b>&nbsp;&nbsp;${loginUser.empHire}</span>
 		                  	</div>
-		                  	<div class="card text-center" id="annual">
+		                  	<div class="card text-center col-12" id="annual">
 		                  		<span><b class="spanTag">지급연차</b>&nbsp;&nbsp;${annual.annual}일</span>
 		                  	</div>
-		                  	<div class="card text-center" id="annual">
+		                  	<div class="card text-center col-12" id="annual">
 		                  	    <span><b class="spanTag">사용연차</b>&nbsp;&nbsp;${annual.useAnnual}일</span>
 		                  	</div>
-		                  	<div class="card text-center" id="annual">
+		                  	<div class="card text-center col-12" id="annual">
 		                  		<span><b class="spanTag">잔여연차</b>&nbsp;&nbsp;${annual.leftAnnual}일</span>
 		                  	</div>
 		              </div>		         
@@ -171,7 +119,7 @@ a[name='aTitle']{
         
         
 		        <!-- 공지사항 -->
-		          <div class="card card-info card-outline" style="width: 300px;">
+		          <div class="card card-info card-outline" style="width: 300px; height:200px;">
 		             <div class="card-header" >            
 		               <div class="float-left" id="headerTitle">공지사항</div>
 		             </div>

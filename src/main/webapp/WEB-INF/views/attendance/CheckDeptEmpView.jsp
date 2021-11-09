@@ -9,43 +9,6 @@
 <!-- css attendance  -->
 <link href="resources/css/attendance/CheckDeptEmp.css" rel="stylesheet" type="text/css">
 <style>
-#searchEmpTable>thead>tr>th, #searchEmpTable>tbody>tr>th {
-   background-color: #DAE1E7;
-   text-align: center;
-   padding: 8px;
-   font-size: small;
-}
-
-#employeeTable>thead>tr>th, #employeeTable>tbody>tr>td {
-   text-align: center;
-}
-
-#attendanceYear, #attendanceMonth {
-   margin-left: 10px;
-}
-.content-wrapper {
-   overflow: auto;
-}
-
-#mainContent{
-   margin-left : 4% !important;
-}
-
-input[id*="radio"], input[id*="vacation"] {
-   margin-left : 1% ;
-   font-size : 10px;;
-}
-
-.line{
-   border-bottom : 1px solid gray;
-   border-color : rgb(227,227,227);
-}
-
-#realtype1, #realtype2{
-   margin-left : 3px;
-   padding-top : 5px;
-}
-
 
 </style>
 </head>
@@ -121,7 +84,6 @@ input[id*="radio"], input[id*="vacation"] {
                                              <div class="vacationtype">&nbsp;                                          
                                                 <input type="radio" name="vacation_type" value="보건휴가" id="vacation1">보건휴가
                                                 <input type="radio" name="vacation_type" value="출산휴가" id="vacation2">출산휴가
-                                                <input type="radio" name="vacation_type" value="대체휴가" id="vacation3">대체휴가
                                                 <input type="radio" name="vacation_type" value="경조사" id="vacation4">경조사
                                                 <input type="radio" name="vacation_type" value="육아휴직" id="vacation5">육아휴직   
                                              </div>                        
@@ -167,7 +129,7 @@ input[id*="radio"], input[id*="vacation"] {
                            <caption style=" caption-side: top ">
                               * 정렬 기준 : <span class="container-fluid" id="sortOption">날짜</span>
                               <c:if test="${ loginUser.deptCode eq 'A1' }">
-                              <span class="float-right"><button id="updatebtn" class="btn btn-block btn-outline-warning" >상태 수정</button></span>
+                              <span class="float-right"><button id="updatebtn" class="btn btn-warning btn-sm" >상태 수정</button></span>
                               </c:if>
                            </caption>
                            <thead>
