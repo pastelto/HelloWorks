@@ -62,7 +62,7 @@
 						</div>
 				
 						
-						<!-- 댓글영역 -->
+						<%-- <!-- 댓글영역 -->
 						<div class="card-body detail2">
 							<div class="col-md-12">
 								 <table id="replyArea" class="table" align="center">
@@ -88,7 +88,7 @@
 							                </tbody>
 							            </table>
 							</div>
-						</div>
+						</div> --%>
 						<!--버튼 -->
 						<div class="card-footer clearfix">
 							<div class="writeBtn">

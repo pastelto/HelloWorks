@@ -47,7 +47,7 @@
 						        </tr>
 						        <tr >
 						            <td width="10%;" >작성자</td>
-						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="${ loginUser.empName }"/></td>
+						            <td width="30%;"><input id="noticeWriter" name="noticeWriter"  value="${ loginUser.empName }"  readonly/></td>
 						            <td width="12%;">직급</td>
 						            <td width="30%;">
 						            	<c:choose>
