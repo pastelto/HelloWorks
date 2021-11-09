@@ -116,4 +116,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO CALENDAR_TYPE
 		VALUES (SEQ_CAL.NEXTVAL, 'PRIVATE', NULL, NULL, #{empNo}, '내 캘린더', SYSDATE, 'THISTLE')
 	</insert>
+	
+	<!-- 해당 날짜 메인 일정 가져오기 -->
+	<select id="getEventList" parameterType="HashMap" resultMap="manageScheduleResultSet">
+		SELECT A.*
+		FROM SCHEDULE_TABLE A 
+		JOIN CALENDAR_TYPE B ON B.CAL_NO = A.SCH_CAL_NO
+		WHERE (A.SCH_EMP_NO = #{empNo} AND A.SCH_STARTDATE = #{getDate})
+		AND (A.SCH_TYPE = #{deptUname} OR A.SCH_TYPE = #{deptDname} OR A.SCH_TYPE = 'PRIVATE' OR B.CAL_NAME = '전체')
+	</select>
 </mapper>

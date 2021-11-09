@@ -318,8 +318,8 @@ public class NoticeController {
 		}
 		
 		//댓글조회
-	    @ResponseBody
 	    @RequestMapping(value="rlist.ps", produces="application/json; charset=UTF-8") 
+	    @ResponseBody
 	    public String selectReplyList(int bno) {
 	       
 	       ArrayList<NoticeReply> list = noticeService.selectReplyList(bno);

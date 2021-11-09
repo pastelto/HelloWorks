@@ -386,5 +386,31 @@ public class ScheduleController {
 		
 	}
 	
+	// 해당 날짜 메인 일정 불러오기
+	@ResponseBody
+	@RequestMapping(value="getEventList.sch", produces="application/json; charset=UTF-8")
+	public String getEventList(String getDate, HttpServletRequest request) {
+		
+		Employee myEmp =  ((Employee)request.getSession().getAttribute("loginUser"));
+		
+		System.out.println("getDate ? " + getDate);
+		List<ManageSchedule> getEventList = new ArrayList<ManageSchedule>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", myEmp.getEmpNo());
+		map.put("deptUname", myEmp.getDeptUname());
+		map.put("deptDname", myEmp.getDeptDname());
+		map.put("getDate", getDate);
+		try {
+			getEventList = scheduleService.getEventList(map);
+			System.out.println("getEventList ? " + getEventList);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return new GsonBuilder().create().toJson(getEventList);
+	}
 	
 }
