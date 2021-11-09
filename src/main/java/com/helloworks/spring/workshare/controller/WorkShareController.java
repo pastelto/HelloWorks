@@ -294,22 +294,25 @@ public class WorkShareController {
 			
       		// 참조인 조회
 			String refEmp = ws.getWs_ref();
-			System.out.println("refEmp ? " + refEmp);
-			wsRefList = refEmp.split(",");
-
-			// 참조인들을 이름으로 가져오기!
-			for(int i = 0; i < wsRefList.length; i++) {
-				int refEmpNo = Integer.parseInt(wsRefList[i]);
-
-				wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
+			if(refEmp == "") {
+				
+				System.out.println("refEmp ? " + refEmp);
+				wsRefList = refEmp.split(",");
+				
+				// 참조인들을 이름으로 가져오기!
+				for(int i = 0; i < wsRefList.length; i++) {
+					int refEmpNo = Integer.parseInt(wsRefList[i]);
+					
+					wsRefEmpName.add(workShareService.selectRecvEmpName(refEmpNo));
+				}
+				System.out.println("wsRefEmpName ? " + wsRefEmpName);
 			}
-			System.out.println("wsRefEmpName ? " + wsRefEmpName);
 
 			
 			// 수신여부에서 이미 읽음처리가 되어 있는지 확인
 			String rList= ws.getWs_recv_status();
 			Boolean contain = contains(empNo, rList);
-			
+			System.out.println("수신인 rList ? " + rList);
 			// 수신처리가 안되어있으면 (contain == true 일 때)
 			if(contain) {
 			
