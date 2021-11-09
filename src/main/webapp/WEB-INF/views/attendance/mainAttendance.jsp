@@ -18,10 +18,11 @@
 <body >
 
 
-	<div id="cardAttendance">
+	<div id="cardAttendance" style="padding-top: 10px;">
 	
 	
-		<!-- 내정보 -->
+		<!-- 내정보 
+      <div class="card card-info card-outline" style="width: 100%; height: 440px;">-->
       <div class="card card-info card-outline" style="width: 300px; height: 440px;">
              <div class="card-header" >            
                <div class="float-left" id="headerTitle">내 정보</div>
@@ -119,7 +120,7 @@
         
         
 		        <!-- 공지사항 -->
-		          <div class="card card-info card-outline" style="width: 300px; height:200px;">
+		          <div class="card card-info card-outline" style="width: 300px; height:270px;">
 		             <div class="card-header" >            
 		               <div class="float-left" id="headerTitle">공지사항</div>
 		             </div>
