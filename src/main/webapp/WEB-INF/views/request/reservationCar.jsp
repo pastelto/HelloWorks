@@ -178,11 +178,11 @@
 								<div class="card-footer">
 									<div class="float-right">
 										<button type="button" id="rsvCarBtn" class="btn btn-primary" onclick="rsvCar();">
-											<i class="fas fa-clipboard-check"></i> 신청하기
+											신청하기
 										</button> 
 									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
+									<button type="reset" class="btn btn-danger">
+										취소하기
 									</button>
 								</div>
 							</div>

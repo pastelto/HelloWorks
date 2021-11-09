@@ -34,7 +34,7 @@
  
  	#mySchedule{
  	 background: lightblue;
- 	 height: 100%;
+ 	 height: 80%;
  	}
  	
  	#datepicker{

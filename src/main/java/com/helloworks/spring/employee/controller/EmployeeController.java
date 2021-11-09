@@ -37,6 +37,8 @@ import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.service.EmployeeService;
 import com.helloworks.spring.employee.model.vo.Employee;
+import com.helloworks.spring.mail.model.service.MailService;
+import com.helloworks.spring.mail.model.vo.Mail;
 import com.helloworks.spring.manageSchedule.model.service.ScheduleService;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
@@ -80,7 +82,8 @@ public class EmployeeController {
 	//왕다영
 	@Autowired
 	private RequestService requestService;
-	
+	@Autowired
+	private MailService mailService;
 	
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
@@ -114,7 +117,7 @@ public class EmployeeController {
 	
 	@RequestMapping("main.mi")
 	public ModelAndView main(ModelAndView mv, HttpServletRequest request) {
-		  
+
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
 		  int empNo =  myEmp.getEmpNo();	
 		  
@@ -172,23 +175,28 @@ public class EmployeeController {
 		  }
 	      
 	      //왕다영
+		  // 회의실
 	      ArrayList<Mtr> mtrRList = null;		
 	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
 	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
-	      mv.addObject("mtrRList", mtrRList);
-	      mv.addObject("mainPageURL", "mainRequest.mtr");
-	      mv.addObject("mainPage", 1); 	      
-	      
+	      // 비품
 	      ArrayList<RequestEq> eqRList = null;		
 	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
-	      selectrMtrList.put("loginEmpNo", empNo);		
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
 	      eqRList = requestService.mainRequestEq(selectEqList);
-	      mv.addObject("eqRList", eqRList);
-	      mv.addObject("mainPageURL", "mainRequest.eq");
-	      mv.addObject("mainPage", 2); 
-	      
+	      // 메일
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(myEmp);
+		  
+		  mv.addObject("mtrRList", mtrRList);
+		  mv.addObject("eqRList", eqRList);
+		  mv.addObject("mailList", mailList);
+		  
+		  System.out.println("mailList--------------"+ mailList);
+
 	      System.out.println("------업무공유 시작-------");
+
 	      //김다혜
 	      // 미확인 업무 개수 
 	      ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
@@ -203,7 +211,7 @@ public class EmployeeController {
 	    
 	      
 	      
-	      
+
 	      mv.setViewName("main");
 	      return mv;
 	}
@@ -477,6 +485,7 @@ public class EmployeeController {
 		 
 		  // 업무공유 
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		 
 	      // 업무공유 - 미확인
 		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
 	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
@@ -484,19 +493,33 @@ public class EmployeeController {
 	      ArrayList<WorkShare> sendList = new ArrayList<WorkShare>();
 		  sendList = workShareService.mainSendList(myEmp);
 
-		  // 메일
-		  
-		  
+		  // 회의실
+	      ArrayList<Mtr> mtrRList = null;		
+	      HashMap<String, Object> selectrMtrList = new HashMap<String, Object>();			
+	      selectrMtrList.put("loginEmpNo", myEmp.getEmpNo());		
+	      mtrRList = requestService.mainRequestMtr(selectrMtrList);
+	      // 비품
+	      ArrayList<RequestEq> eqRList = null;		
+	      HashMap<String, Object> selectEqList = new HashMap<String, Object>();			
+	      selectEqList.put("loginEmpNo", myEmp.getEmpNo());		
+	      eqRList = requestService.mainRequestEq(selectEqList);
+	      // 메일
+		  ArrayList<Mail> mailList = new ArrayList<>();
+		  mailList = mailService.inboxMailList(myEmp);
 		  
 		  // 해쉬맵 
 		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
 		  // 다혜
 		  mainAll.put("unCheckedList", unCheckedList);
 		  mainAll.put("sendList", sendList);
+
 	      // 다영
+		  mainAll.put("mtrRList", mtrRList);
+		  mainAll.put("eqRList", eqRList);
+		  mainAll.put("mailList", mailList);
+
 		  
-		  
-	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(mainAll);
+	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
 	}
 
 }
