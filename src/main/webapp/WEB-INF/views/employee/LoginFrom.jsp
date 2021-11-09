@@ -34,7 +34,6 @@
     		padding-right: 5%;
     	}
      
-     
       
     </style>
 </head>
