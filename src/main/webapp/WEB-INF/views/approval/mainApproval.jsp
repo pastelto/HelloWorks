@@ -16,7 +16,7 @@
 	<div id="cardApproval">
 
 				
-		  	      <div class="card card-info card-outline card-outline-tabs">
+		  	      <div class="card card-info card-outline card-outline-tabs" style="height: 355px;">
 		              <div class="card-header p-0 border-bottom-0">
 		                <ul class="nav nav-tabs" id="custom-tabs-mainApproval-tab" role="tablist">
 		                  <li class="nav-item">
