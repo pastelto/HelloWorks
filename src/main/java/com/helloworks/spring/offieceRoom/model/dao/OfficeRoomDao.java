@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
@@ -215,5 +216,63 @@ public class OfficeRoomDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("officeroomMapper.selectCommResourcesSearchList", commResources, rowBounds);
 	}
+
+	public CommonResourcesAttachment selectDelCommonResourcesAttachment(SqlSessionTemplate sqlSession, int crAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDelCommonResourcesAttachment", crAttachNo);
+	}
+
+	public int deleteCommonResourcesAttachment(SqlSessionTemplate sqlSession, int crAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("officeroomMapper.deleteCommonResourcesAttachment", crAttachNo);
+	}
+
+	public ArrayList<CommonResourcesAttachment> commAttachList(SqlSessionTemplate sqlSession, int crNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.commAttachList", crNo);
+	}
+
+	public int updateCommResources(SqlSessionTemplate sqlSession, CommonResources commonResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.updateCommResources", commonResources);
+	}
+
+	public int insertUpdateCommResourcesAttach(SqlSessionTemplate sqlSession,
+			CommonResourcesAttachment commonResourcesAttach) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertUpdateCommResourcesAttach", commonResourcesAttach);
+	}
+
+	public DeptResourcesAttachment selectDelDeptResourcesAttachment(SqlSessionTemplate sqlSession, int deptrAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.selectDelDeptResourcesAttachment", deptrAttachNo);
+	}
+
+	public int deleteDeptResourcesAttachment(SqlSessionTemplate sqlSession, int deptrAttachNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("officeroomMapper.deleteDeptResourcesAttachment", deptrAttachNo);
+	}
+
+	public ArrayList<DeptResourcesAttachment> deptrAttachList(SqlSessionTemplate sqlSession, int deptrNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("officeroomMapper.deptrAttachList", deptrNo);
+	}
+
+	public int updateDeptResources(SqlSessionTemplate sqlSession, DeptResources deptResources) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("officeroomMapper.updateDeptResources", deptResources);
+	}
+
+	public int insertUpdateDeptResourcesAttach(SqlSessionTemplate sqlSession,
+			DeptResourcesAttachment deptResourcesAttachment) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("officeroomMapper.insertUpdateDeptResourcesAttach", deptResourcesAttachment);
+	}
+
+	public Attendance attendanceEmployee(SqlSessionTemplate sqlSession, int empNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("officeroomMapper.attendanceEmployee", empNo);
+	}
+
 
 }

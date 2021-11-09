@@ -132,8 +132,8 @@
 									<div class="card-footer clearfix">
 										<!-- 인사팀만 글쓰기 버튼이 보이게 -->
 										<c:if test="${ loginUser.deptCode eq 'A1'}">
-											<div class="col-md-1 float-right">
-												<button class="btn btn-block btn-outline-info m-0 "
+											<div class="float-right">
+												<button class="btn btn-primary btn-sm"
 													id="writenotice" onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
 											</div>
 										</c:if>
@@ -230,8 +230,8 @@
 									<div class="card-footer clearfix">
 										<%-- 인사팀만 버튼이 보게 --%>    
 										<c:if test="${ loginUser.deptCode eq 'A1'  }">
-											<div class="col-md-1 float-right">
-												<button class="btn btn-block btn-outline-info m-0 "
+											<div class="float-right">
+												<button class="btn btn-primary btn-sm"
 													id="writenotice" onclick="location.href = 'enrollForm.nt' ">글쓰기</button>
 											</div>
 										</c:if>

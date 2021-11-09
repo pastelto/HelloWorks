@@ -77,10 +77,10 @@
 						<!--버튼 -->
 						<div class="card-footer clearfix">
 							<div class="writeBtn">
-								<button class="btn btn-block btn-outline-primary" onclick="insertNotice();">등록</button>
+								<button class="btn btn-primary btn-sm" onclick="insertNotice();">등록</button>
 							</div>
 							<div class="writeBtn">
-								<button class="btn btn-block btn-outline-secondary" onclick="temporaryNotice();">임시저장</button>
+								<button class="btn btn-secondary btn-sm" onclick="temporaryNotice();">임시저장</button>
 							</div>
 						</div>
 					</form>

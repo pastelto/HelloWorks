@@ -20,10 +20,10 @@
 		              <div class="card-header p-0 border-bottom-0">
 		                <ul class="nav nav-tabs" id="custom-tabs-mainApproval-tab" role="tablist">
 		                  <li class="nav-item">
-		                    <a class="nav-link " id="custom-tabs-myApproval-tab" href="mainMyApproval.ea" role="tab" aria-controls="custom-tabs-myApproval" aria-selected="true" style="font-size: small">내결재함</a>
+		                    <a class="nav-link " id="custom-tabs-myApproval-tab" href="#custom-tabs-myApproval" role="tab" aria-controls="custom-tabs-myApproval" aria-selected="true" style="font-size: small">내결재함</a>
 		                  </li>
 		                  <li class="nav-item">
-		                    <a class="nav-link" id="custom-tabs-pendingApproval-tab"  href="mainPending.ea" role="tab" aria-controls="custom-tabs-pendingApproval" aria-selected="false" style="font-size: small">미결재함</a>
+		                    <a class="nav-link" id="custom-tabs-pendingApproval-tab" href="#custom-tabs-pendingApproval" role="tab" aria-controls="custom-tabs-pendingApproval" aria-selected="false" style="font-size: small">미결재함</a>
 		                  </li>
 		                </ul>
 		              </div>
@@ -72,8 +72,23 @@
 					</c:choose>
 		     </div>				
 	
+	<script>
 	
-	
-	
+		var flag = 0;
+		
+	 	$(function(){
+	 		$("#custom-tabs-myApproval-tab").click(function(){
+	 			
+	 			location.href="<%=request.getContextPath()%>/main.mi?flag="+ flag;		 		
+	 		})
+	 		
+	 		$("#custom-tabs-pendingApproval-tab").click(function(){
+
+	 				flag = 1;
+	 				
+	 			location.href="<%=request.getContextPath()%>/main.mi?flag="+ flag;		 		
+	 		})
+	 	});
+	</script>
 </body>
 </html>

@@ -73,15 +73,15 @@
 						<!--버튼 -->
 						<div class="card-footer clearfix">
 							<div class="writeBtn">
-								<button class="btn btn-block btn-outline-primary" onclick = "location.href='list.nt'">목록으로</button>
+								<button class="btn btn-secondary btn-sm" onclick = "location.href='list.nt'">목록으로</button>
 							</div>
 							<!-- 본인만 수정삭제 가능하게  -->
 							<c:if test="${ loginUser.empNo eq n.empNo  }">
 								<div class="writeBtn">
-									<button class="btn btn-block btn-outline-danger" onclick = "postFormSubmit(2);">삭제</button>
+									<button class="btn btn-danger btn-sm" onclick = "postFormSubmit(2);">삭제</button>
 								</div>
 								<div class="writeBtn">
-									<button class="btn btn-block btn-outline-warning" onclick = "postFormSubmit(1)">수정</button>
+									<button class="btn btn-warning btn-sm" onclick = "postFormSubmit(1)">수정</button>
 								</div>
 							</c:if>
 						</div>

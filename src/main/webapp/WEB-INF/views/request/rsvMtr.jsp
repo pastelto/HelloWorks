@@ -53,12 +53,12 @@
 			<div class="card-footer">
 				<div class="float-right">
 					<button type="button" class="btn btn-primary" onclick="rsvMtr();">
-						<i class="fas fa-clipboard-check"></i> 등록하기
+						등록하기
 					</button>
 				</div>
-				<button type="reset" class="btn btn-default"
+				<button type="reset" class="btn btn-danger"
 					onclick="window.close()">
-					<i class="fas fa-times"></i> 취소하기
+					취소하기
 				</button>
 			</div>
 		</form>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.helloworks.spring.addressBook.model.vo.OfficeAddressBook;
+import com.helloworks.spring.attendance.model.vo.Attendance;
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.CommonResources;
@@ -83,6 +84,28 @@ public interface OfficeRoomService {
 	int selectCommResourcesSearchListCount(CommonResources commResources);
 
 	ArrayList<CommonResources> selectCommResourcesSearchList(CommonResources commResources, PageInfo pi);
+
+	CommonResourcesAttachment selectDelCommonResourcesAttachment(int crAttachNo);
+
+	int deleteCommonResourcesAttachment(int crAttachNo);
+
+	ArrayList<CommonResourcesAttachment> commAttachList(int crNo);
+
+	void updateCommResources(CommonResources commonResources);
+
+	void insertUpdateCommResourcesAttach(ArrayList<CommonResourcesAttachment> commonResourcesAttachList);
+
+	DeptResourcesAttachment selectDelDeptResourcesAttachment(int deptrAttachNo);
+
+	int deleteDeptResourcesAttachment(int deptrAttachNo);
+
+	ArrayList<DeptResourcesAttachment> deptrAttachList(int deptrNo);
+
+	void updateDeptResources(DeptResources deptResources);
+
+	void insertUpdateDeptResourcesAttach(ArrayList<DeptResourcesAttachment> deptResourcesAttachList);
+
+	Attendance attendanceEmployee(int empNo);
 
 
 }

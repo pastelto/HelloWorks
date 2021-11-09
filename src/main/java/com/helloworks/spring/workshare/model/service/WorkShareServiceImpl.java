@@ -282,6 +282,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 			 throw new CommException("업무공유 회신처리 실패"); 
 		 }
 	}
+	
+	// 메인화면 미확인 업무목록
+	@Override
+	public ArrayList<WorkShare> mainUnCheckedList(Employee myEmp) {
+		
+		return workShareDao.mainUnCheckedList(sqlSession, myEmp);
+	}
+	
+	// 메인화면 발신 업무목록
+	@Override
+	public ArrayList<WorkShare> mainSendList(Employee myEmp) {
+
+		return workShareDao.mainSendList(sqlSession, myEmp);
+	}
 
 
 

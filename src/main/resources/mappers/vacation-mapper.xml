@@ -119,7 +119,7 @@
 	]]>
 	</insert>
 	
-	<!-- 근태결재 insert -->
+	<!-- 결재 insert -->
 	<insert id="insertVacation" parameterType="Vacation">
 		INSERT INTO APPROVAL
 		VALUES
@@ -127,7 +127,7 @@
 		#{cooper},#{cooName}, #{cooJob}, #{deptShare}, #{progress}, #{status})
 	</insert>
 	
-	<!-- 공문서 insert -->
+	<!-- 근태결재 insert -->
 	<insert id="insertAttendance" parameterType="ApprovalAttendance">
 		INSERT INTO PS_EA_REQUEST
 		VALUES

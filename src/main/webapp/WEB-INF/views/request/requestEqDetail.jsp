@@ -46,8 +46,8 @@
 									<c:if
 										test="${ (loginUser.deptCode eq 'A2'|| loginUser.empNo eq requestEq.empNo) && requestEq.erCondition eq '제출'}">
 										<div class="float-letf">
-											<button class="btn btn-default" id="deleteOneEqBtn" onclick="deleteOneEq(${ requestEq.requestEqNo });">
-												<i class="far fa-trash-alt"> 삭제</i>
+											<button class="btn btn-danger" id="deleteOneEqBtn" onclick="deleteOneEq(${ requestEq.requestEqNo });">
+												삭제</i>
 											</button>
 										</div>
 									</c:if>
@@ -172,12 +172,12 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<c:if test="${ loginUser.deptCode eq 'A2'&& requestEq.erCondition eq '제출'}">
-										<button class="btn btn-default" id="cancelOneEqBtn" onclick="cancelOneEq(${ requestEq.requestEqNo });">
-											<i class="fas fa-times"></i>승인취소
+										<button class="btn btn-warning" id="cancelOneEqBtn" onclick="cancelOneEq(${ requestEq.requestEqNo });">
+											승인취소
 										</button>
 										<div class="float-right">
 											<button class="btn btn-primary" id="confirmOneEqBtn" onclick="confirmOneEq(${ requestEq.requestEqNo });">
-												<i class="far fa-circle"></i>승인완료
+												승인완료
 											</button>
 										</div>
 									</c:if>

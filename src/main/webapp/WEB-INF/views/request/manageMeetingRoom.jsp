@@ -45,10 +45,10 @@
 					<div class="float-right">
 						<button class="btn btn-primary"
 							onclick="window.open('openAdd.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
-							<i class="fas fa-clipboard-check"></i> 회의실 등록
+							회의실 등록
 						</button>
-						<button class="btn btn-default" id="deleteBtn">
-							<i class="far fa-trash-alt"></i> 삭제
+						<button class="btn btn-danger" id="deleteBtn">
+							삭제
 						</button>
 					</div>
 				</div>

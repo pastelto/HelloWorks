@@ -155,7 +155,6 @@
               <i class="nav-icon fas fa-envelope"></i>
               <p>메일
               	<i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -302,12 +301,12 @@
             </ul>
           </li>
           
-          <!-- 오피스룸 -->
+          <!-- 오피스 -->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
-            	    오피스룸
+            	    오피스
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -336,6 +335,7 @@
           </li>
           
           <!-- 인사관리 -->
+          <c:if test="${ loginUser.deptCode == 'A1' or loginUser.jobCode == 'J1'}">
           <li class="nav-header">인사관리</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -359,6 +359,7 @@
               </li>
             </ul>
           </li>
+          </c:if>
 		</ul>
       </nav>
       <!-- /.sidebar-menu -->
