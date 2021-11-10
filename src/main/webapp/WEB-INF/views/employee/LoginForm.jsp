@@ -28,8 +28,8 @@
     	}
     	  
     	.login_logo{
-    		width: 270px;
-    		height: 220px;    		    						
+    		width: 240px;
+    		height: 200px;    		    						
     		margin-top: 30px;   		     		  
     	}
       
@@ -58,7 +58,7 @@
 
     <div id="loginDiv" class="example-container">
     	<!-- logoImage -->
-        <img class="login_logo" src="resources/common/loginLogo.png" alt="login logo">
+        <img class="login_logo" src="resources/common/login_logo.png" alt="login logo">
       	
         <form action="login.me" method="post" class="loginForm">
         	<div class="input-group mb-3">

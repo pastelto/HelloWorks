@@ -8,7 +8,8 @@
 <title>EmployeeMypage</title>
 <style>
 
-	#updateForm{				
+	#updateForm{		
+				
 		overflow: hidden;
 		padding: 13px 30px;
 		width: 100%;
@@ -21,7 +22,6 @@
 	}
 	
 	table{
-		width: 90%;
 		margin: auto;
 		text-align: center;
 		vertical-align: middle;
@@ -119,7 +119,8 @@
 														-->	
 															<div class="fileRegiBtn">
 																<label for="myFileUp"> 
-																	<i class="fas fa-cloud-upload-alt"> 사진 변경</i>
+																	사진 변경
+																	<i class="fas fa-cloud-upload-alt"></i>
 																</label> <input type="file" name="empOrgPicName" id="myFileUp">
 															</div>
 													
@@ -167,7 +168,7 @@
 															<c:if test="${not empty emp.empOrgSign}">
 															<div class="selectCover">
 																<img id="uploadImg1" src="resources/idSign_files/${emp.empChgSign}"
-																	style="width: 160px; height: 80px;" />
+																	style="width: 100px; height: 100px;" />
 															</div>
 															</c:if>
 															<c:if test="${empty emp.empOrgSign}">
@@ -175,7 +176,7 @@
 															
 															<div class="selectCover">
 																<img id="cover1" src="resources/empImg/defaultImg.jpg"
-																	style="width: 160px; height: 80px;" />
+																	style="width: 100px; height: 100px;" />
 															</div>
 															</c:if>
 														<div >
@@ -186,8 +187,9 @@
 															</div>
 															-->
 															<div class="fileRegiBtn1">
-																<label for="myFileUp1"> <i
-																	class="fas fa-cloud-upload-alt"> 사인 변경</i>
+																<label for="myFileUp1">
+																	 사인 변경
+																	 <i class="fas fa-cloud-upload-alt"></i>
 																</label> <input type="file" name="empOrgSignName" id="myFileUp1">
 															</div>
 													
