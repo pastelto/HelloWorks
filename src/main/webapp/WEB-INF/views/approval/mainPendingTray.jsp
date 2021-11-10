@@ -34,22 +34,24 @@
 			<!-- 미결재함 탭 -->
 				<div class="tab-pane fade show active" id="custom-tabs-pendingApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
 					<div class="card" style="margin-bottom: 0px;">
-						<table id="mainPendingApprovalTable">
-							<tbody>
-								<tr>
-									<td>
-										<c:choose>
+						<c:choose>
 											<c:when test="${ empty approvalList }">								
 												<div style ="text-align: center">
 													<strong style="font-size: small;" > 새로운 미결재 문서가 없습니다. </strong>
 												</div>
 											</c:when>
 										</c:choose>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+										<c:choose>
+										<c:when test="${ not empty approvalList }">
+												<div style ="text-align: center" style="font-size: small;">
+													<table id="mainPendingApprovalTable">
+														<tbody>
+														</tbody>
+													</table>
+												</div>
+											</c:when>
+										</c:choose>
+							</div>
 				</div>
 		</div>
 	</div>
@@ -84,6 +86,9 @@
 <!-- detail view -->
 	<script> 
 		function selectApDetail(apNo, detailClass){
+			
+			console.log("apNo : " + apNo);
+			console.log("detailClass : " + detailClass)
 			
 			switch(detailClass){
 				case "기안" :
