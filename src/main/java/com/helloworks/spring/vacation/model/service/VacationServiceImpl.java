@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.vacation.model.dao.VacationDao;
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
@@ -165,5 +166,13 @@ public class VacationServiceImpl implements VacationService {
 	public int selectListCount() {
 		// TODO Auto-generated method stub
 		return vacationDao.selectListCount(sqlSession);
+	}
+	
+	//연차 사용 통계
+	@Override
+	public ArrayList<LoginUserVacation> vacationStatistics(String dept) {
+		// TODO Auto-generated method stub
+		return vacationDao.vacationStatistics(sqlSession, dept);
+	
 	}
 }

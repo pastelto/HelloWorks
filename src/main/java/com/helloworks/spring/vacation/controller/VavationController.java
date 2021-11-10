@@ -75,16 +75,7 @@ public class VavationController {
 	}
 	
 		
-	//페이지 전환
-	@RequestMapping("vacationStatistics.ps")
-	public String vacationStatistics(Model model) {
-		System.out.println("휴가사용통계  페이지 전환");
-		
-		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
-		model.addAttribute("listCount", listCount);
-		return "vacation/VacationStatistics";
-	}
-	
+
 	//조정문서 날짜 선택 후 상태 가져오기
     @ResponseBody
    	@RequestMapping(value="selectStatus.ps")
@@ -527,7 +518,19 @@ public class VavationController {
 		return "vacation/VacationUse";
 	}
 
-
+	//연차사용 통계
+	@RequestMapping("vacationStatistics.ps")
+	public String vacationStatistics(Model model, HttpServletRequest request) {
+		String dept =  ((Employee)request.getSession().getAttribute("loginUser")).getDeptCode();	 
+		ArrayList<LoginUserVacation> deptStatistics = vacationService.vacationStatistics(dept);
+		
+		int listCount = vacationService.selectListCount();//결재할 문서 게시글 갯수
+		model.addAttribute("listCount", listCount);
+		model.addAttribute("deptStatistics", deptStatistics);
+		
+		return "vacation/VacationStatistics";
+	}
+	
 	 
 	 
 	

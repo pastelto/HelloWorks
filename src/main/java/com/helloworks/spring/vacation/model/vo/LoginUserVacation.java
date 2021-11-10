@@ -18,6 +18,8 @@ public class LoginUserVacation {
 	private double useAnnual; // 사용연차
 	private double leftAnnual; // 잔여연차
 	private int empNo; // 사번
+	private String name; //이름
+	private String jobName; //직급
 	
 	private int psvNo; //휴가번호
 	private int manstural;//보건휴가
