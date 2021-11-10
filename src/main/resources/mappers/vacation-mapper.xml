@@ -83,6 +83,8 @@
 		<result property="event" column="PSV_EVENT"/>
 		<result property="parental" column="PSV_PARENTAL"/>
 		<result property="psvEmpNo" column="PSV_EMP_NO"/>
+		<result property="name" column="EMP_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
 	</resultMap>
 	
 
@@ -230,6 +232,15 @@
 		AND STATUS='Y'
    </select>
    
+     <!-- 연차 사용 통계 -->
+	<select id="vacationStatistics" parameterType="String" resultMap="loginUserVacationResultSet">
+	    SELECT A.*, B.EMP_NAME, C.JOB_NAME
+		FROM PS_ANNUAL A
+		JOIN EMPLOYEE B ON A.PSD_EMP_NO = B.EMP_NO
+		JOIN JOB_LEVEL C ON B.JOB_CODE = C.JOB_CODE
+		WHERE B.DEPT_CODE=#{dept}
+		ORDER BY A.PSD_NO ASC
+   </select> 
 
    
 </mapper>

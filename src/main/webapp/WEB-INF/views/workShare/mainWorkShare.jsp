@@ -9,7 +9,11 @@
 	.content-wrapper {
 		overflow: auto;
 	}
-
+	
+	.calTab{
+		 width:20%;
+		 text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -21,21 +25,21 @@
 			<div class="card-header p-0 border-bottom-0 container-fluid">
 				<ul class="nav nav-tabs" id="custom-tabs-mainWorkShare-tab"
 					role="tablist">
-					<li class="nav-item "><a class="nav-link active"
+					<li class="nav-item calTab"><a class="nav-link active"
 						id="custom-tabs-unCheckedWorkShare-tab"
 						href="#custom-tabs-unCheckedWorkShare" role="tab"
 						aria-controls="custom-tabs-unCheckedWorkShare"
 						aria-selected="true" style="font-size: small">미확인 업무</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item calTab"><a class="nav-link"
 						id="custom-tabs-sendWorkShare-tab"
 						href="#custom-tabs-sendWorkShare" role="tab"
 						aria-controls="custom-tabs-sendWorkShare" aria-selected="true"
 						style="font-size: small">발신 업무</a></li>
-					<li style="margin-left: 150px; padding-top:5px;">
-					<div class="input-group input-group-sm ">
+					<li class="" style="padding-top:5px; width:60%;">
+					<div class="input-group input-group-sm float-right mr-1" style="width: 60%;">
 						<input type="text" name="table_search"
-							class="form-control float-right" placeholder="Search"
-							id="titleKeyword">
+							class="form-control" placeholder="Search"
+							id="titleKeyword" >
 	
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-default">
@@ -155,16 +159,18 @@
 	<!-- 빠른검색기능 -->
 	<script> 
     $(function(){
-          	    $("#titleKeyword").keyup(function() { 
+          	   $("#titleKeyword").keyup(function() { 
     		   var k = $(this).val();
+    		   
     		   $("#sendListTable > tbody > tr").hide();
-    		   var temp = $("#sendListTable > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
+    		   var temp1 = $("#sendListTable > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
     		   
     		   $("#unCheckedListTable > tbody > tr").hide();
-    		   var temp = $("#unCheckedListTable > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
+    		   var temp2 = $("#unCheckedListTable > tbody > tr > td:nth-child(5n+2):contains('" + k + "')");
 
-    		   $(temp).parent().show();
-    		    })
+    		   $(temp1).parent().show();
+    		   $(temp2).parent().show();
+          	 })
 
        })
     </script>
