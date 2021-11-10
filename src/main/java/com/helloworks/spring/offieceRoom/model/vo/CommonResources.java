@@ -35,3 +35,5 @@ public class CommonResources {
 	private String optionType;
 	private String Search;
 }
+
+

@@ -191,7 +191,6 @@
 									
 									</div>
 								</div>
-								
 						            
 
 
@@ -227,7 +226,7 @@
 		function addReply(){
 			var deptrNo = ${deptResources.deptrNo}
 			var writerNo = ${loginUserNo}
-			//alert(drno)
+			
 			if($("#replyText").val().trim().length != 0){
 				$.ajax({
 					url:"addDeptResourcesReply.or",
@@ -327,7 +326,7 @@
 		}
 	</script>
 	
-		<!-- 업데이트 -->
+	<!-- 업데이트 -->
 	<script>
 		function updateDeptResource(deptrNo){
 			location.href="<%=request.getContextPath()%>/updateDeptResourceForm.or?deptrNo="+deptrNo;

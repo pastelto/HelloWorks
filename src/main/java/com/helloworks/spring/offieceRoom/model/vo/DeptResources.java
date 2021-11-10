@@ -35,3 +35,4 @@ public class DeptResources {
 	private String optionType;
 	private String Search;
 }
+

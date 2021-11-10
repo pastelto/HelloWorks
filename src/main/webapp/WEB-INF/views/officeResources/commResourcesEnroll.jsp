@@ -218,7 +218,7 @@
 					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/commResourcesInsert.or");
 					$("#enrollForm").submit();
 				}else{   
-				   //취소 버튼 눌렀을 때 실행 할 코드
+				   
 				   return false;
 				}
 			}

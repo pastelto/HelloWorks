@@ -214,7 +214,7 @@
 			}
 		}
 	</script>
-	
+	 
 	<!-- 자료실 취소 버튼 -->
 	<script>
 		function cancelFunc(){

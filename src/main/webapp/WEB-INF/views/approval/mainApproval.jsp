@@ -14,7 +14,7 @@
  	padding-left:5px;
  	padding-top:5px;
  	font-familiy:함초롱바탕;
- 	font-size:small;
+ 	
 	 }
 	 .ap_progress{
 	 	color: navy;

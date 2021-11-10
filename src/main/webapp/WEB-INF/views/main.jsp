@@ -165,10 +165,11 @@ body{
 										 "</tr>";
 						
 						});
-					} else if(key == "acList"){
 						
+					} else if(key == "acList"){
+						console.log("확인")
 						$.each(mainAll[key], function(key, obj){
-							valueMyApproval += '<div class="approvalSimple style="font-size:small;">' + 
+							valueMyApproval += '<tr>'+'<td>'+'<div class="approvalSimple style="font-size:small;">' + 
 											'<div class="user-block">' +
 											'<strong style="color:gray;">['+ obj.commentDate +']</strong>&nbsp;' +
 											obj.cmDept +'&nbsp;'+ obj.cmName +'&nbsp;'+obj.cmJob + 
@@ -178,16 +179,16 @@ body{
 											'<p>'+
 												obj.comment+
 											'</p>'+ '</div>' +'<hr color="gray">'+
-										   '</div>';
+										   '</div>' +'</td>' + '</tr>';
 						
 						});
 					} else if(key == "approvalList") {
+						console.log("확인")
 						$.each(mainAll[key], function(key, obj){
 							valuePending += '<div class="pendingSimple">' + 
 											'<div class="user-block">' +
 											'<strong>['+ obj.createDate +']</strong>&nbsp;' +
-											obj.deptName +'&nbsp;'+ obj.writerName +'&nbsp;'+obj.writerJob + 
-											'</div>'+ '<br>'+
+											obj.deptName +'&nbsp;'+ obj.writerName +'&nbsp;'+'</div>'+ '<br>'+
 											'<strong  style="color:gray;" class="apTitle" onclick="selectApDetail('+obj.apNo+",'"+obj.detailClass+"'"+');">'+ obj.title + '</strong>'+ 
 											'<hr color="gray">'+'</div>';
 						
