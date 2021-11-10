@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전자결재-임시저장함</title>
+<title>전자결재함</title>
 <style>
 	.content-wrapper {
 		overflow: auto;
