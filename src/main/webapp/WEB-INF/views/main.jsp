@@ -22,9 +22,6 @@ body{
 	overflow-x:hidden !important;
 	overflow-y:hidden !important;
 }
-.mainCalendar{
-	padding-top: 20px;
-}
 </style>
 </head>
 <body>
