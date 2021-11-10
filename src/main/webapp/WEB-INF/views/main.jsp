@@ -22,9 +22,6 @@ body{
 	overflow-x:hidden !important;
 	overflow-y:hidden !important;
 }
-.mainCalendar{
-	padding-top: 20px;
-}
 </style>
 </head>
 <body>
@@ -114,7 +111,7 @@ body{
 					
 					if(key == "unCheckedList"){
 						$.each(mainAll[key], function(key, obj){
-							valueUnchecked += "<tr>" +
+							valueUnchecked += "<tr onclick='goDetail("+obj.ws_no+")'>" +
 											  "<td>" + obj.ws_no + "</td>" + 
 											  "<td>" + obj.ws_title + "</td>" +
 										      "<td>" + obj.ws_senderName + "&nbsp;" + obj.ws_senderJobName + "</td>" +
@@ -125,7 +122,7 @@ body{
 					} else if(key == "sendList"){
 						
 						$.each(mainAll[key], function(key, obj){
-							valueSend += "<tr>" +
+							valueSend += "<tr onclick='goDetail("+obj.ws_no+")>" +
 										 "<td>" + obj.ws_no + "</td>" + 
 										 "<td>" + obj.ws_title + "</td>" +
 									     "<td>" + obj.createDate + "</td>" +

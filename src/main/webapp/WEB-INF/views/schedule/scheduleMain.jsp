@@ -68,7 +68,8 @@
         	  			   },
           views: {
         	  dayGrid: { // name of view
-  			      titleFormat: { time: '2-digit' }
+  			      titleFormat: { time: '2-digit' }, 
+  			      dayMaxEventRows:2
   			      // other view-specific options here
   			    }
   		  },

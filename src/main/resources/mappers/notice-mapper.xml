@@ -20,6 +20,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deptName" column="DEPT_DNAME"/>		
 	</resultMap>
 	
+	<!-- Reply -->
+   <resultMap id="replyResultSet" type="NoticeReply">
+      <id column="reply_no" property="NTR_NO"/>
+      <result column="reply_content" property="NTR_CONTENT"/>
+      <result column="createDate" property="NTR_CREATEDATE"/>
+      <result column="status" property="NTR_STATUS"/>
+      <result column="refBoardNo" property="NTR_REF_NO"/>
+      <result column="replyWriter" property="NTR_EMP_NO"/>
+   </resultMap>
 	
 	<!--~~~~~~~~~~~~~~~~~공지사항~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- 총 게시글 갯수 -->
@@ -216,8 +225,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		        WHERE NT_STATUS = 'Y'
 		        ORDER BY NT_NO DESC
 		        ) 
-		WHERE ROWNUM <= 3
+		WHERE ROWNUM <= 5
 		]]>
+   </select>
+   
+   <!-- 댓글추가 -->
+   <insert id="insertReply" parameterType="NoticeReply">
+      INSERT INTO NOTICE_REPLY
+      VALUES(seq_nt_r.nextval, #{replyContent}, sysdate, default, #{refBoardNo}, #{replyWriter})
+   </insert>
+   
+   <select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+      SELECT NTR_NO, NTR_CONTENT, NTR_EMP_NO, NTR_CREATEDATE
+      FROM NOTICE_REPLY
+      WHERE NTR_REF_NO= #{bno} AND NTR_STATUS = 'N'
+      ORDER BY NTR_NO DESC
    </select>
    
 </mapper>

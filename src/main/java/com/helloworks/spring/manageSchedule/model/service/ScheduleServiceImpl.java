@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.employee.model.vo.Dept;
+import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.manageSchedule.model.dao.ScheduleDao;
 import com.helloworks.spring.manageSchedule.model.vo.ManageSchedule;
 
@@ -104,6 +105,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		 if(result < 0) { 
 			 throw new CommException("캘린더 추가 실패"); 
 		 }
+	}
+	
+	// 메인화면 일정 전체 불러오기 
+	@Override
+	public List<ManageSchedule> getEventList(HashMap<String, Object> map) throws Exception {
+		
+		return scheduleDao.getEventList(sqlSession, map);
 	}
 
 	
