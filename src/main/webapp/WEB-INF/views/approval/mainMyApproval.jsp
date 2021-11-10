@@ -33,10 +33,10 @@
 			<!-- 내결재함 탭 -->
 				<div class="tab-pane fade show active" id="custom-tabs-myApproval-tab" role="tabpanel" aria-labelledby="custom-tabs-normalApproval-tab">
 					<div class="card" style="margin-bottom: 0px;">
-						<table id="mainMyApprovalTable">
+						<!--<table id="mainMyApprovalTable">
 							<tbody>
 								<tr>
-									<td>
+									<td>-->
 										<c:choose>
 											<c:when test="${ empty acList }">								
 												<div style ="text-align: center" style="font-size: small;">
@@ -44,10 +44,20 @@
 												</div>
 											</c:when>
 										</c:choose>
-									</td>
+										<c:choose>
+											<c:when test="${ not empty acList }">
+												<div style ="text-align: center" style="font-size: small;">
+													<table id="mainMyApprovalTable">
+														<tbody>
+														</tbody>
+													</table>
+												</div>
+											</c:when>
+										</c:choose>
+									<!--</td>
 								</tr>
 							</tbody>
-						</table>
+						</table>-->
 					</div>
 				</div>
 		</div>
