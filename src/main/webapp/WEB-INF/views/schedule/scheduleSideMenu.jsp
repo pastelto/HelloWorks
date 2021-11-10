@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>일정관리</title>
  <!-- fullCalendar -->
 <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
 <script src="./resources/plugins/jquery/jquery.min.js"></script>
@@ -126,7 +126,7 @@
 		changeMonth: true, // month 셀렉트박스 사용
 		changeYear: true, // year 셀렉트박스 사용
         weekHeader: "Wk",
-        dateFormat: "yyyy/mm/dd",
+        dateFormat: "yyyy-mm-dd",
         firstDay: 0,
         isRTL: false,
         showMonthAfterYear: true,

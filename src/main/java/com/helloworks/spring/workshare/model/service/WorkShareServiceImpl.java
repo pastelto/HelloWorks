@@ -296,6 +296,20 @@ public class WorkShareServiceImpl implements WorkShareService {
 
 		return workShareDao.mainSendList(sqlSession, myEmp);
 	}
+	
+	// 댓글 수정하기
+	@Override
+	public int updateReply(HashMap<String, Object> map) {
+		
+		int result = workShareDao.updateReply(sqlSession, map);
+		 System.out.println("Update 댓글 ? " + result);
+		 
+		 if(result < 0) { 
+			 throw new CommException("업무공유 댓글 수정 실패 실패"); 
+		 }
+		
+		 return result;
+	}
 
 
 

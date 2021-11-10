@@ -71,6 +71,8 @@ public interface WorkShareService {
 
 	ArrayList<WorkShare> mainSendList(Employee myEmp);
 
+	int updateReply(HashMap<String, Object> map);
+
 
 	
 }
