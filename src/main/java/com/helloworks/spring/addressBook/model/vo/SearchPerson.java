@@ -21,3 +21,4 @@ public class SearchPerson {
 	
 	private int loginUserEmpNo;
 }
+

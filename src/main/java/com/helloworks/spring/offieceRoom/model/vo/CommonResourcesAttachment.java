@@ -18,3 +18,4 @@ public class CommonResourcesAttachment {
 	private String crAttachChange;		//	CR_ATTACH_CHANGE	VARCHAR2(4000 BYTE)
 	private String crAttachStatus;		//	CR_ATTACH_STATUS	VARCHAR2(1 BYTE)
 }
+

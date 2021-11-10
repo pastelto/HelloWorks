@@ -282,6 +282,7 @@
 		}
 	</script>
 	
+	<!-- 첨부 파일 리로드 -->
 	<script>
 	 	function selectDeptList(){
 	 		var deptrNo = ${deptResources.deptrNo};

@@ -33,14 +33,12 @@ public class AddressBookController {
 	
 	@RequestMapping("officeAddressBook.adb")
 	public String officeAddressBook(@RequestParam(value="currentPage", required=false, defaultValue="1")int currentPage , HttpServletRequest request, Model model) {
-		System.out.println("주소록 전환");
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		// 공유 주소록 전환
 		int listCount = addressBookService.selectListCount(loginEmpNo);
 		
-		System.out.println("공유 주소록 등록 인원: "+listCount);
 		int pageLimit = 5;
 		int boardLimit = 10;
 		
@@ -82,8 +80,6 @@ public class AddressBookController {
 		}else {
 			Employee emp = addressBookService.searchEmployee(addEmpNo);
 			
-			System.out.println("추가할 직원 사번: "+ addEmpNo);
-			System.out.println("로그인 직원 사번: "+ loginEmpNo);
 			if(emp != null) {
 				
 				addressBookService.addOfficeAddressBook(officeAddressBook);
@@ -97,7 +93,7 @@ public class AddressBookController {
 	
 	@RequestMapping("deleteOfficeAddressBook.adb")
 	public String deleteOfficeAddressBook(int deleteEmpNo, HttpServletRequest request, HttpSession session ,Model model) {
-		System.out.println("직원 삭제 컨트롤러");
+		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
@@ -144,7 +140,6 @@ public class AddressBookController {
 		
 		int listCount = addressBookService.selectSearchOfficeAddressBookEmployeeListCount(se);
 		
-		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
 		int pageLimit = 5;
 		int boardLimit = 10;
 		
@@ -185,6 +180,7 @@ public class AddressBookController {
 	public String addOfficeAddressBookArr(HttpServletRequest request, HttpSession session ,Model model ) {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
+		
 		String checkList = request.getParameter("checkList");
 		
 		OfficeAddressBook officeAddressBook = new OfficeAddressBook();
@@ -229,7 +225,7 @@ public class AddressBookController {
 		}else {
 			session.setAttribute("msg", "주소록 추가 완료");
 		}
-		System.out.println(token.countTokens());
+		
 		return "redirect:searchEmpMain.or";
 	}
 	
@@ -241,13 +237,11 @@ public class AddressBookController {
 		HashMap<String, String> receiveListSession = (HashMap<String, String>) (request.getSession().getAttribute("receiveListSession"));
 		HashMap<String, String> refListSession = (HashMap<String, String>) (request.getSession().getAttribute("refListSession"));
 		
-		System.out.println("new 세션값: "+receiveListSession);
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		int listCount = addressBookService.selectListCount(loginEmpNo);
 		
-		System.out.println("공유 주소록 등록 인원: "+listCount);
 		int pageLimit = 5;
 		int boardLimit = 5;
 		
@@ -294,7 +288,6 @@ public class AddressBookController {
 		
 		int listCount = addressBookService.popUpSearchOfficeAddressBookEmployeeListCount(se);
 		
-		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
 		int pageLimit = 5;
 		int boardLimit = 5;
 		
@@ -319,16 +312,14 @@ public class AddressBookController {
 		// HashMap
 		HashMap<String, String> originAddReceiveList = (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession"));
 		
-		System.out.println("이전: "+(HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		session.removeAttribute("receiveListSession"); 
-		System.out.println("이후: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		
 		HashMap<String, String> receiveList = new HashMap<String, String>();
 		
 		if(originAddReceiveList == null) {
-			System.out.println("세션값 비었다.");
+			
 			String receiveListStr = request.getParameter("receiveList");
-			System.out.println(receiveListStr);
+			
 			StringTokenizer tokenOrigin = new StringTokenizer(receiveListStr, ",");
 			
 			while(tokenOrigin.hasMoreTokens()) {
@@ -338,12 +329,10 @@ public class AddressBookController {
 				while(tokenOriginDiv.hasMoreTokens()) {
 					receiveList.put(tokenOriginDiv.nextToken(), tokenOriginDiv.nextToken());
 				}
-				System.out.println("기존 session값: "+receiveList);
 			}
 			
 			session.setAttribute("receiveListSession", receiveList);
 		}else if (originAddReceiveList != null){
-			System.out.println("세션값 있었다.");
 			
 			receiveList = originAddReceiveList;
 			
@@ -359,7 +348,6 @@ public class AddressBookController {
 				while(tokenNewDiv.hasMoreTokens()) {
 					receiveList.put(tokenNewDiv.nextToken(), tokenNewDiv.nextToken());
 				}
-				System.out.println("새로 전달 받은 값 추가: "+receiveList);
 			}
 			
 			System.out.println(receiveList);
@@ -367,9 +355,7 @@ public class AddressBookController {
 			session.setAttribute("receiveListSession", receiveList);
 		}
 		
-		System.out.println("신규: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		
-		System.out.println("넘어갔나요: "+receiveList);
 		return "redirect:popupOfficeAddressBook.adb";
 		
 	}
@@ -380,14 +366,13 @@ public class AddressBookController {
 		HashMap<String, String> originAddReceiveList = (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession"));
 		
 		HashMap<String, String> receiveList = new HashMap<String, String>();
+		
 		receiveList = originAddReceiveList;
-		System.out.println("세션값: "+receiveList);
+		
 		// 지워야 할 값
 		HashMap<String, String> delReceiveList = new HashMap<String, String>();
 		
 		String receiveListStr = request.getParameter("receiveList");
-		
-		System.out.println("del: "+receiveListStr);
 		
 		StringTokenizer tokenNew = new StringTokenizer(receiveListStr, ",");
 		
@@ -403,9 +388,10 @@ public class AddressBookController {
 		// 기존 session의 key와 동일하면 remove하기
 		
 		Iterator<String> originKey = originAddReceiveList.keySet().iterator();
-		System.out.println("originKey: "+originKey);
+		
 		ArrayList<String> delKey = new ArrayList<String>();
 		while(originKey.hasNext()) {
+			
 			String keyOrigin = originKey.next();
 			System.out.println("keyOrigin: "+keyOrigin);
 			Iterator<String> newKey = delReceiveList.keySet().iterator();
@@ -429,7 +415,6 @@ public class AddressBookController {
 		}
 		
 		
-		System.out.println("세션값 변경: "+receiveList);
 		session.setAttribute("receiveListSession", receiveList);
 		
 		return "redirect:popupOfficeAddressBook.adb";
@@ -442,16 +427,14 @@ public class AddressBookController {
 		// HashMap
 		HashMap<String, String> originAddRefList = (HashMap<String, String>)(request.getSession().getAttribute("refListSession"));
 		
-		System.out.println("이전: "+(HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
 		session.removeAttribute("refListSession"); 
-		System.out.println("이후: "+ (HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
 		
 		HashMap<String, String> refList = new HashMap<String, String>();
 		
 		if(originAddRefList == null) {
-			System.out.println("세션값 비었다.");
+			
 			String refListStr = request.getParameter("refList");
-			System.out.println(refListStr);
+			
 			StringTokenizer tokenOrigin = new StringTokenizer(refListStr, ",");
 			
 			while(tokenOrigin.hasMoreTokens()) {
@@ -461,12 +444,10 @@ public class AddressBookController {
 				while(tokenOriginDiv.hasMoreTokens()) {
 					refList.put(tokenOriginDiv.nextToken(), tokenOriginDiv.nextToken());
 				}
-				System.out.println("기존 session값: "+refList);
 			}
 			
 			session.setAttribute("refListSession", refList);
 		}else if (originAddRefList != null){
-			System.out.println("세션값 있었다.");
 			
 			refList = originAddRefList;
 			
@@ -482,17 +463,11 @@ public class AddressBookController {
 				while(tokenNewDiv.hasMoreTokens()) {
 					refList.put(tokenNewDiv.nextToken(), tokenNewDiv.nextToken());
 				}
-				System.out.println("새로 전달 받은 값 추가: "+refList);
 			}
-			
-			System.out.println(refList);
 			
 			session.setAttribute("refListSession", refList);
 		}
 		
-		System.out.println("신규: "+ (HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
-		
-		System.out.println("넘어갔나요: "+refList);
 		return "redirect:popupOfficeAddressBook.adb";
 		
 	}
@@ -503,14 +478,13 @@ public class AddressBookController {
 		HashMap<String, String> originAddRefList = (HashMap<String, String>)(request.getSession().getAttribute("refListSession"));
 		
 		HashMap<String, String> refList = new HashMap<String, String>();
+		
 		refList = originAddRefList;
-		System.out.println("세션값: "+refList);
+		
 		// 지워야 할 값
 		HashMap<String, String> delRefList = new HashMap<String, String>();
 		
 		String refListStr = request.getParameter("refList");
-		
-		System.out.println("del: "+refListStr);
 		
 		StringTokenizer tokenNew = new StringTokenizer(refListStr, ",");
 		
@@ -526,20 +500,23 @@ public class AddressBookController {
 		// 기존 session의 key와 동일하면 remove하기
 		
 		Iterator<String> originKey = originAddRefList.keySet().iterator();
-		System.out.println("originKey: "+originKey);
+		
 		ArrayList<String> delKey = new ArrayList<String>();
 		while(originKey.hasNext()) {
+			
 			String keyOrigin = originKey.next();
-			System.out.println("keyOrigin: "+keyOrigin);
+			
 			Iterator<String> newKey = delRefList.keySet().iterator();
 			
 			while(newKey.hasNext()) {
 				
 				String keyNew = newKey.next();
-				System.out.println("keyOrigin: "+keyOrigin+" keyNew: "+keyNew);
+				
 				if(keyOrigin.equals(keyNew)) {
+					
 					System.out.println(keyOrigin);
 					delKey.add(keyOrigin);
+					
 				}else {
 					continue;
 				}
@@ -551,8 +528,6 @@ public class AddressBookController {
 			refList.remove(delKey.get(i));
 		}
 		
-		
-		System.out.println("세션값 변경: "+refList);
 		session.setAttribute("refListSession", refList);
 		
 		return "redirect:popupOfficeAddressBook.adb";
@@ -566,7 +541,6 @@ public class AddressBookController {
 		// 개인 주소록 전환
 		int listPerCount = addressBookService.selectListPerCount(loginEmpNo);
 		
-		System.out.println("사내 주소록 등록 인원: "+listPerCount);
 		
 		PageInfo piR = Pagination.getPageInfo(listPerCount, currentPage, 5, 10);
 		
@@ -586,7 +560,6 @@ public class AddressBookController {
 		
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
 		
-		System.out.println("개인 주소록 전달 값: "+personalAddressBook);
 		
 		personalAddressBook.setPabUserNo(loginEmpNo);
 		
@@ -598,7 +571,6 @@ public class AddressBookController {
 	@RequestMapping("deletePerson.adb")
 	public String deletePerson(int pabNo, HttpServletRequest request, HttpSession session) {
 		
-		System.out.println("직원 삭제 컨트롤러");
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
 		PersonalAddressBook personalAddressBook = new PersonalAddressBook();
@@ -665,7 +637,6 @@ public class AddressBookController {
 		
 		int listCount = addressBookService.selectSearchPersonalAddressBookListCount(sp);
 		
-		System.out.println("주소록 검색 결과 총 등록 인원: "+listCount);
 		int pageLimit = 5;
 		int boardLimit = 10;
 		

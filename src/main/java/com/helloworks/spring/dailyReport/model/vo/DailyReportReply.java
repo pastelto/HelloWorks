@@ -33,3 +33,4 @@ public class DailyReportReply {
 	private String drRepWriterDeptDName;
 	
 }
+

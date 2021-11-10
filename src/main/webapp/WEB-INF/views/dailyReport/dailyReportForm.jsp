@@ -99,9 +99,6 @@
 												&nbsp;&nbsp;
 												<div id="receiveListDiv">
 												<input type="hidden" id="checking" name="checking">
-												<!-- <b><span class="badge badge-info" id="receiveListTag"></span></b>
-												<input type="text" id="receiveListKey" name="drReceiverList">
-												<b><span class="badge badge-info" id="receiveDeptTag"></span></b> -->
 												</div>
 												
 													
@@ -113,9 +110,6 @@
 												<td colspan="3">
 												<div id="refListDiv">
 												
-												<!-- <b><span class="badge badge-warning" id="refListTag"></span></b>
-												<input type="text" id="refListKeyTag" name="drRefList">
-												<b><span class="badge badge-warning" id="refDeptTag"></span></b> -->
 												</div>
 												</td>
 											</tr>
@@ -246,9 +240,6 @@
 	<!-- 일일보고 발송 버튼 -->
 	<script>
 		function submitFunc(){
-			//var check = $("input[name=checking]").val()
-			
-			//alert($("input[name=drCategory]:checked").val())
 			
 			if($("input[name=checking]").val() == ""){
 				alert("수신직원을 선택해주세요.")
@@ -262,7 +253,7 @@
 					$("#enrollForm").attr("action", "<%=request.getContextPath()%>/insertDailyReport.dr");
 					$("#enrollForm").submit();
 				}else{   
-				   //취소 버튼 눌렀을 때 실행 할 코드
+					
 				   return false;
 				}
 			}
