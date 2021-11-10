@@ -513,11 +513,7 @@
 			refListVal += '<input type="hidden" id="refListKeyTag" name="drRefList" value="'+refListKey+'">';
 			
 			$("#receiveListDiv", opener.document).html(receiveListVal);
-			//$("#receiveListTag", opener.document).text(receiveList);
-			//$("input[name='drReceiverList']", opener.document).val(receiveListKey);
 			$("#refListDiv", opener.document).html(refListVal);
-			//$("#refListTag", opener.document).text(refList);
-			//$("input[name='drRefList']", opener.document).val(refListKey);
 	        
 			$("input[name='checking']", opener.document).val("1");
 			window.close();

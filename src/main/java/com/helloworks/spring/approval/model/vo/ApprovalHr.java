@@ -17,7 +17,7 @@ public class ApprovalHr extends Approval{
 	
 	private String hrClass;  //인사결재분류
 	private String dueDate;	 // 처리시한
-	
+	private int inputDate;
 	/*public ApprovalHr() {
 		// TODO Auto-generated constructor stub
 	}*/

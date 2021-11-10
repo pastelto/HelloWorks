@@ -28,3 +28,4 @@ public class DeptResourcesReply {
 	private String writerJobName;
 	private String writerDeptDName;
 }
+

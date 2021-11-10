@@ -35,7 +35,6 @@ public class DailyReportController {
 	
 	@RequestMapping("enrollReportForm.dr")
 	public String enrollReportForm(HttpServletRequest request, Model model, HttpSession session) {
-		System.out.println("일일보고 등록 페이지 전환");
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		
@@ -57,7 +56,6 @@ public class DailyReportController {
 			return "redirect:sendReport.dr";
 		}
 		
-		System.out.println("임시저장: "+dailyReport);
 		model.addAttribute("dailyReport", dailyReport);
 		model.addAttribute("loginUser", loginUser);
 		session.removeAttribute("receiveListSession");
@@ -67,7 +65,6 @@ public class DailyReportController {
 	
 	@RequestMapping("enrollReportFormTempSave.dr")
 	public String enrollReportFormTempSave(HttpServletRequest request, Model model, HttpSession session) {
-		System.out.println("일일보고 등록 페이지 전환");
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		
@@ -89,8 +86,6 @@ public class DailyReportController {
 	@RequestMapping("insertDailyReport.dr")
 	public String insertDailyReport(DailyReport dailyReport, HttpServletRequest request, HttpSession session, Model model, @RequestParam(name="uploadFile", required = false) MultipartFile file) {
 		
-		System.out.println("일일보고 등록: "+dailyReport );
-		System.out.println("일일보고 파일: "+file.getOriginalFilename() );
 		
 		int loginUser = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
@@ -105,15 +100,11 @@ public class DailyReportController {
 		
 		dailyReport.setDrReceiverNo(loginUser);
 		
-		System.out.println("컨트롤러: "+dailyReport);
-		
 		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
-		
-		System.out.println("tempDRCount: "+tempDRCount);
 		
 		if(tempDRCount > 0) {
 			
-			if(!file.getOriginalFilename().equals("")) { // 널이 아니면 파일이 있는 것
+			if(!file.getOriginalFilename().equals("")) { 
 				if(dailyReport.getDrAttachChange() != null) {
 					deleteFile(dailyReport.getDrAttachChange(), request);
 				}
@@ -131,9 +122,6 @@ public class DailyReportController {
 		String recvList = dailyReport.getDrReceiverList();
 		String refList = dailyReport.getDrRefList();
 		
-		System.out.println("받는사람들: "+recvList);
-		System.out.println("참조인원들: "+refList);
-		
 		String[] recvArr = recvList.split(",");
 		
 		for(int i = 0; i<recvArr.length;i++) {
@@ -143,7 +131,6 @@ public class DailyReportController {
 		
 		if( !refList.equals("")) {
 			String[] refArr =  refList.split(",");
-			
 				
 			for(int i = 0; i<refArr.length;i++) {
 				
@@ -159,12 +146,12 @@ public class DailyReportController {
 					dailyReport.setDrRef(Integer.parseInt(refArr[i]));
 					dailyReportService.insertDailyReport(dailyReport);
 				}
-				
 			}
 		}
 		
 		session.removeAttribute("receiveListSession");
 		session.removeAttribute("refListSession");
+		
 		return "redirect:sendReport.dr";
 		
 	}
@@ -174,7 +161,6 @@ public class DailyReportController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources+"\\daily_report_file\\";
 
-		System.out.println("savePath: "+ savePath);
 		
 		String originName = file.getOriginalFilename();
 		
@@ -232,7 +218,6 @@ public class DailyReportController {
 		
 		int tempDRCount = dailyReportService.tempDailyReportCount(dailyReport);
 		
-		System.out.println("tempDRCount: "+tempDRCount);
 		
 		if(tempDRCount > 0) {
 			
@@ -258,13 +243,6 @@ public class DailyReportController {
 	@RequestMapping("sendReport.dr")
 	public String sendReport(HttpServletRequest request, Model model) {
 		
-//		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
-//		
-//		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
-//		
-//		System.out.println("일일보고: "+dailyReportList);
-//		
-//		model.addAttribute("dailyReportList", dailyReportList);
 		
 		return "dailyReport/dailySendList";
 	}
@@ -276,7 +254,6 @@ public class DailyReportController {
 		
 		ArrayList<DailyReport> dailyReportList = dailyReportService.selectMyAllDailyReportList(loginUserNo);
 		
-		System.out.println("일일보고: "+dailyReportList);
 		
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(dailyReportList);
 	}
@@ -291,7 +268,6 @@ public class DailyReportController {
 		
 		ArrayList<DailyReport> dailyReportList = dailyReportService.selectDailyReportList(loginUserNo, pi);
 		
-		System.out.println("일일보고: "+dailyReportList);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("dailyReportList", dailyReportList);
@@ -346,10 +322,6 @@ public class DailyReportController {
 									@RequestParam(value="endDate", required=false, defaultValue = "0") String endDate,
 									@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
-		System.out.println("보고유형: "+reportType);
-		System.out.println("기간타입: "+termType);
-		System.out.println("시작일자: "+startDate);
-		System.out.println("종료일자: "+endDate);
 		
 		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
@@ -491,13 +463,10 @@ public class DailyReportController {
 		
 		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		
-		System.out.println("작성자: "+writer);
-		System.out.println("생성일자: "+createDate);
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
 		
 		String newDate = sdf.format(createDate);
-		System.out.println("생성일자변환: "+newDate);
+
 		DailyReport dailyReport = new DailyReport();
 		
 		dailyReport.setDrWriterNo(writer);
@@ -557,7 +526,6 @@ public class DailyReportController {
 		
 		DailyReport dailyReportResult = dailyReportService.selectDetailSendDailyReport(drNo);
 		
-		System.out.println("선택한 일일보고: "+dailyReportResult);
 		
 		model.addAttribute("dailyReportResult", dailyReportResult);
 		model.addAttribute("loginUserNo", loginUserNo);

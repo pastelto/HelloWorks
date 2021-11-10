@@ -47,4 +47,5 @@ public class DailyReport {
 	// 검색 값
 	private String searchType; 
 	private String search; 
+	
 }

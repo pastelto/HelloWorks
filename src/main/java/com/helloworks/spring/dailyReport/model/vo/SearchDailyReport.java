@@ -19,5 +19,4 @@ public class SearchDailyReport {
 	
 	private int userNo;
 
-
 }
