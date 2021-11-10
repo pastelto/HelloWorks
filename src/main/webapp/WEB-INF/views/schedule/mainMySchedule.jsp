@@ -36,23 +36,38 @@
  	 background: lightblue;
  	 height: 80%;
  	} */
- 	
- 	#datepicker{
- 		padding-bottom: 100px;
- 	}
+	
+	.scheduleBackGround{
+	  background-color:white;
+	  height: 726px;
+	  margin-top:30px; 
+	  position: fixed;
+	}
+	
+	.mainCalendar{
+	  margin-top: -11px;
+	}
  	
 </style>
 </head>
 <body>
 	
 	<!-- 캘린더 좌측메뉴 부분 -->
-	
-	<div class="mainCalendar" style="position: fixed;">
+	<div class="scheduleBackGround">
+	<div class="mainCalendar" style="">
 		<!-- 사이드바 캘린더 -->
 		<div class="calendar col-12" style="padding: 0;">
 			<div id="datepicker"></div>
 		</div>
-		<div>
+	    <div class="table-responsive p-0"
+			style="height: 250px;">
+			<table class="table table-head-fixed text-nowrap"
+				id="getMainScheduleTable">
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
 			
 		</div>
 	</div>
@@ -84,9 +99,7 @@
         showMonthAfterYear: true,
         yearSuffix: ""
         }
-        
-	
-	
+
 	// Today 버튼 코드 추가
 	$.datepicker._gotoToday = function(id) { 
 		$(id).datepicker('setDate', new Date());
@@ -95,6 +108,57 @@
 });
 </script>
 
+	
+<script>
+	// 날짜 선택해서, 그 해당날짜에 있는 이벤트 가져오기
+	
+	$(function(){
+
+		var getDate = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
+		console.log(getDate)
+		// 예약된 시간표 가져오기
+		$.ajax({
+			url : "getEventList.sch",
+			data : {
+				getDate : getDate
+			},
+			dataType : "json",
+			success : function(getEventList) {
+				console.log("getEventList 성공!" + getEventList);
+				
+				var scheduleValue = "";
+				$.each(getEventList, function(i, obj) {
+					if(obj.sch_type != "PRIVATE"){
+					scheduleValue += "<tr onclick='clickSchedule("+obj.sch_no+")'>" +
+					 "<td><strong><span style='color:" + obj.sch_color + ";'>● "+obj.sch_type+"</span></strong>&nbsp;&nbsp;" 
+					  + obj.sch_title + "</td>" + 
+				      "</tr>";
+					} else if (obj.sch_type == "PRIVATE") {
+						scheduleValue += "<tr onclick='clickSchedule("+obj.sch_no+")'>" +
+						 "<td><strong><span style='color:" + obj.sch_color + ";'>● 내 캘린더</span></strong>&nbsp;&nbsp;" 
+						  + obj.sch_title + "</td>" + 
+					      "</tr>";
+					}
+				});
+				$("#getMainScheduleTable tbody").html(scheduleValue); // 메일 inbox
+				
+			},
+			error : function() {
+				console.log("timeCar ajax 통신 실패");
+			}
+		});
+		
+	})
+
+</script>
+
+<script>
+ 		// 발송업무 & 미확인 상세 조회 페이지 
+    	function clickSchedule(num){
+    		location.href = "schMain.sc";
+    	}
+    	
+</script>
 
 </body>
 </html>

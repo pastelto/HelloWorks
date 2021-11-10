@@ -174,9 +174,8 @@
     	function goDetail(num){
     		location.href = "detail.ws?wno="+num;
     	}
-    
     </script>
-	
+
 	
 	
 </body>

@@ -363,18 +363,23 @@
 						
 						if(obj.wsr_empNo == ${loginUser.empNo}){
 						value += "<tr>" +
-								 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
-								 "<td>" + obj.wsr_content + "</td>" + 
-							     "<td>" + obj.wsr_date + "</td>" +
-							     "<td>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
+								 /* "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" +  */
+								 "<td width='80%'><strong>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</strong>&nbsp;&nbsp;" + 
+								 "<small>" + obj.wsr_date + "</small>" +"<br>"
+								 		   + obj.wsr_content + "</td>" + 
+								 "<td></td>" +
+								 "<td></td>" +
+							     "<td style='text-align: right;'>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
 							     "</tr>";
 						}else {
 							value += "<tr>" +
-							 "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" + 
-							 "<td>" + obj.wsr_content + "</td>" + 
-						     "<td>" + obj.wsr_date + "</td>" +
-						     "<td></td>" +
-						     "</tr>";
+							 "<td width='80%'><strong>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</strong>&nbsp;&nbsp;" + 
+							 "<small>" + obj.wsr_date + "</small>" +"<br>"
+							 		   + obj.wsr_content + "</td>" + 
+							 "<td></td>" +
+							 "<td></td>" +
+							 "<td></td>" +
+							 "</tr>";
 						}
 					});
 					$("#replyArea tbody").html(value);
