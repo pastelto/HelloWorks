@@ -41,12 +41,14 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService approvalService;
 	
+	// 일반결재 작성
 	@RequestMapping("normalApprovalForm.ea")
 	public String normalApprovalForm() {
 		
 		return "approval/normalApprovalForm";
 	}
 	
+	// 지출결재 작성 - 지급번호 list 포함
 	@RequestMapping("expenditureApprovalForm.ea")
 	public String expenditureApprovalForm(Model model) {
 		
@@ -59,66 +61,33 @@ public class ApprovalController {
 		return "approval/expenditureApprovalForm";
 	}
 	
+	// 부서검색
 	@RequestMapping("searchDeptForm.ea")
 	public String searchDeptForm() {
 		
 		return "approval/searchDeptForm";
 	}
 	
+	// 결재라인 추가 
 	@RequestMapping("plusAppLineForm.ea")
 	public String plusAppLineForm() {
 		
 		return "approval/plusAppLineForm";
 	}
 
-	
+	// 수신참조 추가
 	@RequestMapping("plusccForm.ea")
 	public String plusccForm() {
 		
 		return "approval/plusccForm";
 	}
 	
+	// 협조라인 추가
 	@RequestMapping("plusCooForm.ea")
 	public String plusCooForm() {
 		
 		return "approval/plusCooForm";
 	}
-	
-	@RequestMapping("mainMyApproval.ea")
-	public ArrayList<ApprovalComment> mainMyApproval(HttpServletRequest request, Model model) {
-		
-		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
-		String status = "Y"; 
-		
-		ArrayList<ApprovalComment> acList = null;
-		
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();
-		
-		selectMap.put("loginEmpNo", loginEmpNo);
-		selectMap.put("status", status);
-		
-		acList = approvalService.mainMyApproval(selectMap);
-		
-		
-		return acList;
-	}
-	
-	@RequestMapping("mainPending.ea")
-	public ArrayList<Approval> mainPending(HttpServletRequest request, Model model) {
-					
-		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
-		
-		ArrayList<Approval> approvalList = null;
-		
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();
-		
-		selectMap.put("loginEmpNo", loginEmpNo);
-		
-		approvalList = approvalService.mainPending(selectMap);
-		
-		return approvalList;
-	}
-	
 	
 	//임시저장함 detail - 기안
 	@RequestMapping("normalTempDetail.ea")
@@ -350,10 +319,6 @@ public class ApprovalController {
 		searchMap.put("status", status);
 		
 		int listCount = approvalService.selectListCount(searchMap);
-		
-		
-		System.out.println("임시저장 결재 수 : " + listCount);
-		
 		int pageLimit = 10;
 		int boardLimit = 10; 
 		
@@ -384,9 +349,6 @@ public class ApprovalController {
 		searchMap.put("status", status);
 		
 		int listCount = approvalService.selectListCount(searchMap);
-		
-		System.out.println("임시저장 결재 수 : " + listCount);
-		
 		int pageLimit = 10;
 		int boardLimit = 10; 
 		
@@ -417,10 +379,6 @@ public class ApprovalController {
 		searchMap.put("status", status);
 		
 		int listCount = approvalService.selectListCount(searchMap);
-		
-		
-		System.out.println("임시저장 결재 수 : " + listCount);
-		
 		int pageLimit = 10;
 		int boardLimit = 10; 
 		
@@ -451,9 +409,6 @@ public class ApprovalController {
 		searchMap.put("status", status);
 			
 		int listCount = approvalService.selectListCount(searchMap);
-			
-		System.out.println("임시저장 결재 수 : " + listCount);
-			
 		int pageLimit = 10;
 		int boardLimit = 10; 
 		
@@ -481,9 +436,6 @@ public class ApprovalController {
 		searchMap.put("apClass", apClass);
 			
 		int listCount = approvalService.selectListCount(searchMap);
-			
-		System.out.println("임시저장 결재 수 : " + listCount);
-			
 		int pageLimit = 10;
 		int boardLimit = 10; 
 		
@@ -511,9 +463,6 @@ public class ApprovalController {
 		searchMap.put("apClass", apClass);
 				
 		int listCount = approvalService.selectListCount(searchMap);
-				
-		System.out.println("미결재함 지출 수 : " + listCount);
-				
 		int pageLimit = 10;
 		int boardLimit = 10; 
 			
@@ -541,9 +490,6 @@ public class ApprovalController {
 		searchMap.put("apClass", apClass);
 				
 		int listCount = approvalService.selectListCount(searchMap);
-		
-		System.out.println("결재완료 일반 수 : " + listCount);
-				
 		int pageLimit = 10;
 		int boardLimit = 10; 
 			
@@ -571,9 +517,6 @@ public class ApprovalController {
 		searchMap.put("apClass", apClass);
 			
 		int listCount = approvalService.selectListCount(searchMap);
-					
-		System.out.println("결재완료 지출 수 : " + listCount);
-					
 		int pageLimit = 10;
 		int boardLimit = 10; 
 				
@@ -822,8 +765,6 @@ public class ApprovalController {
 			ap.setProgress("임시저장");
 		}
 		
-		System.out.println("status : " + status);
-				
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
@@ -847,8 +788,6 @@ public class ApprovalController {
 		ap.setCooName(cooName);
 		ap.setDeptShare(deptShare);		
 		
-		System.out.println("ap :" + ap);
-						
 		// 문서분류에 따른 등록 
 		String dtype = request.getParameter("doc_type");
 				
@@ -883,20 +822,16 @@ public class ApprovalController {
 		// 수신참조 등록 
 					
 		String ccName = request.getParameter("ccName");
-		System.out.println("ccName : " + ccName);
 		String ccCode = request.getParameter("ccCode");
-		System.out.println("ccCode : " + ccCode);
 		if(!ccName.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
-				System.out.println("cotroller num :" + num);
 				ac.setCcName(ccName);
 				ac.setCcMember(num);
 				approvalService.insertCcEmpl(ac);
 			} else {
 				ac.setCcName(ccName);
 				ac.setCcDept(ccCode);
-				System.out.println("deptCode: " + ccCode);
 				approvalService.insertCcDept(ac);
 			}
 		}
@@ -942,8 +877,6 @@ public class ApprovalController {
 			ap.setProgress("임시저장");
 		}
 				
-		System.out.println("status : " + status);
-			
 		String detailClass = request.getParameter("doc_type");
 		String title = request.getParameter("ap_title");
 		int writer = Integer.parseInt(request.getParameter("writer"));
@@ -982,8 +915,6 @@ public class ApprovalController {
 		// 지출결재 detail
 		String exType = request.getParameter("exType");
 		String cardNum = request.getParameter("cardNum");		
-		
-		System.out.println("cardNum : " + cardNum);
 		
 		String[] exDate = request.getParameterValues("exDate");
 		String[] exContent = request.getParameterValues("exContent");
@@ -1045,18 +976,15 @@ public class ApprovalController {
 
 		String ccName = request.getParameter("ccName");
 		String ccCode = request.getParameter("ccCode");
-		System.out.println("ccCode : " + ccCode);
 		if(!ccName.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
-				System.out.println("cotroller num :" + num);
 				ac.setCcName(ccName);
 				ac.setCcMember(num);
 				approvalService.insertCcEmpl(ac);
 			} else {
 				ac.setCcName(ccName);
 				ac.setCcDept(ccCode);
-				System.out.println("deptCode: " + ccCode);
 				approvalService.insertCcDept(ac);
 			}
 		}
@@ -1099,19 +1027,6 @@ public class ApprovalController {
 
 		int k=0;
 		
-//		for(int i=empNo.length-1; i >= 0; i--) {
-//			if(empNo[i] != 0) {
-//				System.out.println("line insert 중");
-//				line.setLineNo(k+1);
-//				line.setEmpNo(empNo[i]);
-//				line.setEmpName(empName[i]);
-//				line.setJobName(jobName[i]);			
-//				approvalService.insertLine(line);	
-//				k++;
-//			}
-//			
-//		}	
-		
 		for(int i=0; i<empNo.length; i++) {
 			if(empNo[i] != 0) {
 				line.setLineNo(i+1);
@@ -1151,10 +1066,18 @@ public class ApprovalController {
 	// 인사
 	public void insertHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 		String dueDate = request.getParameter("dueDate");
+		int dDate = 0;
+		if(dueDate.equals("5일 이내") ) {
+			dDate = 5;
+		} else if (dueDate.equals("10일 이내")) {
+			dDate = 10;
+		} else if(dueDate.equals("30일 이내")) {
+			dDate = 30;
+		}	
 		String hrtype = request.getParameter("hr_type");
-		ap.setApClass("인사");
+		ap.setApClass("일반");
 		ah.setHrClass(hrtype);
-		ah.setDueDate(dueDate);
+		ah.setInputDate(dDate);
 		approvalService.insertApproval(ap); 
 		approvalService.insertHr(ah);
 		
@@ -1165,8 +1088,6 @@ public class ApprovalController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\approval_files\\"; //저장경로
 		
-		System.out.println("savePath : "+ savePath);
-		
 		String originName = file.getOriginalFilename(); //원본파일명
 		
 		String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간
@@ -1174,8 +1095,7 @@ public class ApprovalController {
 		String ext = originName.substring(originName.lastIndexOf("."));
 		
 		String newName = cuurentTime + ext;
-		
-	
+			
 			try {
 				file.transferTo(new File(savePath + newName));
 			} catch (IllegalStateException e ) {
@@ -1205,7 +1125,6 @@ public class ApprovalController {
 		searchMap.put("apClass", apClass);
 		searchMap.put("status", status);
 		
-		System.out.println("기간 : " + sdate);
 		int sDate= 0;
 		ArrayList<Approval> list = null;
 		switch(sdate) {
@@ -1283,8 +1202,6 @@ public class ApprovalController {
 		String stringInput = null;	
 		String status = request.getParameter("status");
 		
-		System.out.println("detailOption : " + detailOption);
-		
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 		searchMap.put("optionType", optionType);
 		searchMap.put("loginEmpNo", loginEmpNo);
@@ -1304,13 +1221,11 @@ public class ApprovalController {
 					case "문서번호" : 
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
 						searchMap.put("optionInput", intInput);		
-						System.out.println("optionInput : " + intInput);
 						list = approvalService.selectSearchApNo(searchMap);				
 						break;
 					case "제목" : 
 						stringInput = request.getParameter("optionInput");							
 						searchMap.put("optionInput", stringInput);		
-						System.out.println("optionInput : " + stringInput);
 						list = approvalService.selectSearchTitle(searchMap);				
 						break;
 					default :
@@ -1323,14 +1238,12 @@ public class ApprovalController {
 					intInput = Integer.parseInt(request.getParameter("optionInput"));							
 					searchMap.put("optionInput", intInput);		
 					searchMap.put("detailOption", detailOption);
-					System.out.println("optionInput : " + intInput);
 					list = approvalService.selectDetailApNo(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
 					searchMap.put("optionInput", stringInput);		
 					searchMap.put("detailOption", detailOption);
-					System.out.println("optionInput : " + stringInput);
 					list = approvalService.selectDetailTitle(searchMap);				
 					break;
 				default :
@@ -1347,13 +1260,11 @@ public class ApprovalController {
 						case "문서번호" : 
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
 							searchMap.put("optionInput", intInput);		
-							System.out.println("optionInput : " + intInput);
 							list = approvalService.selectDateApNo(searchMap);				
 							break;
 						case "제목" : 
 							stringInput = request.getParameter("optionInput");							
 							searchMap.put("optionInput", stringInput);		
-							System.out.println("optionInput : " + stringInput);
 							list = approvalService.selectDateTitle(searchMap);				
 							break;
 						default :
@@ -1370,14 +1281,12 @@ public class ApprovalController {
 					intInput = Integer.parseInt(request.getParameter("optionInput"));							
 					searchMap.put("optionInput", intInput);		
 					searchMap.put("detailOption", detailOption);
-					System.out.println("optionInput : " + intInput);
 					list = approvalService.selectDeteDetailApNo(searchMap);				
 					break;
 				case "제목" : 
 					stringInput = request.getParameter("optionInput");							
 					searchMap.put("optionInput", stringInput);	
 					searchMap.put("detailOption", detailOption);
-					System.out.println("optionInput : " + stringInput);
 					list = approvalService.selectDateDetailTitle(searchMap);				
 					break;
 				default :
@@ -1418,7 +1327,6 @@ public class ApprovalController {
 		searchMap.put("loginEmpNo", loginEmpNo);
 		searchMap.put("apClass", apClass);
 			
-		System.out.println("기간 확인: " + sdate);
 		int sDate= 0;
 		ArrayList<Approval> list = null;
 		switch(sdate) {
@@ -1475,8 +1383,6 @@ public class ApprovalController {
 			int intInput = 0;
 			String stringInput = null;	
 			
-			System.out.println("detailOption : " + detailOption);
-			
 			HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 			searchMap.put("optionType", optionType);
 			searchMap.put("loginEmpNo", loginEmpNo);
@@ -1495,13 +1401,11 @@ public class ApprovalController {
 						case "문서번호" : 
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
 							searchMap.put("optionInput", intInput);		
-							System.out.println("optionInput : " + intInput);
 							list = approvalService.selectSearchApNoPending(searchMap);				
 							break;
 						case "제목" : 
 							stringInput = request.getParameter("optionInput");							
 							searchMap.put("optionInput", stringInput);		
-							System.out.println("optionInput : " + stringInput);
 							list = approvalService.selectSearchTitlePending(searchMap);				
 							break;
 						default :
@@ -1514,14 +1418,12 @@ public class ApprovalController {
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
 						searchMap.put("optionInput", intInput);		
 						searchMap.put("detailOption", detailOption);
-						System.out.println("optionInput : " + intInput);
 						list = approvalService.selectDetailApNoPending(searchMap);				
 						break;
 					case "제목" : 
 						stringInput = request.getParameter("optionInput");							
 						searchMap.put("optionInput", stringInput);		
 						searchMap.put("detailOption", detailOption);
-						System.out.println("optionInput : " + stringInput);
 						list = approvalService.selectDetailTitlePending(searchMap);				
 						break;
 					default :
@@ -1538,13 +1440,11 @@ public class ApprovalController {
 							case "문서번호" : 
 								intInput = Integer.parseInt(request.getParameter("optionInput"));							
 								searchMap.put("optionInput", intInput);		
-								System.out.println("optionInput : " + intInput);
 								list = approvalService.selectDateApNoPending(searchMap);				
 								break;
 							case "제목" : 
 								stringInput = request.getParameter("optionInput");							
 								searchMap.put("optionInput", stringInput);		
-								System.out.println("optionInput : " + stringInput);
 								list = approvalService.selectDateTitlePending(searchMap);				
 								break;
 							default :
@@ -1561,14 +1461,12 @@ public class ApprovalController {
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
 						searchMap.put("optionInput", intInput);		
 						searchMap.put("detailOption", detailOption);
-						System.out.println("optionInput : " + intInput);
 						list = approvalService.selectDeteDetailApNoPending(searchMap);				
 						break;
 					case "제목" : 
 						stringInput = request.getParameter("optionInput");							
 						searchMap.put("optionInput", stringInput);	
 						searchMap.put("detailOption", detailOption);
-						System.out.println("optionInput : " + stringInput);
 						list = approvalService.selectDateDetailTitlePending(searchMap);				
 						break;
 					default :
@@ -1609,7 +1507,6 @@ public class ApprovalController {
 			searchMap.put("loginEmpNo", loginEmpNo);
 			searchMap.put("apClass", apClass);
 				
-			System.out.println("기간 signed: " + sdate);
 			int sDate= 0;
 			ArrayList<Approval> list = null;
 			switch(sdate) {
@@ -1666,8 +1563,6 @@ public class ApprovalController {
 				int intInput = 0;
 				String stringInput = null;	
 				
-				System.out.println("detailOption : " + detailOption);
-				
 				HashMap<String, Object> searchMap = new HashMap<String, Object>();	
 				searchMap.put("optionType", optionType);
 				searchMap.put("loginEmpNo", loginEmpNo);
@@ -1686,13 +1581,11 @@ public class ApprovalController {
 							case "문서번호" : 
 								intInput = Integer.parseInt(request.getParameter("optionInput"));							
 								searchMap.put("optionInput", intInput);		
-								System.out.println("optionInput : " + intInput);
 								list = approvalService.selectSearchApNoSigned(searchMap);				
 								break;
 							case "제목" : 
 								stringInput = request.getParameter("optionInput");							
 								searchMap.put("optionInput", stringInput);		
-								System.out.println("optionInput : " + stringInput);
 								list = approvalService.selectSearchTitleSigned(searchMap);				
 								break;
 							default :
@@ -1705,14 +1598,12 @@ public class ApprovalController {
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
 							searchMap.put("optionInput", intInput);		
 							searchMap.put("detailOption", detailOption);
-							System.out.println("optionInput : " + intInput);
 							list = approvalService.selectDetailApNoSigned(searchMap);				
 							break;
 						case "제목" : 
 							stringInput = request.getParameter("optionInput");							
 							searchMap.put("optionInput", stringInput);		
 							searchMap.put("detailOption", detailOption);
-							System.out.println("optionInput : " + stringInput);
 							list = approvalService.selectDetailTitleSigned(searchMap);				
 							break;
 						default :
@@ -1729,13 +1620,11 @@ public class ApprovalController {
 								case "문서번호" : 
 									intInput = Integer.parseInt(request.getParameter("optionInput"));							
 									searchMap.put("optionInput", intInput);		
-									System.out.println("optionInput : " + intInput);
 									list = approvalService.selectDateApNoSigned(searchMap);				
 									break;
 								case "제목" : 
 									stringInput = request.getParameter("optionInput");							
 									searchMap.put("optionInput", stringInput);		
-									System.out.println("optionInput : " + stringInput);
 									list = approvalService.selectDateTitleSigned(searchMap);				
 									break;
 								default :
@@ -1752,14 +1641,12 @@ public class ApprovalController {
 							intInput = Integer.parseInt(request.getParameter("optionInput"));							
 							searchMap.put("optionInput", intInput);		
 							searchMap.put("detailOption", detailOption);
-							System.out.println("optionInput : " + intInput);
 							list = approvalService.selectDeteDetailApNoSigned(searchMap);				
 							break;
 						case "제목" : 
 							stringInput = request.getParameter("optionInput");							
 							searchMap.put("optionInput", stringInput);	
 							searchMap.put("detailOption", detailOption);
-							System.out.println("optionInput : " + stringInput);
 							list = approvalService.selectDateDetailTitleSigned(searchMap);				
 							break;
 						default :
@@ -1786,8 +1673,6 @@ public class ApprovalController {
 				ap.setStatus(status);
 				ap.setProgress("임시저장");
 			}
-			
-			System.out.println("status : " + status);
 			
 			int apNo = Integer.parseInt(request.getParameter("apNo"));		
 			String detailClass = request.getParameter("doc_type");
@@ -1820,8 +1705,6 @@ public class ApprovalController {
 			ac.setApNo(apNo);
 			line.setApNo(apNo);
 			
-			System.out.println("ap :" + ap);
-							
 			// 문서분류에 따른 등록 
 			String dtype = request.getParameter("doc_type");
 					
@@ -1855,18 +1738,15 @@ public class ApprovalController {
 			
 			String ccCode = request.getParameter("ccCode");
 			String ccName = request.getParameter("ccCode");
-			System.out.println("ccCode : " + ccCode);
 			if(!ccName.equals("")) {							
 				if(isInteger(ccCode)) {
 					int num = Integer.parseInt(request.getParameter("ccCode"));
-					System.out.println("cotroller num :" + num);
 					ac.setCcMember(num);
 					ac.setCcName(ccName);
 					approvalService.updateCcEmpl(ac);
 				} else {
 					ac.setCcDept(ccCode);
 					ac.setCcName(ccName);
-					System.out.println("deptCode: " + ccCode);
 					approvalService.updateCcDept(ac);
 				}
 			}
@@ -1890,10 +1770,19 @@ public class ApprovalController {
 
 		private void updateHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 			String dueDate = request.getParameter("dueDate");
+			int dDate = 0;			
+			if(dueDate.equals("5일 이내") ) {
+				dDate = 5;
+			} else if (dueDate.equals("10일 이내")) {
+				dDate = 10;
+			} else if(dueDate.equals("30일 이내")) {
+				dDate = 30;
+			}
+						
 			String hrtype = request.getParameter("hr_type");
-			ap.setApClass("인사");
+			ap.setApClass("일반");
 			ah.setHrClass(hrtype);
-			ah.setDueDate(dueDate);
+			ah.setInputDate(dDate);
 			approvalService.updateApproval(ap); 
 			approvalService.updatetHr(ah);
 			
@@ -1938,8 +1827,6 @@ public class ApprovalController {
 				ap.setProgress("임시저장");
 			}
 					
-			System.out.println("status : " + status);
-				
 			int apNo = Integer.parseInt(request.getParameter("apNo"));
 			String detailClass = request.getParameter("doc_type");
 			String title = request.getParameter("ap_title");
@@ -2053,18 +1940,15 @@ public class ApprovalController {
 									
 			String ccCode = request.getParameter("ccCode");
 			String ccName = request.getParameter("ccCode");
-			System.out.println("ccCode : " + ccCode);
 			if(!ccName.equals("")) {							
 				if(isInteger(ccCode)) {
 					int num = Integer.parseInt(request.getParameter("ccCode"));
-					System.out.println("cotroller num :" + num);
 					ac.setCcMember(num);
 					ac.setCcName(ccName);
 					approvalService.updateCcEmpl(ac);
 				} else {
 					ac.setCcDept(ccCode);
 					ac.setCcName(ccName);
-					System.out.println("deptCode: " + ccCode);
 					approvalService.updateCcDept(ac);
 				}
 			}
@@ -2090,7 +1974,6 @@ public class ApprovalController {
 			
 			// 결재권자 파라미터로 받기 
 			String[] temp = request.getParameterValues("line");
-			System.out.println("temp:" + temp[0]);
 			int[] empNo = new int[temp.length];
 			int apNo = Integer.parseInt(request.getParameter("apNo"));
 			
@@ -2113,7 +1996,6 @@ public class ApprovalController {
 			
 			for(int i=empNo.length-1; i >= 0; i--) {
 				if(empNo[i] != 0) {
-					System.out.println("line insert 중");
 					line.setLineNo(k+1);
 					line.setEmpNo(empNo[i]);
 					line.setEmpName(empName[i]);
@@ -2134,8 +2016,6 @@ public class ApprovalController {
 		int loginEmpNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
 		String comment = request.getParameter("comment");
 		int apNo = Integer.parseInt(request.getParameter("apNo"));
-		
-		System.out.println("comment : " + comment);
 		
 		HashMap<String, Object> insertMap = new HashMap<String, Object>();
 		insertMap.put("loginEmpNo", loginEmpNo);

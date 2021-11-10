@@ -139,5 +139,4 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return addresssBookDao.searchPersonalAddressBook(sqlSession, sp, piR);
 	}
 
-
 }

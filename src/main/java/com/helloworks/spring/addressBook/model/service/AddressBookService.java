@@ -44,5 +44,4 @@ public interface AddressBookService {
 	ArrayList<PersonalAddressBook> searchPersonalAddressBook(SearchPerson sp, PageInfo piR);
 
 	
-
 }

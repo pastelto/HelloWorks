@@ -29,3 +29,4 @@ public class CommonResourcesReply {
 	private String writerDeptDName;
 	
 }
+

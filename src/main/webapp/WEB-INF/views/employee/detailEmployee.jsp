@@ -276,6 +276,7 @@
 		}
 	</script>
 	
+	<!-- 돌아가기 버튼 -->
 	<script>
 		function cancelFun(){
 			location.href="<%=request.getContextPath()%>/empManageMain.hr";

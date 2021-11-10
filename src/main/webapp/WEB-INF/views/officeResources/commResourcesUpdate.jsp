@@ -309,6 +309,7 @@
 		}
 	</script>
 	
+	<!-- 첨부파일 리로드 -->
 	<script>
 	 	function selectCommList(){
 	 		var crNo = ${commonResources.crNo};

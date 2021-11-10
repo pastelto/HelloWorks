@@ -268,7 +268,7 @@
 		}
 	</script>
 	
-	<!-- 검색 -->
+	<!-- 검색 옵션 고정 -->
 	<script>
 		$(function() {
 			switch ('${ optionType }') {
@@ -296,7 +296,7 @@
 			
 		})
 	</script>
-	
+	 
 	<!-- 검색 -->
 	<script>
 		function searchDeptResources() {
