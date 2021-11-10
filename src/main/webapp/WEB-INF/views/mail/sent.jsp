@@ -116,7 +116,6 @@
 									<i class="fas fa-sync-alt"></i>
 								</button>
 								<div class="float-right">
-									1-50/200
 									<div class="btn-group">
 										<button type="button" class="btn btn-default btn-sm">
 											<i class="fas fa-chevron-left"></i>
@@ -129,7 +128,7 @@
 								</div>
 								<!-- /.float-right -->
 							</div>
-							<div class="table-responsive mailbox-messages">
+							<div class="table-responsive mailbox-messages" style="height : 600px">
 								<table class="table table-hover table-striped" id="sentList">
 									<tbody>
 										<c:forEach items="${ sentMailList }" var="sMail"
@@ -141,13 +140,13 @@
 													</div>
 												</td>
 												<td>${ sMail.mailNo }</td>
-												<td class="mailbox-name">
+						 						<td class="mailbox-name">
 												<c:forEach var="i" begin="0" end="${fn:length(rcvrList)}" step="1" varStatus="in">
-														<c:if
-															test="${ (sentMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
+													<c:if test="${ (sentMailList[status.index].mailNo eq rcvrList[i].mailNo) }">
 														<span class="badge badge-info"> <b>${ rcvrList[i].mailRcvrName }</b></span> 
 													</c:if>
-													</c:forEach></td>
+												</c:forEach>
+												</td>
 												<td class="mailbox-subject"><b>${ sMail.mailTitle }</b></td>
 												<td class="mailbox-date float-right">${ sMail.mailDate }</td>
 											</tr>

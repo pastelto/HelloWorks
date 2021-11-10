@@ -71,8 +71,7 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-md-9">
-						<form method="post" id="mailForm" action="send.ml?mailStatus=Y"
-							enctype="multipart/form-data">
+						<form method="post" id="mailForm" enctype="multipart/form-data">
 							<div class="card card-outline card-info">
 								<div class="card-header">
 									<h3 class="card-title">새로운 메일 쓰기</h3>
@@ -91,9 +90,10 @@
 									</div>
 									<div class="row">
 										<div class="col-2">수신자</div>
-										<div class="col-8">											
+										<div class="col-8">
 											<div class="row m-0">
-											<div id="receiveListDiv">To: </div>	&nbsp;&nbsp;									
+												<div >To:</div>
+												&nbsp;&nbsp;
 												<button id="addressBook" type="button"
 													class="btn btn-default btn-xs"
 													onclick="popupAddressBook();">주소록</button>
@@ -101,14 +101,17 @@
 												<button id="searchEmp" type="button"
 													class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
 													검색</button>
-												&nbsp;&nbsp;									
+												&nbsp;&nbsp;
+												<div id="receiveListDiv">
+													<input type="hidden" id="checking" name="checking">
+												</div>
 											</div>
 										</div>
 									</div>
 									<br>
 									<div class="form-group">
 										<input id="mailTitle" name="mailTitle" class="form-control"
-											placeholder="제목">
+											placeholder="제목을 입력해 주세요">
 									</div>
 									<div class="row">
 										<div class="col-12">
@@ -127,17 +130,10 @@
 								<!-- /.card-body -->
 								<div class="card-footer">
 									<div class="float-right">
-										<button type="button" class="btn btn-default"
-											onclick="draftMail();">
-											<i class="fas fa-pencil-alt"></i> 임시저장
-										</button>
-										<button type="submit" class="btn btn-primary">
-											<i class="far fa-envelope"></i> 보내기
-										</button>
+										<button type="button" class="btn btn-warning" onclick="draftMail();">임시저장</button>
+										<button type="button" class="btn btn-primary" onclick="sendMail();">보내기</button>
 									</div>
-									<button type="reset" class="btn btn-default">
-										<i class="fas fa-times"></i> 취소하기
-									</button>
+									<button type="reset" class="btn btn-danger">취소하기</button>
 								</div>
 								<!-- /.card-footer -->
 							</div>
@@ -198,13 +194,49 @@ function popupSearchEmp(){
 </script>
 <!-- 임시저장 -->
 <script>
- 	function draftMail(){
-		$('#mailForm').each(function(){	
-
-		    $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=S");
-			$("#mailForm").submit();
-			alert("작성중인 메일이 임시저장 되었습니다.");
+function draftMail(){
+$('#mailForm').each(function(){	
+		if($("input[name=mailTitle]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("메일내용을 입력해주세요.")
+		}else{
+			if(confirm("메일을 임시저장하시겠습니까?") == true){
+				 $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=S");
+						$("#mailForm").submit();
+						alert("작성중인 메일이 임시저장 되었습니다.");
+				}else{   
+				   //취소 버튼 눌렀을 때 실행 할 코드
+				   return false;
+				}
+			}
 		});
-	} 
+} 
+</script>
+<!-- 메일 null일때 -->
+<script>
+function sendMail(){
+	$('#mailForm').each(function(){	
+		
+		if($("input[name=mailTitle]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("메일내용을 입력해주세요.")
+		}else{
+			if(confirm("메일을 발송하시겠습니까?") == true){
+				 $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=Y");
+					$("#mailForm").submit();
+					alert("메일이 발송되었습니다.");
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
+	});
+}
 </script>
 </html>

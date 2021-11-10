@@ -27,7 +27,6 @@ public class RequestServiceImpl implements RequestService {
 	// 회의실 등록
 	@Override
 	public void addMtr(Mtr mtr) {
-		// System.out.println("회의실 등록 Impl 입장 ? ");
 
 		int result = requestDao.addMtr(sqlSession, mtr);
 
@@ -59,7 +58,6 @@ public class RequestServiceImpl implements RequestService {
 	// 차량 등록
 	@Override
 	public void addCar(Car car) {
-		// System.out.println("차량 등록 Impl 입장 ? ");
 
 		int result = requestDao.addCar(sqlSession, car);
 
@@ -294,14 +292,12 @@ public class RequestServiceImpl implements RequestService {
 	// 회의실 예약 위한 회의실 리스트 가져오기
 	@Override
 	public ArrayList<Mtr> listMtr() {
-		// TODO Auto-generated method stub
 		return requestDao.listMtr(sqlSession);
 	}
 	
 	// 회의실 예약위한 시간표 가져오기
 	@Override
 	public ArrayList<Mtr> timeMtr(Mtr mtr) {
-		// TODO Auto-generated method stub
 		return requestDao.timeMtr(sqlSession, mtr);
 	}
 
@@ -323,7 +319,6 @@ public class RequestServiceImpl implements RequestService {
 	// 회의실 예약하기
 	@Override
 	public void rsvMtr(Mtr mtr) {
-		// TODO Auto-generated method stub
 		int result = 0;
 
 		result = requestDao.rsvMtr(sqlSession, mtr);
@@ -337,14 +332,12 @@ public class RequestServiceImpl implements RequestService {
 	// 차량예약위한 차량리스트
 	@Override
 	public ArrayList<Car> listCar() {
-		// TODO Auto-generated method stub
 		return requestDao.listCar(sqlSession);
 	}
 
 	//차량 예약 위한 시간표 가져오기 + 예약리스트 가져오기
 	@Override
 	public ArrayList<Car> timeCar(Car car) {
-		// TODO Auto-generated method stub
 		return requestDao.timeCar(sqlSession, car);
 	}
 
@@ -377,14 +370,12 @@ public class RequestServiceImpl implements RequestService {
 	//메인-mtr
 	@Override
 	public ArrayList<Mtr> mainRequestMtr(HashMap<String, Object> selectrMtrList) {
-		// TODO Auto-generated method stub
 		return requestDao.mainRequestMtr(sqlSession, selectrMtrList);
 	}
 	
 	//메인-eq
 	@Override
 	public ArrayList<RequestEq> mainRequestEq(HashMap<String, Object> selectEqList) {
-		// TODO Auto-generated method stub
 		return requestDao.mainRequestEq(sqlSession, selectEqList);
 	}
 

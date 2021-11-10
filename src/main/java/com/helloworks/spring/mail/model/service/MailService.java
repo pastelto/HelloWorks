@@ -33,9 +33,6 @@ public interface MailService {
 	//임시 보관함
 	ArrayList<Mail> draftMailList(int myEmp);
 	
-//	//휴지통
-//	ArrayList<Mail> trashMailList(Employee myEmp);
-	
 	//메일가져오기
 	ArrayList<Mail> getMail(Mail mail);
 	

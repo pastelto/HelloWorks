@@ -239,9 +239,7 @@
 	
 		//비품 신청 삭제(제출인 상태만 삭제) 
 		function deleteOneEq(requestEqNo) {
-			/* alert(requestEqNo);
-			console.log(requestEqNo);	 */	
-			//var requestEqNo = requestEqNo;
+
  			$.ajax({
 				url : "deleteOne.eq",
 				type : "post",

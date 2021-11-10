@@ -136,22 +136,34 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMtr += "<tr>" +
-										 "<td 20%>[" + obj.mRDate + "/</td>" + 
-										 "<td 20%>" + obj.mRTime + " 시 ]</td>" +
-										 "<td 30%>회의실 명: " + obj.mMName + "/</td>" +
-										 "<td 30%>용도 : " + obj.mRUsg + "</td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.mRDate + "]" + "&nbsp;" +  obj.mRTime + " 시 " + "</strong>"+"</td>" +
+										 "<td>" + obj.mMName + "</td>" +
+										 "<td>" + obj.mRUsg + "</td>" +
 										 "</tr>";
 						
 						});
 					} else if(key == "eqRList"){
 						
 						$.each(mainAll[key], function(key, obj){
+							if(obj.erCondition == "제출"){
 							valueEq += "<tr>" +
-										 "<td 30%>[처리상태: " + obj.erCondition + "]</td>" + 
-										 "<td 30%>" + obj.eqName + " /</td>" +
-									     "<td 20%>" + obj.sDate + " 부터 </td>" +
-									     "<td 20%>" + obj.eDate + " 까지 </td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+										 "<td> " + obj.eqName + "</td>" +
+									     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
 										 "</tr>";
+							} else if(obj.erCondition == "승인취소"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:salmon;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							} else if(obj.erCondition == "승인완료"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:mediumturquoise;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							}
 						
 						});
 						
@@ -159,7 +171,7 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMail += "<tr>" +
-										 "<td>[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]</td>" + 
+										 "<td>"+"<strong style='color:gray;'>"+"[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]"+"</strong>"+ " </td>" + 
 										 "<td>" + obj.mailTitle + "</td>" +
 									     "<td>" + obj.mailDate + "</td>" +
 										 "</tr>";

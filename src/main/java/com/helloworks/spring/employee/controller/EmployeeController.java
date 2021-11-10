@@ -491,7 +491,7 @@ public class EmployeeController {
 	      // 메일
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
-		  
+
 		  //김소원
 	      ArrayList<ApprovalComment> acList = null;
 	      ArrayList<Approval> approvalList = null;
@@ -519,7 +519,7 @@ public class EmployeeController {
 		  mainAll.put("approvalList", approvalList);
 		  mainAll.put("acList", acList);
 		  
-	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
+	      return new GsonBuilder().setDateFormat("yy/MM/dd").create().toJson(mainAll);
 	}
 
 }

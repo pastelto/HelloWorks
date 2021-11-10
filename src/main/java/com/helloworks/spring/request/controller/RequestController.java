@@ -40,14 +40,12 @@ public class RequestController {
 	// 신청 메뉴 페이지 전환
 	@RequestMapping("request.menu")
 	public String requestMenu() {
-		//System.out.println("신청메뉴페이지");
 		return "request/menu";
 	}
 
 	// 비품 신청
 	@RequestMapping("request.eq")
 	public String requestEquipment(RequestEq rEq) {
-		//System.out.println(rEq);
 		requestService.requestEquipment(rEq);
 		return "request/menu";
 	}
@@ -56,12 +54,9 @@ public class RequestController {
 	@RequestMapping("request.id")
 	public String requestIdCard(RequestId rId, HttpServletRequest request, 
 			@RequestParam(name="orgPicName", required=true) MultipartFile file) {
-		System.out.println(rId);
-		System.out.println(file);
 		// 첨부파일 등록 		
 		if(!file.getOriginalFilename().equals("")) {
 			String chgPic = saveFile(file, request);
-			System.out.println("requestIdCard : " + chgPic);
 			if(chgPic!=null) {
 					rId.setOrgPic(file.getOriginalFilename());
 					rId.setChgPic(chgPic);
@@ -171,9 +166,7 @@ public class RequestController {
 	// 비품신청 상세조회
 	@RequestMapping("detail.eq")
 	public ModelAndView selectEq(int requestEqNo, ModelAndView mv){
-		System.out.println(requestEqNo);
 		RequestEq requestEq = requestService.selectEq(requestEqNo);
-		System.out.println(requestEq);
 		mv.addObject("requestEq", requestEq).setViewName("request/requestEqDetail");
 		return mv;
 
@@ -182,9 +175,7 @@ public class RequestController {
 	// 비품신청 상세조회
 	@RequestMapping("detail.id")
 	public ModelAndView selectId(int requestIdNo, ModelAndView mv){
-		System.out.println(requestIdNo);
 		RequestId requestId = requestService.selectId(requestIdNo);
-		System.out.println(requestId);
 		mv.addObject("requestId", requestId).setViewName("request/requestIdDetail");
 		return mv;
 
@@ -281,14 +272,9 @@ public class RequestController {
 		ArrayList<Mtr> listMtr = requestService.listMtr();
 		ArrayList<Car> listCar = requestService.listCar();
 
-		System.out.println(listMtr.toString());
-		System.out.println(listCar.toString());
-		
 		HashMap<String, Object> getList = new HashMap<String, Object>();
 		getList.put("listMtr", listMtr);
 		getList.put("listCar", listCar);
-		
-		System.out.println("ajax car랑 mtr ? " + getList);
 
 		return new GsonBuilder().create().toJson(getList);
 	}
@@ -296,10 +282,6 @@ public class RequestController {
 	@ResponseBody
 	@RequestMapping(value = "/time.mtr",  produces="application/json; charset=UTF-8")
 	public String timeMtr(int rNo, String getDate, int typeNo){
-		
-		System.out.println("rNo ? " + rNo);
-		System.out.println("getDate ? " + getDate);
-		System.out.println("typeNo ? " + typeNo);
 		
 		ArrayList<Mtr> timeMtr = new ArrayList<Mtr>();
 		ArrayList<Car> timeCar = new ArrayList<Car>();
@@ -311,7 +293,6 @@ public class RequestController {
 			mtr.setMRDate(getDate);
 			
 			timeMtr = requestService.timeMtr(mtr);
-			System.out.println("ArrayList<Mtr> timeMtr : "+  timeMtr);
 			return new GsonBuilder().create().toJson(timeMtr);
 		} else{
 			
@@ -320,7 +301,6 @@ public class RequestController {
 			car.setCRDate(getDate);
 			
 			timeCar = requestService.timeCar(car);
-			System.out.println("ArrayList<Car> timeCar : "+  timeCar);
 			return new GsonBuilder().create().toJson(timeCar);
 		}
 		
@@ -352,8 +332,6 @@ public class RequestController {
 		mtr.setREmpNo(rEmpNo);
 		mtr.setMRUsg(mRUsg);
 		
-		System.out.println(mtr.toString());
-		
 		requestService.rsvMtr(mtr);
 
 		String result = "successMtr";
@@ -361,25 +339,7 @@ public class RequestController {
 		return new GsonBuilder().create().toJson(result);
 
 	}
-	
-	//차량 시간표 가져오기
-//	@ResponseBody
-//	@RequestMapping(value = "/time.car", produces="application/json; charset=UTF-8")
-//	public String timeCar(int cSNo, String getDate){
-//		
-//		Car car = new Car();
-//		car.setCSNo(cSNo);
-//		car.setCRDate(getDate);
-//		
-//		System.out.println("/time.car-----------------: " + car.toString());
-//		
-//		ArrayList<Car> timeCar = requestService.timeCar(car);
-//		
-//		System.out.println("ArrayList<Car> timeCar : "+  timeCar);
-//		return new GsonBuilder().create().toJson(timeCar);
-//
-//	}
-	
+
 	//차량 예약 삭제
 	@ResponseBody
 	@RequestMapping(value = "/delRsv.car", method = RequestMethod.POST)
@@ -407,8 +367,6 @@ public class RequestController {
 		car.setEmpNo(rEmpNo);
 		car.setCRUsg(cRUsg);
 		
-		System.out.println(car.toString());
-		
 		requestService.rsvCar(car);
 
 		String result = "successCar";
@@ -431,7 +389,6 @@ public class RequestController {
 		mtrRList = requestService.mainRequestMtr(selectrMtrList);
 		
 		model.addAttribute("mtrRList", mtrRList);
-		System.out.println("메인 ----------mtrRList : " + mtrRList);
 		model.addAttribute("mainPageURL", "mainReqeust.mtr");
 		model.addAttribute("mainPage", 1);
 		
@@ -453,7 +410,6 @@ public class RequestController {
 		eqRList = requestService.mainRequestEq(selectEqList);
 		
 		model.addAttribute("eqRList", eqRList);
-		System.out.println("메인 ----------eqRList : " + eqRList);
 		model.addAttribute("mainPageURL", "mainRequest.eq");
 		model.addAttribute("mainPage", 2);
 		
