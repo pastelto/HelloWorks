@@ -88,8 +88,6 @@ public class VavationController {
     	searchStatus.setEmpNo(empNo);  
        	
     	Attendance canclelist = attendanceService.selectStatus(searchStatus);	
-
-    	System.out.println(canclelist);
     	
     	if( canclelist != null) {
     		if(canclelist.getPsStatus().equals("출근전")) {
@@ -177,16 +175,13 @@ public class VavationController {
 				
 		//수신참조 등록 (수신자등록)
 		String ccCode = request.getParameter("ccCode");
-		System.out.println("ccCode : " + ccCode);
 		if(!ccCode.equals("")) {							
 			if(isInteger(ccCode)) {
 				int num = Integer.parseInt(request.getParameter("ccCode"));
-				System.out.println("cotroller num :" + num);
 				vaCC.setCcMember(num);
 				vacationService.insertCcEmpl(vaCC);
 			} else {
 				vaCC.setCcDept(ccCode);
-				System.out.println("deptCode: " + ccCode);
 				vacationService.insertCcDept(vaCC);
 			}
 		}
@@ -247,15 +242,11 @@ public class VavationController {
 		 private void insertLine(VacationLine line, HttpServletRequest request) {
 			
 				String[] temp = request.getParameterValues("line");
-				System.out.println("temp:" + temp[0]);
 				int[] empNo = new int[temp.length];
 				
-				System.out.println("temp length " + temp.length);
 				for(int i=0; i < empNo.length; i++) {
 					if(!temp[i].equals("")) {
 						empNo[i] = Integer.parseInt(temp[i]);
-						System.out.println("tempI=" + temp[i]);
-						System.out.println("lineNo=" + empNo[i]);
 					}
 				}
 				
@@ -300,23 +291,17 @@ public class VavationController {
 		String documentType = request.getParameter("documentType"); 
 		String halfDay = request.getParameter("halfDay"); 
 		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-		
+		String endDate = request.getParameter("endDate");		
 		String vacationTitle = request.getParameter("vacationTitle");
-
-		
+	
 		apA.setDocumentType("휴가");
 		apA.setHalfDay(halfDay); //오전 or 오후
 		apA.setStartDate(startDate); // 요청시작일
 		apA.setEndDate(endDate); // 요청 종료일
-		apA.setVcType(vcType);// 휴가종류
-		
-		
+		apA.setVcType(vcType);// 휴가종류	
 		
 		vacationService.insertVacation(vacation); 
 		vacationService.insertAttendance(apA);
-		
-		
 	}
 	
 	
@@ -325,16 +310,13 @@ public class VavationController {
 	public String hrOnlyPage(Model model) {
 		
 		ArrayList<Vacation> hr  = vacationService.selectApproval();
-		
 
 		for(int i=0; i<hr.size(); i++) {	
 			hr.get(i).setStartDate(hr.get(i).getStartDate().substring(0, 10)); //요청시작날짜 포맷
 			hr.get(i).setEndDate(hr.get(i).getEndDate().substring(0, 10));//요청종료날짜 포맷
 			hr.get(i).setCreateDate(hr.get(i).getCreateDate().substring(0, 10));//작성날짜 포맷
 			
-		}
-		
-		
+		}				
 		model.addAttribute("hr", hr);
 		
 		
@@ -402,8 +384,7 @@ public class VavationController {
 			LoginUserVacation vacation = new LoginUserVacation();
 			
 			String date1 = change.getStartDate();
-		    String date2 = change.getEndDate();
-		    
+		    String date2 = change.getEndDate();		    
 			//날짜계산 메소드
 			int calculation =  dateChange(date1, date2);		
 			
@@ -421,20 +402,17 @@ public class VavationController {
 					vacation.setMaternity(calculation);
 				}
 				
-				vacation.setPsvEmpNo(change.getWriter());
-				
+				vacation.setPsvEmpNo(change.getWriter());				
 				vacationService.addVacation(vacation); 
 				break;
-			case"보건휴가":
-				
+			case"보건휴가":				
 				vacation.setVcType("보건휴가");
 				vacation.setManstural(1);
 				vacation.setPsvEmpNo(change.getWriter());
 				
 				vacationService.addVacation(vacation); 
 				break;
-			}
-			
+			}			
 			break;
 		default: model.addAttribute("msg", "변경되지 않았습니다");
 		}
@@ -446,9 +424,9 @@ public class VavationController {
 	//두 날짜 차이 일수 계산 메소드
 	private int dateChange(String date1, String date2) {
 		long diffDays = 0;
-		try {
-		  	date2 = date2.substring(0, 10);
+		try {	  	
 	        date1 = date1.substring(0, 10);
+	        date2 = date2.substring(0, 10);
 			      
 			Date datef;			
 			datef = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
@@ -461,14 +439,9 @@ public class VavationController {
 			cmpDatel.setTime(datel); //특정 일자
 			
 			long diffSec = (cmpDatel.getTimeInMillis() - cmpDatef.getTimeInMillis()) / 1000;
-			 diffDays = diffSec / (24*60*60); //일자수 차이
+			diffDays = diffSec / (24*60*60); //일자수 차이
 			
-			System.out.println(diffSec + "초 차이");
-			System.out.println(diffDays + "일 차이");
-	
-		
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	   
@@ -493,8 +466,7 @@ public class VavationController {
 		//제출한 휴가문서 
 		ArrayList<Vacation> apAtdn = vacationService.selectAPapproval(empNo);
 		
-		for(int i=0; i<apAtdn.size(); i++) {//사용일수 계산
-			
+		for(int i=0; i<apAtdn.size(); i++) {//사용일수 계산			
 			String date1 = apAtdn.get(i).getStartDate();
 			String date2 = apAtdn.get(i).getEndDate();
 			int calculation =  dateChange(date1, date2);	
@@ -504,9 +476,6 @@ public class VavationController {
 			apAtdn.get(i).setCreateDate(apAtdn.get(i).getCreateDate().substring(0, 10));//작성날짜 포맷
 			
 		}
-		
-		
-		
 		model.addAttribute("annual", annual);
 		model.addAttribute("vacation", vacation);
 		model.addAttribute("apAtdn", apAtdn);
@@ -517,7 +486,7 @@ public class VavationController {
 		
 		return "vacation/VacationUse";
 	}
-
+  
 	//연차사용 통계
 	@RequestMapping("vacationStatistics.ps")
 	public String vacationStatistics(Model model, HttpServletRequest request) {

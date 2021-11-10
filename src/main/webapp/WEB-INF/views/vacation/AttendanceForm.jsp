@@ -268,13 +268,16 @@
 		
 		$(function(){
 			$('#submitBtn').click(function(){
+				var documentType =  $("select[name='documentType'] option:selected").val(); //문서 타입
+				var halfDay =  $("select[name='halfDay'] option:selected").val(); //오전,오후 타입
 				
 				var line = $('#emp_level1_1').val();
 				var ap_title = $('#ap_title').val();
 				var summernote = $('#summernote').val();
 				var startDate = $('input[name=startDate]').val();
 				var endDate = $('input[name=endDate]').val();
-							
+				
+				//필수로 등록해야 하는 정보들 validation 체크
 				if(line == ""){
 					alert("결재라인을 추가해주세요")
 					return false;
@@ -292,7 +295,22 @@
 					return false;
 				}
 				
-			   $('#attendanceApro').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
+				
+				//반차 요청 날짜가 잘못되었을 때 
+				if(documentType == '반차'&& startDate != endDate ){
+					alert("반차는 하루 이상을 쓸 수 없습니다.")
+					return false;
+				}
+				
+				//반차 오전-오후 선택 안했을 때 
+				if(documentType == '반차'){
+					if(halfDay == ""){
+						alert("오전 또는 오후를 선택해주세요")
+						return false;
+					}					
+				}
+				
+			    $('#attendanceApro').attr("action", "<%=request.getContextPath()%>/insertAttendanceF.ps?status=Y");
 				$('#attendanceApro').submit();
 				
 			});

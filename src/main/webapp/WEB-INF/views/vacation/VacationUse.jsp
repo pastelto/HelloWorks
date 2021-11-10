@@ -8,6 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- overlayScrollbars -->
+<link rel="stylesheet"
+	href="./resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 <style>
 
 .content-wrapper {
@@ -84,7 +87,7 @@
 				              </div>
 							   
 							   <!-- 휴가정보 -->         
-				              <div class="card-body">
+				              <div class="card-body" >
 				                <table class="table table-bordered" id="vacationTable">
 				                  <thead>
 				                    <tr>
@@ -173,7 +176,7 @@
 				              </div>
 							   
 							   <!-- 제출한 휴가문서 -->         
-				              <div class="card-body">
+				              <div class="card-body" style="width:100%;height:250px;overflow-y:auto;overflow-x:hidden">
 				                <table class="table table-bordered table-hover" id="approvalTable">
 				                  <thead>
 				                    <tr>
@@ -236,7 +239,7 @@
                       
                     </div>
                		</div>
-              		<br> <br> 
+              	
                  </div> 
          
          	</div>

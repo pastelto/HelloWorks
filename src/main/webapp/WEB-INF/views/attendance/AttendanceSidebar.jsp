@@ -158,8 +158,7 @@
 				alert("팀장 이상만 조회 할 수 있습니다.")				
 				return false;
 			}else{
-				alert("else")
-				//location.href="vacationStatistics.ps";
+				location.href="vacationStatistics.ps";
 			}					
 		
 		}
