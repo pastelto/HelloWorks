@@ -11,7 +11,7 @@
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .content-wrapper {
-	overflow: auto;
+	overflow: auto;  
 }
 /*파일선택시 선택된 파일명이 붙는것을 가려준다*/
 .fileRegiBtn input[type="file"] {

@@ -36,17 +36,5 @@ public class Mail {
 	private String mailSndrName; // 발신자 이름
 	private String mailSndrDept; // 발신자 부서
 	private String mailSndrJobName; // 발신자 직급
-
-	
-//	MAIL_NO	NUMBER
-//	MAIL_RCVR	NUMBER
-//	MAIL_SNDR	NUMBER
-//	MAIL_REF	NUMBER
-//	MAIL_TITLE	VARCHAR2(1000 BYTE)
-//	MAIL_CONTENT	VARCHAR2(4000 BYTE)
-//	MAIL_DATE	DATE
-//	MAIL_STATUS	VARCHAR2(1 BYTE)
-//	MAIL_S_STATUS	VARCHAR2(1 BYTE)
-//	MAIL_R_STATUS	VARCHAR2(1 BYTE)
 	
 }

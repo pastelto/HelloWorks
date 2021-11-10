@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>휴지통</title>
 <style>
-.content-wrapper {
+.content-wrapper { 
 	overflow: auto;
 }
 </style>

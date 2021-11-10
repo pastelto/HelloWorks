@@ -31,7 +31,6 @@ public class MailController {
 	// 메일 작성페이지로
 	@RequestMapping("compose.ml")
 	public String composeMail() {
-		System.out.println("메일 작성 페이지");
 		return "mail/compose";
 	}
 
@@ -39,11 +38,10 @@ public class MailController {
 	@RequestMapping("send.ml")
 	public String sendMail(Mail m, HttpServletRequest request, Model model, MultipartHttpServletRequest multiRequest,
 			HttpSession session) {
+
 		m.setMailRcvr((String) multiRequest.getParameter("drReceiverList"));
-		System.out.println(m);
 
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
-		System.out.println("메일 컨트롤러 파일리스트" + fileList);
 
 		ArrayList<MailAttachment> mailAttachmentList = new ArrayList<MailAttachment>();
 		mailService.sendMail(m); // 메일 vo넘기기
@@ -57,12 +55,12 @@ public class MailController {
 
 					changeName = saveFile(fileList.get(i), request, i);
 
-					System.out.println("==================== file start ====================");
-					System.out.println("파일 이름 : " + changeName);
-					System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
-					System.out.println("파일 크기 : " + fileList.get(i).getSize());
-					System.out.println("content type : " + fileList.get(i).getContentType());
-					System.out.println("==================== file end =====================");
+//					System.out.println("==================== file start ====================");
+//					System.out.println("파일 이름 : " + changeName);
+//					System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+//					System.out.println("파일 크기 : " + fileList.get(i).getSize());
+//					System.out.println("content type : " + fileList.get(i).getContentType());
+//					System.out.println("==================== file end =====================");
 
 					mailAttach.setMailNo(m.getMailNo());
 					mailAttach.setMailAtOrg(fileList.get(i).getOriginalFilename());
@@ -70,13 +68,12 @@ public class MailController {
 					mailAttachmentList.add(mailAttach);
 				}
 
-				System.out.println("mailAttachmentList ? " + mailAttachmentList);
 				mailService.insertMailAttach(mailAttachmentList);
 
 			}
-
+			// 수신자 정보를 저장할 리스트
 			String rcvrList = m.getMailRcvr();
-			// 수신인 사번
+			// 수신자 사번을 분리하여 배열에 넣기
 			String[] rcvrNo = rcvrList.split(",");
 
 			for (int i = 0; i < rcvrNo.length; i++) {
@@ -94,7 +91,6 @@ public class MailController {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		session.removeAttribute("receiveListSession");
@@ -109,7 +105,6 @@ public class MailController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\mail_Attachment\\";
 
-		// System.out.println("savePath : " + savePath);
 		String originName = file.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		String ext = originName.substring(originName.lastIndexOf("."));
@@ -118,7 +113,6 @@ public class MailController {
 		try {
 			file.transferTo(new File(savePath + changeName));
 		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -128,7 +122,6 @@ public class MailController {
 	// 메일 읽기-메일상세조회
 	@RequestMapping("read.ml")
 	public String readMail(int mailNo, Model model, HttpServletRequest request) {
-		System.out.println("메일 읽기 페이지");
 
 		Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
 		String empNo = String.valueOf(myEmp.getEmpNo()); // 로그인한 사번을 String형으로 변환
@@ -145,7 +138,6 @@ public class MailController {
 		try {
 			// 상세 조회
 			mail = mailService.readMail(mailNo);
-			System.out.println("readMail 상세 조회 [mailNo : " + mail.getMailNo() + " ] : " + mail);
 
 			// 수신인 조회
 			String recvEmp = mail.getMailRStatus();
@@ -160,7 +152,6 @@ public class MailController {
 			if (contain) {
 
 				rEach = recvEmpList.split(",");
-				System.out.println("rEach ? " + rEach);
 
 				for (int i = 0; i < rEach.length; i++) {
 					if (rEach[i].equals(empNo)) {
@@ -174,19 +165,16 @@ public class MailController {
 				newMail.setMailNo(mailNo);
 				newMail.setMailRStatus(uList);
 
-				System.out.println("새로운 수신상태 값 uList ? " + uList);
+//				System.out.println("새로운 수신상태 값 uList ? " + uList);
 				mailService.readStatusMail(newMail);
 				mail = mailService.readMail(mailNo);
-				System.out.println("수신 처리후 readMail 상세 조회 [mailNo : " + mail.getMailNo() + " ] : " + mail);
 			}
 
 			// 첨부파일 상세조회
 			mailNo = mail.getMailNo();
-			System.out.println("mailNo 첨부파일 조회시 사용되는 메일번호 ? " + mailNo);
 			mailAttachment = mailService.readMailAttachment(mailNo);
 			System.out.println("mail : " + mail);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -213,7 +201,6 @@ public class MailController {
 	// 받은 메일함
 	@RequestMapping("inbox.ml")
 	public String inboxMailList(HttpServletRequest request, Model model) {
-		System.out.println("받은 메일함 페이지");
 
 		ArrayList<Mail> list = new ArrayList<>();
 		Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
@@ -226,7 +213,6 @@ public class MailController {
 	// 보낸 메일함
 	@RequestMapping("sent.ml")
 	public String sentMailList(HttpServletRequest request, Model model) {
-		System.out.println("보낸 메일함 페이지");
 		// 메일리스트
 		ArrayList<Mail> sentMailList = new ArrayList<Mail>();
 		// 수신자정보리스트
@@ -236,21 +222,16 @@ public class MailController {
 		int myEmp = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
 		sentMailList = mailService.sentMailList(myEmp);
 
-		// sentMailList.get(0).getMailRcvr(); // 수신자사번,수신자사번,수신자사번
-
 		// 수신자정보리스트조회
 		for (int i = 0; i < sentMailList.size(); i++) {
-			// rcvrList.add(mailService.getRcvrInfo(sentMailList.get(i).getMailNo()));
 
 			int mailNo = sentMailList.get(i).getMailNo();
 			String recvList = sentMailList.get(i).getMailRcvr();
 			String[] recv = recvList.split(",");
-			System.out.println("보낸 메일함 페이지=====recvList: " + recvList);
-			System.out.println("보낸 메일함 페이지=====recv: " + Arrays.toString(recv));
 
 			for (int j = 0; j < recv.length; j++) {
 
-				int recvEmpNo = Integer.parseInt(recv[j]); // 202100001, 202100002, 202100003
+				int recvEmpNo = Integer.parseInt(recv[j]); // 202100001, 202100002, 202100003...
 				Mail rEmp = new Mail();
 				rEmp.setMailRcvrNo(recvEmpNo);
 				rEmp.setMailNo(mailNo);
@@ -270,7 +251,6 @@ public class MailController {
 	// 임시 메일함
 	@RequestMapping("draft.ml")
 	public String draftMailList(HttpServletRequest request, Model model) {
-		System.out.println("임시 메일함 페이지");
 
 		// 메일리스트
 		ArrayList<Mail> draftMailList = new ArrayList<Mail>();
@@ -312,8 +292,6 @@ public class MailController {
 	@RequestMapping("dCompose.ml")
 	public String draftComposeMail(int mailNo, Model model, HttpServletRequest request) {
 		System.out.println("draftComposeMail 페이지");
-
-		// Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
 
 		Mail mail = new Mail();
 		ArrayList<MailAttachment> mailAttachment = new ArrayList<>(); // 메일 첨부파일 조회
@@ -388,12 +366,12 @@ public class MailController {
 
 					changeName = saveFile(fileList.get(i), request, i);
 
-					System.out.println("==================== file start ====================");
-					System.out.println("파일 이름 : " + changeName);
-					System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
-					System.out.println("파일 크기 : " + fileList.get(i).getSize());
-					System.out.println("content type : " + fileList.get(i).getContentType());
-					System.out.println("==================== file end =====================");
+//					System.out.println("==================== file start ====================");
+//					System.out.println("파일 이름 : " + changeName);
+//					System.out.println("파일 실제 이름 : " + fileList.get(i).getOriginalFilename());
+//					System.out.println("파일 크기 : " + fileList.get(i).getSize());
+//					System.out.println("content type : " + fileList.get(i).getContentType());
+//					System.out.println("==================== file end =====================");
 
 					mailAttach.setMailNo(m.getMailNo());
 					mailAttach.setMailAtOrg(fileList.get(i).getOriginalFilename());
@@ -444,12 +422,7 @@ public class MailController {
 	@RequestMapping("trash.ml")
 	public String trashMailList(HttpServletRequest request, Model model) {
 		System.out.println("메일 휴지통 페이지");
-
-//		ArrayList<Mail> list = new ArrayList<>();
-//		Employee myEmp = (Employee) request.getSession().getAttribute("loginUser");
-//		list = mailService.trashMailList(myEmp);
-//		model.addAttribute("list", list);
-
+		
 		return "mail/trash";
 	}
 

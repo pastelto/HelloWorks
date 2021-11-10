@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <style>
 .content-wrapper {
-	overflow: auto;
+	overflow: auto; 
 }
 </style>
 </head>

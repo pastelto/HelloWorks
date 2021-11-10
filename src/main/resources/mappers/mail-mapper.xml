@@ -185,11 +185,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		MAIL_R_STATUS = #{mailRStatus} 
 		WHERE MAIL_NO = #{mailNo}		
 	</update>
-	
+	 
 	<!--임시보관 첨부파일저장 -->
 	<insert id="insertDMailAttach" parameterType="MailAttachment">
 		UPDATE
-		MAIL_ATTACHMENT
+		MAIL_ATTACHMENT 
 		SET
 		MAIL_AT_ORG = #{mailAtOrg},
 		MAIL_AT_CHG = #{mailAtChg},

@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>메일 읽기</title>
-</head>
-<style>
-.content-wrapper {
+</head> 
+<style> 
+.content-wrapper {  
 	overflow: auto;
 }
 </style>

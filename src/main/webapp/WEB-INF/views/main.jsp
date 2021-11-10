@@ -143,12 +143,25 @@ body{
 					} else if(key == "eqRList"){
 						
 						$.each(mainAll[key], function(key, obj){
+							if(obj.erCondition == "제출"){
 							valueEq += "<tr>" +
 										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
 										 "<td> " + obj.eqName + "</td>" +
 									     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
 										 "</tr>";
-							
+							} else if(obj.erCondition == "승인취소"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:salmon;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							} else if(obj.erCondition == "승인완료"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:mediumturquoise;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							}
 						
 						});
 						

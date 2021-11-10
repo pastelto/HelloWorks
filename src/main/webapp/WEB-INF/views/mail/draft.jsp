@@ -196,8 +196,6 @@
 			$("#draftList tbody tr").click(function() {
 				var mailNo = $(this).children().eq(1).text();
 
-				//console.log("mailNo : " + mailNo);
-
 				location.href = "dCompose.ml?mailNo=" + mailNo;
 
 			});

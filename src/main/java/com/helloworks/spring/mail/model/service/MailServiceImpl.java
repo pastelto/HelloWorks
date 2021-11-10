@@ -88,13 +88,6 @@ public class MailServiceImpl implements MailService {
 		return mailDao.draftMailList(sqlSession, myEmp);
 	}
 
-//	//휴지통
-//	@Override
-//	public ArrayList<Mail> trashMailList(Employee myEmp) {
-//		// TODO Auto-generated method stub
-//		return mailDao.trashMailList(sqlSession, myEmp);
-//	}
-
 	// 메일 객체
 	@Override
 	public ArrayList<Mail> getMail(Mail mail) {

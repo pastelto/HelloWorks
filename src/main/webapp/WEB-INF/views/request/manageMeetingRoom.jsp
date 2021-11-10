@@ -44,7 +44,7 @@
 					<h3 class="card-title">회의실 목록</h3>
 					<div class="float-right">
 						<button class="btn btn-primary"
-							onclick="window.open('openAdd.mtr','화의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
+							onclick="window.open('openAdd.mtr','회의실 등록','width=600,height=300,location=no,status=no,scrollbars=yes');">
 							회의실 등록
 						</button>
 						<button class="btn btn-danger" id="deleteBtn">

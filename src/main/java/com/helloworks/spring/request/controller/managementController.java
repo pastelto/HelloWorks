@@ -27,9 +27,7 @@ public class managementController {
 	// 회의실 리스트조회
 	@RequestMapping("manage.mtr")
 	public String manageMtr(Model m) {
-		// System.out.println("회의실 관리페이지");
 		ArrayList<Mtr> list = requestService.manageMtr();
-		// System.out.println("list "+ list);
 		m.addAttribute("list", list);
 		return "request/manageMeetingRoom";
 	}
@@ -37,7 +35,6 @@ public class managementController {
 	// 회의실 등록 팝업 페이지로
 	@RequestMapping("openAdd.mtr")
 	public String openAddMtr() {
-		// System.out.println("회의실 등록페이지 팝업");
 		return "request/addMeetingRoom";
 	}
 
@@ -56,7 +53,6 @@ public class managementController {
 	public String deleteMtr(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
 		requestService.deleteMtr(checkArr);
-		System.out.println("성공");
 		String result = "성공!";
 		return String.valueOf(result);
 
@@ -94,7 +90,6 @@ public class managementController {
 	public String deleteCar(@RequestParam(value = "checkArr[]") List<String> checkArr){
 
 		requestService.deleteCar(checkArr);
-		System.out.println("성공");
 		String result = "성공!";
 		return String.valueOf(result);
 

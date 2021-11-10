@@ -505,6 +505,8 @@ public class EmployeeController {
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
 		  
+		  
+		  
 		  // 해쉬맵 
 		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
 		  // 다혜
