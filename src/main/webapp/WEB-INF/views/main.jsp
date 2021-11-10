@@ -106,6 +106,8 @@ body{
 				var valueMtr = ""; // 회의실 목록
 				var valueEq = ""; // 비품 목록
 				var valueMail = ""; // 메일 inbox
+				var valueMyApproval = ""; // 내결재함
+				var valuePending=""; // 미결재함
 				
 				for(var key in mainAll){
 					
@@ -163,6 +165,33 @@ body{
 										 "</tr>";
 						
 						});
+					} else if(key == "acList"){
+						
+						$.each(mainAll[key], function(key, obj){
+							valueMyApproval += '<div class="approvalSimple style="font-size:small;">' + 
+											'<div class="user-block">' +
+											'<strong style="color:gray;">['+ obj.commentDate +']</strong>&nbsp;' +
+											obj.cmDept +'&nbsp;'+ obj.cmName +'&nbsp;'+obj.cmJob + 
+											'</div>'+ '<br>'+
+											'<strong style="color:gray;" class="apTitle" onclick="selectApDetail('+obj.apNo+",'"+obj.detailClass+"'"+');">'+ obj.title +'&nbsp;'+'</strong>'+ '<strong class="ap_progress">'+'[' + obj.progress +"]"+'</strong>'+
+											'<div class="div_comment">'+
+											'<p>'+
+												obj.comment+
+											'</p>'+ '</div>' +'<hr color="gray">'+
+										   '</div>';
+						
+						});
+					} else if(key == "approvalList") {
+						$.each(mainAll[key], function(key, obj){
+							valuePending += '<div class="pendingSimple">' + 
+											'<div class="user-block">' +
+											'<strong>['+ obj.createDate +']</strong>&nbsp;' +
+											obj.deptName +'&nbsp;'+ obj.writerName +'&nbsp;'+obj.writerJob + 
+											'</div>'+ '<br>'+
+											'<strong  style="color:gray;" class="apTitle" onclick="selectApDetail('+obj.apNo+",'"+obj.detailClass+"'"+');">'+ obj.title + '</strong>'+ 
+											'<hr color="gray">'+'</div>';
+						
+						});
 					}
 					
 					console.log("ajax 성공!! -- mainAll");
@@ -171,7 +200,8 @@ body{
 					$("#mainRequestMtrTable tbody").html(valueMtr); // 회의실 신청
 					$("#mainRequestEqTable tbody").html(valueEq); // 비품 신청
 					$("#mailListTable tbody").html(valueMail); // 메일 inbox
-					
+					$("#mainMyApprovalTable tbody").html(valueMyApproval); // 내결재함
+					$("#mainPendingApprovalTable tbody").html(valuePending); // 미결재함
 					
 				}
 				

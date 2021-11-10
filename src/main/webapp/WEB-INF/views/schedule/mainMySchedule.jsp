@@ -41,7 +41,7 @@
 	  background-color:white;
 	  height: 726px;
 	  margin-top:30px; 
-	   position: absolute;
+	  position: absolute;
 	}
 	
 	.mainCalendar{

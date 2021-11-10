@@ -149,28 +149,14 @@ public class EmployeeController {
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
 	      selectMap.put("status", status);	
-	      int flag = 0;
-	      
-	      if(request.getParameter("flag") != null) {
-	    	  flag = Integer.parseInt(request.getParameter("flag"));
 	    	  
-		      if(flag == 0) {
-			      acList = approvalService.mainMyApproval(selectMap);
-			      mv.addObject("acList", acList);
-			      mv.addObject("commentPageURL", "mainMyApproval.ea");
-			      mv.addObject("commentPage", 1);
-		      } else if(flag == 1) {		    	  
-		    	  approvalList = approvalService.mainPending(selectMap);
-			      mv.addObject("approvalList", approvalList);
-			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
-			      mv.addObject("commentPage", 2);
-		      }
-		  } else {
-			  acList = approvalService.mainMyApproval(selectMap);
-		      mv.addObject("acList", acList);
-		      mv.addObject("commentPageURL", "mainMyApproval.ea");
-		      mv.addObject("commentPage", 1);
-		  }
+		  approvalList = approvalService.mainPending(selectMap);
+		  mv.addObject("approvalList", approvalList);
+
+		  acList = approvalService.mainMyApproval(selectMap);
+		  mv.addObject("acList", acList);
+
+		  
 	      
 	      //왕다영
 		  // 회의실

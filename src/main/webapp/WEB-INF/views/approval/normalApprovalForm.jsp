@@ -197,13 +197,6 @@
 											<tr>
 												<td>
 													<table class="table table-bordered" id="process_table">
-														<colgroup>
-																<col width="15%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-																<col width="22%" />
-															</colgroup>
 														<tbody>
 															<tr>
 																<th rowspan="2"  colspan="5">협조</th>
