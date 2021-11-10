@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서선택</title>
 <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -111,14 +111,7 @@
 
 	function selectDept(dept){
 		
-		/* var val = $("hidden_parent").val();
-		console.log(val);  */
-		
-		console.log(dept)
-		console.log(paId)
-		
 		window.opener.document.getElementById(paId).value = dept;
-		//$(opener.document).find('"' + paId + '"').val(dept);
 		window.close();
 	}
 	

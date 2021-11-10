@@ -1066,10 +1066,18 @@ public class ApprovalController {
 	// 인사
 	public void insertHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 		String dueDate = request.getParameter("dueDate");
+		int dDate = 0;
+		if(dueDate.equals("5일 이내") ) {
+			dDate = 5;
+		} else if (dueDate.equals("10일 이내")) {
+			dDate = 10;
+		} else if(dueDate.equals("30일 이내")) {
+			dDate = 30;
+		}	
 		String hrtype = request.getParameter("hr_type");
-		ap.setApClass("인사");
+		ap.setApClass("일반");
 		ah.setHrClass(hrtype);
-		ah.setDueDate(dueDate);
+		ah.setInputDate(dDate);
 		approvalService.insertApproval(ap); 
 		approvalService.insertHr(ah);
 		
@@ -1762,10 +1770,19 @@ public class ApprovalController {
 
 		private void updateHr(Approval ap, ApprovalHr ah, HttpServletRequest request) {
 			String dueDate = request.getParameter("dueDate");
+			int dDate = 0;			
+			if(dueDate.equals("5일 이내") ) {
+				dDate = 5;
+			} else if (dueDate.equals("10일 이내")) {
+				dDate = 10;
+			} else if(dueDate.equals("30일 이내")) {
+				dDate = 30;
+			}
+						
 			String hrtype = request.getParameter("hr_type");
-			ap.setApClass("인사");
+			ap.setApClass("일반");
 			ah.setHrClass(hrtype);
-			ah.setDueDate(dueDate);
+			ah.setInputDate(dDate);
 			approvalService.updateApproval(ap); 
 			approvalService.updatetHr(ah);
 			
