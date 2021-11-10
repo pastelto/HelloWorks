@@ -58,3 +58,5 @@ public interface DailyReportService{
 	ArrayList<DailyReport> searchDailyReportList(DailyReport dailyReport, PageInfo pi);
 
 }
+
+

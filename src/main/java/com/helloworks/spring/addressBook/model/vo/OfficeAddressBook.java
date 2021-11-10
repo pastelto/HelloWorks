@@ -27,3 +27,4 @@ public class OfficeAddressBook {
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름 
 }
+

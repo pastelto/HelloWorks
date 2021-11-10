@@ -21,3 +21,4 @@ public class PersonalAddressBook {
 	private String pabEmail;	//	PAB_EMAIL	VARCHAR2(1000 BYTE)
 	private String pabStatus;	//	PAB_STATUS	VARCHAR2(1 BYTE)
 }
+
