@@ -47,7 +47,6 @@ public class OfficeRoomController {
 	/* 직원 검색 */
 	@RequestMapping("searchEmpMain.or")
 	public String enrollReportForm(Model model) {
-		System.out.println("직원검색 페이지 전환");
 		
 		ArrayList<Employee> list = officeRoomService.selectAllEmployee();
 		model.addAttribute("list", list);
@@ -65,7 +64,7 @@ public class OfficeRoomController {
 	@ResponseBody
 	@RequestMapping(value="selectDeptEmployee.or", produces = "application/json; charset=utf-8")
 	public String selectDeptEmployee(String deptCode) {
-		System.out.println("부서코드: "+deptCode);
+
 		ArrayList<Employee> list = officeRoomService.selectDeptEmployee(deptCode);
 		
 		return new GsonBuilder().create().toJson(list); 
@@ -74,7 +73,7 @@ public class OfficeRoomController {
 	@ResponseBody
 	@RequestMapping(value="selectKorSortEmployee.or", produces = "application/json; charset=utf-8")
 	public String selectKorSortEmployee(String catTitle) {
-		System.out.println("한글 코드: "+catTitle);
+
 		ArrayList<Employee> list = officeRoomService.selectKorSortEmployee(catTitle);
 		
 		return new GsonBuilder().create().toJson(list); 
@@ -83,7 +82,7 @@ public class OfficeRoomController {
 	@ResponseBody
 	@RequestMapping(value="selectEngSortEmployee.or", produces = "application/json; charset=utf-8")
 	public String selectEngSortEmployee(String catTitle) {
-		System.out.println("영어 코드: "+catTitle);
+
 		ArrayList<Employee> list = officeRoomService.selectEngSortEmployee(catTitle);
 		
 		return new GsonBuilder().create().toJson(list); 
@@ -95,8 +94,6 @@ public class OfficeRoomController {
 		
 		Employee emp = officeRoomService.searchEmployeeDetail(empNo);
 		
-		System.out.println("직원상세조회 Controller: "+ emp);
-		
 		//출퇴근 상태값 불러오기
 		Attendance attendance = officeRoomService.attendanceEmployee(empNo);
 		
@@ -107,9 +104,6 @@ public class OfficeRoomController {
 	@RequestMapping("searchEmployee.or")
 	public String searchEmployee(String optionType, String deptTypeOption, String searchEmployee, Model model) {
 
-		System.out.println("optionType: "+optionType);
-		System.out.println("deptTypeOption: "+deptTypeOption);
-		System.out.println("searchEmployee: "+searchEmployee);
 		
 		SearchEmployee se = new SearchEmployee();
 		
@@ -147,11 +141,8 @@ public class OfficeRoomController {
 	
 	@RequestMapping("popupSearchEmp.or")
 	public String popupSearchEmp(Model model, HttpServletRequest request, HttpSession session) {
-		System.out.println("직원검색 페이지 전환");
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
-		
-		
 		
 		HashMap<String, String> receiveListSession = (HashMap<String, String>) (request.getSession().getAttribute("receiveListSession"));
 		HashMap<String, String> refListSession = (HashMap<String, String>) (request.getSession().getAttribute("refListSession"));
@@ -168,9 +159,6 @@ public class OfficeRoomController {
 	@RequestMapping("popupSearchEmployee.or")
 	public String popupSearchEmployee(String optionType, String deptTypeOption, String searchEmployee, Model model) {
 
-		System.out.println("optionType: "+optionType);
-		System.out.println("deptTypeOption: "+deptTypeOption);
-		System.out.println("searchEmployee: "+searchEmployee);
 		
 		SearchEmployee se = new SearchEmployee();
 		
@@ -212,16 +200,13 @@ public class OfficeRoomController {
 		// HashMap
 		HashMap<String, String> originAddReceiveList = (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession"));
 		
-		System.out.println("이전: "+(HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		session.removeAttribute("receiveListSession"); 
-		System.out.println("이후: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		
 		HashMap<String, String> receiveList = new HashMap<String, String>();
 		
 		if(originAddReceiveList == null) {
-			System.out.println("세션값 비었다.");
 			String receiveListStr = request.getParameter("receiveList");
-			System.out.println(receiveListStr);
+
 			StringTokenizer tokenOrigin = new StringTokenizer(receiveListStr, ",");
 			
 			while(tokenOrigin.hasMoreTokens()) {
@@ -231,12 +216,9 @@ public class OfficeRoomController {
 				while(tokenOriginDiv.hasMoreTokens()) {
 					receiveList.put(tokenOriginDiv.nextToken(), tokenOriginDiv.nextToken());
 				}
-				System.out.println("기존 session값: "+receiveList);
 			}
-			
 			session.setAttribute("receiveListSession", receiveList);
 		}else if (originAddReceiveList != null){
-			System.out.println("세션값 있었다.");
 			
 			receiveList = originAddReceiveList;
 			
@@ -252,17 +234,11 @@ public class OfficeRoomController {
 				while(tokenNewDiv.hasMoreTokens()) {
 					receiveList.put(tokenNewDiv.nextToken(), tokenNewDiv.nextToken());
 				}
-				System.out.println("새로 전달 받은 값 추가: "+receiveList);
 			}
-			
-			System.out.println(receiveList);
-			
 			session.setAttribute("receiveListSession", receiveList);
 		}
 		
-		System.out.println("신규: "+ (HashMap<String, String>)(request.getSession().getAttribute("receiveListSession")));
 		
-		System.out.println("넘어갔나요: "+receiveList);
 		return "redirect:popupSearchEmp.or";
 		
 	}
@@ -274,7 +250,7 @@ public class OfficeRoomController {
 		
 		HashMap<String, String> receiveList = new HashMap<String, String>();
 		receiveList = originAddReceiveList;
-		System.out.println("세션값: "+receiveList);
+
 		// 지워야 할 값
 		HashMap<String, String> delReceiveList = new HashMap<String, String>();
 		
@@ -296,17 +272,17 @@ public class OfficeRoomController {
 		// 기존 session의 key와 동일하면 remove하기
 		
 		Iterator<String> originKey = originAddReceiveList.keySet().iterator();
-		System.out.println("originKey: "+originKey);
+
 		ArrayList<String> delKey = new ArrayList<String>();
 		while(originKey.hasNext()) {
 			String keyOrigin = originKey.next();
-			System.out.println("keyOrigin: "+keyOrigin);
+
 			Iterator<String> newKey = delReceiveList.keySet().iterator();
 			
 			while(newKey.hasNext()) {
 				
 				String keyNew = newKey.next();
-				System.out.println("keyOrigin: "+keyOrigin+" keyNew: "+keyNew);
+
 				if(keyOrigin.equals(keyNew)) {
 					System.out.println(keyOrigin);
 					delKey.add(keyOrigin);
@@ -321,8 +297,6 @@ public class OfficeRoomController {
 			receiveList.remove(delKey.get(i));
 		}
 		
-		
-		System.out.println("세션값 변경: "+receiveList);
 		session.setAttribute("receiveListSession", receiveList);
 		
 		return "redirect:popupSearchEmp.or";
@@ -335,14 +309,12 @@ public class OfficeRoomController {
 		// HashMap
 		HashMap<String, String> originAddRefList = (HashMap<String, String>)(request.getSession().getAttribute("refListSession"));
 		
-		System.out.println("이전: "+(HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
 		session.removeAttribute("refListSession"); 
-		System.out.println("이후: "+ (HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
 		
 		HashMap<String, String> refList = new HashMap<String, String>();
 		
 		if(originAddRefList == null) {
-			System.out.println("세션값 비었다.");
+
 			String refListStr = request.getParameter("refList");
 			System.out.println(refListStr);
 			StringTokenizer tokenOrigin = new StringTokenizer(refListStr, ",");
@@ -354,12 +326,10 @@ public class OfficeRoomController {
 				while(tokenOriginDiv.hasMoreTokens()) {
 					refList.put(tokenOriginDiv.nextToken(), tokenOriginDiv.nextToken());
 				}
-				System.out.println("기존 session값: "+refList);
 			}
 			
 			session.setAttribute("refListSession", refList);
 		}else if (originAddRefList != null){
-			System.out.println("세션값 있었다.");
 			
 			refList = originAddRefList;
 			
@@ -375,7 +345,6 @@ public class OfficeRoomController {
 				while(tokenNewDiv.hasMoreTokens()) {
 					refList.put(tokenNewDiv.nextToken(), tokenNewDiv.nextToken());
 				}
-				System.out.println("새로 전달 받은 값 추가: "+refList);
 			}
 			
 			System.out.println(refList);
@@ -383,9 +352,6 @@ public class OfficeRoomController {
 			session.setAttribute("refListSession", refList);
 		}
 		
-		System.out.println("신규: "+ (HashMap<String, String>)(request.getSession().getAttribute("refListSession")));
-		
-		System.out.println("넘어갔나요: "+refList);
 		return "redirect:popupSearchEmp.or";
 		
 	}
@@ -397,7 +363,7 @@ public class OfficeRoomController {
 		
 		HashMap<String, String> refList = new HashMap<String, String>();
 		refList = originAddRefList;
-		System.out.println("세션값: "+refList);
+
 		// 지워야 할 값
 		HashMap<String, String> delRefList = new HashMap<String, String>();
 		
@@ -444,8 +410,6 @@ public class OfficeRoomController {
 			refList.remove(delKey.get(i));
 		}
 		
-		
-		System.out.println("세션값 변경: "+refList);
 		session.setAttribute("refListSession", refList);
 		
 		return "redirect:popupSearchEmp.or";
@@ -460,7 +424,6 @@ public class OfficeRoomController {
 		
 		ArrayList<CommonResources> commResourcesList = officeRoomService.selectCommResourcesList(pi);
 		
-		System.out.println("공통자료실: "+commResourcesList);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("commResourcesList", commResourcesList);
@@ -506,7 +469,6 @@ public class OfficeRoomController {
 	
 	@RequestMapping("commResourcesDetail.or")
 	public String commResourcesDetail(int crNo, HttpServletRequest request, Model model) {
-		System.out.println("공통 자료실 detail"+crNo);
 		
 		officeRoomService.increaseCount(crNo);
 		int loginUserNo = ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();
@@ -514,7 +476,6 @@ public class OfficeRoomController {
 		
 		ArrayList<CommonResourcesAttachment> commonResourcesAttach = officeRoomService.selectCommonResourcesAttachMent(crNo); 
 		
-		System.out.println("자료실 첨부파일:"+commonResourcesAttach);
 		model.addAttribute("commonResources", commonResources);
 		model.addAttribute("commonResourcesAttach", commonResourcesAttach);
 		model.addAttribute("loginUserNo", loginUserNo);
@@ -534,8 +495,6 @@ public class OfficeRoomController {
 	@RequestMapping(value="addCommResourcesReply.or", produces = "application/json; charset=utf-8")
 	public String addCommReply(CommonResourcesReply r) {
 		
-		System.out.println("댓글: "+r);
-		
 		int result = officeRoomService.addCommReply(r);
 		return String.valueOf(result);
 	}
@@ -543,7 +502,7 @@ public class OfficeRoomController {
 	@ResponseBody
 	@RequestMapping("deleteCommResourcesReply.or")
 	public String deleteCommReply(int crNo) {
-		System.out.println("삭제 넘어오나요..?");
+
 		int result = officeRoomService.deleteCommReply(crNo);
 		
 		return String.valueOf(result);
@@ -607,7 +566,6 @@ public class OfficeRoomController {
 		
 		ArrayList<DeptResources> deptResourcesList = officeRoomService.selectDeptResourcesList(loginUser.getDeptCode(), pi);
 		
-		System.out.println("공통자료실: "+deptResourcesList);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("deptResourcesList", deptResourcesList);
@@ -664,7 +622,6 @@ public class OfficeRoomController {
 		
 		ArrayList<DeptResourcesAttachment> deptResourcesAttach = officeRoomService.selectDeptResourcesAttachMent(deptrNo); 
 		
-		System.out.println("자료실 첨부파일:"+deptResourcesAttach);
 		model.addAttribute("deptResources", deptResources);
 		model.addAttribute("deptResourcesAttach", deptResourcesAttach);
 		model.addAttribute("loginUserNo", loginUserNo);
@@ -683,8 +640,6 @@ public class OfficeRoomController {
 	@ResponseBody
 	@RequestMapping(value="addDeptResourcesReply.or", produces = "application/json; charset=utf-8")
 	public String addDeptReply(DeptResourcesReply r) {
-		
-		System.out.println("댓글: "+r);
 		
 		int result = officeRoomService.addDeptCommReply(r);
 		return String.valueOf(result);
@@ -710,9 +665,8 @@ public class OfficeRoomController {
 	@RequestMapping("deptResourcesInsert.or")
 	public String deptResourcesInsert(DeptResources deptResources, MultipartHttpServletRequest multiRequest, HttpServletRequest request, Model model) throws Exception {
 		
-		System.out.println("전달 값: "+deptResources);
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
-		System.out.println("fileList ? " + fileList.size());
+
 		if(fileList.get(0).getSize() == 0) {
 			deptResources.setDeptrAttach("N");
 		}else {
@@ -782,14 +736,11 @@ public class OfficeRoomController {
 	public String searchDeptResources(String resourcesType, String optionType, String search,
 			@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
-		System.out.println("부서별 검색 컨트롤러 option: "+optionType);
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		DeptResources deptResources = new DeptResources();
 		deptResources.setDeptCode(loginUser.getDeptCode());
 		
-		//if(!resourcesType.equals("allType")){
-			deptResources.setDeptrCategory(resourcesType);
-		//}
+		deptResources.setDeptrCategory(resourcesType);
 		
 		deptResources.setOptionType(optionType);
 		deptResources.setSearch(search);
@@ -826,7 +777,6 @@ public class OfficeRoomController {
 	public String searchCommResources(String resourcesType, String optionType, String search,
 			@RequestParam(value="currentPage", required=false, defaultValue = "1") int currentPage, HttpServletRequest request, Model model) {
 		
-		System.out.println("공통 자료실 검색 컨트롤러 option: "+optionType);
 		
 		Employee loginUser = ((Employee)request.getSession().getAttribute("loginUser")); 
 		CommonResources commResources = new CommonResources();
@@ -920,10 +870,8 @@ public class OfficeRoomController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\commonResources_files\\";
 		
-		System.out.println("savePath : " + savePath);
 		
 		String fileName = file.getCrAttachChange();
-		System.out.println("삭제할 파일 명 : " + fileName);
 		
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();
@@ -959,7 +907,6 @@ public class OfficeRoomController {
 		
 		
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
-		System.out.println("fileList ? " + fileList.size());
 		
 		if(fileList.get(0).getSize() == 0 && originAttachlist.size() == 0) {
 			commonResources.setCrAttach("N");
@@ -967,14 +914,9 @@ public class OfficeRoomController {
 			commonResources.setCrAttach("Y");
 		}
 		
-		System.out.println("업데이트 전달 값: "+commonResources);
-		System.out.println(" originAttachlist.size(): "+ originAttachlist.size());
-		System.out.println(" fileList.get(0).getSize(): "+ fileList.get(0).getSize());
 		
 		officeRoomService.updateCommResources(commonResources);
 		
-		
-		System.out.println("업데이트 값: "+commonResources);
 		
 		ArrayList<CommonResourcesAttachment> commonResourcesAttachList = new ArrayList<CommonResourcesAttachment>();
 		
@@ -1021,10 +963,8 @@ public class OfficeRoomController {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = resources + "\\deptResources_files\\";
 		
-		System.out.println("savePath : " + savePath);
 		
 		String fileName = file.getDeptrAttachChange();
-		System.out.println("삭제할 파일 명 : " + fileName);
 		
 		File deleteFile = new File(savePath + fileName);
 		deleteFile.delete();
@@ -1042,7 +982,7 @@ public class OfficeRoomController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("부서별 자료실 list: "+list);
+		
 		if(!list.isEmpty()) {
 			return new GsonBuilder().create().toJson(list); 
 		} else {
@@ -1060,7 +1000,6 @@ public class OfficeRoomController {
 		
 		
 		List<MultipartFile> fileList = multiRequest.getFiles("uploadFile");
-		System.out.println("fileList ? " + fileList.size());
 		
 		if(fileList.get(0).getSize() == 0 && originAttachlist.size() == 0) {
 			deptResources.setDeptrAttach("N");
@@ -1069,14 +1008,8 @@ public class OfficeRoomController {
 		}
 		
 		
-		System.out.println("업데이트 전달 값: "+deptResources);
-		System.out.println(" originAttachlist.size(): "+ originAttachlist.size());
-		System.out.println(" fileList.get(0).getSize(): "+ fileList.get(0).getSize());
-		
 		officeRoomService.updateDeptResources(deptResources);
 		
-		
-		System.out.println("업데이트 값: "+deptResources);
 		
 		ArrayList<DeptResourcesAttachment> deptResourcesAttachList = new ArrayList<DeptResourcesAttachment>();
 		

@@ -220,7 +220,8 @@
 						            </div>
 									</div>
 									<div class="col-2"  align='right'>
-										<c:if test="${ loginUser.deptCode == 'A1' or loginUser.deptCode == 'A2' or loginUser.deptCode == 'A3' or loginUser.jobCode == 'J1' or loginUser.jobCode == 'J2' or loginUser.jobCode == 'J3'}">
+										<c:if test="${ loginUser.deptCode == 'A1' or loginUser.deptCode == 'A2' or loginUser.deptCode == 'A3'
+													 or loginUser.jobCode == 'J1' or loginUser.jobCode == 'J2' or loginUser.jobCode == 'J3'}">
 											<button onclick="insertResource();" class="btn btn-sm btn-primary" type="button">글쓰기</button>&nbsp;
 										</c:if>
 									</div>

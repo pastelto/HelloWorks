@@ -170,13 +170,6 @@
 								</tbody>
 							</table>
 								
-								<!-- <div class="insertBtn">
-									 <button type="submit" class="btn btn-primary">제출</button>
-									<button type="button" class="btn btn-primary" onclick="submitBtn();">제출</button>
-								</div>	 -->	
-												
-						
-						
 						</div>
 					<!-- card-footer -->
 					<div class="card-footer">
@@ -301,10 +294,10 @@
 					return false;
 				}
 			}
-			
 		}
 	</script>
 	
+	<!-- 돌아가기 버튼 -->
 	<script>
 		function cancelFun(){
 			if(confirm("작성 내용이 저장되지 않습니다.\n돌아가시겠습니까?") == true){

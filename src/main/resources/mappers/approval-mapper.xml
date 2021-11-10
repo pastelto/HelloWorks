@@ -158,9 +158,11 @@
 	
 	<!-- 인사문서 insert -->
 	<insert id="insertHr" parameterType="ApprovalHr">
+	<![CDATA[
 		INSERT INTO APPROVAL_HR
 		VALUES
-		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{hrClass}, #{dueDate})
+		(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.CURRVAL, 5, '0'), #{hrClass}, SYSDATE+#{inputDate})
+	]]>
 	</insert>
 	
 	<!-- 결재라인 insert -->
@@ -877,11 +879,13 @@
  	
  	<!-- update hr -->
  	<update id="updatetHr" parameterType="ApprovalHr">
+ 	<![CDATA[
  		UPDATE APPROVAL_HR
  		SET
  		HR_CLASS = #{hrType},
- 		DUE_DATE = #{dueDate}
+ 		DUE_DATE = SYSDATE+#{inputDate}
  		WHERE APPROVAL_NO = #{apNo}
+ 	]]>
  	</update>
  	
  	<!-- update Minutes -->

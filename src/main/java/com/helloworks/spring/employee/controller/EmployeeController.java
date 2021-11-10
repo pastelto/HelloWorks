@@ -149,28 +149,14 @@ public class EmployeeController {
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
 	      selectMap.put("status", status);	
-	      int flag = 0;
-	      
-	      if(request.getParameter("flag") != null) {
-	    	  flag = Integer.parseInt(request.getParameter("flag"));
 	    	  
-		      if(flag == 0) {
-			      acList = approvalService.mainMyApproval(selectMap);
-			      mv.addObject("acList", acList);
-			      mv.addObject("commentPageURL", "mainMyApproval.ea");
-			      mv.addObject("commentPage", 1);
-		      } else if(flag == 1) {		    	  
-		    	  approvalList = approvalService.mainPending(selectMap);
-			      mv.addObject("approvalList", approvalList);
-			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
-			      mv.addObject("commentPage", 2);
-		      }
-		  } else {
-			  acList = approvalService.mainMyApproval(selectMap);
-		      mv.addObject("acList", acList);
-		      mv.addObject("commentPageURL", "mainMyApproval.ea");
-		      mv.addObject("commentPage", 1);
-		  }
+		  approvalList = approvalService.mainPending(selectMap);
+		  mv.addObject("approvalList", approvalList);
+
+		  acList = approvalService.mainMyApproval(selectMap);
+		  mv.addObject("acList", acList);
+
+		  
 	      
 	      //왕다영
 		  // 회의실
@@ -483,6 +469,7 @@ public class EmployeeController {
 		 
 		  // 업무공유 
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
+		  int empNo =  myEmp.getEmpNo();	
 		 
 	      // 업무공유 - 미확인
 		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
@@ -504,7 +491,17 @@ public class EmployeeController {
 	      // 메일
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
-		  
+
+		  //김소원
+	      ArrayList<ApprovalComment> acList = null;
+	      ArrayList<Approval> approvalList = null;
+	      String status = "Y"; 			
+	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
+	      selectMap.put("loginEmpNo", empNo);
+	      selectMap.put("status", status);	
+	    	  
+		  approvalList = approvalService.mainPending(selectMap);
+		  acList = approvalService.mainMyApproval(selectMap);
 		  
 		  
 		  // 해쉬맵 
@@ -518,6 +515,9 @@ public class EmployeeController {
 		  mainAll.put("eqRList", eqRList);
 		  mainAll.put("mailList", mailList);
 
+		  // 소원
+		  mainAll.put("approvalList", approvalList);
+		  mainAll.put("acList", acList);
 		  
 	      return new GsonBuilder().setDateFormat("yy/MM/dd").create().toJson(mainAll);
 	}

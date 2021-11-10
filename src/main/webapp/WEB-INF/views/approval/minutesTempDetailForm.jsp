@@ -250,8 +250,7 @@
 															<span>참석자 </span>												
 														</td>
 														<td colspan="6">											
-															<button type="button" class="btn btn-default" style="font-size:0.8rem">참석자 등록</button>	
-															<input type="text" id="attendees" name="attendees" value= "${ am.attendees }"/>																				
+															<input type="text" class="form-control" id="attendees" name="attendees" value= "${ am.attendees }"/>																				
 														</td>
 													</tr>
 													<tr>

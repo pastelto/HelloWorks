@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>전자결재-결재완료문서</title>
+<title>전자결재</title>
 <style>
 	.content-wrapper {
 		overflow: auto;

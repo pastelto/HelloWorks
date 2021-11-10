@@ -245,16 +245,13 @@
 	<!-- 전체보기  -->
 	 <script>
 	 	function selectAllNormalTemp(cOption){
-	 		
-	 		alert("확인");
-	 	
-	 		resetSearch();
-	 		
+			var status = 'Y';
 	 		$.ajax({
 	 			url: "selectAllApproval.ea",
 	 			type: "post",
 	 			data :{
-	 				cOption : cOption
+	 				cOption : cOption,
+	 				status : status
 	 			},
 	 			success: function(list){
 	 				

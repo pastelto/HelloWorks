@@ -18,3 +18,4 @@ public class DeptResourcesAttachment {
 	private String deptrAttachChange;	//	DEPTR_ATTACH_CHANGE	VARCHAR2(4000 BYTE)
 	private String deptrAttachStatus;	//	DEPT_ATTACH_STATUS	VARCHAR2(1 BYTE)
 }
+

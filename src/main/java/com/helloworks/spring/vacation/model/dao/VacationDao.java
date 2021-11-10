@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
@@ -106,6 +107,12 @@ public class VacationDao {
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("vacationMapper.selectListCount");
+	}
+	
+	//연차 사용 통계
+	public ArrayList<LoginUserVacation> vacationStatistics(SqlSessionTemplate sqlSession, String dept) {
+		// TODO Auto-generated method stub
+		return  (ArrayList)sqlSession.selectList("vacationMapper.vacationStatistics", dept);
 	}
 
 }
