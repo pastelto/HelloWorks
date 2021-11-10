@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="cardMail">
-		<div class="card card-info card-outline" style="width: 95%;">
+		<div class="card card-info card-outline" style="width: 95%; height: 355px;">
 			<div class="card-header">
 				<div class="float-left" id="headerTitle">받은메일</div>
 			</div>

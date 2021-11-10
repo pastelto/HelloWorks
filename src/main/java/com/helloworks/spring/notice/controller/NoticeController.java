@@ -13,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.helloworks.spring.common.Pagination;
 import com.helloworks.spring.common.exception.CommException;
 import com.helloworks.spring.common.model.vo.PageInfo;
@@ -23,6 +25,7 @@ import com.helloworks.spring.common.model.vo.SearchCondition;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.notice.model.service.NoticeService;
 import com.helloworks.spring.notice.model.vo.Notice;
+import com.helloworks.spring.notice.model.vo.NoticeReply;
 
 @Controller
 public class NoticeController {
@@ -302,5 +305,26 @@ public class NoticeController {
 		   
 	      return "notice/NoticeListView";
 	   }
+		
+		
+		// 댓글 추가하기 (기본댓글)
+		@ResponseBody
+		@RequestMapping("rinsert.ps")
+		public String insertReply(NoticeReply r) {
+			
+			 int result = noticeService.insertReply(r);
+		       
+		     return String.valueOf(result);
+		}
+		
+		//댓글조회
+	    @RequestMapping(value="rlist.ps", produces="application/json; charset=UTF-8") 
+	    @ResponseBody
+	    public String selectReplyList(int bno) {
+	       
+	       ArrayList<NoticeReply> list = noticeService.selectReplyList(bno);
+	    
+	       return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	    }
 		 
 }

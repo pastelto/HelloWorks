@@ -62,14 +62,33 @@
 						</div>
 				
 						
-						<!-- 댓글영역 -->
+						<%-- <!-- 댓글영역 -->
 						<div class="card-body detail2">
 							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">댓글</div>
-								</div>
+								 <table id="replyArea" class="table" align="center">
+							                <thead>
+							                    <tr>
+							                    							               
+							                    	 
+							                    		<c:if test="${ !empty loginUser }">
+								                    		<th colspan="3" style="width:75%">
+									                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%" placeholder="댓글내용을 입력해주세요."></textarea>
+									                        </th>
+									                        <th style="vertical-align: middle"><button class="btn btn-secondary btn-sm" id="addReply" >등록하기</button></th>
+							                    		
+							                    		</c:if>
+							                    
+							                    </tr>
+							                    <tr>
+							                       <td colspan="3">댓글 (<span id="rcount">0</span>) </td> 
+							                    </tr>
+							                </thead>
+							                <tbody>
+							                
+							                </tbody>
+							            </table>
 							</div>
-						</div>
+						</div> --%>
 						<!--버튼 -->
 						<div class="card-footer clearfix">
 							<div class="writeBtn">
@@ -117,6 +136,128 @@
 			}
 		}
 	</script>	
+	
+	 <script>
+    	// 댓글 리스트 가져온 후 댓글 등록하기
+		$(function(){
+			selectReplyList();
+			
+			$("#addReply").click(function(){
+		   		var bno = ${n.noticeNo};
+		
+				if($("#replyContent").val().trim().length != 0){
+					
+					$.ajax({
+						url:"rinsert.ps",
+						type:"post",
+						data:{ replyContent:$("#replyContent").val(),
+							  refBoardNo:bno,
+							  replyWriter:"${loginUser.empNo}"},
+						success:function(result){
+							if(result > 0){
+								$("#replyContent").val("");
+								selectReplyList();
+								
+							}else{
+								alert("댓글등록실패");
+							}
+						},error:function(){
+							console.log("댓글 작성 ajax 통신 실패");
+						}
+					});
+					
+				}else{
+					alert("내용을 입력해주세요.");
+				}
+				
+			});
+		});
+		
+		// 댓글 리스트 불러오기
+ 		function selectReplyList(){
+			var bno = ${n.noticeNo};
+			$.ajax({
+				url:"rlist.ps",
+				data:{bno:bno},
+				type:"get",
+				success:function(list){
+					$("#rcount").text(list.length);
+					
+					var value="";
+					$.each(list, function(i, obj){
+						
+						if(obj.wsr_empNo == ${loginUser.empNo}){
+						value += "<tr>" +
+								 "<th>" + obj.replyWriter + "</th>" + 
+								 "<td>" + obj.replyContent + "</td>" + 
+							     "<td>" + obj.createDate + "</td>" +
+							     "<td>" + "<a onclick='deleteReply("+obj.replyNo+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.replyNo+");'>수정하기</a>" + "</td>" +
+							     "</tr>";
+						}else {
+							value += "<tr>" +
+							 "<th>" + obj.replyWriter + "</th>" + 
+							 "<td>" + obj.replyContent + "</td>" + 
+						     "<td>" + obj.createDate + "</td>" +
+						     "<td></td>" +
+						     "</tr>";
+						}
+					});
+					$("#replyArea tbody").html(value);
+				},error:function(){
+					console.log("댓글 리스트조회용 ajax 통신 실패");
+				}
+			});
+		} 
+		
+/* 		// 댓글 삭제하기
+		function deleteReply(num){
+			
+			var del = confirm("댓글을 삭제하시겠습니까?");
+			
+			if(del){
+				$.ajax({
+					url:"#",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();		
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
+			
+		} */
+		
+		// 댓글 수정하기
+/* 		function updateReply(num){
+			
+			var del = confirm("댓글을 삭제하시겠습니까?");
+			
+			if(del){
+				$.ajax({
+					url:"deleteReply.ws",
+					type:"post",
+					data:{rno:num},
+					success:function(result){
+						if(result > 0){
+							alert("댓글이 삭제되었습니다.");
+							selectReplyList();			
+						}else{
+							alert("댓글삭제실패");
+						}
+					},error:function(){
+						console.log("댓글 삭제 ajax 통신 실패");
+					}
+				});
+			}
+		} */
+  </script>
 		
 	</div>
 	<jsp:include page="../common/footer.jsp" />

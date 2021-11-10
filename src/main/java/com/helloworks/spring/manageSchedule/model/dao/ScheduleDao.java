@@ -63,6 +63,11 @@ public class ScheduleDao {
 		return sqlSession.insert("manageScheduleMapper.insertCal", empNo);
 	}
 
+	public List<ManageSchedule> getEventList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return (ArrayList)sqlSession.selectList("manageScheduleMapper.getEventList", map);
+	}
+
 
 
 }
