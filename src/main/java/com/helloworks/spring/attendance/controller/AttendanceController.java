@@ -72,11 +72,7 @@ public class AttendanceController {
 	// 상태수정 새로운창 페이지 전환
 	@RequestMapping("updateStatus.ps")
 	public String updateStatus(int psaNo, Model model) {
-
-		System.out.println("~~~~~~~~~~~~~" + psaNo);
-
 		Attendance update = attendanceService.updateStatus(psaNo);
-
 		model.addAttribute("update", update);
 
 		int listCount = vacationService.selectListCount();// 결재할 문서 게시글 갯수
@@ -88,10 +84,7 @@ public class AttendanceController {
 	// 출근시간 등록
 	@RequestMapping("intime.ps")
 	public String updateInTime(String inOutTime, HttpServletRequest request) {
-		System.out.println("출근시간~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + inOutTime);
-
 		Attendance attendance = new Attendance();
-
 		try {
 			// 출근시간 초로 바꾸기
 			int hour = (Integer.parseInt(inOutTime.substring(0, 2))) * 60 * 60;
@@ -131,7 +124,7 @@ public class AttendanceController {
 		}
 
 		return "redirect:main.mi";
-	}
+	} 
 
 	// 퇴근시간 등록
 	@RequestMapping("outTime.ps")
@@ -139,8 +132,6 @@ public class AttendanceController {
 
 		int empNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
 		Attendance attendance = attendanceService.selectAttendance(empNo);
-
-		System.out.println(attendance);
 
 		// 퇴근시간set
 		attendance.setOutTime(inOutTime);
@@ -158,17 +149,17 @@ public class AttendanceController {
 			// 6시 이후 퇴근- 야근
 			if (statushour >= 18) {
 
-				/*if (statusmin < 10) {// 6시 정시 퇴근
+				if (statusmin < 10) {// 6시 정시 퇴근
 					attendance.setAppliedOut(64800); // 6시
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setWorkingTime(attendance.getTotal()); // 일한시간
 					attendance.setOverTime(0);// 야근없음
 				} else {// 야근
-*/					attendance.setAppliedOut(sec);
+					attendance.setAppliedOut(sec);
 					attendance.setTotal(attendance.getAppliedOut() - attendance.getAppliedIN() - 3600); // 총일한시간(퇴근-출근-점심시간)
 					attendance.setOverTime(attendance.getTotal() - 28800);// 야근시간(총 일한시간 - 8시간)
 					attendance.setWorkingTime(28800); // 일한시간(8시간
-					/* } */
+					 } 
 
 			} else {// 6시 이전 퇴근
 
@@ -296,7 +287,6 @@ public class AttendanceController {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		System.out.println(change);
 		String result = "성공!";
 
 		return String.valueOf(result);
@@ -354,17 +344,15 @@ public class AttendanceController {
 		return "attendance/DeptWTStatistics";
 	}
 
-	// 초를 변환
+	//시간으로 변환해주는 메소드
 	public String changeTime(int num) {
 
 		int time = num;
 		int hour = time / (60 * 60);
 		int minute = time / 60 - (hour * 60);
 		int second = time % 60;
-		System.out.println(time + "초는 " + hour + "시간, " + minute + "분, " + second + "초입니다.");
 
 		String result = hour + "시간 " + minute + "분 ";
-
 		return result;
 
 	}
@@ -388,7 +376,6 @@ public class AttendanceController {
 		search.setDept(dept); // 부서
 
 		ArrayList<Statistics> statistics = attendanceService.statisticsSearch(search);
-		System.out.println("통계 검색조건::::::::::"+ statistics);
 		// 초를 시간과 분으로 변환
 		String test = null;
 		for (int i = 0; i < statistics.size(); i++) {
@@ -423,7 +410,6 @@ public class AttendanceController {
 		int empNo = ((Employee) request.getSession().getAttribute("loginUser")).getEmpNo();
 		ArrayList<Attendance> attendance = attendanceService.selectAPI(empNo);
 
-		System.out.println("API" + attendance);
 		for (int i = 0; i < attendance.size(); i++) {
 			attendance.get(i).setInTime(attendance.get(i).getInTime().substring(0, 5));
 			attendance.get(i).setOutTime(attendance.get(i).getOutTime().substring(0, 5));

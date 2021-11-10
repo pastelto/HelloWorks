@@ -37,32 +37,21 @@ public class NoticeController {
 	  @RequestMapping("list.nt")
 	  public String selectList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 			  																HttpServletRequest request, Model model) {
-		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 
-		  
+		  int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo(); 		  
 		  
 		   //공지사항
-		   int listCount = noticeService.selectListCount();//총 게시글 갯수
-		   System.out.println("listCount : " + listCount);
-		   
-		   PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);
-		   
+		   int listCount = noticeService.selectListCount();//총 게시글 갯수		   
+		   PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 5);		   
 		   ArrayList<Notice> list = noticeService.selectList(pi);//보드 리스트
-		   System.out.println("noticelist : " + list);
 		   
 		   model.addAttribute("list",list);
 		   model.addAttribute("pi",pi);		   
 		   
-		   
-		   
-		
+		   		   		
 		   //임시저장 
-		   int tlistCount = noticeService.selectTListCount(empNo);//총 게시글 갯수
-		   System.out.println("tlistCount : " + tlistCount);
-		   
-		   PageInfo piT = Pagination.getPageInfo(tlistCount, currentPage, 10, 5);
-		   
+		   int tlistCount = noticeService.selectTListCount(empNo);//총 게시글 갯수		   
+		   PageInfo piT = Pagination.getPageInfo(tlistCount, currentPage, 10, 5);		   
 		   ArrayList<Notice> tlist =noticeService.selectTList(piT, empNo);//임시저장 리스트
-		   System.out.println("noticeTlist : " + tlist);
 		   
 		   model.addAttribute("tlist",tlist);
 		   model.addAttribute("piT",piT);
@@ -89,14 +78,10 @@ public class NoticeController {
 		   }else if(nStatus.equals("T")) {//임시저장
 			   n.setNStatus(nStatus);
 		   }
-		   System.out.println("스테이터스" + nStatus);
-		  
-		   System.out.println(file.getOriginalFilename());
 		   
 		   //파일set
 		   if(!file.getOriginalFilename().equals("")) {
-			   String changeName = saveFile(file, request); //saveFile메소드 생성
-			   
+			   String changeName = saveFile(file, request); //saveFile메소드 생성			   
 			   if(changeName != null) {
 				   n.setOriginName(file.getOriginalFilename());
 				   n.setChangeName(changeName);
@@ -116,14 +101,9 @@ public class NoticeController {
 			String resources = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = resources + "\\upload_files\\"; //저장경로
 			
-			System.out.println("savePath : "+ savePath);
-			
-			String originName = file.getOriginalFilename(); //원본파일명
-			
-			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간
-			
-			String ext = originName.substring(originName.lastIndexOf("."));
-			
+			String originName = file.getOriginalFilename(); //원본파일명			
+			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간			
+			String ext = originName.substring(originName.lastIndexOf("."));			
 			String changeName = cuurentTime + ext;
 			
 		
@@ -145,12 +125,8 @@ public class NoticeController {
 		//게시글 상세보기
 		@RequestMapping("detail.nt")
 		public ModelAndView selectBoard(int bno, ModelAndView mv) {
-			 System.out.println("게시글 상세보기 번호~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+bno);
 			 Notice n = noticeService.selectNotice(bno);			 
-			 System.out.println(n.getNStatus());
 			 mv.addObject("n", n).setViewName("notice/NoticeDetail");
-			 
-			 System.out.println("$$$$$$$$$$$$$$$$$$$ + n " + n);
 			 
 			 return mv;
 		}
@@ -158,11 +134,8 @@ public class NoticeController {
 		 
 		//게시글 수정 화면전환
 		 @RequestMapping("updateForm.nt")
-		 public ModelAndView updateForm(int bno, ModelAndView mv) {
-			 
+		 public ModelAndView updateForm(int bno, ModelAndView mv) {			 
 			 Notice n = noticeService.selectNotice(bno);
-			 System.out.println("게시글 수정 화면전환~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+bno);
-			 System.out.println(n.getNStatus());
 			 mv.addObject("n", n).setViewName("notice/NoticeUpdateForm");
 			 
 			 return mv;
@@ -181,7 +154,6 @@ public class NoticeController {
 			   }else if(n.getNStatus().equals("T")) {//임시저장
 				   n.setNStatus(n.getNStatus());
 			   }
-			   System.out.println("스테이터스" + n.getNStatus());
 			
 		      if(!file.getOriginalFilename().equals("")) {
 		         if(n.getChangeName() != null) {
@@ -192,8 +164,7 @@ public class NoticeController {
 		         n.setOriginName(file.getOriginalFilename()); //파일 담기
 		         n.setChangeName(changeName);
 		      }
-		      
-		     
+		      		     
 		      noticeService.updateNotice(n);
 		      mv.addObject("bno", n.getNoticeNo()).setViewName("redirect:detail.nt");
 		      
@@ -204,9 +175,7 @@ public class NoticeController {
 		private void deleteFile(String fileName, HttpServletRequest request) {
 			String resources = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = resources + "\\upload_files\\"; 
-			
-			System.out.println("savePath : "+ savePath);
-			
+						
 			File deleteFile = new File(savePath + fileName);
 			deleteFile.delete();
 			
@@ -255,9 +224,6 @@ public class NoticeController {
 		@RequestMapping("searchNotice.nt")
 		public String selectSearchNotice(String condition, String search, 
 				@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage, Model model) {
-	  	   
-			   System.out.println("condition" + condition); //select
-			   System.out.println("search" + search); //검색 내용
 			   
 			   SearchCondition sc = new SearchCondition();
 				
@@ -277,13 +243,9 @@ public class NoticeController {
 				}
 			   
 			   //공지사항 리스트 
-			   int getSearchlistCount = noticeService.getSearchListCount(sc);
-			   System.out.println("getSearchlistCount : " + getSearchlistCount); 
-			   
-			   PageInfo pi = Pagination.getPageInfo(getSearchlistCount, currentPage, 10, 5);
-			   
+			   int getSearchlistCount = noticeService.getSearchListCount(sc);			   
+			   PageInfo pi = Pagination.getPageInfo(getSearchlistCount, currentPage, 10, 5);			   
 			   ArrayList<Notice> list = noticeService. getSearchList(sc,pi);
-			   System.out.println("searchNoticelist : " + list);
 			   
 			   model.addAttribute("list",list);
 			   model.addAttribute("pi",pi);		
@@ -291,18 +253,12 @@ public class NoticeController {
 			   
 			   //임시저장 리스트
 			   int getSearchlistTCount = noticeService.getSearchlistTCount(sc);
-			   System.out.println("getSearchlistTCount : " + getSearchlistCount); 
-			   
-			   PageInfo piT = Pagination.getPageInfo(getSearchlistTCount, currentPage, 10, 5);
-			   
+			   PageInfo piT = Pagination.getPageInfo(getSearchlistTCount, currentPage, 10, 5);			   
 			   ArrayList<Notice> tlist = noticeService. searchNoticeTlist(sc,piT);
-			   System.out.println("searchNoticeTlist : " + tlist);
-			   
+ 
 			   model.addAttribute("tlist",tlist);
 			   model.addAttribute("piT",piT);		
-			   
-		
-		   
+			   		   
 	      return "notice/NoticeListView";
 	   }
 		
@@ -312,8 +268,7 @@ public class NoticeController {
 		@RequestMapping("rinsert.ps")
 		public String insertReply(NoticeReply r) {
 			
-			 int result = noticeService.insertReply(r);
-		       
+			 int result = noticeService.insertReply(r);		       
 		     return String.valueOf(result);
 		}
 		
@@ -322,9 +277,9 @@ public class NoticeController {
 	    @ResponseBody
 	    public String selectReplyList(int bno) {
 	       
-	       ArrayList<NoticeReply> list = noticeService.selectReplyList(bno);
-	    
+	       ArrayList<NoticeReply> list = noticeService.selectReplyList(bno);	    
 	       return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	    
 	    }
 		 
 }
