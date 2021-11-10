@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유 임시저장함</title>
+<title>업무공유</title>
 </head>
 <body>
 

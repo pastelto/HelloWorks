@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>일정관리</title>
 <!-- <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css"> -->
 <!-- <script src="./resources/plugins/jquery/jquery.min.js"></script> -->
 <link rel="stylesheet" href="./resources/plugins/datepicker/jquery-ui.css">
@@ -78,8 +78,13 @@
 <script>
 	$(function(){
 	//$.datepicker.setDefaults($.datepicker.regional["ko"]);
-    $( "#datepicker" ).datepicker();
-		 
+    $( "#datepicker" ).datepicker({
+    	 dateFormat: "yy-mm-dd",
+         onSelect : function(date) {
+			callMainCalendar(date); 
+		}
+    })
+
     $.datepicker.regional["ko"] = {
         closeText: "닫기",
         prevText: "이전달",
@@ -93,12 +98,14 @@
 		changeMonth: true, // month 셀렉트박스 사용
 		changeYear: true, // year 셀렉트박스 사용
         weekHeader: "Wk",
-        dateFormat: "yyyy/mm/dd",
+        dateFormat: "yyyy-mm-dd",
         firstDay: 0,
         isRTL: false,
         showMonthAfterYear: true,
         yearSuffix: ""
+
         }
+
 
 	// Today 버튼 코드 추가
 	$.datepicker._gotoToday = function(id) { 
@@ -115,12 +122,19 @@
 	$(function(){
 
 		var getDate = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
-		console.log(getDate)
+		callMainCalendar(getDate);
+
+	});
+
+
+	function callMainCalendar(date){
+		$("#getMainScheduleTable tbody").html("");
+
 		// 예약된 시간표 가져오기
 		$.ajax({
 			url : "getEventList.sch",
 			data : {
-				getDate : getDate
+				getDate : date
 			},
 			dataType : "json",
 			success : function(getEventList) {
@@ -147,9 +161,8 @@
 				console.log("timeCar ajax 통신 실패");
 			}
 		});
-		
-	})
 
+	}
 </script>
 
 <script>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유 수신함</title>
+<title>업무공유</title>
 </head>
 <body>
 

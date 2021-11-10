@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>일정관리</title>
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="./resources/plugins/daterangepicker/daterangepicker.css">
 <!--<link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">

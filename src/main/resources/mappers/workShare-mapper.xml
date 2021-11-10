@@ -310,4 +310,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND WS_STATUS = 'Y'
 		ORDER BY A.WS_NO DESC
 	</select>
+	
+		<!-- 업무공유 회신처리 -->
+	<update id="updateReply" parameterType="map">
+		UPDATE WORKSHARE_REPLY
+		SET WSR_CONTENT = #{wsr_content}, WSR_DATE = SYSDATE
+		WHERE WSR_NO = #{wno}
+	</update>
 </mapper>

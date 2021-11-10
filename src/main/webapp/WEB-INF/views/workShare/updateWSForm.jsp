@@ -7,10 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무수정</title>
+<title>업무공유</title>
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
-<!-- include libraries(jQuery, bootstrap) -->
 <!-- 화면단을 전반적으로 작게 만들어주는 부트스트랩! 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
@@ -23,7 +22,6 @@
 
 <!-- include summernote css/js-->
 <link href="summernote.css">
-<!-- <script src="summernote.js"></script> -->
 
 <style>
 	th{

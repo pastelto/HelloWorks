@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 일정관리</title>
+<title>일정관리</title>
 <style>
 	.content-wrapper{
 		overflow:auto;
@@ -86,7 +86,6 @@
         	  $('#schedule-add').modal('show');
           	  $('#startDate').val(info.dateStr);
           	  $('#endDate').val(info.dateStr);
-          	 
           },
           eventClick: function(info) { // 일정 클릭시 수정모달 // 작업중인 부분!
         	  var modal = $("#schedule-check");
@@ -102,8 +101,6 @@
           	  var empNo = info.event.extendedProps.empNo; // 작성자 사번
         	  var id = info.event.id;
           	  
-          	  console.log("스케쥴 타입 ? " + schType);
-          	  console.log("작성자 사번 1 ? " + empNo);
         	  $('#detailAllday').text("종일");
         	  $('#dateEndCheck').text("");
 
@@ -111,6 +108,8 @@
 	          	var endDate = moment(info.event.end).format('YYYY-MM-DD hh:mm:ss');
         		$('#detailAllday').text("시간");
 	          	$('#dateEndCheck').text("　 ~　  " + endDate);
+        	  } else if(allDayBoolean == 1){
+        		 startDate = moment(info.event.start).format('YYYY-MM-DD');
         	  }
         	  $('#detailSchNo').val(id);
         	  $('#detailEmpNo').val(empNo);
@@ -125,13 +124,11 @@
               modal.modal();
           },
           eventDidMount: function(arg) {
-              var cs = document.querySelectorAll(".filter"); // filter 클래스를 갖고 있는 체크박스
+              var cs = document.querySelectorAll(".filter");       // filter 클래스를 갖고 있는 체크박스
               cs.forEach(function (v) {
-            	 console.log(arg.event.extendedProps.cid)
+            	 
                 if (v.checked) {
-                  // console.log("arg.event.extendedProps.cid : ? " + arg.event.extendedProps.cid)
-               	  // console.log("v.value : ? " + v.value)
-                  if (arg.event.extendedProps.cid === v.value) { // 체크박스의 값과 이벤트의 cid가 같으면, 
+                  if (arg.event.extendedProps.cid === v.value) {     // 체크박스의 값과 이벤트의 cid가 같으면, console.log(arg.event.extendedProps.cid)
                     arg.el.style.display = "block";
                   }
                 } else {
@@ -160,7 +157,6 @@
            		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
            		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
-           		        		console.log("내용 : " + obj.sch_content);
            		        		events.push({
            		        			 id: obj.sch_no,
            		        			 title: obj.sch_title,
@@ -172,7 +168,7 @@
            		        			 schPlace: obj.sch_place,
            		        			 displayEventTime : true,
            		        			 allDay: obj.sch_allday == "true" ? 1 : 0,	
-           		        			 color: obj.sch_color,   // a non-ajax option
+           		        			 color: obj.sch_color,
            	         		         textColor: 'white',
            	         		         cid: "021"
            		        		});
@@ -201,7 +197,6 @@
          		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
          		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
-         		        		console.log("내용 : " + obj.sch_content);
          		        		events.push({
          		        			 id: obj.sch_no,
          		        			 title: obj.sch_title,
@@ -241,8 +236,7 @@
      		        	 $.each(uDeptList, function(i, obj){	
      		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
      		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
-
-     		        		console.log("내용 : " + obj.sch_content);
+     		        		
      		        		events.push({
      		        			 id: obj.sch_no,
      		        			 title: obj.sch_title,
@@ -283,7 +277,6 @@
  		        		var startDate = moment(obj.sch_startdate).format('YYYY-MM-DD hh:mm:ss');
  		        		var endDate = moment(obj.sch_endate).format('YYYY-MM-DD hh:mm:ss');
 
- 		        		console.log("내용 : " + obj.sch_content);
  		        		events.push({
  		        			 id: obj.sch_no,
  		        			 title: obj.sch_title,
