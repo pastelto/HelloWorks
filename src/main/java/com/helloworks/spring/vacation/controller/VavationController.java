@@ -424,9 +424,9 @@ public class VavationController {
 	//두 날짜 차이 일수 계산 메소드
 	private int dateChange(String date1, String date2) {
 		long diffDays = 0;
-		try {
-		  	date2 = date2.substring(0, 10);
+		try {	  	
 	        date1 = date1.substring(0, 10);
+	        date2 = date2.substring(0, 10);
 			      
 			Date datef;			
 			datef = new SimpleDateFormat("yyyy-MM-dd").parse(date1);
@@ -439,14 +439,9 @@ public class VavationController {
 			cmpDatel.setTime(datel); //특정 일자
 			
 			long diffSec = (cmpDatel.getTimeInMillis() - cmpDatef.getTimeInMillis()) / 1000;
-			 diffDays = diffSec / (24*60*60); //일자수 차이
+			diffDays = diffSec / (24*60*60); //일자수 차이
 			
-			System.out.println(diffSec + "초 차이");
-			System.out.println(diffDays + "일 차이");
-	
-		
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	   
@@ -491,7 +486,7 @@ public class VavationController {
 		
 		return "vacation/VacationUse";
 	}
-
+  
 	//연차사용 통계
 	@RequestMapping("vacationStatistics.ps")
 	public String vacationStatistics(Model model, HttpServletRequest request) {

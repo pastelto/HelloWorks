@@ -312,9 +312,9 @@ public class AttendanceController {
 
 		// 부서별 통계 조회
 		SearchAttendance as = attendanceService.sysdateWeek();
-		as.setDept(dept);
+		as.setDept(dept);		
+		
 		ArrayList<Statistics> statistics = attendanceService.wtStatisticsAll(as);
-
 		// 초를 시간과 분으로 변환
 		String test = null;
 		for (int i = 0; i < statistics.size(); i++) {
@@ -335,7 +335,6 @@ public class AttendanceController {
 			test = changeTime(statistics.get(i).getLeaveOT());
 			statistics.get(i).setLeaveOTS(test);
 		}
-
 		model.addAttribute("statistics", statistics);
 
 		int listCount = vacationService.selectListCount();// 결재할 문서 게시글 갯수
