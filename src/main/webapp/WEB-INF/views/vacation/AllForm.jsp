@@ -22,7 +22,7 @@ td, span, input {
 }
 
 #plus_line_btn {
-	margin-bottom: 15px;
+	margin-bottom: 15px; 
 }
 
 #ccName {

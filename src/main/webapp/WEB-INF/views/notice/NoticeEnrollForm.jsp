@@ -109,7 +109,7 @@
 			function insertNotice(){
 				$('#insertForm').each(function(){	
 					
-					<%--
+					
 					var title = $('#noticeinputTitle').value();
 					console.log('title' + title);
 					
@@ -123,7 +123,7 @@
 						return false;
 					}
 					
-					--%>
+					
 				    $("#insertForm").attr("action", "<%=request.getContextPath()%>/insertNotice.nt?nStatus=Y");
 					$("#insertForm").submit();
 					
