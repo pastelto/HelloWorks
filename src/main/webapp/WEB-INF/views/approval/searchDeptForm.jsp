@@ -111,14 +111,7 @@
 
 	function selectDept(dept){
 		
-		/* var val = $("hidden_parent").val();
-		console.log(val);  */
-		
-		console.log(dept)
-		console.log(paId)
-		
 		window.opener.document.getElementById(paId).value = dept;
-		//$(opener.document).find('"' + paId + '"').val(dept);
 		window.close();
 	}
 	

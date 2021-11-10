@@ -245,15 +245,14 @@
 	 <script>
 	 	function selectAllNormalTemp(cOption){
 	 		
-	 		alert("확인");
-	 	
-	 		resetSearch();
+	 		var status = 'N';
 	 		
 	 		$.ajax({
 	 			url: "selectAllApproval.ea",
 	 			type: "post",
 	 			data :{
-	 				cOption : cOption
+	 				cOption : cOption,
+	 				status : status
 	 			},
 	 			success: function(list){
 	 				
@@ -303,9 +302,7 @@
 		 			var sdate = $(this).val();
 		 			var apClass = '일반';
 		 			var status = 'N';
-		 			console.log(sdate)
-			 			
-			 		$.ajax({
+		 			$.ajax({
 			 			url: "selectDateSort.ea",
 			 			type: "post",
 			 			data : {
@@ -343,14 +340,11 @@
 			 				});
 			 					
 			 				console.log("ajax 통신 성공")
-			 				console.log(list)
-			 				
 			 				
 		 					$("input[name='doc_type']").prop('checked', false);
 		 					$("#conditionInput").val("");
 		 					$("#endDate").val("");
 		 					$("#startDate").val(""); 
-			 					
 			 				$("#tempApprovalTable>tbody").html(value);
 			 				$("#sortOption").text(sdate);
 			 			},
