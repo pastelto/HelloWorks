@@ -166,7 +166,7 @@ target/m2e-wtp/web-resources/META-INF/maven/MANIFEST.MF
 .project
 .classpath
 .settings
-
+*/target/*
 
 ### Maven ###
 target/
