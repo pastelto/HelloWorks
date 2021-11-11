@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HelloWorks</title>
-
+ 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -36,7 +36,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link" href="Mypage.mp">
-       	 <img src="resources/empImg/emp.png"	style="width: 40px; height: 30px; border-radius: 20px;"/>
+       	 <img src="resources/empImg/emp_1.png"style="width: 40px; height: 30px; border-radius: 20px;"/>
 		</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">

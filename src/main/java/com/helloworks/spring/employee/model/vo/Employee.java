@@ -38,7 +38,6 @@ public class Employee {
 	private String deptUname;		//상위부서이름
 	private String deptDname;		//하위부서이름
 	private int rowNum;         	// rownum
-	
 	private String empFireString; //퇴사일 설정 값
 	private String psStatus; //출근 상태
 

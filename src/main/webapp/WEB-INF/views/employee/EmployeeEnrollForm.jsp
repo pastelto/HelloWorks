@@ -19,7 +19,7 @@
 		margin: auto;
 		text-align: center;
 	}
-	
+
 	.insertBtn{
 		margin: 10px;
 		text-align: center;

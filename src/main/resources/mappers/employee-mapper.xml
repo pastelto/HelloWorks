@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result property="deptUName" column="DEPT_UNAME"/>
       <result property="deptDName" column="DEPT_DNAME"/>
    </resultMap>
-
+ 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
 		
 		SELECT A.*, B.JOB_NAME, C.DEPT_DNAME, C.DEPT_UNAME

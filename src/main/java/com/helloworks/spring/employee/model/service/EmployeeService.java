@@ -7,7 +7,7 @@ import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 public interface EmployeeService {
-
+ 
 	Employee loginMember(Employee m) throws Exception;
 
 	Employee updateEmp(Employee m);

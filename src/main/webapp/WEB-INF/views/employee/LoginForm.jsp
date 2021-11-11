@@ -49,7 +49,7 @@
          
     </style>
 </head>
-<body>
+<body> 
 	<c:if test="${ !empty msg }">
 		<script>
 			alert("${msg}");

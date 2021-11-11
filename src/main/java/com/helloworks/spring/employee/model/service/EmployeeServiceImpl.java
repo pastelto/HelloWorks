@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if(result < 0) {
 			throw new CommException("사원등록에 실패하였습니다.");
 		}
-		
+	
 	}
 
 	// 인사관리 - 하연

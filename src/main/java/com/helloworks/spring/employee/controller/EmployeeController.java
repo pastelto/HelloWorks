@@ -219,7 +219,7 @@ public class EmployeeController {
 		@RequestMapping("logout.me")
 		public String logoutMember( SessionStatus status) {
 			
-			status.setComplete(); //현재 컨트롤러에 @SessionAttribute에 의해 저장된 오브젝트를 제거
+			status.setComplete();
 			return "redirect:index.jsp";
 		}	
 		
@@ -383,7 +383,7 @@ public class EmployeeController {
 			se.setHrType(hrType);
 		}
 		
-		
+	
 		switch(optionType) {
 		case "allType":
 			se.setAllType(searchEmployee);
