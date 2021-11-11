@@ -92,20 +92,24 @@
 																																
 														<!-- 이미지파일 등록 -->
 														<div>
+															<input type="hidden" name="empOrgPic" value="${emp.empOrgPic}">																
+																	<input type="hidden" name="empChgPic" value="${emp.empChgPic}">
 															<!-- 이미지 들어오는 부분 -->
 															<c:if test="${not empty emp.empOrgPic}">
-															<div class="selectCover">
-																<img id="uploadImg" src="resources/idPhoto_files/${emp.empChgPic}"
-																	style="width: 160px; height: 200px;" />
-															</div>
+																<div class="selectCover">
+																	<img id="uploadImg" src="resources/idPhoto_files/${emp.empChgPic}"
+																		style="width: 160px; height: 200px;" />
+																																
+																</div>
+																		
 															</c:if>
-															<c:if test="${empty emp.empOrgPic}">
 															
-															
-															<div class="selectCover">
-																<img id="cover" src="resources/empImg/defaultImg.jpg"
-																	style="width: 160px; height: 200px;" />
-															</div>
+															<c:if test="${empty emp.empOrgPic}">																	
+																<div class="selectCover">
+																	<img id="cover" src="resources/empImg/defaultImg.jpg"
+																		style="width: 160px; height: 200px;" />
+																</div>
+																
 															</c:if>
 														<div >
 													
@@ -114,12 +118,10 @@
 																	사진 변경
 																	<i class="fas fa-cloud-upload-alt"></i>
 																</label> <input type="file" name="empOrgPicName" id="myFileUp">
-																</div>
-														
+																</div>														
 															</div>
-														</div>							
-														
-													
+															
+														</div>														
 												</td>
 														
 												<th>사번</th>
@@ -156,12 +158,16 @@
 													
 														<!-- 이미지파일 등록 -->
 														<div >
+														 	<input type="hidden" name="empOrgSign" value="${emp.empOrgSign}">
+															<input type="hidden" name="empChgSign" value="${emp.empChgSign}">
 															<!-- 이미지 들어오는 부분 -->
 															<c:if test="${not empty emp.empOrgSign}">
 															<div class="selectCover">
 																<img id="uploadImg1" src="resources/idSign_files/${emp.empChgSign}"
 																	style="width: 100px; height: 100px;" />
+																
 															</div>
+														
 															</c:if>
 															<c:if test="${empty emp.empOrgSign}">
 															
@@ -216,7 +222,7 @@
 			<script>
 				// 파일 URL 띄우기
 				function readURL(input) {
-					//console.log("버튼클릭");
+					console.log("$$$$$$$$$$$$$$사진버튼클릭");
 					if (input.files && input.files[0]) {
 						var reader = new FileReader();
 						reader.onload = function(m) {
@@ -229,7 +235,7 @@
 				// 이미지 바꾸기
 				$("#myFileUp").change(function() {
 					readURL(this);
-					//console.log("이미지 바뀜");
+					console.log("$$$$$$$$$사진 이미지 바뀜");
 				});
 				
 				// 사진파일 없을때 알림
@@ -243,7 +249,7 @@
 				
 				//사인 변경
 				function readURL1(input) {
-					//console.log("버튼클릭");
+					console.log("$$$$$$$$$$사인버튼클릭");
 					if (input.files && input.files[0]) {
 						var reader = new FileReader();
 						reader.onload = function(m) {
@@ -256,7 +262,7 @@
 				// 이미지 바꾸기
 				$("#myFileUp1").change(function() {
 					readURL1(this);
-					//console.log("이미지 바뀜");
+					console.log("$$$$$$$$$$$$$$$$$$$ 사인 이미지 바뀜");
 				});
 				
 				// 사진파일 없을때 알림
