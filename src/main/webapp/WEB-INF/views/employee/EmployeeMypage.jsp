@@ -94,18 +94,17 @@
 														<div>
 															<!-- 이미지 들어오는 부분 -->
 															<c:if test="${not empty emp.empOrgPic}">
-															<div class="selectCover">
-																<img id="uploadImg" src="resources/idPhoto_files/${emp.empChgPic}"
-																	style="width: 160px; height: 200px;" />
-															</div>
+																<div class="selectCover">
+																	<img id="uploadImg" src="resources/idPhoto_files/${emp.empChgPic}"
+																		style="width: 160px; height: 200px;" />
+																</div>
 															</c:if>
-															<c:if test="${empty emp.empOrgPic}">
 															
-															
-															<div class="selectCover">
-																<img id="cover" src="resources/empImg/defaultImg.jpg"
-																	style="width: 160px; height: 200px;" />
-															</div>
+															<c:if test="${empty emp.empOrgPic}">																	
+																<div class="selectCover">
+																	<img id="cover" src="resources/empImg/defaultImg.jpg"
+																		style="width: 160px; height: 200px;" />
+																</div>
 															</c:if>
 														<div >
 													
@@ -114,12 +113,10 @@
 																	사진 변경
 																	<i class="fas fa-cloud-upload-alt"></i>
 																</label> <input type="file" name="empOrgPicName" id="myFileUp">
-																</div>
-														
+																</div>														
 															</div>
-														</div>							
-														
-													
+															
+														</div>														
 												</td>
 														
 												<th>사번</th>

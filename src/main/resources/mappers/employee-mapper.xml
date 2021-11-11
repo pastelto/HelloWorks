@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 사원등록 -->
 	<insert id="insertEmp" parameterType="Employee">
 		INSERT INTO EMPLOYEE
-		VALUES(TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_HR_NO.NEXTVAL, 5, '0'), #{empPwd}, #{empName}, #{empEn}, #{empPid}, #{empEmail}, #{empPhone}, #{empEphone},  #{empAddress},
+		VALUES(TO_CHAR(SYSDATE, 'YYYY')|| LPAD(SEQ_HR_NO.NEXTVAL, 5, '0'), #{empPwd}, #{empName}, #{empEn}, #{empPid}, #{empEmail}, #{empPhone}, #{empEphone},  #{empAddress},
 				#{deptCode}, #{jobCode}, #{empSalary}, SYSDATE, null, null, null, null, null, null, DEFAULT)
 	</insert>
 	

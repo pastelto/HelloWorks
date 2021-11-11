@@ -36,8 +36,8 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link" href="Mypage.mp">
-       	 <img src="resources/empImg/emp_1.png"style="width: 40px; height: 30px; border-radius: 20px;"/>
-		</a>
+        	<img src="resources/idPhoto_files/${emp.empChgPic}" style="width: 40px; height: 30px; border-radius: 20px;"/>
+        </a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link" href="Mypage.mp">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>

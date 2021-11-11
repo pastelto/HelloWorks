@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -60,11 +61,15 @@ public class EmployeeController {
 	// 김다혜
 	@Autowired
    	private ScheduleService scheduleService;
+	
 	@Autowired
 	private WorkShareService workShareService;
 	
 	@Autowired 
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	//김소원
 	@Autowired 
@@ -76,6 +81,7 @@ public class EmployeeController {
 
 	@Autowired
 	private VacationService vacationService;
+	
 	@Autowired
 	private NoticeService noticeService;
 	
@@ -260,8 +266,7 @@ public class EmployeeController {
 			}		
 		
 		Employee userInfo = employeeService.updateEmp(m);
-		
-		
+				
 		model.addAttribute("loginUser", userInfo);
 		model.addAttribute("msg","정보가 수정되었습니다");
 		
@@ -280,8 +285,8 @@ public class EmployeeController {
 			}
 						
 		System.out.println("savePath : "+ savePath);		
-			String orgPic = file.getOriginalFilename(); //원본파일명		
-			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()); //시간		
+			String orgPic = file.getOriginalFilename();		
+			String cuurentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());	
 			String ext = orgPic.substring(orgPic.lastIndexOf("."));		
 			String chgPic = cuurentTime + ext;
 				try {
@@ -307,12 +312,18 @@ public class EmployeeController {
 		return "employee/EmployeeEnrollForm";
 	}
 	
-	
+	//사원등록
 	@RequestMapping("insert.hr")
 	public String insertEmp(Employee m, HttpSession session) {
-			
-		
+				
 		employeeService.insertEmp(m);
+		
+		//암호화작업
+		String empPwd = bCryptPasswordEncoder.encode(m.getEmpPwd());
+				
+		System.out.println("암호화 후 : "+ empPwd);
+				
+		m.setEmpPwd(empPwd);
 		
 		Employee emp = employeeService.getLastEmpNo();
 		scheduleService.insertCal(emp.getEmpNo());
