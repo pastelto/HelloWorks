@@ -5,29 +5,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>EmployeeMypage</title>
+<title>마이페이지</title>
 <style>
 
-	#updateForm{				
+	
+	#updateForm{						
 		overflow: hidden;
 		padding: 13px 30px;
 		width: 100%;
 	}
 	
-	.selectBtn{
-		margin: 10px;
-		text-align: center;
-		
-	}
-	
 	table{
-		width: 90%;
+		width: 95%;
 		margin: auto;
 		text-align: center;
-		vertical-align: middle;
 	}
 	
-	
+	.selectBtn{
+		margin: 10px;
+		text-align: center;		
+	}
 	
 	/*파일선택시 선택된 파일명이 붙는것을 가려준다*/
 	.fileRegiBtn input[type="file"] , .fileRegiBtn1 input[type="file"] {
@@ -61,13 +58,13 @@
 	<div class="content-wrapper">
 		
 		
-		<!-- 페이지 해더 -->
+			<!-- 페이지 해더 -->
 		<section class="content-header">
 			<div class="container-fluid">			
 				<div class="row mb-2">
 					<div class="col-sm-6">
 						<h4>
-							<i class="nav-icon fas fa-edit"></i><b> 마이페이지</b>
+							<i class="fas fa-chalkboard-teacher"></i> <b>마이페이지</b>
 						</h4>
 					</div>
 				</div>				
@@ -111,21 +108,17 @@
 															</div>
 															</c:if>
 														<div >
-														<!--
-															<div class="form-group">
-																<input id="fileName" name="fileName" class="form-control"
-																	value="jpg, jpeg, png" readonly>
-															</div>
-														-->	
+													
 															<div class="fileRegiBtn">
 																<label for="myFileUp"> 
-																	<i class="fas fa-cloud-upload-alt"> 사진 변경</i>
+																	사진 변경
+																	<i class="fas fa-cloud-upload-alt"></i>
 																</label> <input type="file" name="empOrgPicName" id="myFileUp">
+																</div>
+														
 															</div>
-													
-														</div>
-													</div>							
-													
+														</div>							
+														
 													
 												</td>
 														
@@ -156,7 +149,7 @@
 												<td><input type="text" class="form-control" id="empEphone" name="empEphone" value="${ loginUser.empEphone }" readonly> </td>
 											</tr>														
 										</tbody>
-												
+												 
 										<tfoot>
 											<tr>
 												<td rowspan="6">															
@@ -167,7 +160,7 @@
 															<c:if test="${not empty emp.empOrgSign}">
 															<div class="selectCover">
 																<img id="uploadImg1" src="resources/idSign_files/${emp.empChgSign}"
-																	style="width: 160px; height: 80px;" />
+																	style="width: 100px; height: 100px;" />
 															</div>
 															</c:if>
 															<c:if test="${empty emp.empOrgSign}">
@@ -175,24 +168,19 @@
 															
 															<div class="selectCover">
 																<img id="cover1" src="resources/empImg/defaultImg.jpg"
-																	style="width: 160px; height: 80px;" />
+																	style="width: 100px; height: 100px;" />
 															</div>
 															</c:if>
 														<div >
-															<!--  
-															<div class="form-group">
-																<input id="fileName1" name="fileName1" class="form-control form-control-sm " 
-																	value="jpg, jpeg, png" readonly>
-															</div>
-															-->
-															<div class="fileRegiBtn1">
-																<label for="myFileUp1"> <i
-																	class="fas fa-cloud-upload-alt"> 사인 변경</i>
-																</label> <input type="file" name="empOrgSignName" id="myFileUp1">
-															</div>
 													
-														</div>
-													</div>		
+															<div class="fileRegiBtn1">
+																<label for="myFileUp1">
+																	 사인 변경
+																	 <i class="fas fa-cloud-upload-alt"></i>
+																</label> <input type="file" name="empOrgSignName" id="myFileUp1">
+																</div>													
+															</div>
+														</div>		
 														
 														
 												</td>	
@@ -272,7 +260,7 @@
 				});
 				
 				// 사진파일 없을때 알림
-				function signValidate() {
+				function signValidate1() {
 					if (($('#myFileUp1').val() == "")) {
 						alert("사인파일을 등록해 주세요")
 						return false;
