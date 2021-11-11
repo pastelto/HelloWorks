@@ -167,6 +167,7 @@ target/m2e-wtp/web-resources/META-INF/maven/MANIFEST.MF
 .classpath
 .settings
 */target/*
+pom.xml
 
 ### Maven ###
 target/
