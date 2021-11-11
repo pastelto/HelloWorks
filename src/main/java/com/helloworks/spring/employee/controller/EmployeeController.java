@@ -501,7 +501,8 @@ public class EmployeeController {
 		 
 		  // 업무공유 
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
-		 
+		  int empNo =  myEmp.getEmpNo();
+		  
 	      // 업무공유 - 미확인
 		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
 	      unCheckedList = workShareService.mainUnCheckedList(myEmp);
@@ -523,6 +524,18 @@ public class EmployeeController {
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
 		  
+		  // 전자결재 
+		
+		  ArrayList<ApprovalComment> acList = null;
+		  ArrayList<Approval> pendingList = null;
+		  String status = "Y"; 			
+		  HashMap<String, Object> selectMap = new HashMap<String, Object>();			
+		  selectMap.put("loginEmpNo", empNo);
+		  selectMap.put("status", status);	
+		     	  
+		  pendingList = approvalService.mainPending(selectMap);
+		  acList = approvalService.mainMyApproval(selectMap);
+		  	  
 		  // 해쉬맵 
 		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
 		  // 다혜
@@ -533,6 +546,10 @@ public class EmployeeController {
 		  mainAll.put("mtrRList", mtrRList);
 		  mainAll.put("eqRList", eqRList);
 		  mainAll.put("mailList", mailList);
+		  
+		  // 소원
+		  mainAll.put("pendingList", pendingList);
+		  mainAll.put("acList", acList);
 
 		  
 	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);

@@ -1332,7 +1332,7 @@
 				if($("input[id='normal_radio']:checked").length > 0) {
 					if($("#summernote").length > 1300){
 						alert("입력 가능한 결재 내용의 크기를 초과하셨습니다.")
-					} else if ($("input[name='lineName']:enabled").val() == null){
+					} else if ($("input[name='lineName']:enabled").val() == ""){
 						alert("결재라인을 추가해주세요.")
 					} else if ($("input[name='title']:enabled").val() == ""){
 						alert("제목을 입력해주세요.")

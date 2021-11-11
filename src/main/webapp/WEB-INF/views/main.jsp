@@ -194,8 +194,8 @@ body{
 										   '</div>' +'</td>' + '</tr>';
 						
 						});
-					} else if(key == "approvalList") {
-						console.log("확인")
+					} else if(key == "pendingList"){
+						
 						$.each(mainAll[key], function(key, obj){
 							valuePending += '<div class="pendingSimple">' + 
 											'<div class="user-block">' +
