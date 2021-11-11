@@ -106,6 +106,8 @@ body{
 				var valueMtr = ""; // 회의실 목록
 				var valueEq = ""; // 비품 목록
 				var valueMail = ""; // 메일 inbox
+				var valueMyApproval = ""; // 내결재함
+				var valuePending=""; // 미결재함
 				
 				for(var key in mainAll){
 					
@@ -134,22 +136,34 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMtr += "<tr>" +
-										 "<td 20%>[" + obj.mRDate + "/</td>" + 
-										 "<td 20%>" + obj.mRTime + " 시 ]</td>" +
-										 "<td 30%>회의실 명: " + obj.mMName + "/</td>" +
-										 "<td 30%>용도 : " + obj.mRUsg + "</td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.mRDate + "]" + "&nbsp;" +  obj.mRTime + " 시 " + "</strong>"+"</td>" +
+										 "<td>" + obj.mMName + "</td>" +
+										 "<td>" + obj.mRUsg + "</td>" +
 										 "</tr>";
 						
 						});
 					} else if(key == "eqRList"){
 						
 						$.each(mainAll[key], function(key, obj){
+							if(obj.erCondition == "제출"){
 							valueEq += "<tr>" +
-										 "<td 30%>[처리상태: " + obj.erCondition + "]</td>" + 
-										 "<td 30%>" + obj.eqName + " /</td>" +
-									     "<td 20%>" + obj.sDate + " 부터 </td>" +
-									     "<td 20%>" + obj.eDate + " 까지 </td>" +
+										 "<td>" +"<strong style='color:gray;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+										 "<td> " + obj.eqName + "</td>" +
+									     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
 										 "</tr>";
+							} else if(obj.erCondition == "승인취소"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:salmon;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							} else if(obj.erCondition == "승인완료"){
+								valueEq += "<tr>" +
+								 "<td>" +"<strong style='color:mediumturquoise;'>"+ "[" + obj.erCondition + "]" + "</strong>"+ "</td>" +										 
+								 "<td> " + obj.eqName + "</td>" +
+							     "<td> " + obj.sDate + "~" + obj.eDate + "</td>" +
+								 "</tr>";
+							}
 						
 						});
 						
@@ -157,10 +171,38 @@ body{
 						
 						$.each(mainAll[key], function(key, obj){
 							valueMail += "<tr>" +
-										 "<td>[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]</td>" + 
+										 "<td>"+"<strong style='color:gray;'>"+"[" + obj.mailSndrDept + obj.mailSndrName +obj.mailSndrJobName +"]"+"</strong>"+ " </td>" + 
 										 "<td>" + obj.mailTitle + "</td>" +
 									     "<td>" + obj.mailDate + "</td>" +
 										 "</tr>";
+						
+						});
+						
+					} else if(key == "acList"){
+						console.log("확인")
+						$.each(mainAll[key], function(key, obj){
+							valueMyApproval += '<tr>'+'<td>'+'<div class="approvalSimple style="font-size:small;">' + 
+											'<div class="user-block">' +
+											'<strong style="color:gray;">['+ obj.commentDate +']</strong>&nbsp;' +
+											obj.cmDept +'&nbsp;'+ obj.cmName +'&nbsp;'+obj.cmJob + 
+											'</div>'+ '<br>'+
+											'<strong style="color:gray;" class="apTitle" onclick="selectApDetail('+obj.apNo+",'"+obj.detailClass+"'"+');">'+ obj.title +'&nbsp;'+'</strong>'+ '<strong class="ap_progress">'+'[' + obj.progress +"]"+'</strong>'+
+											'<div class="div_comment">'+
+											'<p>'+
+												obj.comment+
+											'</p>'+ '</div>' +'<hr color="gray">'+
+										   '</div>' +'</td>' + '</tr>';
+						
+						});
+					} else if(key == "approvalList") {
+						console.log("확인")
+						$.each(mainAll[key], function(key, obj){
+							valuePending += '<div class="pendingSimple">' + 
+											'<div class="user-block">' +
+											'<strong>['+ obj.createDate +']</strong>&nbsp;' +
+											obj.deptName +'&nbsp;'+ obj.writerName +'&nbsp;'+'</div>'+ '<br>'+
+											'<strong  style="color:gray;" class="apTitle" onclick="selectApDetail('+obj.apNo+",'"+obj.detailClass+"'"+');">'+ obj.title + '</strong>'+ 
+											'<hr color="gray">'+'</div>';
 						
 						});
 					}
@@ -171,7 +213,8 @@ body{
 					$("#mainRequestMtrTable tbody").html(valueMtr); // 회의실 신청
 					$("#mainRequestEqTable tbody").html(valueEq); // 비품 신청
 					$("#mailListTable tbody").html(valueMail); // 메일 inbox
-					
+					$("#mainMyApprovalTable tbody").html(valueMyApproval); // 내결재함
+					$("#mainPendingApprovalTable tbody").html(valuePending); // 미결재함
 					
 				}
 				

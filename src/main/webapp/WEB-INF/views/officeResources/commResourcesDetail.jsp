@@ -338,8 +338,6 @@
 				alert("비밀번호가 틀렸습니다.")
 				return false;
 			}
-			
-			
 		}
 	</script>
 </body>

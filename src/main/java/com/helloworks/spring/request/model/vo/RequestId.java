@@ -27,25 +27,3 @@ public class RequestId {
 	private String irCondition; //사원증 처리 상태 (제출, 승인완료, 승인취소)
 	private String irStatus; //사원증 신청 상태값(Y|N)
 }
-
-//ES_IR_NO	NUMBER
-//ES_IR_EMP_NO	NUMBER
-//ES_IR_DATE	DATE
-//ES_IR_KIND	VARCHAR2(1000 BYTE)
-//ES_IR_ORG_PIC	VARCHAR2(1000 BYTE)
-//ES_IR_CHG_PIC	VARCHAR2(1000 BYTE)
-//ES_IR_ORG_ATTACH	VARCHAR2(1000 BYTE)
-//ES_IR_CHG_ATTACH	VARCHAR2(1000 BYTE)
-//ES_IR_CONDITION	VARCHAR2(1000 BYTE)
-//ES_IR_STATUS	VARCHAR2(1 BYTE)
-//
-//사원증 신청 번호
-//사원증 신청인 사원번호
-//사원증 신청 접수일
-//사원증 신청 발급 종류
-//사원증 신청 원본 사진파일명
-//사원증 신청 변경 사진파일명
-//사원증 신청 입금 원본 첨부파일명
-//사원증 신청 입금 변경 첨부파일명
-//사원증 신청 처리상태
-//사원증 신청 상태값

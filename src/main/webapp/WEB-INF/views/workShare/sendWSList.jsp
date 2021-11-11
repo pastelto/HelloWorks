@@ -5,10 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 발송 업무</title>
+<title>업무공유</title>
 </head>
 <body>
-
 
     <section class="content">
       <div class="row">

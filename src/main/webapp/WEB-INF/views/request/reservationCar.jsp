@@ -10,7 +10,7 @@
 <style>
 .content-wrapper {
 	overflow: auto;
-}
+} 
 </style>
 </head>
 <body>

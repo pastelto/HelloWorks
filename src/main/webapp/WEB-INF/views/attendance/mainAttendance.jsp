@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +77,7 @@
 	                      <div class="progress">
 	                      	  <c:set var="working" value="${statistics.working /60/60*2.5}" />
 							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${working}%">
-							 	 ${working}%
+							 	 <fmt:formatNumber value="${working}" pattern=".0"/>%
 							  </div>
 						  </div> 
 						 
@@ -87,7 +88,7 @@
 		              	  <br>	
 	                      <div class="progress">
 	                     	  <c:set var="over" value="${statistics.over /60/60*8}" />
-							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${over}%">
+							  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:${over}%">							 	 
 							 	  ${over}%
 							  </div>
 						  </div> 	                
@@ -185,13 +186,9 @@ function insertTime(num){
 
     var inTime = document.getElementById('inTime').value;
     var outTime = document.getElementById('outTime').value;
-    
-    
+       
     switch(num){
     case 1 : 
-     	/* if(inTime == " "){
-			alert("주말은 출근등록을 할 수 없습니다")		
-		}else{ */
 			if( hour > 15 || hour < 08 ){ //오후 3시부터 오전 7시까지는 출근등록을 할 수 없음			
 				alert("지금은 출근시간을 등록할 수 없습니다")		
 			}else{ 
@@ -202,15 +199,10 @@ function insertTime(num){
 					alert("출근시간이 등록되어있습니다") //출근등록을 두번눌렀을때 방지
 				}	
 		 	}
-		/* }  */
 	break;	
     case 2 : 
-     	/* if(inTime == " "){
-			alert("주말은 퇴근등록을 할 수 없습니다")		
-		}else{ */
 			if(inTime == "00:00:00"){ //출근등록을 안했을 때
-				alert("출근시간을 먼저 등록해 주세요")
-				
+				alert("출근시간을 먼저 등록해 주세요")				
 			}else if(hour > 23 || hour < 10 ){ //오전 12시부터 오전 9시까지는 퇴근등록을 할 수 없음		
 				alert("지금은 퇴근시간을 등록할 수 없습니다")		
 			}else{
@@ -222,7 +214,6 @@ function insertTime(num){
 					alert("퇴근시간이 등록되어있습니다")//퇴근등록을 두번눌렀을때 방지
 				}
 		 	}			
-		/* }  */
     	
     break;
     }

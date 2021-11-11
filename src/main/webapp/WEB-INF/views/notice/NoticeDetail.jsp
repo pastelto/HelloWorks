@@ -120,7 +120,7 @@
 			var postForm = $("#postForm");
 			
 			if(num == 1){
-				postForm.attr("action", "updateForm.nt");
+				postForm.attr("action", "updateForm.nt");//수정
 				postForm.submit();
 			}else{
 				 var answer;
@@ -128,7 +128,7 @@
 				
 				 if(answer == true){
 		   			 
-					 postForm.attr("action", "delete.nt");
+					 postForm.attr("action", "delete.nt");//삭제
 					 postForm.submit();
 					 
 		   			 alert("공지사항이 삭제되었습니다.");

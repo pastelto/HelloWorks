@@ -332,7 +332,6 @@
 														</th>
 														<th colspan="2">
 															<span>업체명</span> &nbsp;
-															<button type="button" class="btn btn-default" id="acc_select" style="font-size:0.8rem" onclick='searchAcc();'>찾기</button>
 														</th>
 														<th colspan="1">
 															<span>지급은행</span>

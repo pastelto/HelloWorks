@@ -291,64 +291,6 @@
 							}
 														
 						}
-						
-						
-						/* if(obj.mRTime==9){							
-							$("#9Name").text(obj.empName);
-							$("#9Use").text(obj.mRUsg);
-							$("#9Checkbox").attr("disabled", true);
-							$("#9Button").attr("style", "display:''");
-						}else if(obj.mRTime==10){
-							$("#10Name").text(obj.empName);
-							$("#10Use").text(obj.mRUsg);
-							$("#10Checkbox").attr("disabled", true);
-							$("#10Button").attr("style", "display:''");
-						}else if(obj.mRTime==11){
-							$("#11Name").text(obj.empName);
-							$("#11Use").text(obj.mRUsg);
-							$("#11Checkbox").attr("disabled", true);
-							$("#11Button").attr("style", "display:''");							
-						}else if(obj.mRTime==12){
-							$("#12Name").text(obj.empName);
-							$("#12Use").text(obj.mRUsg);
-							$("#12Checkbox").attr("disabled", true);
-							$("#12Button").attr("style", "display:''");
-						}else if(obj.mRTime==13){
-							$("#13Name").text(obj.empName);
-							$("#13Use").text(obj.mRUsg);
-							$("#13Checkbox").attr("disabled", true);
-							$("#13Button").attr("style", "display:''");
-						}else if(obj.mRTime==14){
-							$("#14Name").text(obj.empName);
-							$("#14Use").text(obj.mRUsg);
-							$("#14Checkbox").attr("disabled", true);
-							$("#14Button").attr("style", "display:''");
-						}else if(obj.mRTime==15){
-							$("#15Name").text(obj.empName);
-							$("#15Use").text(obj.mRUsg);
-							$("#15Checkbox").attr("disabled", true);
-							$("#15Button").attr("style", "display:''");
-						}else if(obj.mRTime==15){
-							$("#16Name").text(obj.empName);
-							$("#16Use").text(obj.mRUsg);
-							$("#16Checkbox").attr("disabled", true);
-							$("#16Button").attr("style", "display:''");
-						}else if(obj.mRTime==15){
-							$("#17Name").text(obj.empName);
-							$("#17Use").text(obj.mRUsg);
-							$("#17Checkbox").attr("disabled", true);
-							$("#17Button").attr("style", "display:''");
-						}else if(obj.mRTime==15){
-							$("#18Name").text(obj.empName);
-							$("#18Use").text(obj.mRUsg);
-							$("#18Checkbox").attr("disabled", true);
-							$("#18Button").attr("style", "display:''");
-						}else if(obj.mRTime==15){
-							$("#19Name").text(obj.empName);
-							$("#19Use").text(obj.mRUsg);
-							$("#19Checkbox").attr("disabled", true);
-							$("#19Button").attr("style", "display:''");
-						} */	
 								
 					});
 
@@ -362,7 +304,7 @@
 		function delRsvMtr(mRNo){
 				
 				var mRNo = mRNo;
-				alert(mRNo);
+				//alert(mRNo);
 				
 				$.ajax({
 					url : "delRsv.mtr",
@@ -429,7 +371,7 @@
 						//history.go(0);
 					}
 				},
-				error : function(error) {   // 오류가 발생했을 때 호출된다. 
+				error : function(error) {   // 오류가 발생시 호출
 					console.log("회의실 예약 ajax 통신실패")
 				}
 

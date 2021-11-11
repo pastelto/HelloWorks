@@ -81,7 +81,7 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-md-9">
-						<form method="post" id="mailForm" action="dsend.ml?mailStatus=Y"
+						<form method="post" id="mailForm" 
 							enctype="multipart/form-data">
 							<input type="hidden" name="mailNo" value="${ draftMail.mailNo }"/>
 							<div class="card card-outline card-info">
@@ -106,7 +106,7 @@
 											<div class="col-2">수신자</div>
 											<div class="col-8">
 												<div class="row m-0">
-													<div id="receiveListDiv">To:</div>
+													<div >To:</div>
 													&nbsp;&nbsp;
 													<div id="rcvrName">
 														<c:forEach items="${ draftMailList }" var="draft"
@@ -131,6 +131,9 @@
 														class="btn btn-default btn-xs" onclick="popupSearchEmp();">직원
 														검색</button>
 													&nbsp;&nbsp;
+													<div id="receiveListDiv">
+													<input type="hidden" id="checking" name="checking">
+												</div>
 												</div>
 											</div>
 										</div>
@@ -169,12 +172,12 @@
 									<!-- /.card-footer -->
 									<div class="card-footer">
 										<div class="float-right">
-											<button type="submit" class="btn btn-primary">
-												<i class="far fa-envelope"></i> 보내기
+											<button type="button" class="btn btn-primary" onclick="dsendMail();">
+												보내기
 											</button>
 										</div>
-										<button type="button" class="btn btn-default">
-											<i class="far fa-trash-alt"></i> 삭제하기
+										<button type="button" class="btn btn-danger">
+											삭제하기
 										</button>
 									</div>
 									<!-- /.card-footer -->
@@ -262,5 +265,29 @@
 					"width=1300,height=800");
 		}
 	</script>
+	<!-- 메일 null일때 -->
+<script>
+function dsendMail(){
+	$('#mailForm').each(function(){	
+		
+		if($("input[name=mailTitle]").val() == ""){
+			alert("제목을 입력해주세요.")
+		}else if($("input[name=checking]").val()==""){
+			alert("수신직원을 다시 입력해주세요.")
+		}else if($("#summernote").val()==""){
+			alert("메일내용을 입력해주세요.")
+		}else{
+			if(confirm("메일을 발송하시겠습니까?") == true){
+				 $("#mailForm").attr("action", "<%=request.getContextPath()%>/send.ml?mailStatus=Y");
+					$("#mailForm").submit();
+					alert("메일이 발송되었습니다.");
+			}else{   
+			   //취소 버튼 눌렀을 때 실행 할 코드
+			   return false;
+			}
+		}
+	});
+}
+</script>
 </body>
 </html>

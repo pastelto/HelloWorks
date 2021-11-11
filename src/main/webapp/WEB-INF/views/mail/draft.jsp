@@ -116,7 +116,6 @@
 									<i class="fas fa-sync-alt"></i>
 								</button>
 								<div class="float-right">
-									1-50/200
 									<div class="btn-group">
 										<button type="button" class="btn btn-default btn-sm">
 											<i class="fas fa-chevron-left"></i>
@@ -129,7 +128,7 @@
 								</div>
 								<!-- /.float-right -->
 							</div>
-							<div class="table-responsive mailbox-messages">
+							<div class="table-responsive mailbox-messages" style="height : 600px">
 								<table class="table table-hover table-striped" id="draftList">
 									<tbody>
 										<c:forEach items="${ draftMailList }" var="draft"
@@ -196,8 +195,6 @@
 		$(function() {
 			$("#draftList tbody tr").click(function() {
 				var mailNo = $(this).children().eq(1).text();
-
-				//console.log("mailNo : " + mailNo);
 
 				location.href = "dCompose.ml?mailNo=" + mailNo;
 

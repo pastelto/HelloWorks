@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유</title>
+<title>업무공유</title>
 </head>
 <style>
 	#WorkShareTable, #savedWSTable{
-	height:450px;
+	height:500px;
 	}
 </style>
 <body>

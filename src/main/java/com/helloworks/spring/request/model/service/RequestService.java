@@ -15,7 +15,7 @@ public interface RequestService {
 	void addMtr(Mtr mtr);
 	//회의실 목록
 	ArrayList<Mtr> manageMtr();
-	//회의실 삭제
+	//회의실 삭제 
 	void deleteMtr(List<String> checkArr);
 	//차량 등록
 	void addCar(Car car);

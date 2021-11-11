@@ -192,8 +192,6 @@
 	 <script>
 	 	function selectAllExTemp(cOption){
 	 	
-	 		resetSearch();
-	 		
 	 		$.ajax({
 	 			url: "selectAllApproval.ea",
 	 			type: "post",

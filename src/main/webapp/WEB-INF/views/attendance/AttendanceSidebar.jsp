@@ -97,11 +97,9 @@
 				                  <li class="nav-item">
 				                    <a class="nav-link" href="vacationUse.ps"><i class="far fa-circle text-warning"></i> 연차 사용 현황</a>
 				                  </li>
-				                  
-				                  <!-- 
 				                  <li class="nav-item">
-				                    <a class="nav-link" href="vacationStatistics.ps"><i class="far fa-circle text-primary"></i> 소속 연차 통계</a>
-				                  </li> -->
+				                    <a class="nav-link" href="#" onclick="checkJob2();"><i class="far fa-circle text-primary"></i> 소속 연차 통계</a>
+				                  </li> 
 				                  <!-- 인사팀만 조회가능 -->
 				                     <c:if test="${ loginUser.deptCode eq 'A1' }">
 					                  <li class="nav-item">
@@ -148,6 +146,19 @@
 				return false;
 			}else{
 				location.href="wtStatistics.ps";
+			}					
+		
+		}
+		
+		function checkJob2(){
+			var jobName = '${loginUser.jobName}';	
+			console.log("DD"+jobName)
+	
+			if(jobName == '팀원'){
+				alert("팀장 이상만 조회 할 수 있습니다.")				
+				return false;
+			}else{
+				location.href="vacationStatistics.ps";
 			}					
 		
 		}

@@ -444,7 +444,7 @@
 		}
 	</script>
 	
-	<!-- detail -->
+	<!-- detail 페이지 -->
 	<script>
 		function detailEmployee(empNo){
 			location.href="<%=request.getContextPath()%>/detailEmployee.hr?empNo="+empNo;

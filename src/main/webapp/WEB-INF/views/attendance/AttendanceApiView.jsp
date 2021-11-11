@@ -138,46 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var nowDate = new Date();
 		var month= nowDate.getMonth() + 1;
         var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-       	  header:{
-       		right: 'today,customPrevButton,customNextButton',
-       		left:'title'
-       	  },
-       	  customButtons:{
-       		customPrevButton:{
-       			text:'prev',
-       			click:function(){
-       				
-       				month=month-1;
-       				console.log("달"+ month)
-       				
-       			 	$.ajax(
-       			    		{
-       			    			url : 'prevnextBtn.ps',
-       			    			type: 'POST',
-       			    			data : month,
-       			    			contentType: 'application/json; charset=utf-8',
-       			    			success:function(list){
-       			    		            
-       			    		            var value="";
-       			    		            
-       			    		            $.each(list, function(i, obj){               
-       			    		               value +=
-       			    		               "<td>" +  obj.empNo + "</td>" + 
-       			    		               "<td>" +  obj.working + "</td>" + 
-       			    		               "<td>" +  obj.over + "</td>" + 
-       			    		               "<td>" +  obj.totalT + "</td>" + 
-       			    		               "<td>" +  obj.leaveWT + "</td>" + 
-       			    		               "<td>" +  obj.leaveOT + "</td>" ;
-       			    		            });
-       			    		            
-       			    		            $("#attendanceList>tbody>tr").html(value);
-       			    						
-       			    			}
-       			    		}); 
-       			}
-       		}  
-       	  },
+        var calendar = new FullCalendar.Calendar(calendarEl, {      	 
           initialView: 'dayGridMonth',
           defaultDate: new Date(),
           locale: 'ko', 
@@ -192,14 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
                      type:'post',
                      success: 
                          function(result) {
-                             var events = [];
-                         
-                             if(result!=null){
-                            	
+                             var events = [];                         
+                             if(result!=null){                            	
                                      $.each(result, function(index, element) {
-                                     var enddate=element.psCreateDate;
-                                    
-                                     
                                       var startdate=moment(element.psCreateDate).format('YYYY-MM-DD');
                                       var psStatus = element.psStatus;
                                      
@@ -322,19 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
      });//new FullCalendar end
    
         calendar.render();       
-     
-   
-       /*  $('.fc-prev-button').click(function(){
-         	  changeMonth(1);
-        	   
-        });
-     
-     
-        $('.fc-next-button').click(function(){
-        	 changeMonth(-1);
-        	}); */
-     
-     
       });    
 
 </script>

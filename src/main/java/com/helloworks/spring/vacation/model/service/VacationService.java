@@ -2,6 +2,7 @@ package com.helloworks.spring.vacation.model.service;
 
 import java.util.ArrayList;
 
+import com.helloworks.spring.attendance.model.vo.Statistics;
 import com.helloworks.spring.vacation.model.vo.ApprovalAttendance;
 import com.helloworks.spring.vacation.model.vo.LoginUserVacation;
 import com.helloworks.spring.vacation.model.vo.Vacation;
@@ -53,6 +54,9 @@ public interface VacationService {
 	
 	//결재할 문서 갯수
 	int selectListCount();
+	
+	//연차 사용통계
+	ArrayList<LoginUserVacation> vacationStatistics(String dept);
 	
 	
 
