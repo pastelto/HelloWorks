@@ -2,13 +2,15 @@ package com.helloworks.spring.employee.model.service;
 
 import java.util.ArrayList;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.helloworks.spring.common.model.vo.PageInfo;
 import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 public interface EmployeeService {
  
-	Employee loginMember(Employee m) throws Exception;
+	Employee loginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Employee m) throws Exception;
 
 	Employee updateEmp(Employee m);
 
