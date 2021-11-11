@@ -49,7 +49,7 @@ public class EmployeeDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("employeeMapper.selectHrTypeEmployeeListCount", hrType);
 	}
-
+ 
 	public ArrayList<Employee> selectHrTypeEmployee(SqlSessionTemplate sqlSession, String hrType, PageInfo pi) {
 		// TODO Auto-generated method stub
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();

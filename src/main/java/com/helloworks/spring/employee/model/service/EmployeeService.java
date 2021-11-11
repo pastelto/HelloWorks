@@ -7,7 +7,7 @@ import com.helloworks.spring.employee.model.vo.Employee;
 import com.helloworks.spring.offieceRoom.model.vo.SearchEmployee;
 
 public interface EmployeeService {
-
+ 
 	Employee loginMember(Employee m) throws Exception;
 
 	Employee updateEmp(Employee m);
@@ -16,21 +16,21 @@ public interface EmployeeService {
 
 	void insertEmp(Employee m);
 
-	int selectAllEmployeeListCount(); //인사관리
+	int selectAllEmployeeListCount();
 
-	ArrayList<Employee> selectAllEmployee(PageInfo pi); //인사관리
+	ArrayList<Employee> selectAllEmployee(PageInfo pi); 
 
-	int selectHrTypeEmployeeListCount(String hrType); //인사관리
+	int selectHrTypeEmployeeListCount(String hrType); 
 
 
-	ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi); //인사관리
+	ArrayList<Employee> selectHrTypeEmployee(String hrType, PageInfo pi); 
 
 	int searchEmployeeListCount(SearchEmployee se);
 
-	ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi); //인사관리;
+	ArrayList<Employee> searchEmployee(SearchEmployee se, PageInfo pi); 
 	
-	Employee getLastEmpNo(); // 일정관리
+	Employee getLastEmpNo(); 
 
-	void updateEmployee(Employee employee);  //인사관리
+	void updateEmployee(Employee employee);  
 
 }

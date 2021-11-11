@@ -5,12 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>login</title> 
+<title>로그인</title> 
 	<!-- 아이콘 -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<!-- 로그인 -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
     <style>
     	body{
@@ -28,8 +29,8 @@
     	}
     	  
     	.login_logo{
-    		width: 270px;
-    		height: 220px;    		    						
+    		width: 240px;
+    		height: 200px;    		    						
     		margin-top: 30px;   		     		  
     	}
       
@@ -48,7 +49,7 @@
          
     </style>
 </head>
-<body>
+<body> 
 	<c:if test="${ !empty msg }">
 		<script>
 			alert("${msg}");
@@ -58,7 +59,7 @@
 
     <div id="loginDiv" class="example-container">
     	<!-- logoImage -->
-        <img class="login_logo" src="resources/common/loginLogo.png" alt="login logo">
+        <img class="login_logo" src="resources/common/login_logo.png" alt="login logo">
       	
         <form action="login.me" method="post" class="loginForm">
         	<div class="input-group mb-3">
@@ -79,6 +80,6 @@
 	        </div>
         </form>
     </div>
-
+    
 </body>
 </html>
