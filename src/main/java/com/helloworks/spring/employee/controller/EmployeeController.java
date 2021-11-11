@@ -58,6 +58,9 @@ import com.helloworks.spring.workshare.model.vo.WorkShare;
 @Controller
 public class EmployeeController {
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	// 김다혜
 	@Autowired
    	private ScheduleService scheduleService;
@@ -68,9 +71,6 @@ public class EmployeeController {
 	@Autowired 
 	private EmployeeService employeeService;
 	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 	//김소원
 	@Autowired 
 	private ApprovalService approvalService;
@@ -95,9 +95,12 @@ public class EmployeeController {
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(Employee m, Model model) {
 				
-				
+		String encPwd = bCryptPasswordEncoder.encode(m.getEmpPwd());
+		
+		System.out.println("암호화 후 : "+ encPwd);		
+		
 		try {
-			Employee loginUser = employeeService.loginMember(m);
+			Employee loginUser = employeeService.loginMember(bCryptPasswordEncoder, m);
 			
 			model.addAttribute("loginUser", loginUser);
 			return "redirect:main.mi"; 
@@ -243,27 +246,41 @@ public class EmployeeController {
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request, Model model,
+	public String updateEmp(Employee m, HttpServletRequest request, Model model,
 															@RequestParam(name="empOrgPicName", required=true) MultipartFile file,
 															@RequestParam(name="empOrgSignName", required=true) MultipartFile file1) {
 		
+		System.out.println("$$$$$$$$$44444" + m);
+		if(file.getOriginalFilename().equals("")) {
+			m.setEmpOrgPic(m.getEmpOrgPic());
+			
+			m.setEmpChgPic(m.getEmpChgPic());
 		
+			
+		}
+		if(file1.getOriginalFilename().equals("")) {
+			m.setEmpOrgSign(m.getEmpOrgSign());
+			m.setEmpChgSign(m.getEmpChgSign());
+		}
 		
 		if(!file.getOriginalFilename().equals("")) {
 			String chgPic = saveFile(file, request,"pic");
-			
-			String chgSign = saveFile(file1, request, "sign");
-			
+			System.out.println("###################"+chgPic);
 			if(chgPic!=null) {
 					m.setEmpOrgPic(file.getOriginalFilename());
 					m.setEmpChgPic(chgPic);				
 				
 				}
+			}	
+		
+			if(!file1.getOriginalFilename().equals("")) {
+			String chgSign = saveFile(file1, request, "sign");
+			System.out.println("###################"+chgSign);
 			if(chgSign != null) {
 					m.setEmpOrgSign(file1.getOriginalFilename());
 					m.setEmpChgSign(chgSign);
 				}
-			}		
+			}	
 		
 		Employee userInfo = employeeService.updateEmp(m);
 				
@@ -319,12 +336,12 @@ public class EmployeeController {
 		employeeService.insertEmp(m);
 		
 		//암호화작업
-		String empPwd = bCryptPasswordEncoder.encode(m.getEmpPwd());
-				
-		System.out.println("암호화 후 : "+ empPwd);
-				
-		m.setEmpPwd(empPwd);
+		String encPwd = bCryptPasswordEncoder.encode(m.getEmpPwd());
 		
+		System.out.println("암호화 후 : "+ encPwd);
+		
+		m.setEmpPwd(encPwd);
+	
 		Employee emp = employeeService.getLastEmpNo();
 		scheduleService.insertCal(emp.getEmpNo());
 		session.setAttribute("msg", "사원등록성공");

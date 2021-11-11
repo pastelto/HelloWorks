@@ -34,13 +34,11 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars mt-1"></i></a>
       </li>
+     
       <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link" href="Mypage.mp">
-        	<img src="resources/idPhoto_files/${emp.empChgPic}" style="width: 40px; height: 30px; border-radius: 20px;"/>
-        </a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link" href="Mypage.mp">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
+     
+        <a class="nav-link pt-0" href="Mypage.mp">
+        <img src="./resources/idPhoto_files/${loginUser.empChgPic}" style="width: 40px; height: 40px; border-radius: 20px;"/>&nbsp;&nbsp;&nbsp;&nbsp; ${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a></span>
       </li>
     </ul>
 
