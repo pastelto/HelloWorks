@@ -119,10 +119,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 해당 날짜 메인 일정 가져오기 -->
 	<select id="getEventList" parameterType="HashMap" resultMap="manageScheduleResultSet">
-		SELECT A.*
-		FROM SCHEDULE_TABLE A 
-		JOIN CALENDAR_TYPE B ON B.CAL_NO = A.SCH_CAL_NO
-		WHERE (A.SCH_EMP_NO = #{empNo} AND A.SCH_STARTDATE = #{getDate})
-		AND (A.SCH_TYPE = #{deptUname} OR A.SCH_TYPE = #{deptDname} OR A.SCH_TYPE = 'PRIVATE' OR B.CAL_NAME = '전체')
+		SELECT *
+		FROM SCHEDULE_TABLE 
+		WHERE SCH_STARTDATE = #{getDate}
+        AND (SCH_TYPE = '전체' OR SCH_TYPE = #{deptUname} OR SCH_TYPE = #{deptDname})
+        OR (SCH_EMP_NO = #{empNo} AND SCH_TYPE = 'PRIVATE')
 	</select>
 </mapper>
