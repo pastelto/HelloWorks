@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 일정등록</title>
+<title>일정관리</title>
 <!-- summernote -->
 <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
 <!-- daterange picker -->

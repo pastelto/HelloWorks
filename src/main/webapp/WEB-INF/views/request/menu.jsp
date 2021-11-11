@@ -13,7 +13,7 @@
 	href="./resources/plugins/datepicker/jquery-ui.css">
 <script src="./resources/plugins/datepicker/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="./resources/plugins/fullcalendar/main.css">
-<style>
+<style> 
 .content-wrapper {
 	overflow: auto;
 }

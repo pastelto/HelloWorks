@@ -88,11 +88,11 @@ public class EmployeeController {
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(Employee m, Model model) {
-				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
+				
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
-			System.out.println("loginUser :  " + loginUser);
+			
 			model.addAttribute("loginUser", loginUser);
 			return "redirect:main.mi"; 
 		} catch (Exception e) {
@@ -149,14 +149,28 @@ public class EmployeeController {
 	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
 	      selectMap.put("loginEmpNo", empNo);
 	      selectMap.put("status", status);	
+	      int flag = 0;
+	      
+	      if(request.getParameter("flag") != null) {
+	    	  flag = Integer.parseInt(request.getParameter("flag"));
 	    	  
-		  approvalList = approvalService.mainPending(selectMap);
-		  mv.addObject("approvalList", approvalList);
-
-		  acList = approvalService.mainMyApproval(selectMap);
-		  mv.addObject("acList", acList);
-
-		  
+		      if(flag == 0) {
+			      acList = approvalService.mainMyApproval(selectMap);
+			      mv.addObject("acList", acList);
+			      mv.addObject("commentPageURL", "mainMyApproval.ea");
+			      mv.addObject("commentPage", 1);
+		      } else if(flag == 1) {		    	  
+		    	  approvalList = approvalService.mainPending(selectMap);
+			      mv.addObject("approvalList", approvalList);
+			      mv.addObject("commentPageURL", "mainPendingApproval.ea");
+			      mv.addObject("commentPage", 2);
+		      }
+		  } else {
+			  acList = approvalService.mainMyApproval(selectMap);
+		      mv.addObject("acList", acList);
+		      mv.addObject("commentPageURL", "mainMyApproval.ea");
+		      mv.addObject("commentPage", 1);
+		  }
 	      
 	      //왕다영
 		  // 회의실
@@ -204,15 +218,15 @@ public class EmployeeController {
 	//로그아웃
 		@RequestMapping("logout.me")
 		public String logoutMember( SessionStatus status) {
-			System.out.println("@@@@@로그아웃" + status);
-			status.setComplete(); //현재 컨트롤러에 @SessionAttribute에 의해 저장된 오브젝트를 제거
+			
+			status.setComplete();
 			return "redirect:index.jsp";
 		}	
 		
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
 	public String EmployeeMypage(Model model, HttpServletRequest request) {
-		System.out.println("마이페이지 전환");
+		
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
 		Employee emp = employeeService.selectEmp(empNo);
@@ -223,19 +237,17 @@ public class EmployeeController {
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request,  @RequestParam("empPhone") String empPhone, Model model,
+	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request, Model model,
 															@RequestParam(name="empOrgPicName", required=true) MultipartFile file,
 															@RequestParam(name="empOrgSignName", required=true) MultipartFile file1) {
 		
-		m.setEmpPhone(empPhone);
+		
 		
 		if(!file.getOriginalFilename().equals("")) {
 			String chgPic = saveFile(file, request,"pic");
 			
 			String chgSign = saveFile(file1, request, "sign");
 			
-			System.out.println("chgPic : " + chgPic);
-			System.out.println("chgSign : " + chgSign);
 			if(chgPic!=null) {
 					m.setEmpOrgPic(file.getOriginalFilename());
 					m.setEmpChgPic(chgPic);				
@@ -298,15 +310,7 @@ public class EmployeeController {
 	
 	@RequestMapping("insert.hr")
 	public String insertEmp(Employee m, HttpSession session) {
-		
-		
-		System.out.println("m.getDeptCode@@@@@@@@@@@@@@@@"+ m.getDeptCode());
-		
-		System.out.println("m.setEmpAddress"+ m);
-		
-		System.out.println("암호화 전: "+ m.getEmpPwd());
-		
-		
+			
 		
 		employeeService.insertEmp(m);
 		
@@ -379,7 +383,7 @@ public class EmployeeController {
 			se.setHrType(hrType);
 		}
 		
-		
+	
 		switch(optionType) {
 		case "allType":
 			se.setAllType(searchEmployee);
@@ -469,7 +473,6 @@ public class EmployeeController {
 		 
 		  // 업무공유 
 		  Employee myEmp = (Employee)request.getSession().getAttribute("loginUser");
-		  int empNo =  myEmp.getEmpNo();	
 		 
 	      // 업무공유 - 미확인
 		  ArrayList<WorkShare> unCheckedList = new ArrayList<WorkShare>();
@@ -492,18 +495,6 @@ public class EmployeeController {
 		  ArrayList<Mail> mailList = new ArrayList<>();
 		  mailList = mailService.inboxMailList(myEmp);
 		  
-		  //김소원
-	      ArrayList<ApprovalComment> acList = null;
-	      ArrayList<Approval> approvalList = null;
-	      String status = "Y"; 			
-	      HashMap<String, Object> selectMap = new HashMap<String, Object>();			
-	      selectMap.put("loginEmpNo", empNo);
-	      selectMap.put("status", status);	
-	    	  
-		  approvalList = approvalService.mainPending(selectMap);
-		  acList = approvalService.mainMyApproval(selectMap);
-		  
-		  
 		  // 해쉬맵 
 		  HashMap<String, Object> mainAll = new HashMap<String, Object>();
 		  // 다혜
@@ -515,9 +506,6 @@ public class EmployeeController {
 		  mainAll.put("eqRList", eqRList);
 		  mainAll.put("mailList", mailList);
 
-		  // 소원
-		  mainAll.put("approvalList", approvalList);
-		  mainAll.put("acList", acList);
 		  
 	      return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일").create().toJson(mainAll);
 	}

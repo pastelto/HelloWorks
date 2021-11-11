@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="requestMapper">
-
+ 
 	<!-- 회의실관리 -->
 	<resultMap id="mtrResultSet" type="Mtr">
 		<id property="mMNo" column="RS_MM_NO" />

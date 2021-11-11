@@ -32,38 +32,4 @@ public class Mtr {
 	
 }
 
-//RS_MR_NO	NUMBER
-//RS_MM_NO	NUMBER
-//RS_MR_EMP_NO	NUMBER
-//RS_MR_DATE	DATE
-//RS_MR_TIME	DATE
-//RS_MR_USG	VARCHAR2(1000 BYTE)
-//RS_MR_STATUS	VARCHAR2(1 BYTE)
-//회의실 신청 번호
-//회의실 관리 번호
-//회의실 신청인 사원번호
-//회의실 신청 날짜
-//회의실 사용 시간
-//회의실 사용 용도
-//회의실 신청 상태값
-
-//RS_MM_NO
-//RS_MM_EMP_NO
-//RS_MM_NAME
-//RS_MM_CAPACITY
-//RS_MM_STATUS
-//
-//NUMBER
-//NUMBER
-//VARCHAR2(1000 BYTE)
-//NUMBER
-//VARCHAR2(1 BYTE)
-//
-//회의실 관리 번호
-//회의실 관리담당자 사번
-//회의실 명
-//회의실 수용인원
-//회의실 상태값
-
-
 

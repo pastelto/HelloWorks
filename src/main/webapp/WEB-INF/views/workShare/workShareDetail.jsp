@@ -7,10 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유</title>
+<title>업무공유</title>
 <!-- summernote -->
  <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
-<!-- include libraries(jQuery, bootstrap) -->
 <!-- 화면단을 전반적으로 작게 만들어주는 부트스트랩! 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
@@ -110,15 +109,6 @@
 							                        </c:if>
 							                     </c:forEach>
 												</td>
-												<td colspan="3" id="editRecvList" style="display:none;">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_recv">
-												<div class="float-right">
-													<button id="addressBook" type="button" class="btn btn-default btn-xs">주소록</button>
-													&nbsp;&nbsp;
-													<button id="searchEmp" type="button" class="btn btn-default btn-xs">직원 검색</button>
-												</div>
-												</td>
 											</tr>
 											<tr>
 												<th>참조</th>
@@ -131,15 +121,6 @@
 							                        </span>
 							                        </c:if>
 							                     </c:forEach>
-												</td>
-												<td colspan="3" id="editRefRecv" style="display:none;">
-												&nbsp;&nbsp;
-												<input type="text" name="ws_ref">
-												<div class="float-right">
-													<button id="refAB" type="button" class="btn btn-default btn-xs" onclick="">주소록</button>
-													&nbsp;&nbsp;
-													<button id="refSEmp" type="button" class="btn btn-default btn-xs" onclick="popupSearchEmp.or">직원 검색</button>
-												</div>
 												</td>
 											</tr>
 											<tr>
@@ -179,36 +160,6 @@
 													<div class="click2edit" id="ws_content"> ${ ws.ws_content }</div>
 												</td>
 											</tr>
-<!-- 											<tr>
-												<td colspan="12">															
-													<div class="btn btn-default btn-file btn-xs">
-									                    <i class="fas fa-paperclip"></i> 첨부파일
-									                    <input type="file" class="normalAttach" name="normalAttach" id="normalAttach" multiple="true">
-							                  		</div> 
-												</td>
-											</tr> -->
-<!-- 											<tr>
-												<td colspan="6">
-													<input type="text" placeholder="댓글을 입력하세요." >
-												</td>
-												<td colspan="6">
-													<button>등록하기</button>
-												</td>
- 												<td colspan="3">
-													<span>삭제</span>
-												</td>
-											<tr>
-											<tr id="fileRow">
-												<td colspan="6">
-													 <span class="normalAttachName"></span>
-												</td >
-												<td colspan="3">
-													<span class="normalAttachSize"></span>
-												</td>
-												<td colspan="3">
-													<button type="button" class="btn btn-danger" style="font-size:1em">삭제</button>
-												</td>
-											</tr> -->
 										</table>
 
 							            <table id="replyArea" class="table" align="center">
@@ -244,11 +195,6 @@
 							            </table>
 									</div>
 								</div>
-<!-- 								<div class="row">
-									<div class="col-12">
-									</div>
-								</div> -->
-
 
 							</div>
 
@@ -362,15 +308,20 @@
 					$.each(list, function(i, obj){
 						
 						if(obj.wsr_empNo == ${loginUser.empNo}){
-						value += "<tr>" +
-								 /* "<th>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</th>" +  */
+						value += "<tr id='replyNo"+obj.wsr_no+"' style='display:"+"''"+">" +
 								 "<td width='80%'><strong>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</strong>&nbsp;&nbsp;" + 
 								 "<small>" + obj.wsr_date + "</small>" +"<br>"
 								 		   + obj.wsr_content + "</td>" + 
 								 "<td></td>" +
 								 "<td></td>" +
-							     "<td style='text-align: right;'>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReply("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
-							     "</tr>";
+							     "<td style='text-align: right;'>" + "<a onclick='deleteReply("+obj.wsr_no+");'><b>삭제하기</b></a> | " + "<a onclick='updateReplyForm("+obj.wsr_no+");'>수정하기</a>" + "</td>" +
+							     "</tr>" +
+								 "<tr id='thisRContent"+obj.wsr_no+"'" + "style='display:none;'>"+
+							     "<th colspan='3' style='width:75%'>" +
+                    				"<textarea class='form-control' id='rContent"+obj.wsr_no+"'" + "rows='2' style='resize:none; width:100%'>" + obj.wsr_content + "</textarea>" + 
+                    			 "</th>" + 
+                    			 "<th style='vertical-align: middle'><button class='btn btn-secondary' onclick='updateReply("+obj.wsr_no+");'>수정하기</button></th>" +
+                    			 "</tr>" 
 						}else {
 							value += "<tr>" +
 							 "<td width='80%'><strong>" + obj.wsr_empName + " " + obj.wsr_empJobName + "</strong>&nbsp;&nbsp;" + 
@@ -415,28 +366,43 @@
 		}
 		
 		// 댓글 수정하기
-/* 		function updateReply(num){
+		function updateReplyForm(num){
+		
+			var idName = '#replyNo' + num;
+			var contentId = '#thisRContent' + num;
+
+			$(idName).prop("style", "display:none");
+			$(contentId).prop("style", "display:''");
 			
-			var del = confirm("댓글을 삭제하시겠습니까?");
+		}
+
+ 		function updateReply(num){
+ 			
+			var content = '#rContent' + num;
+			var realContent = $(content).val();
+
+			var yes = confirm("댓글을 수정하시겠습니까?");
 			
-			if(del){
+			if(yes){
 				$.ajax({
-					url:"deleteReply.ws",
+					url:"updateReply.ws",
 					type:"post",
-					data:{rno:num},
+					data:{wsr_content:realContent,
+						  wno:num
+						  },
 					success:function(result){
 						if(result > 0){
-							alert("댓글이 삭제되었습니다.");
+							alert("댓글이 수정되었습니다.");
 							selectReplyList();			
 						}else{
-							alert("댓글삭제실패");
+							alert("댓글수정실패");
 						}
 					},error:function(){
-						console.log("댓글 삭제 ajax 통신 실패");
+						console.log("댓글 수정 ajax 통신 실패");
 					}
 				});
 			}
-		} */
+		} 
   </script>
 	<jsp:include page="../common/footer.jsp" />
 	

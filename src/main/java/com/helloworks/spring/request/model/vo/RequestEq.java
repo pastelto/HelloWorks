@@ -30,27 +30,3 @@ public class RequestEq {
 	private String erCondition; //비품 처리 상태 (제출, 승인완료, 승인취소)
 	private String erStatus; //비품 신청 상태값(Y|N)
 }
-
-//ES_ER_NO	NUMBER
-//ES_ER_EMP_NO	NUMBER
-//ES_ER_DATE	DATE
-//ES_ER_PLC	VARCHAR2(1000 BYTE)
-//ES_ER_USG	VARCHAR2(1000 BYTE)
-//ES_ER_START	DATE
-//ES_ER_END	DATE
-//ES_ER_NAME	VARCHAR2(1000 BYTE)
-//ES_ER_ADD	    VARCHAR2(1000 BYTE)
-//ES_ER_CONDITION	VARCHAR2(1000 BYTE)
-//ES_ER_STATUS	VARCHAR2(1 BYTE)
-//
-//비품 신청 번호
-//비품 관리 번호
-//비품 신청인 사원번호
-//비품 신청 접수일
-//비품 사용 장소
-//비품 사용 목적
-//비품 사용 시작일시
-//비품 사용 종료일시
-//비품명
-//비품 처리 상태
-//비품 신청 상태값

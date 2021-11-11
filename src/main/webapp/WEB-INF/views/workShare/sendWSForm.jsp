@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelloWorks - 업무공유 발신함</title>
+<title>업무공유</title>
 
 <!-- summernote -->
 <link rel="stylesheet"	href="./resources/plugins/summernote/summernote-bs4.min.css">
@@ -153,8 +152,6 @@
 		</section>
 	</div>
 
-
-
 	<!-- Summernote -->
 	<script src="./resources/plugins/summernote/summernote-bs4.min.js"></script>
 	<script>
@@ -175,7 +172,6 @@
 			var filename = "";
 			for(var i = 0; i < $(this)[0].files.length; i++){
 				
-				// filename += '<input type="button" id="deleteFile'+i+'" class="far fa-trash-alt" name="dFBtn"></input>&nbsp;&nbsp;';
 				filename += $(this)[0].files[i].name + "&nbsp;&nbsp;";
 				filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;
 				filename += "<br>";
@@ -184,6 +180,23 @@
 			$('#workShareAttachName').append(filename); 
 		});
 
+		$("#workShareAttach").on("change", function() {
+			// 첨부파일 새로 첨부시 내용 삭제
+			$('#workShareAttachName').empty();
+			
+			var filename = "";
+			for(var i = 0; i < $(this)[0].files.length; i++){
+				
+				filename += "<i type='button' class='fas fa-trash-alt' style='color: red; background-color: none')></i>&nbsp;&nbsp;";
+				filename += "<span class='badge badge-info'>";
+				filename += $(this)[0].files[i].name + "&nbsp;&nbsp;";
+				filename += "( " + Math.round(($(this)[0].files[i].size/1024)*100)/100 + " KB )	" ;	
+				filename += "</span>&nbsp;&nbsp;";
+				filename += "<br>";
+			}
+			// console.log("filename : " + filename)
+			$('#workShareAttachName').append(filename); 
+		});
 	</script>
 	
 	<!-- 버튼 이동 -->

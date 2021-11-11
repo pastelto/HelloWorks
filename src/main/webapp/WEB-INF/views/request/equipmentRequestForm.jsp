@@ -182,8 +182,8 @@
 											신청하기
 										</button>
 									</div>
-									<button type="reset" class="btn btn-danger">
-										취소하기
+									<button type="button" class="btn btn-default" onclick="location.href='main.mi'">
+										HOME
 									</button>
 								</div>
 							</div>
@@ -197,14 +197,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-	/* 	$('input[type="date"]').on('click', function() {
-	 var sDate = $("#sDate").val();
-	 console.log("시작 : " + sDate);
-
-	 var eDate = $("#eDate").val();
-	 console.log("끝 : " + eDate);
-	 }); */
- 	
 
 	function submitValidate() {
 		if (($('#place').val() == "")) {
