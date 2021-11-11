@@ -88,11 +88,11 @@ public class EmployeeController {
 	//로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String loginMember(Employee m, Model model) {
-				System.out.println("~~~~~~~~~~~~~~M  : "+ m);
+				
 				
 		try {
 			Employee loginUser = employeeService.loginMember(m);
-			System.out.println("loginUser :  " + loginUser);
+			
 			model.addAttribute("loginUser", loginUser);
 			return "redirect:main.mi"; 
 		} catch (Exception e) {
@@ -218,7 +218,7 @@ public class EmployeeController {
 	//로그아웃
 		@RequestMapping("logout.me")
 		public String logoutMember( SessionStatus status) {
-			System.out.println("@@@@@로그아웃" + status);
+			
 			status.setComplete(); //현재 컨트롤러에 @SessionAttribute에 의해 저장된 오브젝트를 제거
 			return "redirect:index.jsp";
 		}	
@@ -226,7 +226,7 @@ public class EmployeeController {
 	//마이페이지 전환
 	@RequestMapping("Mypage.mp")
 	public String EmployeeMypage(Model model, HttpServletRequest request) {
-		System.out.println("마이페이지 전환");
+		
 		
 		int empNo =  ((Employee)request.getSession().getAttribute("loginUser")).getEmpNo();			
 		Employee emp = employeeService.selectEmp(empNo);
@@ -237,19 +237,17 @@ public class EmployeeController {
 	
 	//사원수정
 	@RequestMapping("update.me")
-	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request,  @RequestParam("empPhone") String empPhone, Model model,
+	public String updateEmp(@ModelAttribute Employee m, HttpServletRequest request, Model model,
 															@RequestParam(name="empOrgPicName", required=true) MultipartFile file,
 															@RequestParam(name="empOrgSignName", required=true) MultipartFile file1) {
 		
-		m.setEmpPhone(empPhone);
+		
 		
 		if(!file.getOriginalFilename().equals("")) {
 			String chgPic = saveFile(file, request,"pic");
 			
 			String chgSign = saveFile(file1, request, "sign");
 			
-			System.out.println("chgPic : " + chgPic);
-			System.out.println("chgSign : " + chgSign);
 			if(chgPic!=null) {
 					m.setEmpOrgPic(file.getOriginalFilename());
 					m.setEmpChgPic(chgPic);				
@@ -312,15 +310,7 @@ public class EmployeeController {
 	
 	@RequestMapping("insert.hr")
 	public String insertEmp(Employee m, HttpSession session) {
-		
-		
-		System.out.println("m.getDeptCode@@@@@@@@@@@@@@@@"+ m.getDeptCode());
-		
-		System.out.println("m.setEmpAddress"+ m);
-		
-		System.out.println("암호화 전: "+ m.getEmpPwd());
-		
-		
+			
 		
 		employeeService.insertEmp(m);
 		

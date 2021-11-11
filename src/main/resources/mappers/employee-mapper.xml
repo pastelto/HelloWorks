@@ -40,18 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </resultMap>
 
 	<select id="loginEmployee" parameterType="Employee" resultMap="employeeResultSet">
-		<!-- 암호화 전 -->
+		
 		SELECT A.*, B.JOB_NAME, C.DEPT_DNAME, C.DEPT_UNAME
 		FROM EMPLOYEE A
 		JOIN JOB_LEVEL B ON A.JOB_CODE = B.JOB_CODE
 		JOIN DEPT C ON A.DEPT_CODE = C.DEPT_CODE
 		WHERE EMP_NO=#{empNo} AND EMP_PWD=#{empPwd} AND EMP_STATUS='Y'
 		
-
-		<!-- 암호화 후
-		select * from EMPLOYEE
-		where EMP_NO=#{empNo} and EMP_STATUS='Y'
-		 -->
 	</select>
 	
 	<!-- 사원등록 -->

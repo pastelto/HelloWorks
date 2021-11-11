@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>EmployeeEnrollForm</title>
+<title>사원등록</title>
 <style>
+
 	#insertForm{
 		overflow: hidden;
 		padding: 13px 30px;

@@ -26,10 +26,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		Employee loginUser = employeeDao.loginMember(sqlSession , m);
 		
-		
-		System.out.println("@@@@@@@@임플 m : " + m);
-		System.out.println("@@@@@@@@임플 loginUser : " + loginUser);
-		
 		if(loginUser == null) {
 			throw new Exception("loginUser확인");
 		}

@@ -35,7 +35,9 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars mt-1"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">사람 아이콘</a>
+        <a class="nav-link" href="Mypage.mp">
+       	 <img src="resources/empImg/emp.png"	style="width: 40px; height: 30px; border-radius: 20px;"/>
+		</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link" href="Mypage.mp">${loginUser.empName}&nbsp;&nbsp;${loginUser.jobName}</a>
