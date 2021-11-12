@@ -246,8 +246,9 @@
 		console.log(num)
 			
 			var yes = confirm("파일을 삭제하시겠습니까?");
-		
+
 			if(yes){
+				
 				$.ajax({
 					url:"deleteWsa.ws",
 					type:"post",

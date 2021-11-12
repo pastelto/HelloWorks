@@ -372,7 +372,7 @@
 			var detailOption = null
 			var apClass = '일반';
 			var status = 'Y';
-			if($("input[name='doc_type']").checked){
+			if($("input[name='doc_type']:checked")){
 				detailOption = $("input[name='doc_type']:checked").val();
 			}		
 			
@@ -443,7 +443,7 @@
 		 					$("#startDate").val(""); 
 			 					
 			 				$("#myApprovalTable>tbody").html(value);
-			 				$("#sortOption").text(sdate);
+			 				$("#sortOption").text("검색");
 			 			},
 			 			error:function(){
 			 				console.log("기간별 임시저장 결재 검색 ajax 통신 실패")

@@ -65,6 +65,7 @@
 			<form id="expenditureApprovalForm" method="post" action="insertExApproval.ea" enctype="multipart/form-data">
 				<input type="hidden" class="apNo class" id="apNo" name="apNo" value="${approval.apNo}">
 				<input type="hidden" class="doc_type class" id="doc_type" name="doc_type" value="지출">
+				<input type="hidden" class="doc_type class" id="doc_type" name="doc_type" value="지출">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
@@ -1077,7 +1078,7 @@
 				} else if($("#card_select1").val()=="" && $("#card_select").val()==""){
 					alert("지급 계좌를 선택해주세요.")
 				} else {
-					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/updateExApproval.ea?status=Y");
 					$("#expenditureApprovalForm").submit();
 					
 					alert("결재 작성이 완료되었습니다.");
@@ -1094,7 +1095,7 @@
 				} else if($("#card_select1").val()=="" && $("#card_select").val()==""){
 					alert("지급 계좌를 선택해주세요.")
 				} else {
-					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/insertExApproval.ea?status=Y");
+					$("#expenditureApprovalForm").attr("action", "<%=request.getContextPath()%>/updateExApproval.ea?status=N");
 					$("#expenditureApprovalForm").submit();
 					
 					alert("결재 작성이 완료되었습니다.");
