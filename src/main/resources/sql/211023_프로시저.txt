@@ -1,0 +1,183 @@
+-----------------------------------------------------------------
+-------------------- 권한부터 다 돌리고 커밋후에 이거 한번만돌려주세요!! -------------------------
+-----------------------------------------------------------------
+INSERT ALL
+INTO PS_ATTENDANCE
+VALUES
+(SEQ_PS_ATDN.NEXTVAL, SYSDATE, DEFAULT, DEFAULT, '출근전', NULL, PSA_EMP_NO, NULL, NULL, NULL,NULL,NULL)
+SELECT EMP_NO "PSA_EMP_NO" FROM EMPLOYEE WHERE EMP_STATUS = 'Y';
+
+COMMIT;
+
+-----------------------------------------------------------------
+-------------------- 권한 -------------------------
+-----------------------------------------------------------------
+GRANT CREATE VIEW TO helloworks;
+GRANT CREATE ANY JOB TO helloworks;
+
+
+-----------------------------------------------------------------
+-------------------- 프로시저 -------------------------
+-----------------------------------------------------------------
+create or replace PROCEDURE INSERTALL_PS_ATTENDANCE
+IS
+BEGIN
+    INSERT ALL
+    INTO PS_ATTENDANCE
+    VALUES
+    (SEQ_PS_ATDN.NEXTVAL, SYSDATE, DEFAULT, DEFAULT, '출근전',NULL, PSA_EMP_NO, NULL, NULL, NULL,NULL,NULL)
+    SELECT EMP_NO "PSA_EMP_NO" FROM EMPLOYEE WHERE EMP_STATUS = 'Y';
+   COMMIT;
+END;
+/
+
+--UPDATE프로시저 만들기
+CREATE OR REPLACE PROCEDURE UPDATE_PS_ATTENDANCE
+IS
+BEGIN
+    UPDATE PS_ATTENDANCE
+    SET PSA_STATUS = '결근'
+    WHERE PSA_STATUS = '출근전';
+   COMMIT;
+END;
+/
+
+
+-----------------------------------------------------------------
+-------------------- 프로그램 -------------------------
+-----------------------------------------------------------------
+BEGIN
+    DBMS_SCHEDULER.create_program(
+        program_name => 'HELLOWORKS.JOB_PS_INSERT',
+        program_action => 'HELLOWORKS.INSERTALL_PS_ATTENDANCE',
+        program_type => 'STORED_PROCEDURE',
+        number_of_arguments => 0,
+        comments => 'INSERT 프로그램',
+        enabled => FALSE);
+
+    DBMS_SCHEDULER.ENABLE(name=>'HELLOWORKS.JOB_PS_INSERT');    
+
+END;
+/
+
+BEGIN
+    DBMS_SCHEDULER.create_program(
+        program_name => 'HELLOWORKS.JOB_PS_UPDATE',
+        program_action => 'HELLOWORKS.UPDATE_PS_ATTENDANCE',
+        program_type => 'STORED_PROCEDURE',
+        number_of_arguments => 0,
+        comments => 'UPDATE 하는 프로그램',
+        enabled => FALSE);
+
+    DBMS_SCHEDULER.ENABLE(name=>'HELLOWORKS.JOB_PS_UPDATE');    
+
+END;
+/
+
+
+-----------------------------------------------------------------
+-------------------- 일정 -------------------------
+-----------------------------------------------------------------
+BEGIN
+    DBMS_SCHEDULER.CREATE_SCHEDULE (
+
+        repeat_interval  => 'FREQ=DAILY;BYDAY=MON,TUE,WED,THU,FRI;BYHOUR=0;BYMINUTE=0;BYSECOND=0',
+     
+        comments => '매일 0시가 되면 전사원을 INSERT 한다.',
+        schedule_name  => '"PSA_INSERT"');
+
+END;
+/
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_SCHEDULE (
+
+        repeat_interval  => 'FREQ=DAILY;BYDAY=MON,TUE,WED,THU,FRI;BYHOUR=14;BYMINUTE=30;BYSECOND=0',
+     
+        comments => '오후 2시 30분에 출근기록이 없는 사원을 결근으로 변경한다.',
+        schedule_name  => '"PSA_UPDATE"');
+
+END;
+/
+
+
+-----------------------------------------------------------------
+--------------------작업 -------------------------
+-----------------------------------------------------------------
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+            job_name => '"HELLOWORKS"."WORK_PSA_INSERT"',
+            program_name => '"HELLOWORKS"."JOB_PS_INSERT"',
+            schedule_name => '"HELLOWORKS"."PSA_INSERT"',
+            enabled => FALSE,
+            auto_drop => FALSE,
+            comments => 'PSA_INSERT일정과  JOB_PS_INSERT프로그램과 연결됌',
+               
+            job_style => 'REGULAR');
+
+         
+    DBMS_SCHEDULER.SET_ATTRIBUTE( 
+             name => '"HELLOWORKS"."WORK_PSA_INSERT"', 
+             attribute => 'restartable', value => TRUE);
+     
+ 
+    DBMS_SCHEDULER.SET_ATTRIBUTE( 
+             name => '"HELLOWORKS"."WORK_PSA_INSERT"', 
+             attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_OFF);
+      
+  
+    
+    DBMS_SCHEDULER.enable(
+             name => '"HELLOWORKS"."WORK_PSA_INSERT"');
+END;
+/
+
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+            job_name => '"HELLOWORKS"."WORK_PSA_UPDATE"',
+            program_name => '"HELLOWORKS"."JOB_PS_UPDATE"',
+            schedule_name => '"HELLOWORKS"."PSA_UPDATE"',
+            enabled => FALSE,
+            auto_drop => FALSE,
+            comments => 'JOB_PS_UPDATE프로그램과 PSA_UPDATE 일정이 연결됌',
+               
+            job_style => 'REGULAR');
+
+         
+    DBMS_SCHEDULER.SET_ATTRIBUTE( 
+             name => '"HELLOWORKS"."WORK_PSA_UPDATE"', 
+             attribute => 'restartable', value => TRUE);
+     
+ 
+    DBMS_SCHEDULER.SET_ATTRIBUTE( 
+             name => '"HELLOWORKS"."WORK_PSA_UPDATE"', 
+             attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_OFF);
+      
+  
+    
+    DBMS_SCHEDULER.enable(
+             name => '"HELLOWORKS"."WORK_PSA_UPDATE"');
+END;
+/
+
+COMMIT;
+
+
+-----------------------------------------------------------------
+-------------------- 뷰테이블 -------------------------
+-----------------------------------------------------------------
+CREATE OR REPLACE VIEW V_CHECKTIME
+    (year1, month1, week_seq, start_date,end_date )
+    AS
+   select
+    to_char(dt,'yyyy') YEARDUAL, --년도
+    to_char(dt,'mm') MONTHDUAL,
+    to_char(dt, 'ww') WEEK_SQ,  -- 주차
+       to_char(trunc(dt,'D'),'yy/mm/dd') START_DATE, -- 시작일
+       to_char(trunc(dt,'D')+7,'yy/mm/dd') END_DATE  -- 종료일
+from
+    (select to_date('20210101','yyyymmdd')+(rownum-1)*7 dt
+from dual
+connect by level <=53);
+
+COMMIT;
