@@ -1,5 +1,8 @@
 # HelloWorks
-https://furahadev.notion.site/b330c78c39b34bd39e01039715c5d6e0
+
+**사용자의 편의를 최대화한 그룹웨어**
+
+📌 https://furahadev.notion.site/b330c78c39b34bd39e01039715c5d6e0
 
 ## 👋🏻 Hello, World
 1. **개발자의 세상으로 나가는 첫 시작!**
