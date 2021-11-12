@@ -548,22 +548,22 @@ public class ApprovalController {
 		Approval apAttach = approvalService.selectAttachDetail(searchMap);
 		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
 		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalComment> cmList = approvalService.selectComment(apNo);
 		
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
-			 model.addAttribute("approval",approval);
+			model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
-			System.out.println("apCC ; " + apCC);
-			 model.addAttribute("apCC",apCC);
+			model.addAttribute("apCC",apCC);
 		}
 		if(lineList != null) {
-			System.out.println("line ; " + lineList);
-			 model.addAttribute("lineList",lineList);
+			model.addAttribute("lineList",lineList);
 		}
 		if(apAttach != null) {
-			System.out.println("apAttach ; " + apAttach);
-			 model.addAttribute("apAttach",apAttach);
+			model.addAttribute("apAttach",apAttach);
+		}
+		if(cmList != null) {
+			model.addAttribute("cmList", cmList);
 		}
 		
 		System.out.println("return line :" + lineList);
@@ -588,26 +588,25 @@ public class ApprovalController {
 		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
 		ApprovalDiploma ad = approvalService.selectApprovalDiploma(searchMap);
 		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalComment> cmList = approvalService.selectComment(apNo);
 		
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
-			 model.addAttribute("approval",approval);
+			model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
-			System.out.println("apCC ; " + apCC);
-			 model.addAttribute("apCC",apCC);
+			model.addAttribute("apCC",apCC);
 		}
 		if(lineList != null) {
-			System.out.println("line ; " + lineList);
-			 model.addAttribute("lineList",lineList);
+			model.addAttribute("lineList",lineList);
 		}
 		if(apAttach != null) {
-			System.out.println("apAttach ; " + apAttach);
-			 model.addAttribute("apAttach",apAttach);
+			model.addAttribute("apAttach",apAttach);
 		}
 		if(ad != null) {
-			System.out.println("ad ; " + ad);
-			 model.addAttribute("ad", ad);
+			model.addAttribute("ad", ad);
+		}
+		if(cmList != null) {
+			model.addAttribute("cmList", cmList);
 		}
 		
 		
@@ -631,27 +630,27 @@ public class ApprovalController {
 		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
 		ApprovalHr ah = approvalService.selectApprovalHr(searchMap);
 		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalComment> cmList = approvalService.selectComment(apNo);
 			
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
 			model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
-			System.out.println("apCC ; " + apCC);
 			model.addAttribute("apCC",apCC);
 		}
 		if(lineList != null) {
-			System.out.println("line ; " + lineList);
 			model.addAttribute("lineList",lineList);
 		}
 		if(apAttach != null) {
-			System.out.println("apAttach ; " + apAttach);
 			model.addAttribute("apAttach",apAttach);
 		}
 		if(ah != null) {
-			System.out.println("ah ; " + ah);
 			model.addAttribute("ah", ah);
 		}
+		if(cmList != null) {
+			model.addAttribute("cmList", cmList);
+		}
+		
 	 	
 		return "approval/detailHrForm";
 	 }
@@ -673,26 +672,25 @@ public class ApprovalController {
 		ApprovalCC apCC = approvalService.selectApprovalCC(searchMap);
 		ApprovalMinutes am = approvalService.selectApprovalMinutes(searchMap);
 		ArrayList<ApprovalLine> lineList = approvalService.selectApprovalLine(searchMap);
+		ArrayList<ApprovalComment> cmList = approvalService.selectComment(apNo);
 			
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
 			model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
-			System.out.println("apCC ; " + apCC);
 			model.addAttribute("apCC",apCC);
 		}
 		if(lineList != null) {
-			System.out.println("line ; " + lineList);
 			model.addAttribute("lineList",lineList);
 		}
 		if(apAttach != null) {
-			System.out.println("apAttach ; " + apAttach);
 			model.addAttribute("apAttach",apAttach);
 		}
 		if(am != null) {
-			System.out.println("am ; " + am);
 			model.addAttribute("am", am);
+		}
+		if(cmList != null) {
+			model.addAttribute("cmList", cmList);
 		}
 	 		
 		return "approval/detailMinutesForm";
@@ -721,27 +719,21 @@ public class ApprovalController {
 		model.addAttribute("cmList", cmList);
 			
 		if(approval != null) {
-			System.out.println("approval ; " + approval);
 			model.addAttribute("approval",approval);
 		}
 		if(apCC != null) {
-			System.out.println("apCC ; " + apCC);
 			model.addAttribute("apCC",apCC);
 		}
 		if(lineList != null) {
-			System.out.println("line ; " + lineList);
 			model.addAttribute("lineList",lineList);
 		}
 		if(apAttach != null) {
-			System.out.println("apAttach ; " + apAttach);
 			model.addAttribute("apAttach",apAttach);
 		}
 		if(ae != null) {
-			System.out.println("ae ; " + ae);
 			model.addAttribute("ae", ae);
 		}
 		if(adList != null) {
-			System.out.println("ad ; " + adList);
 			model.addAttribute("adList", adList);
 		}
 		
@@ -935,7 +927,7 @@ public class ApprovalController {
 			ad.setExType(exType);
 			ad.setExNum(cardNum);
 			ad.setExTitle(title);
-			ad.setExNo(i);
+			ad.setExNo(i+1);
 			ad.setExDate(exDate[i]);
 			ad.setExContent(exContent[i]);
 			ad.setPrice(price[i]);
@@ -1216,7 +1208,7 @@ public class ApprovalController {
 		// 날짜구간 미입력
 		if(endDate.equals("") || startDate.equals("")) {		
 			// 세부 항목 미선택
-			if(detailOption.equals("")) {
+			if(detailOption.equals(null)) {
 				switch(optionType) {
 					case "문서번호" : 
 						intInput = Integer.parseInt(request.getParameter("optionInput"));							
@@ -1840,7 +1832,7 @@ public class ApprovalController {
 			String deptShare = request.getParameter("deptShare");
 			
 			ap.setApNo(apNo);
-			ap.setApClass("일반");
+			ap.setApClass("지출");
 			ap.setDetailClass(detailClass);
 			ap.setTitle(title);
 			ap.setWriter(writer);
@@ -1873,11 +1865,6 @@ public class ApprovalController {
 			String exNum = request.getParameter("exNum");		
 			
 			String[] noTemp = request.getParameterValues("exNo");
-			int[] exNo = null;
-			exNo = new int[noTemp.length];
-			for(int i=0; i< exNo.length; i++) {
-				exNo[i] = Integer.parseInt(noTemp[i]);
-			}
 			String[] exDate = request.getParameterValues("exDate");
 			String[] exContent = request.getParameterValues("exContent");
 			String[] temp =	request.getParameterValues("price");
@@ -1896,7 +1883,7 @@ public class ApprovalController {
 			approvalService.deleteExDetails(apNo);
 			
 			for(int i=0; i<exDate.length; i++) {
-				ad.setExNo(exNo[i]);
+				ad.setExNo(i+1);
 				ad.setExType(exType);
 				ad.setExNum(exNum);
 				ad.setExTitle(title);
@@ -1954,7 +1941,7 @@ public class ApprovalController {
 			}
 											
 			// 결재라인 등록 
-			insertLine(line, request);		
+			updateLine(line, request);		
 			
 			// 결재 등록 알림창 
 			if(status.equals("Y")) {

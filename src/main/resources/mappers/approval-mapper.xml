@@ -108,8 +108,8 @@
 	
 	<!-- Approval Comment -->
 	<resultMap id ="commentResultSet" type="ApprovalComment">
-		<id property="apNo" column="COMMENT_NO"/>
-		<id property="coNo" column="APPROVAL_NO"/>
+		<id property="coNo" column="COMMENT_NO"/>
+		<id property="apNo" column="APPROVAL_NO"/>
 		<result property="cmWriter" column="WRITER"/>
 		<result property="cmName" column="EMP_NAME"/>
 		<result property="cmDept" column="DEPT_DNAME"/>
@@ -468,7 +468,7 @@
  		AND APPROVAL_CLASS = #{ apClass }
  		AND TITLE LIKE '%'||#{ optionInput }||'%'
  		AND DETAIL_CLASS = #{ detailOption }
- 		ORDER BY CREATE_DATE DESC .
+ 		ORDER BY CREATE_DATE DESC 
  	</select>
  	
  	<!-- 미결재함 세부분류 + 제목 -->
@@ -848,25 +848,12 @@
  	<delete id="deleteExDetails" parameterType="_int">
  		DELETE FROM APPROVAL_EX_DETAILS WHERE APPROVAL_NO = #{apNo}	
  	</delete>
- 	<update id="updateExpenditureDetail" parameterType="ApprovalExDetails">
- 		UPDATE APPROVAL_EX_DETAILS
- 		SET
-		EX_TITLE = #{title},
-		EX_DATE	= #{exDate},
-		EX_TYPE = #{exType},
-		EX_NUM	= #{exNum},
-		EX_CONTENT = #{exContent},
-		EX_PRICE = #{price},
-		EX_ACCOUNT = #{accName},
-		EX_BANK	= #{bankName},
-		EX_ACCOUNT_NUM = #{accNum},
-		EX_HOLDER = #{accHolder},
-		EX_DEPT = #{exDept},
-		EX_NOTE = #{note}
- 		WHERE
- 		EXPENDITURE_NO = #{exNo}
- 		AND APPROVAL_NO = #{apNo} 
- 	</update>
+ 	<insert id="updateExpenditureDetail" parameterType="ApprovalExDetails">
+ 		INSERT INTO APPROVAL_EX_DETAILS
+		VALUES
+		(#{exNo},#{apNo}, #{exTitle}, #{exDate}, #{exType}, #{exNum}, #{exContent}, #{price}, #{accName},
+		#{bankName}, #{accNum}, #{accHolder}, #{exDept}, #{note})
+ 	</insert>
  	
  	<!-- update Line : 원래 있던 결재라인 삭제 후 새로 insert -->
  	<delete id="deleteLine" parameterType="_int">

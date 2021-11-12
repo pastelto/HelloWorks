@@ -1,2 +1,0 @@
-문서번호 시퀀스사용 
-TO_CHAR(SYSDATE, 'YYYY') || LPAD(SEQ_EA_AP_NO.NEXTVAL, 5, '0');

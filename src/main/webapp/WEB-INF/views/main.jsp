@@ -124,7 +124,7 @@ body{
 					} else if(key == "sendList"){
 						
 						$.each(mainAll[key], function(key, obj){
-							valueSend += "<tr onclick='goDetail("+obj.ws_no+")>" +
+							valueSend += "<tr onclick='goDetail("+obj.ws_no+")'>" +
 										 "<td>" + obj.ws_no + "</td>" + 
 										 "<td>" + obj.ws_title + "</td>" +
 									     "<td>" + obj.createDate + "</td>" +
@@ -194,8 +194,8 @@ body{
 										   '</div>' +'</td>' + '</tr>';
 						
 						});
-					} else if(key == "approvalList") {
-						console.log("확인")
+					} else if(key == "pendingList"){
+						
 						$.each(mainAll[key], function(key, obj){
 							valuePending += '<div class="pendingSimple">' + 
 											'<div class="user-block">' +

@@ -72,14 +72,14 @@
 				 			<div class="tab-pane fade " id="custom-tabs-pendingApproval" role="tabpanel" aria-labelledby="custom-tabs-pendingApproval-tab">
 									
 										<c:choose>
-											<c:when test="${ empty approvalList }">								
+											<c:when test="${ empty pendingList }">								
 												<div style ="text-align: center">
 													<strong style="font-size: small;" > 새로운 미결재 문서가 없습니다. </strong>
 												</div>
 											</c:when>
 										</c:choose>
 										<c:choose>
-											<c:when test="${ not empty approvalList }">
+											<c:when test="${ not empty pendingList }">
 												<div style ="text-align: center" style="font-size: small;">
 													<table id="mainPendingApprovalTable">
 														<tbody>
