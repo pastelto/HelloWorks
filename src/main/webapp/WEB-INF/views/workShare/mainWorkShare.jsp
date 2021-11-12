@@ -95,7 +95,7 @@
 								</div>
 							</c:when>
 							<c:when test="${ not empty sendList }">				
-									<div class="table-responsive p-0"
+								<div class="table-responsive p-0"
 										style="height: 250px; text-align: center">
 										<table class="table table-head-fixed text-nowrap"
 											id="sendListTable">
