@@ -123,6 +123,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM SCHEDULE_TABLE 
 		WHERE SCH_STARTDATE = #{getDate}
         AND (SCH_TYPE = '전체' OR SCH_TYPE = #{deptUname} OR SCH_TYPE = #{deptDname})
-        OR (SCH_EMP_NO = #{empNo} AND SCH_TYPE = 'PRIVATE')
+        OR (SCH_EMP_NO = #{empNo} AND SCH_TYPE = 'PRIVATE' AND SCH_STARTDATE = #{getDate})
 	</select>
 </mapper>

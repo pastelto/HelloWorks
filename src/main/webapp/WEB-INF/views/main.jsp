@@ -124,7 +124,7 @@ body{
 					} else if(key == "sendList"){
 						
 						$.each(mainAll[key], function(key, obj){
-							valueSend += "<tr onclick='goDetail("+obj.ws_no+")>" +
+							valueSend += "<tr onclick='goDetail("+obj.ws_no+")'>" +
 										 "<td>" + obj.ws_no + "</td>" + 
 										 "<td>" + obj.ws_title + "</td>" +
 									     "<td>" + obj.createDate + "</td>" +
