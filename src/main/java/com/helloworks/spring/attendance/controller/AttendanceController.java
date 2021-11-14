@@ -24,7 +24,7 @@ import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 
 @Controller
-public class AttendanceController {
+public class AttendanceController { 
 
 	@Autowired
 	private AttendanceService attendanceService;
