@@ -24,7 +24,7 @@ import com.helloworks.spring.vacation.model.service.VacationService;
 import com.helloworks.spring.vacation.model.vo.Vacation;
 
 @Controller
-public class AttendanceController {
+public class AttendanceController { 
 
 	@Autowired
 	private AttendanceService attendanceService;
@@ -52,9 +52,8 @@ public class AttendanceController {
 	}
 
 	
-	  //prev버튼 누름에 따라서
-	  
-	 @ResponseBody
+	  //prev버튼 누름에 따라서	  
+	  @ResponseBody
 	  @RequestMapping(value = "prevnextBtn.ps", method = {RequestMethod.POST})
 	  public String prevnextBtn(String months, HttpServletRequest request){
 	  

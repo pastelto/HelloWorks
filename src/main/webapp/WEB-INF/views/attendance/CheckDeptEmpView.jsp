@@ -199,14 +199,14 @@
 			console.log("~~~~~~~~"+ckvalue);
 			
 		});
-	   var _width = '370';
+	   var _width = '550';
 	     var _height = '500';
 	     console.log("~~~~~~~~"+ckvalue);
 	     // 팝업을 가운데 위치시키기 위해 아래와 같이 값 구하기
 	     var _left = Math.ceil(( window.screen.width - _width )/2);
 	     var _top = Math.ceil(( window.screen.height - _height )/4); 
 	  
-	        window.open('<%=request.getContextPath()%>/updateStatus.ps?psaNo='+ckvalue,
+	         window.open('<%=request.getContextPath()%>/updateStatus.ps?psaNo='+ckvalue,
 	    		  '상태 수정', 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top );
 	   
    });
