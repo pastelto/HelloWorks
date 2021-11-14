@@ -52,7 +52,7 @@ public class AttendanceController {
 	}
 
 	
-	  //prev버튼 누름에 따라서	  
+	  //prev버튼 누름에 따라서	    
 	  @ResponseBody
 	  @RequestMapping(value = "prevnextBtn.ps", method = {RequestMethod.POST})
 	  public String prevnextBtn(String months, HttpServletRequest request){
