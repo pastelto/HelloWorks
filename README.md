@@ -68,3 +68,8 @@
 
 ![image](https://user-images.githubusercontent.com/84160340/141414628-32b0b308-b6a4-48eb-846d-685450f9d39b.png)
 
+> **settings**
+
+💡 프로젝트 실행을 위해서는 다음과 같은 사전 설정이 필요합니다. 
+
+![setting](https://user-images.githubusercontent.com/84160340/141707389-78139466-04b1-4aea-b356-a9d88891bfd8.PNG)
