@@ -25,7 +25,7 @@
 
     **👩🏻‍💻김다혜**
   
-    **👩🏻‍💻김소원**
+    **👩🏻‍💻김소원**  [전자결재](https://regular-mailbox-12e.notion.site/0215b47a611a4974bc01ab32396f9cc0)
     
     **👩🏻‍💻김하연**  [일일보고, 오피스, 인사관리](https://ivy-cough-855.notion.site/a557ee0667174e8bb1dd2e99f36724ff)
   
